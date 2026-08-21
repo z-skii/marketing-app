@@ -1,0 +1,5 @@
+# playwright-cli runtime workspace and output (sessions, traces, snapshots, logs)
+.playwright/
+.playwright-cli/
+
+node_modules/
