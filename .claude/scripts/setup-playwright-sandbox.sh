@@ -2,6 +2,10 @@
 # Point playwright-cli at the Chromium that is preinstalled in Claude Code on the web
 # sandboxes (and similar containers), instead of downloading a browser it can't fetch.
 #
+# Also disables Chromium's proxy: this container exports HTTP(S)_PROXY, which the
+# browser would otherwise apply to http://127.0.0.1 too, and the proxy answers 403
+# for some requests — which silently breaks hydration of a locally served app.
+#
 # No-ops on machines without a preinstalled Playwright browser — there, playwright-cli
 # manages its own browsers and needs no config.
 #
@@ -24,7 +28,8 @@ cat > .playwright/cli.config.json <<JSON
     "browserName": "chromium",
     "launchOptions": {
       "executablePath": "$chrome_bin",
-      "chromiumSandbox": false
+      "chromiumSandbox": false,
+      "args": ["--no-proxy-server"]
     }
   }
 }

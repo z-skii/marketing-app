@@ -1,5 +1,35 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# testing
+/coverage
+
+# env — never commit secrets
+.env
+.env*.local
+
 # playwright-cli runtime workspace and output (sessions, traces, snapshots, logs)
 .playwright/
 .playwright-cli/
 
-node_modules/
+# generated development seed artwork
+/public/seed/
+
+# deployment
+.vercel
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*
+yarn-debug.log*
+.pnpm-debug.log*
