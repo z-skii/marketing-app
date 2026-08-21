@@ -11,7 +11,7 @@ export function StartsIn({ startsAt }: { startsAt: string }) {
   return (
     <span className="flex items-baseline gap-2">
       <span className="eyebrow">Starts in</span>
-      <time className="tnum font-mono text-base font-600 tracking-tight" dateTime={startsAt}>
+      <time suppressHydrationWarning className="tnum font-mono text-base font-600 tracking-tight" dateTime={startsAt}>
         {formatClock(seconds)}
       </time>
     </span>

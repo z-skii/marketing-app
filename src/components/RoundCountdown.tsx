@@ -6,7 +6,7 @@ import { formatClock, useCountdown } from "@/lib/use-countdown";
 export function RoundCountdown({ endsAt }: { endsAt: string }) {
   const seconds = useCountdown(endsAt);
   return (
-    <time className="tnum font-mono text-sm font-600" dateTime={endsAt}>
+    <time suppressHydrationWarning className="tnum font-mono text-sm font-600" dateTime={endsAt}>
       {formatClock(seconds, true)}
     </time>
   );

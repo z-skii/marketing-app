@@ -51,7 +51,12 @@ export async function GET(
     [referral.creator_user_id, referral.id, visitorId, ATTRIBUTION_DAYS],
   );
 
-  const destination = await resolveTarget(referral.target_type, referral.target_id, request.url);
+  // A `to` hint lets one referral code point at different surfaces without
+  // minting a separate code per page.
+  const to = request.nextUrl.searchParams.get("to");
+  const targetType = to === "board" || to === "spot" ? to : referral.target_type;
+
+  const destination = await resolveTarget(targetType, referral.target_id, request.url);
   const response = NextResponse.redirect(destination, 302);
   response.headers.set("Cache-Control", "no-store, max-age=0");
   return response;

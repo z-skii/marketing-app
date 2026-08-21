@@ -89,7 +89,7 @@ function artwork(seed: number, initials: string): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
 <rect width="600" height="600" fill="${bg}"/>
 ${shapes}
-<text x="44" y="500" font-family="Helvetica,Arial,sans-serif" font-size="84" font-weight="800"
+<text x="44" y="452" font-family="Helvetica,Arial,sans-serif" font-size="76" font-weight="800"
       letter-spacing="-4" fill="${variant === 0 || variant === 1 ? bg : fg}">${initials}</text>
 </svg>`;
 }
