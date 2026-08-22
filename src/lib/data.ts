@@ -95,9 +95,24 @@ export async function getBar(): Promise<BarRow[]> {
 export type RoundInfo = { id: string; starts_at: string; ends_at: string };
 
 export async function getCurrentRound(): Promise<RoundInfo | null> {
-  return sqlOne<RoundInfo>(
+  const round = await sqlOne<RoundInfo>(
     `select id, starts_at, ends_at from daily_rounds where status = 'active' limit 1`,
   );
+  if (round && new Date(round.ends_at).getTime() > Date.now()) return round;
+
+  // Hosting plans may only run the maintenance cron once a day, so the round
+  // also rolls forward lazily: the first request that notices the active round
+  // has expired advances it. ensure_current_round() no-ops while it is fresh,
+  // and the catch covers the rare midnight race where two requests roll at once.
+  try {
+    return await sqlOne<RoundInfo>(
+      `select id, starts_at, ends_at from ensure_current_round()`,
+    );
+  } catch {
+    return sqlOne<RoundInfo>(
+      `select id, starts_at, ends_at from daily_rounds where status = 'active' limit 1`,
+    );
+  }
 }
 
 export type LinkProfile = {
