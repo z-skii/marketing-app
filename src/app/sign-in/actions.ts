@@ -26,6 +26,14 @@ export async function requestCode(_prev: SignInState, formData: FormData): Promi
     return { step: "email", email, error: "Too many codes requested. Try again in a few minutes." };
   }
 
+  if (devAuthEnabled()) {
+    return {
+      step: "code",
+      email,
+      notice: "Development mode — any 6-digit code will sign you in.",
+    };
+  }
+
   if (isSupabaseConfigured()) {
     const { error } = await supabaseAnon().auth.signInWithOtp({
       email,
@@ -48,14 +56,6 @@ export async function requestCode(_prev: SignInState, formData: FormData): Promi
     };
   }
 
-  if (devAuthEnabled()) {
-    return {
-      step: "code",
-      email,
-      notice: "Development mode — any 6-digit code will sign you in.",
-    };
-  }
-
   return { step: "email", email, error: "Sign-in is not configured yet." };
 }
 
@@ -73,15 +73,16 @@ export async function verifyCode(_prev: SignInState, formData: FormData): Promis
     return { step: "code", email: email.data, error: "Too many attempts. Request a fresh code." };
   }
 
-  if (isSupabaseConfigured()) {
+  if (!devAuthEnabled()) {
+    if (!isSupabaseConfigured()) {
+      return { step: "email", error: "Sign-in is not configured yet." };
+    }
     const { error } = await supabaseAnon().auth.verifyOtp({
       email: email.data,
       token: code.data,
       type: "email",
     });
     if (error) return { step: "code", email: email.data, error: "That code didn't work." };
-  } else if (!devAuthEnabled()) {
-    return { step: "email", error: "Sign-in is not configured yet." };
   }
 
   const userId = await upsertUserByEmail(email.data);
