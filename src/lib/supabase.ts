@@ -5,28 +5,36 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
  * Supabase owns Auth (email OTP) and Storage (link artwork). Application data
  * is read and written through Postgres directly — see lib/db.ts.
  *
- * The service role key is server-only and must never reach the browser.
+ * The project URL and anon key are public by design (they ship in every
+ * Supabase client bundle), so they are baked in here as defaults and can be
+ * overridden by environment variables. The service role key is a real secret:
+ * env-only, server-only, never committed.
  */
 
+const DEFAULT_SUPABASE_URL = "https://mzqlmhuzbtcotmorgadf.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY =
+  "eyJhbGci••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••";
+
+function supabaseUrl(): string {
+  return process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || DEFAULT_SUPABASE_URL;
+}
+
+function supabaseAnonKey(): string {
+  return process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() || DEFAULT_SUPABASE_ANON_KEY;
+}
+
 export function isSupabaseConfigured(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  );
+  return Boolean(supabaseUrl() && supabaseAnonKey());
 }
 
 export function supabaseAnon(): SupabaseClient {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) throw new Error("Supabase is not configured.");
-  return createClient(url, key, { auth: { persistSession: false } });
+  return createClient(supabaseUrl(), supabaseAnonKey(), { auth: { persistSession: false } });
 }
 
 export function supabaseService(): SupabaseClient {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error("SUPABASE_SERVICE_ROLE_KEY is not configured.");
-  return createClient(url, key, { auth: { persistSession: false } });
+  if (!key) throw new Error("SUPABASE_SERVICE_ROLE_KEY is not configured.");
+  return createClient(supabaseUrl(), key, { auth: { persistSession: false } });
 }
 
 export const STORAGE_BUCKET = process.env.SUPABASE_STORAGE_BUCKET ?? "link-images";

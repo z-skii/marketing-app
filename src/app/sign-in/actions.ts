@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createSession, destroySession, upsertUserByEmail } from "@/lib/auth";
 import { devAuthEnabled, isSupabaseConfigured, supabaseAnon } from "@/lib/supabase";
 import { emailSchema, otpSchema } from "@/lib/validation";
+import { SITE_URL } from "@/config/site";
 import { LIMITS, rateLimit } from "@/lib/rate-limit";
 
 export type SignInState = {
@@ -28,10 +29,23 @@ export async function requestCode(_prev: SignInState, formData: FormData): Promi
   if (isSupabaseConfigured()) {
     const { error } = await supabaseAnon().auth.signInWithOtp({
       email,
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: `${SITE_URL}/auth/confirm`,
+      },
     });
-    if (error) return { step: "email", email, error: "We couldn't send that code. Try again." };
-    return { step: "code", email, notice: `Code sent to ${email}.` };
+    if (error) {
+      return {
+        step: "email",
+        email,
+        error: `We couldn't send the email (${error.message}). Try again in a few minutes.`,
+      };
+    }
+    return {
+      step: "code",
+      email,
+      notice: `Email sent to ${email} — click the sign-in link in it, or enter the code below if your email shows one. Check spam too.`,
+    };
   }
 
   if (devAuthEnabled()) {

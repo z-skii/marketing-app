@@ -5,7 +5,10 @@
 export const SITE_NAME = "UNTITLED";
 export const SITE_TAGLINE = "What's getting clicked right now.";
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+  (process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://marketing-app-wheat.vercel.app");
 
 export const SITE_DESCRIPTION =
   "A live board of links competing for attention. Add your link, add credit, get seen.";
