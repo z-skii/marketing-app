@@ -15,12 +15,23 @@ const DEFAULT_SUPABASE_URL = "https://mzqlmhuzbtcotmorgadf.supabase.co";
 const DEFAULT_SUPABASE_ANON_KEY =
   "eyJhbGci••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••";
 
+/**
+ * Environment overrides are honoured only when they are plausibly real:
+ * printable ASCII with no whitespace. Anything else — masked characters from a
+ * clipboard, stray newlines, truncated pastes — is ignored in favour of the
+ * known-good default rather than being allowed to break auth at runtime.
+ */
+function cleanOverride(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed && /^[\x21-\x7e]+$/.test(trimmed) ? trimmed : undefined;
+}
+
 function supabaseUrl(): string {
-  return process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || DEFAULT_SUPABASE_URL;
+  return cleanOverride(process.env.NEXT_PUBLIC_SUPABASE_URL) ?? DEFAULT_SUPABASE_URL;
 }
 
 function supabaseAnonKey(): string {
-  return process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() || DEFAULT_SUPABASE_ANON_KEY;
+  return cleanOverride(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) ?? DEFAULT_SUPABASE_ANON_KEY;
 }
 
 export function isSupabaseConfigured(): boolean {

@@ -4,8 +4,11 @@
  */
 export const SITE_NAME = "UNTITLED";
 export const SITE_TAGLINE = "What's getting clicked right now.";
+const siteUrlOverride = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+  (siteUrlOverride && /^https?:\/\/[\x21-\x7e]+$/.test(siteUrlOverride)
+    ? siteUrlOverride
+    : undefined) ??
   (process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
     : "https://marketing-app-wheat.vercel.app");
