@@ -38,3 +38,5 @@ yarn-debug.log*
 AGENTS.md
 CLAUDE.md
 .env*
+
+supabase/.temp/

@@ -1,59 +1,66 @@
 "use client";
 
 import { useActionState } from "react";
-import { requestCode, verifyCode, type SignInState } from "./actions";
+import { requestCode, type SignInState } from "./actions";
 
 const INITIAL: SignInState = { step: "email" };
 
+/**
+ * Email-link sign-in. The address gets a one-time link; clicking it lands on
+ * /auth/confirm, which mints the session. There is no code entry: the emails
+ * this project sends carry a link only.
+ */
 export function SignInForm({ next }: { next: string }) {
-  const [emailState, submitEmail, sendingEmail] = useActionState(requestCode, INITIAL);
-  const [codeState, submitCode, verifying] = useActionState(verifyCode, INITIAL);
+  const [state, submitEmail, sending] = useActionState(requestCode, INITIAL);
 
-  const state = codeState.step === "code" || codeState.error ? codeState : emailState;
-  const onCodeStep = emailState.step === "code";
-
-  if (!onCodeStep) {
+  if (state.step === "code") {
     return (
-      <form action={submitEmail} className="mt-8 flex flex-col gap-3">
-        <label htmlFor="email" className="eyebrow">Email</label>
-        <input
-          id="email" name="email" type="email" required autoComplete="email"
-          inputMode="email" spellCheck={false} placeholder="you@example.com" className="field"
-          defaultValue={emailState.email}
-        />
-        {emailState.error && <ErrorText>{emailState.error}</ErrorText>}
-        <button type="submit" className="btn btn-signal mt-2" disabled={sendingEmail}>
-          {sendingEmail ? "Sending\u2026" : "Send code"}
-        </button>
-      </form>
+      <div className="mt-8 flex flex-col gap-4">
+        <h2 className="font-display text-2xl font-800 tracking-[-0.02em]">
+          Check your email
+        </h2>
+        <p className="text-sm text-ink-soft">
+          We sent a sign-in link to{" "}
+          <span className="font-mono text-ink">{state.email}</span>. Click it and
+          you&apos;ll be signed in here. It can take a minute to arrive — check
+          spam too.
+        </p>
+        <form action={submitEmail}>
+          <input type="hidden" name="email" value={state.email ?? ""} />
+          <input type="hidden" name="next" value={next} />
+          <button type="submit" className="btn mt-2" disabled={sending}>
+            {sending ? "Sending…" : "Send it again"}
+          </button>
+        </form>
+      </div>
     );
   }
 
   return (
-    <form action={submitCode} className="mt-8 flex flex-col gap-3">
-      <input type="hidden" name="email" value={emailState.email ?? ""} />
-      <input type="hidden" name="next" value={next} />
-      <label htmlFor="code" className="eyebrow">Six-digit code</label>
+    <form action={submitEmail} className="mt-8 flex flex-col gap-3">
+      <label htmlFor="email" className="eyebrow">
+        Email
+      </label>
       <input
-        id="code" name="code" inputMode="numeric" pattern="\d{6}" maxLength={6}
-        required autoComplete="one-time-code" spellCheck={false} placeholder="000000"
-        className="field !tracking-[0.4em]"
+        id="email"
+        name="email"
+        type="email"
+        required
+        autoComplete="email"
+        inputMode="email"
+        spellCheck={false}
+        placeholder="you@example.com"
+        className="field"
+        defaultValue={state.email}
       />
-      {emailState.notice && !state.error && (
-        <p className="font-mono text-xs text-ink-faint">{emailState.notice}</p>
+      {state.error && (
+        <p role="alert" className="font-mono text-xs text-signal">
+          {state.error}
+        </p>
       )}
-      {state.error && <ErrorText>{state.error}</ErrorText>}
-      <button type="submit" className="btn btn-signal mt-2" disabled={verifying}>
-        {verifying ? "Checking\u2026" : "Continue"}
+      <button type="submit" className="btn btn-signal mt-2" disabled={sending}>
+        {sending ? "Sending…" : "Email me a sign-in link"}
       </button>
     </form>
-  );
-}
-
-function ErrorText({ children }: { children: React.ReactNode }) {
-  return (
-    <p role="alert" className="font-mono text-xs text-signal">
-      {children}
-    </p>
   );
 }
