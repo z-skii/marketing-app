@@ -110,8 +110,10 @@ export async function updateUsername(newUsername: string): Promise<UsernameResul
 
   try {
     await sql(`update profiles set username = $2 where id = $1`, [user.id, parsed.data]);
-  } catch {
-    return { ok: false, error: "That username is taken. Try another." };
+  } catch (e) {
+    const code = (e as { code?: string }).code;
+    if (code === "23505") return { ok: false, error: "That username is taken. Try another." };
+    return { ok: false, error: "Username changes aren't ready yet. Try again in a few minutes." };
   }
   revalidatePath("/dashboard");
   return { ok: true, username: parsed.data };

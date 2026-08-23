@@ -36,7 +36,7 @@ export default async function DashboardPage({
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="eyebrow !normal-case !tracking-normal">
-              @{user.username}
+              {user.username}
               {user.role === "admin" && (
                 <span className="ml-2 tracking-[0.14em] uppercase !text-signal">Admin</span>
               )}

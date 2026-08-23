@@ -139,7 +139,7 @@ function MemberRowView({
         </td>
         <td className="min-w-0 py-2.5 pr-3">
           <span className="block truncate font-display text-sm font-600">
-            @{m.username ?? `member${m.member_no}`}
+            {m.username ?? `member${m.member_no}`}
           </span>
           <span className="block truncate font-mono text-[0.6875rem] text-ink-faint">{m.email}</span>
         </td>

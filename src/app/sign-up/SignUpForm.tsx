@@ -77,9 +77,6 @@ export function SignUpForm() {
           className="field"
           defaultValue={state.username}
         />
-        <p className="font-mono text-[0.625rem] text-ink-faint">
-          3-24 characters: letters, numbers, underscore, period. You can change it later.
-        </p>
       </div>
 
       <PasswordField

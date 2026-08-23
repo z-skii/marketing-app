@@ -18,7 +18,7 @@ export function AccountSettings({ username }: { username: string }) {
     startTransition(async () => {
       const result = await updateUsername(value);
       if (result.ok) {
-        setMessage({ tone: "ok", text: `You are @${result.username} now.` });
+        setMessage({ tone: "ok", text: `Saved. You are ${result.username} now.` });
         router.refresh();
       } else {
         setMessage({ tone: "bad", text: result.error });
@@ -31,28 +31,20 @@ export function AccountSettings({ username }: { username: string }) {
       <div className="mt-4 flex max-w-md flex-col gap-2">
         <label htmlFor="username-edit" className="eyebrow">Username</label>
         <div className="flex gap-2">
-          <div className="relative flex-1">
-            <span
-              aria-hidden="true"
-              className="absolute top-1/2 left-3.5 -translate-y-1/2 font-mono text-sm text-ink-faint"
-            >
-              @
-            </span>
-            <input
-              id="username-edit"
-              value={value}
-              onChange={(e) => {
-                setValue(e.target.value);
-                setMessage(null);
-              }}
-              minLength={3}
-              maxLength={24}
-              pattern="[A-Za-z0-9_.]{3,24}"
-              autoComplete="username"
-              spellCheck={false}
-              className="field !pl-8"
-            />
-          </div>
+          <input
+            id="username-edit"
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value);
+              setMessage(null);
+            }}
+            minLength={3}
+            maxLength={24}
+            pattern="[A-Za-z0-9_.]{3,24}"
+            autoComplete="username"
+            spellCheck={false}
+            className="field flex-1"
+          />
           <button
             type="button"
             onClick={save}
@@ -62,10 +54,6 @@ export function AccountSettings({ username }: { username: string }) {
             {pending ? "Saving…" : "Save"}
           </button>
         </div>
-        <p className="font-mono text-[0.625rem] text-ink-faint">
-          3-24 characters: letters, numbers, underscore, period. Shown everywhere
-          instead of your email.
-        </p>
         {message && (
           <p
             role={message.tone === "ok" ? "status" : "alert"}

@@ -92,7 +92,7 @@ export function Header({ user, stats }: { user: CurrentUser | null; stats?: Head
  * action.
  */
 function AccountMenu({ user }: { user: CurrentUser }) {
-  const handle = `@${user.username}`;
+  const handle = user.username;
   const item =
     "block px-3.5 py-2.5 font-mono text-[0.6875rem] font-500 tracking-[0.14em] uppercase transition-colors hover:bg-surface";
   return (
