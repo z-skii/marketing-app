@@ -33,9 +33,15 @@ export default async function DashboardPage({
       <Header user={user} />
       <main id="main" className="shell py-10 md:py-14">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <h1 className="font-display text-4xl leading-[0.92] font-800 tracking-[-0.045em] md:text-5xl">
-            Your links
-          </h1>
+          <div>
+            <p className="eyebrow">
+              Member #{String(user.memberNo).padStart(4, "0")}
+              {user.role === "admin" && <span className="ml-2 !text-signal">Admin</span>}
+            </p>
+            <h1 className="mt-2 font-display text-4xl leading-[0.92] font-800 tracking-[-0.045em] md:text-5xl">
+              Your links
+            </h1>
+          </div>
           <Link href="/add" className="btn btn-signal">+ Add Your Link</Link>
         </div>
 

@@ -111,3 +111,36 @@ export async function getUpcomingSpot() {
       order by s.starts_at limit 12`,
   );
 }
+
+export type MemberRow = {
+  id: string;
+  member_no: string;
+  email: string | null;
+  display_name: string | null;
+  role: "user" | "admin";
+  suspended: boolean;
+  created_at: string;
+  available_credit_cents: string | null;
+  reserved_cents: string;
+  links_count: string;
+  lifetime_topup_cents: string;
+};
+
+/** The member directory: every account with the numbers that matter. */
+export async function getMembers(limit = 200): Promise<MemberRow[]> {
+  return sql<MemberRow>(
+    `select p.id, p.member_no, u.email, p.display_name, p.role, p.suspended, p.created_at,
+            w.available_credit_cents,
+            coalesce((select sum(pl.remaining_credit_cents) from placements pl
+                       where pl.owner_id = p.id and pl.status in ('pending','active','paused')), 0) as reserved_cents,
+            (select count(*) from links l where l.owner_id = p.id) as links_count,
+            coalesce((select sum(sp.amount_cents) from stripe_payments sp
+                       where sp.user_id = p.id and sp.status = 'succeeded'), 0) as lifetime_topup_cents
+       from profiles p
+       join auth.users u on u.id = p.id
+       left join wallets w on w.user_id = p.id
+      order by p.member_no
+      limit $1`,
+    [limit],
+  );
+}

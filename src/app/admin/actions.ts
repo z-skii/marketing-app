@@ -135,3 +135,53 @@ export async function resolvePayout(id: string, status: "paid" | "rejected"): Pr
   revalidatePath("/admin");
   return { ok: true };
 }
+
+/**
+ * Freeze or restore a member. A suspended member cannot sign in or act; their
+ * money is untouched. Admin accounts can never be suspended from here, which
+ * also means the founding account cannot lock itself out.
+ */
+export async function setMemberSuspended(userId: string, suspended: boolean): Promise<AdminResult> {
+  const user = await admin();
+  if (!user) return { ok: false, error: "Not allowed." };
+
+  const rows = await sql<{ role: string }>(`select role from profiles where id = $1`, [userId]);
+  if (rows.length === 0) return { ok: false, error: "No such member." };
+  if (rows[0].role === "admin") return { ok: false, error: "Admin accounts cannot be suspended." };
+
+  await sql(`update profiles set suspended = $2 where id = $1`, [userId, suspended]);
+  if (suspended) {
+    await sql(
+      `update placements set status = 'paused', updated_at = now()
+        where owner_id = $1 and status = 'active'`,
+      [userId],
+    );
+    await sql(`select bar_sync()`);
+  }
+  await audit(user.id, suspended ? "member_suspended" : "member_restored", "user", userId);
+  revalidatePath("/admin");
+  return { ok: true };
+}
+
+/** Credit correction addressed by member id instead of typed email. */
+export async function adjustCreditById(
+  userId: string,
+  amountCents: number,
+  reason: string,
+): Promise<AdminResult> {
+  const user = await admin();
+  if (!user) return { ok: false, error: "Not allowed." };
+  if (!reason.trim()) return { ok: false, error: "A reason is required." };
+  if (!Number.isSafeInteger(amountCents) || amountCents === 0) {
+    return { ok: false, error: "Enter a non-zero amount." };
+  }
+
+  try {
+    await sql(`select admin_adjust_credit($1,$2,$3,$4)`, [user.id, userId, amountCents, reason]);
+  } catch {
+    return { ok: false, error: "That adjustment was refused." };
+  }
+  await audit(user.id, "credit_adjusted", "user", userId, { amountCents, reason });
+  revalidatePath("/admin");
+  return { ok: true };
+}

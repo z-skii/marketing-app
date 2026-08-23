@@ -34,6 +34,7 @@ function verify(value: string, signature: string): boolean {
 
 export type CurrentUser = {
   id: string;
+  memberNo: number;
   email: string | null;
   displayName: string | null;
   role: "user" | "admin";
@@ -68,19 +69,33 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
   const userId = raw.slice(0, index);
   if (!verify(userId, raw.slice(index + 1))) return null;
 
-  const profile = await sqlOne<{
-    id: string; email: string | null; display_name: string | null;
+  type ProfileRow = {
+    id: string; member_no: string | null; email: string | null; display_name: string | null;
     role: "user" | "admin"; creator_enabled: boolean; suspended: boolean;
-  }>(
-    `select p.id, u.email, p.display_name, p.role, p.creator_enabled, p.suspended
-       from profiles p join auth.users u on u.id = p.id
-      where p.id = $1`,
-    [userId],
-  );
+  };
+  // Tolerates a deploy that lands moments before the member-number migration:
+  // if the column is missing the session still works, numbered as 0.
+  let profile: ProfileRow | null;
+  try {
+    profile = await sqlOne<ProfileRow>(
+      `select p.id, p.member_no, u.email, p.display_name, p.role, p.creator_enabled, p.suspended
+         from profiles p join auth.users u on u.id = p.id
+        where p.id = $1`,
+      [userId],
+    );
+  } catch {
+    profile = await sqlOne<ProfileRow>(
+      `select p.id, null as member_no, u.email, p.display_name, p.role, p.creator_enabled, p.suspended
+         from profiles p join auth.users u on u.id = p.id
+        where p.id = $1`,
+      [userId],
+    );
+  }
   if (!profile || profile.suspended) return null;
 
   return {
     id: profile.id,
+    memberNo: Number(profile.member_no ?? 0),
     email: profile.email,
     displayName: profile.display_name,
     role: profile.role,

@@ -65,6 +65,11 @@ export function Header({ user, stats }: { user: CurrentUser | null; stats?: Head
           <Link href="/rules" className="eyebrow hover:text-ink hidden px-2 py-2 transition-colors md:block">
             Rules
           </Link>
+          {user?.role === "admin" && (
+            <Link href="/admin" className="eyebrow !text-signal hover:!text-ink px-2 py-2 transition-colors">
+              Admin
+            </Link>
+          )}
           {user ? (
             <Link href="/dashboard" className="eyebrow hover:text-ink hidden px-2 py-2 transition-colors sm:block">
               Yours

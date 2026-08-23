@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
 import { Header } from "@/components/Header";
 import { ModerationQueue } from "./ModerationQueue";
+import { MembersPanel } from "./MembersPanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { AdminTools } from "./AdminTools";
 import { getCurrentUser } from "@/lib/auth";
 import {
-  getAdminOverview, getAuditLog, getLinksForModeration, getPayoutRequests,
+  getAdminOverview, getAuditLog, getLinksForModeration, getMembers, getPayoutRequests,
   getRejectionBreakdown, getUpcomingSpot,
 } from "@/lib/admin";
 import { getBoard } from "@/lib/data";
@@ -20,7 +21,7 @@ export default async function AdminPage() {
   if (!user) redirect("/sign-in?next=/admin");
   if (user.role !== "admin") redirect("/");
 
-  const [overview, pending, approved, suspended, rejections, payouts, audit, spot, board, settings] =
+  const [overview, pending, approved, suspended, rejections, payouts, audit, spot, board, settings, members] =
     await Promise.all([
       getAdminOverview(),
       getLinksForModeration("pending"),
@@ -32,6 +33,7 @@ export default async function AdminPage() {
       getUpcomingSpot(),
       getBoard(15),
       getSettings(),
+      getMembers(),
     ]);
 
   return (
@@ -62,6 +64,11 @@ export default async function AdminPage() {
             <Stat label="Opens today" value={formatCount(overview.clicksToday)} />
             <Stat label="Rejected today" value={formatCount(overview.rejectedToday)} />
           </div>
+        </section>
+
+        <section className="rule mt-9 pt-6">
+          <h2 className="eyebrow">Members / {members.length}</h2>
+          <MembersPanel members={members} />
         </section>
 
         <section className="rule mt-9 pt-6">
