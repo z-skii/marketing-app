@@ -14,15 +14,15 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex items-baseline justify-between gap-3 px-5 pt-4 md:px-6">
+      <div className="flex items-baseline justify-between gap-3 px-4 pt-2.5 short:pt-2 lg:px-6 lg:pt-4">
         <h2 className="eyebrow">Top 3</h2>
         <span className="eyebrow">Today</span>
       </div>
 
-      <article className="group flex min-h-0 flex-1 flex-col justify-center px-5 py-4 md:px-6">
+      <article className="group flex min-h-0 flex-1 flex-col justify-center px-4 pt-3 pb-2.5 lg:px-6 lg:py-4">
         <div className="flex items-start gap-4">
           <span
-            className="tnum font-display text-[clamp(3rem,5vw,4.5rem)] leading-[0.85] font-800 tracking-[-0.05em] text-signal"
+            className="tnum font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-none font-800 tracking-[-0.05em] text-signal"
             aria-hidden="true"
           >
             1
@@ -31,18 +31,18 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
             <p translate="no" className="truncate font-mono text-[0.6875rem] tracking-[0.1em] text-ink-faint uppercase">
               {first.domain}
             </p>
-            <h3 className="mt-1.5 font-display text-[clamp(1.625rem,2.6vw,2.75rem)] leading-[0.95] font-800 tracking-[-0.04em] break-words">
+            <h3 className="mt-1 font-display text-[clamp(1.25rem,2.6vw,2.75rem)] leading-[0.95] font-800 tracking-[-0.04em] break-words lg:mt-1.5">
               <span className="sr-only">Rank 1: </span>
               {first.display_name}
             </h3>
             {first.short_description && (
-              <p className="mt-2 line-clamp-2 text-sm leading-snug text-ink-soft">
+              <p className="mt-1.5 hidden line-clamp-2 text-sm leading-snug text-ink-soft sm:block lg:mt-2">
                 {first.short_description}
               </p>
             )}
           </div>
         </div>
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2.5">
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-2 lg:mt-4">
           <OpenButton placementId={first.placement_id} surface="top3" className="btn !min-h-[40px] !py-2" />
           <span className="tnum font-mono text-sm font-600">
             {formatCredit(first.score_cents_today)} <span className="text-ink-faint">today</span>
@@ -57,7 +57,7 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
         {rest.map((row) => (
           <article
             key={row.placement_id}
-            className="flex items-center gap-3 border-b border-rule px-5 py-3 last:border-b-0 md:px-6"
+            className="flex items-center gap-3 border-b border-rule px-4 py-2 last:border-b-0 short:py-1.5 lg:px-6 lg:py-3"
           >
             <span
               className="tnum w-7 font-display text-2xl leading-none font-700 tracking-[-0.05em] text-ink-faint"
@@ -71,7 +71,7 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
                 <span className="sr-only">Rank {row.rank}: </span>
                 {row.display_name}
               </h3>
-              <p className="tnum mt-0.5 truncate font-mono text-[0.6875rem] text-ink-faint">
+              <p className="tnum mt-0.5 truncate font-mono text-[0.6875rem] text-ink-faint short:hidden lg:short:block">
                 <span translate="no">{row.domain}</span>
                 {" "}/ {formatCredit(row.score_cents_today)} today
               </p>

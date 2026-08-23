@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { siteMetadata } from "@/config/site";
 import { AuthHashForwarder } from "@/components/AuthHashForwarder";
+import { PresenceBeacon } from "@/components/PresenceBeacon";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${archivo.variable} ${plexMono.variable}`}>
       <body>
         <AuthHashForwarder />
+        <PresenceBeacon />
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">
           Skip to content
         </a>

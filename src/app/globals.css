@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Short viewports (small phones, squat windows): the live screen compacts
+   its densest rows instead of scrolling. */
+@custom-variant short (@media (max-height: 700px));
+
 /* ------------------------------------------------------------------ tokens */
 /*
   UNTITLED runs a "broadcast chart" language: paper canvas, hairline rules,
@@ -222,7 +226,7 @@
   grid-template-rows: auto minmax(0, 1fr) auto;
   min-height: 100dvh;
 }
-@media (min-width: 1024px) and (min-height: 620px) {
+@media (min-height: 560px) {
   .live-screen {
     height: 100dvh;
     overflow: clip;

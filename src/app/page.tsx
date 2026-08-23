@@ -8,20 +8,20 @@ import { BoardWindow } from "@/components/live/BoardWindow";
 import { SurpriseMe } from "@/components/live/SurpriseMe";
 import { getCurrentUser } from "@/lib/auth";
 import {
-  getBar, getBoard, getBoardCount, getCurrentRound, getCurrentSpot, getLiveStats, getNextSpot,
+  getBar, getBoard, getBoardCount, getCurrentRound, getCurrentSpot, getNextSpot, getVisitorStats,
 } from "@/lib/data";
 
 // The homepage is live state; it is never served from a static cache.
 export const dynamic = "force-dynamic";
 
 /**
- * The homepage is one live discovery screen: header as status row, The Spot
- * and Top 3 side by side, the Board cycling through rank windows beneath them,
- * and the Bar running along the bottom. On desktop the whole thing fits the
- * viewport; small screens switch surfaces with tabs instead of scrolling.
+ * The homepage is one live discovery screen at every size: header as status
+ * row, The Spot and Top 3 together, the Board cycling through rank windows,
+ * and the Bar along the bottom. Desktop and phone both fit the viewport with
+ * no tabs and no page scroll; phones simply run a more compact composition.
  */
 export default async function HomePage() {
-  const [user, spot, nextSpot, board, boardCount, bar, round, stats] = await Promise.all([
+  const [user, spot, nextSpot, board, boardCount, bar, round, audience] = await Promise.all([
     getCurrentUser(),
     getCurrentSpot(),
     getNextSpot(),
@@ -29,7 +29,7 @@ export default async function HomePage() {
     getBoardCount(),
     getBar(),
     getCurrentRound(),
-    getLiveStats(),
+    getVisitorStats(),
   ]);
 
   const topThree = board.slice(0, 3);
@@ -40,8 +40,8 @@ export default async function HomePage() {
       <Header
         user={user}
         stats={{
-          liveLinks: stats.liveLinks,
-          opensToday: stats.opensToday,
+          visitors: audience.allTime,
+          liveNow: audience.liveNow,
           roundEndsAt: round?.ends_at ?? null,
         }}
       />
@@ -49,7 +49,24 @@ export default async function HomePage() {
         <LiveMain
           spot={<SpotPanel current={spot} next={nextSpot} />}
           top={<TopRail rows={topThree} />}
-          board={<BoardWindow rows={rest} startRank={4} totalCount={boardCount} />}
+          board={
+            <>
+              <BoardWindow
+                rows={rest}
+                startRank={4}
+                totalCount={boardCount}
+                pageSize={4}
+                compact
+                className="lg:hidden"
+              />
+              <BoardWindow
+                rows={rest}
+                startRank={4}
+                totalCount={boardCount}
+                className="hidden lg:flex"
+              />
+            </>
+          }
         />
       </main>
       <Bar items={bar} docked={false} surprise={<SurpriseMe candidates={board} />} />

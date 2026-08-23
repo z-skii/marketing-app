@@ -160,3 +160,22 @@ export async function getLiveStats(): Promise<{ liveLinks: number; opensToday: n
     opensToday: Number(row?.opens_today ?? 0),
   };
 }
+
+/**
+ * Platform audience numbers for the header. Visitors are people on OUR site;
+ * "live" is anyone whose presence beat landed in the last five minutes. Never
+ * to be confused with opens, which are qualified outbound clicks. Tolerates a
+ * missing table so a deploy that lands before the migration stays up.
+ */
+export async function getVisitorStats(): Promise<{ allTime: number; liveNow: number }> {
+  try {
+    const row = await sqlOne<{ all_time: string; live_now: string }>(
+      `select (select count(*) from visitors)::text as all_time,
+              (select count(*) from visitors
+                where last_seen > now() - interval '5 minutes')::text as live_now`,
+    );
+    return { allTime: Number(row?.all_time ?? 0), liveNow: Number(row?.live_now ?? 0) };
+  } catch {
+    return { allTime: 0, liveNow: 0 };
+  }
+}

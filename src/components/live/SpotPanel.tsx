@@ -19,7 +19,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
   if (!spot) return <SpotOpen />;
 
   return (
-    <div className="flex h-full min-h-0 flex-col px-5 py-4 md:px-8 md:py-5">
+    <div className="flex h-full min-h-0 flex-col px-4 py-3 md:px-8 md:py-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="flex items-center gap-2 eyebrow">
           {upcoming ? (
@@ -37,7 +37,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
 
       <div
         key={spot.schedule_id}
-        className={`takeover mt-4 grid min-h-0 flex-1 grid-rows-[auto_minmax(4rem,1fr)] gap-5 md:mt-5 md:grid-cols-12 md:grid-rows-1 md:gap-8 ${
+        className={`takeover mt-3 grid min-h-0 flex-1 gap-5 md:mt-5 md:grid-cols-12 md:gap-8 ${
           upcoming ? "opacity-80" : ""
         }`}
       >
@@ -45,19 +45,19 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
           <p translate="no" className="font-mono text-xs tracking-[0.1em] text-ink-faint uppercase">
             {spot.domain}
           </p>
-          <h3 className="mt-2 font-display text-[clamp(2rem,4.6vw,4.25rem)] leading-[0.9] font-800 tracking-[-0.045em] break-words">
+          <h3 className="mt-1.5 font-display text-[clamp(1.75rem,5.5vw,4.25rem)] leading-[0.9] font-800 tracking-[-0.045em] break-words md:mt-2">
             {spot.display_name}
           </h3>
           {spot.short_description && (
-            <p className="mt-3 line-clamp-2 max-w-xl font-display text-base leading-snug text-ink-soft md:text-lg">
+            <p className="mt-2 hidden max-w-xl font-display text-sm leading-snug text-ink-soft sm:line-clamp-2 md:mt-3 md:text-lg">
               {spot.short_description}
             </p>
           )}
-          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2.5 md:mt-5 md:gap-x-5">
             <OpenButton
               placementId={spot.placement_id}
               surface="spot"
-              className={`btn !px-6 !py-3 ${upcoming ? "" : "btn-signal"}`}
+              className={`btn !min-h-[40px] !px-5 !py-2 md:!px-6 md:!py-3 ${upcoming ? "" : "btn-signal"}`}
             />
             <span className="tnum font-mono text-xs text-ink-faint">
               {formatCount(spot.total_opens)} opens
@@ -71,7 +71,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
           </div>
         </div>
 
-        <div className="min-h-0 md:order-1 md:col-span-5">
+        <div className="hidden min-h-0 md:order-1 md:col-span-5 md:block">
           <div className="relative h-full max-h-full w-full overflow-hidden border border-ink bg-paper-deep">
             {spot.image_url ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -94,7 +94,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
       </div>
 
       {upcoming ? (
-        <p className="mt-4 border-t border-rule pt-3 font-display text-sm text-ink-soft">
+        <p className="mt-2.5 border-t border-rule pt-2.5 font-display text-sm text-ink-soft [@media(max-height:700px)]:hidden md:mt-4 md:pt-3 md:[@media(max-height:700px)]:flex">
           The Spot is open this minute.{" "}
           <Link href="/add" className="text-signal underline underline-offset-4">
             Take it
@@ -103,7 +103,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
       ) : (
         next &&
         next.schedule_id !== spot.schedule_id && (
-          <p className="mt-4 flex items-baseline gap-2 border-t border-rule pt-3">
+          <p className="mt-2.5 flex items-baseline gap-2 border-t border-rule pt-2.5 [@media(max-height:700px)]:hidden md:mt-4 md:pt-3 md:[@media(max-height:700px)]:flex">
             <span className="eyebrow">Up next</span>
             <span translate="no" className="font-mono text-xs text-ink-soft">{next.domain}</span>
           </p>
