@@ -8,6 +8,8 @@ import { SITE_URL } from "@/config/site";
 import { LIMITS, rateLimit } from "@/lib/rate-limit";
 
 export type SignInState = {
+  /** "link": the email carries a sign-in link. "code": enter a code here. */
+  mode?: "link" | "code";
   step: "email" | "code";
   email?: string;
   error?: string;
@@ -29,8 +31,9 @@ export async function requestCode(_prev: SignInState, formData: FormData): Promi
   if (devAuthEnabled()) {
     return {
       step: "code",
+      mode: "code",
       email,
-      notice: "Development mode — any 6-digit code will sign you in.",
+      notice: "Development mode: any 6-digit code will sign you in.",
     };
   }
 
@@ -51,8 +54,9 @@ export async function requestCode(_prev: SignInState, formData: FormData): Promi
     }
     return {
       step: "code",
+      mode: "link",
       email,
-      notice: `Email sent to ${email} — click the sign-in link in it, or enter the code below if your email shows one. Check spam too.`,
+      notice: `Email sent to ${email}.`,
     };
   }
 
