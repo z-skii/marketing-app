@@ -2,91 +2,57 @@
 
 import { redirect } from "next/navigation";
 import { createSession, destroySession, upsertUserByEmail } from "@/lib/auth";
-import { devAuthEnabled, isSupabaseConfigured, supabaseAnon } from "@/lib/supabase";
-import { emailSchema, otpSchema } from "@/lib/validation";
-import { SITE_URL } from "@/config/site";
+import { devAuthEnabled, supabaseAnon } from "@/lib/supabase";
+import { emailSchema, passwordSchema } from "@/lib/validation";
+import { friendlyAuthError } from "@/lib/auth-errors";
 import { LIMITS, rateLimit } from "@/lib/rate-limit";
 
-export type SignInState = {
-  /** "link": the email carries a sign-in link. "code": enter a code here. */
-  mode?: "link" | "code";
-  step: "email" | "code";
-  email?: string;
+export type AuthFormState = {
   error?: string;
   notice?: string;
+  /** Set when the error was "email not confirmed", so the form can offer a resend. */
+  needsVerification?: boolean;
+  email?: string;
 };
 
-/** Step one: prove the address exists by sending a six-digit code to it. */
-export async function requestCode(_prev: SignInState, formData: FormData): Promise<SignInState> {
-  const parsed = emailSchema.safeParse(formData.get("email"));
-  if (!parsed.success) {
-    return { step: "email", error: parsed.error.issues[0]?.message ?? "Enter a valid email." };
-  }
-  const email = parsed.data;
+/**
+ * Password sign-in. The email must have been verified once at sign-up; after
+ * that it is email + password forever. On success we mint the app's own
+ * signed session cookie, exactly as before.
+ */
+export async function signInWithPassword(
+  _prev: AuthFormState,
+  formData: FormData,
+): Promise<AuthFormState> {
+  const email = emailSchema.safeParse(formData.get("email"));
+  const password = String(formData.get("password") ?? "");
+  if (!email.success) return { error: "Enter a valid email." };
+  if (!password) return { error: "Enter your password.", email: email.data };
 
-  if (!rateLimit(`otp-req:${email}`, LIMITS.otpRequest.limit, LIMITS.otpRequest.windowMs)) {
-    return { step: "email", email, error: "Too many codes requested. Try again in a few minutes." };
+  if (!rateLimit(`pw-signin:${email.data}`, LIMITS.otpVerify.limit, LIMITS.otpVerify.windowMs)) {
+    return { error: "Too many attempts. Wait a few minutes.", email: email.data };
   }
 
   if (devAuthEnabled()) {
-    return {
-      step: "code",
-      mode: "code",
-      email,
-      notice: "Development mode: any 6-digit code will sign you in.",
-    };
-  }
-
-  if (isSupabaseConfigured()) {
-    const { error } = await supabaseAnon().auth.signInWithOtp({
-      email,
-      options: {
-        shouldCreateUser: true,
-        emailRedirectTo: `${SITE_URL}/auth/confirm`,
-      },
+    // Local shim: fixed password, no email round-trips.
+    if (password !== "password123") {
+      return { error: "That email or password is wrong.", email: email.data };
+    }
+  } else {
+    const { data, error } = await supabaseAnon().auth.signInWithPassword({
+      email: email.data,
+      password,
     });
     if (error) {
       return {
-        step: "email",
-        email,
-        error: `We couldn't send the email (${error.message}). Try again in a few minutes.`,
+        error: friendlyAuthError(error.message),
+        needsVerification: error.message.toLowerCase().includes("not confirmed"),
+        email: email.data,
       };
     }
-    return {
-      step: "code",
-      mode: "link",
-      email,
-      notice: `Email sent to ${email}.`,
-    };
-  }
-
-  return { step: "email", email, error: "Sign-in is not configured yet." };
-}
-
-/** Step two: verify the code, then mint our own session cookie. */
-export async function verifyCode(_prev: SignInState, formData: FormData): Promise<SignInState> {
-  const email = emailSchema.safeParse(formData.get("email"));
-  const code = otpSchema.safeParse(formData.get("code"));
-
-  if (!email.success) return { step: "email", error: "Start again." };
-  if (!code.success) {
-    return { step: "code", email: email.data, error: code.error.issues[0]?.message ?? "Enter the code." };
-  }
-
-  if (!rateLimit(`otp-ver:${email.data}`, LIMITS.otpVerify.limit, LIMITS.otpVerify.windowMs)) {
-    return { step: "code", email: email.data, error: "Too many attempts. Request a fresh code." };
-  }
-
-  if (!devAuthEnabled()) {
-    if (!isSupabaseConfigured()) {
-      return { step: "email", error: "Sign-in is not configured yet." };
+    if (!data.user?.email) {
+      return { error: "Something went wrong. Try again in a minute.", email: email.data };
     }
-    const { error } = await supabaseAnon().auth.verifyOtp({
-      email: email.data,
-      token: code.data,
-      type: "email",
-    });
-    if (error) return { step: "code", email: email.data, error: "That code didn't work." };
   }
 
   const userId = await upsertUserByEmail(email.data);
@@ -96,7 +62,26 @@ export async function verifyCode(_prev: SignInState, formData: FormData): Promis
   redirect(next.startsWith("/") ? next : "/dashboard");
 }
 
+/** Re-send the account verification email for an address that never confirmed. */
+export async function resendVerification(
+  _prev: AuthFormState,
+  formData: FormData,
+): Promise<AuthFormState> {
+  const email = emailSchema.safeParse(formData.get("email"));
+  if (!email.success) return { error: "Enter a valid email." };
+  if (!rateLimit(`resend:${email.data}`, 3, 10 * 60_000)) {
+    return { error: "Too many emails requested. Wait a few minutes.", email: email.data };
+  }
+
+  if (!devAuthEnabled()) {
+    const { error } = await supabaseAnon().auth.resend({ type: "signup", email: email.data });
+    if (error) return { error: friendlyAuthError(error.message), email: email.data };
+  }
+  return { notice: `Verification email sent to ${email.data}.`, email: email.data };
+}
+
 export async function signOut() {
   await destroySession();
   redirect("/");
 }
+

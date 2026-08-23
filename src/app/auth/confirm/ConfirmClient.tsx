@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { completeMagicLink } from "./actions";
+import { confirmEmail } from "./actions";
 
 /**
- * Landing pad for the email sign-in link. Supabase returns the tokens in the
- * URL fragment, which only the browser can read — so this page parses it,
- * hands the access token to the server to verify, and moves on. The fragment
- * is cleared immediately so tokens never sit in the address bar or history.
+ * Landing pad for the email-verification link. The token arrives in the URL
+ * fragment, which only the browser can read; it is verified server-side and
+ * cleared from the address bar immediately. Verification proves the address —
+ * signing in still takes the password.
  */
 export function ConfirmClient() {
-  const [state, setState] = useState<"working" | "failed">("working");
+  const [state, setState] = useState<"working" | "verified" | "failed">("working");
   const [message, setMessage] = useState<string | null>(null);
   const ran = useRef(false);
 
@@ -26,21 +26,19 @@ export function ConfirmClient() {
     window.history.replaceState(null, "", window.location.pathname);
 
     if (!accessToken) {
-      // Deferred a tick so the state change is an async response to the URL
-      // inspection rather than a synchronous render cascade.
       queueMicrotask(() => {
         setState("failed");
         setMessage(
           errorDescription ??
-            "That link is missing its sign-in — it may have expired or already been used.",
+            "That verification link is invalid or has expired. Request a new one from the sign-up page.",
         );
       });
       return;
     }
 
-    completeMagicLink(accessToken).then((result) => {
+    confirmEmail(accessToken).then((result) => {
       if (result.ok) {
-        window.location.replace("/dashboard");
+        setState("verified");
       } else {
         setState("failed");
         setMessage(result.error);
@@ -51,8 +49,24 @@ export function ConfirmClient() {
   if (state === "working") {
     return (
       <p className="mt-6 font-mono text-sm text-ink-soft" role="status">
-        Signing you in…
+        Verifying…
       </p>
+    );
+  }
+
+  if (state === "verified") {
+    return (
+      <div className="mt-6">
+        <p role="status" className="font-mono text-sm text-rise">
+          Your email is verified.
+        </p>
+        <p className="mt-3 max-w-md text-sm text-ink-soft">
+          Your account is ready. Sign in with your email and password.
+        </p>
+        <Link href="/sign-in?verified=1" className="btn btn-signal mt-6">
+          Sign in
+        </Link>
+      </div>
     );
   }
 
@@ -61,9 +75,17 @@ export function ConfirmClient() {
       <p role="alert" className="font-mono text-sm text-signal">
         {message}
       </p>
-      <Link href="/sign-in" className="btn mt-6">
-        Try signing in again
-      </Link>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Link href="/sign-up" className="btn">
+          Create account
+        </Link>
+        <Link href="/sign-in" className="btn btn-ghost">
+          Sign in
+        </Link>
+        <Link href="/reset" className="btn btn-ghost">
+          Reset password
+        </Link>
+      </div>
     </div>
   );
 }

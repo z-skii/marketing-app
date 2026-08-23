@@ -85,7 +85,6 @@ export const placementSelectionSchema = z.object({
 
 export const emailSchema = z.string().trim().toLowerCase().email("Enter a valid email.");
 
-export const otpSchema = z.string().trim().regex(/^\d{6}$/, "Enter the 6-digit code.");
 
 /** A URL-safe slug derived from the display name, with a short random suffix. */
 export function slugify(name: string): string {
@@ -97,3 +96,9 @@ export function slugify(name: string): string {
     .slice(0, 32);
   return base || "link";
 }
+
+/** Account passwords: long enough to matter, capped where bcrypt stops reading. */
+export const passwordSchema = z
+  .string()
+  .min(8, "Use at least 8 characters.")
+  .max(72, "Use at most 72 characters.");
