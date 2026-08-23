@@ -1,0 +1,134 @@
+import Link from "next/link";
+import { SpotCountdown } from "../SpotCountdown";
+import { StartsIn } from "../StartsIn";
+import { OpenButton } from "../OpenButton";
+import type { SpotRow } from "@/lib/data";
+import { formatCount } from "@/lib/money";
+
+/**
+ * THE SPOT on the live screen: one link owns the largest panel for sixty
+ * seconds. Each change of hands re-keys the takeover wrapper, so the incoming
+ * link wipes in like a broadcast handover. When nothing is on air, the next
+ * scheduled link plays as "up next"; when nothing is queued at all, the empty
+ * panel sells the minute itself.
+ */
+export function SpotPanel({ current, next }: { current: SpotRow | null; next: SpotRow | null }) {
+  const spot = current ?? next;
+  const upcoming = !current && !!next;
+
+  if (!spot) return <SpotOpen />;
+
+  return (
+    <div className="flex h-full min-h-0 flex-col px-5 py-4 md:px-8 md:py-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="flex items-center gap-2 eyebrow">
+          {upcoming ? (
+            <span>The Spot / Up next</span>
+          ) : (
+            <>
+              <span className="live-dot" aria-hidden="true" />
+              <span className="!text-signal">The Spot</span>
+              <span className="text-ink-faint normal-case tracking-normal">60 sec</span>
+            </>
+          )}
+        </h2>
+        {upcoming ? <StartsIn startsAt={spot.starts_at} /> : <SpotCountdown endsAt={spot.ends_at} />}
+      </div>
+
+      <div
+        key={spot.schedule_id}
+        className={`takeover mt-4 grid min-h-0 flex-1 grid-rows-[auto_minmax(4rem,1fr)] gap-5 md:mt-5 md:grid-cols-12 md:grid-rows-1 md:gap-8 ${
+          upcoming ? "opacity-80" : ""
+        }`}
+      >
+        <div className="flex min-h-0 flex-col justify-center md:order-2 md:col-span-7">
+          <p translate="no" className="font-mono text-xs tracking-[0.1em] text-ink-faint uppercase">
+            {spot.domain}
+          </p>
+          <h3 className="mt-2 font-display text-[clamp(2rem,4.6vw,4.25rem)] leading-[0.9] font-800 tracking-[-0.045em] break-words">
+            {spot.display_name}
+          </h3>
+          {spot.short_description && (
+            <p className="mt-3 line-clamp-2 max-w-xl font-display text-base leading-snug text-ink-soft md:text-lg">
+              {spot.short_description}
+            </p>
+          )}
+          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <OpenButton
+              placementId={spot.placement_id}
+              surface="spot"
+              className={`btn !px-6 !py-3 ${upcoming ? "" : "btn-signal"}`}
+            />
+            <span className="tnum font-mono text-xs text-ink-faint">
+              {formatCount(spot.total_opens)} opens
+            </span>
+            <Link
+              href={`/l/${spot.slug}`}
+              className="eyebrow underline underline-offset-4 transition-colors hover:text-ink"
+            >
+              Details
+            </Link>
+          </div>
+        </div>
+
+        <div className="min-h-0 md:order-1 md:col-span-5">
+          <div className="relative h-full max-h-full w-full overflow-hidden border border-ink bg-paper-deep">
+            {spot.image_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={spot.image_url}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="eager"
+                fetchPriority="high"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-display text-[clamp(3rem,7vw,6rem)] font-800 text-rule-strong">
+                  {spot.display_name.slice(0, 2).toUpperCase()}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {upcoming ? (
+        <p className="mt-4 border-t border-rule pt-3 font-display text-sm text-ink-soft">
+          The Spot is open this minute.{" "}
+          <Link href="/add" className="text-signal underline underline-offset-4">
+            Take it
+          </Link>
+        </p>
+      ) : (
+        next &&
+        next.schedule_id !== spot.schedule_id && (
+          <p className="mt-4 flex items-baseline gap-2 border-t border-rule pt-3">
+            <span className="eyebrow">Up next</span>
+            <span translate="no" className="font-mono text-xs text-ink-soft">{next.domain}</span>
+          </p>
+        )
+      )}
+    </div>
+  );
+}
+
+/** Nothing on air and nothing queued: the most valuable minute is for sale. */
+function SpotOpen() {
+  return (
+    <div className="flex h-full flex-col justify-center px-5 py-6 md:px-8">
+      <h2 className="eyebrow">The Spot</h2>
+      <p className="mt-3 max-w-2xl font-display text-[clamp(2rem,4.5vw,4rem)] leading-[0.92] font-800 tracking-[-0.04em]">
+        The Spot is open.
+      </p>
+      <p className="mt-3 max-w-md text-ink-soft">
+        One link at a time, sixty seconds each. Own the next minute.
+      </p>
+      <div>
+        <Link href="/add" className="btn btn-signal mt-6 !px-6 !py-3">
+          Take The Spot
+        </Link>
+      </div>
+    </div>
+  );
+}

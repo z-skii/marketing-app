@@ -1,26 +1,32 @@
 import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { Hero } from "@/components/Hero";
-import { Spot } from "@/components/Spot";
-import { TopThree } from "@/components/TopThree";
-import { Board } from "@/components/Board";
 import { Bar } from "@/components/Bar";
+import { LiveMain } from "@/components/live/LiveMain";
+import { LiveRefresh } from "@/components/live/LiveRefresh";
+import { SpotPanel } from "@/components/live/SpotPanel";
+import { TopRail } from "@/components/live/TopRail";
+import { BoardWindow } from "@/components/live/BoardWindow";
+import { SurpriseMe } from "@/components/live/SurpriseMe";
 import { getCurrentUser } from "@/lib/auth";
 import {
-  getBar, getBoard, getCurrentRound, getCurrentSpot, getLiveStats, getNextSpot,
+  getBar, getBoard, getBoardCount, getCurrentRound, getCurrentSpot, getLiveStats, getNextSpot,
 } from "@/lib/data";
 
 // The homepage is live state; it is never served from a static cache.
 export const dynamic = "force-dynamic";
 
-const BOARD_PREVIEW = 20;
-
+/**
+ * The homepage is one live discovery screen: header as status row, The Spot
+ * and Top 3 side by side, the Board cycling through rank windows beneath them,
+ * and the Bar running along the bottom. On desktop the whole thing fits the
+ * viewport; small screens switch surfaces with tabs instead of scrolling.
+ */
 export default async function HomePage() {
-  const [user, spot, nextSpot, board, bar, round, stats] = await Promise.all([
+  const [user, spot, nextSpot, board, boardCount, bar, round, stats] = await Promise.all([
     getCurrentUser(),
     getCurrentSpot(),
     getNextSpot(),
-    getBoard(BOARD_PREVIEW + 3),
+    getBoard(103),
+    getBoardCount(),
     getBar(),
     getCurrentRound(),
     getLiveStats(),
@@ -30,20 +36,24 @@ export default async function HomePage() {
   const rest = board.slice(3);
 
   return (
-    <>
-      <Header user={user} />
-      <main id="main">
-        <Hero
-          liveLinks={stats.liveLinks}
-          opensToday={stats.opensToday}
-          roundEndsAt={round?.ends_at ?? null}
+    <div className="live-screen">
+      <Header
+        user={user}
+        stats={{
+          liveLinks: stats.liveLinks,
+          opensToday: stats.opensToday,
+          roundEndsAt: round?.ends_at ?? null,
+        }}
+      />
+      <main id="main" className="flex min-h-0 flex-col">
+        <LiveMain
+          spot={<SpotPanel current={spot} next={nextSpot} />}
+          top={<TopRail rows={topThree} />}
+          board={<BoardWindow rows={rest} startRank={4} totalCount={boardCount} />}
         />
-        <Spot spot={spot ?? nextSpot} upcoming={!spot && !!nextSpot} />
-        <TopThree rows={topThree} />
-        <Board rows={rest} startRank={4} showViewAll />
       </main>
-      <Footer />
-      <Bar items={bar} />
-    </>
+      <Bar items={bar} docked={false} surprise={<SurpriseMe candidates={board} />} />
+      <LiveRefresh seconds={60} />
+    </div>
   );
 }

@@ -67,9 +67,12 @@
     font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    /* Room for the fixed Bar plus the phone's home indicator. */
-    padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
     overflow-x: clip;
+  }
+
+  /* Pages that keep the fixed Bar reserve room for it plus the home indicator. */
+  .with-docked-bar {
+    padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
   }
 
   ::selection { background: var(--color-signal); color: #fff; }
@@ -205,6 +208,49 @@
   to   { opacity: 1; transform: none; }
 }
 .spot-in { animation: spot-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ------------------------------------------------------------- live screen */
+
+/*
+  The homepage is one live screen: header, main surface, and Bar share a grid
+  that fills the viewport. On real desktops the screen locks to exactly 100dvh
+  and never scrolls; unusually short windows and mobile fall back to natural
+  flow so nothing gets clipped.
+*/
+.live-screen {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 100dvh;
+}
+@media (min-width: 1024px) and (min-height: 620px) {
+  .live-screen {
+    height: 100dvh;
+    overflow: clip;
+  }
+}
+
+/* The Spot changes hands with a broadcast wipe: the incoming take reveals
+   top-to-bottom while its content rises into place. */
+@keyframes takeover {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0% 0); }
+}
+.takeover { animation: takeover 560ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Board window pages slide through in the direction of travel. */
+@keyframes window-next {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes window-prev {
+  from { opacity: 0; transform: translate3d(0, -16px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+.window-next { animation: window-next 340ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.window-prev { animation: window-prev 340ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Featured entries in the Bar get a double-deck reading. */
+.bar-feature { background: var(--color-paper-deep); }
 
 /*
   Reduced motion turns the tape into a normal horizontal scroller and stops

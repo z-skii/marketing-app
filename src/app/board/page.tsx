@@ -18,7 +18,7 @@ export default async function BoardPage() {
   return (
     <>
       <Header user={user} />
-      <main id="main">
+      <main id="main" className="with-docked-bar">
         <section className="shell pt-10 pb-6 md:pt-14 md:pb-8">
           <h1 className="font-display text-4xl leading-[0.92] font-800 tracking-[-0.045em] md:text-6xl">
             The Board

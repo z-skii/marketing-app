@@ -38,7 +38,7 @@ export default async function LinkProfilePage({ params }: { params: Promise<{ sl
   return (
     <>
       <Header user={user} />
-      <main id="main" className="shell py-10 md:py-16">
+      <main id="main" className="shell with-docked-bar py-10 md:py-16">
         <div className="grid gap-8 md:grid-cols-12 md:gap-12">
           <div className="md:col-span-4">
             <div className="aspect-square w-full max-w-xs overflow-hidden border border-ink bg-paper-deep">
