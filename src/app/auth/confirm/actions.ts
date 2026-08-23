@@ -21,6 +21,9 @@ export async function confirmEmail(accessToken: string): Promise<ConfirmResult> 
     return { ok: false, error: "That verification link is invalid or has expired." };
   }
 
-  await upsertUserByEmail(data.user.email);
+  const metaUsername = typeof data.user.user_metadata?.username === "string"
+    ? data.user.user_metadata.username
+    : undefined;
+  await upsertUserByEmail(data.user.email, metaUsername);
   return { ok: true };
 }

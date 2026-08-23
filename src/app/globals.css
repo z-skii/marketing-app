@@ -233,6 +233,19 @@
   }
 }
 
+/*
+  While the live screen is mounted the document itself is locked: height is
+  pinned to the dynamic viewport, overflow is hidden (so no scrollbar can
+  appear even for a stray pixel), and overscroll is disabled so iOS Safari
+  doesn't rubber-band. Every other route is untouched.
+*/
+html[data-live-lock],
+html[data-live-lock] body {
+  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 /* The Spot changes hands with a broadcast wipe: the incoming take reveals
    top-to-bottom while its content rises into place. */
 @keyframes takeover {

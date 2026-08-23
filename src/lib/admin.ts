@@ -115,6 +115,7 @@ export async function getUpcomingSpot() {
 export type MemberRow = {
   id: string;
   member_no: string;
+  username: string | null;
   email: string | null;
   display_name: string | null;
   role: "user" | "admin";
@@ -129,7 +130,7 @@ export type MemberRow = {
 /** The member directory: every account with the numbers that matter. */
 export async function getMembers(limit = 200): Promise<MemberRow[]> {
   return sql<MemberRow>(
-    `select p.id, p.member_no, u.email, p.display_name, p.role, p.suspended, p.created_at,
+    `select p.id, p.member_no, p.username, u.email, p.display_name, p.role, p.suspended, p.created_at,
             w.available_credit_cents,
             coalesce((select sum(pl.remaining_credit_cents) from placements pl
                        where pl.owner_id = p.id and pl.status in ('pending','active','paused')), 0) as reserved_cents,

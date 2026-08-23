@@ -84,24 +84,24 @@ export function Header({ user, stats }: { user: CurrentUser | null; stats?: Head
 }
 
 /**
- * The signed-in account control: the visitor's member number opens a small
- * menu with their dashboard, the creator area, the admin panel when their
- * database role allows it, and a working sign-out. Plain HTML `details`, so
+ * The signed-in account control: the visitor's @username opens a small menu
+ * with their dashboard, the creator area, the admin panel when their database
+ * role allows it, and a working sign-out. Plain HTML `details`, so
  * it needs no client JavaScript; admin visibility is decided server-side from
  * the authenticated user's role and enforced again on every admin page and
  * action.
  */
 function AccountMenu({ user }: { user: CurrentUser }) {
-  const memberTag = `#${String(user.memberNo).padStart(4, "0")}`;
+  const handle = `@${user.username}`;
   const item =
     "block px-3.5 py-2.5 font-mono text-[0.6875rem] font-500 tracking-[0.14em] uppercase transition-colors hover:bg-surface";
   return (
     <details className="relative">
       <summary
         className="eyebrow hover:text-ink flex cursor-pointer list-none items-center gap-1 px-2 py-2 transition-colors [&::-webkit-details-marker]:hidden"
-        aria-label={`Account ${memberTag}`}
+        aria-label={`Account ${handle}`}
       >
-        <span className="tnum !tracking-normal">{memberTag}</span>
+        <span className="max-w-[9rem] truncate !normal-case !tracking-normal">{handle}</span>
         <span aria-hidden="true" className="text-[0.5625rem]">▾</span>
       </summary>
       <div className="absolute right-0 top-full z-40 mt-1 w-44 border border-ink bg-paper py-1">

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { sql, sqlOne } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
+import { usernameSchema } from "@/lib/validation";
 import { createTopUpSession, isStripeConfigured } from "@/lib/stripe";
 import { settingInt } from "@/lib/settings";
 
@@ -86,4 +87,32 @@ export async function releaseCredit(placementId: string, amountCents: number): P
   }
   revalidatePath("/dashboard");
   return { ok: true };
+}
+
+export type UsernameResult = { ok: true; username: string } | { ok: false; error: string };
+
+/**
+ * Renames the signed-in member. Format and reserved names are validated here,
+ * case-insensitive uniqueness is enforced by the database, and the update is
+ * scoped to the authenticated user's own row — nobody can rename anyone else.
+ */
+export async function updateUsername(newUsername: string): Promise<UsernameResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "Sign in first." };
+
+  const parsed = usernameSchema.safeParse(newUsername);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Pick a different username." };
+  }
+  if (parsed.data.toLowerCase() === user.username.toLowerCase() && parsed.data === user.username) {
+    return { ok: true, username: parsed.data };
+  }
+
+  try {
+    await sql(`update profiles set username = $2 where id = $1`, [user.id, parsed.data]);
+  } catch {
+    return { ok: false, error: "That username is taken. Try another." };
+  }
+  revalidatePath("/dashboard");
+  return { ok: true, username: parsed.data };
 }

@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Bar } from "@/components/Bar";
 import { LiveMain } from "@/components/live/LiveMain";
 import { LiveRefresh } from "@/components/live/LiveRefresh";
+import { LockViewport } from "@/components/live/LockViewport";
 import { SpotPanel } from "@/components/live/SpotPanel";
 import { TopRail } from "@/components/live/TopRail";
 import { BoardWindow } from "@/components/live/BoardWindow";
@@ -71,6 +72,7 @@ export default async function HomePage() {
       </main>
       <Bar items={bar} docked={false} surprise={<SurpriseMe candidates={board} />} />
       <LiveRefresh seconds={60} />
+      <LockViewport />
     </div>
   );
 }

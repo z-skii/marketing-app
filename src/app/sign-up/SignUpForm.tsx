@@ -61,6 +61,27 @@ export function SignUpForm() {
         />
       </div>
 
+      <div className="flex flex-col gap-2">
+        <label htmlFor="username" className="eyebrow">Username</label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          required
+          minLength={3}
+          maxLength={24}
+          pattern="[A-Za-z0-9_.]{3,24}"
+          autoComplete="username"
+          spellCheck={false}
+          placeholder="yourname"
+          className="field"
+          defaultValue={state.username}
+        />
+        <p className="font-mono text-[0.625rem] text-ink-faint">
+          3-24 characters: letters, numbers, underscore, period. You can change it later.
+        </p>
+      </div>
+
       <PasswordField
         id="password"
         name="password"

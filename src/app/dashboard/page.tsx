@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CreditPanel } from "./CreditPanel";
+import { AccountSettings } from "./AccountSettings";
 import { OwnedLinkRow } from "./OwnedLinkRow";
 import { getCurrentUser } from "@/lib/auth";
 import { getLedger, getOwnedLinks, getWallet } from "@/lib/dashboard";
@@ -34,9 +35,11 @@ export default async function DashboardPage({
       <main id="main" className="shell py-10 md:py-14">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="eyebrow">
-              Member #{String(user.memberNo).padStart(4, "0")}
-              {user.role === "admin" && <span className="ml-2 !text-signal">Admin</span>}
+            <p className="eyebrow !normal-case !tracking-normal">
+              @{user.username}
+              {user.role === "admin" && (
+                <span className="ml-2 tracking-[0.14em] uppercase !text-signal">Admin</span>
+              )}
             </p>
             <h1 className="mt-2 font-display text-4xl leading-[0.92] font-800 tracking-[-0.045em] md:text-5xl">
               Your links
@@ -107,6 +110,7 @@ export default async function DashboardPage({
             </table>
           </section>
         )}
+        <AccountSettings username={user.username} />
       </main>
       <Footer />
     </>

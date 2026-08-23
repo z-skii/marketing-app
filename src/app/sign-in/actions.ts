@@ -33,6 +33,7 @@ export async function signInWithPassword(
     return { error: "Too many attempts. Wait a few minutes.", email: email.data };
   }
 
+  let metaUsername: string | undefined;
   if (devAuthEnabled()) {
     // Local shim: fixed password, no email round-trips.
     if (password !== "password123") {
@@ -53,9 +54,12 @@ export async function signInWithPassword(
     if (!data.user?.email) {
       return { error: "Something went wrong. Try again in a minute.", email: email.data };
     }
+    metaUsername = typeof data.user.user_metadata?.username === "string"
+      ? data.user.user_metadata.username
+      : undefined;
   }
 
-  const userId = await upsertUserByEmail(email.data);
+  const userId = await upsertUserByEmail(email.data, metaUsername);
   await createSession(userId);
 
   const next = String(formData.get("next") ?? "/dashboard");

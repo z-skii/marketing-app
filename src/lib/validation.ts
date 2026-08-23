@@ -102,3 +102,21 @@ export const passwordSchema = z
   .string()
   .min(8, "Use at least 8 characters.")
   .max(72, "Use at most 72 characters.");
+
+/**
+ * Public usernames: 3-24 characters of letters, digits, underscore, or
+ * period. Uniqueness is enforced case-insensitively in the database; names
+ * that could impersonate the platform are reserved.
+ */
+const RESERVED_USERNAMES = new Set([
+  "admin", "administrator", "support", "root", "system", "mod", "moderator",
+  "staff", "help", "official", "untitled", "owner", "security", "api",
+]);
+
+export const usernameSchema = z
+  .string()
+  .trim()
+  .regex(/^[A-Za-z0-9_.]{3,24}$/, "3-24 letters, numbers, underscores, or periods.")
+  .refine((v) => !RESERVED_USERNAMES.has(v.toLowerCase()), {
+    message: "That username is reserved.",
+  });
