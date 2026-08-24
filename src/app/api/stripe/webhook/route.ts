@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import type Stripe from "stripe";
 import { sql, sqlOne } from "@/lib/db";
+import { refreshSurfaces } from "@/lib/surfaces";
 import { stripe, isStripeConfigured } from "@/lib/stripe";
 
 /**
@@ -70,11 +71,14 @@ async function handleCompletedCheckout(event: Stripe.Event) {
   const linkId = session.metadata?.link_id;
   if (!linkId) return;
 
+  const funded: string[] = [];
   for (const type of ["board", "spot", "bar"] as const) {
     const cents = Number(session.metadata?.[`${type}_cents`] ?? 0);
     if (cents > 0) {
       await sql(`select allocate_to_placement($1,$2,$3::placement_type,$4)`,
         [userId, linkId, type, cents]);
+      funded.push(type);
     }
   }
+  await refreshSurfaces(funded);
 }

@@ -5,6 +5,7 @@ import { sql, sqlOne } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { usernameSchema } from "@/lib/validation";
 import { createTopUpSession, isStripeConfigured } from "@/lib/stripe";
+import { refreshSurfaces } from "@/lib/surfaces";
 import { settingInt } from "@/lib/settings";
 
 export type ActionResult = { ok: true; redirect?: string } | { ok: false; error: string };
@@ -52,6 +53,7 @@ export async function addCredit(
   } catch {
     return { ok: false, error: "That allocation didn't go through." };
   }
+  await refreshSurfaces([type]);
 
   revalidatePath("/dashboard");
   return { ok: true };

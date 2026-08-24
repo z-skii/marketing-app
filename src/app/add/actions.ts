@@ -5,6 +5,7 @@ import { sql, sqlOne } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { checkDestinationUrl, linkAppearanceSchema, slugify } from "@/lib/validation";
 import { settingInt } from "@/lib/settings";
+import { refreshSurfaces } from "@/lib/surfaces";
 import { createTopUpSession, isStripeConfigured } from "@/lib/stripe";
 
 export type GoLiveInput = {
@@ -98,6 +99,9 @@ export async function goLive(input: GoLiveInput): Promise<GoLiveResult> {
           [user.id, linkId, type, cents]);
       }
     }
+    await refreshSurfaces(
+      Object.entries(allocations).filter(([, cents]) => cents > 0).map(([type]) => type),
+    );
     return { ok: true, redirect: `/dashboard?live=${linkId}` };
   }
 
