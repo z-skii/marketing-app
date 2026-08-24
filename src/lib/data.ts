@@ -72,6 +72,35 @@ export async function getCurrentSpot(): Promise<SpotRow | null> {
 
 /** Shown when nothing is scheduled right now, so the section is never empty-handed. */
 export async function getNextSpot(): Promise<SpotRow | null> {
+  const next = await querySpotNext();
+  if (next) return next;
+
+  // Self-heal, mirroring the lazy round roll above: a funded Spot placement
+  // with no upcoming slot means the daily scheduler hasn't seen it yet, so the
+  // first page view rebuilds today's rotation. schedule_spot_day() is
+  // idempotent and only ever fills the remainder of the day.
+  const unscheduled = await sqlOne(
+    `select 1
+       from placements p join links l on l.id = p.link_id
+      where p.placement_type = 'spot' and p.status = 'active'
+        and p.remaining_credit_cents > 0
+        and l.moderation_status = 'approved' and l.enabled
+        and not exists (
+          select 1 from spot_schedules s
+           where s.placement_id = p.id
+             and s.status = 'scheduled' and s.starts_at > now())
+      limit 1`,
+  );
+  if (!unscheduled) return null;
+  try {
+    await sql(`select schedule_spot_day()`);
+  } catch {
+    return null;
+  }
+  return querySpotNext();
+}
+
+function querySpotNext(): Promise<SpotRow | null> {
   return sqlOne<SpotRow>(
     `select s.id as schedule_id, s.placement_id, s.starts_at, s.ends_at,
             l.id as link_id, l.slug, l.display_name, l.short_description,
