@@ -111,7 +111,7 @@ export const passwordSchema = z
 const RESERVED_USERNAMES = new Set([
   "admin", "administrator", "support", "root", "system", "mod", "moderator",
   "staff", "help", "official", "untitled", "owner", "security", "api",
-  "tapmart", "topmart",
+  "tapmart", "topmart", "topmast",
 ]);
 
 export const usernameSchema = z

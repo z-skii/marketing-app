@@ -2,8 +2,7 @@
 
 **What's getting clicked right now?**
 
-Official production site: **https://topmart.live** (yes — the brand is
-*TapMart*, the domain is *topmart.live*; that is intentional).
+Official production site: **https://tapmart.live**
 
 TapMart is a live marketplace for attention: a board where links — shops,
 projects, creators, apps, launches, anything with a URL — compete to be
@@ -155,8 +154,8 @@ scheduling spread, and bar capacity + queue promotion.
    and set `DATABASE_URL` to the **connection pooler** URI.
 5. **Auth → URL Configuration** must know every domain the app runs on, or
    verification/reset emails will land on dead links:
-   - Site URL: `https://topmart.live`
-   - Redirect URLs: `https://topmart.live/**` — plus
+   - Site URL: `https://tapmart.live`
+   - Redirect URLs: `https://tapmart.live/**` — plus
      `https://<project>.vercel.app/**` while that alias is still in use, and
      `http://localhost:3000/**` for local development.
 
@@ -182,12 +181,12 @@ Money flow: Checkout session → webhook verifies signature → `apply_stripe_to
 3. `vercel.json` already schedules `/api/cron` every 10 minutes — it closes
    expired rounds, schedules the Spot day, resyncs the Bar, and releases
    creator earnings past their hold. Set `CRON_SECRET` to protect it.
-4. **Custom domain**: add `topmart.live` (and `www.topmart.live`) under
+4. **Custom domain**: add `tapmart.live` (and `www.tapmart.live`) under
    Project → Settings → Domains, with the apex as the primary domain so `www`
    redirects to it. Point DNS at Vercel (A `76.76.21.21` for the apex, CNAME
    `cname.vercel-dns.com` for `www` — the Domains screen shows the current
    records). Preview deployments keep their generated URLs; production
-   canonical URLs, share links, and auth emails all use `https://topmart.live`
+   canonical URLs, share links, and auth emails all use `https://tapmart.live`
    via `src/config/site.ts`.
 
 ## Repository map

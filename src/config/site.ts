@@ -1,7 +1,7 @@
 /**
- * Central site identity. The brand is TapMart; the production domain is
- * topmart.live (intentionally spelled differently). Renaming the product or
- * moving domains should mean editing this file and nothing else.
+ * Central site identity. The brand is TapMart and the production domain is
+ * tapmart.live. Renaming the product or moving domains should mean editing
+ * this file and nothing else.
  */
 export const SITE_NAME = "TapMart";
 export const SITE_TAGLINE = "What's getting clicked right now?";
@@ -12,14 +12,14 @@ export const SITE_URL =
     : undefined) ??
   (process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://topmart.live");
+    : "https://tapmart.live");
 
 export const SITE_DESCRIPTION =
   "A live board of links competing for attention. Add your link, add credit, get seen.";
 
 /**
  * Public contact address. Null until a real mailbox exists — the footer hides
- * the Contact link while this is unset. When support@topmart.live is
+ * the Contact link while this is unset. When support@tapmart.live is
  * configured, set it here.
  */
 export const CONTACT_EMAIL: string | null = null;
