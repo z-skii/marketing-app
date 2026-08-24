@@ -55,7 +55,7 @@ export default async function DashboardPage({
         )}
         {live && (
           <p role="status" className="mt-6 border border-rule bg-surface p-4 font-mono text-xs text-ink-soft">
-            You&rsquo;re in the queue. Links go live once they clear moderation, and nothing is charged before then.
+            Your link is live wherever you put credit behind it. Placements without credit stay off the screen until you add some.
           </p>
         )}
 

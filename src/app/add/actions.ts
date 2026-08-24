@@ -24,8 +24,10 @@ export type GoLiveResult =
 /**
  * Creates the canonical link and puts credit behind it.
  *
- * If the account already holds enough available credit the placements go live
- * immediately (pending moderation). Otherwise we hand off to Stripe and the
+ * Links are approved on submission — the blocklist refuses bad domains up
+ * front, and admins can suspend a link or block its whole domain at any time
+ * afterwards. If the account already holds enough available credit the
+ * placements go live immediately; otherwise we hand off to Stripe and the
  * allocation is applied by the webhook — never by the success redirect.
  */
 export async function goLive(input: GoLiveInput): Promise<GoLiveResult> {
@@ -70,7 +72,7 @@ export async function goLive(input: GoLiveInput): Promise<GoLiveResult> {
     const created = await sqlOne<{ id: string }>(
       `insert into links (owner_id, slug, destination_url, domain, display_name,
                           short_description, image_url, moderation_status)
-       values ($1,$2,$3,$4,$5,$6,$7,'pending') returning id`,
+       values ($1,$2,$3,$4,$5,$6,$7,'approved') returning id`,
       [user.id, slug, url.url, url.domain, appearance.data.displayName,
        appearance.data.shortDescription || null, appearance.data.imageUrl || null],
     );
