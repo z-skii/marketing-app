@@ -1,18 +1,26 @@
-# UNTITLED
+# TapMart
 
-**What's getting clicked right now.**
+**What's getting clicked right now?**
 
-A live board where links compete for attention. Add your link, add credit, get
-seen. One link owns **The Spot** for sixty seconds at a time; the three biggest
-backers of the day hold **Top 3**; everyone else ranks on **The Board**; up to a
-hundred live links stream through **The Bar** at the bottom of every page.
-Creators share the site and **Earn** from the qualified traffic they send.
+Official production site: **https://topmart.live** (yes — the brand is
+*TapMart*, the domain is *topmart.live*; that is intentional).
+
+TapMart is a live marketplace for attention: a board where links — shops,
+projects, creators, apps, launches, anything with a URL — compete to be
+discovered. Add your link, add credit, get seen. One link owns **The Spot** for
+sixty seconds at a time; the three biggest backers of the day hold **Top 3**;
+everyone else ranks on **The Board**; up to a hundred live links stream through
+**The Bar** at the bottom of every page. Creators share the site and **Earn**
+from the qualified traffic they send.
 
 The public product is deliberately simple. The machinery under it is not.
 
-> The project is intentionally unbranded. The name, tagline, and metadata all
-> live in [`src/config/site.ts`](src/config/site.ts) — renaming the product is a
-> one-file change.
+> The name, tagline, domain, and metadata all live in
+> [`src/config/site.ts`](src/config/site.ts) — brand and domain changes are a
+> one-file edit. Internal identifiers (cookie names, database names, the
+> repository/Vercel project name `marketing-app`) intentionally keep their old
+> spellings; renaming them would risk sessions and deployments for zero public
+> benefit.
 
 ## How the money works
 
@@ -82,7 +90,7 @@ rail is wired in V1 (the architecture leaves room for Stripe Connect).
 ## Stack
 
 - **Next.js** (App Router, Server Components + Server Actions) · TypeScript · Tailwind v4
-- **Supabase**: Postgres, Auth (email OTP), Storage (artwork uploads)
+- **Supabase**: Postgres, Auth (email + password accounts), Storage (artwork uploads)
 - **Stripe** Checkout + webhook, test mode
 - **Vercel** hosting + cron
 - Tests: **Vitest** against a real Postgres
@@ -110,7 +118,8 @@ npm run seed                 # 28 polished dev links, three test accounts
 npm run dev
 ```
 
-Dev accounts after seeding (any 6-digit code signs in while `AUTH_DEV_MODE=true`):
+Dev accounts after seeding (password `password123` signs any email in while
+`AUTH_DEV_MODE=true`):
 `owner@untitled.test` (owns every seeded link) · `creator@untitled.test`
 (referral earnings) · `admin@untitled.test` (admin at `/admin`).
 
@@ -139,10 +148,21 @@ scheduling spread, and bar capacity + queue promotion.
 2. Apply migrations: `supabase link --project-ref <ref>` then `supabase db push`
    (or run the files in `supabase/migrations/` in order via the SQL editor —
    **skip `supabase/local/`**, which is the local-only auth shim).
-3. Auth → enable Email OTP. Storage → create a public bucket `link-images`.
+3. Auth → enable Email provider (password sign-in). Storage → create a public
+   bucket `link-images`.
 4. Copy into your deployment env: `NEXT_PUBLIC_SUPABASE_URL`,
    `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (server-only),
    and set `DATABASE_URL` to the **connection pooler** URI.
+5. **Auth → URL Configuration** must know every domain the app runs on, or
+   verification/reset emails will land on dead links:
+   - Site URL: `https://topmart.live`
+   - Redirect URLs: `https://topmart.live/**` — plus
+     `https://<project>.vercel.app/**` while that alias is still in use, and
+     `http://localhost:3000/**` for local development.
+
+   The app builds those links from `SITE_URL` in `src/config/site.ts`
+   (overridable per-environment with `NEXT_PUBLIC_SITE_URL`; local dev
+   automatically uses `http://localhost:3000`).
 
 ## Stripe setup
 
@@ -156,18 +176,26 @@ Money flow: Checkout session → webhook verifies signature → `apply_stripe_to
 
 ## Vercel deployment
 
-1. Import the repo; framework auto-detects.
+1. Import the repo; framework auto-detects. (The Vercel project may keep its
+   internal name `marketing-app` — only the public domain matters.)
 2. Set every variable from `.env.example` (leave `AUTH_DEV_MODE` unset).
 3. `vercel.json` already schedules `/api/cron` every 10 minutes — it closes
    expired rounds, schedules the Spot day, resyncs the Bar, and releases
    creator earnings past their hold. Set `CRON_SECRET` to protect it.
+4. **Custom domain**: add `topmart.live` (and `www.topmart.live`) under
+   Project → Settings → Domains, with the apex as the primary domain so `www`
+   redirects to it. Point DNS at Vercel (A `76.76.21.21` for the apex, CNAME
+   `cname.vercel-dns.com` for `www` — the Domains screen shows the current
+   records). Preview deployments keep their generated URLs; production
+   canonical URLs, share links, and auth emails all use `https://topmart.live`
+   via `src/config/site.ts`.
 
 ## Repository map
 
 ```
 supabase/migrations/   schema, settings, money functions, click/spot/bar, RLS
 supabase/local/        auth-shim so migrations run on plain Postgres (never deploy)
-src/config/site.ts     name, tagline, metadata — the rename point
+src/config/site.ts     name, tagline, domain, metadata — the brand point
 src/lib/               db pool, auth, settings, validation, rate limit, click prequal
 src/app/               routes: / board add dashboard earn admin l/[slug] go s api
 src/components/        Spot, TopThree, Board, Bar, countdowns, header/footer

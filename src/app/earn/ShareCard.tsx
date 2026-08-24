@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { SITE_NAME } from "@/config/site";
 
 const TARGETS = [
-  { key: "home",  label: "The homepage", hint: "Everything at once." },
-  { key: "board", label: "The Board",    hint: "The live ranking." },
+  { key: "home",  label: "The homepage", text: `See what's live on ${SITE_NAME}` },
+  { key: "board", label: "The Board",    text: `Who's #1 on ${SITE_NAME}?` },
 ] as const;
 
 /** Copy a tracked share link. Nothing here is paid per view. */
@@ -12,10 +13,10 @@ export function ShareCard({ code, origin }: { code: string; origin: string }) {
   const [copied, setCopied] = useState<string | null>(null);
   const url = `${origin}/s/${code}`;
 
-  async function copy(target: string, value: string) {
+  async function copy(target: string, value: string, text?: string) {
     try {
       if (navigator.share) {
-        await navigator.share({ url: value });
+        await navigator.share({ url: value, text });
         return;
       }
       await navigator.clipboard.writeText(value);
@@ -38,7 +39,7 @@ export function ShareCard({ code, origin }: { code: string; origin: string }) {
                 <div className="font-display text-lg font-700 tracking-[-0.02em]">{target.label}</div>
                 <div className="truncate font-mono text-xs text-ink-faint">{value}</div>
               </div>
-              <button type="button" className="btn btn-ghost shrink-0" onClick={() => copy(target.key, value)}>
+              <button type="button" className="btn btn-ghost shrink-0" onClick={() => copy(target.key, value, target.text)}>
                 {copied === target.key ? "Copied" : "Copy"}
               </button>
             </div>

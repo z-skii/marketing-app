@@ -61,7 +61,7 @@ export function ConfirmClient() {
           Your email is verified.
         </p>
         <p className="mt-3 max-w-md text-sm text-ink-soft">
-          Your account is ready. Sign in with your email and password.
+          Your TapMart account is ready. Sign in with your email and password.
         </p>
         <Link href="/sign-in?verified=1" className="btn btn-signal mt-6">
           Sign in

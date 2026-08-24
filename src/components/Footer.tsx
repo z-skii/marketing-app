@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { SITE_NAME, SITE_TAGLINE } from "@/config/site";
+import { CONTACT_EMAIL, SITE_NAME, SITE_TAGLINE } from "@/config/site";
 
 const LINKS = [
   { href: "/terms", label: "Terms" },
   { href: "/privacy", label: "Privacy" },
   { href: "/rules", label: "Rules" },
   { href: "/creator-terms", label: "Creator Terms" },
-  { href: "mailto:hello@example.com", label: "Contact" },
+  ...(CONTACT_EMAIL ? [{ href: `mailto:${CONTACT_EMAIL}`, label: "Contact" }] : []),
 ];
 
 export function Footer() {
