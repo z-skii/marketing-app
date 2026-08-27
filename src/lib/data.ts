@@ -30,6 +30,8 @@ export type SpotRow = {
   image_url: string | null;
   domain: string;
   total_opens: number;
+  /** Money allocated to this Spot placement today. Never the remaining balance. */
+  backed_cents_today: number;
 };
 
 export type BarRow = {
@@ -67,7 +69,7 @@ export async function getBoardCount(): Promise<number> {
 
 export async function getCurrentSpot(): Promise<SpotRow | null> {
   const row = await sqlOne<SpotRow>(`select * from public_spot`);
-  return row ? numeric(row, ["total_opens"]) : null;
+  return row ? numeric(row, ["total_opens", "backed_cents_today"]) : null;
 }
 
 /** Shown when nothing is scheduled right now, so the section is never empty-handed. */
@@ -100,11 +102,19 @@ export async function getNextSpot(): Promise<SpotRow | null> {
   return querySpotNext();
 }
 
-function querySpotNext(): Promise<SpotRow | null> {
-  return sqlOne<SpotRow>(
+async function querySpotNext(): Promise<SpotRow | null> {
+  const row = await sqlOne<SpotRow>(
     `select s.id as schedule_id, s.placement_id, s.starts_at, s.ends_at,
             l.id as link_id, l.slug, l.display_name, l.short_description,
-            l.image_url, l.domain, l.total_opens
+            l.image_url, l.domain, l.total_opens,
+            coalesce((
+              select sum(-cl.amount_cents)
+                from credit_ledger cl
+               where cl.transaction_type = 'spot_allocate'
+                 and cl.related_entity_type = 'placement'
+                 and cl.related_entity_id = s.placement_id
+                 and cl.created_at >= ny_day_start(now())
+            ), 0)::bigint as backed_cents_today
        from spot_schedules s
        join placements p on p.id = s.placement_id
        join links l on l.id = p.link_id
@@ -114,6 +124,7 @@ function querySpotNext(): Promise<SpotRow | null> {
       order by s.starts_at asc
       limit 1`,
   );
+  return row ? numeric(row, ["total_opens", "backed_cents_today"]) : null;
 }
 
 export async function getBar(): Promise<BarRow[]> {

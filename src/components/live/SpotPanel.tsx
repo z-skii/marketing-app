@@ -3,7 +3,7 @@ import { SpotCountdown } from "../SpotCountdown";
 import { StartsIn } from "../StartsIn";
 import { OpenButton } from "../OpenButton";
 import type { SpotRow } from "@/lib/data";
-import { formatCount } from "@/lib/money";
+import { formatCount, formatCredit } from "@/lib/money";
 
 /**
  * THE SPOT on the live screen: one link owns the largest panel for sixty
@@ -59,6 +59,12 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               surface="spot"
               className={`btn !min-h-[40px] !px-5 !py-2 md:!px-6 md:!py-3 ${upcoming ? "" : "btn-signal"}`}
             />
+            {spot.backed_cents_today > 0 && (
+              <span className="tnum font-mono text-xs font-600">
+                {formatCredit(spot.backed_cents_today)}{" "}
+                <span className="font-normal text-ink-faint">today</span>
+              </span>
+            )}
             <span className="tnum font-mono text-xs text-ink-faint">
               {formatCount(spot.total_opens)} opens
             </span>
