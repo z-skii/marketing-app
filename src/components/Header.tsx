@@ -41,7 +41,7 @@ export function Header({ user, stats }: { user: CurrentUser | null; stats?: Head
 
           {stats && (
             <dl className="flex min-w-0 items-baseline gap-3 md:gap-5" aria-label="Platform activity">
-              <div className="hidden items-baseline gap-1.5 sm:flex">
+              <div className="flex shrink-0 items-baseline gap-1.5 whitespace-nowrap">
                 <dd className="tnum font-mono text-xs font-600">{formatCount(stats.visitors)}</dd>
                 <dt className="eyebrow">Visitors</dt>
               </div>

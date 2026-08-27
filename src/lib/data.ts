@@ -228,12 +228,22 @@ export async function getLiveStats(): Promise<{ liveLinks: number; opensToday: n
 export async function getVisitorStats(): Promise<{ allTime: number; liveNow: number }> {
   try {
     const row = await sqlOne<{ all_time: string; live_now: string }>(
-      `select (select count(*) from visitors)::text as all_time,
+      `select (select coalesce(sum(visits), 0) from visitors)::text as all_time,
               (select count(*) from visitors
                 where last_seen > now() - interval '5 minutes')::text as live_now`,
     );
     return { allTime: Number(row?.all_time ?? 0), liveNow: Number(row?.live_now ?? 0) };
   } catch {
-    return { allTime: 0, liveNow: 0 };
+    // Deploys can precede the visits migration; fall back to unique visitors.
+    try {
+      const row = await sqlOne<{ all_time: string; live_now: string }>(
+        `select (select count(*) from visitors)::text as all_time,
+                (select count(*) from visitors
+                  where last_seen > now() - interval '5 minutes')::text as live_now`,
+      );
+      return { allTime: Number(row?.all_time ?? 0), liveNow: Number(row?.live_now ?? 0) };
+    } catch {
+      return { allTime: 0, liveNow: 0 };
+    }
   }
 }
