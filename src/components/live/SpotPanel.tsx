@@ -42,12 +42,25 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
         }`}
       >
         <div className="flex min-h-0 flex-col justify-center md:order-2 md:col-span-7">
-          <p translate="no" className="font-mono text-xs tracking-[0.1em] text-ink-faint uppercase">
-            {spot.domain}
-          </p>
-          <h3 className="mt-1.5 font-display text-[clamp(1.75rem,5.5vw,4.25rem)] leading-[0.9] font-800 tracking-[-0.045em] break-words md:mt-2">
-            {spot.display_name}
-          </h3>
+          <div className="flex items-center gap-3 md:block">
+            {spot.image_url && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={spot.image_url}
+                alt=""
+                className="h-14 w-14 shrink-0 border border-ink bg-paper-deep object-contain md:hidden"
+                loading="eager"
+              />
+            )}
+            <div className="min-w-0">
+              <p translate="no" className="font-mono text-xs tracking-[0.1em] text-ink-faint uppercase">
+                {spot.domain}
+              </p>
+              <h3 className="mt-1.5 font-display text-[clamp(1.75rem,5.5vw,4.25rem)] leading-[0.9] font-800 tracking-[-0.045em] break-words md:mt-2">
+                {spot.display_name}
+              </h3>
+            </div>
+          </div>
           {spot.short_description && (
             <p className="mt-2 hidden max-w-xl font-display text-sm leading-snug text-ink-soft sm:line-clamp-2 md:mt-3 md:text-lg">
               {spot.short_description}
@@ -86,7 +99,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               <img
                 src={spot.image_url}
                 alt=""
-                className="absolute inset-0 h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-contain"
                 loading="eager"
                 fetchPriority="high"
               />
