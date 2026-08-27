@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { BarRow } from "@/lib/data";
+import { formatCredit } from "@/lib/money";
 
 /**
  * THE BAR — a continuously moving tape of live links.
@@ -66,12 +67,15 @@ export function Bar({
                 {item.display_name}
               </span>
               <span translate="no" className="font-mono text-[0.625rem] leading-tight text-ink-faint group-hover:text-paper/70">
-                {item.domain}
+                {item.domain} · {formatCredit(item.spent_cents)} spent · {formatCredit(item.remaining_cents)} left
               </span>
             </span>
           ) : (
-            <span translate="no" className="font-mono text-[0.75rem] tracking-tight whitespace-nowrap">
-              {item.domain}
+            <span className="font-mono text-[0.75rem] tracking-tight whitespace-nowrap">
+              <span translate="no">{item.domain}</span>
+              <span className="tnum text-ink-faint group-hover:text-paper/70">
+                {" "}· {formatCredit(item.remaining_cents)} left
+              </span>
             </span>
           )}
         </Link>

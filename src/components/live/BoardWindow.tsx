@@ -201,14 +201,19 @@ export function BoardWindow({
                 </Link>
                 {!compact && (
                   <p className="tnum mt-0.5 truncate font-mono text-[0.6875rem]">
-                    {formatCredit(row.score_cents_today)}
-                    <span className="text-ink-faint"> / {formatCount(row.opens_today)} opens</span>
+                    {formatCredit(row.spent_cents)}
+                    <span className="text-ink-faint"> spent · </span>
+                    {formatCredit(row.remaining_cents)}
+                    <span className="text-ink-faint"> left / {formatCount(row.opens_today)} opens</span>
                   </p>
                 )}
               </div>
               {compact && (
-                <span className="tnum shrink-0 font-mono text-[0.6875rem]">
-                  {formatCredit(row.score_cents_today)}
+                <span className="tnum shrink-0 text-right font-mono text-[0.625rem] leading-tight">
+                  {formatCredit(row.spent_cents)} <span className="text-ink-faint">spent</span>
+                  <span className="block">
+                    {formatCredit(row.remaining_cents)} <span className="text-ink-faint">left</span>
+                  </span>
                 </span>
               )}
               <OpenButton

@@ -16,6 +16,8 @@ export type BoardRow = {
   image_url: string | null;
   domain: string;
   total_opens: number;
+  spent_cents: number;
+  remaining_cents: number;
 };
 
 export type SpotRow = {
@@ -30,8 +32,12 @@ export type SpotRow = {
   image_url: string | null;
   domain: string;
   total_opens: number;
-  /** Money allocated to this Spot placement today. Never the remaining balance. */
+  /** Money allocated to this Spot placement today. */
   backed_cents_today: number;
+  /** Money this placement has consumed through qualified opens. */
+  spent_cents: number;
+  /** Money still behind this placement. */
+  remaining_cents: number;
 };
 
 export type BarRow = {
@@ -42,6 +48,8 @@ export type BarRow = {
   display_name: string;
   domain: string;
   image_url: string | null;
+  spent_cents: number;
+  remaining_cents: number;
 };
 
 const numeric = <T extends Record<string, unknown>>(row: T, keys: string[]): T => {
@@ -58,7 +66,7 @@ export async function getBoard(limit = 100, offset = 0): Promise<BoardRow[]> {
     `select * from public_board order by rank limit $1 offset $2`, [limit, offset],
   );
   return rows.map((r) =>
-    numeric(r, ["rank", "previous_rank", "score_cents_today", "opens_today", "total_opens"]),
+    numeric(r, ["rank", "previous_rank", "score_cents_today", "opens_today", "total_opens", "spent_cents", "remaining_cents"]),
   );
 }
 
@@ -69,7 +77,7 @@ export async function getBoardCount(): Promise<number> {
 
 export async function getCurrentSpot(): Promise<SpotRow | null> {
   const row = await sqlOne<SpotRow>(`select * from public_spot`);
-  return row ? numeric(row, ["total_opens", "backed_cents_today"]) : null;
+  return row ? numeric(row, ["total_opens", "backed_cents_today", "spent_cents", "remaining_cents"]) : null;
 }
 
 /** Shown when nothing is scheduled right now, so the section is never empty-handed. */
@@ -114,22 +122,32 @@ async function querySpotNext(): Promise<SpotRow | null> {
                  and cl.related_entity_type = 'placement'
                  and cl.related_entity_id = s.placement_id
                  and cl.created_at >= ny_day_start(now())
-            ), 0)::bigint as backed_cents_today
+            ), 0)::bigint as backed_cents_today,
+            p.remaining_credit_cents::bigint as remaining_cents,
+            greatest(m.put_in - m.released - p.remaining_credit_cents, 0)::bigint as spent_cents
        from spot_schedules s
        join placements p on p.id = s.placement_id
        join links l on l.id = p.link_id
+      cross join lateral (
+        select coalesce(sum(-cl.amount_cents) filter (where cl.transaction_type
+                 in ('board_allocate','spot_allocate','bar_allocate')), 0) as put_in,
+               coalesce(sum(cl.amount_cents) filter (where cl.transaction_type
+                 = 'placement_release'), 0) as released
+          from credit_ledger cl
+         where cl.related_entity_type = 'placement' and cl.related_entity_id = p.id
+      ) m
       where s.starts_at > now() and s.status = 'scheduled'
         and p.status = 'active' and p.remaining_credit_cents > 0
         and l.moderation_status = 'approved' and l.enabled
       order by s.starts_at asc
       limit 1`,
   );
-  return row ? numeric(row, ["total_opens", "backed_cents_today"]) : null;
+  return row ? numeric(row, ["total_opens", "backed_cents_today", "spent_cents", "remaining_cents"]) : null;
 }
 
 export async function getBar(): Promise<BarRow[]> {
   const rows = await sql<BarRow>(`select * from public_bar order by queue_position`);
-  return rows.map((r) => numeric(r, ["queue_position"]));
+  return rows.map((r) => numeric(r, ["queue_position", "spent_cents", "remaining_cents"]));
 }
 
 export type RoundInfo = { id: string; starts_at: string; ends_at: string };

@@ -45,7 +45,10 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
         <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-2 lg:mt-4">
           <OpenButton placementId={first.placement_id} surface="top3" className="btn !min-h-[40px] !py-2" />
           <span className="tnum font-mono text-sm font-600">
-            {formatCredit(first.score_cents_today)} <span className="text-ink-faint">today</span>
+            {formatCredit(first.spent_cents)} <span className="text-ink-faint">spent</span>
+          </span>
+          <span className="tnum font-mono text-sm font-600">
+            {formatCredit(first.remaining_cents)} <span className="text-ink-faint">left</span>
           </span>
           <span className="tnum font-mono text-xs text-ink-faint">
             {formatCount(first.total_opens)} opens
@@ -73,7 +76,7 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
               </h3>
               <p className="tnum mt-0.5 truncate font-mono text-[0.6875rem] text-ink-faint short:hidden lg:short:block">
                 <span translate="no">{row.domain}</span>
-                {" "}/ {formatCredit(row.score_cents_today)} today
+                {" "}/ {formatCredit(row.spent_cents)} spent · {formatCredit(row.remaining_cents)} left
               </p>
             </div>
             <OpenButton

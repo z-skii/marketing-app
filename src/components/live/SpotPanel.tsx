@@ -59,12 +59,14 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               surface="spot"
               className={`btn !min-h-[40px] !px-5 !py-2 md:!px-6 md:!py-3 ${upcoming ? "" : "btn-signal"}`}
             />
-            {spot.backed_cents_today > 0 && (
-              <span className="tnum font-mono text-xs font-600">
-                {formatCredit(spot.backed_cents_today)}{" "}
-                <span className="font-normal text-ink-faint">today</span>
-              </span>
-            )}
+            <span className="tnum font-mono text-xs font-600">
+              {formatCredit(spot.spent_cents)}{" "}
+              <span className="font-normal text-ink-faint">spent</span>
+            </span>
+            <span className="tnum font-mono text-xs font-600">
+              {formatCredit(spot.remaining_cents)}{" "}
+              <span className="font-normal text-ink-faint">left</span>
+            </span>
             <span className="tnum font-mono text-xs text-ink-faint">
               {formatCount(spot.total_opens)} opens
             </span>
