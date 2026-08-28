@@ -37,7 +37,7 @@ Caps and models live in `agent_config` (seeded by migration 0013):
 
 ```sh
 pip install -r agents/requirements.txt
-export AGENTS_DATABASE_URL=postgresql://...   # Supabase pooler URI
+export AGENTS_DATABASE_URL=postgresql://...   # Supabase POOLER URI (see below)
 export XAI_API_KEY=...
 python -m agents.orchestrator --agent ops     # first ops run; check the Runs tab
 python -m agents.orchestrator --due           # what the schedule does
@@ -52,6 +52,12 @@ Move to a Railway/Fly service later for the worker's true 5-minute cadence.
 ## Secrets
 
 Required: `XAI_API_KEY`, `AGENTS_DATABASE_URL`.
+
+`AGENTS_DATABASE_URL` must be the **pooler** connection string (Supabase
+dashboard → Connect → Session or Transaction pooler), e.g.
+`postgresql://postgres.<ref>:<password>@aws-0-<region>.pooler.supabase.com:5432/postgres`.
+The direct `db.<ref>.supabase.co` host is IPv6-only and unreachable from
+GitHub Actions runners.
 Per tool, optional until that agent goes live: `STRIPE_SECRET_KEY`;
 `GMAIL_CLIENT_ID`/`GMAIL_CLIENT_SECRET`/`GMAIL_REFRESH_TOKEN`/`GMAIL_SENDER`;
 `HIGGSFIELD_API_KEY` (+ `HIGGSFIELD_API_SECRET`), `SUPABASE_URL` +
