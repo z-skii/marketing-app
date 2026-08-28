@@ -4,6 +4,7 @@ import { StartsIn } from "../StartsIn";
 import { OpenButton } from "../OpenButton";
 import type { SpotRow } from "@/lib/data";
 import { formatCount, formatCredit } from "@/lib/money";
+import { DetailsIcon, OpensIcon, RemainingIcon, SpentIcon } from "@/components/icons";
 
 /**
  * THE SPOT on the live screen: one link owns the largest panel for sixty
@@ -72,22 +73,28 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               surface="spot"
               className={`btn !min-h-[40px] !px-5 !py-2 md:!px-6 md:!py-3 ${upcoming ? "" : "btn-signal"}`}
             />
-            <span className="tnum font-mono text-xs font-600">
-              {formatCredit(spot.spent_cents)}{" "}
-              <span className="font-normal text-ink-faint">spent</span>
+            <span className="tnum inline-flex items-center gap-1 font-mono text-xs font-600" title="Spent">
+              <SpentIcon className="text-ink-faint" />
+              <span className="sr-only">Spent </span>
+              {formatCredit(spot.spent_cents)}
             </span>
-            <span className="tnum font-mono text-xs font-600">
-              {formatCredit(spot.remaining_cents)}{" "}
-              <span className="font-normal text-ink-faint">left</span>
+            <span className="tnum inline-flex items-center gap-1 font-mono text-xs font-600" title="Left">
+              <RemainingIcon className="text-ink-faint" />
+              <span className="sr-only">Left </span>
+              {formatCredit(spot.remaining_cents)}
             </span>
-            <span className="tnum font-mono text-xs text-ink-faint">
-              {formatCount(spot.total_opens)} opens
+            <span className="tnum inline-flex items-center gap-1 font-mono text-xs text-ink-faint" title="Opens">
+              <OpensIcon />
+              <span className="sr-only">Opens </span>
+              {formatCount(spot.total_opens)}
             </span>
             <Link
               href={`/l/${spot.slug}`}
-              className="eyebrow underline underline-offset-4 transition-colors hover:text-ink"
+              aria-label="Details"
+              title="Details"
+              className="text-ink-faint transition-colors hover:text-ink"
             >
-              Details
+              <DetailsIcon />
             </Link>
           </div>
         </div>

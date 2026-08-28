@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { BarRow } from "@/lib/data";
 import { formatCredit } from "@/lib/money";
+import { RemainingIcon, SpentIcon } from "@/components/icons";
 
 /**
  * THE BAR — a continuously moving tape of live links.
@@ -66,15 +67,27 @@ export function Bar({
               <span className="font-display text-[0.8125rem] leading-tight font-700 tracking-[-0.02em]">
                 {item.display_name}
               </span>
-              <span translate="no" className="font-mono text-[0.625rem] leading-tight text-ink-faint group-hover:text-paper/70">
-                {item.domain} · {formatCredit(item.spent_cents)} spent · {formatCredit(item.remaining_cents)} left
+              <span className="flex items-center gap-1.5 font-mono text-[0.625rem] leading-tight text-ink-faint group-hover:text-paper/70">
+                <span translate="no">{item.domain}</span>
+                <span className="inline-flex items-center gap-0.5" title="Spent">
+                  <SpentIcon />
+                  <span className="sr-only">Spent </span>
+                  {formatCredit(item.spent_cents)}
+                </span>
+                <span className="inline-flex items-center gap-0.5" title="Left">
+                  <RemainingIcon />
+                  <span className="sr-only">Left </span>
+                  {formatCredit(item.remaining_cents)}
+                </span>
               </span>
             </span>
           ) : (
-            <span className="font-mono text-[0.75rem] tracking-tight whitespace-nowrap">
+            <span className="inline-flex items-center gap-1.5 font-mono text-[0.75rem] tracking-tight whitespace-nowrap">
               <span translate="no">{item.domain}</span>
-              <span className="tnum text-ink-faint group-hover:text-paper/70">
-                {" "}· {formatCredit(item.remaining_cents)} left
+              <span className="tnum inline-flex items-center gap-1 text-ink-faint group-hover:text-paper/70" title="Left">
+                <RemainingIcon />
+                <span className="sr-only">Left </span>
+                {formatCredit(item.remaining_cents)}
               </span>
             </span>
           )}

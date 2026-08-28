@@ -46,3 +46,56 @@ export function ResetIcon({ className = "" }: IconProps) {
     </svg>
   );
 }
+
+/** Spent: outflow — value leaving the tray. */
+export function SpentIcon({ className = "" }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"
+      className={`${base} ${className}`} fill="none" stroke="currentColor" strokeWidth="1.3"
+    >
+      <path d="M1.8 7.4v2.8h8.4V7.4" />
+      <path d="M6 7.2V1.6M3.6 4 6 1.6 8.4 4" />
+    </svg>
+  );
+}
+
+/** Remaining: the fuel gauge — what is still in the tank. */
+export function RemainingIcon({ className = "" }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"
+      className={`${base} ${className}`} fill="none" stroke="currentColor" strokeWidth="1.3"
+    >
+      <rect x="1.2" y="3.8" width="8.4" height="4.4" />
+      <path d="M10.8 5.4v1.2" />
+      <rect x="2.4" y="5" width="3" height="2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+/** Opens: the cursor — a tap that went through. */
+export function OpensIcon({ className = "" }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"
+      className={`${base} ${className}`} fill="currentColor" stroke="none"
+    >
+      <path d="M3.2 1.2v8.4l2.3-2.1 1.4 3.1 1.5-.7-1.4-3 3-.3z" />
+    </svg>
+  );
+}
+
+/** Details: the info tile. */
+export function DetailsIcon({ className = "" }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"
+      className={`${base} ${className}`} fill="none" stroke="currentColor" strokeWidth="1.3"
+    >
+      <rect x="1.5" y="1.5" width="9" height="9" />
+      <path d="M6 5.6v3" />
+      <circle cx="6" cy="3.7" r="0.8" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}

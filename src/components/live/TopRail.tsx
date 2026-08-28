@@ -2,6 +2,7 @@ import Link from "next/link";
 import { OpenButton } from "../OpenButton";
 import type { BoardRow } from "@/lib/data";
 import { formatCredit, formatCount } from "@/lib/money";
+import { OpensIcon, RemainingIcon, SpentIcon } from "@/components/icons";
 
 /**
  * TOP 3 as a permanent rail beside The Spot. Number one owns most of the
@@ -44,14 +45,20 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
         </div>
         <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-2 lg:mt-4">
           <OpenButton placementId={first.placement_id} surface="top3" className="btn !min-h-[40px] !py-2" />
-          <span className="tnum font-mono text-sm font-600">
-            {formatCredit(first.spent_cents)} <span className="text-ink-faint">spent</span>
+          <span className="tnum inline-flex items-center gap-1 font-mono text-sm font-600" title="Spent">
+            <SpentIcon className="text-ink-faint" />
+            <span className="sr-only">Spent </span>
+            {formatCredit(first.spent_cents)}
           </span>
-          <span className="tnum font-mono text-sm font-600">
-            {formatCredit(first.remaining_cents)} <span className="text-ink-faint">left</span>
+          <span className="tnum inline-flex items-center gap-1 font-mono text-sm font-600" title="Left">
+            <RemainingIcon className="text-ink-faint" />
+            <span className="sr-only">Left </span>
+            {formatCredit(first.remaining_cents)}
           </span>
-          <span className="tnum font-mono text-xs text-ink-faint">
-            {formatCount(first.total_opens)} opens
+          <span className="tnum inline-flex items-center gap-1 font-mono text-xs text-ink-faint" title="Opens">
+            <OpensIcon />
+            <span className="sr-only">Opens </span>
+            {formatCount(first.total_opens)}
           </span>
         </div>
       </article>
@@ -76,7 +83,16 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
               </h3>
               <p className="tnum mt-0.5 truncate font-mono text-[0.6875rem] text-ink-faint short:hidden lg:short:block">
                 <span translate="no">{row.domain}</span>
-                {" "}/ {formatCredit(row.spent_cents)} spent · {formatCredit(row.remaining_cents)} left
+                <span className="ml-2 inline-flex items-center gap-1" title="Spent">
+                  <SpentIcon />
+                  <span className="sr-only">Spent </span>
+                  {formatCredit(row.spent_cents)}
+                </span>
+                <span className="ml-2 inline-flex items-center gap-1" title="Left">
+                  <RemainingIcon />
+                  <span className="sr-only">Left </span>
+                  {formatCredit(row.remaining_cents)}
+                </span>
               </p>
             </div>
             <OpenButton
