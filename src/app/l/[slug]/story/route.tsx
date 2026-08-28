@@ -210,15 +210,28 @@ async function fetchArtwork(url: string | null): Promise<Artwork | null> {
     // photo people see, not the file's canvas.
     try {
       const sharp = (await import("sharp")).default;
+      // Cautious trim, kept only when it removed a real margin — the photo
+      // itself never loses an edge or a corner.
+      const meta = await sharp(buf).metadata();
       const { data, info } = await sharp(buf)
-        .trim({ threshold: 40 })
+        .trim({ threshold: 10 })
         .png()
         .toBuffer({ resolveWithObject: true });
-      if (info.width > 8 && info.height > 8) {
+      const meaningful =
+        info.width > 8 && info.height > 8 && meta.width && meta.height &&
+        (info.width <= meta.width * 0.97 || info.height <= meta.height * 0.97);
+      if (meaningful) {
         return {
           dataUrl: `data:image/png;base64,${data.toString("base64")}`,
           width: info.width,
           height: info.height,
+        };
+      }
+      if (meta.width && meta.height) {
+        return {
+          dataUrl: `data:${type};base64,${buf.toString("base64")}`,
+          width: meta.width,
+          height: meta.height,
         };
       }
     } catch {
