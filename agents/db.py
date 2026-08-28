@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from contextlib import contextmanager
 from typing import Any, Iterator
 
@@ -28,6 +29,9 @@ def connection() -> psycopg.Connection:
                 "AGENTS_DATABASE_URL (or DATABASE_URL) is not set. Point it at the "
                 "Supabase connection pooler, or a local Postgres for development."
             )
+        # Supabase's dashboard appends ?pgbouncer=true (a Prisma convention);
+        # libpq rejects unknown parameters, so drop it.
+        url = re.sub(r"pgbouncer=[^&]*&?", "", url).rstrip("?&")
         _conn = psycopg.connect(url, row_factory=dict_row, autocommit=True)
         # Supabase's transaction pooler (PgBouncer) doesn't support server-side
         # prepared statements; disabling them keeps either pooler mode safe.
