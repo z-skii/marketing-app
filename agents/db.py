@@ -20,6 +20,25 @@ from psycopg.rows import dict_row
 _conn: psycopg.Connection | None = None
 
 
+def _sanitize_url(url: str) -> str:
+    """Make a pasted connection string acceptable to libpq: drop Prisma's
+    ?pgbouncer=true parameter and percent-encode characters (spaces above
+    all) inside the password, which Node's driver tolerates raw but psycopg
+    rejects."""
+    from urllib.parse import quote
+
+    url = re.sub(r"pgbouncer=[^&]*&?", "", url).rstrip("?&")
+    scheme, sep, remainder = url.partition("://")
+    if sep and "@" in remainder:
+        userinfo, _, hostpart = remainder.rpartition("@")
+        user, colon, password = userinfo.partition(":")
+        if colon:
+            # safe="%" keeps already-encoded sequences intact.
+            userinfo = f"{user}:{quote(password, safe='%')}"
+        return f"{scheme}://{userinfo}@{hostpart}"
+    return url
+
+
 def _candidate_urls() -> list[str]:
     urls = []
     for var in ("AGENTS_DATABASE_URL", "DATABASE_URL", "DIRECT_URL"):
@@ -43,9 +62,7 @@ def connection() -> psycopg.Connection:
         # so a stale direct URL falls through to a pooler URL.
         last_error: Exception | None = None
         for url in urls:
-            # Supabase's dashboard appends ?pgbouncer=true (a Prisma
-            # convention); libpq rejects unknown parameters, so drop it.
-            url = re.sub(r"pgbouncer=[^&]*&?", "", url).rstrip("?&")
+            url = _sanitize_url(url)
             try:
                 _conn = psycopg.connect(
                     url, row_factory=dict_row, autocommit=True, connect_timeout=10
