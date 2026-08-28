@@ -49,7 +49,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               <img
                 src={spot.image_url}
                 alt=""
-                className="max-h-32 max-w-32 shrink-0 border border-ink bg-paper-deep short:max-h-16 short:max-w-16 md:hidden"
+                className="max-h-44 max-w-40 shrink-0 border border-ink bg-paper-deep short:max-h-16 short:max-w-16 md:hidden"
                 loading="eager"
               />
             )}

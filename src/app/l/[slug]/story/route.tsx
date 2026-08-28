@@ -33,11 +33,12 @@ export async function GET(
   // The frame hugs the photo exactly: scale its true proportions into the
   // available plate area, whatever shape was uploaded.
   const MAX_W = 904;
-  const MAX_H = 880;
+  const MAX_H = 920;
   let artW = MAX_W;
   let artH = MAX_H;
   if (art?.width && art?.height) {
-    const scale = Math.min(MAX_W / art.width, MAX_H / art.height, 1.6);
+    // Fill the plate: scale up or down until one side touches the limit.
+    const scale = Math.min(MAX_W / art.width, MAX_H / art.height);
     artW = Math.round(art.width * scale);
     artH = Math.round(art.height * scale);
   }
