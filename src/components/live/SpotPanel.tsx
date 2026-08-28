@@ -47,7 +47,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
             down before it ever clips. Desktop keeps the split columns. */}
         <div className="flex h-full min-h-0 items-center gap-3 md:order-2 md:col-span-7 md:flex-col md:items-stretch md:justify-center md:gap-0">
           {spot.image_url && (
-            <div className="flex h-full min-h-0 w-[42%] shrink-0 items-center justify-center py-1 md:hidden">
+            <div className="flex h-full min-h-0 w-[46%] shrink-0 items-center justify-center py-1 md:hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/api/art/${spot.link_id}?v=2`}
@@ -130,7 +130,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
       </div>
 
       {upcoming ? (
-        <p className="mt-2.5 border-t border-rule pt-2.5 font-display text-sm text-ink-soft [@media(max-height:700px)]:hidden md:mt-4 md:pt-3 md:[@media(max-height:700px)]:flex">
+        <p className="mt-2.5 hidden border-t border-rule pt-2.5 font-display text-sm text-ink-soft md:mt-4 md:block md:pt-3">
           The Spot is open this minute.{" "}
           <Link href="/add" className="text-signal underline underline-offset-4">
             Take it
@@ -139,7 +139,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
       ) : (
         next &&
         next.schedule_id !== spot.schedule_id && (
-          <p className="mt-2.5 flex items-baseline gap-2 border-t border-rule pt-2.5 [@media(max-height:700px)]:hidden md:mt-4 md:pt-3 md:[@media(max-height:700px)]:flex">
+          <p className="mt-2.5 hidden items-baseline gap-2 border-t border-rule pt-2.5 md:mt-4 md:flex md:pt-3">
             <span className="eyebrow">Up next</span>
             <span translate="no" className="font-mono text-xs text-ink-soft">{next.domain}</span>
           </p>

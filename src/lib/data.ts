@@ -77,7 +77,61 @@ export async function getBoardCount(): Promise<number> {
 
 export async function getCurrentSpot(): Promise<SpotRow | null> {
   const row = await sqlOne<SpotRow>(`select * from public_spot`);
-  return row ? numeric(row, ["total_opens", "backed_cents_today", "spent_cents", "remaining_cents"]) : null;
+  if (row) return numeric(row, ["total_opens", "backed_cents_today", "spent_cents", "remaining_cents"]);
+  return getCycleSpot();
+}
+
+/**
+ * The Spot never goes dark while anyone has paid for it: outside the
+ * guaranteed scheduled appearances, the active Spot placements rotate through
+ * sixty-second cycles, one per minute of the clock, deterministically. The
+ * timer therefore always resets on the minute. Scheduled slots keep priority,
+ * and click billing is untouched — airtime was never what's billed.
+ */
+async function getCycleSpot(): Promise<SpotRow | null> {
+  const minute = Math.floor(Date.now() / 60_000);
+  const row = await sqlOne<SpotRow & { idx: string; total: string }>(
+    `with eligible as (
+       select p.id as placement_id, l.id as link_id, l.slug, l.display_name,
+              l.short_description, l.image_url, l.domain, l.total_opens,
+              p.remaining_credit_cents::bigint as remaining_cents,
+              greatest(m.put_in - m.released - p.remaining_credit_cents, 0)::bigint as spent_cents,
+              coalesce((
+                select sum(-cl.amount_cents)
+                  from credit_ledger cl
+                 where cl.transaction_type = 'spot_allocate'
+                   and cl.related_entity_type = 'placement'
+                   and cl.related_entity_id = p.id
+                   and cl.created_at >= ny_day_start(now())
+              ), 0)::bigint as backed_cents_today,
+              (row_number() over (order by p.activated_at, p.id)) - 1 as idx,
+              count(*) over () as total
+         from placements p
+         join links l on l.id = p.link_id
+        cross join lateral (
+          select coalesce(sum(-cl.amount_cents) filter (where cl.transaction_type
+                   in ('board_allocate','spot_allocate','bar_allocate')), 0) as put_in,
+                 coalesce(sum(cl.amount_cents) filter (where cl.transaction_type
+                   = 'placement_release'), 0) as released
+            from credit_ledger cl
+           where cl.related_entity_type = 'placement' and cl.related_entity_id = p.id
+        ) m
+        where p.placement_type = 'spot' and p.status = 'active'
+          and p.remaining_credit_cents > 0
+          and l.moderation_status = 'approved' and l.enabled
+     )
+     select * from eligible where idx = ($1::bigint % total)`,
+    [minute],
+  );
+  if (!row) return null;
+  const cycleStart = minute * 60_000;
+  const spot: SpotRow = {
+    ...numeric(row, ["total_opens", "backed_cents_today", "spent_cents", "remaining_cents"]),
+    schedule_id: `cycle-${minute}`,
+    starts_at: new Date(cycleStart).toISOString(),
+    ends_at: new Date(cycleStart + 60_000).toISOString(),
+  };
+  return spot;
 }
 
 /** Shown when nothing is scheduled right now, so the section is never empty-handed. */
