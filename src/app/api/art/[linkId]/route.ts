@@ -5,10 +5,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * A link's artwork with the dead space cut off. Uploads are often screenshots
- * padded with their own background; every surface that displays the photo goes
- * through here so what people see is the content, not the canvas. Falls back
- * to the original file whenever trimming isn't possible.
+ * A link's artwork, exactly as uploaded — never trimmed or cropped — only
+ * normalized to a generous size so every surface can scale it down to fill
+ * its space. Falls back to redirecting to the original file.
  */
 export async function GET(
   _req: Request,
@@ -33,20 +32,10 @@ export async function GET(
 
     try {
       const sharp = (await import("sharp")).default;
-      // Remove canvas padding only when it clearly is padding: a cautious
-      // threshold, and the trim is discarded unless it removed a real margin
-      // — so the photo itself never loses an edge or a corner. Then
-      // normalize to a generous size so the page can always scale the photo
-      // DOWN to fill its space.
-      const meta = await sharp(buf).metadata();
-      const { data, info } = await sharp(buf)
-        .trim({ threshold: 10 })
-        .png()
-        .toBuffer({ resolveWithObject: true });
-      const meaningful =
-        info.width > 8 && info.height > 8 && meta.width && meta.height &&
-        (info.width <= meta.width * 0.97 || info.height <= meta.height * 0.97);
-      const out = await sharp(meaningful ? data : buf)
+      // The uploaded file is shown exactly as uploaded — never trimmed or
+      // cropped. It is only normalized to a generous size so the page can
+      // always scale the photo DOWN to fill its space.
+      const out = await sharp(buf)
         .resize(1400, 1400, { fit: "inside", withoutEnlargement: false })
         .png()
         .toBuffer();

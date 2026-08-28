@@ -205,28 +205,11 @@ async function fetchArtwork(url: string | null): Promise<Artwork | null> {
     const buf = Buffer.from(await res.arrayBuffer());
     if (buf.length > 4_000_000) return null;
 
-    // Cut away uniform dead space around the actual content — screenshots
-    // arrive padded with their own background, and the frame should wrap the
-    // photo people see, not the file's canvas.
+    // The uploaded file is framed exactly as uploaded — never trimmed or
+    // cropped. sharp only reads its true pixel size for the frame.
     try {
       const sharp = (await import("sharp")).default;
-      // Cautious trim, kept only when it removed a real margin — the photo
-      // itself never loses an edge or a corner.
       const meta = await sharp(buf).metadata();
-      const { data, info } = await sharp(buf)
-        .trim({ threshold: 10 })
-        .png()
-        .toBuffer({ resolveWithObject: true });
-      const meaningful =
-        info.width > 8 && info.height > 8 && meta.width && meta.height &&
-        (info.width <= meta.width * 0.97 || info.height <= meta.height * 0.97);
-      if (meaningful) {
-        return {
-          dataUrl: `data:image/png;base64,${data.toString("base64")}`,
-          width: info.width,
-          height: info.height,
-        };
-      }
       if (meta.width && meta.height) {
         return {
           dataUrl: `data:${type};base64,${buf.toString("base64")}`,
@@ -235,7 +218,7 @@ async function fetchArtwork(url: string | null): Promise<Artwork | null> {
         };
       }
     } catch {
-      // Trim can refuse (single-color image, exotic format) — use the file as-is.
+      // Unreadable metadata — fall through to the header parsers.
     }
 
     const dims = imageDimensions(buf) ?? {};
