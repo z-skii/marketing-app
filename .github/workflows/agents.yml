@@ -1,0 +1,81 @@
+# Tapmart agent system — scheduled runs.
+#
+# Every 15 minutes: execute any owner-approved proposals (worker), then run
+# whichever agents are due on their agent_config schedules, then drain the
+# worker again so anything approved mid-window executes without waiting for
+# the next tick. GitHub cron is best-effort; moving the orchestrator to a
+# Railway/Fly service later tightens the worker to its 5-minute cadence.
+#
+# Required repo secrets: AGENTS_DATABASE_URL (Supabase pooler URI), XAI_API_KEY.
+# Optional (each agent degrades gracefully without its own): STRIPE_SECRET_KEY,
+# GMAIL_CLIENT_ID/GMAIL_CLIENT_SECRET/GMAIL_REFRESH_TOKEN/GMAIL_SENDER,
+# HIGGSFIELD_API_KEY, SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY,
+# META_ACCESS_TOKEN/META_AD_ACCOUNT_ID, TIKTOK_ACCESS_TOKEN/TIKTOK_ADVERTISER_ID,
+# X_API_KEY/X_API_SECRET/X_ACCESS_TOKEN/X_ACCESS_TOKEN_SECRET,
+# THREADS_ACCESS_TOKEN/THREADS_USER_ID.
+
+name: agents
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+    inputs:
+      agent:
+        description: "Run one agent now (ops/admin/creative/ads/social), or leave empty for --due"
+        required: false
+
+concurrency:
+  group: agents
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: agents/requirements.txt
+
+      - run: pip install -r agents/requirements.txt
+
+      - name: Run agents
+        env:
+          AGENTS_DATABASE_URL: ${{ secrets.AGENTS_DATABASE_URL }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+          HIGGSFIELD_API_KEY: ${{ secrets.HIGGSFIELD_API_KEY }}
+          HIGGSFIELD_API_SECRET: ${{ secrets.HIGGSFIELD_API_SECRET }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          META_AD_ACCOUNT_ID: ${{ secrets.META_AD_ACCOUNT_ID }}
+          TIKTOK_ACCESS_TOKEN: ${{ secrets.TIKTOK_ACCESS_TOKEN }}
+          TIKTOK_ADVERTISER_ID: ${{ secrets.TIKTOK_ADVERTISER_ID }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+        run: |
+          if [ -z "$AGENTS_DATABASE_URL" ] || [ -z "$XAI_API_KEY" ]; then
+            echo "AGENTS_DATABASE_URL / XAI_API_KEY secrets not set; skipping."
+            exit 0
+          fi
+          python -m agents.worker
+          if [ -n "${{ inputs.agent }}" ]; then
+            python -m agents.orchestrator --agent "${{ inputs.agent }}"
+          else
+            python -m agents.orchestrator --due
+          fi
+          python -m agents.worker
