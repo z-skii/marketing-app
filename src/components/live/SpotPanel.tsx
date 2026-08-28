@@ -49,7 +49,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               <img
                 src={spot.image_url}
                 alt=""
-                className="h-32 w-32 shrink-0 border border-ink bg-paper-deep object-contain short:h-16 short:w-16 md:hidden"
+                className="max-h-32 max-w-32 shrink-0 border border-ink bg-paper-deep short:max-h-16 short:max-w-16 md:hidden"
                 loading="eager"
               />
             )}
@@ -100,24 +100,27 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
         </div>
 
         <div className="hidden min-h-0 md:order-1 md:col-span-5 md:block">
-          <div className="relative h-full max-h-full w-full overflow-hidden border border-ink bg-paper-deep">
-            {spot.image_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
+          {spot.image_url ? (
+            <div className="flex h-full max-h-full w-full items-center justify-center">
+              {/* The border belongs to the photo, whatever its shape. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={spot.image_url}
                 alt=""
-                className="absolute inset-0 h-full w-full object-contain"
+                className="max-h-full max-w-full border border-ink bg-paper-deep"
                 loading="eager"
                 fetchPriority="high"
               />
-            ) : (
+            </div>
+          ) : (
+            <div className="relative h-full max-h-full w-full overflow-hidden border border-ink bg-paper-deep">
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-display text-[clamp(3rem,7vw,6rem)] font-800 text-rule-strong">
                   {spot.display_name.slice(0, 2).toUpperCase()}
                 </span>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 

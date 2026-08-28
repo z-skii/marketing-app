@@ -25,10 +25,22 @@ export async function GET(
   const link = await getLinkBySlug(slug);
   if (!link) return new Response("Not found", { status: 404 });
 
-  const art = await fetchAsDataUrl(link.image_url);
+  const art = await fetchArtwork(link.image_url);
   const initials = link.display_name.slice(0, 2).toUpperCase();
   const name = link.display_name.toUpperCase();
   const nameSize = name.length > 16 ? 88 : name.length > 9 ? 116 : 148;
+
+  // The frame hugs the photo exactly: scale its true proportions into the
+  // available plate area, whatever shape was uploaded.
+  const MAX_W = 904;
+  const MAX_H = 880;
+  let artW = MAX_W;
+  let artH = MAX_H;
+  if (art?.width && art?.height) {
+    const scale = Math.min(MAX_W / art.width, MAX_H / art.height, 1.6);
+    artW = Math.round(art.width * scale);
+    artH = Math.round(art.height * scale);
+  }
 
   return new ImageResponse(
     (
@@ -60,21 +72,42 @@ export async function GET(
             flex: 1,
             alignItems: "center",
             justifyContent: "center",
-            border: `3px solid ${PAPER}`,
-            background: "#121214",
             marginTop: 72,
-            overflow: "hidden",
           }}
         >
           {art ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={art}
-              alt=""
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
+            <div
+              style={{
+                display: "flex",
+                width: artW,
+                height: artH,
+                border: `3px solid ${PAPER}`,
+                background: "#121214",
+                overflow: "hidden",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={art.dataUrl}
+                alt=""
+                style={{ width: "100%", height: "100%", objectFit: art.width ? "cover" : "contain" }}
+              />
+            </div>
           ) : (
-            <div style={{ display: "flex", fontSize: 340, fontWeight: 800, color: "#2a2a2e" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: MAX_W,
+                height: MAX_H,
+                border: `3px solid ${PAPER}`,
+                background: "#121214",
+                fontSize: 340,
+                fontWeight: 800,
+                color: "#2a2a2e",
+              }}
+            >
               {initials}
             </div>
           )}
@@ -154,7 +187,9 @@ export async function GET(
   );
 }
 
-async function fetchAsDataUrl(url: string | null): Promise<string | null> {
+type Artwork = { dataUrl: string; width?: number; height?: number };
+
+async function fetchArtwork(url: string | null): Promise<Artwork | null> {
   if (!url) return null;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(4500) });
@@ -163,8 +198,43 @@ async function fetchAsDataUrl(url: string | null): Promise<string | null> {
     if (!type.startsWith("image/")) return null;
     const buf = Buffer.from(await res.arrayBuffer());
     if (buf.length > 4_000_000) return null;
-    return `data:${type};base64,${buf.toString("base64")}`;
+    const dims = imageDimensions(buf) ?? {};
+    return { dataUrl: `data:${type};base64,${buf.toString("base64")}`, ...dims };
   } catch {
     return null;
   }
+}
+
+/** True pixel size for the common formats; undefined when unrecognized. */
+function imageDimensions(b: Buffer): { width: number; height: number } | null {
+  // PNG: 8-byte signature, then IHDR with width/height at bytes 16 and 20.
+  if (b.length > 24 && b[0] === 0x89 && b[1] === 0x50) {
+    return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
+  }
+  // GIF: little-endian at bytes 6 and 8.
+  if (b.length > 10 && b[0] === 0x47 && b[1] === 0x49) {
+    return { width: b.readUInt16LE(6), height: b.readUInt16LE(8) };
+  }
+  // JPEG: walk the markers to a start-of-frame segment.
+  if (b.length > 4 && b[0] === 0xff && b[1] === 0xd8) {
+    let i = 2;
+    while (i + 9 < b.length) {
+      if (b[i] !== 0xff) { i++; continue; }
+      const marker = b[i + 1];
+      if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+        return { height: b.readUInt16BE(i + 5), width: b.readUInt16BE(i + 7) };
+      }
+      i += 2 + b.readUInt16BE(i + 2);
+    }
+  }
+  // WebP extended (VP8X): 24-bit sizes minus one at byte 24.
+  if (b.length > 30 && b.toString("ascii", 0, 4) === "RIFF" && b.toString("ascii", 8, 12) === "WEBP") {
+    if (b.toString("ascii", 12, 16) === "VP8X") {
+      return {
+        width: 1 + b.readUIntLE(24, 3),
+        height: 1 + b.readUIntLE(27, 3),
+      };
+    }
+  }
+  return null;
 }
