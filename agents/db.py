@@ -20,19 +20,41 @@ from psycopg.rows import dict_row
 _conn: psycopg.Connection | None = None
 
 
+def _candidate_urls() -> list[str]:
+    urls = []
+    for var in ("AGENTS_DATABASE_URL", "DATABASE_URL", "DIRECT_URL"):
+        url = os.environ.get(var)
+        if url and url not in urls:
+            urls.append(url)
+    return urls
+
+
 def connection() -> psycopg.Connection:
     global _conn
     if _conn is None or _conn.closed:
-        url = os.environ.get("AGENTS_DATABASE_URL") or os.environ.get("DATABASE_URL")
-        if not url:
+        urls = _candidate_urls()
+        if not urls:
             raise RuntimeError(
                 "AGENTS_DATABASE_URL (or DATABASE_URL) is not set. Point it at the "
                 "Supabase connection pooler, or a local Postgres for development."
             )
-        # Supabase's dashboard appends ?pgbouncer=true (a Prisma convention);
-        # libpq rejects unknown parameters, so drop it.
-        url = re.sub(r"pgbouncer=[^&]*&?", "", url).rstrip("?&")
-        _conn = psycopg.connect(url, row_factory=dict_row, autocommit=True)
+        # The first URL that actually connects wins: Supabase's direct
+        # db.<ref> host is IPv6-only and unreachable from IPv4-only runners,
+        # so a stale direct URL falls through to a pooler URL.
+        last_error: Exception | None = None
+        for url in urls:
+            # Supabase's dashboard appends ?pgbouncer=true (a Prisma
+            # convention); libpq rejects unknown parameters, so drop it.
+            url = re.sub(r"pgbouncer=[^&]*&?", "", url).rstrip("?&")
+            try:
+                _conn = psycopg.connect(
+                    url, row_factory=dict_row, autocommit=True, connect_timeout=10
+                )
+                break
+            except psycopg.OperationalError as exc:
+                last_error = exc
+        else:
+            raise last_error  # every candidate failed; surface the last error
         # Supabase's transaction pooler (PgBouncer) doesn't support server-side
         # prepared statements; disabling them keeps either pooler mode safe.
         _conn.prepare_threshold = None

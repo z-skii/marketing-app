@@ -47,6 +47,8 @@ jobs:
       - name: Run agents
         env:
           AGENTS_DATABASE_URL: ${{ secrets.AGENTS_DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
           GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
@@ -68,8 +70,8 @@ jobs:
           THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
           THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
         run: |
-          if [ -z "$AGENTS_DATABASE_URL" ] || [ -z "$XAI_API_KEY" ]; then
-            echo "AGENTS_DATABASE_URL / XAI_API_KEY secrets not set; skipping."
+          if [ -z "$AGENTS_DATABASE_URL$DATABASE_URL$DIRECT_URL" ] || [ -z "$XAI_API_KEY" ]; then
+            echo "Database URL / XAI_API_KEY secrets not set; skipping."
             exit 0
           fi
           python -m agents.worker
