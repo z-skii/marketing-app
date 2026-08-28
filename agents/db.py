@@ -39,12 +39,36 @@ def _sanitize_url(url: str) -> str:
     return url
 
 
+def _derive_pooler_url(url: str) -> str | None:
+    """Supabase's direct db.<ref>.supabase.co host is IPv6-only, so a pasted
+    direct connection string is unreachable from IPv4-only runners. Derive
+    the equivalent pooler URL (postgres.<ref> user, IPv4 pooler host) as a
+    fallback candidate. Override the host with SUPABASE_POOLER_HOST if the
+    project ever leaves us-east-1."""
+    match = re.match(
+        r"(?P<scheme>[^:]+)://(?P<user>[^:@]+):(?P<password>.*)"
+        r"@db\.(?P<ref>[a-z0-9]+)\.supabase\.co(?::\d+)?(?P<rest>/.*)?$",
+        url,
+    )
+    if not match:
+        return None
+    host = os.environ.get("SUPABASE_POOLER_HOST", "aws-0-us-east-1.pooler.supabase.com")
+    return (
+        f"{match['scheme']}://{match['user']}.{match['ref']}:{match['password']}"
+        f"@{host}:5432{match['rest'] or '/postgres'}"
+    )
+
+
 def _candidate_urls() -> list[str]:
     urls = []
     for var in ("AGENTS_DATABASE_URL", "DATABASE_URL", "DIRECT_URL"):
         url = os.environ.get(var)
         if url and url not in urls:
             urls.append(url)
+    for url in list(urls):
+        derived = _derive_pooler_url(url)
+        if derived and derived not in urls:
+            urls.append(derived)
     return urls
 
 
