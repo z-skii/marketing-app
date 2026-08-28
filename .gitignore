@@ -40,3 +40,8 @@ CLAUDE.md
 .env*
 
 supabase/.temp/
+
+# Python (agents service)
+__pycache__/
+*.pyc
+.pytest_cache/

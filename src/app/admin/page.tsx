@@ -40,9 +40,14 @@ export default async function AdminPage() {
     <>
       <Header user={user} />
       <main id="main" className="shell py-10 md:py-14">
-        <h1 className="font-display text-3xl leading-[0.92] font-800 tracking-[-0.045em] md:text-4xl">
-          Admin
-        </h1>
+        <div className="flex items-baseline gap-4">
+          <h1 className="font-display text-3xl leading-[0.92] font-800 tracking-[-0.045em] md:text-4xl">
+            Admin
+          </h1>
+          <a href="/admin/agents" className="font-mono text-xs text-ink-faint underline">
+            agents
+          </a>
+        </div>
 
         <section className="mt-8">
           <h2 className="eyebrow">Money</h2>
