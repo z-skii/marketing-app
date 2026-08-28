@@ -40,14 +40,16 @@ export async function GET(
         .png()
         .toBuffer();
       return new NextResponse(new Uint8Array(out), {
+        // Short-lived cache only: a changed upload or a fixed pipeline must
+        // reach every viewer within a minute, never an hour.
         headers: {
           "content-type": "image/png",
-          "cache-control": "public, max-age=300, s-maxage=3600",
+          "cache-control": "public, max-age=60",
         },
       });
     } catch {
       return new NextResponse(new Uint8Array(buf), {
-        headers: { "content-type": type, "cache-control": "public, max-age=300" },
+        headers: { "content-type": type, "cache-control": "public, max-age=60" },
       });
     }
   } catch {

@@ -218,46 +218,11 @@ async function fetchArtwork(url: string | null): Promise<Artwork | null> {
         };
       }
     } catch {
-      // Unreadable metadata — fall through to the header parsers.
+      // Unreadable metadata — the card falls back to the initials plate.
     }
 
-    const dims = imageDimensions(buf) ?? {};
-    return { dataUrl: `data:${type};base64,${buf.toString("base64")}`, ...dims };
+    return { dataUrl: `data:${type};base64,${buf.toString("base64")}` };
   } catch {
     return null;
   }
-}
-
-/** True pixel size for the common formats; undefined when unrecognized. */
-function imageDimensions(b: Buffer): { width: number; height: number } | null {
-  // PNG: 8-byte signature, then IHDR with width/height at bytes 16 and 20.
-  if (b.length > 24 && b[0] === 0x89 && b[1] === 0x50) {
-    return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
-  }
-  // GIF: little-endian at bytes 6 and 8.
-  if (b.length > 10 && b[0] === 0x47 && b[1] === 0x49) {
-    return { width: b.readUInt16LE(6), height: b.readUInt16LE(8) };
-  }
-  // JPEG: walk the markers to a start-of-frame segment.
-  if (b.length > 4 && b[0] === 0xff && b[1] === 0xd8) {
-    let i = 2;
-    while (i + 9 < b.length) {
-      if (b[i] !== 0xff) { i++; continue; }
-      const marker = b[i + 1];
-      if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
-        return { height: b.readUInt16BE(i + 5), width: b.readUInt16BE(i + 7) };
-      }
-      i += 2 + b.readUInt16BE(i + 2);
-    }
-  }
-  // WebP extended (VP8X): 24-bit sizes minus one at byte 24.
-  if (b.length > 30 && b.toString("ascii", 0, 4) === "RIFF" && b.toString("ascii", 8, 12) === "WEBP") {
-    if (b.toString("ascii", 12, 16) === "VP8X") {
-      return {
-        width: 1 + b.readUIntLE(24, 3),
-        height: 1 + b.readUIntLE(27, 3),
-      };
-    }
-  }
-  return null;
 }

@@ -42,28 +42,29 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
           upcoming ? "opacity-80" : ""
         }`}
       >
-        <div className="flex min-h-0 flex-col justify-center md:order-2 md:col-span-7">
-          <div className="md:block">
-            {spot.image_url && (
-              <div className="mb-3 flex h-40 w-full items-center justify-center short:h-20 md:hidden">
-                {/* The border belongs to the photo itself — no letterboxing. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/api/art/${spot.link_id}`}
-                  alt=""
-                  className="max-h-full max-w-full border border-ink"
-                  loading="eager"
-                />
-              </div>
-            )}
-            <div className="min-w-0">
-              <p translate="no" className="font-mono text-xs tracking-[0.1em] text-ink-faint uppercase">
-                {spot.domain}
-              </p>
-              <h3 className="mt-1.5 font-display text-[clamp(1.75rem,5.5vw,4.25rem)] leading-[0.9] font-800 tracking-[-0.045em] break-words md:mt-2">
-                {spot.display_name}
-              </h3>
+        {/* Phones: photo and text side by side, the photo owning the panel's
+            full height so the whole picture is always inside it — it scales
+            down before it ever clips. Desktop keeps the split columns. */}
+        <div className="flex h-full min-h-0 items-center gap-3 md:order-2 md:col-span-7 md:flex-col md:items-stretch md:justify-center md:gap-0">
+          {spot.image_url && (
+            <div className="flex h-full min-h-0 w-[42%] shrink-0 items-center justify-center py-1 md:hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/api/art/${spot.link_id}?v=2`}
+                alt=""
+                className="max-h-full max-w-full border border-ink"
+                loading="eager"
+              />
             </div>
+          )}
+          <div className="min-w-0 flex-1 md:flex-none">
+          <div className="min-w-0">
+            <p translate="no" className="font-mono text-xs tracking-[0.1em] text-ink-faint uppercase">
+              {spot.domain}
+            </p>
+            <h3 className="mt-1.5 font-display text-[clamp(1.75rem,5.5vw,4.25rem)] leading-[0.9] font-800 tracking-[-0.045em] break-words md:mt-2">
+              {spot.display_name}
+            </h3>
           </div>
           {spot.short_description && (
             <p className="mt-2 hidden max-w-xl font-display text-sm leading-snug text-ink-soft sm:line-clamp-2 md:mt-3 md:text-lg">
@@ -100,6 +101,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               <DetailsIcon />
             </Link>
           </div>
+          </div>
         </div>
 
         <div className="hidden min-h-0 md:order-1 md:col-span-5 md:block">
@@ -108,7 +110,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               {/* The border belongs to the photo, whatever its shape. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`/api/art/${spot.link_id}`}
+                src={`/api/art/${spot.link_id}?v=2`}
                 alt=""
                 className="max-h-full max-w-full border border-ink bg-paper-deep"
                 loading="eager"
