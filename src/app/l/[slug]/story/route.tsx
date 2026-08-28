@@ -199,6 +199,27 @@ async function fetchArtwork(url: string | null): Promise<Artwork | null> {
     if (!type.startsWith("image/")) return null;
     const buf = Buffer.from(await res.arrayBuffer());
     if (buf.length > 4_000_000) return null;
+
+    // Cut away uniform dead space around the actual content — screenshots
+    // arrive padded with their own background, and the frame should wrap the
+    // photo people see, not the file's canvas.
+    try {
+      const sharp = (await import("sharp")).default;
+      const { data, info } = await sharp(buf)
+        .trim({ threshold: 25 })
+        .png()
+        .toBuffer({ resolveWithObject: true });
+      if (info.width > 8 && info.height > 8) {
+        return {
+          dataUrl: `data:image/png;base64,${data.toString("base64")}`,
+          width: info.width,
+          height: info.height,
+        };
+      }
+    } catch {
+      // Trim can refuse (single-color image, exotic format) — use the file as-is.
+    }
+
     const dims = imageDimensions(buf) ?? {};
     return { dataUrl: `data:${type};base64,${buf.toString("base64")}`, ...dims };
   } catch {

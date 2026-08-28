@@ -43,13 +43,13 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
         }`}
       >
         <div className="flex min-h-0 flex-col justify-center md:order-2 md:col-span-7">
-          <div className="flex items-center gap-3 md:block">
+          <div className="md:block">
             {spot.image_url && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={spot.image_url}
                 alt=""
-                className="max-h-44 max-w-40 shrink-0 border border-ink bg-paper-deep short:max-h-16 short:max-w-16 md:hidden"
+                className="mb-3 max-h-44 w-full border border-ink bg-paper-deep object-cover object-top short:max-h-20 md:hidden"
                 loading="eager"
               />
             )}
