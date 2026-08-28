@@ -29,6 +29,9 @@ def connection() -> psycopg.Connection:
                 "Supabase connection pooler, or a local Postgres for development."
             )
         _conn = psycopg.connect(url, row_factory=dict_row, autocommit=True)
+        # Supabase's transaction pooler (PgBouncer) doesn't support server-side
+        # prepared statements; disabling them keeps either pooler mode safe.
+        _conn.prepare_threshold = None
     return _conn
 
 
