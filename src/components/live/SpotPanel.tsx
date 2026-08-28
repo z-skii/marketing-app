@@ -42,12 +42,12 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
           upcoming ? "opacity-80" : ""
         }`}
       >
-        {/* Phones: photo and text side by side, the photo owning the panel's
-            full height so the whole picture is always inside it — it scales
-            down before it ever clips. Desktop keeps the split columns. */}
-        <div className="flex h-full min-h-0 items-center gap-3 md:order-2 md:col-span-7 md:flex-col md:items-stretch md:justify-center md:gap-0">
+        {/* Phones: the photo banners across the top with the panel's spare
+            height, whole and uncropped, and everything else sits organized
+            under it. Desktop keeps the split columns. */}
+        <div className="flex h-full min-h-0 flex-col justify-center md:order-2 md:col-span-7">
           {spot.image_url && (
-            <div className="flex h-full min-h-0 w-[46%] shrink-0 items-center justify-center py-1 md:hidden">
+            <div className="flex min-h-24 w-full flex-1 items-center justify-center pb-2 short:hidden md:hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/api/art/${spot.link_id}?v=2`}
@@ -57,12 +57,12 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               />
             </div>
           )}
-          <div className="min-w-0 flex-1 md:flex-none">
+          <div className="min-w-0 md:flex-none">
           <div className="min-w-0">
             <p translate="no" className="font-mono text-xs tracking-[0.1em] text-ink-faint uppercase">
               {spot.domain}
             </p>
-            <h3 className="mt-1.5 font-display text-[clamp(1.75rem,5.5vw,4.25rem)] leading-[0.9] font-800 tracking-[-0.045em] break-words md:mt-2">
+            <h3 className="mt-1 font-display text-2xl leading-[0.9] font-800 tracking-[-0.045em] break-words md:mt-2 md:text-[clamp(1.75rem,5.5vw,4.25rem)]">
               {spot.display_name}
             </h3>
           </div>
@@ -71,11 +71,11 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               {spot.short_description}
             </p>
           )}
-          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2.5 md:mt-5 md:gap-x-5">
+          <div className="mt-2 flex flex-wrap items-center gap-x-3.5 gap-y-2 md:mt-5 md:gap-x-5">
             <OpenButton
               placementId={spot.placement_id}
               surface="spot"
-              className={`btn !min-h-[40px] !px-5 !py-2 md:!px-6 md:!py-3 ${upcoming ? "" : "btn-signal"}`}
+              className={`btn !min-h-[34px] !px-4 !py-1.5 md:!min-h-[40px] md:!px-6 md:!py-3 ${upcoming ? "" : "btn-signal"}`}
             />
             <span className="tnum inline-flex items-center gap-1 font-mono text-xs font-600" title="Spent">
               <SpentIcon className="text-ink-faint" />
@@ -139,7 +139,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
       ) : (
         next &&
         next.schedule_id !== spot.schedule_id && (
-          <p className="mt-2.5 hidden items-baseline gap-2 border-t border-rule pt-2.5 md:mt-4 md:flex md:pt-3">
+          <p className="mt-1.5 flex items-baseline gap-2 border-t border-rule pt-1.5 short:hidden md:mt-4 md:flex md:pt-3">
             <span className="eyebrow">Up next</span>
             <span translate="no" className="font-mono text-xs text-ink-soft">{next.domain}</span>
           </p>

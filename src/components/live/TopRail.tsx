@@ -15,15 +15,15 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex items-baseline justify-between gap-3 px-4 pt-2.5 short:pt-2 lg:px-6 lg:pt-4">
+      <div className="relative z-10 flex items-baseline justify-between gap-3 bg-paper px-4 pt-2.5 pb-1 short:pt-2 lg:px-6 lg:pt-4">
         <h2 className="eyebrow">Top 3</h2>
         <span className="eyebrow">Today</span>
       </div>
 
-      <article className="group flex min-h-0 flex-1 flex-col justify-center px-4 pt-3 pb-2.5 lg:px-6 lg:py-4">
+      <article className="group flex min-h-0 flex-1 flex-col px-4 pt-2 pb-2.5 lg:justify-center lg:px-6 lg:py-4">
         <div className="flex items-start gap-4">
           <span
-            className="tnum font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-none font-800 tracking-[-0.05em] text-signal"
+            className="tnum font-display text-3xl leading-none font-800 tracking-[-0.05em] text-signal lg:text-[clamp(2.25rem,5vw,4.5rem)]"
             aria-hidden="true"
           >
             1
@@ -81,7 +81,7 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
                 <span className="sr-only">Rank {row.rank}: </span>
                 {row.display_name}
               </h3>
-              <p className="tnum mt-0.5 truncate font-mono text-[0.6875rem] text-ink-faint short:hidden lg:short:block">
+              <p className="tnum mt-0.5 hidden truncate font-mono text-[0.6875rem] text-ink-faint sm:block short:hidden lg:short:block">
                 <span translate="no">{row.domain}</span>
                 <span className="ml-2 inline-flex items-center gap-1" title="Spent">
                   <SpentIcon />

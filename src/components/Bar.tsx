@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { BarRow } from "@/lib/data";
 import { formatCredit } from "@/lib/money";
-import { RemainingIcon, SpentIcon } from "@/components/icons";
+import { OpenArrowIcon, RemainingIcon, SpentIcon } from "@/components/icons";
 
 /**
  * THE BAR — a continuously moving tape of live links.
@@ -59,9 +59,7 @@ export function Bar({
             feature ? "bar-feature py-1.5" : "py-3"
           }`}
         >
-          <span aria-hidden="true" className="text-signal transition-colors group-hover:text-paper">
-            ↗
-          </span>
+          <OpenArrowIcon className="text-signal transition-colors group-hover:text-paper" />
           {feature ? (
             <span className="flex flex-col whitespace-nowrap">
               <span className="font-display text-[0.8125rem] leading-tight font-700 tracking-[-0.02em]">

@@ -8,6 +8,8 @@
  * part of the live screen produced the click, for product learning only; it
  * never affects billing.
  */
+import { OpenArrowIcon } from "@/components/icons";
+
 export function OpenButton({
   placementId,
   className = "btn",
@@ -33,7 +35,7 @@ export function OpenButton({
       aria-label={name}
     >
       {label}
-      <span aria-hidden="true">↗</span>
+      <OpenArrowIcon />
     </a>
   );
 }

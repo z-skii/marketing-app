@@ -86,6 +86,18 @@ export function OpensIcon({ className = "" }: IconProps) {
   );
 }
 
+/** Open: the outbound arrow — a tap leaving for its destination. */
+export function OpenArrowIcon({ className = "" }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"
+      className={`${base} ${className}`} fill="none" stroke="currentColor" strokeWidth="1.4"
+    >
+      <path d="M2.6 9.4 9.2 2.8M4.4 2.6h5v5" />
+    </svg>
+  );
+}
+
 /** Details: the info tile. */
 export function DetailsIcon({ className = "" }: IconProps) {
   return (

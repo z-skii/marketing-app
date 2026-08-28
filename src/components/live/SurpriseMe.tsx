@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { BoardRow } from "@/lib/data";
 import { formatCount } from "@/lib/money";
+import { OpenArrowIcon } from "@/components/icons";
 
 const SEEN_KEY = "untitled-surprise-seen";
 const SEEN_MAX = 8;
@@ -68,7 +69,7 @@ export function SurpriseMe({ candidates }: { candidates: BoardRow[] }) {
         onClick={open}
         className="flex h-full shrink-0 items-center gap-2 border-l border-ink bg-paper px-4 font-mono text-[0.6875rem] font-600 tracking-[0.1em] uppercase transition-colors hover:bg-signal hover:text-white"
       >
-        Surprise me <span aria-hidden="true">↗</span>
+        Surprise me <OpenArrowIcon />
       </button>
 
       {pick && (
@@ -119,7 +120,7 @@ export function SurpriseMe({ candidates }: { candidates: BoardRow[] }) {
                 rel="nofollow sponsored noopener noreferrer"
                 className="btn btn-signal !px-6 !py-3"
               >
-                Open <span aria-hidden="true">↗</span>
+                Open <OpenArrowIcon />
               </a>
               <button type="button" onClick={choose} className="btn btn-ghost !py-3">
                 Another
