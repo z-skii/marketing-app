@@ -41,6 +41,10 @@ export default async function LinkProfilePage({ params }: { params: Promise<{ sl
 
   const openPlacement = link.board_placement_id ?? link.spot_placement_id ?? link.bar_placement_id;
   const storyPath = `/l/${link.slug}/story`;
+  // The preview must bypass phone image caches; the page renders per request,
+  // so a fresh stamp per view is deliberate.
+  // eslint-disable-next-line react-hooks/purity
+  const cardVersion = Date.now();
 
   const participation = [
     link.board_placement_id && `The Board${link.board_rank ? ` · #${link.board_rank}` : ""}`,
@@ -58,7 +62,7 @@ export default async function LinkProfilePage({ params }: { params: Promise<{ sl
               <div className="aspect-[9/16] w-full overflow-hidden border border-ink bg-paper-deep shadow-[8px_8px_0_var(--color-rule)]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={storyPath}
+                  src={`${storyPath}?v=${cardVersion}`}
                   alt={`${link.display_name} — story card`}
                   className="h-full w-full"
                   fetchPriority="high"

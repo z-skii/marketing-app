@@ -45,13 +45,15 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
         <div className="flex min-h-0 flex-col justify-center md:order-2 md:col-span-7">
           <div className="md:block">
             {spot.image_url && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={spot.image_url}
-                alt=""
-                className="mb-3 max-h-44 w-full border border-ink bg-paper-deep object-cover object-top short:max-h-20 md:hidden"
-                loading="eager"
-              />
+              <div className="mb-3 h-40 w-full border border-ink bg-paper-deep short:h-20 md:hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/api/art/${spot.link_id}`}
+                  alt=""
+                  className="h-full w-full object-contain"
+                  loading="eager"
+                />
+              </div>
             )}
             <div className="min-w-0">
               <p translate="no" className="font-mono text-xs tracking-[0.1em] text-ink-faint uppercase">
@@ -105,7 +107,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               {/* The border belongs to the photo, whatever its shape. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={spot.image_url}
+                src={`/api/art/${spot.link_id}`}
                 alt=""
                 className="max-h-full max-w-full border border-ink bg-paper-deep"
                 loading="eager"

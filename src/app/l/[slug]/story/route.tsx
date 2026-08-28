@@ -184,7 +184,12 @@ export async function GET(
         </div>
       </div>
     ),
-    { width: 1080, height: 1920 },
+    {
+      width: 1080,
+      height: 1920,
+      // Phones aggressively cache images; the card must always be current.
+      headers: { "cache-control": "no-store" },
+    },
   );
 }
 
