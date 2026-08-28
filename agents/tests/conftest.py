@@ -25,10 +25,13 @@ def db():
     from agents import db as agents_db
 
     yield agents_db
-    # Each test starts from a clean agent state; app data is reseeded per test.
+    # Each test starts from a clean agent state; app data is reseeded per test
+    # and settings the worker may have changed go back to their defaults.
     agents_db.execute("delete from agent_actions")
     agents_db.execute("delete from agent_proposals")
     agents_db.execute("delete from agent_runs")
+    agents_db.execute("update app_settings set value = '5' where key = 'board_click_price_cents'")
+    agents_db.execute("update app_settings set value = '0' where key = 'board_reset_utc_hour'")
 
 
 @pytest.fixture()
