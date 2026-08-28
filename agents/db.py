@@ -59,6 +59,19 @@ def _derive_pooler_url(url: str) -> str | None:
     )
 
 
+def _qualify_pooler_user(url: str) -> str | None:
+    """The pooler routes by project: its username must be postgres.<ref>.
+    A pooler URL pasted with a bare 'postgres' user gets the ref appended
+    (this project's by default; override with SUPABASE_PROJECT_REF)."""
+    match = re.match(
+        r"(?P<scheme>[^:]+)://postgres:(?P<after>.*@[^@]*\.pooler\.supabase\.com[:/].*)$", url
+    )
+    if not match:
+        return None
+    ref = os.environ.get("SUPABASE_PROJECT_REF", "mzqlmhuzbtcotmorgadf")
+    return f"{match['scheme']}://postgres.{ref}:{match['after']}"
+
+
 def _candidate_urls() -> list[str]:
     urls = []
     for var in ("AGENTS_DATABASE_URL", "DATABASE_URL", "DIRECT_URL"):
@@ -66,9 +79,9 @@ def _candidate_urls() -> list[str]:
         if url and url not in urls:
             urls.append(url)
     for url in list(urls):
-        derived = _derive_pooler_url(url)
-        if derived and derived not in urls:
-            urls.append(derived)
+        for derived in (_derive_pooler_url(url), _qualify_pooler_user(url)):
+            if derived and derived not in urls:
+                urls.append(derived)
     return urls
 
 
