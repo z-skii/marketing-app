@@ -239,11 +239,16 @@
   appear even for a stray pixel), and overscroll is disabled so iOS Safari
   doesn't rubber-band. Every other route is untouched.
 */
-html[data-live-lock],
-html[data-live-lock] body {
-  height: 100dvh;
-  overflow: hidden;
-  overscroll-behavior: none;
+/* The lock only holds while the viewport is tall enough for the whole
+   screen; a zoomed-in browser or a tiny window falls back to normal
+   scrolling so nothing is ever unreachable. */
+@media (min-height: 560px) {
+  html[data-live-lock],
+  html[data-live-lock] body {
+    height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
 }
 
 /* The Spot changes hands with a broadcast wipe: the incoming take reveals

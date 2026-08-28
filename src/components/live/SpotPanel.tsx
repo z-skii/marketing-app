@@ -45,12 +45,13 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
         <div className="flex min-h-0 flex-col justify-center md:order-2 md:col-span-7">
           <div className="md:block">
             {spot.image_url && (
-              <div className="mb-3 h-40 w-full border border-ink bg-paper-deep short:h-20 md:hidden">
+              <div className="mb-3 flex h-40 w-full items-center justify-center short:h-20 md:hidden">
+                {/* The border belongs to the photo itself — no letterboxing. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/api/art/${spot.link_id}`}
                   alt=""
-                  className="h-full w-full object-contain"
+                  className="max-h-full max-w-full border border-ink"
                   loading="eager"
                 />
               </div>

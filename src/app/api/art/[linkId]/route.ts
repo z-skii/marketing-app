@@ -33,7 +33,14 @@ export async function GET(
 
     try {
       const sharp = (await import("sharp")).default;
-      const out = await sharp(buf).trim({ threshold: 25 }).png().toBuffer();
+      // Trim the canvas padding, then normalize to a generous size so the
+      // page can always scale the photo DOWN to fill its space — a small
+      // upload never renders as a small photo.
+      const out = await sharp(buf)
+        .trim({ threshold: 40 })
+        .resize(1400, 1400, { fit: "inside", withoutEnlargement: false })
+        .png()
+        .toBuffer();
       return new NextResponse(new Uint8Array(out), {
         headers: {
           "content-type": "image/png",

@@ -211,7 +211,7 @@ async function fetchArtwork(url: string | null): Promise<Artwork | null> {
     try {
       const sharp = (await import("sharp")).default;
       const { data, info } = await sharp(buf)
-        .trim({ threshold: 25 })
+        .trim({ threshold: 40 })
         .png()
         .toBuffer({ resolveWithObject: true });
       if (info.width > 8 && info.height > 8) {
