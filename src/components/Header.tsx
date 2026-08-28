@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SITE_NAME } from "@/config/site";
 import { RoundCountdown } from "./RoundCountdown";
+import { LiveNowIcon, ResetIcon, VisitorsIcon } from "./icons";
 import { signOut } from "@/app/sign-in/actions";
 import { formatCount } from "@/lib/money";
 import type { CurrentUser } from "@/lib/auth";
@@ -40,20 +41,27 @@ export function Header({ user, stats }: { user: CurrentUser | null; stats?: Head
           </span>
 
           {stats && (
-            <dl className="flex min-w-0 items-baseline gap-3 md:gap-5" aria-label="Platform activity">
-              <div className="flex shrink-0 items-baseline gap-1.5 whitespace-nowrap">
+            <dl className="flex min-w-0 items-center gap-3 md:gap-5" aria-label="Platform activity">
+              <div className="flex shrink-0 items-center gap-1.5 whitespace-nowrap">
+                <dt className="text-ink-faint">
+                  <VisitorsIcon />
+                  <span className="sr-only">Visitors</span>
+                </dt>
                 <dd className="tnum font-mono text-xs font-600">{formatCount(stats.visitors)}</dd>
-                <dt className="eyebrow">Visitors</dt>
               </div>
-              <div className="flex shrink-0 items-baseline gap-1.5 whitespace-nowrap">
-                <dd className="tnum font-mono text-xs font-600 text-signal">
-                  {formatCount(stats.liveNow)}
-                </dd>
-                <dt className="eyebrow">On now</dt>
+              <div className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-signal">
+                <dt>
+                  <LiveNowIcon />
+                  <span className="sr-only">On now</span>
+                </dt>
+                <dd className="tnum font-mono text-xs font-600">{formatCount(stats.liveNow)}</dd>
               </div>
               {stats.roundEndsAt && (
-                <div className="hidden items-baseline gap-1.5 lg:flex">
-                  <dt className="eyebrow">Reset</dt>
+                <div className="hidden items-center gap-1.5 whitespace-nowrap md:flex">
+                  <dt className="text-ink-faint">
+                    <ResetIcon />
+                    <span className="sr-only">Board resets in</span>
+                  </dt>
                   <dd><RoundCountdown endsAt={stats.roundEndsAt} /></dd>
                 </div>
               )}
