@@ -39,6 +39,7 @@ def test_ops_full_run_writes_brief_and_proposal(db, seeded):
     assert run["agent"] == "ops"
     assert run["finished_at"] is not None
     assert "**Yesterday**" in run["summary"]
+    assert "[verified] proposals filed: 1" in run["summary"]
     assert run["input_tokens"] == 300 and run["output_tokens"] == 150
     assert run["error"] is None
 
@@ -203,7 +204,8 @@ def test_tool_call_budget_terminates_loop(db, seeded):
     endless = [[("get_metrics", "{}")] for _ in range(30)]
     run_id = orchestrator.run_one("ops", client=FakeGrok(endless))
     run = db.query_one("select summary from agent_runs where id = %s", (run_id,))
-    assert run["summary"] == "stopped: tool budget exhausted"
+    assert run["summary"].startswith("stopped: tool budget exhausted")
+    assert "[verified]" in run["summary"]
     actions = db.query_one("select count(*)::int as n from agent_actions where run_id = %s", (run_id,))
     assert actions["n"] <= 16  # budget of 15, final in-flight batch may add one
 
