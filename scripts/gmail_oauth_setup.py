@@ -33,10 +33,15 @@ SCOPE = "https://www.googleapis.com/auth/gmail.modify"
 
 
 def ask(prompt: str) -> str:
-    value = input(prompt).strip()
+    value = input(prompt).strip().strip("'\"")
     while not value:
-        value = input(prompt).strip()
-    return value
+        value = input(prompt).strip().strip("'\"")
+    # Browsers love to prefix copied client IDs with a scheme; Google's IDs
+    # are not URLs.
+    for prefix in ("https://", "http://"):
+        if value.startswith(prefix):
+            value = value[len(prefix):]
+    return value.rstrip("/")
 
 
 def wait_for_code() -> str:
