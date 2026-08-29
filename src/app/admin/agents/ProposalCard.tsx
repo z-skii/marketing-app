@@ -30,6 +30,8 @@ export function ProposalCard({ proposal }: { proposal: AgentProposal }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [editing, setEditing] = useState(false);
+  const [rejecting, setRejecting] = useState(false);
+  const [rejectNote, setRejectNote] = useState("");
   const [draft, setDraft] = useState(() => JSON.stringify(proposal.payload, null, 2));
   const [error, setError] = useState<string | null>(null);
 
@@ -122,6 +124,32 @@ export function ProposalCard({ proposal }: { proposal: AgentProposal }) {
         </details>
       )}
 
+      {rejecting && (
+        <div className="flex flex-col gap-2 border border-rule p-3">
+          <label className="font-mono text-[0.625rem] text-ink-faint" htmlFor={`why-${proposal.id}`}>
+            why? (optional — the agent reads this and learns)
+          </label>
+          <textarea
+            id={`why-${proposal.id}`}
+            value={rejectNote}
+            onChange={(event) => setRejectNote(event.target.value)}
+            rows={2}
+            placeholder="e.g. text in the image is garbled — keep words out of the picture"
+            className="w-full border border-rule bg-transparent p-2 text-sm"
+          />
+          <div className="flex gap-2">
+            <button type="button" className="btn !min-h-0 !px-4 !py-2 !text-xs" disabled={pending}
+                    onClick={() => run(() => rejectProposal(proposal.id, rejectNote))}>
+              Reject
+            </button>
+            <button type="button" className="btn-ghost btn !min-h-0 !px-4 !py-2 !text-xs" disabled={pending}
+                    onClick={() => { setRejecting(false); setRejectNote(""); }}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       {error && <p className="font-mono text-xs text-signal">{error}</p>}
 
       <div className="flex flex-wrap gap-2">
@@ -152,7 +180,7 @@ export function ProposalCard({ proposal }: { proposal: AgentProposal }) {
               Edit
             </button>
             <button type="button" className="btn-ghost btn !min-h-0 !px-4 !py-2 !text-xs" disabled={pending}
-                    onClick={() => run(() => rejectProposal(proposal.id))}>
+                    onClick={() => setRejecting(true)}>
               Reject
             </button>
           </>

@@ -50,6 +50,35 @@ def create_proposal(
     return {"proposal_id": str(row["id"]), "status": "pending"}
 
 
+def owner_feedback_context(agent: str, limit: int = 12) -> str:
+    """The owner's recent verdicts on this agent's proposals, formatted for
+    the run context. Approvals are the taste to repeat; rejections — above
+    all ones with a note — are standing instructions until revoked."""
+    rows = db.query(
+        """select kind, title, status::text as status,
+                  execution_result ->> 'rejection_note' as note
+             from agent_proposals
+            where agent = %s and status in ('approved','executed','rejected')
+            order by decided_at desc nulls last, created_at desc
+            limit %s""",
+        (agent, limit),
+    )
+    if not rows:
+        return "Owner feedback so far: none yet."
+    lines = ["Owner feedback on your recent proposals (newest first):"]
+    for row in rows:
+        verdict = "APPROVED" if row["status"] in ("approved", "executed") else "REJECTED"
+        line = f"- {verdict}: [{row['kind']}] {row['title']}"
+        if row["note"]:
+            line += f" — owner said: \"{row['note']}\""
+        lines.append(line)
+    lines.append(
+        "Treat every rejection note as a standing rule. Repeat what gets approved; "
+        "never re-propose a rejected pattern unless the owner's notes say otherwise."
+    )
+    return "\n".join(lines)
+
+
 def _generated_asset_urls(run_id: str | None) -> set[str]:
     if run_id is None:
         return set()

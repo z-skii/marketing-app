@@ -165,6 +165,25 @@ def test_creative_batch_rejects_fabricated_assets(db):
     assert ok["status"] == "pending"
 
 
+def test_rejection_notes_feed_the_next_run(db):
+    from agents.tools.proposal_tools import create_proposal, owner_feedback_context
+
+    created = create_proposal(agent="creative", run_id=None, kind="creative_batch",
+                              title="Garbled ticker batch", rationale="r",
+                              payload={"items": []})
+    db.execute(
+        """update agent_proposals
+              set status = 'rejected', decided_at = now(),
+                  execution_result = '{"rejection_note": "no words inside images"}'::jsonb
+            where id = %s""",
+        (created["proposal_id"],),
+    )
+    context = owner_feedback_context("creative")
+    assert "REJECTED" in context
+    assert "no words inside images" in context
+    assert "standing rule" in context
+
+
 def test_refund_cap_refuses_above_cap_without_touching_stripe(db, seeded):
     from agents.tools import stripe_tools
 

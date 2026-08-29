@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from .. import config
 from ..llm.grok import Tool
 from ..tools import higgsfield_tools, supabase_tools
-from ..tools.proposal_tools import make_create_proposal_tool
+from ..tools.proposal_tools import make_create_proposal_tool, owner_feedback_context
 from . import AgentDef, RunContext
 
 PROPOSAL_KINDS = ["creative_batch"]
@@ -34,7 +34,8 @@ def build_context(ctx: RunContext) -> str:
     now = datetime.now(timezone.utc)
     return (
         f"Time now: {now:%Y-%m-%d %H:%M} UTC.\n"
-        f"Higgsfield credits: {spent}/{cap} used today (image=1, video=5).\n"
+        f"Higgsfield credits: {spent}/{cap} used today (image=1, video=5).\n\n"
+        f"{owner_feedback_context(ctx.agent)}\n\n"
         "Pull real numbers from the board and metrics first, then generate a small "
         "batch of creatives that use them, and file ONE creative_batch proposal "
         "listing every asset URL with its copy variant."
