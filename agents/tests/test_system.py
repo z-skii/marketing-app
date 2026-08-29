@@ -139,6 +139,31 @@ def test_worker_failure_is_recorded_not_retried(db):
     assert worker.drain() == {"executed": 0, "failed": 0}
 
 
+def test_creative_batch_rejects_fabricated_assets(db):
+    from agents import audit
+    from agents.tools.proposal_tools import make_create_proposal_tool
+
+    run_id = audit.start_run("creative", "test-model")
+    tool = make_create_proposal_tool("creative", run_id, ["creative_batch"])
+
+    fabricated = tool.func(kind="creative_batch", title="fake", rationale="r",
+                           payload={"items": [{"asset_url": "https://cdn.example.com/x.jpg"}]},
+                           assets=["https://cdn.example.com/x.jpg"])
+    assert "were not produced" in fabricated["error"]
+
+    empty = tool.func(kind="creative_batch", title="empty", rationale="r", payload={})
+    assert "at least one asset" in empty["error"]
+
+    # An asset actually produced by a generation tool in this run passes.
+    real_url = "https://proj.supabase.co/storage/v1/object/public/agent-assets/a.png"
+    audit.log_action(run_id, "creative", "generate_image",
+                     {"prompt": "p"}, {"asset_url": real_url, "prompt": "p"})
+    ok = tool.func(kind="creative_batch", title="real", rationale="r",
+                   payload={"items": [{"asset_url": real_url, "copy": "c"}]},
+                   assets=[real_url])
+    assert ok["status"] == "pending"
+
+
 def test_refund_cap_refuses_above_cap_without_touching_stripe(db, seeded):
     from agents.tools import stripe_tools
 

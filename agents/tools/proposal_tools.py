@@ -50,6 +50,39 @@ def create_proposal(
     return {"proposal_id": str(row["id"]), "status": "pending"}
 
 
+def _generated_asset_urls(run_id: str | None) -> set[str]:
+    if run_id is None:
+        return set()
+    rows = db.query(
+        """select result ->> 'asset_url' as url from agent_actions
+            where run_id = %s and tool in ('generate_image','generate_video')
+              and result ? 'asset_url'""",
+        (run_id,),
+    )
+    return {row["url"] for row in rows if row["url"]}
+
+
+def _validate_creative_batch(run_id: str | None, kwargs: dict[str, Any]) -> str | None:
+    """A creative batch may only reference assets actually generated during
+    this run — the audit trail is the source of truth, not the model's word.
+    Kills fabricated asset URLs outright."""
+    generated = _generated_asset_urls(run_id)
+    claimed = set(kwargs.get("assets") or [])
+    for item in (kwargs.get("payload") or {}).get("items", []):
+        if isinstance(item, dict) and item.get("asset_url"):
+            claimed.add(item["asset_url"])
+    if not claimed:
+        return ("a creative_batch needs at least one asset; generate images/videos "
+                "first, or file nothing this run")
+    fabricated = claimed - generated
+    if fabricated:
+        return ("these asset URLs were not produced by generate_image/generate_video "
+                f"in this run and cannot be proposed: {sorted(fabricated)}. Only URLs "
+                "returned by the generation tools are accepted; if generation failed, "
+                "file no proposal and report the failure instead.")
+    return None
+
+
 def make_create_proposal_tool(agent: str, run_id: str | None, kinds: list[str]) -> Tool:
     """The create_proposal tool, bound to this run and this agent's allowed kinds."""
 
@@ -57,6 +90,10 @@ def make_create_proposal_tool(agent: str, run_id: str | None, kinds: list[str]) 
         kind = kwargs.get("kind", "")
         if kind not in kinds:
             return {"error": f"kind must be one of {kinds}"}
+        if kind == "creative_batch":
+            problem = _validate_creative_batch(run_id, kwargs)
+            if problem:
+                return {"error": problem}
         return create_proposal(
             agent=agent,
             run_id=run_id,
