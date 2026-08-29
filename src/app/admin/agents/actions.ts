@@ -39,20 +39,25 @@ export async function approveProposal(id: string): Promise<AgentActionResult> {
   return { ok: true };
 }
 
-export async function rejectProposal(id: string): Promise<AgentActionResult> {
+/** Reject, optionally saying why — the note is fed back into the agent's
+ * next runs, so rejections teach. */
+export async function rejectProposal(id: string, note?: string): Promise<AgentActionResult> {
   const user = await admin();
   if (!user) return { ok: false, error: "Not allowed." };
 
+  const trimmed = note?.trim().slice(0, 500) || null;
   const row = await sqlOne(
     `update agent_proposals
-        set status = 'rejected', decided_at = now(), decided_by = $2
+        set status = 'rejected', decided_at = now(), decided_by = $2,
+            execution_result = case when $3::text is null then execution_result
+                                    else jsonb_build_object('rejection_note', $3::text) end
       where id = $1 and status = 'pending'
       returning id`,
-    [id, user.id],
+    [id, user.id, trimmed],
   );
   if (!row) return { ok: false, error: "Already decided." };
 
-  await audit(user.id, "proposal_rejected", id);
+  await audit(user.id, "proposal_rejected", id, trimmed ? { note: trimmed } : {});
   revalidatePath("/admin/agents");
   return { ok: true };
 }
