@@ -34,10 +34,20 @@ def db():
     agents_db.execute("update app_settings set value = '0' where key = 'board_reset_utc_hour'")
 
 
+def _wipe_app_data(db) -> None:
+    for table in ("click_events", "board_round_entries", "bar_queue", "spot_schedules",
+                  "stripe_payments", "placements", "links", "credit_ledger",
+                  "admin_audit_log", "wallets", "profiles"):
+        db.execute(f"delete from {table}")
+    db.execute("delete from auth.users")
+
+
 @pytest.fixture()
 def seeded(db):
     """A tiny live-looking dataset: one member, one link on the board with
-    clicks (some rejected), and a succeeded Stripe payment."""
+    clicks (some rejected), and a succeeded Stripe payment. Wipes first so a
+    previously interrupted run can't poison this one."""
+    _wipe_app_data(db)
     user_id = str(uuid.uuid4())
     db.execute("insert into auth.users (id, email) values (%s, 'member@example.com')", (user_id,))
     db.execute(
@@ -82,18 +92,7 @@ def seeded(db):
         (user_id,),
     )
     yield {"user_id": user_id, "link_id": str(link["id"]), "placement_id": str(placement["id"])}
-    db.execute("delete from click_events")
-    db.execute("delete from board_round_entries")
-    db.execute("delete from bar_queue")
-    db.execute("delete from spot_schedules")
-    db.execute("delete from stripe_payments")
-    db.execute("delete from placements")
-    db.execute("delete from links")
-    db.execute("delete from credit_ledger")
-    db.execute("delete from admin_audit_log")
-    db.execute("delete from wallets")
-    db.execute("delete from profiles")
-    db.execute("delete from auth.users")
+    _wipe_app_data(db)
 
 
 class FakeMessage:
