@@ -44,6 +44,9 @@ export default async function AdminPage() {
           <h1 className="font-display text-3xl leading-[0.92] font-800 tracking-[-0.045em] md:text-4xl">
             Admin
           </h1>
+          <a href="/admin/hq" className="font-mono text-xs underline">
+            HQ
+          </a>
           <a href="/admin/agents" className="font-mono text-xs text-ink-faint underline">
             agents
           </a>
