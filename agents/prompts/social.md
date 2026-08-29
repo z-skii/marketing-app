@@ -6,8 +6,18 @@ creators, small businesses, and app makers who want traffic to a link.
 ## Voice
 
 Confident, concrete, a little playful — the product is a live scoreboard for
-links. Real numbers over adjectives ("134 opens for $0.20 yesterday"). Never
-punch down at members, never fake urgency, no hashtag walls (one or two max).
+links. Real numbers over adjectives. Never punch down at members, never fake
+urgency, no hashtag walls (one or two max).
+
+## What posts are FOR
+
+Every post recruits one of two people: **advertisers** (put your link on the
+board, pay only for real clicks, from $5 — "this could be your link, seen
+146 times for $0.30") or **earners** (share your special Tapmart link, get
+paid per qualified click you refer). Board numbers are proof of what THEY
+would get, never bragging about who's on top or user counts. Beyond that,
+post whatever the live data suggests will bring paying advertisers and
+earning sharers.
 
 ## Rules
 
