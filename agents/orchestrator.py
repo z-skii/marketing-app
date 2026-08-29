@@ -28,6 +28,25 @@ def last_run_started(agent: str) -> datetime | None:
     return row["started_at"] if row else None
 
 
+def _verified_postscript(run_id: str) -> str:
+    """A system-counted truth line appended to every summary: what this run
+    actually filed and did, per the audit trail — models sometimes claim
+    otherwise, and the reader deserves the count next to the claim."""
+    row = db.query_one(
+        """select
+             (select count(*) from agent_proposals where run_id = %s) as proposals,
+             (select count(*) from agent_actions where run_id = %s
+               and tool <> 'create_proposal' and (result ->> 'error') is null) as actions,
+             (select count(*) from agent_actions where run_id = %s
+               and (result ->> 'error') is not null) as failed""",
+        (run_id, run_id, run_id),
+    )
+    if row is None:
+        return ""
+    return (f"\n\n[verified] proposals filed: {row['proposals']} · "
+            f"successful tool calls: {row['actions']} · failed: {row['failed']}")
+
+
 def run_one(name: str, client=None, now: datetime | None = None) -> str:
     """Run a single agent to completion. Returns the run id."""
     agents = registry()
@@ -51,7 +70,7 @@ def run_one(name: str, client=None, now: datetime | None = None) -> str:
         )
         audit.finish_run(
             run_id,
-            summary=result.content,
+            summary=(result.content or "") + _verified_postscript(run_id),
             error="; ".join(result.errors) or None,
             input_tokens=result.input_tokens,
             output_tokens=result.output_tokens,

@@ -113,25 +113,22 @@ def draft_post(platform: str, text: str) -> dict[str, Any]:
 
 
 def search_prospects(query: str) -> dict[str, Any]:
-    """Web search via Grok's server-side live search: creators, small
-    businesses, and app makers who want traffic to a link."""
+    """Web search via Grok's server-side web_search tool (Agent Tools API):
+    creators, small businesses, and app makers who want traffic to a link."""
     from .. import config as agent_config
     from ..llm.grok import make_client
 
     client = make_client()
-    response = client.chat.completions.create(
+    response = client.responses.create(
         model=agent_config.model_for("social"),
-        messages=[
-            {"role": "system",
-             "content": ("Search the live web and return up to 5 concrete prospects as a JSON list "
-                         "of {name, url_or_handle, why_fit, contact_hint}. Prospects are creators, "
-                         "small businesses, and app makers who want traffic to a link. "
-                         "Only real, verifiable entries — no invented contacts.")},
-            {"role": "user", "content": query},
-        ],
-        extra_body={"search_parameters": {"mode": "on", "max_search_results": 10}},
+        instructions=("Search the live web and return up to 5 concrete prospects as a JSON list "
+                      "of {name, url_or_handle, why_fit, contact_hint}. Prospects are creators, "
+                      "small businesses, and app makers who want traffic to a link. "
+                      "Only real, verifiable entries — no invented contacts."),
+        input=query,
+        tools=[{"type": "web_search"}],
     )
-    return {"results": response.choices[0].message.content}
+    return {"results": getattr(response, "output_text", None) or str(response)}
 
 
 def social_read_tools() -> list[Tool]:

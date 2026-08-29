@@ -157,11 +157,19 @@ def _supabase() -> tuple[str, str]:
     return url, key
 
 
+def _storage_headers(key: str, content_type: str | None = None) -> dict[str, str]:
+    # Supabase's gateway wants the key in BOTH headers.
+    headers = {"Authorization": f"Bearer {key}", "apikey": key}
+    if content_type:
+        headers["Content-Type"] = content_type
+    return headers
+
+
 def ensure_bucket() -> None:
     url, key = _supabase()
     response = requests.post(
         f"{url}/storage/v1/bucket",
-        headers={"Authorization": f"Bearer {key}"},
+        headers=_storage_headers(key),
         json={"id": ASSETS_BUCKET, "name": ASSETS_BUCKET, "public": True},
         timeout=30,
     )
@@ -181,10 +189,13 @@ def upload_asset(source_url: str, extension: str) -> dict[str, Any]:
     content_type = "video/mp4" if extension == "mp4" else f"image/{extension}"
     response = requests.post(
         f"{url}/storage/v1/object/{ASSETS_BUCKET}/{path}",
-        headers={"Authorization": f"Bearer {key}", "Content-Type": content_type},
+        headers=_storage_headers(key, content_type),
         data=asset.content, timeout=120,
     )
-    response.raise_for_status()
+    if response.status_code >= 400:
+        raise RuntimeError(
+            f"storage upload {response.status_code}: {response.text[:300]}"
+        )
     return {"asset_url": f"{url}/storage/v1/object/public/{ASSETS_BUCKET}/{path}"}
 
 
