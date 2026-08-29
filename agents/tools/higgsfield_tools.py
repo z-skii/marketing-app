@@ -73,7 +73,12 @@ def _run_job(path: str, params: dict[str, Any]) -> str:
     """Submit a generation job and poll until it yields a result URL."""
     response = requests.post(f"{HIGGSFIELD_BASE}{path}", headers=_headers(),
                              json={"params": params}, timeout=60)
-    response.raise_for_status()
+    if response.status_code >= 400:
+        # Surface the API's own validation message — a bare status code taught
+        # us nothing when the request shape was wrong.
+        raise RuntimeError(
+            f"Higgsfield {response.status_code} on {path}: {response.text[:300]}"
+        )
     job_set_id = response.json().get("id")
 
     deadline = time.monotonic() + POLL_TIMEOUT
@@ -83,15 +88,37 @@ def _run_job(path: str, params: dict[str, Any]) -> str:
             headers=_headers(), timeout=30,
         )
         status.raise_for_status()
-        for job in status.json().get("jobs", []):
-            if job.get("status") == "failed":
-                raise RuntimeError(f"generation job failed: {job}")
-            results = job.get("results") or {}
-            url = (results.get("raw") or {}).get("url") or results.get("url")
-            if job.get("status") == "completed" and url:
+        body = status.json()
+        for job in body.get("jobs") or [body]:
+            if job.get("status") in ("failed", "error", "nsfw"):
+                raise RuntimeError(f"generation job failed: {str(job)[:300]}")
+            url = _result_url(job)
+            if url:
                 return url
         time.sleep(POLL_SECONDS)
     raise RuntimeError(f"generation timed out after {POLL_TIMEOUT}s (job set {job_set_id})")
+
+
+def _result_url(job: dict[str, Any]) -> str | None:
+    """The result URL wherever this API version puts it."""
+    results = job.get("results") or {}
+    images = job.get("images") or []
+    return (
+        (results.get("raw") or {}).get("url")
+        or (results.get("min") or {}).get("url")
+        or results.get("url")
+        or (images[0].get("url") if images else None)
+        or (job.get("video") or {}).get("url")
+    )
+
+
+# Soul accepts fixed pixel sizes, not free aspect ratios.
+SOUL_SIZES = {
+    "1:1": "1536x1536",
+    "9:16": "1152x2048",
+    "16:9": "2048x1152",
+    "4:5": "1536x2048",
+}
 
 
 def generate_image(prompt: str, aspect_ratio: str = "1:1") -> dict[str, Any]:
@@ -99,9 +126,10 @@ def generate_image(prompt: str, aspect_ratio: str = "1:1") -> dict[str, Any]:
     _check_cap(IMAGE_CREDITS)
     source_url = _run_job(TEXT2IMAGE_PATH, {
         "prompt": prompt,
-        "aspect_ratio": aspect_ratio,
+        "width_and_height": SOUL_SIZES.get(aspect_ratio, SOUL_SIZES["1:1"]),
         "quality": "1080p",
         "batch_size": 1,
+        "enhance_prompt": True,
     })
     return {"asset_url": upload_asset(source_url, "png")["asset_url"], "prompt": prompt}
 
