@@ -106,8 +106,9 @@ def _validate_creative_batch(run_id: str | None, kwargs: dict[str, Any]) -> str 
     fabricated = claimed - generated
     if fabricated:
         return ("these asset URLs were not produced by generate_image/generate_video "
-                f"in this run and cannot be proposed: {sorted(fabricated)}. Only URLs "
-                "returned by the generation tools are accepted; if generation failed, "
+                f"in this run and cannot be proposed: {sorted(fabricated)}. "
+                f"The URLs actually generated in this run are: {sorted(generated)} — "
+                "retry create_proposal copying these EXACTLY. If generation failed, "
                 "file no proposal and report the failure instead.")
     return None
 
