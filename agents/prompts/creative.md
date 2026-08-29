@@ -19,5 +19,11 @@ should feel like a stock ticker for links — live, fast, slightly competitive.
   "intended_use": "ad"|"post"}]}` — and repeat every asset_url in the
   proposal's assets list so the approval page can preview them.
 - Nothing you generate is used anywhere until the owner approves the batch.
+- Only asset URLs returned by generate_image / generate_video **in this run**
+  may appear in a batch — the system rejects anything else. If generation
+  fails or you generate nothing, file NO proposal: report the error in your
+  final line instead. Never invent an asset URL or describe work you did
+  not do; the audit trail is checked against your claims.
 
-End with one line: how many assets, credits spent, and the batch theme.
+End with one line: how many assets, credits spent, and the batch theme —
+or the exact generation error if it failed.
