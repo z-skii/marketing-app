@@ -34,6 +34,9 @@ export default async function AgentsPage({
           <h1 className="font-display text-3xl leading-[0.92] font-800 tracking-[-0.045em] md:text-4xl">
             Agents
           </h1>
+          <Link href="/admin/hq" className="font-mono text-xs underline">
+            HQ
+          </Link>
           <Link href="/admin" className="font-mono text-xs text-ink-faint underline">
             admin
           </Link>
