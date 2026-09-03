@@ -1,5 +1,6 @@
 import "server-only";
 import { sql, sqlOne } from "./db";
+import { settingBool } from "./settings";
 
 /** Public read models. None of these ever expose a placement's remaining credit. */
 
@@ -8,7 +9,8 @@ export type BoardRow = {
   previous_rank: number | null;
   score_cents_today: number;
   opens_today: number;
-  placement_id: string;
+  /** Null for showcase rows, which have no placement and touch no money. */
+  placement_id: string | null;
   link_id: string;
   slug: string;
   display_name: string;
@@ -18,11 +20,13 @@ export type BoardRow = {
   total_opens: number;
   spent_cents: number;
   remaining_cents: number;
+  showcase?: boolean;
 };
 
 export type SpotRow = {
   schedule_id: string;
-  placement_id: string;
+  /** Null for showcase rows, which have no placement and touch no money. */
+  placement_id: string | null;
   starts_at: string;
   ends_at: string;
   link_id: string;
@@ -38,11 +42,13 @@ export type SpotRow = {
   spent_cents: number;
   /** Money still behind this placement. */
   remaining_cents: number;
+  showcase?: boolean;
 };
 
 export type BarRow = {
   queue_position: number;
-  placement_id: string;
+  /** Null for showcase rows, which open through /x/[slug] instead of /go/. */
+  placement_id: string | null;
   link_id: string;
   slug: string;
   display_name: string;
@@ -50,6 +56,7 @@ export type BarRow = {
   image_url: string | null;
   spent_cents: number;
   remaining_cents: number;
+  showcase?: boolean;
 };
 
 const numeric = <T extends Record<string, unknown>>(row: T, keys: string[]): T => {
@@ -65,14 +72,51 @@ export async function getBoard(limit = 100, offset = 0): Promise<BoardRow[]> {
   const rows = await sql<BoardRow>(
     `select * from public_board order by rank limit $1 offset $2`, [limit, offset],
   );
-  return rows.map((r) =>
+  const paid = rows.map((r) =>
     numeric(r, ["rank", "previous_rank", "score_cents_today", "opens_today", "total_opens", "spent_cents", "remaining_cents"]),
   );
+  if (paid.length >= limit || !(await settingBool("feature_showcase_ads"))) return paid;
+
+  // Fill the open positions below the paid board with the showcase set. They
+  // rank after every paid link, carry no money, and rotate nothing.
+  const startRank = paid.length > 0 ? paid[paid.length - 1].rank + 1 : offset + 1;
+  const fill = await sql<{ link_id: string; slug: string; display_name: string;
+    short_description: string | null; image_url: string | null; domain: string; total_opens: string }>(
+    `select id as link_id, slug, display_name, short_description, image_url, domain,
+            total_opens::text as total_opens
+       from links where showcase and moderation_status = 'approved' and enabled
+      order by display_name limit $1`,
+    [limit - paid.length],
+  );
+  return paid.concat(fill.map((l, i) => ({
+    rank: startRank + i,
+    previous_rank: null,
+    score_cents_today: 0,
+    opens_today: 0,
+    placement_id: null,
+    link_id: l.link_id,
+    slug: l.slug,
+    display_name: l.display_name,
+    short_description: l.short_description,
+    image_url: l.image_url,
+    domain: l.domain,
+    total_opens: Number(l.total_opens),
+    spent_cents: 0,
+    remaining_cents: 0,
+    showcase: true,
+  })));
 }
 
 export async function getBoardCount(): Promise<number> {
   const row = await sqlOne<{ n: string }>(`select count(*)::text as n from public_board`);
-  return Number(row?.n ?? 0);
+  let n = Number(row?.n ?? 0);
+  if (await settingBool("feature_showcase_ads")) {
+    const s = await sqlOne<{ n: string }>(
+      `select count(*)::text as n from links where showcase and moderation_status = 'approved' and enabled`,
+    );
+    n += Number(s?.n ?? 0);
+  }
+  return n;
 }
 
 export async function getCurrentSpot(): Promise<SpotRow | null> {
@@ -123,15 +167,46 @@ async function getCycleSpot(): Promise<SpotRow | null> {
      select * from eligible where idx = ($1::bigint % total)`,
     [minute],
   );
-  if (!row) return null;
   const cycleStart = minute * 60_000;
-  const spot: SpotRow = {
-    ...numeric(row, ["total_opens", "backed_cents_today", "spent_cents", "remaining_cents"]),
-    schedule_id: `cycle-${minute}`,
+  if (row) {
+    return {
+      ...numeric(row, ["total_opens", "backed_cents_today", "spent_cents", "remaining_cents"]),
+      schedule_id: `cycle-${minute}`,
+      starts_at: new Date(cycleStart).toISOString(),
+      ends_at: new Date(cycleStart + 60_000).toISOString(),
+    };
+  }
+
+  // No paid Spot inventory at all: when showcase ads are switched on, the
+  // showcase set keeps the minute cycle running instead of going dark. These
+  // rows have no placement and never touch money.
+  if (!(await settingBool("feature_showcase_ads"))) return null;
+  const sc = await sqlOne<Pick<SpotRow, "link_id" | "slug" | "display_name" | "short_description" | "image_url" | "domain"> & { total_opens: string }>(
+    `with eligible as (
+       select id as link_id, slug, display_name, short_description, image_url,
+              domain, total_opens::text as total_opens,
+              (row_number() over (order by display_name)) - 1 as idx,
+              count(*) over () as total
+         from links
+        where showcase and moderation_status = 'approved' and enabled
+     )
+     select link_id, slug, display_name, short_description, image_url, domain, total_opens
+       from eligible where idx = ($1::bigint % total)`,
+    [minute],
+  );
+  if (!sc) return null;
+  return {
+    ...sc,
+    total_opens: Number(sc.total_opens),
+    schedule_id: `cycle-sc-${minute}`,
+    placement_id: null,
     starts_at: new Date(cycleStart).toISOString(),
     ends_at: new Date(cycleStart + 60_000).toISOString(),
+    backed_cents_today: 0,
+    spent_cents: 0,
+    remaining_cents: 0,
+    showcase: true,
   };
-  return spot;
 }
 
 /** Shown when nothing is scheduled right now, so the section is never empty-handed. */
@@ -201,7 +276,29 @@ async function querySpotNext(): Promise<SpotRow | null> {
 
 export async function getBar(): Promise<BarRow[]> {
   const rows = await sql<BarRow>(`select * from public_bar order by queue_position`);
-  return rows.map((r) => numeric(r, ["queue_position", "spent_cents", "remaining_cents"]));
+  const paid = rows.map((r) => numeric(r, ["queue_position", "spent_cents", "remaining_cents"]));
+  if (!(await settingBool("feature_showcase_ads"))) return paid;
+
+  // The showcase set rides the tape after every paid entry, moneyless.
+  const fill = await sql<{ link_id: string; slug: string; display_name: string;
+    domain: string; image_url: string | null }>(
+    `select id as link_id, slug, display_name, domain, image_url
+       from links where showcase and moderation_status = 'approved' and enabled
+      order by display_name`,
+  );
+  const nextPosition = paid.length > 0 ? paid[paid.length - 1].queue_position + 1 : 1;
+  return paid.concat(fill.map((l, i) => ({
+    queue_position: nextPosition + i,
+    placement_id: null,
+    link_id: l.link_id,
+    slug: l.slug,
+    display_name: l.display_name,
+    domain: l.domain,
+    image_url: l.image_url,
+    spent_cents: 0,
+    remaining_cents: 0,
+    showcase: true,
+  })));
 }
 
 export type RoundInfo = { id: string; starts_at: string; ends_at: string };
@@ -229,15 +326,19 @@ export async function getCurrentRound(): Promise<RoundInfo | null> {
 
 export type LinkProfile = {
   id: string; slug: string; display_name: string; short_description: string | null;
-  image_url: string | null; domain: string; total_opens: number;
+  image_url: string | null; domain: string; total_opens: number; showcase: boolean;
   board_placement_id: string | null; board_rank: number | null; board_score_cents: number | null;
   spot_placement_id: string | null; bar_placement_id: string | null;
+  /** Money the link's placements have consumed, across all surfaces. */
+  spent_cents: number;
+  /** Money still behind the link's active placements. */
+  remaining_cents: number;
 };
 
 export async function getLinkBySlug(slug: string): Promise<LinkProfile | null> {
   const row = await sqlOne<LinkProfile>(
     `select l.id, l.slug, l.display_name, l.short_description, l.image_url, l.domain,
-            l.total_opens,
+            l.total_opens, l.showcase,
             b.placement_id as board_placement_id,
             b.rank        as board_rank,
             b.score_cents_today as board_score_cents,
@@ -246,14 +347,31 @@ export async function getLinkBySlug(slug: string): Promise<LinkProfile | null> {
               and p.remaining_credit_cents > 0) as spot_placement_id,
             (select p.id from placements p where p.link_id = l.id
               and p.placement_type = 'bar' and p.status = 'active'
-              and p.remaining_credit_cents > 0) as bar_placement_id
+              and p.remaining_credit_cents > 0) as bar_placement_id,
+            m.spent_cents, m.remaining_cents
        from links l
        left join public_board b on b.link_id = l.id
+      cross join lateral (
+        select coalesce(sum(greatest(x.put_in - x.released - x.remaining, 0)), 0)::bigint as spent_cents,
+               coalesce(sum(x.remaining) filter (where x.status = 'active'), 0)::bigint as remaining_cents
+          from (
+            select p.status, p.remaining_credit_cents::bigint as remaining,
+                   coalesce(sum(-cl.amount_cents) filter (where cl.transaction_type
+                     in ('board_allocate','spot_allocate','bar_allocate')), 0) as put_in,
+                   coalesce(sum(cl.amount_cents) filter (where cl.transaction_type
+                     = 'placement_release'), 0) as released
+              from placements p
+              left join credit_ledger cl
+                on cl.related_entity_type = 'placement' and cl.related_entity_id = p.id
+             where p.link_id = l.id
+             group by p.id, p.status, p.remaining_credit_cents
+          ) x
+      ) m
       where l.slug = $1 and l.moderation_status = 'approved' and l.enabled`,
     [slug],
   );
   return row
-    ? numeric(row, ["total_opens", "board_rank", "board_score_cents"])
+    ? numeric(row, ["total_opens", "board_rank", "board_score_cents", "spent_cents", "remaining_cents"])
     : null;
 }
 

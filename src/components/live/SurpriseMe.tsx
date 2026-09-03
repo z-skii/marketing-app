@@ -115,7 +115,7 @@ export function SurpriseMe({ candidates }: { candidates: BoardRow[] }) {
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <a
-                href={`/go/${pick.placement_id}?s=surprise`}
+                href={pick.placement_id ? `/go/${pick.placement_id}?s=surprise` : `/x/${pick.slug}?s=surprise`}
                 target="_blank"
                 rel="nofollow sponsored noopener noreferrer"
                 className="btn btn-signal !px-6 !py-3"

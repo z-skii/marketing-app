@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { OpenButton } from "../OpenButton";
 import type { BoardRow } from "@/lib/data";
-import { formatCredit, formatCount } from "@/lib/money";
-import { OpensIcon, RemainingIcon, SpentIcon } from "@/components/icons";
+import { formatCount } from "@/lib/money";
+import { OpensIcon } from "@/components/icons";
 
 /**
  * TOP 3 as a permanent rail beside The Spot. Number one owns most of the
@@ -44,17 +44,7 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
           </div>
         </div>
         <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-2 lg:mt-4">
-          <OpenButton placementId={first.placement_id} surface="top3" className="btn !min-h-[40px] !py-2" />
-          <span className="tnum inline-flex items-center gap-1 font-mono text-sm font-600" title="Spent">
-            <SpentIcon className="text-ink-faint" />
-            <span className="sr-only">Spent </span>
-            {formatCredit(first.spent_cents)}
-          </span>
-          <span className="tnum inline-flex items-center gap-1 font-mono text-sm font-600" title="Left">
-            <RemainingIcon className="text-ink-faint" />
-            <span className="sr-only">Left </span>
-            {formatCredit(first.remaining_cents)}
-          </span>
+          <OpenButton placementId={first.placement_id} slug={first.slug} surface="top3" className="btn !min-h-[40px] !py-2" />
           <span className="tnum inline-flex items-center gap-1 font-mono text-xs text-ink-faint" title="Opens">
             <OpensIcon />
             <span className="sr-only">Opens </span>
@@ -66,7 +56,7 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
       <div className="border-t border-rule">
         {rest.map((row) => (
           <article
-            key={row.placement_id}
+            key={row.link_id}
             className="flex items-center gap-3 border-b border-rule px-4 py-2 last:border-b-0 short:py-1.5 lg:px-6 lg:py-3"
           >
             <span
@@ -83,20 +73,11 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
               </h3>
               <p className="tnum mt-0.5 hidden truncate font-mono text-[0.6875rem] text-ink-faint sm:block short:hidden lg:short:block">
                 <span translate="no">{row.domain}</span>
-                <span className="ml-2 inline-flex items-center gap-1" title="Spent">
-                  <SpentIcon />
-                  <span className="sr-only">Spent </span>
-                  {formatCredit(row.spent_cents)}
-                </span>
-                <span className="ml-2 inline-flex items-center gap-1" title="Left">
-                  <RemainingIcon />
-                  <span className="sr-only">Left </span>
-                  {formatCredit(row.remaining_cents)}
-                </span>
               </p>
             </div>
             <OpenButton
               placementId={row.placement_id}
+              slug={row.slug}
               surface="top3"
               label=""
               accessibleName={`Open ${row.display_name}`}

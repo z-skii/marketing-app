@@ -9,7 +9,7 @@ import { BoardWindow } from "@/components/live/BoardWindow";
 import { SurpriseMe } from "@/components/live/SurpriseMe";
 import { getCurrentUser } from "@/lib/auth";
 import {
-  getBar, getBoard, getBoardCount, getCurrentRound, getCurrentSpot, getNextSpot, getVisitorStats,
+  getBar, getBoard, getBoardCount, getCurrentSpot, getNextSpot, getVisitorStats,
 } from "@/lib/data";
 
 // The homepage is live state; it is never served from a static cache.
@@ -22,14 +22,13 @@ export const dynamic = "force-dynamic";
  * no tabs and no page scroll; phones simply run a more compact composition.
  */
 export default async function HomePage() {
-  const [user, spot, nextSpot, board, boardCount, bar, round, audience] = await Promise.all([
+  const [user, spot, nextSpot, board, boardCount, bar, audience] = await Promise.all([
     getCurrentUser(),
     getCurrentSpot(),
     getNextSpot(),
     getBoard(103),
     getBoardCount(),
     getBar(),
-    getCurrentRound(),
     getVisitorStats(),
   ]);
 
@@ -43,7 +42,9 @@ export default async function HomePage() {
         stats={{
           visitors: audience.allTime,
           liveNow: audience.liveNow,
-          roundEndsAt: round?.ends_at ?? null,
+          // Time stays off the landing page; the reset clock lives on the
+          // board and link pages instead.
+          roundEndsAt: null,
         }}
       />
       <main id="main" className="flex min-h-0 flex-col">

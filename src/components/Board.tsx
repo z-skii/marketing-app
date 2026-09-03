@@ -78,7 +78,7 @@ export function Board({
               const movement = movementOf(rank, row.previous_rank);
               return (
                 <tr
-                  key={row.placement_id}
+                  key={row.link_id}
                   className="group border-t border-rule transition-colors [content-visibility:auto] [contain-intrinsic-size:auto_56px] hover:bg-surface"
                 >
                   <td className="py-3.5 pr-2 align-middle md:py-4">
@@ -122,6 +122,7 @@ export function Board({
                   <td className="py-3.5 text-right align-middle md:py-4">
                     <OpenButton
                       placementId={row.placement_id}
+                      slug={row.slug}
                       label=""
                       accessibleName={`Open ${row.display_name}`}
                       className="btn btn-ghost !min-h-[36px] !px-2.5 !py-1.5 md:!px-3"

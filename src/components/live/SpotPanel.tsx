@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { SpotCountdown } from "../SpotCountdown";
-import { StartsIn } from "../StartsIn";
+import { SpotRefresh } from "../SpotRefresh";
 import { OpenButton } from "../OpenButton";
 import type { SpotRow } from "@/lib/data";
-import { formatCount, formatCredit } from "@/lib/money";
-import { DetailsIcon, OpensIcon, RemainingIcon, SpentIcon } from "@/components/icons";
+import { formatCount } from "@/lib/money";
+import { DetailsIcon, OpensIcon } from "@/components/icons";
 
 /**
  * THE SPOT on the live screen: one link owns the largest panel for sixty
@@ -29,12 +28,12 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
             <>
               <span className="live-dot" aria-hidden="true" />
               <span className="!text-signal">The Spot</span>
-              <span className="text-ink-faint normal-case tracking-normal">60 sec</span>
             </>
           )}
         </h2>
-        {upcoming ? <StartsIn startsAt={spot.starts_at} /> : <SpotCountdown endsAt={spot.ends_at} />}
       </div>
+      {/* No clock on the landing page, but the handover still runs on time. */}
+      <SpotRefresh endsAt={upcoming ? spot.starts_at : spot.ends_at} />
 
       <div
         key={spot.schedule_id}
@@ -74,19 +73,10 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
           <div className="mt-2 flex flex-wrap items-center gap-x-3.5 gap-y-2 md:mt-5 md:gap-x-5">
             <OpenButton
               placementId={spot.placement_id}
+              slug={spot.slug}
               surface="spot"
               className={`btn !min-h-[34px] !px-4 !py-1.5 md:!min-h-[40px] md:!px-6 md:!py-3 ${upcoming ? "" : "btn-signal"}`}
             />
-            <span className="tnum inline-flex items-center gap-1 font-mono text-xs font-600" title="Spent">
-              <SpentIcon className="text-ink-faint" />
-              <span className="sr-only">Spent </span>
-              {formatCredit(spot.spent_cents)}
-            </span>
-            <span className="tnum inline-flex items-center gap-1 font-mono text-xs font-600" title="Left">
-              <RemainingIcon className="text-ink-faint" />
-              <span className="sr-only">Left </span>
-              {formatCredit(spot.remaining_cents)}
-            </span>
             <span className="tnum inline-flex items-center gap-1 font-mono text-xs text-ink-faint" title="Opens">
               <OpensIcon />
               <span className="sr-only">Opens </span>

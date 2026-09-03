@@ -27,6 +27,7 @@ const DEFAULTS: Record<string, string> = {
   feature_creator_program: "true",
   feature_spot_enabled: "true",
   feature_bar_enabled: "true",
+  feature_showcase_ads: "false",
 };
 
 const CACHE_MS = 10_000;

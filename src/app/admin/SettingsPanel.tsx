@@ -22,6 +22,7 @@ const LABELS: Record<string, string> = {
   feature_creator_program: "Creator program",
   feature_spot_enabled: "The Spot",
   feature_bar_enabled: "The Bar",
+  feature_showcase_ads: "Showcase ads (top 50 brands)",
 };
 
 export function SettingsPanel({ settings }: { settings: Record<string, string> }) {

@@ -5,8 +5,9 @@ import { Footer } from "@/components/Footer";
 import { Bar } from "@/components/Bar";
 import { OpenButton } from "@/components/OpenButton";
 import { ShareButton } from "@/components/ShareButton";
-import { OpensIcon } from "@/components/icons";
-import { getBar, getLinkBySlug } from "@/lib/data";
+import { RoundCountdown } from "@/components/RoundCountdown";
+import { OpensIcon, RemainingIcon, ResetIcon, SpentIcon } from "@/components/icons";
+import { getBar, getCurrentRound, getLinkBySlug } from "@/lib/data";
 import { getCurrentUser } from "@/lib/auth";
 import { SITE_NAME, SITE_URL } from "@/config/site";
 import { formatCredit, formatCount } from "@/lib/money";
@@ -36,7 +37,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
  */
 export default async function LinkProfilePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [user, link, bar] = await Promise.all([getCurrentUser(), getLinkBySlug(slug), getBar()]);
+  const [user, link, bar, round] = await Promise.all([
+    getCurrentUser(), getLinkBySlug(slug), getBar(), getCurrentRound(),
+  ]);
   if (!link) notFound();
 
   const openPlacement = link.board_placement_id ?? link.spot_placement_id ?? link.bar_placement_id;
@@ -98,8 +101,13 @@ export default async function LinkProfilePage({ params }: { params: Promise<{ sl
             )}
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              {openPlacement ? (
-                <OpenButton placementId={openPlacement} className="btn btn-signal !px-7 !py-3.5" />
+              {openPlacement || link.showcase ? (
+                <OpenButton
+                  placementId={openPlacement ?? null}
+                  slug={link.slug}
+                  surface="profile"
+                  className="btn btn-signal !px-7 !py-3.5"
+                />
               ) : (
                 <span className="eyebrow">Not live right now</span>
               )}
@@ -124,6 +132,35 @@ export default async function LinkProfilePage({ params }: { params: Promise<{ sl
                   <dd className="tnum mt-1 font-mono text-xl font-600">
                     {formatCredit(link.board_score_cents)}
                   </dd>
+                </div>
+              )}
+              {/* Money lives here, on the ad's own page — not on the landing screen. */}
+              {!link.showcase && (
+                <>
+                  <div>
+                    <dt className="eyebrow flex items-center gap-1.5">
+                      <SpentIcon /> Spent
+                    </dt>
+                    <dd className="tnum mt-1 font-mono text-xl font-600">
+                      {formatCredit(link.spent_cents)}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="eyebrow flex items-center gap-1.5">
+                      <RemainingIcon /> Left
+                    </dt>
+                    <dd className="tnum mt-1 font-mono text-xl font-600">
+                      {formatCredit(link.remaining_cents)}
+                    </dd>
+                  </div>
+                </>
+              )}
+              {round && (
+                <div>
+                  <dt className="eyebrow flex items-center gap-1.5">
+                    <ResetIcon /> Resets in
+                  </dt>
+                  <dd className="tnum mt-1"><RoundCountdown endsAt={round.ends_at} /></dd>
                 </div>
               )}
             </dl>

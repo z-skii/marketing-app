@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { OpenButton } from "../OpenButton";
 import type { BoardRow } from "@/lib/data";
-import { formatCredit, formatCount } from "@/lib/money";
-import { OpensIcon, RemainingIcon, SpentIcon } from "@/components/icons";
+import { formatCount } from "@/lib/money";
+import { OpensIcon } from "@/components/icons";
 
 const ROTATE_SECONDS = 10;
 const RESUME_AFTER_MS = 20_000;
@@ -38,7 +38,8 @@ export function BoardWindow({
   const pages = Math.max(1, Math.ceil(rows.length / pageSize));
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState<"next" | "prev">("next");
-  const [tick, setTick] = useState(ROTATE_SECONDS);
+  // The tick only paces the auto-advance now; no clock is shown on the page.
+  const [, setTick] = useState(ROTATE_SECONDS);
   const pausedUntil = useRef(0);
   const touchX = useRef<number | null>(null);
 
@@ -141,11 +142,6 @@ export function BoardWindow({
             {"-"}
             {String(lastRank).padStart(2, "0")} / {totalCount}
           </span>
-          {pages > 1 && !compact && (
-            <span className="tnum hidden font-mono text-[0.6875rem] text-ink-faint sm:inline" aria-hidden="true">
-              next in {String(tick).padStart(2, "0")}
-            </span>
-          )}
         </div>
         <div className="flex items-center gap-1.5 md:gap-2">
           <Link
@@ -186,7 +182,7 @@ export function BoardWindow({
         {visible.map((row, index) => {
           const rank = startRank + first + index;
           return (
-            <article key={row.placement_id} className={`flex min-w-0 items-center gap-3 bg-paper ${cellPad}`}>
+            <article key={row.link_id} className={`flex min-w-0 items-center gap-3 bg-paper ${cellPad}`}>
               <span className="tnum font-mono text-sm text-ink-faint" aria-hidden="true">
                 {String(rank).padStart(2, "0")}
               </span>
@@ -202,16 +198,6 @@ export function BoardWindow({
                 </Link>
                 {!compact && (
                   <p className="tnum mt-0.5 flex items-center gap-2.5 truncate font-mono text-[0.6875rem]">
-                    <span className="inline-flex items-center gap-1" title="Spent">
-                      <SpentIcon className="text-ink-faint" />
-                      <span className="sr-only">Spent </span>
-                      {formatCredit(row.spent_cents)}
-                    </span>
-                    <span className="inline-flex items-center gap-1" title="Left">
-                      <RemainingIcon className="text-ink-faint" />
-                      <span className="sr-only">Left </span>
-                      {formatCredit(row.remaining_cents)}
-                    </span>
                     <span className="inline-flex items-center gap-1 text-ink-faint" title="Opens">
                       <OpensIcon />
                       <span className="sr-only">Opens </span>
@@ -221,21 +207,15 @@ export function BoardWindow({
                 )}
               </div>
               {compact && (
-                <span className="tnum shrink-0 text-right font-mono text-[0.625rem] leading-tight">
-                  <span className="inline-flex items-center gap-1" title="Spent">
-                    <SpentIcon className="text-ink-faint" />
-                    <span className="sr-only">Spent </span>
-                    {formatCredit(row.spent_cents)}
-                  </span>
-                  <span className="flex items-center justify-end gap-1" title="Left">
-                    <RemainingIcon className="text-ink-faint" />
-                    <span className="sr-only">Left </span>
-                    {formatCredit(row.remaining_cents)}
-                  </span>
+                <span className="tnum inline-flex shrink-0 items-center gap-1 font-mono text-[0.625rem] text-ink-faint" title="Opens">
+                  <OpensIcon />
+                  <span className="sr-only">Opens </span>
+                  {formatCount(row.opens_today)}
                 </span>
               )}
               <OpenButton
                 placementId={row.placement_id}
+                slug={row.slug}
                 surface="board"
                 label=""
                 accessibleName={`Open ${row.display_name}`}
