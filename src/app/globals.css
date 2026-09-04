@@ -230,7 +230,7 @@
    (see LockViewport): if the content genuinely fits, it clips; if it needs
    more room — a tall photo, large text settings, a small window — the page
    scrolls normally and nothing is ever squeezed or cut. */
-@media (min-height: 560px) {
+@media (min-height: 600px) {
   html[data-live-lock] .live-screen {
     height: 100dvh;
     overflow: clip;
@@ -246,7 +246,7 @@
 /* The lock only holds while the viewport is tall enough for the whole
    screen; a zoomed-in browser or a tiny window falls back to normal
    scrolling so nothing is ever unreachable. */
-@media (min-height: 560px) {
+@media (min-height: 600px) {
   html[data-live-lock],
   html[data-live-lock] body {
     height: 100dvh;

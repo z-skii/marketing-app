@@ -3,15 +3,15 @@
 import { useEffect } from "react";
 
 /**
- * The live screen is an app surface — no page scroll — but only when one
- * screen genuinely holds everything. This measures instead of assuming:
- * the lock is released for a beat, the document lays out at its natural
- * height, and the lock is re-applied only when nothing would be squeezed or
- * cut. Tall artwork, large text settings, zoom, small or resized windows —
- * anything that needs more room simply scrolls. Re-checked on resize, when
- * images finish loading, and on a slow heartbeat so a refreshed Spot with a
- * different photo re-decides. The attribute comes off on unmount so every
- * other route scrolls normally.
+ * The live screen is an app surface: one locked viewport, no page scroll.
+ * Under the lock the layout compresses itself to fit — the artwork scales
+ * into its share of the screen, sections keep their order — so the lock is
+ * applied FIRST, and only if something still cannot fit (content taller
+ * than its clipped frame) does the page fall back to normal scrolling,
+ * because a hidden or overlapped element is worse than a scrollbar.
+ * Re-checked on resize, image loads, and a slow heartbeat so a refreshed
+ * Spot with a different photo re-decides. The attribute comes off on
+ * unmount so every other route scrolls normally.
  */
 export function LockViewport() {
   useEffect(() => {
@@ -20,11 +20,15 @@ export function LockViewport() {
 
     const check = () => {
       raf = 0;
-      // Measure at natural height, then lock only when one screen truly fits.
-      // Remove-and-restore happens inside one frame, so nothing flickers.
-      el.removeAttribute("data-live-lock");
-      const fits = el.scrollHeight <= window.innerHeight + 1;
-      if (fits) el.setAttribute("data-live-lock", "");
+      // Lock first: definite heights let the layout shrink the artwork and
+      // panels into one screen. Then probe for anything that STILL
+      // overflows its clipped frame; only that releases the lock.
+      el.setAttribute("data-live-lock", "");
+      const main = document.querySelector("main");
+      const clipped =
+        (main && main.scrollHeight > main.clientHeight + 1) ||
+        el.scrollHeight > window.innerHeight + 1;
+      if (clipped) el.removeAttribute("data-live-lock");
     };
     const queue = () => {
       if (!raf) raf = requestAnimationFrame(check);
@@ -34,7 +38,6 @@ export function LockViewport() {
     window.addEventListener("resize", queue);
     window.addEventListener("load", queue);
     window.visualViewport?.addEventListener("resize", queue);
-    // Content changes (a new Spot photo, refreshed rows) re-measure shortly.
     document.addEventListener("load", queue, true); // image loads bubble here
     const heartbeat = setInterval(queue, 2000);
 

@@ -37,7 +37,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
 
       <div
         key={spot.schedule_id}
-        className={`takeover mt-3 grid min-h-0 flex-1 gap-5 md:mt-5 md:grid-cols-12 md:gap-8 ${
+        className={`takeover mt-3 grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)] gap-5 md:mt-5 md:grid-cols-12 md:gap-8 ${
           upcoming ? "opacity-80" : ""
         }`}
       >
