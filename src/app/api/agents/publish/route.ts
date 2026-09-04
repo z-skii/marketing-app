@@ -50,7 +50,7 @@ async function run(): Promise<Record<string, number>> {
       item.asset_url && item.asset_url.startsWith("https://") ? item.asset_url : undefined;
 
     const needsAsset = item.platform === "instagram" && item.format !== "caption";
-    if (!configured || item.format === "carousel" || (needsAsset && !publicAsset)) {
+    if (!configured || item.format === "carousel" || item.format === "video" || (needsAsset && !publicAsset)) {
       await sql(`update content_queue set status = 'ready' where id = $1`, [item.id]);
       out.ready++;
       continue;

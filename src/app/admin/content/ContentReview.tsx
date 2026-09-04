@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   approveContent, markPublished, rejectContent, runAgentsNow,
 } from "./actions";
+import { VideoMaker } from "./VideoMaker";
 
 export type QueueRow = {
   id: string;
@@ -18,6 +19,7 @@ export type QueueRow = {
   scheduled_for: string | null;
   published_at: string | null;
   publish_result: Record<string, unknown> | null;
+  ad_params: Record<string, unknown> | null;
   created_at: string;
   /** For published rows: 1 = this platform's first post, counting up. */
   post_number: number | null;
@@ -42,6 +44,7 @@ export function ContentReview({ rows, phase }: { rows: QueueRow[]; phase: string
   const [message, setMessage] = useState<{ tone: "ok" | "bad"; text: string } | null>(null);
   const [schedules, setSchedules] = useState<Record<string, string>>({});
   const [active, setActive] = useState(0);
+  const [videoUrls, setVideoUrls] = useState<string[] | null>(null);
   const touch = useRef<{ x: number; y: number } | null>(null);
 
   const run = (fn: () => Promise<{ ok: boolean; error?: string; detail?: string }>, success: string) =>
@@ -167,6 +170,14 @@ export function ContentReview({ rows, phase }: { rows: QueueRow[]; phase: string
                         {row.hashtags.map((h) => `#${h}`).join(" ")}
                       </p>
                     )}
+                    {typeof row.ad_params?.script === "string" && (
+                      <div className="mt-3 border-l-2 border-signal pl-3">
+                        <p className="eyebrow">Voiceover script</p>
+                        <p className="mt-1 text-xs leading-relaxed whitespace-pre-wrap">
+                          {row.ad_params.script}
+                        </p>
+                      </div>
+                    )}
                     {row.status === "failed" && row.publish_result?.error != null && (
                       <p className="mt-2 font-mono text-[0.6875rem] text-signal">
                         {String(row.publish_result.error)}
@@ -176,6 +187,15 @@ export function ContentReview({ rows, phase }: { rows: QueueRow[]; phase: string
                 </div>
 
                 <div className="mt-3 flex flex-wrap items-center gap-2">
+                  {(row.asset_urls?.length ?? 0) >= 2 && (
+                    <button
+                      type="button"
+                      className="btn btn-signal !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+                      onClick={() => setVideoUrls(row.asset_urls!)}
+                    >
+                      Make video
+                    </button>
+                  )}
                   {(row.status === "draft" || row.status === "failed") && (
                     <>
                       <button
@@ -266,6 +286,8 @@ export function ContentReview({ rows, phase }: { rows: QueueRow[]; phase: string
           </ul>
         </section>
       </div>
+
+      {videoUrls && <VideoMaker urls={videoUrls} onClose={() => setVideoUrls(null)} />}
     </>
   );
 }

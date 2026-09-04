@@ -9,7 +9,7 @@ import { ARCHIVO_800, ARCHIVO_900, PLEXMONO_500, PLEXMONO_600 } from "../assets/
  * vendored brand fonts so a rendered ad is pixel-true to the site.
  */
 
-export type AdTemplate = "ink" | "paper" | "signal";
+export type AdTemplate = "ink" | "paper" | "signal" | "phone" | "browser";
 export type AdFormat = "story" | "feed" | "square";
 
 export type AdParams = {
@@ -52,7 +52,41 @@ const PALETTES: Record<AdTemplate, { bg: string; fg: string; accent: string; mut
   ink: { bg: COLORS.ink, fg: COLORS.paper, accent: COLORS.signal, muted: COLORS.paperFaint },
   paper: { bg: COLORS.paper, fg: COLORS.ink, accent: COLORS.signal, muted: COLORS.inkFaint },
   signal: { bg: COLORS.signal, fg: COLORS.paper, accent: COLORS.ink, muted: "#ffd9d0" },
+  phone: { bg: COLORS.ink, fg: COLORS.paper, accent: COLORS.signal, muted: COLORS.paperFaint },
+  browser: { bg: COLORS.paper, fg: COLORS.ink, accent: COLORS.signal, muted: COLORS.inkFaint },
 };
+
+/**
+ * Real screenshots of the live site, served from public/marketing/ and
+ * cached as data URLs. The base URL is the deployment's own origin. When a
+ * fetch fails the screenshot templates degrade to the text layout rather
+ * than failing a whole generation run.
+ */
+const SHOT_FILES = { phone: "shot-phone.png", desktop: "shot-desktop.png" } as const;
+const shotCache: Partial<Record<keyof typeof SHOT_FILES, string>> = {};
+
+function baseUrl(): string {
+  // SITE_BASE_URL is read at runtime (NEXT_PUBLIC_* would be inlined at
+  // build time); on Vercel the deployment's own URL is always present.
+  const configured = process.env.SITE_BASE_URL?.replace(/\/$/, "");
+  if (configured) return configured;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return "http://localhost:3000";
+}
+
+async function siteShot(kind: keyof typeof SHOT_FILES): Promise<string | null> {
+  if (shotCache[kind]) return shotCache[kind]!;
+  try {
+    const response = await fetch(`${baseUrl()}/marketing/${SHOT_FILES[kind]}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const b64 = Buffer.from(await response.arrayBuffer()).toString("base64");
+    shotCache[kind] = `data:image/png;base64,${b64}`;
+    return shotCache[kind]!;
+  } catch (error) {
+    console.error(`site screenshot ${kind}:`, error);
+    return null;
+  }
+}
 
 function headlineSize(text: string, format: AdFormat): number {
   const scale = format === "story" ? 1 : format === "feed" ? 0.88 : 0.8;
@@ -62,13 +96,12 @@ function headlineSize(text: string, format: AdFormat): number {
   return Math.round(72 * scale);
 }
 
-export async function renderAd(params: AdParams): Promise<Response> {
-  const { width, height } = AD_SIZES[params.format];
+function textAd(params: AdParams) {
+  const { width } = AD_SIZES[params.format];
   const p = PALETTES[params.template];
   const pad = 88;
 
-  const image = new ImageResponse(
-    (
+  return (
       <div
         style={{
           width: "100%",
@@ -198,13 +231,189 @@ export async function renderAd(params: AdParams): Promise<Response> {
           </div>
         </div>
       </div>
-    ),
-    { width, height, fonts: loadFonts() },
   );
-  return image;
 }
 
-const TEMPLATES: AdTemplate[] = ["ink", "paper", "signal"];
+/**
+ * Screenshot templates: the real site inside a device. "phone" sets the
+ * mobile screenshot in a tilted phone shell peeking past the bottom edge;
+ * "browser" sets the desktop screenshot in a browser window. Both keep the
+ * masthead, a hard-hitting headline, and the CTA block.
+ */
+function screenshotAd(params: AdParams, shot: string) {
+  const { width, height } = AD_SIZES[params.format];
+  const p = PALETTES[params.template];
+  const pad = 72;
+  const isPhone = params.template === "phone";
+
+  // Device box geometry: phone is w:h 1:2, desktop shot is 16:10.
+  const deviceW = isPhone ? Math.round(width * 0.6) : width - pad * 2;
+  const deviceH = isPhone ? deviceW * 2 : Math.round((deviceW - 24) * 900 / 1440) + 76;
+  const textZone = params.format === "story" ? 0.42 : 0.46;
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: p.bg,
+        color: p.fg,
+        fontFamily: "Archivo",
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
+      {/* Text zone */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: `${pad}px ${pad}px 0`,
+          height: Math.round(height * textZone),
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+            <div style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: p.accent }} />
+            <div style={{ fontFamily: "IBM Plex Mono", fontSize: 30, fontWeight: 600, letterSpacing: 7, color: p.accent }}>
+              LIVE
+            </div>
+          </div>
+          <div style={{ fontSize: 40, fontWeight: 900, letterSpacing: -1 }}>{SITE.display}</div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, justifyContent: "center" }}>
+          <div style={{ fontFamily: "IBM Plex Mono", fontSize: 30, fontWeight: 600, letterSpacing: 9, color: p.muted, textTransform: "uppercase" }}>
+            {params.eyebrow.toUpperCase()}
+          </div>
+          <div
+            style={{
+              fontSize: Math.round(headlineSize(params.headline, params.format) * 0.82),
+              fontWeight: 900,
+              letterSpacing: -3,
+              lineHeight: 0.98,
+              marginTop: 22,
+              textTransform: "uppercase",
+            }}
+          >
+            {params.headline}
+          </div>
+        </div>
+        <div style={{ display: "flex", marginBottom: 34 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 22,
+              backgroundColor: p.accent,
+              color: COLORS.paper,
+              fontFamily: "IBM Plex Mono",
+              fontSize: 34,
+              fontWeight: 600,
+              letterSpacing: 4,
+              padding: "26px 46px",
+              textTransform: "uppercase",
+            }}
+          >
+            {params.cta.toUpperCase()}
+            <svg width="30" height="30" viewBox="0 0 12 12" fill="none">
+              <path d="M3.2 8.8 8.8 3.2M4.4 3.2h4.4v4.4" stroke={COLORS.paper} strokeWidth="1.4" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      {/* Device zone */}
+      <div
+        style={{
+          display: "flex",
+          flexGrow: 1,
+          justifyContent: "center",
+        }}
+      >
+        {isPhone ? (
+          <div
+            style={{
+              display: "flex",
+              width: deviceW,
+              height: deviceH,
+              borderRadius: 56,
+              border: `16px solid ${COLORS.paper}`,
+              overflow: "hidden",
+              transform: "rotate(-4deg)",
+              boxShadow: `28px 28px 0 ${p.accent}`,
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={shot} width={deviceW - 32} alt="" />
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: deviceW,
+              border: `3px solid ${COLORS.ink}`,
+              backgroundColor: COLORS.paper,
+              boxShadow: `22px 22px 0 ${p.accent}`,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "20px 28px",
+                borderBottom: `3px solid ${COLORS.ink}`,
+              }}
+            >
+              <div style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: COLORS.signal, display: "flex" }} />
+              <div style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: COLORS.inkFaint, display: "flex" }} />
+              <div style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: COLORS.ink, display: "flex" }} />
+              <div
+                style={{
+                  display: "flex",
+                  marginLeft: 20,
+                  fontFamily: "IBM Plex Mono",
+                  fontSize: 24,
+                  fontWeight: 600,
+                  color: COLORS.ink,
+                  backgroundColor: "#e6e3da",
+                  padding: "8px 26px",
+                  borderRadius: 999,
+                }}
+              >
+                {SITE.url}
+              </div>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={shot} width={deviceW - 6} alt="" />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export async function renderAd(params: AdParams): Promise<Response> {
+  const { width, height } = AD_SIZES[params.format];
+
+  let element: React.ReactElement;
+  if (params.template === "phone" || params.template === "browser") {
+    const shot = await siteShot(params.template === "phone" ? "phone" : "desktop");
+    // A missing screenshot degrades to the text layout instead of failing.
+    element = shot
+      ? screenshotAd(params, shot)
+      : textAd({ ...params, template: params.template === "phone" ? "ink" : "paper" });
+  } else {
+    element = textAd(params);
+  }
+
+  return new ImageResponse(element, { width, height, fonts: loadFonts() });
+}
+
+const TEMPLATES: AdTemplate[] = ["ink", "paper", "signal", "phone", "browser"];
 const FORMATS: AdFormat[] = ["story", "feed", "square"];
 
 /** Validate untrusted params into AdParams, or explain what is wrong. */

@@ -25,7 +25,7 @@ export default async function ContentAdminPage() {
 
   const [rows, runs, settings] = await Promise.all([
     sql<QueueRow>(
-      `select id, platform, format, copy, asset_url, asset_urls, hashtags, status,
+      `select id, platform, format, copy, asset_url, asset_urls, ad_params, hashtags, status,
               scheduled_for, published_at, publish_result, created_at,
               case when status = 'published'
                    then (row_number() over (partition by platform, status order by published_at))::int

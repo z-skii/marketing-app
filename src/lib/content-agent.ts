@@ -24,10 +24,11 @@ const PRICE_OUT = 15;
 
 export type GeneratedItem = {
   platform: "threads" | "instagram" | "facebook" | "tiktok";
-  format: "post" | "caption" | "story_ad" | "feed_ad" | "carousel";
+  format: "post" | "caption" | "story_ad" | "feed_ad" | "carousel" | "video";
   copy: string;
   ad_params?: AdParams;
   slides?: AdParams[];
+  script?: string;
   hashtags?: string[];
 };
 
@@ -51,10 +52,12 @@ const BATCH_SPECS: Record<Phase, string> = {
     "3 Threads posts (each with a square image), 1 Instagram story ad, " +
     "1 Instagram feed post (feed image + caption + hashtags), 1 Instagram carousel " +
     "(3 feed slides + caption + hashtags), 1 Facebook post (square image), " +
-    "1 TikTok photo carousel (3 story slides + caption + hashtags)",
+    "1 TikTok photo carousel (3 story slides + caption + hashtags), " +
+    "1 TikTok explainer video (5 story slides + a ~30 second voiceover script)",
   steady:
     "2 Threads posts (each with a square image), 1 Instagram feed post " +
-    "(feed image + caption + hashtags), 1 Facebook post (square image)",
+    "(feed image + caption + hashtags), 1 Facebook post (square image), " +
+    "1 TikTok explainer video (4 story slides + a short voiceover script)",
 };
 
 const PHASE_NOTES: Record<Phase, string> = {
@@ -74,8 +77,12 @@ function systemPrompt(phase: Phase): string {
     "",
     brandPromptBlock(),
     "",
-    "IMAGES: every single item MUST include a rendered graphic — ad_params for single-image items, slides (an array of ad_params) for carousels. Text-only content is not accepted.",
-    "ad_params: { template: 'ink'|'paper'|'signal', format: 'story'|'feed'|'square', eyebrow: <=40 chars, headline: <=70 chars, sub: <=140 chars (optional), cta: <=24 chars }",
+    "IMAGES: every single item MUST include a rendered graphic — ad_params for single-image items, slides (an array of ad_params) for carousels and videos. Text-only content is not accepted.",
+    "ad_params: { template: 'ink'|'paper'|'signal'|'phone'|'browser', format: 'story'|'feed'|'square', eyebrow: <=40 chars, headline: <=70 chars, sub: <=140 chars (optional, ignored by phone/browser), cta: <=24 chars }",
+    "TEMPLATES — mix them for variety, never use one more than twice per batch:",
+    "- 'phone': a REAL screenshot of the live site inside a tilted phone. The most eye-catching — use for at least one item per batch.",
+    "- 'browser': the real desktop site inside a browser window. Use for at least one item per batch.",
+    "- 'ink' (dark), 'paper' (light), 'signal' (full orange): big-type poster looks for pure statements.",
     "Headlines are set in huge uppercase display type: short and hard-hitting. No emojis in graphics.",
     "",
     "PLATFORM RULES:",
@@ -85,9 +92,10 @@ function systemPrompt(phase: Phase): string {
     "- instagram/carousel: slides = 3 ad_params all with format 'feed', telling one story across slides (hook → how it works → CTA); copy is the caption; hashtags 3-8.",
     "- facebook/post: ad_params with format 'square'; copy can run a bit longer than Threads, still direct, no corporate filler.",
     "- tiktok/carousel: slides = 3 ad_params all with format 'story' (photo-mode slideshow, hook → mechanics → CTA); copy is the caption, hashtags 3-6.",
+    "- tiktok/video (or instagram/video): an explainer video storyboard. slides = 4-6 ad_params with format 'story' that walk the viewer through it (hook → what it is → how it works → the payoff → CTA), plus script: a 25-40 second voiceover in the brand voice, one short sentence per slide, spoken casually. copy is the caption; hashtags 3-6.",
     "",
     "OUTPUT CONTRACT: Return ONLY a JSON array, no prose, no code fences. Each element:",
-    `{ "platform": "threads"|"instagram"|"facebook"|"tiktok", "format": "post"|"caption"|"story_ad"|"feed_ad"|"carousel", "copy": string, "ad_params"?: {...}, "slides"?: [{...}], "hashtags"?: string[] }`,
+    `{ "platform": "threads"|"instagram"|"facebook"|"tiktok", "format": "post"|"caption"|"story_ad"|"feed_ad"|"carousel"|"video", "copy": string, "ad_params"?: {...}, "slides"?: [{...}], "script"?: string, "hashtags"?: string[] }`,
     "",
     "Vary angles across the batch: how the board works, the Spot countdown, sharers earning on opens, the live-right-now energy. Never repeat a headline.",
   ].join("\n");
@@ -106,7 +114,7 @@ function sampleBatch(): GeneratedItem[] {
     {
       platform: "threads", format: "post",
       copy: "your link, a live board, and everyone watching what gets clicked. post it, back it, climb. tapmart.live",
-      ad_params: sq("ink", "live now", "your link. on the board.", "backed links climb. clicked links win.", "put it up"),
+      ad_params: sq("phone", "live right now", "your link. on the board.", undefined, "put it up"),
     },
     {
       platform: "threads", format: "post",
@@ -142,7 +150,25 @@ function sampleBatch(): GeneratedItem[] {
     {
       platform: "facebook", format: "post",
       copy: "TapMart is a live board of links. Post yours, back it with credit, and climb — the top of the board is what everyone sees and clicks. Sharers earn when someone they sent opens a live link. See what's getting clicked right now at tapmart.live",
-      ad_params: sq("ink", "the board", "what's getting clicked?", "a live board of links, ranked today.", "see the board"),
+      ad_params: sq("browser", "the board", "what's getting clicked?", undefined, "see the board"),
+    },
+    {
+      platform: "tiktok", format: "video",
+      copy: "what is tapmart? 30 seconds. tapmart.live",
+      script:
+        "ever seen a website where links fight for the top spot? this is tapmart. " +
+        "you post a link — any link — and it goes live on a public board. " +
+        "back it with credit and it climbs. top of the board is what everyone sees. " +
+        "and if you share links, you earn when someone you sent actually opens one. views pay nothing. " +
+        "tapmart dot live. go watch the board move.",
+      slides: [
+        story("phone", "tapmart", "links fight for #1 here.", undefined, "watch"),
+        story("ink", "step one", "post any link.", "it goes live on a public board.", "start"),
+        story("paper", "step two", "back it. it climbs.", "the board ranks by credit added today.", "climb"),
+        story("signal", "step three", "top = seen + clicked.", "the spot rotates every sixty seconds.", "take it"),
+        story("browser", "get paid", "opens pay. views don't.", undefined, "tapmart.live"),
+      ],
+      hashtags: ["tapmart", "howitworks", "sidehustle", "fyp"],
     },
     {
       platform: "tiktok", format: "carousel",
@@ -166,7 +192,7 @@ function parseModelJson(text: string): unknown[] {
 }
 
 const PLATFORMS = ["threads", "instagram", "facebook", "tiktok"] as const;
-const FORMATS = ["post", "caption", "story_ad", "feed_ad", "carousel"] as const;
+const FORMATS = ["post", "caption", "story_ad", "feed_ad", "carousel", "video"] as const;
 
 function validateItem(raw: unknown): GeneratedItem | null {
   if (typeof raw !== "object" || raw === null) return null;
@@ -178,17 +204,20 @@ function validateItem(raw: unknown): GeneratedItem | null {
 
   const item: GeneratedItem = { platform, format, copy };
 
-  if (format === "carousel") {
+  if (format === "carousel" || format === "video") {
     if (!Array.isArray(r.slides)) return null;
     const slides: AdParams[] = [];
-    for (const slide of r.slides.slice(0, 4)) {
+    for (const slide of r.slides.slice(0, 6)) {
       const params = parseAdParams((slide ?? {}) as Record<string, unknown>);
       if ("error" in params) return null;
-      params.format = platform === "tiktok" ? "story" : "feed";
+      params.format = format === "video" || platform === "tiktok" ? "story" : "feed";
       slides.push(params);
     }
     if (slides.length < 2) return null;
     item.slides = slides;
+    if (format === "video" && typeof r.script === "string" && r.script.trim()) {
+      item.script = r.script.trim().slice(0, 900);
+    }
   } else {
     const params = parseAdParams((r.ad_params ?? {}) as Record<string, unknown>);
     if ("error" in params) return null;
@@ -292,7 +321,7 @@ export async function runGeneration(): Promise<GenerationResult> {
           runId, item.platform, item.format, item.copy,
           assetUrls[0] ?? null, assetUrls.length ? assetUrls : null,
           item.ad_params || item.slides
-            ? JSON.stringify(item.ad_params ?? { slides: item.slides })
+            ? JSON.stringify(item.ad_params ?? { slides: item.slides, ...(item.script ? { script: item.script } : {}) })
             : null,
           item.hashtags ?? null,
         ],
