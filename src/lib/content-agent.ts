@@ -6,14 +6,15 @@ import { parseAdParams, renderAd, type AdParams } from "./ad-render";
 import { uploadAdPng } from "./agent-storage";
 
 /**
- * The content generation agent. One run asks Claude for a full batch (5
- * Threads posts + 2 story ads by default), renders the ads to finished
- * PNGs, and files everything into content_queue as drafts for review at
- * /admin/content. Every run is logged to agent_runs with token cost.
+ * The content generation agent. One run asks Claude for a full cross-platform
+ * batch — Threads, Instagram (story + feed), Facebook, and a TikTok carousel —
+ * renders every image, and files it all into content_queue as drafts for
+ * review at /admin/content. EVERY item carries at least one rendered image;
+ * carousels carry a slide per image. Runs log to agent_runs with token cost.
  *
- * Without ANTHROPIC_API_KEY the run falls back to a small deterministic
- * sample batch (marked as such in the run log) so the pipeline can be
- * exercised end to end before the key exists.
+ * Without ANTHROPIC_API_KEY the run falls back to a deterministic sample
+ * batch (marked as such in the run log) so the pipeline still works end to
+ * end before the key exists.
  */
 
 const MODEL = "claude-sonnet-4-6";
@@ -22,10 +23,11 @@ const PRICE_IN = 3;
 const PRICE_OUT = 15;
 
 export type GeneratedItem = {
-  platform: "threads" | "instagram";
-  format: "post" | "caption" | "story_ad" | "feed_ad";
+  platform: "threads" | "instagram" | "facebook" | "tiktok";
+  format: "post" | "caption" | "story_ad" | "feed_ad" | "carousel";
   copy: string;
   ad_params?: AdParams;
+  slides?: AdParams[];
   hashtags?: string[];
 };
 
@@ -36,23 +38,32 @@ export type GenerationResult = {
   costUsd: number;
 };
 
-const BATCH_SPEC = "5 Threads posts and 2 story ads";
+const BATCH_SPEC =
+  "3 Threads posts (each with a square image), 1 Instagram story ad, " +
+  "1 Instagram feed post (feed image + caption + hashtags), 1 Instagram carousel " +
+  "(3 feed slides + caption + hashtags), 1 Facebook post (square image), " +
+  "1 TikTok photo carousel (3 story slides + caption + hashtags)";
 
 function systemPrompt(): string {
   return [
-    "You are the content marketing agent for TapMart. You write social posts and ad copy.",
+    "You are the content marketing agent for TapMart. You write social posts and design ad graphics.",
     "",
     brandPromptBlock(),
     "",
+    "IMAGES: every single item MUST include a rendered graphic — ad_params for single-image items, slides (an array of ad_params) for carousels. Text-only content is not accepted.",
+    "ad_params: { template: 'ink'|'paper'|'signal', format: 'story'|'feed'|'square', eyebrow: <=40 chars, headline: <=70 chars, sub: <=140 chars (optional), cta: <=24 chars }",
+    "Headlines are set in huge uppercase display type: short and hard-hitting. No emojis in graphics.",
+    "",
     "PLATFORM RULES:",
-    "- threads/post: max 480 chars. lowercase-casual. conversational, punchy, specific. at most 1 hashtag, usually none.",
-    "- instagram/story_ad: you produce ad_params for a rendered graphic PLUS a one-line copy field used as the caption.",
-    "  ad_params: { template: 'ink'|'paper'|'signal', format: 'story', eyebrow: <=40 chars, headline: <=70 chars, sub: <=140 chars (optional), cta: <=24 chars }",
-    "  Headlines are set in huge uppercase display type: write them short and hard-hitting. No emojis anywhere in ads.",
-    "- instagram/caption: max 2200 chars, casual, hashtags array with 3-8 relevant tags (no # prefix).",
+    "- threads/post: copy max 480 chars, lowercase-casual, at most 1 hashtag (usually none). ad_params with format 'square'.",
+    "- instagram/story_ad: ad_params with format 'story'; copy is the one-line caption.",
+    "- instagram/feed_ad: ad_params with format 'feed'; copy is the caption (max 2200 chars), hashtags 3-8 tags (no # prefix).",
+    "- instagram/carousel: slides = 3 ad_params all with format 'feed', telling one story across slides (hook → how it works → CTA); copy is the caption; hashtags 3-8.",
+    "- facebook/post: ad_params with format 'square'; copy can run a bit longer than Threads, still direct, no corporate filler.",
+    "- tiktok/carousel: slides = 3 ad_params all with format 'story' (photo-mode slideshow, hook → mechanics → CTA); copy is the caption, hashtags 3-6.",
     "",
     "OUTPUT CONTRACT: Return ONLY a JSON array, no prose, no code fences. Each element:",
-    `{ "platform": "threads"|"instagram", "format": "post"|"caption"|"story_ad"|"feed_ad", "copy": string, "ad_params"?: {...}, "hashtags"?: string[] }`,
+    `{ "platform": "threads"|"instagram"|"facebook"|"tiktok", "format": "post"|"caption"|"story_ad"|"feed_ad"|"carousel", "copy": string, "ad_params"?: {...}, "slides"?: [{...}], "hashtags"?: string[] }`,
     "",
     "Vary angles across the batch: how the board works, the Spot countdown, sharers earning on opens, the live-right-now energy. Never repeat a headline.",
   ].join("\n");
@@ -60,21 +71,64 @@ function systemPrompt(): string {
 
 /** Deterministic on-brand fallback so the pipeline works before the key does. */
 function sampleBatch(): GeneratedItem[] {
+  const sq = (template: AdParams["template"], eyebrow: string, headline: string, sub: string | undefined, cta: string): AdParams =>
+    ({ template, format: "square", eyebrow, headline, sub, cta });
+  const feed = (template: AdParams["template"], eyebrow: string, headline: string, sub: string | undefined, cta: string): AdParams =>
+    ({ template, format: "feed", eyebrow, headline, sub, cta });
+  const story = (template: AdParams["template"], eyebrow: string, headline: string, sub: string | undefined, cta: string): AdParams =>
+    ({ template, format: "story", eyebrow, headline, sub, cta });
+
   return [
-    { platform: "threads", format: "post", copy: "your link, a live board, and everyone watching what gets clicked. post it, back it, climb. tapmart.live" },
-    { platform: "threads", format: "post", copy: "the spot rotates every minute. one link, sixty seconds, everybody sees it. take a minute → tapmart.live" },
-    { platform: "threads", format: "post", copy: "views pay nothing here. when someone you sent actually opens a live link — that's when you earn. tapmart.live" },
-    { platform: "threads", format: "post", copy: "no algorithm to please. the board ranks links by credit added today. simple, public, live. tapmart.live" },
-    { platform: "threads", format: "post", copy: "posted a link at breakfast, watched it climb the board by lunch. what's getting clicked right now? tapmart.live" },
     {
-      platform: "instagram", format: "story_ad",
-      copy: "one slot. sixty seconds. yours. tapmart.live",
-      ad_params: { template: "ink", format: "story", eyebrow: "the spot", headline: "one slot. sixty seconds. yours.", sub: "the top slot rotates on a countdown.", cta: "take it" },
+      platform: "threads", format: "post",
+      copy: "your link, a live board, and everyone watching what gets clicked. post it, back it, climb. tapmart.live",
+      ad_params: sq("ink", "live now", "your link. on the board.", "backed links climb. clicked links win.", "put it up"),
+    },
+    {
+      platform: "threads", format: "post",
+      copy: "the spot rotates every minute. one link, sixty seconds, everybody sees it. take a minute → tapmart.live",
+      ad_params: sq("signal", "the spot", "sixty seconds of everyone.", "one link at a time, on a countdown.", "take it"),
+    },
+    {
+      platform: "threads", format: "post",
+      copy: "views pay nothing here. when someone you sent actually opens a live link — that's when you earn. tapmart.live",
+      ad_params: sq("paper", "sharers", "opens pay. views don't.", "send people. earn when they open.", "start sharing"),
     },
     {
       platform: "instagram", format: "story_ad",
-      copy: "post your link. climb the board. get clicked. tapmart.live",
-      ad_params: { template: "signal", format: "story", eyebrow: "live now", headline: "climb the board.", sub: "post your link, add credit, watch it rise.", cta: "put yours up" },
+      copy: "one slot. sixty seconds. yours. tapmart.live",
+      ad_params: story("ink", "the spot", "one slot. sixty seconds. yours.", "the top slot rotates on a countdown.", "take it"),
+    },
+    {
+      platform: "instagram", format: "feed_ad",
+      copy: "a live board of links, ranked by what people back today. post yours, add credit, watch it climb. what's getting clicked right now? tapmart.live",
+      ad_params: feed("signal", "live now", "climb the board.", "post your link, add credit, watch it rise.", "put yours up"),
+      hashtags: ["tapmart", "links", "creators", "traffic", "marketing"],
+    },
+    {
+      platform: "instagram", format: "carousel",
+      copy: "how tapmart works, in three slides. tapmart.live",
+      slides: [
+        feed("ink", "step one", "post your link.", "anyone can put a link up. it goes live.", "start"),
+        feed("paper", "step two", "back it. climb.", "the board ranks links by credit added today.", "climb"),
+        feed("signal", "step three", "get clicked.", "top of the board is where the taps are.", "put yours up"),
+      ],
+      hashtags: ["tapmart", "howitworks", "links", "creators"],
+    },
+    {
+      platform: "facebook", format: "post",
+      copy: "TapMart is a live board of links. Post yours, back it with credit, and climb — the top of the board is what everyone sees and clicks. Sharers earn when someone they sent opens a live link. See what's getting clicked right now at tapmart.live",
+      ad_params: sq("ink", "the board", "what's getting clicked?", "a live board of links, ranked today.", "see the board"),
+    },
+    {
+      platform: "tiktok", format: "carousel",
+      copy: "a website where your link fights for the top slot. tapmart.live",
+      slides: [
+        story("signal", "tapmart", "your link fights for #1.", "a live board, ranked by backing.", "watch"),
+        story("ink", "the spot", "sixty seconds of fame.", "the top slot rotates on a countdown.", "take it"),
+        story("paper", "get paid", "opens pay. views don't.", "share links. earn when people open.", "start"),
+      ],
+      hashtags: ["tapmart", "sidehustle", "links", "fyp"],
     },
   ];
 }
@@ -87,25 +141,38 @@ function parseModelJson(text: string): unknown[] {
   return JSON.parse(cleaned.slice(start, end + 1)) as unknown[];
 }
 
+const PLATFORMS = ["threads", "instagram", "facebook", "tiktok"] as const;
+const FORMATS = ["post", "caption", "story_ad", "feed_ad", "carousel"] as const;
+
 function validateItem(raw: unknown): GeneratedItem | null {
   if (typeof raw !== "object" || raw === null) return null;
   const r = raw as Record<string, unknown>;
-  const platform = r.platform === "threads" || r.platform === "instagram" ? r.platform : null;
-  const format =
-    r.format === "post" || r.format === "caption" || r.format === "story_ad" || r.format === "feed_ad"
-      ? r.format
-      : null;
+  const platform = PLATFORMS.find((p) => p === r.platform);
+  const format = FORMATS.find((f) => f === r.format);
   const copy = typeof r.copy === "string" ? r.copy.trim() : "";
   if (!platform || !format || !copy || copy.length > 2200) return null;
 
   const item: GeneratedItem = { platform, format, copy };
-  if (format === "story_ad" || format === "feed_ad") {
+
+  if (format === "carousel") {
+    if (!Array.isArray(r.slides)) return null;
+    const slides: AdParams[] = [];
+    for (const slide of r.slides.slice(0, 4)) {
+      const params = parseAdParams((slide ?? {}) as Record<string, unknown>);
+      if ("error" in params) return null;
+      params.format = platform === "tiktok" ? "story" : "feed";
+      slides.push(params);
+    }
+    if (slides.length < 2) return null;
+    item.slides = slides;
+  } else {
     const params = parseAdParams((r.ad_params ?? {}) as Record<string, unknown>);
     if ("error" in params) return null;
     if (format === "story_ad") params.format = "story";
     if (format === "feed_ad") params.format = "feed";
     item.ad_params = params;
   }
+
   if (Array.isArray(r.hashtags)) {
     item.hashtags = r.hashtags.filter((h): h is string => typeof h === "string").slice(0, 8);
   }
@@ -118,6 +185,17 @@ function renderUrlFor(params: AdParams): string {
     Object.entries(params).filter(([, v]) => v != null) as [string, string][],
   );
   return `/api/agents/render-ad?${q.toString()}`;
+}
+
+async function renderToUrl(params: AdParams): Promise<string> {
+  const png = await (await renderAd(params)).arrayBuffer();
+  try {
+    const stored = await uploadAdPng(png);
+    if (stored) return stored;
+  } catch (error) {
+    console.error("ad upload failed, using render URL:", error);
+  }
+  return renderUrlFor(params);
 }
 
 export async function runGeneration(): Promise<GenerationResult> {
@@ -137,12 +215,12 @@ export async function runGeneration(): Promise<GenerationResult> {
       const client = new Anthropic();
       const response = await client.messages.create({
         model: MODEL,
-        max_tokens: 4096,
+        max_tokens: 8192,
         system: systemPrompt(),
         messages: [
           {
             role: "user",
-            content: `Generate ${BATCH_SPEC} for ${SITE.url}. Remember: JSON array only.`,
+            content: `Generate ${BATCH_SPEC} for ${SITE.url}. Remember: JSON array only, and every item needs its graphic.`,
           },
         ],
       });
@@ -162,26 +240,22 @@ export async function runGeneration(): Promise<GenerationResult> {
       mode = "sample";
     }
 
-    // Render each ad to a finished PNG; store it, or fall back to the
-    // render endpoint URL so review still shows the exact image.
     let created = 0;
     for (const item of items) {
-      let assetUrl: string | null = null;
-      if (item.ad_params) {
-        const png = await (await renderAd(item.ad_params)).arrayBuffer();
-        try {
-          assetUrl = await uploadAdPng(png);
-        } catch (error) {
-          console.error("ad upload failed, using render URL:", error);
-        }
-        assetUrl ??= renderUrlFor(item.ad_params);
+      const assetUrls: string[] = [];
+      for (const params of item.slides ?? (item.ad_params ? [item.ad_params] : [])) {
+        assetUrls.push(await renderToUrl(params));
       }
       await sql(
-        `insert into content_queue (run_id, platform, format, copy, asset_url, ad_params, hashtags)
-         values ($1, $2, $3, $4, $5, $6, $7)`,
+        `insert into content_queue
+           (run_id, platform, format, copy, asset_url, asset_urls, ad_params, hashtags)
+         values ($1, $2, $3, $4, $5, $6, $7, $8)`,
         [
-          runId, item.platform, item.format, item.copy, assetUrl,
-          item.ad_params ? JSON.stringify(item.ad_params) : null,
+          runId, item.platform, item.format, item.copy,
+          assetUrls[0] ?? null, assetUrls.length ? assetUrls : null,
+          item.ad_params || item.slides
+            ? JSON.stringify(item.ad_params ?? { slides: item.slides })
+            : null,
           item.hashtags ?? null,
         ],
       );
@@ -198,7 +272,7 @@ export async function runGeneration(): Promise<GenerationResult> {
       [
         runId, inputTokens, outputTokens, costUsd, created,
         mode === "claude"
-          ? `generated ${created} drafts (${BATCH_SPEC})`
+          ? `generated ${created} drafts across threads/instagram/facebook/tiktok`
           : `generated ${created} SAMPLE drafts — ANTHROPIC_API_KEY not set`,
       ],
     );

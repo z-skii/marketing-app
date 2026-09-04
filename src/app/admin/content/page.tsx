@@ -24,7 +24,7 @@ export default async function ContentAdminPage() {
 
   const [rows, runs, settings] = await Promise.all([
     sql<QueueRow>(
-      `select id, platform, format, copy, asset_url, hashtags, status,
+      `select id, platform, format, copy, asset_url, asset_urls, hashtags, status,
               scheduled_for, published_at, publish_result, created_at
          from content_queue
         order by case status

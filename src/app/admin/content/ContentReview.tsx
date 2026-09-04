@@ -12,6 +12,7 @@ export type QueueRow = {
   format: string;
   copy: string;
   asset_url: string | null;
+  asset_urls: string[] | null;
   hashtags: string[] | null;
   status: string;
   scheduled_for: string | null;
@@ -102,13 +103,18 @@ export function ContentReview({ rows }: { rows: QueueRow[] }) {
             </div>
 
             <div className="mt-3 flex flex-col gap-4 md:flex-row">
-              {row.asset_url && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={row.asset_url}
-                  alt="Rendered ad"
-                  className="w-44 shrink-0 border border-ink"
-                />
+              {(row.asset_urls ?? (row.asset_url ? [row.asset_url] : [])).length > 0 && (
+                <div className="flex shrink-0 flex-wrap gap-2">
+                  {(row.asset_urls ?? [row.asset_url!]).map((url, i) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={i}
+                      src={url}
+                      alt={`Rendered graphic ${i + 1}`}
+                      className="w-40 border border-ink"
+                    />
+                  ))}
+                </div>
               )}
               <div className="min-w-0 flex-1">
                 <p className="text-sm leading-snug whitespace-pre-wrap">{row.copy}</p>
@@ -152,14 +158,15 @@ export function ContentReview({ rows }: { rows: QueueRow[] }) {
                   >
                     Copy text
                   </button>
-                  {row.asset_url && (
+                  {(row.asset_urls ?? (row.asset_url ? [row.asset_url] : [])).map((url, i, all) => (
                     <a
-                      href={row.asset_url} target="_blank" rel="noopener noreferrer"
+                      key={i}
+                      href={url} target="_blank" rel="noopener noreferrer"
                       className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
                     >
-                      Open image
+                      {all.length > 1 ? `Image ${i + 1}` : "Open image"}
                     </a>
-                  )}
+                  ))}
                   <button
                     type="button" className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" disabled={pending}
                     onClick={() => run(() => markPublished(row.id), "Marked published.")}

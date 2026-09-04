@@ -23,7 +23,7 @@ export const runtime = "nodejs";
 export const maxDuration = 120;
 
 type QueueItem = {
-  id: string; platform: "threads" | "instagram"; format: string;
+  id: string; platform: "threads" | "instagram" | "facebook" | "tiktok"; format: string;
   copy: string; asset_url: string | null; hashtags: string[] | null;
 };
 
@@ -41,12 +41,16 @@ async function run(): Promise<Record<string, number>> {
 
   const out = { published: 0, ready: 0, failed: 0 };
   for (const item of items) {
-    const configured = item.platform === "threads" ? threadsConfigured() : instagramConfigured();
+    const configured =
+      item.platform === "threads" ? threadsConfigured()
+      : item.platform === "instagram" ? instagramConfigured()
+      : false; // facebook + tiktok publish manually from the review queue
     // Only a storage-backed public URL can be handed to the platforms.
     const publicAsset =
       item.asset_url && item.asset_url.startsWith("https://") ? item.asset_url : undefined;
 
-    if (!configured || (item.platform === "instagram" && item.format !== "caption" && !publicAsset)) {
+    const needsAsset = item.platform === "instagram" && item.format !== "caption";
+    if (!configured || item.format === "carousel" || (needsAsset && !publicAsset)) {
       await sql(`update content_queue set status = 'ready' where id = $1`, [item.id]);
       out.ready++;
       continue;

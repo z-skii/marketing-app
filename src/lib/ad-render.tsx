@@ -1,8 +1,7 @@
 import "server-only";
-import { readFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
 import { ImageResponse } from "next/og";
 import { COLORS, SITE } from "./brand-kit";
+import { ARCHIVO_800, ARCHIVO_900, PLEXMONO_500, PLEXMONO_600 } from "../assets/fonts-data";
 
 /**
  * Server-side ad rendering. Three templates in the house style — ink, paper,
@@ -11,7 +10,7 @@ import { COLORS, SITE } from "./brand-kit";
  */
 
 export type AdTemplate = "ink" | "paper" | "signal";
-export type AdFormat = "story" | "feed";
+export type AdFormat = "story" | "feed" | "square";
 
 export type AdParams = {
   template: AdTemplate;
@@ -25,28 +24,27 @@ export type AdParams = {
 export const AD_SIZES: Record<AdFormat, { width: number; height: number }> = {
   story: { width: 1080, height: 1920 },
   feed: { width: 1080, height: 1350 },
+  square: { width: 1080, height: 1080 },
 };
 
-const FONT_FILES = [
-  { name: "Archivo", weight: 800 as const, file: "archivo-800.ttf" },
-  { name: "Archivo", weight: 900 as const, file: "archivo-900.ttf" },
-  { name: "IBM Plex Mono", weight: 500 as const, file: "plexmono-500.ttf" },
-  { name: "IBM Plex Mono", weight: 600 as const, file: "plexmono-600.ttf" },
-];
-
-let fontsPromise: Promise<{ name: string; weight: 800 | 900 | 500 | 600; data: ArrayBuffer }[]> | null = null;
+// Fonts ship embedded (src/assets/fonts-data.ts): every bundle — route
+// handlers, server actions, crons — renders identically with zero
+// filesystem access.
+let fonts: { name: string; weight: 800 | 900 | 500 | 600; data: ArrayBuffer }[] | null = null;
 
 function loadFonts() {
-  fontsPromise ??= Promise.all(
-    FONT_FILES.map(async (f) => ({
-      name: f.name,
-      weight: f.weight,
-      data: (await readFile(
-        fileURLToPath(new URL(`../assets/fonts/${f.file}`, import.meta.url)),
-      )).buffer as ArrayBuffer,
-    })),
-  );
-  return fontsPromise;
+  fonts ??= (
+    [
+      ["Archivo", 800, ARCHIVO_800],
+      ["Archivo", 900, ARCHIVO_900],
+      ["IBM Plex Mono", 500, PLEXMONO_500],
+      ["IBM Plex Mono", 600, PLEXMONO_600],
+    ] as const
+  ).map(([name, weight, b64]) => {
+    const buf = Buffer.from(b64, "base64");
+    return { name, weight, data: buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) };
+  });
+  return fonts;
 }
 
 /** Palette per template: ground, ink-on-ground, the accent, muted text. */
@@ -57,7 +55,7 @@ const PALETTES: Record<AdTemplate, { bg: string; fg: string; accent: string; mut
 };
 
 function headlineSize(text: string, format: AdFormat): number {
-  const scale = format === "story" ? 1 : 0.88;
+  const scale = format === "story" ? 1 : format === "feed" ? 0.88 : 0.8;
   if (text.length <= 18) return Math.round(150 * scale);
   if (text.length <= 40) return Math.round(116 * scale);
   if (text.length <= 70) return Math.round(92 * scale);
@@ -201,13 +199,13 @@ export async function renderAd(params: AdParams): Promise<Response> {
         </div>
       </div>
     ),
-    { width, height, fonts: await loadFonts() },
+    { width, height, fonts: loadFonts() },
   );
   return image;
 }
 
 const TEMPLATES: AdTemplate[] = ["ink", "paper", "signal"];
-const FORMATS: AdFormat[] = ["story", "feed"];
+const FORMATS: AdFormat[] = ["story", "feed", "square"];
 
 /** Validate untrusted params into AdParams, or explain what is wrong. */
 export function parseAdParams(input: Record<string, unknown>): AdParams | { error: string } {
