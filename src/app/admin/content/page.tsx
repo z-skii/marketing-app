@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { getCurrentUser } from "@/lib/auth";
 import { sql } from "@/lib/db";
 import { getSettings } from "@/lib/settings";
+import { AdminNav } from "../AdminNav";
 import { ContentReview, type QueueRow } from "./ContentReview";
 
 export const metadata = { title: "Content", robots: { index: false, follow: false } };
@@ -25,13 +26,17 @@ export default async function ContentAdminPage() {
   const [rows, runs, settings] = await Promise.all([
     sql<QueueRow>(
       `select id, platform, format, copy, asset_url, asset_urls, hashtags, status,
-              scheduled_for, published_at, publish_result, created_at
+              scheduled_for, published_at, publish_result, created_at,
+              case when status = 'published'
+                   then (row_number() over (partition by platform, status order by published_at))::int
+              end as post_number
          from content_queue
+        where status <> 'rejected'
         order by case status
                    when 'draft' then 0 when 'ready' then 1 when 'approved' then 2
                    when 'failed' then 3 else 4 end,
                  created_at desc
-        limit 100`,
+        limit 300`,
     ),
     sql<RunRow>(
       `select id, started_at, finished_at, summary, error, cost_usd::text, output_count
@@ -49,15 +54,17 @@ export default async function ContentAdminPage() {
           <h1 className="font-display text-3xl leading-[0.92] font-800 tracking-[-0.045em] md:text-4xl">
             Content
           </h1>
-          <a href="/admin" className="font-mono text-xs underline">admin</a>
-          <a href="/admin/agents" className="font-mono text-xs text-ink-faint underline">agents</a>
           {settings.feature_agent_auto_publish === "true" && (
             <span className="eyebrow !text-signal">auto-publish on</span>
           )}
         </div>
+        <div className="mt-5"><AdminNav /></div>
 
-        <section className="mt-8">
-          <ContentReview rows={rows} />
+        <section className="mt-6">
+          <ContentReview
+            rows={rows}
+            phase={rows.filter((r) => r.status === "published").length < 20 ? "launch" : "steady"}
+          />
         </section>
 
         <section className="rule mt-10 pt-6 pb-4">

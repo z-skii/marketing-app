@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdminNav } from "../AdminNav";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/Header";
 import { getCurrentUser } from "@/lib/auth";
@@ -30,17 +31,10 @@ export default async function AgentsPage({
     <>
       <Header user={user} />
       <main id="main" className="shell py-8 md:py-14">
-        <div className="flex items-baseline gap-4">
-          <h1 className="font-display text-3xl leading-[0.92] font-800 tracking-[-0.045em] md:text-4xl">
-            Agents
-          </h1>
-          <Link href="/admin/hq" className="font-mono text-xs underline">
-            HQ
-          </Link>
-          <Link href="/admin" className="font-mono text-xs text-ink-faint underline">
-            admin
-          </Link>
-        </div>
+        <h1 className="font-display text-3xl leading-[0.92] font-800 tracking-[-0.045em] md:text-4xl">
+          Agents
+        </h1>
+        <div className="mt-5"><AdminNav /></div>
 
         <nav className="mt-6 flex gap-1 overflow-x-auto" aria-label="Proposal tabs">
           {TABS.map((name) => {

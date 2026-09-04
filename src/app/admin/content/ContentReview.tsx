@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   approveContent, markPublished, rejectContent, runAgentsNow,
@@ -19,18 +19,30 @@ export type QueueRow = {
   published_at: string | null;
   publish_result: Record<string, unknown> | null;
   created_at: string;
+  /** For published rows: 1 = this platform's first post, counting up. */
+  post_number: number | null;
 };
 
+const PLATFORMS = [
+  { key: "threads", label: "Threads" },
+  { key: "instagram", label: "Insta" },
+  { key: "facebook", label: "FB" },
+  { key: "tiktok", label: "TikTok" },
+];
+
 /**
- * The review queue: every draft with its rendered creative, one-tap
- * approve/reject, an optional schedule, and — for items waiting on platform
- * tokens — the copy and asset ready to post by hand.
+ * The content area: one platform at a time, names across the top, swipe
+ * left/right (or tap) to move between them. Each platform shows what's
+ * waiting to go out on top and, under it, the numbered record of everything
+ * posted there since post #1.
  */
-export function ContentReview({ rows }: { rows: QueueRow[] }) {
+export function ContentReview({ rows, phase }: { rows: QueueRow[]; phase: string }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [message, setMessage] = useState<{ tone: "ok" | "bad"; text: string } | null>(null);
   const [schedules, setSchedules] = useState<Record<string, string>>({});
+  const [active, setActive] = useState(0);
+  const touch = useRef<{ x: number; y: number } | null>(null);
 
   const run = (fn: () => Promise<{ ok: boolean; error?: string; detail?: string }>, success: string) =>
     startTransition(async () => {
@@ -55,6 +67,30 @@ export function ContentReview({ rows }: { rows: QueueRow[] }) {
     }
   };
 
+  const platform = PLATFORMS[active].key;
+  const mine = rows.filter((r) => r.platform === platform);
+  const toPost = mine.filter((r) => r.status !== "published");
+  const posted = mine
+    .filter((r) => r.status === "published")
+    .sort((a, b) => (b.post_number ?? 0) - (a.post_number ?? 0));
+
+  const pendingCount = (key: string) =>
+    rows.filter((r) => r.platform === key && r.status !== "published").length;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touch.current = { x: e.touches[0]?.clientX ?? 0, y: e.touches[0]?.clientY ?? 0 };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!touch.current) return;
+    const dx = (e.changedTouches[0]?.clientX ?? touch.current.x) - touch.current.x;
+    const dy = (e.changedTouches[0]?.clientY ?? touch.current.y) - touch.current.y;
+    touch.current = null;
+    if (Math.abs(dx) < 56 || Math.abs(dy) > 60) return;
+    // This gesture belongs to the platform tabs, not the admin sections.
+    window.__innerSwipe = Date.now();
+    setActive((a) => Math.min(PLATFORMS.length - 1, Math.max(0, a + (dx < 0 ? 1 : -1))));
+  };
+
   return (
     <>
       <div className="flex flex-wrap items-center gap-3">
@@ -67,7 +103,10 @@ export function ContentReview({ rows }: { rows: QueueRow[] }) {
           {pending ? "Working…" : "Run agents now"}
         </button>
         <p className="font-mono text-[0.6875rem] text-ink-faint">
-          generate → render ads → drafts below. Nothing posts without approval.
+          {phase === "launch"
+            ? "launch phase — posting heavy so people learn the app."
+            : "steady phase — updates and customer pull."}
+          {" "}Old drafts are replaced on every run.
         </p>
       </div>
 
@@ -77,117 +116,170 @@ export function ContentReview({ rows }: { rows: QueueRow[] }) {
         </p>
       )}
 
-      {rows.length === 0 && (
-        <p className="mt-8 font-mono text-xs text-ink-faint">
-          Queue is empty. Run the agents to draft a batch.
-        </p>
-      )}
-
-      <ul className="mt-6 flex flex-col gap-4">
-        {rows.map((row) => (
-          <li key={row.id} className="border border-rule bg-paper p-4">
-            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="eyebrow !text-signal">{row.platform}</span>
-              <span className="eyebrow">{row.format.replace("_", " ")}</span>
-              <StatusChip status={row.status} />
-              {row.scheduled_for && (
-                <span className="font-mono text-[0.6875rem] text-ink-faint">
-                  scheduled {new Date(row.scheduled_for).toLocaleString()}
-                </span>
-              )}
-              {row.published_at && (
-                <span className="font-mono text-[0.6875rem] text-ink-faint">
-                  published {new Date(row.published_at).toLocaleString()}
-                </span>
-              )}
-            </div>
-
-            <div className="mt-3 flex flex-col gap-4 md:flex-row">
-              {(row.asset_urls ?? (row.asset_url ? [row.asset_url] : [])).length > 0 && (
-                <div className="flex shrink-0 flex-wrap gap-2">
-                  {(row.asset_urls ?? [row.asset_url!]).map((url, i) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      key={i}
-                      src={url}
-                      alt={`Rendered graphic ${i + 1}`}
-                      className="w-40 border border-ink"
-                    />
-                  ))}
-                </div>
-              )}
-              <div className="min-w-0 flex-1">
-                <p className="text-sm leading-snug whitespace-pre-wrap">{row.copy}</p>
-                {row.hashtags && row.hashtags.length > 0 && (
-                  <p className="tnum mt-2 font-mono text-[0.6875rem] text-ink-faint">
-                    {row.hashtags.map((h) => `#${h}`).join(" ")}
-                  </p>
-                )}
-                {row.status === "failed" && row.publish_result?.error != null && (
-                  <p className="mt-2 font-mono text-[0.6875rem] text-signal">
-                    {String(row.publish_result.error)}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              {(row.status === "draft" || row.status === "failed") && (
-                <>
-                  <button
-                    type="button" className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" disabled={pending}
-                    onClick={() => run(() => approveContent(row.id, schedules[row.id]), "Approved.")}
-                  >
-                    Approve
-                  </button>
-                  <input
-                    type="datetime-local"
-                    value={schedules[row.id] ?? ""}
-                    onChange={(e) => setSchedules({ ...schedules, [row.id]: e.target.value })}
-                    className="field !min-h-0 !w-52 !py-1 !text-xs"
-                    aria-label="Schedule for"
-                  />
-                  <span className="font-mono text-[0.625rem] text-ink-faint">blank = next cron</span>
-                </>
-              )}
-              {row.status === "ready" && (
-                <>
-                  <button
-                    type="button" className="btn btn-signal !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
-                    onClick={() => copyText(row)}
-                  >
-                    Copy text
-                  </button>
-                  {(row.asset_urls ?? (row.asset_url ? [row.asset_url] : [])).map((url, i, all) => (
-                    <a
-                      key={i}
-                      href={url} target="_blank" rel="noopener noreferrer"
-                      className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
-                    >
-                      {all.length > 1 ? `Image ${i + 1}` : "Open image"}
-                    </a>
-                  ))}
-                  <button
-                    type="button" className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" disabled={pending}
-                    onClick={() => run(() => markPublished(row.id), "Marked published.")}
-                  >
-                    Mark published
-                  </button>
-                </>
-              )}
-              {(row.status === "draft" || row.status === "approved" || row.status === "ready" || row.status === "failed") && (
-                <button
-                  type="button" className="btn btn-ghost !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" disabled={pending}
-                  onClick={() => run(() => rejectContent(row.id), "Rejected.")}
-                >
-                  Reject
-                </button>
-              )}
-            </div>
-          </li>
+      {/* Platform names on top; tap or swipe to switch. */}
+      <div className="mt-6 flex gap-1 overflow-x-auto border-b border-rule" role="tablist">
+        {PLATFORMS.map((p, i) => (
+          <button
+            key={p.key}
+            type="button"
+            role="tab"
+            aria-selected={i === active}
+            onClick={() => setActive(i)}
+            className={`px-4 py-2.5 font-mono text-[0.6875rem] font-600 tracking-[0.14em] whitespace-nowrap uppercase transition-colors ${
+              i === active ? "border-b-2 border-signal text-ink" : "text-ink-faint hover:text-ink"
+            }`}
+          >
+            {p.label}
+            {pendingCount(p.key) > 0 && (
+              <span className="tnum ml-1.5 text-signal">{pendingCount(p.key)}</span>
+            )}
+          </button>
         ))}
-      </ul>
+      </div>
+
+      <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} className="min-h-[50vh]">
+        <section className="mt-5">
+          <h2 className="eyebrow">To post</h2>
+          {toPost.length === 0 && (
+            <p className="mt-3 font-mono text-xs text-ink-faint">
+              Nothing waiting for {PLATFORMS[active].label}. Run the agents for a fresh batch.
+            </p>
+          )}
+          <ul className="mt-3 flex flex-col gap-4">
+            {toPost.map((row) => (
+              <li key={row.id} className="border border-rule bg-paper p-4">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="eyebrow">{row.format.replace("_", " ")}</span>
+                  <StatusChip status={row.status} />
+                  {row.scheduled_for && (
+                    <span className="font-mono text-[0.6875rem] text-ink-faint">
+                      scheduled {new Date(row.scheduled_for).toLocaleString()}
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-3 flex flex-col gap-4 md:flex-row">
+                  <Thumbs row={row} size="w-40" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm leading-snug whitespace-pre-wrap">{row.copy}</p>
+                    {row.hashtags && row.hashtags.length > 0 && (
+                      <p className="tnum mt-2 font-mono text-[0.6875rem] text-ink-faint">
+                        {row.hashtags.map((h) => `#${h}`).join(" ")}
+                      </p>
+                    )}
+                    {row.status === "failed" && row.publish_result?.error != null && (
+                      <p className="mt-2 font-mono text-[0.6875rem] text-signal">
+                        {String(row.publish_result.error)}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  {(row.status === "draft" || row.status === "failed") && (
+                    <>
+                      <button
+                        type="button" className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" disabled={pending}
+                        onClick={() => run(() => approveContent(row.id, schedules[row.id]), "Approved.")}
+                      >
+                        Approve
+                      </button>
+                      <input
+                        type="datetime-local"
+                        value={schedules[row.id] ?? ""}
+                        onChange={(e) => setSchedules({ ...schedules, [row.id]: e.target.value })}
+                        className="field !min-h-0 !w-52 !py-1 !text-xs"
+                        aria-label="Schedule for"
+                      />
+                      <span className="font-mono text-[0.625rem] text-ink-faint">blank = next cron</span>
+                    </>
+                  )}
+                  {row.status === "ready" && (
+                    <>
+                      <button
+                        type="button" className="btn btn-signal !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+                        onClick={() => copyText(row)}
+                      >
+                        Copy text
+                      </button>
+                      {(row.asset_urls ?? (row.asset_url ? [row.asset_url] : [])).map((url, i, all) => (
+                        <a
+                          key={i}
+                          href={url} target="_blank" rel="noopener noreferrer"
+                          className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+                        >
+                          {all.length > 1 ? `Image ${i + 1}` : "Open image"}
+                        </a>
+                      ))}
+                      <button
+                        type="button" className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" disabled={pending}
+                        onClick={() => run(() => markPublished(row.id), "Marked published.")}
+                      >
+                        Mark published
+                      </button>
+                    </>
+                  )}
+                  {(row.status === "draft" || row.status === "approved" || row.status === "ready" || row.status === "failed") && (
+                    <button
+                      type="button" className="btn btn-ghost !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" disabled={pending}
+                      onClick={() => run(() => rejectContent(row.id), "Rejected.")}
+                    >
+                      Reject
+                    </button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* The permanent record: everything posted here, numbered from #1. */}
+        <section className="rule mt-8 pt-5 pb-6">
+          <h2 className="eyebrow">
+            Posted on {PLATFORMS[active].label}
+            <span className="tnum ml-2 text-ink-faint">{posted.length}</span>
+          </h2>
+          {posted.length === 0 && (
+            <p className="mt-3 font-mono text-xs text-ink-faint">
+              Nothing posted here yet — post #1 is waiting above.
+            </p>
+          )}
+          <ul className="mt-3 flex flex-col gap-2">
+            {posted.map((row) => (
+              <li key={row.id} className="flex items-start gap-3 border-b border-rule pb-2 last:border-b-0">
+                <span className="tnum w-10 shrink-0 font-display text-lg font-800 text-signal">
+                  #{row.post_number}
+                </span>
+                <Thumbs row={row} size="w-12" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-xs">{row.copy}</p>
+                  <p className="font-mono text-[0.625rem] text-ink-faint">
+                    {row.format.replace("_", " ")}
+                    {row.published_at &&
+                      ` · ${new Date(row.published_at).toLocaleDateString("en-US", {
+                        month: "short", day: "numeric",
+                      })}`}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
     </>
+  );
+}
+
+function Thumbs({ row, size }: { row: QueueRow; size: string }) {
+  const urls = row.asset_urls ?? (row.asset_url ? [row.asset_url] : []);
+  if (urls.length === 0) return null;
+  return (
+    <div className="flex shrink-0 flex-wrap gap-2">
+      {urls.map((url, i) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img key={i} src={url} alt={`Graphic ${i + 1}`} className={`${size} border border-ink`} />
+      ))}
+    </div>
   );
 }
 

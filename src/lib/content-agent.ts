@@ -38,15 +38,39 @@ export type GenerationResult = {
   costUsd: number;
 };
 
-const BATCH_SPEC =
-  "3 Threads posts (each with a square image), 1 Instagram story ad, " +
-  "1 Instagram feed post (feed image + caption + hashtags), 1 Instagram carousel " +
-  "(3 feed slides + caption + hashtags), 1 Facebook post (square image), " +
-  "1 TikTok photo carousel (3 story slides + caption + hashtags)";
+/**
+ * Posting strategy by phase. Launch: the app is new — post heavy, teach
+ * people what it is. Steady (after ~20 published posts): fewer posts, aimed
+ * at updates, momentum, and pulling customers in.
+ */
+export type Phase = "launch" | "steady";
+const LAUNCH_AFTER_PUBLISHED = 20;
 
-function systemPrompt(): string {
+const BATCH_SPECS: Record<Phase, string> = {
+  launch:
+    "3 Threads posts (each with a square image), 1 Instagram story ad, " +
+    "1 Instagram feed post (feed image + caption + hashtags), 1 Instagram carousel " +
+    "(3 feed slides + caption + hashtags), 1 Facebook post (square image), " +
+    "1 TikTok photo carousel (3 story slides + caption + hashtags)",
+  steady:
+    "2 Threads posts (each with a square image), 1 Instagram feed post " +
+    "(feed image + caption + hashtags), 1 Facebook post (square image)",
+};
+
+const PHASE_NOTES: Record<Phase, string> = {
+  launch:
+    "PHASE: LAUNCH. TapMart is brand new — most people seeing these posts have never heard of it. " +
+    "Weight the batch toward explaining what it is and how the mechanics work, from first principles, with launch energy.",
+  steady:
+    "PHASE: STEADY. The audience knows what TapMart is. Weight toward what's live right now, momentum, " +
+    "and reasons to come put a link up today. Don't re-explain the basics from zero.",
+};
+
+function systemPrompt(phase: Phase): string {
   return [
     "You are the content marketing agent for TapMart. You write social posts and design ad graphics.",
+    "",
+    PHASE_NOTES[phase],
     "",
     brandPromptBlock(),
     "",
@@ -206,6 +230,20 @@ export async function runGeneration(): Promise<GenerationResult> {
   const runId = started!.id;
 
   try {
+    // Which phase are we in, and clear the deck: unreviewed drafts from
+    // earlier runs are superseded so the queue always shows one fresh batch.
+    // Approved, ready, and published items are never touched.
+    const published = await sqlOne<{ n: string }>(
+      `select count(*)::text as n from content_queue where status = 'published'`,
+    );
+    const phase: Phase = Number(published?.n ?? 0) < LAUNCH_AFTER_PUBLISHED ? "launch" : "steady";
+    await sql(
+      `update content_queue
+          set status = 'rejected',
+              publish_result = jsonb_build_object('superseded', true)
+        where status = 'draft'`,
+    );
+
     let items: GeneratedItem[];
     let mode: "claude" | "sample";
     let inputTokens = 0;
@@ -216,11 +254,11 @@ export async function runGeneration(): Promise<GenerationResult> {
       const response = await client.messages.create({
         model: MODEL,
         max_tokens: 8192,
-        system: systemPrompt(),
+        system: systemPrompt(phase),
         messages: [
           {
             role: "user",
-            content: `Generate ${BATCH_SPEC} for ${SITE.url}. Remember: JSON array only, and every item needs its graphic.`,
+            content: `Generate ${BATCH_SPECS[phase]} for ${SITE.url}. Remember: JSON array only, and every item needs its graphic.`,
           },
         ],
       });
@@ -272,8 +310,8 @@ export async function runGeneration(): Promise<GenerationResult> {
       [
         runId, inputTokens, outputTokens, costUsd, created,
         mode === "claude"
-          ? `generated ${created} drafts across threads/instagram/facebook/tiktok`
-          : `generated ${created} SAMPLE drafts — ANTHROPIC_API_KEY not set`,
+          ? `generated ${created} drafts (${phase} phase)`
+          : `generated ${created} SAMPLE drafts (${phase} phase) — ANTHROPIC_API_KEY not set`,
       ],
     );
     return { runId, created, mode, costUsd };

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdminNav } from "../AdminNav";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/Header";
 import { LiveRefresh } from "@/components/live/LiveRefresh";
@@ -35,13 +36,13 @@ export default async function HqPage() {
             HQ
           </h1>
           <span className="font-mono text-[0.625rem] text-ink-faint">refreshes every 20s</span>
-          <nav className="ml-auto flex gap-4 font-mono text-xs">
-            <Link className="underline" href="/admin/agents">
-              approvals{stats.pending_total > 0 && <span className="tnum ml-1 font-600">{stats.pending_total}</span>}
+          {stats.pending_total > 0 && (
+            <Link className="ml-auto font-mono text-xs underline" href="/admin/agents">
+              approvals<span className="tnum ml-1 font-600">{stats.pending_total}</span>
             </Link>
-            <Link className="text-ink-faint underline" href="/admin">admin</Link>
-          </nav>
+          )}
         </div>
+        <div className="mt-5"><AdminNav /></div>
 
         <section className="mt-7">
           <h2 className="eyebrow">Today</h2>
