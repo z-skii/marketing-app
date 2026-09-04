@@ -16,7 +16,7 @@ export function LiveMain({
   board: React.ReactNode;
 }) {
   return (
-    <div className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(clamp(10.5rem,34vh,19rem),1fr)_auto_auto] short:grid-rows-[minmax(10.5rem,1fr)_auto_auto] lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_auto]">
+    <div className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(clamp(10.5rem,34vh,19rem),1fr)_auto_auto] short:grid-rows-[minmax(12rem,1fr)_auto_auto] lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_auto]">
       <section
         aria-label="The Spot"
         className="flex min-h-0 flex-col lg:col-span-8 lg:row-start-1 lg:border-r lg:border-rule"
