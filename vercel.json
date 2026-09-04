@@ -4,6 +4,14 @@
     {
       "path": "/api/cron",
       "schedule": "5 0 * * *"
+    },
+    {
+      "path": "/api/agents/publish",
+      "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/agents/generate",
+      "schedule": "30 13 * * *"
     }
   ]
 }

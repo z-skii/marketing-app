@@ -28,6 +28,7 @@ const DEFAULTS: Record<string, string> = {
   feature_spot_enabled: "true",
   feature_bar_enabled: "true",
   feature_showcase_ads: "false",
+  feature_agent_auto_publish: "false",
 };
 
 const CACHE_MS = 10_000;

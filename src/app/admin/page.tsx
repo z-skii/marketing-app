@@ -48,6 +48,9 @@ export default async function AdminPage() {
           <a href="/admin/hq" className="font-mono text-xs underline">
             HQ
           </a>
+          <a href="/admin/content" className="font-mono text-xs underline">
+            content
+          </a>
           <a href="/admin/agents" className="font-mono text-xs text-ink-faint underline">
             agents
           </a>
