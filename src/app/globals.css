@@ -226,8 +226,12 @@
   grid-template-rows: auto minmax(0, 1fr) auto;
   min-height: 100dvh;
 }
+/* The screen is pinned to one viewport ONLY while the measured lock is on
+   (see LockViewport): if the content genuinely fits, it clips; if it needs
+   more room — a tall photo, large text settings, a small window — the page
+   scrolls normally and nothing is ever squeezed or cut. */
 @media (min-height: 560px) {
-  .live-screen {
+  html[data-live-lock] .live-screen {
     height: 100dvh;
     overflow: clip;
   }
