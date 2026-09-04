@@ -26,7 +26,7 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
       <article className="group flex min-h-0 flex-1 flex-col px-4 pt-2 pb-2.5 short:pt-0.5 short:pb-1 md:justify-center md:px-6 md:py-4">
         <div className="flex items-start gap-4">
           <span
-            className="tnum font-display text-2xl leading-none font-800 tracking-[-0.05em] text-signal md:text-[clamp(2.25rem,5vw,4.5rem)]"
+            className="tnum font-display text-2xl leading-none font-800 tracking-[-0.05em] text-signal md:text-[clamp(2.25rem,1.8vw+3vh,5.5rem)]"
             aria-hidden="true"
           >
             1
@@ -35,19 +35,19 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
             <p translate="no" className="truncate font-mono text-[0.6875rem] tracking-[0.1em] text-ink-faint uppercase">
               {first.domain}
             </p>
-            <h3 className="mt-1 font-display text-lg leading-[0.95] font-800 tracking-[-0.04em] break-words short:mt-0.5 md:mt-1.5 md:text-[clamp(1.25rem,2.6vw,2.75rem)]">
+            <h3 className="mt-1 font-display text-lg leading-[0.95] font-800 tracking-[-0.04em] break-words short:mt-0.5 md:mt-1.5 md:text-[clamp(1.5rem,1.4vw+1.8vh,3.5rem)]">
               <span className="sr-only">Rank 1: </span>
               {first.display_name}
             </h3>
             {first.short_description && (
-              <p className="mt-1.5 hidden line-clamp-2 text-sm leading-snug text-ink-soft not-short:sm:block md:mt-2">
+              <p className="mt-1.5 hidden line-clamp-2 text-sm leading-snug text-ink-soft not-short:sm:block md:mt-2 md:line-clamp-3 md:text-[clamp(0.875rem,0.45vw+0.5vh,1.25rem)]">
                 {first.short_description}
               </p>
             )}
           </div>
         </div>
         <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-2 short:mt-1 md:mt-4">
-          <OpenButton placementId={first.placement_id} slug={first.slug} surface="top3" className="btn !min-h-[32px] !py-1.5 short:!min-h-[30px] short:!py-1 md:!min-h-[40px] md:!py-2" />
+          <OpenButton placementId={first.placement_id} slug={first.slug} surface="top3" className="btn !min-h-[32px] !py-1.5 short:!min-h-[30px] short:!py-1 md:!min-h-[40px] md:!py-2 xl:!min-h-[44px]" />
           <span className="tnum inline-flex items-center gap-1 font-mono text-xs text-ink-faint" title="Opens">
             <OpensIcon />
             <span className="sr-only">Opens </span>
@@ -60,17 +60,17 @@ export function TopRail({ rows }: { rows: BoardRow[] }) {
         {rest.map((row) => (
           <article
             key={row.link_id}
-            className="flex items-center gap-3 border-b border-rule px-4 py-1.5 last:border-b-0 short:py-1 md:px-6 md:py-3"
+            className="flex items-center gap-3 border-b border-rule px-4 py-1.5 last:border-b-0 short:py-1 md:px-6 md:py-[clamp(0.75rem,2.2vh,2.25rem)]"
           >
             <span
-              className="tnum w-7 font-display text-xl leading-none font-700 tracking-[-0.05em] text-ink-faint md:text-2xl"
+              className="tnum w-7 font-display text-xl leading-none font-700 tracking-[-0.05em] text-ink-faint md:text-[clamp(1.5rem,1.1vw,2rem)]"
               aria-hidden="true"
             >
               {row.rank}
             </span>
             <Movement rank={row.rank} previous={row.previous_rank} />
             <div className="min-w-0 flex-1">
-              <h3 className="truncate font-display text-sm leading-tight font-700 tracking-[-0.03em] md:text-base">
+              <h3 className="truncate font-display text-sm leading-tight font-700 tracking-[-0.03em] md:text-[clamp(1rem,0.8vw,1.25rem)]">
                 <span className="sr-only">Rank {row.rank}: </span>
                 {row.display_name}
               </h3>

@@ -58,10 +58,10 @@ export default async function LinkProfilePage({ params }: { params: Promise<{ sl
   return (
     <>
       <Header user={user} />
-      <main id="main" className="shell with-docked-bar py-10 md:py-16">
-        <div className="grid gap-10 md:grid-cols-12 md:gap-12">
+      <main id="main" className="shell with-docked-bar flex flex-col justify-center py-10 md:min-h-[calc(100dvh-9rem)] md:py-16">
+        <div className="w-full grid gap-10 md:grid-cols-12 md:gap-12">
           <div className="md:col-span-5 lg:col-span-4">
-            <div className="mx-auto w-full max-w-[340px] md:mx-0">
+            <div className="mx-auto w-full max-w-[340px] md:mx-0 md:max-w-[380px] xl:max-w-[440px]">
               <div className="aspect-[9/16] w-full overflow-hidden border border-ink bg-paper-deep shadow-[8px_8px_0_var(--color-rule)]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img

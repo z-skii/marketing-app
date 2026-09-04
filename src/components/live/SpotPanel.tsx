@@ -44,7 +44,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
         {/* Phones: the photo banners across the top with the panel's spare
             height, whole and uncropped, and everything else sits organized
             under it. Desktop keeps the split columns. */}
-        <div className="flex h-full min-h-0 flex-col justify-center md:order-2 md:col-span-7">
+        <div className="flex h-full min-h-0 flex-col justify-center md:order-2 md:col-span-7 xl:col-span-6">
           {spot.image_url && (
             <div className="flex min-h-24 w-full flex-1 items-center justify-center pb-2 short:min-h-12 short:pb-1 md:hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -61,12 +61,12 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
             <p translate="no" className="font-mono text-[0.6875rem] tracking-[0.1em] text-ink-faint uppercase md:text-xs">
               {spot.domain}
             </p>
-            <h3 className="mt-1 font-display text-xl leading-[0.9] font-800 tracking-[-0.045em] break-words md:mt-2 md:text-[clamp(1.75rem,5.5vw,4.25rem)]">
+            <h3 className="mt-1 font-display text-xl leading-[0.9] font-800 tracking-[-0.045em] break-words md:mt-2 md:text-[clamp(2rem,3.2vw+2.8vh,6.5rem)]">
               {spot.display_name}
             </h3>
           </div>
           {spot.short_description && (
-            <p className="mt-2 hidden max-w-xl font-display text-sm leading-snug text-ink-soft sm:line-clamp-2 short:sm:hidden md:mt-3 md:text-lg">
+            <p className="mt-2 hidden max-w-xl font-display text-sm leading-snug text-ink-soft sm:line-clamp-2 short:sm:hidden md:mt-3 md:text-[clamp(1.0625rem,0.8vw+0.8vh,1.625rem)]">
               {spot.short_description}
             </p>
           )}
@@ -75,7 +75,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
               placementId={spot.placement_id}
               slug={spot.slug}
               surface="spot"
-              className={`btn !min-h-[30px] !px-3.5 !py-1 md:!min-h-[40px] md:!px-6 md:!py-3 ${upcoming ? "" : "btn-signal"}`}
+              className={`btn !min-h-[30px] !px-3.5 !py-1 md:!min-h-[40px] md:!px-6 md:!py-3 xl:!min-h-[48px] xl:!px-8 ${upcoming ? "" : "btn-signal"}`}
             />
             <span className="tnum inline-flex items-center gap-1 font-mono text-xs text-ink-faint" title="Opens">
               <OpensIcon />
@@ -94,7 +94,7 @@ export function SpotPanel({ current, next }: { current: SpotRow | null; next: Sp
           </div>
         </div>
 
-        <div className="hidden min-h-0 md:order-1 md:col-span-5 md:block">
+        <div className="hidden min-h-0 md:order-1 md:col-span-5 md:block xl:col-span-6">
           {spot.image_url ? (
             <div className="flex h-full max-h-full w-full items-center justify-center">
               {/* The border belongs to the photo, whatever its shape. */}

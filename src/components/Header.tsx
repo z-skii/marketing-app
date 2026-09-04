@@ -31,7 +31,7 @@ export function Header({ user, stats }: { user: CurrentUser | null; stats?: Head
         <div className="flex min-w-0 items-baseline gap-3 md:gap-5">
           <Link
             href="/"
-            className="font-display text-base font-800 tracking-[-0.04em] uppercase md:text-lg"
+            className="font-display text-base font-800 tracking-[-0.04em] uppercase md:text-lg xl:text-xl"
           >
             {SITE_NAME}
           </Link>

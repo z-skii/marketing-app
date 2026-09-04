@@ -87,7 +87,7 @@ export function BoardWindow({
   };
 
   const pad = compact ? "px-4" : "px-4 md:px-8";
-  const cellPad = compact ? "px-3 py-1.5 short:py-1" : "px-3.5 py-2.5";
+  const cellPad = compact ? "px-3 py-1.5 short:py-1" : "px-3.5 py-2.5 xl:py-3";
 
   if (rows.length === 0) {
     return (
@@ -188,7 +188,7 @@ export function BoardWindow({
               </span>
               <div className="min-w-0 flex-1">
                 <Link href={`/l/${row.slug}`} className={`min-w-0 ${compact ? "flex items-baseline gap-2" : "block"}`}>
-                  <span className="block truncate font-display text-[0.875rem] leading-tight font-600 tracking-[-0.02em] md:text-[0.9375rem]">
+                  <span className="block truncate font-display text-[0.875rem] leading-tight font-600 tracking-[-0.02em] md:text-[0.9375rem] xl:text-base">
                     <span className="sr-only">Rank {rank}: </span>
                     {row.display_name}
                   </span>

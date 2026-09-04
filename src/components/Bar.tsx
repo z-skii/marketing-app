@@ -61,7 +61,7 @@ export function Bar({
           <OpenArrowIcon className="text-signal transition-colors group-hover:text-paper" />
           {feature ? (
             <span className="flex flex-col whitespace-nowrap">
-              <span className="font-display text-[0.75rem] leading-tight font-700 tracking-[-0.02em] md:text-[0.8125rem]">
+              <span className="font-display text-[0.75rem] leading-tight font-700 tracking-[-0.02em] md:text-[0.8125rem] xl:text-[0.875rem]">
                 {item.display_name}
               </span>
               <span translate="no" className="font-mono text-[0.625rem] leading-tight text-ink-faint group-hover:text-paper/70">
@@ -69,7 +69,7 @@ export function Bar({
               </span>
             </span>
           ) : (
-            <span translate="no" className="font-mono text-[0.6875rem] tracking-tight whitespace-nowrap md:text-[0.75rem]">
+            <span translate="no" className="font-mono text-[0.6875rem] tracking-tight whitespace-nowrap md:text-[0.75rem] xl:text-[0.8125rem]">
               {item.domain}
             </span>
           )}
