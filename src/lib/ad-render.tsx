@@ -2,6 +2,7 @@ import "server-only";
 import { ImageResponse } from "next/og";
 import { COLORS, SITE } from "./brand-kit";
 import { ARCHIVO_800, ARCHIVO_900, PLEXMONO_500, PLEXMONO_600 } from "../assets/fonts-data";
+import { SHOT_DESKTOP_B64, SHOT_PHONE_B64 } from "../assets/site-shots-data";
 
 /**
  * Server-side ad rendering. Three templates in the house style — ink, paper,
@@ -56,36 +57,11 @@ const PALETTES: Record<AdTemplate, { bg: string; fg: string; accent: string; mut
   browser: { bg: COLORS.paper, fg: COLORS.ink, accent: COLORS.signal, muted: COLORS.inkFaint },
 };
 
-/**
- * Real screenshots of the live site, served from public/marketing/ and
- * cached as data URLs. The base URL is the deployment's own origin. When a
- * fetch fails the screenshot templates degrade to the text layout rather
- * than failing a whole generation run.
- */
-const SHOT_FILES = { phone: "shot-phone.png", desktop: "shot-desktop.png" } as const;
-const shotCache: Partial<Record<keyof typeof SHOT_FILES, string>> = {};
-
-function baseUrl(): string {
-  // SITE_BASE_URL is read at runtime (NEXT_PUBLIC_* would be inlined at
-  // build time); on Vercel the deployment's own URL is always present.
-  const configured = process.env.SITE_BASE_URL?.replace(/\/$/, "");
-  if (configured) return configured;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return "http://localhost:3000";
-}
-
-async function siteShot(kind: keyof typeof SHOT_FILES): Promise<string | null> {
-  if (shotCache[kind]) return shotCache[kind]!;
-  try {
-    const response = await fetch(`${baseUrl()}/marketing/${SHOT_FILES[kind]}`);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const b64 = Buffer.from(await response.arrayBuffer()).toString("base64");
-    shotCache[kind] = `data:image/png;base64,${b64}`;
-    return shotCache[kind]!;
-  } catch (error) {
-    console.error(`site screenshot ${kind}:`, error);
-    return null;
-  }
+// Real screenshots of the live site, embedded like the fonts
+// (src/assets/site-shots-data.ts) — no network or filesystem access, so a
+// screenshot ad renders in every bundle and can never degrade to text.
+function siteShot(kind: "phone" | "desktop"): string {
+  return `data:image/png;base64,${kind === "phone" ? SHOT_PHONE_B64 : SHOT_DESKTOP_B64}`;
 }
 
 function headlineSize(text: string, format: AdFormat): number {
@@ -399,16 +375,10 @@ function screenshotAd(params: AdParams, shot: string) {
 export async function renderAd(params: AdParams): Promise<Response> {
   const { width, height } = AD_SIZES[params.format];
 
-  let element: React.ReactElement;
-  if (params.template === "phone" || params.template === "browser") {
-    const shot = await siteShot(params.template === "phone" ? "phone" : "desktop");
-    // A missing screenshot degrades to the text layout instead of failing.
-    element = shot
-      ? screenshotAd(params, shot)
-      : textAd({ ...params, template: params.template === "phone" ? "ink" : "paper" });
-  } else {
-    element = textAd(params);
-  }
+  const element =
+    params.template === "phone" || params.template === "browser"
+      ? screenshotAd(params, siteShot(params.template === "phone" ? "phone" : "desktop"))
+      : textAd(params);
 
   return new ImageResponse(element, { width, height, fonts: loadFonts() });
 }

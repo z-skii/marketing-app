@@ -259,9 +259,9 @@ export async function runGeneration(): Promise<GenerationResult> {
   const runId = started!.id;
 
   try {
-    // Which phase are we in, and clear the deck: unreviewed drafts from
-    // earlier runs are superseded so the queue always shows one fresh batch.
-    // Approved, ready, and published items are never touched.
+    // Which phase are we in, and clear the deck: anything not actually
+    // posted yet — drafts, approved, ready, failed — is superseded so the
+    // queue always shows one fresh batch. Published history is never touched.
     const published = await sqlOne<{ n: string }>(
       `select count(*)::text as n from content_queue where status = 'published'`,
     );
@@ -270,7 +270,7 @@ export async function runGeneration(): Promise<GenerationResult> {
       `update content_queue
           set status = 'rejected',
               publish_result = jsonb_build_object('superseded', true)
-        where status = 'draft'`,
+        where status in ('draft', 'approved', 'ready', 'failed')`,
     );
 
     let items: GeneratedItem[];

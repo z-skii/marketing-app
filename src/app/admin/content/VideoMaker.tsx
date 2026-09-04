@@ -153,19 +153,20 @@ export function VideoMaker({ urls, onClose }: { urls: string[]; onClose: () => v
         <canvas ref={canvasRef} className="mt-3 w-full border border-ink bg-ink" />
 
         {status === "making" && (
-          <p className="tnum mt-3 font-mono text-xs text-ink-faint">recording… {progress}%</p>
+          <p className="tnum mt-3 font-mono text-xs text-ink-faint">making your video… {progress}%</p>
         )}
         {status === "error" && (
           <p role="alert" className="mt-3 font-mono text-xs text-signal">{error}</p>
         )}
         {status === "done" && blobUrl && (
           <div className="mt-3 flex flex-col gap-2">
+            <p className="font-mono text-xs text-rise">Final video ready — check it, then save.</p>
             <video src={blobUrl} controls playsInline className="w-full border border-ink" />
             <a href={blobUrl} download={`tapmart-video.${ext}`} className="btn btn-signal !py-2.5 text-center">
-              Save video
+              Save final video
             </a>
             <p className="font-mono text-[0.625rem] text-ink-faint">
-              Post it in the app and add trending audio there.
+              This is the finished file — post it in TikTok or Instagram and add trending audio there.
             </p>
           </div>
         )}
