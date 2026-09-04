@@ -22,7 +22,8 @@ const LABELS: Record<string, string> = {
   feature_creator_program: "Creator program",
   feature_spot_enabled: "The Spot",
   feature_bar_enabled: "The Bar",
-  feature_showcase_ads: "Showcase ads (top 50 brands)",
+  // feature_showcase_ads is deliberately absent: it has its own one-tap
+  // switch at the top of the admin page instead of a dropdown here.
 };
 
 export function SettingsPanel({ settings }: { settings: Record<string, string> }) {

@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { ModerationQueue } from "./ModerationQueue";
 import { MembersPanel } from "./MembersPanel";
 import { SettingsPanel } from "./SettingsPanel";
+import { ShowcaseSwitch } from "./ShowcaseSwitch";
 import { AdminTools } from "./AdminTools";
 import { getCurrentUser } from "@/lib/auth";
 import {
@@ -62,6 +63,8 @@ export default async function AdminPage() {
           </div>
         </section>
 
+        <ShowcaseSwitch enabled={settings.feature_showcase_ads === "true"} />
+
         <section className="rule mt-9 pt-6">
           <h2 className="eyebrow">Live</h2>
           <div className="mt-4 grid max-w-5xl grid-cols-2 gap-5 md:grid-cols-4 lg:grid-cols-6">
@@ -104,7 +107,7 @@ export default async function AdminPage() {
           <h2 className="eyebrow">Board · top 15</h2>
           <ol className="mt-3 flex flex-col gap-1">
             {board.map((row) => (
-              <li key={row.placement_id} className="flex items-baseline gap-3 font-mono text-xs">
+              <li key={row.link_id} className="flex items-baseline gap-3 font-mono text-xs">
                 <span className="tnum w-6 text-ink-faint">{String(row.rank).padStart(2, "0")}</span>
                 <span className="flex-1 truncate">{row.display_name}</span>
                 <span className="tnum">{formatCredit(row.score_cents_today)}</span>
