@@ -58,6 +58,27 @@ export function ContentReview({ rows, phase }: { rows: QueueRow[]; phase: string
       if (result.ok) router.refresh();
     });
 
+  // Fetch the image and hand it to the browser as a download, so "save this
+  // photo to post it" is one tap instead of open-tab-then-long-press.
+  const saveImage = async (row: QueueRow, url: string, n: number) => {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `tapmart-${row.platform}-${n}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 30_000);
+      setMessage({ tone: "ok", text: "Photo saved to your downloads." });
+    } catch {
+      window.open(url, "_blank", "noopener");
+      setMessage({ tone: "bad", text: "Direct save blocked — opened the photo instead, long-press to save." });
+    }
+  };
+
   const copyText = async (row: QueueRow) => {
     const text = row.hashtags?.length
       ? `${row.copy}\n\n${row.hashtags.map((h) => `#${h}`).join(" ")}`
@@ -109,7 +130,7 @@ export function ContentReview({ rows, phase }: { rows: QueueRow[]; phase: string
           {phase === "launch"
             ? "launch phase — posting heavy so people learn the app."
             : "steady phase — updates and customer pull."}
-          {" "}Old drafts are replaced on every run.
+          {" "}Every run replaces anything you haven&apos;t posted yet.
         </p>
       </div>
 
@@ -193,9 +214,19 @@ export function ContentReview({ rows, phase }: { rows: QueueRow[]; phase: string
                       className="btn btn-signal !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
                       onClick={() => setVideoUrls(row.asset_urls!)}
                     >
-                      Make video
+                      {row.format === "video" ? "Make final video" : "Make video"}
                     </button>
                   )}
+                  {(row.asset_urls ?? (row.asset_url ? [row.asset_url] : [])).map((url, i, all) => (
+                    <button
+                      key={i}
+                      type="button"
+                      className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+                      onClick={() => saveImage(row, url, i + 1)}
+                    >
+                      {all.length > 1 ? `Save photo ${i + 1}` : "Save photo"}
+                    </button>
+                  ))}
                   {(row.status === "draft" || row.status === "failed") && (
                     <>
                       <button
@@ -222,15 +253,6 @@ export function ContentReview({ rows, phase }: { rows: QueueRow[]; phase: string
                       >
                         Copy text
                       </button>
-                      {(row.asset_urls ?? (row.asset_url ? [row.asset_url] : [])).map((url, i, all) => (
-                        <a
-                          key={i}
-                          href={url} target="_blank" rel="noopener noreferrer"
-                          className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
-                        >
-                          {all.length > 1 ? `Image ${i + 1}` : "Open image"}
-                        </a>
-                      ))}
                       <button
                         type="button" className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" disabled={pending}
                         onClick={() => run(() => markPublished(row.id), "Marked published.")}

@@ -12,8 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Embedded font bytes; 700KB of base64 overflows the parser.
+    // Embedded font/screenshot bytes; huge base64 overflows the parser.
     "src/assets/fonts-data.ts",
+    "src/assets/site-shots-data.ts",
   ]),
 ]);
 
