@@ -59,13 +59,13 @@ export default async function HomePage() {
                 totalCount={boardCount}
                 pageSize={4}
                 compact
-                className="lg:hidden"
+                className="md:hidden"
               />
               <BoardWindow
                 rows={rest}
                 startRank={4}
                 totalCount={boardCount}
-                className="hidden lg:flex"
+                className="hidden md:flex"
               />
             </>
           }

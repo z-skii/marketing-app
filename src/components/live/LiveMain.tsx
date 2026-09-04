@@ -16,24 +16,24 @@ export function LiveMain({
   board: React.ReactNode;
 }) {
   return (
-    <div className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(clamp(10.5rem,34vh,19rem),1fr)_auto_auto] short:grid-rows-[minmax(12rem,1fr)_auto_auto] lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_auto]">
+    <div className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(clamp(10.5rem,34vh,19rem),1fr)_auto_auto] short:grid-rows-[minmax(12rem,1fr)_auto_auto] md:grid-cols-12 md:grid-rows-[minmax(0,1fr)_auto]">
       <section
         aria-label="The Spot"
-        className="flex min-h-0 flex-col lg:col-span-8 lg:row-start-1 lg:border-r lg:border-rule"
+        className="flex min-h-0 flex-col md:col-span-8 md:row-start-1 md:border-r md:border-rule"
       >
         {spot}
       </section>
 
       <section
         aria-label="Top 3"
-        className="flex min-h-0 flex-col border-t border-rule lg:col-span-4 lg:row-start-1 lg:border-t-0"
+        className="flex min-h-0 flex-col border-t border-rule md:col-span-4 md:row-start-1 md:border-t-0"
       >
         {top}
       </section>
 
       <section
         aria-label="The Board"
-        className="flex min-h-0 flex-col border-t-[1.5px] border-ink lg:col-span-12 lg:row-start-2"
+        className="flex min-h-0 flex-col border-t-[1.5px] border-ink md:col-span-12 md:row-start-2"
       >
         {board}
       </section>

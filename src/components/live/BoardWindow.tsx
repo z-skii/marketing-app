@@ -183,12 +183,12 @@ export function BoardWindow({
           const rank = startRank + first + index;
           return (
             <article key={row.link_id} className={`flex min-w-0 items-center gap-3 bg-paper ${cellPad}`}>
-              <span className="tnum font-mono text-sm text-ink-faint" aria-hidden="true">
+              <span className="tnum font-mono text-xs text-ink-faint md:text-sm" aria-hidden="true">
                 {String(rank).padStart(2, "0")}
               </span>
               <div className="min-w-0 flex-1">
                 <Link href={`/l/${row.slug}`} className={`min-w-0 ${compact ? "flex items-baseline gap-2" : "block"}`}>
-                  <span className="block truncate font-display text-[0.9375rem] leading-tight font-600 tracking-[-0.02em]">
+                  <span className="block truncate font-display text-[0.875rem] leading-tight font-600 tracking-[-0.02em] md:text-[0.9375rem]">
                     <span className="sr-only">Rank {rank}: </span>
                     {row.display_name}
                   </span>
