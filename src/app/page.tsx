@@ -37,6 +37,14 @@ export default async function HomePage() {
 
   return (
     <div className="live-screen">
+      {/* The lock lands during HTML parsing, before first paint, so a
+          refresh never flashes the unlocked layout. LockViewport then
+          verifies the fit and keeps or releases it. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `document.documentElement.setAttribute("data-live-lock","")`,
+        }}
+      />
       <Header
         user={user}
         stats={{
