@@ -1,0 +1,44 @@
+import { chromium } from "playwright-core";
+const exe = "/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell";
+const base = "http://localhost:3000";
+const b = await chromium.launch({ executablePath: exe });
+const p = await b.newPage({ viewport: { width: 1360, height: 900 } });
+const stamp = Date.now(); const email = `probe${stamp}@local.test`;
+await p.goto(base + "/sign-up");
+await p.fill("input[name=full_name]", "Probe"); await p.fill("input[name=email]", email); await p.fill("input[name=password]", "Password123!");
+await p.click("button[type=submit]"); await p.waitForURL(/onboarding/);
+await p.fill("input[name=name]", "Probe Biz"); await p.click("button[type=submit]"); await p.waitForTimeout(2500);
+await p.fill("input[name=name]", "Store A"); await p.fill("input[name=latitude]", "36.1"); await p.fill("input[name=longitude]", "-78.3");
+await p.click("button[type=submit]"); await p.waitForTimeout(3000);
+await p.click("button[type=submit]"); await p.waitForTimeout(2500);
+await p.click("button:has-text('Skip for now')"); await p.waitForTimeout(2500);
+await p.click("button[type=submit]"); await p.waitForURL(/dashboard/);
+await p.goto(base + "/settings/data"); await p.click("button:has-text('Create demo business')"); await p.waitForTimeout(400);
+await p.locator("button:has-text('Create demo')").last().click(); await p.waitForURL(/dashboard/, { timeout: 60000 });
+await p.goto(base + "/accounting/quick-close", { waitUntil: "networkidle" });
+const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+const locSel = p.locator("main select").first();
+const options = await locSel.locator("option").allTextContents();
+await locSel.selectOption({ index: options.findIndex((o) => /Corner Mart/.test(o)) });
+await p.waitForTimeout(1500);
+await p.fill("input[type=date]", yesterday);
+await p.waitForTimeout(2500);
+console.log("url:", p.url());
+const money = p.locator("input[inputmode=decimal]");
+const cash = () => money.nth(0).inputValue();
+console.log("initial cash:", await cash(), "active:", await p.evaluate(() => document.activeElement?.tagName));
+await money.nth(0).click();
+console.log("after click cash:", await cash());
+for (const ch of "2816.45") { await p.keyboard.type(ch); console.log(JSON.stringify(ch), "→", await cash()); }
+await p.keyboard.press("Enter"); await p.waitForTimeout(30);
+console.log("after Enter cash:", await cash());
+for (const ch of "3194.82") { await p.keyboard.type(ch); }
+await p.keyboard.press("Enter"); await p.keyboard.press("Enter");
+for (const ch of "410") { await p.keyboard.type(ch); }
+await p.keyboard.press("Enter");
+console.log("after goods cash:", await cash());
+await p.waitForTimeout(1200);
+console.log("after 1.2s cash:", await cash(), "card:", await money.nth(1).inputValue());
+await p.waitForTimeout(2000);
+console.log("after 3.2s cash:", await cash());
+await b.close();

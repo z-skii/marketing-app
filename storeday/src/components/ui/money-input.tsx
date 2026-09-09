@@ -43,6 +43,10 @@ export const MoneyInput = React.forwardRef<HTMLInputElement, MoneyInputProps>(fu
 
   const display = editing ? draft : value == null ? "" : formatMoney(value, { currency });
 
+  // Until the user types something after focusing, a click keeps the whole value selected
+  // (spreadsheet behaviour). After the first keystroke, clicks place the caret normally.
+  const touched = React.useRef(false);
+
   const beginEdit = React.useCallback(() => {
     if (!editing) {
       setDraft(moneyToEditString(value));
@@ -68,6 +72,7 @@ export const MoneyInput = React.forwardRef<HTMLInputElement, MoneyInputProps>(fu
       value={display}
       placeholder={props.placeholder ?? "0.00"}
       onFocus={(e) => {
+        touched.current = false;
         beginEdit();
         onFocus?.(e);
       }}
@@ -76,7 +81,15 @@ export const MoneyInput = React.forwardRef<HTMLInputElement, MoneyInputProps>(fu
         beginEdit();
         props.onClick?.(e);
       }}
+      onMouseUp={(e) => {
+        if (!touched.current) {
+          e.preventDefault();
+          e.currentTarget.select();
+        }
+        props.onMouseUp?.(e);
+      }}
       onChange={(e) => {
+        touched.current = true;
         const raw = e.target.value;
         const re = allowNegative ? /^-?\d*\.?\d{0,2}$/ : /^\d*\.?\d{0,2}$/;
         let cleaned = raw.replace(/[$,\s]/g, "");

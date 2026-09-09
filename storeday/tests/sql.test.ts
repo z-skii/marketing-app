@@ -7,7 +7,7 @@ import { asUser, connect, createAuthUser, resetTestDatabase } from "./helpers/db
  * Verified Shift RPCs, adjustments and the demo seed. Runs against a local Postgres.
  */
 let c: Client;
-let owner: string, employee: string, outsider: string, org: string, loc: string;
+let owner: string, employee: string, outsider: string, org: string, loc: string, emp: string;
 
 beforeAll(async () => {
   resetTestDatabase();
@@ -18,7 +18,7 @@ beforeAll(async () => {
   org = await asUser(c, owner, async (q) => (await q("select create_organization('Test Biz', 'convenience', 'America/New_York') as id"))[0].id);
   loc = await asUser(c, owner, async (q) => (await q(
     "insert into locations (organization_id, name, latitude, longitude, timezone) values ($1, 'Mr Tobacco', 36.0999, -78.3012, 'America/New_York') returning id", [org]))[0].id);
-  await asUser(c, owner, async (q) => {
+  emp = await asUser(c, owner, async (q) => {
     const e = (await q("insert into employees (organization_id, user_id, first_name, last_name) values ($1, $2, 'John', 'Doe') returning id", [org, employee]))[0].id;
     await q("insert into employee_pay_rates (organization_id, employee_id, hourly_rate, effective_from) values ($1, $2, 15, '2020-01-01')", [org, e]);
     await q("insert into organization_members (organization_id, user_id, role) values ($1, $2, 'employee')", [org, employee]);
@@ -97,30 +97,34 @@ describe("Verified Shift", () => {
 });
 
 describe("daily accounting", () => {
-  const today = () => asUser(c, owner, async (q) => (await q("select app.location_today($1) as d", [loc]))[0].d as string);
+  // A fixed past date keeps these assertions independent of the wall clock and timezone.
+  const d = "2025-03-10";
   it("derives totals from the numbers entered once plus automatic labor", async () => {
-    const d = await today();
+    // 8h manual shift at $15/h → $120 labor on that date.
+    await asUser(c, owner, (q) => q("select create_manual_shift($1, $2, '2025-03-10T09:00:00-04:00', '2025-03-10T17:00:00-04:00', 'Forgot to clock in')", [loc, emp]));
     await asUser(c, owner, (q) => q("select save_daily_report_draft($1, $2, '{\"cash_sales\": 2816.45, \"card_sales\": 3194.82, \"cash_goods\": 410, \"check_goods\": 875, \"utilities\": 0, \"other_expenses\": 35, \"expected_cash\": 2840, \"actual_cash\": 2836}')", [loc, d]));
-    const rows = await asUser(c, owner, (q) => q("select total_sales, goods_total, labor_total, other_total, total_expenses, profit, cash_difference, labor_minutes from daily_accounting where location_id = $1 and business_date = $2", [loc, d]));
+    const rows = await asUser(c, owner, (q) => q("select total_sales, goods_total, labor_total, other_total, total_expenses, profit, cash_difference, labor_minutes, labor_employee_count from daily_accounting where location_id = $1 and business_date = $2", [loc, d]));
     const r = rows[0];
     expect(Number(r.total_sales)).toBe(6011.27);
     expect(Number(r.goods_total)).toBe(1285);
-    expect(Number(r.labor_total)).toBeGreaterThan(0); // from the shifts above
-    expect(Number(r.total_expenses)).toBe(Number(r.goods_total) + Number(r.labor_total) + 35);
-    expect(Number(r.profit)).toBe(Number((6011.27 - Number(r.total_expenses)).toFixed(2)));
+    expect(Number(r.labor_total)).toBe(120);
+    expect(Number(r.labor_minutes)).toBe(480);
+    expect(Number(r.labor_employee_count)).toBe(1);
+    expect(Number(r.total_expenses)).toBe(1440);
+    expect(Number(r.profit)).toBe(4571.27);
     expect(Number(r.cash_difference)).toBe(-4);
   });
   it("detailed expenses flow into buckets", async () => {
-    const d = await today();
     await asUser(c, owner, (q) => q("insert into expenses (organization_id, location_id, business_date, amount, category_id, payment_method) select $1, $2, $3, 100, id, 'cash' from expense_categories where organization_id = $1 and name = 'Inventory'", [org, loc, d]));
-    const rows = await asUser(c, owner, (q) => q("select goods_total, detailed_goods from daily_accounting where location_id = $1 and business_date = $2", [loc, d]));
+    const rows = await asUser(c, owner, (q) => q("select goods_total, detailed_goods, profit from daily_accounting where location_id = $1 and business_date = $2", [loc, d]));
     expect(Number(rows[0].goods_total)).toBe(1385);
     expect(Number(rows[0].detailed_goods)).toBe(100);
+    expect(Number(rows[0].profit)).toBe(4471.27);
   });
   it("closes the day with a snapshot, blocks silent edits, audits reasoned edits, reopens", async () => {
-    const d = await today();
-    const snap = await asUser(c, owner, (q) => q("select total_sales, cash_difference, attention from close_day($1, $2)", [loc, d]));
+    const snap = await asUser(c, owner, (q) => q("select total_sales, profit, cash_difference, attention from close_day($1, $2)", [loc, d]));
     expect(Number(snap[0].total_sales)).toBe(6011.27);
+    expect(Number(snap[0].profit)).toBe(4471.27);
     expect(snap[0].attention.some((a: { kind: string }) => a.kind === "cash_short")).toBe(true);
     await expect(asUser(c, owner, (q) => q("update daily_reports set cash_sales = 1 where location_id = $1 and business_date = $2", [loc, d]))).rejects.toThrow(/closed/);
     await expect(asUser(c, owner, (q) => q("select close_day($1, $2)", [loc, d]))).rejects.toThrow(/already closed/);
@@ -132,9 +136,10 @@ describe("daily accounting", () => {
     expect(log[0]).toMatchObject({ b: "2816.45", a: "2890.00", note: "Forgot second register" });
     const reopened = await asUser(c, owner, (q) => q("select status from reopen_day($1, 'Need to fix goods')", [rep]));
     expect(reopened[0].status).toBe("open");
-    const totals = await asUser(c, owner, (q) => q("select * from accounting_totals($1, null, $2::date - 30, $2::date)", [org, d]));
+    const totals = await asUser(c, owner, (q) => q("select * from accounting_totals($1, null, '2025-03-01', '2025-03-31')", [org]));
     expect(Number(totals[0].total_sales)).toBe(6084.82);
     expect(Number(totals[0].goods_total)).toBe(1385);
+    expect(Number(totals[0].labor_total)).toBe(120);
   });
 });
 
