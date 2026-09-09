@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { BackButton } from "@/components/v2/BackButton";
 import { getV2Context } from "@/lib/v2/core";
 import { sqlOne } from "@/lib/db";
 import { StatusChip } from "@/components/v2/ui";
@@ -24,7 +24,7 @@ export default async function CreatorProfilePage() {
 
   return (
     <main id="main" className="mx-auto w-full max-w-md px-4 py-5 md:py-8">
-      <Link href="/me" className="font-mono text-xs text-ink-faint hover:text-ink">← Profile</Link>
+      <BackButton fallback="/me" label="Profile" />
       <div className="mt-2 flex items-center justify-between">
         <h1 className="font-display text-2xl font-900 tracking-[-0.03em]">Creator profile</h1>
         <StatusChip status={cp?.verification ?? "unverified"} />

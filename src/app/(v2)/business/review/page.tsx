@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BackButton } from "@/components/v2/BackButton";
 import { getV2Context } from "@/lib/v2/core";
 import { sql } from "@/lib/db";
 import { EmptyState, Money, SectionTitle } from "@/components/v2/ui";
@@ -28,7 +29,7 @@ export default async function ReviewQueuePage() {
 
   return (
     <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
-      <Link href="/business" className="font-mono text-xs text-ink-faint hover:text-ink">← Business</Link>
+      <BackButton fallback="/business" label="Business" />
       <h1 className="mt-2 font-display text-2xl font-900 tracking-[-0.03em]">Review queue</h1>
       <section className="mt-4">
         <SectionTitle count={withWork.length}>Waiting on you</SectionTitle>

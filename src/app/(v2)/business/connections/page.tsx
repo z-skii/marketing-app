@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { BackButton } from "@/components/v2/BackButton";
 import { redirect } from "next/navigation";
 import { getV2Context } from "@/lib/v2/core";
 import { sql } from "@/lib/db";
@@ -34,7 +34,7 @@ export default async function ConnectionsPage() {
 
   return (
     <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
-      <Link href="/business" className="font-mono text-xs text-ink-faint hover:text-ink">← Business</Link>
+      <BackButton fallback="/business" label="Business" />
       <h1 className="mt-2 font-display text-2xl font-900 tracking-[-0.03em]">Connected accounts</h1>
       <p className="mt-1 text-sm text-ink-faint">
         Platform sign-in isn&apos;t switched on for TapMart yet — requesting a

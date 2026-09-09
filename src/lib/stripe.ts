@@ -47,8 +47,8 @@ export async function createTopUpSession(input: {
         },
       },
     ],
-    success_url: `${SITE_URL}/dashboard?topup=success&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${SITE_URL}/dashboard?topup=cancelled`,
+    success_url: `${SITE_URL}/wallet?topup=success&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${SITE_URL}/wallet?topup=cancelled`,
     metadata: { user_id: input.userId, ...input.metadata },
   });
 

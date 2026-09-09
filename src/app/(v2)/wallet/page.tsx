@@ -14,8 +14,10 @@ export const dynamic = "force-dynamic";
  * (credit) and money you've earned doing work (earnings → payouts). All
  * numbers come from the ledger — nothing is computed client-side.
  */
-export default async function WalletPage() {
-  const ctx = await getV2Context();
+export default async function WalletPage({
+  searchParams,
+}: { searchParams: Promise<{ topup?: string }> }) {
+  const [ctx, params] = await Promise.all([getV2Context(), searchParams]);
   if (!ctx) return null;
 
   const [credit, earningSums, earningsRows, payouts, settings] = await Promise.all([
@@ -60,6 +62,17 @@ export default async function WalletPage() {
     <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
       <h1 className="font-display text-2xl font-900 tracking-[-0.03em]">Wallet</h1>
 
+      {params.topup === "success" && (
+        <p role="alert" className="mt-3 border border-rise p-3 font-mono text-xs text-rise">
+          Payment received — the credit lands in a few seconds. Refresh if you don&apos;t see it yet.
+        </p>
+      )}
+      {params.topup === "cancelled" && (
+        <p role="alert" className="mt-3 border border-rule p-3 font-mono text-xs text-ink-faint">
+          Checkout cancelled — nothing was charged.
+        </p>
+      )}
+
       <div className="mt-4 grid grid-cols-2 gap-2">
         <div className="border border-rule p-4">
           <p className="eyebrow">Earnings available</p>
@@ -82,7 +95,7 @@ export default async function WalletPage() {
               Funds campaign approvals and car ads.
             </p>
           </div>
-          <Link href="/dashboard" className="btn !px-4 !py-2 text-xs">Add credit</Link>
+          <Link href="/wallet/add" className="btn !px-4 !py-2 text-xs">Add credit</Link>
         </div>
       </div>
 

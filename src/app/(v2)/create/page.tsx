@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { BackButton } from "@/components/v2/BackButton";
 import { getV2Context } from "@/lib/v2/core";
 import { sqlOne, sql } from "@/lib/db";
 import { EmptyState } from "@/components/v2/ui";
@@ -43,7 +43,7 @@ export default async function CreatePage({
 
   return (
     <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
-      <Link href="/home" className="font-mono text-xs text-ink-faint hover:text-ink">← Home</Link>
+      <BackButton fallback="/home" label="Home" />
       <h1 className="mt-2 font-display text-2xl font-900 tracking-[-0.03em]">Create</h1>
 
       {ctx.businesses.length === 0 ? (

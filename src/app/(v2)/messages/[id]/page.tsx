@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BackButton } from "@/components/v2/BackButton";
 import { notFound } from "next/navigation";
 import { getV2Context } from "@/lib/v2/core";
 import { sql, sqlOne } from "@/lib/db";
@@ -43,7 +44,7 @@ export default async function ConversationPage({ params }: { params: Promise<{ i
   return (
     <main id="main" className="mx-auto flex h-[calc(100dvh-6rem)] w-full max-w-xl flex-col px-4 py-4 md:h-dvh md:py-6">
       <header className="flex items-center gap-3 border-b border-rule pb-3">
-        <Link href="/messages" className="font-mono text-xs text-ink-faint hover:text-ink">←</Link>
+        <BackButton fallback="/messages" label="" />
         {other && (
           <>
             <Avatar src={other.avatar_url} name={other.display_name ?? other.username} size={32} />

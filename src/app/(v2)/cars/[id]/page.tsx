@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BackButton } from "@/components/v2/BackButton";
 import { notFound } from "next/navigation";
 import { getV2Context } from "@/lib/v2/core";
 import { sql, sqlOne } from "@/lib/db";
@@ -82,7 +83,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ id: st
 
   return (
     <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
-      <Link href="/cars" className="font-mono text-xs text-ink-faint hover:text-ink">← Car Ads</Link>
+      <BackButton fallback="/cars" label="Car Ads" />
 
       <header className="mt-3">
         <div className="flex items-start justify-between gap-3">

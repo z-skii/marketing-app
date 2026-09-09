@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BackButton } from "@/components/v2/BackButton";
 import { notFound } from "next/navigation";
 import { getV2Context } from "@/lib/v2/core";
 import { sqlOne } from "@/lib/db";
@@ -56,7 +57,7 @@ export default async function CampaignPage({ params }: { params: Promise<{ id: s
 
   return (
     <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
-      <Link href="/jobs" className="font-mono text-xs text-ink-faint hover:text-ink">← Jobs</Link>
+      <BackButton fallback="/jobs" label="Jobs" />
 
       <header className="mt-3">
         <div className="flex items-center gap-3">

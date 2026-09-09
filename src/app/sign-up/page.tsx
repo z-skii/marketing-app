@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function SignUpPage() {
   const user = await getCurrentUser();
-  if (user) redirect("/dashboard");
+  if (user) redirect("/home");
 
   return (
     <>

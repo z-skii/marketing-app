@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { BackButton } from "@/components/v2/BackButton";
 import { getV2Context } from "@/lib/v2/core";
 import { sql } from "@/lib/db";
 import { SectionTitle } from "@/components/v2/ui";
@@ -17,7 +17,7 @@ export default async function PortfolioPage() {
   );
   return (
     <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
-      <Link href="/me" className="font-mono text-xs text-ink-faint hover:text-ink">← Profile</Link>
+      <BackButton fallback="/me" label="Profile" />
       <h1 className="mt-2 font-display text-2xl font-900 tracking-[-0.03em]">Portfolio</h1>
       <p className="mt-1 text-sm text-ink-faint">
         Your best work — businesses see this when you apply.

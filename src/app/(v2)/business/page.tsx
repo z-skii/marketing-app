@@ -125,7 +125,7 @@ export default async function BusinessPage() {
           ["/create", "+ Request photos"],
           ["/business/calendar", "Content calendar"],
           ["/business/connections", `Accounts (${connectedCount}/4)`],
-          ["/wallet", `Add credit · ${formatCredit(Number(wallet?.cents ?? 0))}`],
+          ["/wallet/add", `Add credit · ${formatCredit(Number(wallet?.cents ?? 0))}`],
         ].map(([href, label]) => (
           <Link key={label} href={href} className="border border-rule px-3 py-3 text-center font-mono text-[0.6875rem] font-600 uppercase tracking-wide hover:border-signal hover:text-signal">
             {label}

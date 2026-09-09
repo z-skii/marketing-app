@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Bar } from "@/components/Bar";
 import { LiveMain } from "@/components/live/LiveMain";
@@ -22,8 +23,12 @@ export const dynamic = "force-dynamic";
  * no tabs and no page scroll; phones simply run a more compact composition.
  */
 export default async function HomePage() {
-  const [user, spot, nextSpot, board, boardCount, bar, audience] = await Promise.all([
-    getCurrentUser(),
+  // Signed-in people land in the TapMart app; the live screen stays the
+  // public front door (and remains reachable at /board).
+  const user = await getCurrentUser();
+  if (user && !user.suspended) redirect("/home");
+
+  const [spot, nextSpot, board, boardCount, bar, audience] = await Promise.all([
     getCurrentSpot(),
     getNextSpot(),
     getBoard(103),
