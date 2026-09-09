@@ -113,6 +113,9 @@ function AccountMenu({ user }: { user: CurrentUser }) {
         <span aria-hidden="true" className="text-[0.5625rem]">▾</span>
       </summary>
       <div className="absolute right-0 top-full z-40 mt-1 w-44 border border-ink bg-paper py-1">
+        <Link href="/home" className={item}>
+          TapMart app
+        </Link>
         <Link href="/dashboard" className={item}>
           Your links
         </Link>

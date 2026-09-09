@@ -26,7 +26,13 @@ export async function truncateAll() {
     truncate table credit_ledger, click_events, creator_earnings, creator_sessions,
       creator_referrals, payout_requests, stripe_payments, bar_queue, spot_schedules,
       board_round_entries, daily_rounds, placements, links, wallets, profiles,
-      admin_audit_log restart identity cascade;
+      admin_audit_log,
+      businesses, business_members, creator_profiles, portfolio_items, vehicles,
+      vehicle_photos, vehicle_zones, campaigns, applications, submissions, earnings,
+      car_offers, car_bookings, car_proofs, conversations, conversation_members,
+      messages, notifications, notification_prefs, follows, saved_items, blocks,
+      reviews, reports, connected_accounts, calendar_posts, marketing_recommendations
+      restart identity cascade;
     delete from auth.users;
   `);
 }

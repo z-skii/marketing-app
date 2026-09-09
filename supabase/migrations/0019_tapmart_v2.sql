@@ -235,7 +235,7 @@ create table car_offers (
   vehicle_id uuid not null references vehicles(id) on delete cascade,
   business_id uuid not null references businesses(id) on delete cascade,
   created_by uuid references profiles(id) on delete set null,
-  zones vehicle_zone_kind[] not null check (array_length(zones, 1) >= 1),
+  zones vehicle_zone_kind[] not null check (cardinality(zones) >= 1),
   monthly_cents bigint not null check (monthly_cents > 0),
   months int not null default 1 check (months between 1 and 24),
   message text,

@@ -37,8 +37,8 @@ export default async function ConnectionsPage() {
       <Link href="/business" className="font-mono text-xs text-ink-faint hover:text-ink">← Business</Link>
       <h1 className="mt-2 font-display text-2xl font-900 tracking-[-0.03em]">Connected accounts</h1>
       <p className="mt-1 text-sm text-ink-faint">
-        Platform sign-in isn't switched on for TapMart yet — requesting a
-        connection queues it, and you'll get a notification when it's live.
+        Platform sign-in isn&apos;t switched on for TapMart yet — requesting a
+        connection queues it, and you&apos;ll get a notification when it&apos;s live.
         Until then, the calendar works in plan-and-approve mode.
       </p>
 

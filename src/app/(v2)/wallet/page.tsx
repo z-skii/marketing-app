@@ -89,7 +89,7 @@ export default async function WalletPage() {
       <div className="mt-4">
         <PayoutButton availableCents={available} minCents={minPayout} />
         <p className="mt-1.5 font-mono text-[0.625rem] text-ink-faint">
-          Minimum payout {formatCredit(minPayout)}. TapMart's platform fee ({feePct}%)
+          Minimum payout {formatCredit(minPayout)}. TapMart&apos;s platform fee ({feePct}%)
           is already taken out of the amounts shown.
         </p>
       </div>

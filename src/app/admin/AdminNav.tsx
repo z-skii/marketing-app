@@ -13,6 +13,7 @@ import { useEffect } from "react";
 
 const TABS = [
   { name: "Admin", href: "/admin" },
+  { name: "Market", href: "/admin/market" },
   { name: "Content", href: "/admin/content" },
   { name: "Agents", href: "/admin/agents" },
   { name: "HQ", href: "/admin/hq" },

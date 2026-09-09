@@ -14,7 +14,7 @@ export default async function SignInPage({
 }) {
   const user = await getCurrentUser();
   const { next, verified, reset } = await searchParams;
-  if (user) redirect(next ?? "/dashboard");
+  if (user) redirect(next ?? "/home");
 
   return (
     <>
@@ -37,7 +37,7 @@ export default async function SignInPage({
               You only need an account to own links, hold credit, or earn. Browsing is open to everyone.
             </p>
           )}
-          <SignInForm next={next ?? "/dashboard"} />
+          <SignInForm next={next ?? ""} />
         </div>
       </main>
       <Footer />

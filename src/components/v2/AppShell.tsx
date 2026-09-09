@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 /**
  * The V2 app shell. One navigation model everywhere: five destinations plus a
@@ -32,7 +32,6 @@ const NAV = [
 export function AppShell(props: ShellProps) {
   const pathname = usePathname();
   const [createOpen, setCreateOpen] = useState(false);
-  useEffect(() => setCreateOpen(false), [pathname]);
 
   const badge = (href: string) =>
     href === "/alerts" ? props.unreadNotifications : 0;
@@ -175,14 +174,14 @@ function CreateSheet({
           <div className="mt-4">
             <p className="eyebrow">For your business</p>
             <div className="mt-2 flex flex-col gap-2">
-              {businessItems.map((i) => <SheetLink key={i.href} {...i} />)}
+              {businessItems.map((i) => <SheetLink key={i.href} {...i} onNavigate={onClose} />)}
             </div>
           </div>
         )}
         <div className="mt-4">
           <p className="eyebrow">Earn</p>
           <div className="mt-2 flex flex-col gap-2">
-            {earnItems.map((i) => <SheetLink key={i.href} {...i} />)}
+            {earnItems.map((i) => <SheetLink key={i.href} {...i} onNavigate={onClose} />)}
           </div>
         </div>
       </div>
@@ -190,9 +189,9 @@ function CreateSheet({
   );
 }
 
-function SheetLink({ href, title, sub }: { href: string; title: string; sub: string }) {
+function SheetLink({ href, title, sub, onNavigate }: { href: string; title: string; sub: string; onNavigate: () => void }) {
   return (
-    <Link href={href} className="group border border-rule px-4 py-3 hover:border-signal">
+    <Link href={href} onClick={onNavigate} className="group border border-rule px-4 py-3 hover:border-signal">
       <span className="font-display text-base font-800 group-hover:text-signal">{title}</span>
       <span className="block text-xs text-ink-faint">{sub}</span>
     </Link>

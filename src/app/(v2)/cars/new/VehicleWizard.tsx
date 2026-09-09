@@ -160,7 +160,7 @@ export function VehicleWizard({ defaultCity }: { defaultCity: string }) {
         <section className="mt-4">
           <h2 className="font-display text-2xl font-900 tracking-[-0.03em]">Advertising areas</h2>
           <p className="mt-1 text-sm text-ink-faint">
-            Turn on the areas you'd rent out. Asking prices are optional — businesses can offer their own number.
+            Turn on the areas you&apos;d rent out. Asking prices are optional — businesses can offer their own number.
           </p>
           <ul className="mt-4 flex flex-col gap-2">
             {Object.entries(ZONE_LABELS).map(([key, label]) => {

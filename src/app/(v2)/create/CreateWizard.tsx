@@ -47,10 +47,13 @@ export function CreateWizard({
   // from a marketing idea takes priority over the stored draft.
   useEffect(() => {
     if (initialDraft) return;
-    try {
-      const raw = localStorage.getItem(DRAFT_KEY);
-      if (raw) setD({ ...EMPTY, city: defaultCity, ...JSON.parse(raw) });
-    } catch { /* fresh draft */ }
+    const restore = setTimeout(() => {
+      try {
+        const raw = localStorage.getItem(DRAFT_KEY);
+        if (raw) setD({ ...EMPTY, city: defaultCity, ...JSON.parse(raw) });
+      } catch { /* fresh draft */ }
+    }, 0);
+    return () => clearTimeout(restore);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {

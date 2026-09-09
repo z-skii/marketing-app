@@ -98,7 +98,7 @@ export function EditBusinessForm({ business }: { business: Business }) {
           {text("google", "Google Business link")}
           {text("brandColors", "Brand colors", "#0b0b0c, #ff3b18")}
           <label className="flex flex-col gap-1">
-            <span className="eyebrow">Who's your customer?</span>
+            <span className="eyebrow">Who&apos;s your customer?</span>
             <textarea className="field min-h-16" maxLength={500} value={f.targetNote}
               onChange={(e) => set({ targetNote: e.target.value })}
               placeholder="Helps creators make content that fits." />

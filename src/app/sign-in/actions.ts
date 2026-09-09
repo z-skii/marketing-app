@@ -6,6 +6,7 @@ import { devAuthEnabled, supabaseAnon } from "@/lib/supabase";
 import { emailSchema, passwordSchema } from "@/lib/validation";
 import { friendlyAuthError } from "@/lib/auth-errors";
 import { LIMITS, rateLimit } from "@/lib/rate-limit";
+import { sql } from "@/lib/db";
 
 export type AuthFormState = {
   error?: string;
@@ -62,8 +63,15 @@ export async function signInWithPassword(
   const userId = await upsertUserByEmail(email.data, metaUsername);
   await createSession(userId);
 
-  const next = String(formData.get("next") ?? "/dashboard");
-  redirect(next.startsWith("/") ? next : "/dashboard");
+  // Accounts that haven't been through V2 onboarding land there first;
+  // everyone else goes where they were headed (the app by default).
+  const onboarded = await sql<{ x: string }>(
+    `select 1 as x from profiles where id = $1 and onboarded_at is not null`,
+    [userId],
+  );
+  const requested = String(formData.get("next") ?? "");
+  const fallback = onboarded.length > 0 ? "/home" : "/onboarding";
+  redirect(requested.startsWith("/") ? requested : fallback);
 }
 
 /** Re-send the account verification email for an address that never confirmed. */

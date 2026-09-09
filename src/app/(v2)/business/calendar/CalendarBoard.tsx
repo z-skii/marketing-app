@@ -25,7 +25,7 @@ export function CalendarBoard({ businessId, posts }: { businessId: string; posts
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
-  const now = Date.now();
+  const [now] = useState(() => Date.now());
   const shown = useMemo(() => {
     const horizon = view === "week" ? 7 : view === "month" ? 31 : 365;
     const cutoff = now + horizon * 86400_000;
