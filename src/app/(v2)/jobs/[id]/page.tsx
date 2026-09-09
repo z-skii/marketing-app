@@ -73,7 +73,7 @@ export default async function CampaignPage({ params }: { params: Promise<{ id: s
           <h1 className="font-display text-2xl leading-[0.98] font-900 tracking-[-0.03em]">
             {campaign.title}
           </h1>
-          <Money cents={campaign.pay_cents} suffix={applicationBased ? undefined : " / approved"} />
+          <Money cents={campaign.pay_cents} suffix={applicationBased ? undefined : " each"} />
         </div>
         <MetaLine
           parts={[

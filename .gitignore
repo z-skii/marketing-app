@@ -45,3 +45,6 @@ supabase/.temp/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Local dev media uploads (storeMedia dev fallback)
+/public/uploads/
