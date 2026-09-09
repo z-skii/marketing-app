@@ -906,7 +906,7 @@ begin
     while v_due <= p_until loop
       insert into public.expenses (organization_id, location_id, business_date, amount, category_id, payment_method, vendor, description, recurring_expense_id, status, paid_at, created_by)
       values (re.organization_id, re.location_id, v_due, re.amount, re.category_id, re.payment_method, re.vendor, re.description, re.id,
-        case when re.auto_mark_paid then 'paid' else 'expected' end, case when re.auto_mark_paid then now() end, re.created_by)
+        case when re.auto_mark_paid then 'paid'::public.expense_status else 'expected'::public.expense_status end, case when re.auto_mark_paid then now() end, re.created_by)
       on conflict do nothing;
       v_count := v_count + 1;
       v_next := case re.frequency

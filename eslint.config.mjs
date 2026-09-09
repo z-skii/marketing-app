@@ -15,6 +15,8 @@ const eslintConfig = defineConfig([
     // Embedded font/screenshot bytes; huge base64 overflows the parser.
     "src/assets/fonts-data.ts",
     "src/assets/site-shots-data.ts",
+    // Separate application with its own toolchain.
+    "storeday/**",
   ]),
 ]);
 

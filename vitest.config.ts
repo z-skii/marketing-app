@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["tests/**/*.test.ts"],
+    exclude: ["storeday/**", "node_modules/**"],
     // The money tests share one Postgres database, so they must not interleave.
     fileParallelism: false,
     testTimeout: 30_000,

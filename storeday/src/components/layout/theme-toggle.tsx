@@ -1,15 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
 
+const listeners = new Set<() => void>();
+function subscribe(cb: () => void) { listeners.add(cb); return () => { listeners.delete(cb); }; }
+function isDark() { return typeof document !== "undefined" && document.documentElement.classList.contains("dark"); }
+
 export function ThemeToggle({ className }: { className?: string }) {
-  const [dark, setDark] = useState(false);
-  useEffect(() => setDark(document.documentElement.classList.contains("dark")), []);
+  const dark = useSyncExternalStore(subscribe, isDark, () => false);
   const toggle = () => {
     const next = !dark;
-    setDark(next);
     document.documentElement.classList.toggle("dark", next);
     try { localStorage.setItem("theme", next ? "dark" : "light"); } catch {}
+    listeners.forEach((l) => l());
   };
   return (
     <button type="button" onClick={toggle} className={className} aria-label="Toggle theme" title="Toggle theme">

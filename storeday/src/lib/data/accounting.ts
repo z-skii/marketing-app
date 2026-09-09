@@ -27,7 +27,7 @@ export async function loadDayContext(supabase: ServerSupabase, locationId: strin
   const laborRows = labor.data ?? [];
   const laborSummary: LaborSummary = summarizeLabor(laborRows.map((r) => ({ employee_id: r.employee_id, worked_minutes: r.worked_minutes, labor_cost: r.labor_cost, status: r.status })));
   const detailed: DetailedExpenseTotals = groupDetailedExpenses(
-    (expenses.data ?? []).map((e) => ({ amount: Number(e.amount), bucket: (e.expense_categories as { bucket: DetailedExpenseTotals extends infer _ ? "goods" | "labor" | "utilities" | "other" : never })?.bucket ?? "other", status: e.status })),
+    (expenses.data ?? []).map((e) => ({ amount: Number(e.amount), bucket: (e.expense_categories as { bucket: "goods" | "labor" | "utilities" | "other" } | null)?.bucket ?? "other", status: e.status })),
   );
   return {
     report: report.data ?? null,

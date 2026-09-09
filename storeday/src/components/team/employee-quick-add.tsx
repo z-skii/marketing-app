@@ -9,12 +9,14 @@ import { createEmployeeAction } from "@/app/(app)/employees/actions";
 export function EmployeeQuickAdd({ locations, onAdded }: { locations: Array<{ id: string; name: string }>; onAdded?: () => void }) {
   const [state, action, pending] = useActionState(createEmployeeAction, null);
   const formRef = useRef<HTMLFormElement>(null);
-  const [lastInvite, setLastInvite] = useState<{ url: string; emailed: boolean } | null>(null);
   const [copied, setCopied] = useState(false);
+  // Derived from the last successful action result, so no setState is needed inside the effect.
+  const lastInvite = state?.ok && state.data.invite_url ? { url: state.data.invite_url, emailed: state.data.invite_emailed } : null;
+  const handled = useRef<unknown>(null);
   useEffect(() => {
-    if (state?.ok) {
+    if (state?.ok && handled.current !== state) {
+      handled.current = state;
       formRef.current?.reset();
-      if (state.data.invite_url) setLastInvite({ url: state.data.invite_url, emailed: state.data.invite_emailed });
       onAdded?.();
     }
   }, [state, onAdded]);

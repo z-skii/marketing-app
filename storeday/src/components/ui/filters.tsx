@@ -2,7 +2,7 @@
 import * as React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
-import { RANGE_PRESETS, type RangePreset } from "@/lib/utils/time";
+import { RANGE_PRESETS, addISODays, type RangePreset } from "@/lib/utils/time";
 
 function useSetParams() {
   const router = useRouter();
@@ -76,11 +76,7 @@ export function ParamSelect({ paramKey, options, className, placeholder }: { par
 
 /** Day stepper: ‹ Sep 8 › with a native date input. */
 export function DateStepper({ date, onChange, className, max }: { date: string; onChange: (d: string) => void; className?: string; max?: string }) {
-  const shift = (n: number) => {
-    const d = new Date(date + "T00:00:00");
-    d.setDate(d.getDate() + n);
-    onChange(d.toISOString().slice(0, 10));
-  };
+  const shift = (n: number) => onChange(addISODays(date, n));
   return (
     <div className={cn("inline-flex items-center rounded-md border border-border bg-surface", className)}>
       <button type="button" className="px-2 py-1 text-text-2 hover:bg-surface-2 rounded-l-md" onClick={() => shift(-1)} aria-label="Previous day">‹</button>

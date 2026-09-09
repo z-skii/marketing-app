@@ -2255,6 +2255,14 @@ export type Database = {
         Args: { p_org: string }
         Returns: number
       }
+      seed_demo_data: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      delete_demo_organization: {
+        Args: { p_org: string }
+        Returns: undefined
+      }
       labor_detail: {
         Args: { p_date: string; p_loc: string }
         Returns: {

@@ -11,8 +11,7 @@ export function Modal({ open, onClose, title, children, footer, size = "md", cla
   open: boolean; onClose: () => void; title?: React.ReactNode; children: React.ReactNode; footer?: React.ReactNode;
   size?: "sm" | "md" | "lg"; className?: string;
 }) {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  const mounted = React.useSyncExternalStore(() => () => {}, () => true, () => false);
   React.useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
