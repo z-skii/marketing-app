@@ -28,28 +28,36 @@ export default async function ReviewQueuePage() {
     (r.event_at && new Date(r.event_at) > new Date()));
 
   return (
-    <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business" label="Business" />
-      <h1 className="mt-2 font-display text-2xl font-900 tracking-[-0.03em]">Review queue</h1>
-      <section className="mt-4">
+      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Review queue</h1>
+      <p className="mt-1.5 text-[0.9375rem] text-ink-soft">Approve to pay. Money leaves your wallet only when you say so.</p>
+
+      <section className="mt-6">
         <SectionTitle count={withWork.length}>Waiting on you</SectionTitle>
         {withWork.length === 0 && (
           <div className="mt-3">
-            <EmptyState title="All caught up" body="New submissions land here the moment creators upload." />
+            <EmptyState title="All caught up" body="New submissions land here the moment creators upload." actionHref="/business" actionLabel="Back to business" />
           </div>
         )}
-        <ul className="mt-3 flex flex-col gap-2">
-          {withWork.map((r) => (
+        <ul className="row-list mt-3">
+          {withWork.map((r, i) => (
             <li key={r.campaign_id}>
-              <Link href={`/jobs/${r.campaign_id}`} className="flex items-center gap-3 border border-rule p-3 hover:border-ink">
+              <Link href={`/jobs/${r.campaign_id}`} className={`card flex items-center gap-4 p-4 ${i === 0 && r.waiting > 0 ? "card-signal" : ""}`}>
+                {r.waiting > 0 && (
+                  <span className="tnum w-10 shrink-0 font-display text-[2rem] leading-none font-800 text-signal">{r.waiting}</span>
+                )}
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate font-display text-sm font-800">{r.title}</span>
-                  <span className="font-mono text-[0.625rem] text-ink-faint">
-                    {r.waiting > 0 ? `${r.waiting} submission${r.waiting === 1 ? "" : "s"} to review` : ""}
-                    {r.event_at ? `${r.waiting > 0 ? " · " : ""}shoot ${new Date(r.event_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric" })}` : ""}
+                  <span className="block truncate font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em]">{r.title}</span>
+                  <span className="mt-1 block text-sm text-ink-faint">
+                    {[
+                      r.waiting > 0 ? `${r.waiting} submission${r.waiting === 1 ? "" : "s"} to review` : null,
+                      r.event_at ? `Shoot ${new Date(r.event_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric" })}` : null,
+                    ].filter(Boolean).join("  ·  ")}
                   </span>
                 </span>
-                <Money cents={r.pay_cents} />
+                <Money cents={r.pay_cents} size="sm" />
+                <span aria-hidden className="text-ink-faint">→</span>
               </Link>
             </li>
           ))}

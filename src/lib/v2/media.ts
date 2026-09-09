@@ -31,7 +31,7 @@ export async function storeMedia(
 ): Promise<{ url: string } | { error: string }> {
   const ext = ALLOWED[file.contentType];
   if (!ext) return { error: "Use a JPG, PNG, WebP image or an MP4/WebM/MOV video." };
-  if (file.bytes.byteLength > MAX_BYTES) return { error: "File is too big — keep it under 25MB." };
+  if (file.bytes.byteLength > MAX_BYTES) return { error: "File is too big. Keep it under 25MB." };
   if (file.bytes.byteLength === 0) return { error: "That file is empty." };
 
   const name = `${folder}/${Date.now()}-${randomUUID().slice(0, 8)}.${ext}`;
@@ -41,7 +41,7 @@ export async function storeMedia(
     const { error } = await supabase.storage
       .from(STORAGE_BUCKET)
       .upload(name, file.bytes, { contentType: file.contentType, upsert: false });
-    if (error) return { error: "Upload failed — try again." };
+    if (error) return { error: "Upload failed. Try again." };
     const { data } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(name);
     return { url: data.publicUrl };
   }

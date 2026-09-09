@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { StatusChip } from "@/components/v2/ui";
+import { EmptyState, StatusChip } from "@/components/v2/ui";
 import { deleteCalendarPost, upsertCalendarPost } from "../actions";
 import type { CalendarPost } from "./page";
 
@@ -16,6 +16,7 @@ const STATUSES = [
 ] as const;
 
 const VIEWS = ["upcoming", "week", "month"] as const;
+const VIEW_LABEL: Record<(typeof VIEWS)[number], string> = { upcoming: "Upcoming", week: "This week", month: "This month" };
 
 /** Calendar board with three time views and inline add/edit. */
 export function CalendarBoard({ businessId, posts }: { businessId: string; posts: CalendarPost[] }) {
@@ -48,20 +49,17 @@ export function CalendarBoard({ businessId, posts }: { businessId: string; posts
     });
 
   return (
-    <div className="mt-4">
-      <div className="flex items-center gap-1 border-b border-rule">
-        {VIEWS.map((v) => (
-          <button
-            key={v} type="button" aria-pressed={view === v} onClick={() => setView(v)}
-            className={`px-3.5 py-2 font-mono text-[0.6875rem] font-600 tracking-[0.1em] uppercase ${
-              view === v ? "border-b-2 border-signal text-ink" : "text-ink-faint hover:text-ink"
-            }`}
-          >
-            {v}
-          </button>
-        ))}
-        <button type="button" className="btn btn-signal ml-auto !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" onClick={() => setAdding(!adding)}>
-          + Post
+    <div className="mt-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <nav className="pill-row min-w-0 sm:flex-1" aria-label="Calendar views">
+          {VIEWS.map((v) => (
+            <button key={v} type="button" aria-pressed={view === v} onClick={() => setView(v)} className="pill">
+              {VIEW_LABEL[v]}
+            </button>
+          ))}
+        </nav>
+        <button type="button" className={`btn btn-sm shrink-0 self-start ${adding ? "" : "btn-signal"}`} onClick={() => setAdding(!adding)}>
+          {adding ? "Close" : "+ Post"}
         </button>
       </div>
 
@@ -72,53 +70,56 @@ export function CalendarBoard({ businessId, posts }: { businessId: string; posts
         />
       )}
 
-      {error && <p role="alert" className="mt-3 font-mono text-xs text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-3 text-sm text-signal">{error}</p>}
 
-      <ul className="mt-3 flex flex-col gap-2">
+      <ul className="row-list mt-4">
         {shown.length === 0 && (
-          <li className="border border-dashed border-rule px-4 py-8 text-center text-sm text-ink-faint">
-            Nothing planned {view === "upcoming" ? "yet" : `this ${view}`} — add your first post.
+          <li>
+            <EmptyState
+              title={view === "upcoming" ? "Nothing planned yet" : `Nothing planned this ${view}`}
+              body="Add your first post and it shows up here."
+            />
           </li>
         )}
         {shown.map((p) => (
-          <li key={p.id} className="border border-rule p-3">
+          <li key={p.id} className={`card p-4 ${p.status === "needs_approval" ? "card-signal" : ""}`}>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono text-[0.625rem] font-600 uppercase text-ink-faint">
+              <span className="font-display text-xs font-700 text-ink-faint">
                 {PLATFORMS.find(([k]) => k === p.platform)?.[1] ?? p.platform}
               </span>
               <StatusChip status={p.status} />
               {p.scheduled_for && (
-                <span className="font-mono text-[0.625rem] text-ink-faint">
+                <span className="text-sm text-ink-faint">
                   {new Date(p.scheduled_for).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}
                 </span>
               )}
-              <span className="ml-auto flex gap-1.5">
-                {p.status === "needs_approval" && (
-                  <button type="button" disabled={pending} className="btn btn-signal !min-h-0 !px-2.5 !py-1 !text-[0.5625rem]" onClick={() => setStatus(p, "approved")}>
-                    Approve
-                  </button>
-                )}
-                {["approved", "scheduled"].includes(p.status) && (
-                  <button type="button" disabled={pending} className="btn !min-h-0 !px-2.5 !py-1 !text-[0.5625rem]" onClick={() => setStatus(p, "published")}>
-                    Mark published
-                  </button>
-                )}
-                {p.status === "idea" && (
-                  <button type="button" disabled={pending} className="btn !min-h-0 !px-2.5 !py-1 !text-[0.5625rem]" onClick={() => setStatus(p, "draft")}>
-                    Start draft
-                  </button>
-                )}
-                <button
-                  type="button" disabled={pending} aria-label="Delete post"
-                  className="btn btn-ghost !min-h-0 !px-2 !py-1 !text-[0.5625rem]"
-                  onClick={() => startTransition(async () => { await deleteCalendarPost(p.id, businessId); router.refresh(); })}
-                >
-                  ✕
-                </button>
-              </span>
             </div>
-            <p className="mt-1.5 font-display text-sm font-800">{p.title}</p>
-            {p.copy && <p className="mt-1 line-clamp-2 text-xs text-ink-faint whitespace-pre-wrap">{p.copy}</p>}
+            <p className="mt-2 font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em]">{p.title}</p>
+            {p.copy && <p className="mt-1.5 line-clamp-2 text-sm whitespace-pre-wrap text-ink-soft">{p.copy}</p>}
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              {p.status === "needs_approval" && (
+                <button type="button" disabled={pending} className="btn btn-signal btn-sm" onClick={() => setStatus(p, "approved")}>
+                  Approve
+                </button>
+              )}
+              {["approved", "scheduled"].includes(p.status) && (
+                <button type="button" disabled={pending} className="btn btn-sm" onClick={() => setStatus(p, "published")}>
+                  Mark published
+                </button>
+              )}
+              {p.status === "idea" && (
+                <button type="button" disabled={pending} className="btn btn-sm" onClick={() => setStatus(p, "draft")}>
+                  Start draft
+                </button>
+              )}
+              <button
+                type="button" disabled={pending} aria-label="Delete post"
+                className="btn btn-ghost btn-sm ml-auto"
+                onClick={() => startTransition(async () => { await deleteCalendarPost(p.id, businessId); router.refresh(); })}
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
@@ -135,18 +136,19 @@ function AddPostForm({ businessId, onDone }: { businessId: string; onDone: () =>
   const [pending, startTransition] = useTransition();
 
   return (
-    <div className="mt-3 border border-rule p-3">
-      <div className="grid grid-cols-2 gap-2">
-        <select className="field !py-2 !text-xs" value={platform} onChange={(e) => setPlatform(e.target.value)} aria-label="Platform">
+    <div className="card mt-4 p-4">
+      <p className="font-display text-[1.125rem] font-800 tracking-[-0.02em]">New post</p>
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        <select className="field" value={platform} onChange={(e) => setPlatform(e.target.value)} aria-label="Platform">
           {PLATFORMS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}
         </select>
-        <input type="datetime-local" className="field !py-2 !text-xs" value={when} onChange={(e) => setWhen(e.target.value)} aria-label="Scheduled for" />
+        <input type="datetime-local" className="field" value={when} onChange={(e) => setWhen(e.target.value)} aria-label="Scheduled for" />
       </div>
-      <input className="field mt-2 w-full !py-2 !text-xs" maxLength={200} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Post title / idea" aria-label="Post title" />
-      <textarea className="field mt-2 min-h-16 w-full !text-xs" maxLength={4000} value={copy} onChange={(e) => setCopy(e.target.value)} placeholder="Caption (optional)" aria-label="Caption" />
-      {error && <p role="alert" className="mt-2 font-mono text-xs text-signal">{error}</p>}
+      <input className="field mt-2 w-full" maxLength={200} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Post title or idea" aria-label="Post title" />
+      <textarea className="field mt-2 min-h-20 w-full" maxLength={4000} value={copy} onChange={(e) => setCopy(e.target.value)} placeholder="Caption (optional)" aria-label="Caption" />
+      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
       <button
-        type="button" disabled={pending || !title.trim()} className="btn btn-signal mt-2 !min-h-0 !px-4 !py-2 !text-[0.6875rem]"
+        type="button" disabled={pending || !title.trim()} className="btn btn-signal mt-3"
         onClick={() => startTransition(async () => {
           const result = await upsertCalendarPost({
             businessId, platform, title, copy,
@@ -156,7 +158,7 @@ function AddPostForm({ businessId, onDone }: { businessId: string; onDone: () =>
           else onDone();
         })}
       >
-        {pending ? "Adding…" : "Add"}
+        {pending ? "Adding…" : "Add post"}
       </button>
     </div>
   );

@@ -34,7 +34,7 @@ export async function completeOnboarding(input: OnboardingInput) {
 
   if (!wantsEarn && !wantsBusiness) return { ok: false, error: "Pick what brings you here." };
   if (wantsBusiness && (!businessName || businessName.length < 2)) {
-    return { ok: false, error: "Add your business name — you can fill in the rest later." };
+    return { ok: false, error: "Add your business name. You can fill in the rest later." };
   }
 
   await transaction(async (client) => {

@@ -12,15 +12,15 @@
 
 export const COLORS = {
   /** Warm off-white ground. CSS: --paper */
-  paper: "#f2f0ea",
+  paper: "#f5f5f2",
   /** Signal orange — the only accent. CSS: --signal */
-  signal: "#ff3b18",
+  signal: "#c8ff3d",
   /** Near-black ink. CSS: --ink */
-  ink: "#0b0b0c",
+  ink: "#0b0d0e",
   /** Derived, for secondary text on paper. */
-  inkFaint: "#8b887e",
+  inkFaint: "#878e90",
   /** Derived, for secondary text on ink. */
-  paperFaint: "#a8a59b",
+  paperFaint: "#9aa0a2",
 } as const;
 
 export const TYPE = {

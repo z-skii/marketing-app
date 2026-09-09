@@ -25,6 +25,8 @@ export type FeedCard = {
   business_name: string;
   business_slug: string;
   business_logo: string | null;
+  business_cover: string | null;
+  business_city: string | null;
   saved: boolean;
 };
 
@@ -50,7 +52,7 @@ export async function getFeed(options: {
     `select c.id, c.kind::text as kind, c.title, c.brief, c.pay_cents::int as pay_cents,
             c.slots, c.city, c.deadline, c.verified_only, c.published_at,
             b.id as business_id, b.name as business_name, b.slug as business_slug,
-            b.logo_url as business_logo,
+            b.logo_url as business_logo, b.cover_url as business_cover, b.city as business_city,
             (select count(*) from submissions s
               where s.campaign_id = c.id and s.status in ('approved', 'paid'))::int as approved_count,
             exists (select 1 from saved_items si
@@ -97,6 +99,7 @@ export type VehicleCard = {
 export async function searchVehicles(options: {
   city?: string | null;
   make?: string | null;
+  bodyType?: string | null;
   maxCents?: number | null;
   verifiedOnly?: boolean;
   limit?: number;
@@ -122,6 +125,7 @@ export async function searchVehicles(options: {
               (select 1 from vehicle_zones z where z.vehicle_id = v.id and z.available
                  and z.asking_cents_monthly is not null and z.asking_cents_monthly <= $3))
         and (not $4 or v.verification = 'verified')
+        and ($7::text is null or lower(v.body_type) = lower($7))
       order by (v.verification = 'verified') desc, v.created_at desc
       limit $5 offset $6`,
     [
@@ -131,6 +135,7 @@ export async function searchVehicles(options: {
       options.verifiedOnly ?? false,
       limit,
       Math.max(options.offset ?? 0, 0),
+      options.bodyType ?? null,
     ],
   );
 }
@@ -150,7 +155,7 @@ export async function globalSearch(q: string, limit = 8): Promise<SearchHit[]> {
   const [campaigns, businesses, people, vehicles] = await Promise.all([
     sql<SearchHit>(
       `select 'campaign' as type, c.id, c.title, b.name as subtitle,
-              '/jobs/' || c.id as href, b.logo_url as image_url
+              '/jobs/' || c.id as href, coalesce(b.cover_url, b.logo_url) as image_url
          from campaigns c join businesses b on b.id = c.business_id
         where c.status = 'open' and (c.title ilike $1 or c.brief ilike $1)
         order by c.published_at desc limit $2`,

@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { AuthShell } from "@/components/v2/AuthShell";
 import { SignUpForm } from "./SignUpForm";
 import { getCurrentUser } from "@/lib/auth";
 
@@ -12,21 +11,14 @@ export default async function SignUpPage() {
   if (user) redirect("/home");
 
   return (
-    <>
-      <Header user={null} />
-      <main id="main" className="shell py-14 md:py-24">
-        <div className="max-w-md">
-          <h1 className="font-display text-4xl leading-[0.95] font-800 tracking-[-0.04em] md:text-5xl">
-            Create account
-          </h1>
-          <p className="mt-4 text-ink-soft">
-            An account lets you own links, hold credit, and earn. Browsing never
-            needs one.
-          </p>
-          <SignUpForm />
-        </div>
-      </main>
-      <Footer />
-    </>
+    <AuthShell>
+      <h1 className="font-display text-[2rem] font-800 tracking-[-0.03em]">
+        Make money near you
+      </h1>
+      <p className="mt-2 text-[0.9375rem] text-ink-soft">
+        One account to earn from your skills, content, or car.
+      </p>
+      <SignUpForm />
+    </AuthShell>
   );
 }

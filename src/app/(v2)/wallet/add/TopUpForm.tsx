@@ -14,40 +14,38 @@ export function TopUpForm({ minCents, maxCents }: { minCents: number; maxCents: 
   const valid = Number.isFinite(cents) && cents >= minCents && cents <= maxCents;
 
   return (
-    <div className="mt-5">
-      <div className="grid grid-cols-4 gap-2">
+    <div className="mt-6">
+      <p className="font-display text-sm font-600">How much?</p>
+      <div className="pill-row mt-2" role="group" aria-label="Preset amounts">
         {PRESETS.map((p) => (
           <button
-            key={p} type="button" aria-pressed={dollars === String(p)}
+            key={p} type="button" aria-pressed={dollars === String(p)} className="pill"
             onClick={() => setDollars(String(p))}
-            className={`border px-2 py-3 font-display text-lg font-800 ${
-              dollars === String(p) ? "border-signal text-signal" : "border-rule hover:border-ink"
-            }`}
           >
             ${p}
           </button>
         ))}
       </div>
-      <label className="mt-3 flex items-center gap-2">
-        <span className="font-display text-xl font-800">$</span>
+      <label className="mt-3 flex items-center gap-3">
+        <span className="font-display text-[1.75rem] font-800 tracking-[-0.03em] text-signal">$</span>
         <input
           className="field flex-1" inputMode="numeric" value={dollars}
           onChange={(e) => setDollars(e.target.value.replace(/[^0-9]/g, ""))}
           aria-label="Amount in dollars"
         />
       </label>
-      {error && <p role="alert" className="mt-2 font-mono text-xs text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
       <button
-        type="button" disabled={pending || !valid} className="btn btn-signal mt-4 w-full !py-3.5"
+        type="button" disabled={pending || !valid} className="btn btn-signal btn-lg mt-4 w-full"
         onClick={() =>
           startTransition(async () => {
             setError(null);
             const result = await topUpWallet(cents);
             if (result.ok && result.redirect) window.location.assign(result.redirect);
-            else setError(("error" in result && result.error) || "Checkout couldn't start — try again.");
+            else setError(("error" in result && result.error) || "Checkout couldn't start. Try again.");
           })}
       >
-        {pending ? "Opening checkout…" : `Add $${dollars || 0} with Stripe`}
+        {pending ? "Opening checkout" : `Add $${dollars || 0} with Stripe`}
       </button>
     </div>
   );

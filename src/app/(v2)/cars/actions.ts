@@ -47,7 +47,7 @@ export async function createVehicle(input: VehicleInput) {
     .filter((p) => (ANGLES as readonly string[]).includes(p.angle) && typeof p.url === "string")
     .slice(0, 8);
   if (input.publish && photos.length < 4) {
-    return { ok: false as const, error: "Add all four photos before listing — front, both sides, rear." };
+    return { ok: false as const, error: "Add all four photos before listing: front, both sides, rear." };
   }
   const zones = (input.zones ?? []).filter((z) => (ZONES as readonly string[]).includes(z.zone));
   if (input.publish && !zones.some((z) => z.available)) {
@@ -254,7 +254,7 @@ export async function acceptCounter(offerId: string): Promise<Result> {
     [offerId, offer.vehicle_id, offer.business_id, offer.zones, cents],
   );
   const conv = await ensureConversation("offer", offerId, [ctx.user.id, offer.owner_id]);
-  await systemMessage(conv, `Counter accepted — ${formatCredit(cents)}/month. Booking created.`);
+  await systemMessage(conv, `Counter accepted at ${formatCredit(cents)}/month. Booking created.`);
   await notify(offer.owner_id, "car_offer", "Your counter was accepted", { href: `/cars/${offer.vehicle_id}` });
   revalidatePath(`/cars/${offer.vehicle_id}`);
   return { ok: true };
@@ -306,7 +306,7 @@ export async function advanceBooking(bookingId: string, artworkUrl?: string): Pr
         amountCents: Number(booking.monthly_cents),
         source: "booking",
         sourceId: booking.id,
-        memo: "Car ad — first month",
+        memo: "Car ad, first month",
       });
     } catch (e) {
       if (e instanceof InsufficientCreditError) return fail(e.message);
@@ -324,7 +324,7 @@ export async function advanceBooking(bookingId: string, artworkUrl?: string): Pr
   );
   const conv = await ensureConversation("offer", booking.offer_id, [booking.owner_id, booking.business_owner]);
   const line =
-    move.to === "installation_pending" ? "Artwork is ready — installation next."
+    move.to === "installation_pending" ? "Artwork is ready. Installation next."
     : move.to === "active" ? "Campaign is live. First month paid."
     : move.to === "completed" ? "Campaign completed."
     : "Booking updated.";
@@ -363,7 +363,7 @@ export async function payBookingMonth(bookingId: string): Promise<Result> {
       amountCents: Number(booking.monthly_cents),
       source: "booking",
       sourceId: null, // repeat months are separate ledger entries
-      memo: "Car ad — monthly payment",
+      memo: "Car ad, monthly payment",
     });
   } catch (e) {
     if (e instanceof InsufficientCreditError) return fail(e.message);

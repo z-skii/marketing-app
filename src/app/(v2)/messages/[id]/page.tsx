@@ -42,13 +42,13 @@ export default async function ConversationPage({ params }: { params: Promise<{ i
   await markConversationRead(id);
 
   return (
-    <main id="main" className="mx-auto flex h-[calc(100dvh-6rem)] w-full max-w-xl flex-col px-4 py-4 md:h-dvh md:py-6">
-      <header className="flex items-center gap-3 border-b border-rule pb-3">
+    <main id="main" className="mx-auto flex h-[calc(100dvh-6rem)] w-full max-w-2xl flex-col px-4 py-4 md:h-dvh md:px-8 md:py-6">
+      <header className="card flex items-center gap-3 px-3 py-2.5">
         <BackButton fallback="/messages" label="" />
         {other && (
           <>
-            <Avatar src={other.avatar_url} name={other.display_name ?? other.username} size={32} />
-            <Link href={`/u/${other.username}`} className="font-mono text-sm font-600 hover:text-signal">
+            <Avatar src={other.avatar_url} name={other.display_name ?? other.username} size={36} />
+            <Link href={`/u/${other.username}`} className="min-w-0 truncate font-display text-[1.0625rem] font-800 tracking-[-0.02em] hover:text-signal">
               {other.display_name ?? `@${other.username}`}
             </Link>
           </>
@@ -59,18 +59,20 @@ export default async function ConversationPage({ params }: { params: Promise<{ i
         <ul className="flex flex-col gap-2.5">
           {messages.map((m) =>
             m.kind === "system" ? (
-              <li key={m.id} className="text-center font-mono text-[0.625rem] text-ink-faint">
-                — {m.body} —
+              <li key={m.id} className="px-6 py-1 text-center text-sm text-ink-faint">
+                {m.body}
               </li>
             ) : (
               <li key={m.id} className={`flex ${m.sender_id === ctx.user.id ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[80%] border px-3 py-2 text-sm whitespace-pre-wrap ${
-                    m.sender_id === ctx.user.id ? "border-ink bg-ink text-paper" : "border-rule bg-paper"
+                  className={`max-w-[80%] px-4 py-2.5 text-[0.9375rem] leading-snug whitespace-pre-wrap ${
+                    m.sender_id === ctx.user.id
+                      ? "rounded-[14px] rounded-br-[4px] bg-signal text-signal-ink"
+                      : "rounded-[14px] rounded-bl-[4px] bg-surface-2 text-ink"
                   }`}
                 >
                   {m.body}
-                  <span className={`mt-0.5 block text-right font-mono text-[0.5625rem] ${m.sender_id === ctx.user.id ? "text-paper/60" : "text-ink-faint"}`}>
+                  <span className={`mt-1 block text-right text-xs ${m.sender_id === ctx.user.id ? "text-signal-ink/70" : "text-ink-faint"}`}>
                     {new Date(m.created_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
                   </span>
                 </div>

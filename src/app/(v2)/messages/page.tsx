@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { getV2Context } from "@/lib/v2/core";
 import { sql } from "@/lib/db";
-import { Avatar, EmptyState, SectionTitle } from "@/components/v2/ui";
+import { Avatar, Chip, EmptyState, ScreenHeader } from "@/components/v2/ui";
 
 export const metadata = { title: "Messages" };
 export const dynamic = "force-dynamic";
+
+const TOPIC_LABEL: Record<string, string> = {
+  campaign: "Job", offer: "Car offer", booking: "Car ad", business: "Business", profile: "Profile",
+};
 
 /** The inbox: one row per conversation, unread first. */
 export default async function MessagesPage() {
@@ -37,46 +41,58 @@ export default async function MessagesPage() {
     [ctx.user.id],
   );
 
+  const unreadCount = rows.filter((r) => r.unread).length;
+
   return (
-    <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
-      <h1 className="font-display text-2xl font-900 tracking-[-0.03em]">Messages</h1>
-      <section className="mt-4">
-        <SectionTitle count={rows.length}>Conversations</SectionTitle>
-        {rows.length === 0 && (
-          <div className="mt-3">
-            <EmptyState
-              title="No conversations yet"
-              body="Threads start automatically around jobs, submissions and car ad offers."
-            />
-          </div>
-        )}
-        <ul className="mt-3 flex flex-col">
-          {rows.map((c) => (
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
+      <ScreenHeader
+        title="Messages"
+        kicker={unreadCount > 0 ? `${unreadCount} unread` : rows.length > 0 ? "You're all caught up" : undefined}
+        unread={ctx.unreadNotifications}
+        showSearch={false}
+      />
+
+      {rows.length === 0 && (
+        <div className="mt-6">
+          <EmptyState
+            title="No conversations yet"
+            body="Threads start automatically around jobs, submissions and car ad offers."
+            actionHref="/home" actionLabel="Find work"
+          />
+        </div>
+      )}
+
+      <ul className="row-list mt-5">
+        {rows.map((c) => {
+          const name = c.other_name ?? (c.other_username ? `@${c.other_username}` : "Conversation");
+          return (
             <li key={c.id}>
-              <Link href={`/messages/${c.id}`} className="flex items-center gap-3 border-b border-rule py-3 hover:bg-signal/5">
-                <Avatar src={c.other_avatar} name={c.other_name ?? c.other_username ?? "?"} size={40} />
+              <Link href={`/messages/${c.id}`} className="card flex items-center gap-3 p-3">
+                <Avatar src={c.other_avatar} name={c.other_name ?? c.other_username ?? "?"} size={44} />
                 <span className="min-w-0 flex-1">
-                  <span className={`block truncate text-sm ${c.unread ? "font-700" : ""}`}>
-                    {c.other_name ?? (c.other_username ? `@${c.other_username}` : "Conversation")}
-                    {c.topic_type && (
-                      <span className="ml-2 font-mono text-[0.625rem] text-ink-faint uppercase">{c.topic_type}</span>
-                    )}
+                  <span className="flex items-center gap-2">
+                    <span className={`truncate font-display text-[0.9375rem] ${c.unread ? "font-700 text-ink" : "font-600 text-ink-soft"}`}>
+                      {name}
+                    </span>
+                    {c.topic_type && <Chip tone="faint">{TOPIC_LABEL[c.topic_type] ?? c.topic_type.replaceAll("_", " ")}</Chip>}
                   </span>
-                  <span className={`block truncate text-xs ${c.unread ? "text-ink" : "text-ink-faint"}`}>
+                  <span className={`mt-0.5 block truncate text-sm ${c.unread ? "text-ink-soft" : "text-ink-faint"}`}>
                     {c.last_body}
                   </span>
                 </span>
-                {c.last_at && (
-                  <span className="font-mono text-[0.625rem] text-ink-faint">
-                    {new Date(c.last_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                  </span>
-                )}
-                {c.unread && <span aria-label="Unread" className="h-2 w-2 shrink-0 rounded-full bg-signal" />}
+                <span className="flex shrink-0 flex-col items-end gap-1.5">
+                  {c.last_at && (
+                    <span className="text-sm text-ink-faint">
+                      {new Date(c.last_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                    </span>
+                  )}
+                  {c.unread && <Chip tone="signal">New</Chip>}
+                </span>
               </Link>
             </li>
-          ))}
-        </ul>
-      </section>
+          );
+        })}
+      </ul>
     </main>
   );
 }

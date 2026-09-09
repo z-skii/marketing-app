@@ -28,19 +28,16 @@ export function CreatorForm({
   const [pending, startTransition] = useTransition();
 
   return (
-    <div className="mt-5 flex flex-col gap-4">
+    <div className="mt-6 flex flex-col gap-4">
       <fieldset>
-        <legend className="eyebrow">What do you do?</legend>
-        <div className="mt-2 flex flex-wrap gap-2">
+        <legend className="font-display text-sm font-600">What do you do?</legend>
+        <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="Categories">
           {CATEGORIES.map(([key, label]) => {
             const on = categories.includes(key);
             return (
               <button
-                key={key} type="button" aria-pressed={on}
+                key={key} type="button" aria-pressed={on} className="pill"
                 onClick={() => setCategories(on ? categories.filter((c) => c !== key) : [...categories, key])}
-                className={`border px-3 py-2 font-mono text-xs font-600 uppercase tracking-wide ${
-                  on ? "border-signal text-signal" : "border-rule hover:border-ink"
-                }`}
               >
                 {label}
               </button>
@@ -49,32 +46,32 @@ export function CreatorForm({
         </div>
       </fieldset>
 
-      <label className="flex flex-col gap-1">
-        <span className="eyebrow">Service radius (miles)</span>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-sm text-ink-soft">Service radius (miles)</span>
         <input className="field" inputMode="numeric" value={radius}
           onChange={(e) => setRadius(e.target.value.replace(/\D/g, ""))} placeholder="25" />
       </label>
-      <label className="flex flex-col gap-1">
-        <span className="eyebrow">Portfolio link <span className="text-ink-faint">(optional)</span></span>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-sm text-ink-soft">Portfolio link <span className="text-ink-faint">(optional)</span></span>
         <input className="field" type="url" maxLength={300} value={portfolioUrl}
-          onChange={(e) => setPortfolioUrl(e.target.value)} placeholder="https://…" />
+          onChange={(e) => setPortfolioUrl(e.target.value)} placeholder="https://" />
       </label>
-      <label className="flex flex-col gap-1">
-        <span className="eyebrow">Equipment <span className="text-ink-faint">(optional)</span></span>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-sm text-ink-soft">Equipment <span className="text-ink-faint">(optional)</span></span>
         <input className="field" maxLength={500} value={equipment}
-          onChange={(e) => setEquipment(e.target.value)} placeholder="Sony A7IV, DJI Mini 4…" />
+          onChange={(e) => setEquipment(e.target.value)} placeholder="Sony A7IV, DJI Mini 4" />
       </label>
-      <label className="flex flex-col gap-1">
-        <span className="eyebrow">Pricing note <span className="text-ink-faint">(optional)</span></span>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-sm text-ink-soft">Pricing note <span className="text-ink-faint">(optional)</span></span>
         <input className="field" maxLength={500} value={pricingNote}
-          onChange={(e) => setPricingNote(e.target.value)} placeholder="Shoots from $150…" />
+          onChange={(e) => setPricingNote(e.target.value)} placeholder="Shoots from $150" />
       </label>
 
-      {message && <p role="alert" className={`font-mono text-xs ${message.ok ? "text-rise" : "text-signal"}`}>{message.text}</p>}
+      {message && <p role="alert" className={`text-sm ${message.ok ? "text-rise" : "text-signal"}`}>{message.text}</p>}
 
-      <div className="flex flex-col gap-2">
+      <div className="mt-1 flex flex-col gap-2">
         <button
-          type="button" disabled={pending || categories.length === 0} className="btn btn-signal !py-3"
+          type="button" disabled={pending || categories.length === 0} className="btn btn-signal btn-lg"
           onClick={() =>
             startTransition(async () => {
               const result = await updateCreatorProfile({
@@ -85,16 +82,16 @@ export function CreatorForm({
               if (result.ok) router.refresh();
             })}
         >
-          {pending ? "Saving…" : "Save creator profile"}
+          {pending ? "Saving" : "Save profile"}
         </button>
         {["unverified", "rejected"].includes(initial.verification) && (
           <button
-            type="button" disabled={pending} className="btn !py-3"
+            type="button" disabled={pending} className="btn btn-lg"
             onClick={() =>
               startTransition(async () => {
                 const result = await requestCreatorVerification();
                 setMessage(result.ok
-                  ? { ok: true, text: "Verification requested — an admin reviews your profile and portfolio." }
+                  ? { ok: true, text: "Verification requested. An admin reviews your profile and portfolio." }
                   : { ok: false, text: result.error ?? "Failed." });
                 if (result.ok) router.refresh();
               })}

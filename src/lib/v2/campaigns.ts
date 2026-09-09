@@ -23,6 +23,7 @@ export type CampaignDetail = {
   business_name: string;
   business_slug: string;
   business_logo: string | null;
+  business_cover: string | null;
   business_owner_id: string;
   approved_count: number;
   submission_count: number;
@@ -34,7 +35,7 @@ export async function getCampaign(id: string): Promise<CampaignDetail | null> {
             c.requirements, c.pay_cents::int as pay_cents, c.slots, c.city, c.deadline,
             c.event_at, c.verified_only, c.rights_note, c.status::text as status, c.published_at,
             b.name as business_name, b.slug as business_slug, b.logo_url as business_logo,
-            b.owner_id as business_owner_id,
+            b.cover_url as business_cover, b.owner_id as business_owner_id,
             (select count(*) from submissions s
               where s.campaign_id = c.id and s.status in ('approved', 'paid'))::int as approved_count,
             (select count(*) from submissions s where s.campaign_id = c.id)::int as submission_count

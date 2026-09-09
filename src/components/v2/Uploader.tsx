@@ -36,7 +36,7 @@ export function Uploader({
           reject(new Error("Upload failed."));
         }
       };
-      xhr.onerror = () => reject(new Error("Upload failed — check your connection."));
+      xhr.onerror = () => reject(new Error("Upload failed. Check your connection."));
       const form = new FormData();
       form.append("file", file);
       form.append("folder", folder);
@@ -65,15 +65,15 @@ export function Uploader({
         ref={inputRef} type="file" accept={accept} multiple={multiple} className="sr-only"
         id={`upload-${folder}`} onChange={(e) => handleFiles(e.target.files)}
       />
-      <label htmlFor={`upload-${folder}`} className="btn inline-flex cursor-pointer !px-4 !py-2 text-xs">
+      <label htmlFor={`upload-${folder}`} className="btn btn-sm inline-flex cursor-pointer">
         {progress === null ? label : `Uploading… ${progress}%`}
       </label>
       {progress !== null && (
-        <div className="mt-2 h-1 w-full bg-rule" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
-          <div className="h-1 bg-signal transition-all" style={{ width: `${progress}%` }} />
+        <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-surface-2" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
+          <div className="h-1 rounded-full bg-signal transition-all" style={{ width: `${progress}%` }} />
         </div>
       )}
-      {error && <p role="alert" className="mt-2 font-mono text-xs text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
     </div>
   );
 }

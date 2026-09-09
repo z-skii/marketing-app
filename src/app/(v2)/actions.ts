@@ -84,7 +84,7 @@ export async function leaveReview(input: {
 }): Promise<Result> {
   const ctx = await requireOnboarded();
   const rating = Math.round(input.rating);
-  if (rating < 1 || rating > 5) return { ok: false, error: "Pick 1–5." };
+  if (rating < 1 || rating > 5) return { ok: false, error: "Pick 1 to 5." };
 
   let subject: { type: "profile" | "business"; id: string; profileToRate?: string } | null = null;
   if (input.contextType === "submission") {

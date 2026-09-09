@@ -45,46 +45,51 @@ export function OfferForm({
     .reduce((sum, z) => sum + (z.asking_cents_monthly ?? 0), 0);
 
   return (
-    <div className="border-[1.5px] border-ink p-4">
-      <p className="eyebrow !text-signal">Advertise on this car</p>
+    <div className="card card-signal p-4 md:p-5">
+      <h2 className="font-display text-[1.25rem] leading-tight font-800 tracking-[-0.02em]">Advertise on this car</h2>
+      <p className="mt-1 text-sm text-ink-soft">Pick the areas you want, name a monthly price, and the driver answers.</p>
       {businesses.length > 1 && (
-        <select className="field mt-3 w-full" value={businessId} onChange={(e) => setBusinessId(e.target.value)} aria-label="Business">
-          {businesses.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
-        </select>
+        <label className="mt-4 flex flex-col gap-1.5">
+          <span className="text-sm text-ink-soft">Business</span>
+          <select className="field" value={businessId} onChange={(e) => setBusinessId(e.target.value)}>
+            {businesses.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
+          </select>
+        </label>
       )}
-      <div className="mt-3 flex flex-wrap gap-2">
+      <p className="mt-4 text-sm text-ink-soft">Areas</p>
+      <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="Ad areas">
         {availableZones.map((z) => {
           const on = zones.includes(z.zone);
           return (
             <button
               key={z.zone} type="button" aria-pressed={on}
               onClick={() => setZones(on ? zones.filter((x) => x !== z.zone) : [...zones, z.zone])}
-              className={`border px-3 py-1.5 font-mono text-[0.625rem] font-600 uppercase ${on ? "border-signal text-signal" : "border-rule hover:border-ink"}`}
+              className="pill"
             >
               {ZONE_LABELS[z.zone] ?? z.zone}
-              {z.asking_cents_monthly ? ` · $${Math.round(z.asking_cents_monthly / 100)}/mo` : ""}
+              {z.asking_cents_monthly ? ` · $${Math.round(z.asking_cents_monthly / 100)}` : ""}
             </button>
           );
         })}
       </div>
-      <div className="mt-3 grid grid-cols-2 gap-3">
-        <label className="flex flex-col gap-1">
-          <span className="eyebrow">Your offer $/month</span>
+      <div className="mt-4 grid grid-cols-2 gap-3">
+        <label className="flex flex-col gap-1.5">
+          <span className="text-sm text-ink-soft">Your offer, $ a month</span>
           <input className="field" inputMode="numeric" value={dollars}
             onChange={(e) => setDollars(e.target.value.replace(/\D/g, ""))}
             placeholder={suggested ? String(Math.round(suggested / 100)) : "300"} />
         </label>
-        <label className="flex flex-col gap-1">
-          <span className="eyebrow">Months</span>
+        <label className="flex flex-col gap-1.5">
+          <span className="text-sm text-ink-soft">Months</span>
           <input className="field" inputMode="numeric" value={months} onChange={(e) => setMonths(e.target.value.replace(/\D/g, ""))} />
         </label>
       </div>
-      <textarea className="field mt-3 min-h-16 w-full" maxLength={1000} value={message}
+      <textarea className="field mt-3 min-h-20 w-full" maxLength={1000} value={message}
         onChange={(e) => setMessage(e.target.value)} placeholder="Anything the driver should know (optional)" aria-label="Message to driver" />
-      {error && <p role="alert" className="mt-2 font-mono text-xs text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-3 text-sm text-signal">{error}</p>}
       <button
         type="button" disabled={pending || zones.length === 0 || !dollars}
-        className="btn btn-signal mt-3 w-full !py-3"
+        className="btn btn-signal btn-lg mt-4 w-full"
         onClick={() => run(() => makeCarOffer({
           vehicleId, businessId, zones, monthlyDollars: Number(dollars), months: Number(months) || 1, message,
         }))}
@@ -100,26 +105,26 @@ export function OfferResponse({ offerId }: { offerId: string }) {
   const [counter, setCounter] = useState("");
   const { pending, error, run } = useAction();
   return (
-    <div className="mt-2">
+    <div className="mt-3">
       <div className="flex flex-wrap items-center gap-2">
-        <button type="button" disabled={pending} className="btn btn-signal !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+        <button type="button" disabled={pending} className="btn btn-signal btn-sm"
           onClick={() => run(() => respondToOffer(offerId, "accepted"))}>
           Accept
         </button>
-        <button type="button" disabled={pending} className="btn btn-ghost !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+        <button type="button" disabled={pending} className="btn btn-ghost btn-sm"
           onClick={() => run(() => respondToOffer(offerId, "declined"))}>
           Decline
         </button>
-        <span className="flex items-center gap-1 font-mono text-xs">
-          $<input className="field !min-h-0 !w-20 !px-2 !py-1 !text-xs" inputMode="numeric" value={counter}
-            onChange={(e) => setCounter(e.target.value.replace(/\D/g, ""))} aria-label="Counter offer per month" />
-          <button type="button" disabled={pending || !counter} className="btn !min-h-0 !px-2.5 !py-1 !text-[0.625rem]"
+        <span className="flex items-center gap-1.5 text-sm text-ink-soft">
+          $<input className="field w-24" inputMode="numeric" value={counter}
+            onChange={(e) => setCounter(e.target.value.replace(/\D/g, ""))} aria-label="Counter offer per month" placeholder="Counter" />
+          <button type="button" disabled={pending || !counter} className="btn btn-sm"
             onClick={() => run(() => respondToOffer(offerId, "countered", Number(counter)))}>
             Counter
           </button>
         </span>
       </div>
-      {error && <p role="alert" className="mt-1.5 font-mono text-xs text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
     </div>
   );
 }
@@ -127,19 +132,19 @@ export function OfferResponse({ offerId }: { offerId: string }) {
 export function AcceptCounterButton({ offerId }: { offerId: string }) {
   const { pending, error, run } = useAction();
   return (
-    <span className="flex items-center gap-2">
-      <button type="button" disabled={pending} className="btn btn-signal !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+    <span className="flex flex-wrap items-center gap-2">
+      <button type="button" disabled={pending} className="btn btn-signal btn-sm"
         onClick={() => run(() => acceptCounter(offerId))}>
         Accept counter
       </button>
-      {error && <span role="alert" className="font-mono text-[0.625rem] text-signal">{error}</span>}
+      {error && <span role="alert" className="text-sm text-signal">{error}</span>}
     </span>
   );
 }
 
 const NEXT_LABEL: Record<string, string> = {
   creative_pending: "Artwork ready → installation",
-  installation_pending: "Installed — go live (pays first month)",
+  installation_pending: "Installed, go live (pays first month)",
   active: "Mark completed",
 };
 
@@ -151,32 +156,32 @@ export function BookingControls({
   const canAdvance = isBusiness && NEXT_LABEL[status];
 
   return (
-    <div className="mt-2">
+    <div className="mt-3">
       <div className="flex flex-wrap items-center gap-2">
         {canAdvance && (
-          <button type="button" disabled={pending} className="btn btn-signal !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+          <button type="button" disabled={pending} className="btn btn-signal btn-sm"
             onClick={() => run(() => advanceBooking(bookingId, artwork || undefined))}>
             {NEXT_LABEL[status]}
           </button>
         )}
         {isBusiness && status === "active" && (
-          <button type="button" disabled={pending} className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+          <button type="button" disabled={pending} className="btn btn-sm"
             onClick={() => run(() => payBookingMonth(bookingId))}>
             Pay next month
           </button>
         )}
       </div>
       {isBusiness && status === "creative_pending" && (
-        <div className="mt-2">
+        <div className="mt-3">
           <Uploader folder="campaigns" accept="image/*" label="Upload artwork"
             onUploaded={(urls) => setArtwork(urls[0])} />
-          {artwork && <p className="mt-1 font-mono text-[0.625rem] text-rise">Artwork attached — advance when ready.</p>}
+          {artwork && <p className="mt-2 text-sm text-rise">Artwork attached. Advance when ready.</p>}
         </div>
       )}
       {isDriver && ["active", "proof_required", "installation_pending"].includes(status) && (
         <ProofForm bookingId={bookingId} />
       )}
-      {error && <p role="alert" className="mt-1.5 font-mono text-xs text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
     </div>
   );
 }
@@ -187,20 +192,20 @@ function ProofForm({ bookingId }: { bookingId: string }) {
   const [odometer, setOdometer] = useState("");
   const { pending, error, run } = useAction();
   return (
-    <div className="mt-3 border border-rule p-3">
-      <p className="eyebrow">Add proof</p>
+    <div className="card-2 mt-3 p-3">
+      <p className="font-display text-sm font-600">Add proof</p>
       <div className="mt-2 flex flex-wrap items-center gap-2">
-        <select className="field !min-h-0 !w-auto !px-2 !py-1.5 !text-xs" value={kind} onChange={(e) => setKind(e.target.value)} aria-label="Proof type">
+        <select className="field w-auto" value={kind} onChange={(e) => setKind(e.target.value)} aria-label="Proof type">
           <option value="installation">Installation photo</option>
           <option value="periodic">Vehicle photo</option>
           <option value="odometer">Odometer</option>
         </select>
         {kind === "odometer" && (
-          <input className="field !min-h-0 !w-28 !px-2 !py-1.5 !text-xs" inputMode="numeric" value={odometer}
+          <input className="field w-32" inputMode="numeric" value={odometer}
             onChange={(e) => setOdometer(e.target.value.replace(/\D/g, ""))} placeholder="Miles" aria-label="Odometer miles" />
         )}
         <Uploader folder="proofs" accept="image/*" label={url ? "Photo added ✓" : "Photo"} onUploaded={(u) => setUrl(u[0])} />
-        <button type="button" disabled={pending || (!url && !odometer)} className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+        <button type="button" disabled={pending || (!url && !odometer)} className="btn btn-sm"
           onClick={() => run(async () => {
             const r = await addProof(bookingId, { kind, mediaUrl: url || undefined, odometerMiles: odometer ? Number(odometer) : undefined });
             if (r.ok) { setUrl(""); setOdometer(""); }
@@ -209,7 +214,7 @@ function ProofForm({ bookingId }: { bookingId: string }) {
           Submit proof
         </button>
       </div>
-      {error && <p role="alert" className="mt-1.5 font-mono text-xs text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
     </div>
   );
 }
@@ -220,17 +225,17 @@ export function OwnerControls({
   const { pending, error, run } = useAction();
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <button type="button" disabled={pending} className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+      <button type="button" disabled={pending} className="btn btn-sm"
         onClick={() => run(() => setVehicleListed(vehicleId, status !== "listed"))}>
         {status === "listed" ? "Unlist" : "List publicly"}
       </button>
       {["unverified", "rejected"].includes(verification) && (
-        <button type="button" disabled={pending} className="btn btn-ghost !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+        <button type="button" disabled={pending} className="btn btn-ghost btn-sm"
           onClick={() => run(() => requestVehicleVerification(vehicleId))}>
           Request verification
         </button>
       )}
-      {error && <p role="alert" className="font-mono text-[0.625rem] text-signal">{error}</p>}
+      {error && <p role="alert" className="text-sm text-signal">{error}</p>}
     </div>
   );
 }

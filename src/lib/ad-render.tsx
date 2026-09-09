@@ -52,7 +52,7 @@ function loadFonts() {
 const PALETTES: Record<AdTemplate, { bg: string; fg: string; accent: string; muted: string }> = {
   ink: { bg: COLORS.ink, fg: COLORS.paper, accent: COLORS.signal, muted: COLORS.paperFaint },
   paper: { bg: COLORS.paper, fg: COLORS.ink, accent: COLORS.signal, muted: COLORS.inkFaint },
-  signal: { bg: COLORS.signal, fg: COLORS.paper, accent: COLORS.ink, muted: "#ffd9d0" },
+  signal: { bg: COLORS.signal, fg: COLORS.ink, accent: COLORS.ink, muted: "#3d4d0e" },
   phone: { bg: COLORS.ink, fg: COLORS.paper, accent: COLORS.signal, muted: COLORS.paperFaint },
   browser: { bg: COLORS.paper, fg: COLORS.ink, accent: COLORS.signal, muted: COLORS.inkFaint },
 };
@@ -166,8 +166,9 @@ function textAd(params: AdParams) {
                 display: "flex",
                 alignItems: "center",
                 gap: 26,
+                // Lime CTA carries dark text; the signal template's dark CTA carries light.
                 backgroundColor: params.template === "signal" ? COLORS.ink : p.accent,
-                color: COLORS.paper,
+                color: params.template === "signal" ? COLORS.paper : COLORS.ink,
                 fontFamily: "IBM Plex Mono",
                 fontSize: 38,
                 fontWeight: 600,
@@ -179,7 +180,7 @@ function textAd(params: AdParams) {
               {params.cta.toUpperCase()}
               {/* The site's outbound arrow, drawn so no font can drop it. */}
               <svg width="34" height="34" viewBox="0 0 12 12" fill="none">
-                <path d="M3.2 8.8 8.8 3.2M4.4 3.2h4.4v4.4" stroke={COLORS.paper} strokeWidth="1.4" />
+                <path d="M3.2 8.8 8.8 3.2M4.4 3.2h4.4v4.4" stroke={params.template === "signal" ? COLORS.paper : COLORS.ink} strokeWidth="1.4" />
               </svg>
             </div>
           </div>
@@ -283,7 +284,7 @@ function screenshotAd(params: AdParams, shot: string) {
               alignItems: "center",
               gap: 22,
               backgroundColor: p.accent,
-              color: COLORS.paper,
+              color: COLORS.ink,
               fontFamily: "IBM Plex Mono",
               fontSize: 34,
               fontWeight: 600,
@@ -294,7 +295,7 @@ function screenshotAd(params: AdParams, shot: string) {
           >
             {params.cta.toUpperCase()}
             <svg width="30" height="30" viewBox="0 0 12 12" fill="none">
-              <path d="M3.2 8.8 8.8 3.2M4.4 3.2h4.4v4.4" stroke={COLORS.paper} strokeWidth="1.4" />
+              <path d="M3.2 8.8 8.8 3.2M4.4 3.2h4.4v4.4" stroke={params.template === "signal" ? COLORS.paper : COLORS.ink} strokeWidth="1.4" />
             </svg>
           </div>
         </div>

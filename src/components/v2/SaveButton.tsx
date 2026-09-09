@@ -23,13 +23,13 @@ export function SaveButton({
           else if (!result.ok) setSaved(saved);
         });
       }}
-      className={`p-1.5 transition-colors ${saved ? "text-signal" : "text-ink-faint hover:text-ink"}`}
+      className={`flex items-center justify-center p-1.5 transition-colors ${saved ? "text-signal" : "text-ink hover:text-signal"}`}
     >
-      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden>
+      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden>
         <path
-          d="M4.5 2.5h9v13L9 11.8l-4.5 3.7z"
+          d="M5 2.75h10v14.5L10 13.2l-5 4.05z"
           fill={saved ? "currentColor" : "none"}
-          stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
+          stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"
         />
       </svg>
     </button>

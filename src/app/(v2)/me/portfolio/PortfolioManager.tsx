@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Uploader } from "@/components/v2/Uploader";
+import { EmptyState } from "@/components/v2/ui";
 import { addPortfolioItem, removePortfolioItem } from "../actions";
 
 export function PortfolioManager({
@@ -15,50 +16,61 @@ export function PortfolioManager({
 
   return (
     <div className="mt-3">
-      <div className="border border-rule p-3">
-        <Uploader
-          folder="portfolio" multiple label="Add work"
-          onUploaded={(urls) =>
-            startTransition(async () => {
-              setError(null);
-              for (const url of urls) {
-                const result = await addPortfolioItem(url, caption);
-                if (!result.ok) { setError(result.error ?? "Failed."); break; }
-              }
-              setCaption("");
-              router.refresh();
-            })}
-        />
+      <div className="card p-4">
+        <p className="font-display text-[0.9375rem] font-700">Add photos or videos</p>
+        <p className="mt-1 text-sm text-ink-faint">Up to 24 items. The first six show on your profile.</p>
         <input
-          className="field mt-2 w-full !py-2 !text-xs" maxLength={200} value={caption}
+          className="field mt-3" maxLength={200} value={caption}
           onChange={(e) => setCaption(e.target.value)} placeholder="Caption for the next upload (optional)"
           aria-label="Caption"
         />
-        {error && <p role="alert" className="mt-2 font-mono text-xs text-signal">{error}</p>}
+        <div className="mt-3">
+          <Uploader
+            folder="portfolio" multiple label="Add work"
+            onUploaded={(urls) =>
+              startTransition(async () => {
+                setError(null);
+                for (const url of urls) {
+                  const result = await addPortfolioItem(url, caption);
+                  if (!result.ok) { setError(result.error ?? "Failed."); break; }
+                }
+                setCaption("");
+                router.refresh();
+              })}
+          />
+        </div>
+        {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
       </div>
 
-      <ul className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-3">
-        {items.map((item) => (
-          <li key={item.id} className="relative border border-rule">
-            {/\.(mp4|webm|mov)($|\?)/i.test(item.media_url) ? (
-              <video src={item.media_url} controls playsInline className="aspect-square w-full object-cover" />
-            ) : (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={item.media_url} alt={item.caption ?? "Portfolio item"} className="aspect-square w-full object-cover" />
-            )}
-            {item.caption && <p className="truncate px-2 py-1 text-[0.6875rem] text-ink-faint">{item.caption}</p>}
-            <button
-              type="button" aria-label="Remove item" disabled={pending}
-              className="absolute top-1 right-1 border border-ink bg-paper px-1.5 py-0.5 font-mono text-[0.625rem] hover:bg-signal hover:text-white"
-              onClick={() => startTransition(async () => { await removePortfolioItem(item.id); router.refresh(); })}
-            >
-              ✕
-            </button>
-          </li>
-        ))}
-      </ul>
+      {items.length > 0 && (
+        <ul className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3">
+          {items.map((item) => (
+            <li key={item.id} className="card relative overflow-hidden">
+              {/\.(mp4|webm|mov)($|\?)/i.test(item.media_url) ? (
+                <video src={item.media_url} controls playsInline className="aspect-square w-full bg-surface-2 object-cover" />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={item.media_url} alt={item.caption ?? "Portfolio item"} className="aspect-square w-full bg-surface-2 object-cover" />
+              )}
+              {item.caption && <p className="truncate px-3 py-2 text-sm text-ink-soft">{item.caption}</p>}
+              <button
+                type="button" aria-label="Remove item" disabled={pending}
+                className="glass-tag absolute top-2 right-2 flex h-9 w-9 items-center justify-center rounded-full font-display text-sm font-700 text-ink hover:text-signal"
+                onClick={() => startTransition(async () => { await removePortfolioItem(item.id); router.refresh(); })}
+              >
+                ✕
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
       {items.length === 0 && (
-        <p className="mt-3 font-mono text-xs text-ink-faint">Nothing here yet — upload photos or videos of your work.</p>
+        <div className="mt-4">
+          <EmptyState
+            title="Nothing here yet"
+            body="Upload photos or videos of your work. Businesses look at this before they hire."
+          />
+        </div>
       )}
     </div>
   );

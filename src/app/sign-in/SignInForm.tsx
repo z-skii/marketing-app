@@ -20,7 +20,7 @@ export function SignInForm({ next }: { next: string }) {
     <form action={submit} className="mt-8 flex flex-col gap-4">
       <input type="hidden" name="next" value={next} />
       <div className="flex flex-col gap-2">
-        <label htmlFor="email" className="eyebrow">Email</label>
+        <label htmlFor="email" className="text-sm text-ink-soft">Email</label>
         <input
           id="email"
           name="email"
@@ -43,16 +43,16 @@ export function SignInForm({ next }: { next: string }) {
       />
 
       {state.error && (
-        <p role="alert" className="font-mono text-xs text-signal">{state.error}</p>
+        <p role="alert" className="text-sm text-signal">{state.error}</p>
       )}
       {resendState.notice && (
-        <p role="status" className="font-mono text-xs text-rise">{resendState.notice}</p>
+        <p role="status" className="text-sm text-rise">{resendState.notice}</p>
       )}
       {resendState.error && (
-        <p role="alert" className="font-mono text-xs text-signal">{resendState.error}</p>
+        <p role="alert" className="text-sm text-signal">{resendState.error}</p>
       )}
 
-      <button type="submit" className="btn btn-signal mt-1" disabled={pending}>
+      <button type="submit" className="btn btn-signal btn-lg mt-2 w-full" disabled={pending}>
         {pending ? "Signing in…" : "Sign in"}
       </button>
 
@@ -61,24 +61,24 @@ export function SignInForm({ next }: { next: string }) {
           type="submit"
           formAction={resend}
           disabled={resending}
-          className="btn btn-ghost"
+          className="btn w-full"
         >
           {resending ? "Sending…" : "Resend verification email"}
         </button>
       )}
 
-      <div className="mt-2 flex flex-col gap-2 border-t border-rule pt-4">
+      <div className="mt-2 flex flex-col gap-3 text-sm text-ink-soft">
         <Link
           href="/reset"
-          className="font-mono text-xs text-ink-soft underline underline-offset-4 transition-colors hover:text-ink"
+          className="font-display font-600 text-ink-soft transition-colors hover:text-ink"
         >
           Forgot password?
         </Link>
-        <p className="font-mono text-xs text-ink-soft">
+        <p>
           Don&apos;t have an account?{" "}
           <Link
             href="/sign-up"
-            className="text-signal underline underline-offset-4"
+            className="font-display font-600 text-signal"
           >
             Create one
           </Link>

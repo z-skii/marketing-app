@@ -13,32 +13,30 @@ export function SignUpForm() {
 
   if (state.step === "sent") {
     return (
-      <div className="mt-8 flex flex-col gap-4">
-        <h2 className="font-display text-2xl font-800 tracking-[-0.02em]">
+      <div className="card mt-8 flex flex-col gap-4 p-5">
+        <h2 className="font-display text-xl font-800 tracking-[-0.02em]">
           Check your email
         </h2>
-        <p className="text-sm text-ink-soft">
+        <p className="text-[0.9375rem] leading-relaxed text-ink-soft">
           We sent a verification link to{" "}
-          <span className="font-mono text-ink">{state.email}</span>. Click it to
+          <span className="font-600 text-ink">{state.email}</span>. Open it to
           confirm this address, then sign in with your password. Check spam too.
         </p>
         {resendState.notice && (
-          <p role="status" className="font-mono text-xs text-rise">{resendState.notice}</p>
+          <p role="status" className="text-sm text-rise">{resendState.notice}</p>
         )}
         {resendState.error && (
-          <p role="alert" className="font-mono text-xs text-signal">{resendState.error}</p>
+          <p role="alert" className="text-sm text-signal">{resendState.error}</p>
         )}
-        <div className="flex flex-wrap gap-3">
-          <form action={resend}>
-            <input type="hidden" name="email" value={state.email ?? ""} />
-            <button type="submit" className="btn btn-ghost !py-2.5" disabled={resending}>
-              {resending ? "Sending…" : "Resend email"}
-            </button>
-          </form>
-          <Link href="/sign-up" className="btn btn-ghost !py-2.5">
+        <form action={resend} className="flex flex-col gap-3">
+          <input type="hidden" name="email" value={state.email ?? ""} />
+          <button type="submit" className="btn w-full" disabled={resending}>
+            {resending ? "Sending…" : "Resend email"}
+          </button>
+          <Link href="/sign-up" className="text-center font-display text-sm font-600 text-ink-soft transition-colors hover:text-ink">
             Change email
           </Link>
-        </div>
+        </form>
       </div>
     );
   }
@@ -46,7 +44,7 @@ export function SignUpForm() {
   return (
     <form action={submit} className="mt-8 flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <label htmlFor="email" className="eyebrow">Email</label>
+        <label htmlFor="email" className="text-sm text-ink-soft">Email</label>
         <input
           id="email"
           name="email"
@@ -62,7 +60,7 @@ export function SignUpForm() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="username" className="eyebrow">Username</label>
+        <label htmlFor="username" className="text-sm text-ink-soft">Username</label>
         <input
           id="username"
           name="username"
@@ -95,16 +93,16 @@ export function SignUpForm() {
       />
 
       {state.error && (
-        <p role="alert" className="font-mono text-xs text-signal">{state.error}</p>
+        <p role="alert" className="text-sm text-signal">{state.error}</p>
       )}
 
-      <button type="submit" className="btn btn-signal mt-1" disabled={pending}>
+      <button type="submit" className="btn btn-signal btn-lg mt-2 w-full" disabled={pending}>
         {pending ? "Creating…" : "Create account"}
       </button>
 
-      <p className="mt-2 border-t border-rule pt-4 font-mono text-xs text-ink-soft">
+      <p className="mt-2 text-sm text-ink-soft">
         Already have an account?{" "}
-        <Link href="/sign-in" className="text-signal underline underline-offset-4">
+        <Link href="/sign-in" className="font-display font-600 text-signal">
           Sign in
         </Link>
       </p>

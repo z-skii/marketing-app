@@ -145,7 +145,7 @@ export async function deleteCalendarPost(id: string, businessId: string): Promis
 /**
  * Connected accounts. Real OAuth needs provider credentials that aren't
  * configured yet, so "connect" honestly records a pending request and the UI
- * shows exactly what's missing — never a fake "connected".
+ * shows exactly what's missing, never a fake "connected".
  */
 export async function requestConnection(businessId: string, provider: string): Promise<Result> {
   const ctx = await requireOnboarded();

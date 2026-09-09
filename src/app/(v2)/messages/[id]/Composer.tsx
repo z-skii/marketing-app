@@ -27,22 +27,22 @@ export function Composer({ conversationId }: { conversationId: string }) {
   };
 
   return (
-    <div className="border-t border-rule pt-3 pb-[env(safe-area-inset-bottom)]">
-      {error && <p role="alert" className="mb-2 font-mono text-xs text-signal">{error}</p>}
+    <div className="pt-2 pb-[env(safe-area-inset-bottom)]">
+      {error && <p role="alert" className="mb-2 text-sm text-signal">{error}</p>}
       <form
         className="flex items-end gap-2"
         onSubmit={(e) => { e.preventDefault(); send(); }}
       >
         <textarea
-          className="field max-h-32 min-h-11 flex-1 resize-none !py-2.5"
-          rows={1} maxLength={4000} value={body} placeholder="Message…"
+          className="field max-h-32 min-h-12 flex-1 resize-none"
+          rows={1} maxLength={4000} value={body} placeholder="Message"
           aria-label="Message"
           onChange={(e) => setBody(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
           }}
         />
-        <button type="submit" disabled={pending || !body.trim()} className="btn btn-signal !px-4 !py-2.5">
+        <button type="submit" disabled={pending || !body.trim()} className="btn btn-signal shrink-0">
           Send
         </button>
       </form>

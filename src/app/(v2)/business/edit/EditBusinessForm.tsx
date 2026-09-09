@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Uploader } from "@/components/v2/Uploader";
+import { Avatar } from "@/components/v2/ui";
 import { updateBusinessProfile } from "../actions";
 
 type Business = {
@@ -12,7 +13,9 @@ type Business = {
   brand: Record<string, string>; target_note: string | null;
 };
 
-/** One business profile, filled in progressively — required stuff on top. */
+const LABEL = "text-sm text-ink-soft";
+
+/** One business profile, filled in progressively. Required stuff on top. */
 export function EditBusinessForm({ business }: { business: Business }) {
   const router = useRouter();
   const [f, setF] = useState({
@@ -38,8 +41,8 @@ export function EditBusinessForm({ business }: { business: Business }) {
 
   const set = (patch: Partial<typeof f>) => setF({ ...f, ...patch });
   const text = (key: keyof typeof f, label: string, placeholder = "", type = "text") => (
-    <label className="flex flex-col gap-1">
-      <span className="eyebrow">{label}</span>
+    <label className="flex flex-col gap-1.5">
+      <span className={LABEL}>{label}</span>
       <input className="field" type={type} value={f[key]} maxLength={300}
         onChange={(e) => set({ [key]: e.target.value } as Partial<typeof f>)} placeholder={placeholder} />
     </label>
@@ -47,7 +50,7 @@ export function EditBusinessForm({ business }: { business: Business }) {
 
   return (
     <form
-      className="mt-5 flex flex-col gap-3"
+      className="mt-6 flex flex-col gap-3"
       onSubmit={(e) => {
         e.preventDefault();
         startTransition(async () => {
@@ -57,48 +60,52 @@ export function EditBusinessForm({ business }: { business: Business }) {
         });
       }}
     >
-      <div className="flex items-center gap-4">
-        <div>
-          <span className="eyebrow">Logo</span>
-          <div className="mt-1 flex items-center gap-3">
-            {f.logoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={f.logoUrl} alt="Logo" className="h-14 w-14 border border-ink object-cover" />
-            ) : (
-              <span className="flex h-14 w-14 items-center justify-center border border-dashed border-rule font-mono text-[0.5625rem] text-ink-faint">none</span>
-            )}
-            <Uploader folder="business" accept="image/*" label="Upload" onUploaded={(u) => set({ logoUrl: u[0] })} />
+      <div className="card overflow-hidden">
+        {f.coverUrl && (
+          <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-2 md:aspect-[16/9]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={f.coverUrl} alt="" className="h-full w-full object-cover" />
+            <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
+            <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">Cover</span>
           </div>
+        )}
+        <div className="flex items-center gap-4 p-4">
+          <Avatar src={f.logoUrl || null} name={f.name || business.name} size={56} />
+          <div className="min-w-0 flex-1">
+            <p className="font-display text-sm font-600">Logo</p>
+            <p className="mt-0.5 text-sm text-ink-faint">Square works best. Shown next to your jobs.</p>
+          </div>
+          <Uploader folder="business" accept="image/*" label={f.logoUrl ? "Replace" : "Upload"} onUploaded={(u) => set({ logoUrl: u[0] })} />
         </div>
       </div>
 
       {text("name", "Business name")}
       {text("category", "Category", "Coffee shop")}
-      <label className="flex flex-col gap-1">
-        <span className="eyebrow">Description</span>
+      <label className="flex flex-col gap-1.5">
+        <span className={LABEL}>Description</span>
         <textarea className="field min-h-20" maxLength={2000} value={f.description}
           onChange={(e) => set({ description: e.target.value })}
           placeholder="What you do, in a couple of sentences." />
       </label>
       {text("city", "City", "Raleigh, NC")}
-      {text("website", "Website", "https://…", "url")}
+      {text("website", "Website", "https://", "url")}
 
-      <button type="button" className="mt-1 self-start font-mono text-xs text-ink-faint underline underline-offset-2 hover:text-ink"
+      <button type="button" className="btn btn-ghost btn-sm mt-1 self-start"
         onClick={() => setShowAdvanced(!showAdvanced)}>
-        {showAdvanced ? "Hide" : "More"} options — address, phone, socials, brand
+        {showAdvanced ? "Fewer options" : "More options: address, phone, socials, brand"}
       </button>
 
       {showAdvanced && (
-        <div className="flex flex-col gap-3 border-l-2 border-rule pl-3">
+        <div className="card-2 flex flex-col gap-3 p-4">
           {text("address", "Address (not shown publicly without your OK)")}
           {text("phone", "Phone")}
-          {text("instagram", "Instagram", "https://instagram.com/…")}
+          {text("instagram", "Instagram", "https://instagram.com/")}
           {text("facebook", "Facebook")}
           {text("tiktok", "TikTok")}
           {text("google", "Google Business link")}
           {text("brandColors", "Brand colors", "#0b0b0c, #ff3b18")}
-          <label className="flex flex-col gap-1">
-            <span className="eyebrow">Who&apos;s your customer?</span>
+          <label className="flex flex-col gap-1.5">
+            <span className={LABEL}>Who is your customer?</span>
             <textarea className="field min-h-16" maxLength={500} value={f.targetNote}
               onChange={(e) => set({ targetNote: e.target.value })}
               placeholder="Helps creators make content that fits." />
@@ -107,9 +114,9 @@ export function EditBusinessForm({ business }: { business: Business }) {
       )}
 
       {message && (
-        <p role="alert" className={`font-mono text-xs ${message.ok ? "text-rise" : "text-signal"}`}>{message.text}</p>
+        <p role="alert" className={`text-sm ${message.ok ? "text-rise" : "text-signal"}`}>{message.text}</p>
       )}
-      <button type="submit" disabled={pending} className="btn btn-signal mt-2 !py-3">
+      <button type="submit" disabled={pending} className="btn btn-signal btn-lg mt-2 w-full">
         {pending ? "Saving…" : "Save"}
       </button>
     </form>

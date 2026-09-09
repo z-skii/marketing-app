@@ -37,58 +37,65 @@ export default async function BusinessCarAdsPage() {
     : [[], []];
 
   return (
-    <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business" label="Business" />
-      <div className="mt-2 flex items-center justify-between">
-        <h1 className="font-display text-2xl font-900 tracking-[-0.03em]">Car campaigns</h1>
-        <Link href="/cars?tab=browse" className="btn btn-signal !px-4 !py-2 text-xs">Find cars</Link>
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <h1 className="font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Car campaigns</h1>
+        <Link href="/cars?tab=browse" className="btn btn-signal btn-sm shrink-0">Find cars</Link>
       </div>
+      <p className="mt-1.5 text-[0.9375rem] text-ink-soft">Offers you sent to drivers, and the cars already carrying your name.</p>
 
-      <section className="mt-4">
+      <section className="mt-6">
         <SectionTitle count={offers.length}>Offers in flight</SectionTitle>
-        {offers.length === 0 && <p className="mt-2 font-mono text-xs text-ink-faint">No open offers.</p>}
-        <ul className="mt-2 flex flex-col gap-2">
+        {offers.length === 0 && <p className="mt-3 text-sm text-ink-faint">No open offers.</p>}
+        <ul className="row-list mt-3">
           {offers.map((o) => (
             <li key={o.id}>
-              <Link href={`/cars/${o.vehicle_id}`} className="flex items-center gap-3 border border-rule p-3 hover:border-ink">
+              <Link href={`/cars/${o.vehicle_id}`} className={`card flex items-center gap-3 p-4 ${o.status === "countered" ? "card-signal" : ""}`}>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate font-display text-sm font-800">{o.vehicle}</span>
-                  <span className="font-mono text-[0.625rem] text-ink-faint">
-                    {o.zones.map((z) => ZONE_LABELS[z] ?? z).join(" + ")}
-                    {o.counter_cents != null && ` · countered $${Math.round(o.counter_cents / 100)}/mo`}
+                  <span className="block truncate font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em]">{o.vehicle}</span>
+                  <span className="mt-1.5 flex flex-wrap items-center gap-2">
+                    <StatusChip status={o.status} />
+                    <span className="text-sm text-ink-faint">
+                      {o.zones.map((z) => ZONE_LABELS[z] ?? z).join(" + ")}
+                      {o.counter_cents != null && `  ·  Countered $${Math.round(o.counter_cents / 100)} a month`}
+                    </span>
                   </span>
                 </span>
-                <StatusChip status={o.status} />
-                <Money cents={o.monthly_cents} suffix="/mo" />
+                <Money cents={o.monthly_cents} size="sm" suffix="/ mo" />
+                <span aria-hidden className="text-ink-faint">→</span>
               </Link>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="rule mt-6 pt-5">
+      <section className="mt-8">
         <SectionTitle count={bookings.length}>Bookings</SectionTitle>
         {bookings.length === 0 && (
-          <div className="mt-2">
+          <div className="mt-3">
             <EmptyState
               title="No car campaigns yet"
-              body="Real cars driving your name around town — browse what's available near you."
+              body="Real cars driving your name around town. Browse what is available near you."
               actionHref="/cars?tab=browse" actionLabel="Browse cars"
             />
           </div>
         )}
-        <ul className="mt-2 flex flex-col gap-2">
+        <ul className="row-list mt-3">
           {bookings.map((b) => (
             <li key={b.id}>
-              <Link href={`/cars/${b.vehicle_id}`} className="flex items-center gap-3 border border-rule p-3 hover:border-ink">
+              <Link href={`/cars/${b.vehicle_id}`} className="card flex items-center gap-3 p-4">
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate font-display text-sm font-800">{b.vehicle}</span>
-                  <span className="font-mono text-[0.625rem] text-ink-faint">
-                    {b.zones.map((z) => ZONE_LABELS[z] ?? z).join(" + ")}
+                  <span className="block truncate font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em]">{b.vehicle}</span>
+                  <span className="mt-1.5 flex flex-wrap items-center gap-2">
+                    <StatusChip status={b.status} />
+                    <span className="text-sm text-ink-faint">
+                      {b.zones.map((z) => ZONE_LABELS[z] ?? z).join(" + ")}
+                    </span>
                   </span>
                 </span>
-                <StatusChip status={b.status} />
-                <Money cents={b.monthly_cents} suffix="/mo" />
+                <Money cents={b.monthly_cents} size="sm" suffix="/ mo" />
+                <span aria-hidden className="text-ink-faint">→</span>
               </Link>
             </li>
           ))}

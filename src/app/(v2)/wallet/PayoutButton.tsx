@@ -15,7 +15,7 @@ export function PayoutButton({ availableCents, minCents }: { availableCents: num
       <button
         type="button"
         disabled={pending || availableCents < minCents}
-        className="btn btn-signal w-full !py-3"
+        className="btn btn-signal btn-lg w-full"
         onClick={() =>
           startTransition(async () => {
             const result = await requestPayout();
@@ -25,10 +25,10 @@ export function PayoutButton({ availableCents, minCents }: { availableCents: num
             if (result.ok) router.refresh();
           })}
       >
-        {pending ? "Requesting…" : "Request payout"}
+        {pending ? "Requesting" : "Request payout"}
       </button>
       {message && (
-        <p role="alert" className={`mt-2 font-mono text-xs ${message.ok ? "text-rise" : "text-signal"}`}>
+        <p role="alert" className={`mt-3 text-sm ${message.ok ? "text-rise" : "text-signal"}`}>
           {message.text}
         </p>
       )}

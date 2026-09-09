@@ -19,7 +19,7 @@ import { settingInt } from "@/lib/settings";
 export class InsufficientCreditError extends Error {
   constructor(shortCents: number) {
     super(
-      `Not enough credit — add ${Math.ceil(shortCents / 100)} more dollars to your wallet first.`,
+      `Not enough credit. Add ${Math.ceil(shortCents / 100)} more dollars to your wallet first.`,
     );
   }
 }

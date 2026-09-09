@@ -40,14 +40,14 @@ export async function createCampaign(input: CreateCampaignInput) {
   if (!KINDS.includes(input.kind)) return { ok: false as const, error: "Pick a campaign type." };
   const title = input.title.trim();
   const brief = input.brief.trim();
-  if (title.length < 4 || title.length > 120) return { ok: false as const, error: "Title needs 4–120 characters." };
+  if (title.length < 4 || title.length > 120) return { ok: false as const, error: "Title needs 4 to 120 characters." };
   if (brief.length < 20) return { ok: false as const, error: "Describe the work in a few sentences (20+ characters)." };
   const payCents = Math.round(input.payDollars * 100);
   if (!Number.isFinite(payCents) || payCents < 500 || payCents > 5_000_000) {
     return { ok: false as const, error: "Pay must be between $5 and $50,000." };
   }
   const slots = Math.round(input.slots);
-  if (slots < 1 || slots > 500) return { ok: false as const, error: "Spots must be 1–500." };
+  if (slots < 1 || slots > 500) return { ok: false as const, error: "Spots must be 1 to 500." };
   const requirements = (input.requirements ?? [])
     .map((r) => r.trim().slice(0, 200)).filter(Boolean).slice(0, 12);
   const deadline = input.deadline ? new Date(input.deadline) : null;
@@ -68,7 +68,7 @@ export async function createCampaign(input: CreateCampaignInput) {
     if (available < payCents) {
       return {
         ok: false as const,
-        error: `Add credit first — approving one submission costs ${formatCredit(payCents)} and the wallet has ${formatCredit(available)}. Top up from the Wallet page.`,
+        error: `Add credit first. Approving one submission costs ${formatCredit(payCents)} and the wallet has ${formatCredit(available)}. Top up from the Wallet page.`,
       };
     }
   }
@@ -100,7 +100,7 @@ export async function createCampaign(input: CreateCampaignInput) {
     );
     await notifyMany(
       audience.map((a) => a.id), "opportunity",
-      `${formatCredit(payCents)} — ${title}`,
+      `${formatCredit(payCents)}: ${title}`,
       { body: city ? `New opportunity in ${city}.` : "New opportunity on TapMart.", href: `/jobs/${campaign.id}` },
     );
   }

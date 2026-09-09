@@ -27,10 +27,10 @@ export default async function CalendarPage() {
   );
 
   return (
-    <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business" label="Business" />
-      <h1 className="mt-2 font-display text-2xl font-900 tracking-[-0.03em]">Content calendar</h1>
-      <p className="mt-1 text-sm text-ink-faint">
+      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Content calendar</h1>
+      <p className="mt-1.5 text-[0.9375rem] text-ink-soft">
         Plan posts, approve them, and mark them published. Auto-posting turns on
         once accounts are connected.
       </p>

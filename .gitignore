@@ -46,5 +46,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
-# Local dev media uploads (storeMedia dev fallback)
-/public/uploads/
+# Local dev media uploads (storeMedia dev fallback). The seed photos ship.
+/public/uploads/*
+!/public/uploads/seed/

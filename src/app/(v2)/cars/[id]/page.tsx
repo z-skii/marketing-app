@@ -3,7 +3,7 @@ import { BackButton } from "@/components/v2/BackButton";
 import { notFound } from "next/navigation";
 import { getV2Context } from "@/lib/v2/core";
 import { sql, sqlOne } from "@/lib/db";
-import { Avatar, Chip, MetaLine, Money, SectionTitle, StatusChip } from "@/components/v2/ui";
+import { Avatar, MetaLine, Money, SectionTitle, StatusChip } from "@/components/v2/ui";
 import { ZONE_LABELS } from "../zones";
 import {
   AcceptCounterButton, BookingControls, OfferForm, OfferResponse, OwnerControls,
@@ -81,71 +81,113 @@ export default async function VehiclePage({ params }: { params: Promise<{ id: st
   const availableZones = zones.filter((z) => z.available);
   const canOffer = !isOwner && ctx.businesses.length > 0 && vehicle.status === "listed";
 
+  const hero = photos.find((p) => p.angle === "driver_side") ?? photos[0] ?? null;
+  const rest = photos.filter((p) => p !== hero);
+  const askingPrices = availableZones
+    .map((z) => z.asking_cents_monthly)
+    .filter((c): c is number => c != null);
+  const lowestAsking = askingPrices.length > 0 ? Math.min(...askingPrices) : null;
+  const ownerLabel = vehicle.owner_name ?? `@${vehicle.owner_username}`;
+  const title = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
+
   return (
-    <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/cars" label="Car Ads" />
 
-      <header className="mt-3">
-        <div className="flex items-start justify-between gap-3">
-          <h1 className="font-display text-2xl leading-[0.98] font-900 tracking-[-0.03em]">
-            {vehicle.year} {vehicle.make} {vehicle.model}
-          </h1>
-          <span className="flex items-center gap-2">
-            <StatusChip status={vehicle.status} />
-            {vehicle.verification === "verified" && <Chip tone="rise">verified</Chip>}
-          </span>
+      <div className="card mt-3 overflow-hidden">
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-2 md:aspect-[16/9]">
+          {hero ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={hero.url} alt={`${title}, ${hero.angle.replaceAll("_", " ")} view`} className="h-full w-full object-cover" fetchPriority="high" />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(ellipse_at_30%_20%,_var(--color-surface-2),_var(--color-surface)_70%)] text-sm text-ink-faint">
+              No photo yet
+            </div>
+          )}
+          <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
+          <div className="absolute top-3 left-3 flex items-center gap-2">
+            <span className="glass-tag px-2.5 py-1 font-display text-xs font-700 text-ink">
+              {vehicle.status.replaceAll("_", " ")}
+            </span>
+            {vehicle.verification === "verified" && (
+              <span className="glass-tag px-2.5 py-1 font-display text-xs font-700 text-rise">Verified</span>
+            )}
+          </div>
+          <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3">
+            {lowestAsking != null ? (
+              <Money cents={lowestAsking} size="xl" suffix="/ month" />
+            ) : (
+              <span className="font-display text-lg font-700 text-ink">Make an offer</span>
+            )}
+            <span className="font-display text-sm font-700 text-ink">
+              {availableZones.length} area{availableZones.length === 1 ? "" : "s"}
+            </span>
+          </div>
         </div>
-        <MetaLine parts={[
-          vehicle.color, vehicle.body_type, vehicle.trim,
-          vehicle.monthly_miles ? `${vehicle.monthly_miles.toLocaleString()} mi/month` : null,
-          vehicle.city && `${vehicle.city}${vehicle.radius_miles ? ` + ${vehicle.radius_miles} mi` : ""}`,
-        ]} />
-        <Link href={`/u/${vehicle.owner_username}`} className="mt-2 inline-flex items-center gap-2">
-          <Avatar src={vehicle.owner_avatar} name={vehicle.owner_name ?? vehicle.owner_username} size={24} />
-          <span className="font-mono text-xs text-ink-faint">@{vehicle.owner_username}</span>
-        </Link>
-      </header>
+        <div className="p-4 pt-3.5">
+          <h1 className="font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em] md:text-[2rem]">
+            {title}
+          </h1>
+          <MetaLine className="mt-2" parts={[
+            vehicle.color, vehicle.body_type, vehicle.trim,
+            vehicle.monthly_miles ? `${vehicle.monthly_miles.toLocaleString()} miles a month` : null,
+            vehicle.city && `${vehicle.city}${vehicle.radius_miles ? `, ${vehicle.radius_miles} mile radius` : ""}`,
+          ]} />
+        </div>
+      </div>
 
-      {photos.length > 0 && (
-        <div className="mt-4 flex gap-2 overflow-x-auto">
-          {photos.map((p, i) => (
+      {rest.length > 0 && (
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+          {rest.map((p, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img key={i} src={p.url} alt={`${p.angle.replaceAll("_", " ")} view`}
-              className="h-36 w-52 shrink-0 border border-ink object-cover" />
+              className="h-24 w-32 shrink-0 rounded-[10px] object-cover" loading="lazy" />
           ))}
         </div>
       )}
 
-      <section className="mt-5">
-        <SectionTitle>Ad areas</SectionTitle>
-        <ul className="mt-2 grid grid-cols-2 gap-2">
+      <Link href={`/u/${vehicle.owner_username}`} className="card mt-3 flex items-center gap-3 p-4">
+        <Avatar src={vehicle.owner_avatar} name={vehicle.owner_name ?? vehicle.owner_username} size={40} />
+        <span className="min-w-0 flex-1">
+          <span className="block truncate font-display text-base font-700">{ownerLabel}</span>
+          <span className="block text-sm text-ink-faint">Driver</span>
+        </span>
+        <span aria-hidden className="text-ink-faint">→</span>
+      </Link>
+
+      <section className="mt-6">
+        <SectionTitle count={availableZones.length}>Ad areas</SectionTitle>
+        <ul className="row-list mt-3">
           {availableZones.map((z) => (
-            <li key={z.zone} className="flex items-center justify-between border border-rule px-3 py-2 text-sm">
-              {ZONE_LABELS[z.zone] ?? z.zone}
+            <li key={z.zone} className="card-2 flex items-center justify-between gap-3 px-4 py-3">
+              <span className="font-display text-[0.9375rem] font-600">{ZONE_LABELS[z.zone] ?? z.zone}</span>
               {z.asking_cents_monthly != null
-                ? <Money cents={z.asking_cents_monthly} suffix="/mo" />
-                : <span className="font-mono text-[0.625rem] text-ink-faint">make offer</span>}
+                ? <Money cents={z.asking_cents_monthly} size="md" suffix="/ month" />
+                : <span className="text-sm text-ink-faint">Make an offer</span>}
             </li>
           ))}
           {availableZones.length === 0 && (
-            <li className="col-span-2 font-mono text-xs text-ink-faint">No areas marked available.</li>
+            <li className="card-2 px-4 py-3 text-sm text-ink-faint">No areas marked available.</li>
           )}
         </ul>
       </section>
 
       {isOwner && (
-        <section className="rule mt-5 pt-4">
-          <OwnerControls vehicleId={vehicle.id} status={vehicle.status} verification={vehicle.verification} />
+        <section className="card mt-6 p-4">
+          <h2 className="font-display text-[1.125rem] font-800 tracking-[-0.02em]">Your listing</h2>
+          <div className="mt-3">
+            <OwnerControls vehicleId={vehicle.id} status={vehicle.status} verification={vehicle.verification} />
+          </div>
           {vehicle.verification === "pending" && (
-            <p className="mt-2 font-mono text-[0.625rem] text-ink-faint">
-              Verification requested — an admin reviews your photos, usually within a day.
+            <p className="mt-3 text-sm text-ink-faint">
+              Verification requested. An admin reviews your photos, usually within a day.
             </p>
           )}
         </section>
       )}
 
       {canOffer && (
-        <section className="mt-6">
+        <section className="mt-6" id="offer">
           <OfferForm
             vehicleId={vehicle.id}
             businesses={ctx.businesses.map((b) => ({ id: b.id, name: b.name }))}
@@ -155,25 +197,27 @@ export default async function VehiclePage({ params }: { params: Promise<{ id: st
       )}
 
       {(isOwner || offers.some((o) => o.mine)) && offers.length > 0 && (
-        <section className="rule mt-6 pt-5">
+        <section className="mt-6">
           <SectionTitle count={offers.length}>Offers</SectionTitle>
-          <ul className="mt-2 flex flex-col gap-2">
+          <ul className="row-list mt-3">
             {offers.map((o) => (
-              <li key={o.id} className="border border-rule p-3">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-mono text-xs font-600">{o.business_name}</span>
-                  <StatusChip status={o.status} />
-                  <span className="ml-auto"><Money cents={o.monthly_cents} suffix="/mo" /></span>
+              <li key={o.id} className="card p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="min-w-0">
+                    <span className="block truncate font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em]">{o.business_name}</span>
+                    <span className="mt-1.5 inline-flex"><StatusChip status={o.status} /></span>
+                  </span>
+                  <Money cents={o.monthly_cents} size="md" suffix="/ month" />
                 </div>
-                <MetaLine parts={[
+                <MetaLine className="mt-2" parts={[
                   o.zones.map((z) => ZONE_LABELS[z] ?? z).join(" + "),
                   `${o.months} month${o.months === 1 ? "" : "s"}`,
-                  o.counter_cents != null ? `driver countered $${Math.round(o.counter_cents / 100)}/mo` : null,
+                  o.counter_cents != null ? `Driver countered $${Math.round(o.counter_cents / 100)} a month` : null,
                 ]} />
-                {o.message && <p className="mt-1.5 text-sm text-ink-faint">{o.message}</p>}
+                {o.message && <p className="mt-2 text-sm text-ink-soft">{o.message}</p>}
                 {isOwner && ["sent"].includes(o.status) && <OfferResponse offerId={o.id} />}
                 {o.mine && o.status === "countered" && (
-                  <div className="mt-2"><AcceptCounterButton offerId={o.id} /></div>
+                  <div className="mt-3"><AcceptCounterButton offerId={o.id} /></div>
                 )}
               </li>
             ))}
@@ -182,24 +226,26 @@ export default async function VehiclePage({ params }: { params: Promise<{ id: st
       )}
 
       {visibleBookings.length > 0 && (
-        <section className="rule mt-6 pt-5">
+        <section className="mt-6">
           <SectionTitle count={visibleBookings.length}>Campaigns on this car</SectionTitle>
-          <ul className="mt-2 flex flex-col gap-2">
+          <ul className="row-list mt-3">
             {visibleBookings.map((b) => (
-              <li key={b.id} className="border border-rule p-3">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-mono text-xs font-600">{b.business_name}</span>
-                  <StatusChip status={b.status} />
-                  <span className="ml-auto"><Money cents={b.monthly_cents} suffix="/mo" /></span>
+              <li key={b.id} className="card p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="min-w-0">
+                    <span className="block truncate font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em]">{b.business_name}</span>
+                    <span className="mt-1.5 inline-flex"><StatusChip status={b.status} /></span>
+                  </span>
+                  <Money cents={b.monthly_cents} size="md" suffix="/ month" />
                 </div>
-                <MetaLine parts={[
+                <MetaLine className="mt-2" parts={[
                   b.zones.map((z) => ZONE_LABELS[z] ?? z).join(" + "),
-                  b.starts_on ? `since ${new Date(b.starts_on).toLocaleDateString("en-US", { month: "short", day: "numeric" })}` : "not started",
+                  b.starts_on ? `Since ${new Date(b.starts_on).toLocaleDateString("en-US", { month: "short", day: "numeric" })}` : "Not started",
                   `${b.proof_count} proof${b.proof_count === 1 ? "" : "s"}`,
                 ]} />
                 <BookingControls bookingId={b.id} status={b.status} isBusiness={b.mine} isDriver={isOwner} />
                 {b.status === "completed" && (isOwner || b.mine) && (
-                  <div className="mt-2"><ReviewStars contextType="booking" contextId={b.id} /></div>
+                  <div className="mt-3"><ReviewStars contextType="booking" contextId={b.id} /></div>
                 )}
               </li>
             ))}

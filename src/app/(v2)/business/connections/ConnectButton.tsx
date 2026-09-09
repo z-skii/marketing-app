@@ -9,10 +9,10 @@ export function ConnectButton({ businessId, provider }: { businessId: string; pr
   const [pending, startTransition] = useTransition();
   return (
     <button
-      type="button" disabled={pending} className="btn !min-h-0 !px-3 !py-1.5 !text-[0.625rem]"
+      type="button" disabled={pending} className="btn btn-sm shrink-0"
       onClick={() => startTransition(async () => { await requestConnection(businessId, provider); router.refresh(); })}
     >
-      {pending ? "…" : "Request"}
+      {pending ? "Requesting…" : "Request"}
     </button>
   );
 }

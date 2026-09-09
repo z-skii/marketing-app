@@ -21,12 +21,17 @@ export type ShellProps = {
   children: React.ReactNode;
 };
 
+/* Phones: Home, Car Ads, Create, Jobs, Profile. Notifications live in the
+   screen headers there; the desktop rail lists everything. */
 const NAV = [
   { href: "/home", label: "Home", icon: HomeIcon },
   { href: "/cars", label: "Car Ads", icon: CarIcon },
   { href: "/jobs", label: "Jobs", icon: JobsIcon },
-  { href: "/alerts", label: "Alerts", icon: BellIcon },
   { href: "/me", label: "Profile", icon: UserIcon },
+];
+const RAIL_EXTRA = [
+  { href: "/alerts", label: "Notifications", icon: BellIcon },
+  { href: "/messages", label: "Messages", icon: ChatIcon },
 ];
 
 export function AppShell(props: ShellProps) {
@@ -34,65 +39,57 @@ export function AppShell(props: ShellProps) {
   const [createOpen, setCreateOpen] = useState(false);
 
   const badge = (href: string) =>
-    href === "/alerts" ? props.unreadNotifications : 0;
+    href === "/alerts" ? props.unreadNotifications : href === "/messages" ? props.unreadMessages : 0;
 
   const active = (href: string) =>
     pathname === href || (href !== "/home" && pathname.startsWith(href + "/"));
 
+  const railLink = (item: { href: string; label: string; icon: () => React.ReactNode }) => (
+    <Link
+      key={item.href}
+      href={item.href}
+      aria-current={active(item.href) ? "page" : undefined}
+      className={`flex items-center gap-3 rounded-[var(--radius-control)] px-3 py-2.5 font-display text-[0.9375rem] font-600 transition-colors ${
+        active(item.href) ? "bg-surface-2 text-signal" : "text-ink-soft hover:bg-surface hover:text-ink"
+      }`}
+    >
+      <item.icon />
+      {item.label}
+      {badge(item.href) > 0 && (
+        <span className="tnum ml-auto rounded-full bg-signal px-2 font-display text-xs font-800 leading-5 text-signal-ink">
+          {badge(item.href)}
+        </span>
+      )}
+    </Link>
+  );
+
   return (
-    <div className="min-h-dvh bg-paper md:grid md:grid-cols-[13.5rem_minmax(0,1fr)]">
+    <div className="app-root min-h-dvh bg-paper md:grid md:grid-cols-[14rem_minmax(0,1fr)]">
       {/* Desktop rail */}
-      <aside className="sticky top-0 hidden h-dvh flex-col border-r border-rule px-4 py-6 md:flex">
-        <Link href="/home" className="flex items-center gap-2.5 px-2">
+      <aside className="sticky top-0 hidden h-dvh flex-col bg-paper-deep px-3 py-6 md:flex">
+        <Link href="/home" className="flex items-center gap-2.5 px-3">
           <span className="h-2.5 w-2.5 rounded-full bg-signal" aria-hidden />
-          <span className="font-display text-lg font-900 tracking-[-0.03em]">TAPMART</span>
+          <span className="font-display text-lg font-800 tracking-[-0.03em]">TAPMART</span>
         </Link>
-        <nav className="mt-8 flex flex-col gap-1" aria-label="Main">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={active(item.href) ? "page" : undefined}
-              className={`flex items-center gap-3 px-2 py-2.5 font-mono text-[0.8125rem] font-600 tracking-wide uppercase transition-colors ${
-                active(item.href) ? "text-signal" : "text-ink hover:text-signal"
-              }`}
-            >
-              <item.icon />
-              {item.label}
-              {badge(item.href) > 0 && (
-                <span className="tnum ml-auto bg-signal px-1.5 text-[0.6875rem] text-white">
-                  {badge(item.href)}
-                </span>
-              )}
-            </Link>
-          ))}
-          <Link
-            href="/messages"
-            aria-current={active("/messages") ? "page" : undefined}
-            className={`flex items-center gap-3 px-2 py-2.5 font-mono text-[0.8125rem] font-600 tracking-wide uppercase ${
-              active("/messages") ? "text-signal" : "text-ink hover:text-signal"
-            }`}
-          >
-            <ChatIcon />
-            Messages
-            {props.unreadMessages > 0 && (
-              <span className="tnum ml-auto bg-signal px-1.5 text-[0.6875rem] text-white">
-                {props.unreadMessages}
-              </span>
-            )}
-          </Link>
+        <nav className="mt-8 flex flex-col gap-0.5" aria-label="Main">
+          {NAV.map(railLink)}
+          {RAIL_EXTRA.map(railLink)}
         </nav>
         <button
           type="button"
           onClick={() => setCreateOpen(true)}
-          className="btn btn-signal mt-6 w-full !py-3"
+          className="btn btn-signal mt-6 w-full"
         >
           + Create
         </button>
-        <div className="mt-auto px-2">
+        <div className="mt-auto px-3">
           {props.hasBusiness || props.wantsBusiness ? (
-            <Link href="/business" className="font-mono text-[0.6875rem] text-ink-faint hover:text-ink">
-              Business tools ↗
+            <Link
+              href="/business"
+              aria-current={active("/business") ? "page" : undefined}
+              className={`block rounded-[var(--radius-control)] py-2 font-display text-sm font-600 ${active("/business") ? "text-signal" : "text-ink-soft hover:text-ink"}`}
+            >
+              Business dashboard
             </Link>
           ) : null}
         </div>
@@ -104,18 +101,18 @@ export function AppShell(props: ShellProps) {
       {/* Mobile bottom bar */}
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t-[1.5px] border-ink bg-paper pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="glass fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 pb-[env(safe-area-inset-bottom)] md:hidden"
       >
-        {NAV.slice(0, 2).map((item) => <MobileTab key={item.href} item={item} active={active(item.href)} badge={badge(item.href)} />)}
+        {NAV.slice(0, 2).map((item) => <MobileTab key={item.href} item={item} active={active(item.href)} />)}
         <button
           type="button"
           aria-label="Create"
           onClick={() => setCreateOpen(true)}
           className="flex flex-col items-center justify-center py-2"
         >
-          <span className="flex h-9 w-9 items-center justify-center bg-signal font-display text-xl font-800 text-white">+</span>
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-signal font-display text-[1.75rem] font-700 leading-none text-signal-ink shadow-[0_6px_24px_rgba(200,255,61,0.28)]">+</span>
         </button>
-        {NAV.slice(3).map((item) => <MobileTab key={item.href} item={item} active={active(item.href)} badge={badge(item.href)} />)}
+        {NAV.slice(2).map((item) => <MobileTab key={item.href} item={item} active={active(item.href)} />)}
       </nav>
 
       {createOpen && <CreateSheet hasBusiness={props.hasBusiness} wantsBusiness={props.wantsBusiness} onClose={() => setCreateOpen(false)} />}
@@ -124,21 +121,16 @@ export function AppShell(props: ShellProps) {
 }
 
 function MobileTab({
-  item, active, badge,
-}: { item: (typeof NAV)[number]; active: boolean; badge: number }) {
+  item, active,
+}: { item: (typeof NAV)[number]; active: boolean }) {
   return (
     <Link
       href={item.href}
       aria-current={active ? "page" : undefined}
-      className={`relative flex min-h-14 flex-col items-center justify-center gap-0.5 ${active ? "text-signal" : "text-ink"}`}
+      className={`relative flex min-h-16 flex-col items-center justify-center gap-1 ${active ? "text-signal" : "text-ink-soft"}`}
     >
       <item.icon />
-      <span className="font-mono text-[0.5625rem] font-600 tracking-wide uppercase">{item.label}</span>
-      {badge > 0 && (
-        <span className="tnum absolute top-1.5 right-[22%] bg-signal px-1 text-[0.5625rem] leading-4 text-white">
-          {badge}
-        </span>
-      )}
+      <span className="font-display text-[0.6875rem] font-600">{item.label}</span>
     </Link>
   );
 }
@@ -165,21 +157,21 @@ function CreateSheet({
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center md:items-center" role="dialog" aria-modal="true" aria-label="Create">
       <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 cursor-default bg-ink/50" />
-      <div className="relative w-full max-w-md border-t-[1.5px] border-ink bg-paper p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:border-[1.5px]">
+      <div className="glass relative w-full max-w-md rounded-t-[var(--radius-sheet)] p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:rounded-[var(--radius-sheet)]">
         <div className="flex items-center justify-between">
-          <p className="eyebrow !text-signal">Create</p>
-          <button type="button" onClick={onClose} aria-label="Close" className="p-1 font-mono text-sm text-ink-faint hover:text-ink">✕</button>
+          <p className="font-display text-xl font-800 tracking-[-0.02em]">What do you want to create?</p>
+          <button type="button" onClick={onClose} aria-label="Close" className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-2 text-ink-soft hover:text-ink">✕</button>
         </div>
         {businessItems.length > 0 && (
-          <div className="mt-4">
-            <p className="eyebrow">For your business</p>
+          <div className="mt-5">
+            <p className="text-sm text-ink-faint">For your business</p>
             <div className="mt-2 flex flex-col gap-2">
               {businessItems.map((i) => <SheetLink key={i.href} {...i} onNavigate={onClose} />)}
             </div>
           </div>
         )}
-        <div className="mt-4">
-          <p className="eyebrow">Earn</p>
+        <div className="mt-5">
+          <p className="text-sm text-ink-faint">Earn</p>
           <div className="mt-2 flex flex-col gap-2">
             {earnItems.map((i) => <SheetLink key={i.href} {...i} onNavigate={onClose} />)}
           </div>
@@ -191,9 +183,12 @@ function CreateSheet({
 
 function SheetLink({ href, title, sub, onNavigate }: { href: string; title: string; sub: string; onNavigate: () => void }) {
   return (
-    <Link href={href} onClick={onNavigate} className="group border border-rule px-4 py-3 hover:border-signal">
-      <span className="font-display text-base font-800 group-hover:text-signal">{title}</span>
-      <span className="block text-xs text-ink-faint">{sub}</span>
+    <Link href={href} onClick={onNavigate} className="card-2 flex items-center justify-between gap-3 px-4 py-3.5">
+      <span className="min-w-0">
+        <span className="block font-display text-base font-700">{title}</span>
+        <span className="block text-sm text-ink-faint">{sub}</span>
+      </span>
+      <span aria-hidden className="text-ink-faint">→</span>
     </Link>
   );
 }

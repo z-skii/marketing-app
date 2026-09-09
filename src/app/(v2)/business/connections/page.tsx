@@ -33,25 +33,25 @@ export default async function ConnectionsPage() {
   const statusOf = (key: string) => rows.find((r) => r.provider === key)?.status ?? "disconnected";
 
   return (
-    <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business" label="Business" />
-      <h1 className="mt-2 font-display text-2xl font-900 tracking-[-0.03em]">Connected accounts</h1>
-      <p className="mt-1 text-sm text-ink-faint">
-        Platform sign-in isn&apos;t switched on for TapMart yet — requesting a
-        connection queues it, and you&apos;ll get a notification when it&apos;s live.
+      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Connected accounts</h1>
+      <p className="mt-1.5 text-[0.9375rem] text-ink-soft">
+        Platform sign-in is not switched on for TapMart yet. Requesting a
+        connection queues it, and you get a notification when it is live.
         Until then, the calendar works in plan-and-approve mode.
       </p>
 
-      <ul className="mt-5 flex flex-col gap-2">
+      <ul className="row-list mt-6">
         {PROVIDERS.map((p) => {
           const status = statusOf(p.key);
           return (
-            <li key={p.key} className="flex items-center gap-3 border border-rule p-4">
+            <li key={p.key} className="card flex items-center gap-3 p-4">
               <div className="min-w-0 flex-1">
-                <p className="font-display text-base font-800">{p.name}</p>
-                <p className="text-xs text-ink-faint">{p.why}</p>
+                <p className="font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em]">{p.name}</p>
+                <p className="mt-1 text-sm text-ink-faint">{p.why}</p>
+                <div className="mt-2"><StatusChip status={status} /></div>
               </div>
-              <StatusChip status={status} />
               {status === "disconnected" && <ConnectButton businessId={business.id} provider={p.key} />}
             </li>
           );

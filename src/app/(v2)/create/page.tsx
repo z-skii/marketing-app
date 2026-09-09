@@ -42,12 +42,13 @@ export default async function CreatePage({
   }
 
   return (
-    <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/home" label="Home" />
-      <h1 className="mt-2 font-display text-2xl font-900 tracking-[-0.03em]">Create</h1>
+      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Create</h1>
+      <p className="mt-1.5 text-[0.9375rem] text-ink-soft">Hire creators for a campaign or a one-off job. A few short questions.</p>
 
       {ctx.businesses.length === 0 ? (
-        <div className="mt-5">
+        <div className="mt-6">
           <EmptyState
             title="Add your business first"
             body="Campaigns and jobs are posted by a business. Adding yours takes under a minute."
@@ -56,7 +57,7 @@ export default async function CreatePage({
           />
         </div>
       ) : (
-        <div className="mt-5">
+        <div className="mt-6">
           <CreateWizard
             businesses={ctx.businesses.map((b) => ({ id: b.id, name: b.name }))}
             defaultCity={ctx.city ?? ""}

@@ -44,7 +44,7 @@ export function ResetClient() {
 
   if (stage.kind === "loading") {
     return (
-      <p className="mt-6 font-mono text-sm text-ink-soft" role="status">
+      <p className="mt-6 text-[0.9375rem] text-ink-soft" role="status">
         One moment…
       </p>
     );
@@ -53,7 +53,7 @@ export function ResetClient() {
   if (stage.kind === "failed") {
     return (
       <div className="mt-6">
-        <p role="alert" className="font-mono text-sm text-signal">{stage.message}</p>
+        <p role="alert" className="text-[0.9375rem] text-signal">{stage.message}</p>
         <Link href="/reset" className="btn mt-6">
           Request a new link
         </Link>
@@ -79,7 +79,7 @@ export function ResetClient() {
   };
 
   return (
-    <form action={submit} className="mt-8 flex max-w-md flex-col gap-4">
+    <form action={submit} className="mt-8 flex flex-col gap-4">
       <PasswordField
         id="password"
         name="password"
@@ -95,9 +95,9 @@ export function ResetClient() {
         placeholder="Same password again"
       />
       {error && (
-        <p role="alert" className="font-mono text-xs text-signal">{error}</p>
+        <p role="alert" className="text-sm text-signal">{error}</p>
       )}
-      <button type="submit" className="btn btn-signal mt-1" disabled={saving}>
+      <button type="submit" className="btn btn-signal btn-lg mt-1 w-full" disabled={saving}>
         {saving ? "Saving…" : "Save new password"}
       </button>
     </form>

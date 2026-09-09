@@ -28,9 +28,9 @@ function playbook(name: string, category: string | null, city: string | null): I
       prefill: {
         kind: "ugc",
         title: `POV visit video for ${name}`,
-        brief: `Film a 15–25 second vertical POV video of a real visit to ${name} — walking in, the product or service, one genuine reaction. Casual phone footage is exactly right. Mention us by name once.`,
+        brief: `Film a 15 to 25 second vertical POV video of a real visit to ${name}: walking in, the product or service, one genuine reaction. Casual phone footage is exactly right. Mention us by name once.`,
         payDollars: 40, slots: 10,
-        requirements: ["15–25 seconds", "vertical 9:16", "business name mentioned", "your real visit — no stock footage"],
+        requirements: ["15 to 25 seconds", "vertical 9:16", "business name mentioned", "your real visit, no stock footage"],
       },
     },
     {
@@ -39,7 +39,7 @@ function playbook(name: string, category: string | null, city: string | null): I
       prefill: {
         kind: "photography",
         title: `Photo refresh for ${name}`,
-        brief: `A 1–2 hour shoot at ${name}: exterior, interior, product/service close-ups, and a few people shots. Deliver 20 edited photos we can use across Google, Instagram and the site.`,
+        brief: `A 1 to 2 hour shoot at ${name}: exterior, interior, product/service close-ups, and a few people shots. Deliver 20 edited photos we can use across Google, Instagram and the site.`,
         payDollars: 250, slots: 1,
         requirements: ["20 edited photos", "shot on location", "usable for social + Google profile"],
       },
@@ -50,9 +50,9 @@ function playbook(name: string, category: string | null, city: string | null): I
       prefill: {
         kind: "content",
         title: `3 talking videos about ${name}`,
-        brief: `Make 3 short vertical videos (each 10–20s) in your own voice about ${name} — what you tried, what you'd tell a friend. Natural, not scripted-sounding.`,
+        brief: `Make 3 short vertical videos (each 10 to 20 seconds) in your own voice about ${name}: what you tried, what you'd tell a friend. Natural, not scripted-sounding.`,
         payDollars: 60, slots: 5,
-        requirements: ["3 videos per approval", "10–20 seconds each", "vertical", "honest tone — no hard selling"],
+        requirements: ["3 videos per approval", "10 to 20 seconds each", "vertical", "honest tone, no hard selling"],
       },
     },
   ];

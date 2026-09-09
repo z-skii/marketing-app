@@ -12,7 +12,7 @@ export function FollowButton({
     <button
       type="button"
       aria-pressed={following}
-      className={`btn !min-h-0 !px-4 !py-2 !text-[0.6875rem] ${following ? "" : "btn-signal"}`}
+      className={`btn ${following ? "" : "btn-signal"}`}
       onClick={() => {
         setFollowing(!following);
         start(async () => {
@@ -32,24 +32,24 @@ export function ReportMenu({ targetType, targetId }: { targetType: string; targe
   const [reason, setReason] = useState("");
   const [, start] = useTransition();
 
-  if (sent) return <p className="font-mono text-[0.625rem] text-rise">Reported — thanks.</p>;
+  if (sent) return <p className="text-sm text-rise">Reported. Thanks.</p>;
   if (!open) {
     return (
-      <button type="button" className="font-mono text-[0.625rem] text-ink-faint hover:text-signal" onClick={() => setOpen(true)}>
+      <button type="button" className="btn btn-ghost" onClick={() => setOpen(true)}>
         Report
       </button>
     );
   }
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex min-w-0 flex-1 items-center gap-2">
       <input
-        className="field !min-h-0 !w-36 !px-2 !py-1 !text-[0.6875rem]" maxLength={120}
+        className="field min-w-0 flex-1" maxLength={120}
         value={reason} onChange={(e) => setReason(e.target.value)} placeholder="What's wrong?"
         aria-label="Report reason"
       />
       <button
         type="button" disabled={!reason.trim()}
-        className="btn !min-h-0 !px-2.5 !py-1 !text-[0.625rem]"
+        className="btn shrink-0"
         onClick={() => start(async () => {
           const result = await reportTarget(targetType, targetId, reason);
           if (result.ok) setSent(true);

@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
 import { getV2Context } from "@/lib/v2/core";
 import { sql, sqlOne } from "@/lib/db";
-import { Avatar, Chip, SectionTitle } from "@/components/v2/ui";
+import { Avatar, Chip, SectionTitle, Stat } from "@/components/v2/ui";
 import { FollowButton, ReportMenu } from "./ProfileSocial";
 
 export const dynamic = "force-dynamic";
 
 /**
- * A public profile: identity, badges, reputation, portfolio, listed cars.
- * No addresses, no verification documents, no earnings — public means public.
+ * A public profile: the work first, then identity, badges, reputation and
+ * listed cars. No addresses, no verification documents, no earnings.
  */
 export default async function PublicProfilePage({ params }: { params: Promise<{ username: string }> }) {
   const [ctx, { username }] = await Promise.all([getV2Context(), params]);
@@ -59,55 +59,59 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   ]);
 
   const isMe = person.id === ctx.user.id;
+  const name = person.display_name ?? person.username;
 
   return (
-    <main id="main" className="mx-auto w-full max-w-xl px-4 py-5 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <header className="flex items-start gap-4">
-        <Avatar src={person.avatar_url} name={person.display_name ?? person.username} size={64} />
+        <Avatar src={person.avatar_url} name={name} size={88} />
         <div className="min-w-0 flex-1">
-          <h1 className="truncate font-display text-2xl font-900 tracking-[-0.03em]">
+          <h1 className="truncate font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">
             {person.display_name ?? `@${person.username}`}
           </h1>
-          <p className="font-mono text-[0.6875rem] text-ink-faint">
-            @{person.username}{person.city ? ` · ${person.city}` : ""}
+          <p className="mt-0.5 text-sm text-ink-faint">
+            @{person.username}{person.city ? `  ·  ${person.city}` : ""}
           </p>
-          <div className="mt-1.5 flex flex-wrap gap-1.5">
-            {person.verification === "verified" && <Chip tone="rise">verified creator</Chip>}
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {person.verification === "verified" && <Chip tone="rise">Verified creator</Chip>}
             {(person.categories ?? []).slice(0, 4).map((c) => (
               <Chip key={c} tone="faint">{c.replaceAll("_", " ")}</Chip>
             ))}
           </div>
         </div>
-        {!isMe && (
-          <div className="flex flex-col items-end gap-2">
-            <FollowButton profileId={person.id} initialFollowing={Boolean(following)} />
-            <ReportMenu targetType="profile" targetId={person.id} />
-          </div>
-        )}
       </header>
 
-      {person.bio && <p className="mt-4 text-sm leading-relaxed">{person.bio}</p>}
+      {!isMe && (
+        <div className="mt-4 flex items-center gap-3">
+          <FollowButton profileId={person.id} initialFollowing={Boolean(following)} />
+          <ReportMenu targetType="profile" targetId={person.id} />
+        </div>
+      )}
 
-      <div className="mt-4 flex gap-5 font-mono text-xs">
-        <span><strong className="tnum font-display text-base">{person.completed_jobs ?? 0}</strong> jobs</span>
-        <span><strong className="tnum font-display text-base">{counts?.followers ?? 0}</strong> followers</span>
-        <span><strong className="tnum font-display text-base">{counts?.following ?? 0}</strong> following</span>
+      <div className="card mt-5 grid grid-cols-3 gap-4 p-4 md:grid-cols-4 md:p-5">
+        <Stat value={person.completed_jobs ?? 0} label="Jobs done" />
+        <Stat value={counts?.followers ?? 0} label="Followers" />
+        <Stat value={counts?.following ?? 0} label="Following" />
         {person.rating_avg && (
-          <span><strong className="tnum font-display text-base text-signal">★ {Number(person.rating_avg).toFixed(1)}</strong> ({person.rating_count})</span>
+          <Stat
+            value={`★ ${Number(person.rating_avg).toFixed(1)}`}
+            label="Rating"
+            sub={`${person.rating_count ?? 0} review${person.rating_count === 1 ? "" : "s"}`}
+          />
         )}
       </div>
 
       {portfolio.length > 0 && (
         <section className="mt-6">
           <SectionTitle count={portfolio.length}>Work</SectionTitle>
-          <ul className="mt-2 grid grid-cols-3 gap-1.5">
+          <ul className="mt-3 grid grid-cols-3 gap-2">
             {portfolio.map((item, i) => (
-              <li key={i} className="border border-rule">
+              <li key={i} className="overflow-hidden rounded-[10px] bg-surface-2">
                 {/\.(mp4|webm|mov)($|\?)/i.test(item.media_url) ? (
                   <video src={item.media_url} controls playsInline className="aspect-square w-full object-cover" />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={item.media_url} alt={item.caption ?? "Work sample"} className="aspect-square w-full object-cover" loading="lazy" />
+                  <img src={item.media_url} alt={item.caption ?? "Work sample"} className="aspect-square w-full object-cover" loading={i < 6 ? "eager" : "lazy"} />
                 )}
               </li>
             ))}
@@ -115,20 +119,27 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
         </section>
       )}
 
+      {person.bio && (
+        <section className="mt-6">
+          <SectionTitle>About</SectionTitle>
+          <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">{person.bio}</p>
+        </section>
+      )}
+
       {vehicles.length > 0 && (
         <section className="mt-6">
           <SectionTitle count={vehicles.length}>Cars available for ads</SectionTitle>
-          <ul className="mt-2 flex gap-2 overflow-x-auto">
+          <ul className="mt-3 flex gap-3 overflow-x-auto pb-1">
             {vehicles.map((v) => (
               <li key={v.id} className="shrink-0">
-                <a href={`/cars/${v.id}`} className="block w-40 border border-rule hover:border-ink">
+                <a href={`/cars/${v.id}`} className="card block w-44 overflow-hidden">
                   {v.photo_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={v.photo_url} alt="" className="h-24 w-full object-cover" loading="lazy" />
+                    <img src={v.photo_url} alt="" className="aspect-[4/3] w-full bg-surface-2 object-cover" loading="lazy" />
                   ) : (
-                    <span className="flex h-24 items-center justify-center font-mono text-[0.625rem] text-ink-faint">no photo</span>
+                    <span className="flex aspect-[4/3] w-full items-center justify-center bg-surface-2 text-sm text-ink-faint">No photo</span>
                   )}
-                  <span className="block truncate px-2 py-1.5 font-mono text-[0.6875rem] font-600">
+                  <span className="block truncate px-3 py-2.5 font-display text-[0.9375rem] font-700">
                     {v.year} {v.make} {v.model}
                   </span>
                 </a>
@@ -139,18 +150,20 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
       )}
 
       {reviews.length > 0 && (
-        <section className="rule mt-6 pt-5">
+        <section className="mt-6">
           <SectionTitle count={reviews.length}>Reviews</SectionTitle>
-          <ul className="mt-2 flex flex-col gap-2">
+          <ul className="row-list mt-3">
             {reviews.map((r, i) => (
-              <li key={i} className="border-b border-rule pb-2 last:border-b-0">
-                <p className="text-signal" aria-label={`${r.rating} out of 5`}>
-                  {"★".repeat(r.rating)}<span className="text-rule">{"★".repeat(5 - r.rating)}</span>
+              <li key={i} className="card p-4">
+                <p className="flex items-center justify-between gap-3">
+                  <span className="font-display text-base font-700 text-signal" aria-label={`${r.rating} out of 5`}>
+                    {"★".repeat(r.rating)}<span className="text-ink-faint">{"★".repeat(5 - r.rating)}</span>
+                  </span>
+                  <span className="text-sm text-ink-faint">
+                    {new Date(r.created_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+                  </span>
                 </p>
-                {r.body && <p className="mt-0.5 text-sm">{r.body}</p>}
-                <p className="mt-0.5 font-mono text-[0.625rem] text-ink-faint">
-                  {new Date(r.created_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
-                </p>
+                {r.body && <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">{r.body}</p>}
               </li>
             ))}
           </ul>

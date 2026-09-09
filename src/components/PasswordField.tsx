@@ -20,12 +20,12 @@ export function PasswordField({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-baseline justify-between">
-        <label htmlFor={id} className="eyebrow">{label}</label>
+        <label htmlFor={id} className="text-sm text-ink-soft">{label}</label>
         <button
           type="button"
           onClick={() => setShown((s) => !s)}
           aria-pressed={shown}
-          className="font-mono text-[0.625rem] tracking-[0.1em] text-ink-faint uppercase transition-colors hover:text-ink"
+          className="font-display text-sm font-600 text-ink-faint transition-colors hover:text-ink"
         >
           {shown ? "Hide" : "Show"}
         </button>

@@ -12,7 +12,7 @@ import { getCampaign } from "@/lib/v2/campaigns";
  * Campaign participation and review. Every action re-checks authorization
  * server-side: creators touch only their own applications/submissions,
  * review belongs to the campaign's business members, approval pays through
- * the ledger — never a client-supplied number.
+ * the ledger, never a client-supplied number.
  */
 
 type Result = { ok: boolean; error?: string };
@@ -115,7 +115,7 @@ export async function submitWork(
     { body: `@${ctx.user.username} submitted work to review.`, href: `/jobs/${campaignId}` },
   );
   revalidatePath(`/jobs/${campaignId}`);
-  return submission ? { ok: true } : fail("Could not submit — try again.");
+  return submission ? { ok: true } : fail("Could not submit. Try again.");
 }
 
 // ------------------------------------------------------------ business side
@@ -189,7 +189,7 @@ export async function reviewSubmission(
   }
   const cleanNote = note.trim().slice(0, 1000);
   if (decision !== "approved" && !cleanNote) {
-    return fail("Tell the creator why — a short reason helps them fix it.");
+    return fail("Tell the creator why. A short reason helps them fix it.");
   }
   if (decision === "approved" && campaign.approved_count >= campaign.slots) {
     return fail("All paid spots are already used. Close the campaign or add slots.");
@@ -236,7 +236,7 @@ export async function reviewSubmission(
     submission.creator_id, ctx.user.id,
   ]);
   const line =
-    decision === "approved" ? "Submission approved — payment sent."
+    decision === "approved" ? "Submission approved. Payment sent."
     : decision === "rejected" ? "Submission was not approved."
     : "Revision requested.";
   await systemMessage(conversation, line);
@@ -245,8 +245,8 @@ export async function reviewSubmission(
     decision === "approved"
       ? `Approved! You earned from "${campaign.title}"`
       : decision === "rejected"
-        ? `Submission not approved — "${campaign.title}"`
-        : `Revision requested — "${campaign.title}"`,
+        ? `Submission not approved: "${campaign.title}"`
+        : `Revision requested: "${campaign.title}"`,
     { body: cleanNote || undefined, href: `/jobs/${campaign.id}` },
   );
   revalidatePath(`/jobs/${campaign.id}`);

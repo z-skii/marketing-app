@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Uploader } from "@/components/v2/Uploader";
+import { Avatar } from "@/components/v2/ui";
 import { updateProfile } from "../actions";
 
 export function EditProfileForm({
@@ -15,7 +16,7 @@ export function EditProfileForm({
 
   return (
     <form
-      className="mt-5 flex flex-col gap-3"
+      className="mt-6 flex flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
         startTransition(async () => {
@@ -25,34 +26,32 @@ export function EditProfileForm({
         });
       }}
     >
-      <div className="flex items-center gap-3">
-        {f.avatarUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={f.avatarUrl} alt="Profile" className="h-16 w-16 border border-ink object-cover" />
-        ) : (
-          <span className="flex h-16 w-16 items-center justify-center border border-dashed border-rule font-mono text-[0.5625rem] text-ink-faint">
-            photo
-          </span>
-        )}
-        <Uploader folder="avatars" accept="image/*" label="Change photo" onUploaded={(u) => setF({ ...f, avatarUrl: u[0] })} />
+      <div className="card flex items-center gap-4 p-4">
+        <Avatar src={f.avatarUrl || null} name={f.displayName || "?"} size={72} />
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-[0.9375rem] font-700">Profile photo</p>
+          <p className="mb-2 text-sm text-ink-faint">A clear photo of you gets more replies.</p>
+          <Uploader folder="avatars" accept="image/*" label="Change photo" onUploaded={(u) => setF({ ...f, avatarUrl: u[0] })} />
+        </div>
       </div>
-      <label className="flex flex-col gap-1">
-        <span className="eyebrow">Display name</span>
+
+      <label className="flex flex-col gap-1.5">
+        <span className="text-sm text-ink-soft">Display name</span>
         <input className="field" maxLength={60} value={f.displayName} onChange={(e) => setF({ ...f, displayName: e.target.value })} />
       </label>
-      <label className="flex flex-col gap-1">
-        <span className="eyebrow">Bio</span>
-        <textarea className="field min-h-20" maxLength={500} value={f.bio} onChange={(e) => setF({ ...f, bio: e.target.value })}
+      <label className="flex flex-col gap-1.5">
+        <span className="text-sm text-ink-soft">Bio</span>
+        <textarea className="field min-h-24" maxLength={500} value={f.bio} onChange={(e) => setF({ ...f, bio: e.target.value })}
           placeholder="What you do, what you're into." />
       </label>
-      <label className="flex flex-col gap-1">
-        <span className="eyebrow">City</span>
+      <label className="flex flex-col gap-1.5">
+        <span className="text-sm text-ink-soft">City</span>
         <input className="field" maxLength={60} value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} placeholder="Raleigh, NC" />
-        <span className="font-mono text-[0.625rem] text-ink-faint">Shown publicly at city level only.</span>
+        <span className="text-sm text-ink-faint">Shown publicly at city level only.</span>
       </label>
-      {message && <p role="alert" className={`font-mono text-xs ${message.ok ? "text-rise" : "text-signal"}`}>{message.text}</p>}
-      <button type="submit" disabled={pending} className="btn btn-signal mt-1 !py-3">
-        {pending ? "Saving…" : "Save"}
+      {message && <p role="alert" className={`text-sm ${message.ok ? "text-rise" : "text-signal"}`}>{message.text}</p>}
+      <button type="submit" disabled={pending} className="btn btn-signal btn-lg mt-1">
+        {pending ? "Saving" : "Save"}
       </button>
     </form>
   );

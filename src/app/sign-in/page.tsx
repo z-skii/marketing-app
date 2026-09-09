@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { AuthShell } from "@/components/v2/AuthShell";
 import { SignInForm } from "./SignInForm";
 import { getCurrentUser } from "@/lib/auth";
 
@@ -17,30 +16,24 @@ export default async function SignInPage({
   if (user) redirect(next ?? "/home");
 
   return (
-    <>
-      <Header user={null} />
-      <main id="main" className="shell py-14 md:py-24">
-        <div className="max-w-md">
-          <h1 className="font-display text-4xl leading-[0.95] font-800 tracking-[-0.04em] md:text-5xl">
-            Sign in
-          </h1>
-          {verified === "1" ? (
-            <p role="status" className="mt-4 font-mono text-sm text-rise">
-              Email verified. Sign in below with your password.
-            </p>
-          ) : reset === "done" ? (
-            <p role="status" className="mt-4 font-mono text-sm text-rise">
-              Password updated. Sign in with your new password.
-            </p>
-          ) : (
-            <p className="mt-4 text-ink-soft">
-              You only need an account to own links, hold credit, or earn. Browsing is open to everyone.
-            </p>
-          )}
-          <SignInForm next={next ?? ""} />
-        </div>
-      </main>
-      <Footer />
-    </>
+    <AuthShell>
+        <h1 className="font-display text-[2rem] font-800 tracking-[-0.03em]">
+          Welcome back
+        </h1>
+        {verified === "1" ? (
+          <p role="status" className="mt-2 text-[0.9375rem] text-rise">
+            Email verified. Sign in with your password.
+          </p>
+        ) : reset === "done" ? (
+          <p role="status" className="mt-2 text-[0.9375rem] text-rise">
+            Password updated. Sign in with your new password.
+          </p>
+        ) : (
+          <p className="mt-2 text-[0.9375rem] text-ink-soft">
+            Sign in to see paid work near you.
+          </p>
+        )}
+        <SignInForm next={next ?? ""} />
+    </AuthShell>
   );
 }

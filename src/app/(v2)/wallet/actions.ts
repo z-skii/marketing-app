@@ -24,7 +24,7 @@ export async function requestPayout(): Promise<{ ok: boolean; error?: string; de
       );
       const total = rows.rows.reduce((sum, r) => sum + Number(r.amount_cents), 0);
       if (total < minimum) {
-        throw new Error(`Minimum payout is ${formatCredit(minimum)} — you have ${formatCredit(total)} available.`);
+        throw new Error(`Minimum payout is ${formatCredit(minimum)}. You have ${formatCredit(total)} available.`);
       }
       await client.query(
         `update earnings set status = 'requested' where profile_id = $1 and status = 'available'`,
@@ -37,7 +37,7 @@ export async function requestPayout(): Promise<{ ok: boolean; error?: string; de
       return total;
     });
     revalidatePath("/wallet");
-    return { ok: true, detail: `Payout of ${formatCredit(amount)} requested — an admin processes it shortly.` };
+    return { ok: true, detail: `Payout of ${formatCredit(amount)} requested. An admin processes it shortly.` };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "Payout failed." };
   }

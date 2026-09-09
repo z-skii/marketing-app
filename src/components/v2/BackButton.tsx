@@ -12,13 +12,15 @@ export function BackButton({ fallback, label = "Back" }: { fallback: string; lab
   return (
     <button
       type="button"
-      className="-ml-1 px-1 py-1 font-mono text-xs text-ink-faint hover:text-ink"
+      aria-label={label ? undefined : "Back"}
+      className="-ml-1 inline-flex min-h-11 items-center gap-1.5 px-1 py-1 font-display text-sm font-600 text-ink-soft transition-colors hover:text-ink"
       onClick={() => {
         if (window.history.length > 1) router.back();
         else router.push(fallback);
       }}
     >
-      ← {label}
+      <span aria-hidden>←</span>
+      {label && <span>{label}</span>}
     </button>
   );
 }

@@ -69,7 +69,7 @@ export async function addPortfolioItem(mediaUrl: string, caption: string): Promi
   const count = await sqlOne<{ n: string }>(
     `select count(*)::text as n from portfolio_items where profile_id = $1`, [ctx.user.id],
   );
-  if (Number(count?.n ?? 0) >= 24) return { ok: false, error: "Portfolio is full (24 items) — remove one first." };
+  if (Number(count?.n ?? 0) >= 24) return { ok: false, error: "Portfolio is full (24 items). Remove one first." };
   await sql(
     `insert into portfolio_items (profile_id, media_url, caption) values ($1, $2, nullif($3, ''))`,
     [ctx.user.id, mediaUrl.trim().slice(0, 500), caption.trim().slice(0, 200)],
