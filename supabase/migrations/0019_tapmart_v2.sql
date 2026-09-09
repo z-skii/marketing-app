@@ -462,3 +462,6 @@ create policy campaigns_public on campaigns for select
 create policy messages_member on messages for select
   using (exists (select 1 from conversation_members cm
                   where cm.conversation_id = messages.conversation_id and cm.profile_id = auth.uid()));
+
+-- Earnings can sit in a payout request before being paid out.
+alter type earning_status add value if not exists 'requested';

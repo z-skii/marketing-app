@@ -31,16 +31,22 @@ const EMPTY: Draft = {
 };
 
 export function CreateWizard({
-  businesses, defaultCity,
-}: { businesses: { id: string; name: string }[]; defaultCity: string }) {
+  businesses, defaultCity, initialDraft,
+}: {
+  businesses: { id: string; name: string }[];
+  defaultCity: string;
+  initialDraft?: Partial<Draft>;
+}) {
   const [step, setStep] = useState(0);
   const [businessId, setBusinessId] = useState(businesses[0]?.id ?? "");
-  const [d, setD] = useState<Draft>({ ...EMPTY, city: defaultCity });
+  const [d, setD] = useState<Draft>({ ...EMPTY, city: defaultCity, ...initialDraft });
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
-  // Restore and autosave the draft locally; publishing clears it.
+  // Restore and autosave the draft locally; publishing clears it. A prefill
+  // from a marketing idea takes priority over the stored draft.
   useEffect(() => {
+    if (initialDraft) return;
     try {
       const raw = localStorage.getItem(DRAFT_KEY);
       if (raw) setD({ ...EMPTY, city: defaultCity, ...JSON.parse(raw) });
