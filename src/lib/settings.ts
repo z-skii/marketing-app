@@ -29,6 +29,8 @@ const DEFAULTS: Record<string, string> = {
   feature_bar_enabled: "true",
   feature_showcase_ads: "false",
   feature_agent_auto_publish: "false",
+  // TapMart V2 marketplace: platform fee taken from creator/driver earnings.
+  platform_fee_pct: "15",
 };
 
 const CACHE_MS = 10_000;
