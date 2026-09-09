@@ -183,27 +183,33 @@ export async function removeMemberAction(memberId: string): Promise<ActionResult
 // ------------------------------------------------------------------ data
 
 /**
- * Calls the seed_demo_data RPC (written separately as SQL). The function is not in the generated
- * types yet, so the name is cast. Tries (p_org) first, then no arguments, and surfaces any error.
+ * seed_demo_data() creates a separate "Storeday Demo" business for the caller (3 stores, 10 employees,
+ * 30 days of accounting) and makes it the active organization. Returns the new org id.
  */
-export async function loadDemoDataAction(): Promise<ActionResult<{ message: string }>> {
+export async function loadDemoDataAction(): Promise<ActionResult<{ organization_id: string }>> {
+  const ctx = await requireOrgContext();
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.rpc("seed_demo_data");
+  if (error) {
+    if (error.code === "PGRST202" || /could not find the function/i.test(error.message)) {
+      return fail("Demo data is not available on this database yet (the seed_demo_data function has not been installed).");
+    }
+    return fail(error.message);
+  }
+  if (!data) return fail("Demo data did not return a business id");
+  await supabase.rpc("log_activity_public", { p_org: ctx.org.id, p_loc: null, p_action: "data.demo_created", p_entity_type: "organization", p_entity_id: data, p_after: { demo_organization_id: data } }).then(() => {}, () => {});
+  revalidatePath("/", "layout");
+  return ok({ organization_id: data });
+}
+
+/** Deletes the current business when it is a demo (owner only; cascades everything). */
+export async function deleteDemoOrganizationAction(): Promise<ActionResult> {
   const r = await requireOwner();
   if ("error" in r) return fail(r.error);
   const { ctx, supabase } = r;
-  type LooseRpc = (fn: string, args?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string; code?: string } | null }>;
-  const rpc = supabase.rpc.bind(supabase) as unknown as LooseRpc;
-  let res = await rpc("seed_demo_data" as never, { p_org: ctx.org.id });
-  if (res.error && (res.error.code === "PGRST202" || /could not find the function/i.test(res.error.message))) {
-    res = await rpc("seed_demo_data" as never);
-  }
-  if (res.error) {
-    if (res.error.code === "PGRST202" || /could not find the function/i.test(res.error.message)) {
-      return fail("Demo data is not available on this database yet (the seed_demo_data function has not been installed).");
-    }
-    return fail(res.error.message);
-  }
-  await log(supabase, ctx.org.id, "data.demo_loaded", "organization", ctx.org.id, null, typeof res.data === "object" ? (res.data as Json) : { result: String(res.data ?? "") });
+  if (!ctx.org.is_demo) return fail("Only demo businesses can be deleted from here");
+  const { error } = await supabase.rpc("delete_demo_organization", { p_org: ctx.org.id });
+  if (error) return fail(error.message);
   revalidatePath("/", "layout");
-  const summary = typeof res.data === "string" ? res.data : typeof res.data === "number" ? `${res.data} rows` : res.data && typeof res.data === "object" ? JSON.stringify(res.data) : "Demo data loaded";
-  return ok({ message: summary });
+  return ok(undefined);
 }

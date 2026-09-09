@@ -7,7 +7,7 @@ import { asUser, connect, createAuthUser, resetTestDatabase } from "./helpers/db
  * Verified Shift RPCs, adjustments and the demo seed. Runs against a local Postgres.
  */
 let c: Client;
-let owner: string, employee: string, outsider: string, org: string, loc: string, emp: string;
+let owner: string, employee: string, outsider: string, org: string, loc: string;
 
 beforeAll(async () => {
   resetTestDatabase();
@@ -18,7 +18,7 @@ beforeAll(async () => {
   org = await asUser(c, owner, async (q) => (await q("select create_organization('Test Biz', 'convenience', 'America/New_York') as id"))[0].id);
   loc = await asUser(c, owner, async (q) => (await q(
     "insert into locations (organization_id, name, latitude, longitude, timezone) values ($1, 'Mr Tobacco', 36.0999, -78.3012, 'America/New_York') returning id", [org]))[0].id);
-  emp = await asUser(c, owner, async (q) => {
+  await asUser(c, owner, async (q) => {
     const e = (await q("insert into employees (organization_id, user_id, first_name, last_name) values ($1, $2, 'John', 'Doe') returning id", [org, employee]))[0].id;
     await q("insert into employee_pay_rates (organization_id, employee_id, hourly_rate, effective_from) values ($1, $2, 15, '2020-01-01')", [org, e]);
     await q("insert into organization_members (organization_id, user_id, role) values ($1, $2, 'employee')", [org, employee]);

@@ -19,7 +19,7 @@ export default async function DataSettingsPage() {
       <PageHeader title="Settings" description="Exports, demo data and the audit trail of changes." />
       <SettingsTabs active="data" isOwner />
       <div className="space-y-6">
-        <DataTools exportHref="/api/export/csv?report=daily&range=this_year" isDemo={ctx.org.is_demo} />
+        <DataTools exportHref="/api/export/csv?report=daily&range=this_year" isDemo={ctx.org.is_demo} orgName={ctx.org.name} />
         <section>
           <div className="flex items-center justify-between mb-1.5">
             <h2 className="text-[13px] font-semibold">Activity log <span className="text-text-3 font-normal">(last {entries.length})</span></h2>

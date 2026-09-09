@@ -1,22 +1,30 @@
 "use client";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Database, Download } from "lucide-react";
+import { Database, Download, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/ui/modal";
 import { Alert } from "@/components/ui/form";
-import { loadDemoDataAction } from "@/app/(app)/settings/actions";
+import { deleteDemoOrganizationAction, loadDemoDataAction } from "@/app/(app)/settings/actions";
 
-export function DataTools({ exportHref, isDemo }: { exportHref: string; isDemo: boolean }) {
+export function DataTools({ exportHref, isDemo, orgName }: { exportHref: string; isDemo: boolean; orgName: string }) {
   const router = useRouter();
   const [pending, start] = useTransition();
-  const [confirm, setConfirm] = useState(false);
-  const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
-  const run = () => start(async () => {
+  const [confirm, setConfirm] = useState<"load" | "delete" | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const load = () => start(async () => {
     const r = await loadDemoDataAction();
-    setResult(r.ok ? { ok: true, message: r.data.message } : { ok: false, message: r.error });
-    setConfirm(false);
-    if (r.ok) router.refresh();
+    setConfirm(null);
+    if (!r.ok) { setError(r.error); return; }
+    router.push("/dashboard?welcome=1");
+    router.refresh();
+  });
+  const remove = () => start(async () => {
+    const r = await deleteDemoOrganizationAction();
+    setConfirm(null);
+    if (!r.ok) { setError(r.error); return; }
+    router.push("/dashboard");
+    router.refresh();
   });
   return (
     <div className="grid gap-3 sm:grid-cols-2">
@@ -26,13 +34,19 @@ export function DataTools({ exportHref, isDemo }: { exportHref: string; isDemo: 
         <a href={exportHref} download className="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-border bg-surface text-[12.5px] font-medium hover:bg-surface-2">Download CSV</a>
       </div>
       <div className="card p-4 space-y-2">
-        <div className="text-[13px] font-semibold flex items-center gap-1.5"><Database className="h-4 w-4 text-text-3" /> Demo data</div>
-        <p className="text-[12.5px] text-text-3">Adds sample stores, employees, shifts, expenses and closed days to this business so you can explore reports. {isDemo && "This business is already marked as demo."}</p>
-        <Button variant="secondary" size="sm" onClick={() => setConfirm(true)} loading={pending}>Load demo data</Button>
-        {result && <Alert tone={result.ok ? "success" : "danger"}>{result.message}</Alert>}
+        <div className="text-[13px] font-semibold flex items-center gap-1.5"><Database className="h-4 w-4 text-text-3" /> Demo business</div>
+        <p className="text-[12.5px] text-text-3">Creates a separate “Storeday Demo” business with 3 stores, 10 employees and 30 days of closed days, shifts and expenses, then switches you to it. Your real data is untouched.</p>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="secondary" size="sm" onClick={() => setConfirm("load")} loading={pending && confirm === "load"}>Create demo business</Button>
+          {isDemo && <Button variant="danger" size="sm" onClick={() => setConfirm("delete")} loading={pending && confirm === "delete"}><Trash2 className="h-3.5 w-3.5" /> Delete this demo business</Button>}
+        </div>
+        {error && <Alert tone="danger">{error}</Alert>}
       </div>
-      <ConfirmDialog open={confirm} onClose={() => setConfirm(false)} onConfirm={run} title="Load demo data?" confirmLabel="Load demo data" loading={pending}>
-        Sample records are added to <b>this</b> business and mixed with anything already here. Best used on a fresh business. This cannot be undone from the app.
+      <ConfirmDialog open={confirm === "load"} onClose={() => setConfirm(null)} onConfirm={load} title="Create a demo business?" confirmLabel="Create demo" loading={pending}>
+        A new business named “Storeday Demo” is added to your account and opened. Switch back to <b>{orgName}</b> any time with the selector in the sidebar; delete the demo from its Settings → Data tab.
+      </ConfirmDialog>
+      <ConfirmDialog open={confirm === "delete"} onClose={() => setConfirm(null)} onConfirm={remove} title="Delete this demo business?" confirmLabel="Delete demo" tone="danger" loading={pending}>
+        <b>{orgName}</b> and everything in it (stores, employees, shifts, accounting) will be permanently deleted. This cannot be undone.
       </ConfirmDialog>
     </div>
   );
