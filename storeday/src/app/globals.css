@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #f1f3f6;
+  --border: #e3e6eb;
+  --border-strong: #cfd4dc;
+  --text: #15181e;
+  --text-2: #5b6472;
+  --text-3: #8a93a1;
+  --accent: #1f5eff;
+  --accent-hover: #1a4fd6;
+  --accent-soft: #e8eeff;
+  --success: #158a4b;
+  --success-soft: #e3f5ea;
+  --warn: #b7650a;
+  --warn-soft: #fff1dd;
+  --danger: #c8342f;
+  --danger-soft: #fde8e7;
+  --ring: rgba(31, 94, 255, 0.35);
+}
+
+.dark {
+  --bg: #0f1216;
+  --surface: #161a20;
+  --surface-2: #1d222a;
+  --border: #262c36;
+  --border-strong: #353d49;
+  --text: #eef1f5;
+  --text-2: #a4adba;
+  --text-3: #6f7987;
+  --accent: #5b8cff;
+  --accent-hover: #7aa1ff;
+  --accent-soft: #1b2745;
+  --success: #3ec97a;
+  --success-soft: #142b1e;
+  --warn: #f0a63c;
+  --warn-soft: #33260f;
+  --danger: #ff6b66;
+  --danger-soft: #3a1917;
+  --ring: rgba(91, 140, 255, 0.45);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 1, "cv11" 1;
+}
+
+.tnum { font-variant-numeric: tabular-nums; }
+
+input, select, textarea, button { font: inherit; color: inherit; }
+
+/* Native numeric fields: no spinners, we handle formatting. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+
+/* Form controls */
+.field {
+  @apply w-full rounded-md border border-border bg-surface px-2.5 py-1.5 text-[14px] text-text placeholder:text-text-3
+    focus:outline-none focus:border-accent focus:ring-2 focus:ring-[var(--ring)] disabled:opacity-60 disabled:bg-surface-2;
+}
+.field-money {
+  @apply field text-right font-medium tnum;
+}
+.field-lg { @apply px-3 py-2.5 text-base; }
+
+/* Tables */
+.table { @apply w-full border-collapse text-[13px]; }
+.table th { @apply text-left text-[11px] font-semibold uppercase tracking-wide text-text-3 px-2.5 py-2 border-b border-border whitespace-nowrap bg-surface-2/60; }
+.table td { @apply px-2.5 py-2 border-b border-border align-middle whitespace-nowrap; }
+.table tr:last-child td { @apply border-b-0; }
+.table .num { @apply text-right tnum; }
+.table tbody tr:hover td { @apply bg-surface-2/60; }
+.table tfoot td { @apply font-semibold bg-surface-2 border-t border-border-strong; }
+
+/* Cards */
+.card { @apply rounded-lg border border-border bg-surface; }
+.card-pad { @apply p-4; }
+
+.scrollbar-thin { scrollbar-width: thin; }
+
+/* Grid entry cells (Rapid Entry) */
+.grid-cell { @apply h-9 w-full border-0 bg-transparent px-2 text-right tnum focus:outline-none focus:bg-accent-soft focus:ring-2 focus:ring-inset focus:ring-[var(--ring)]; }
+
+@keyframes fade-in { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: none; } }
+.fade-in { animation: fade-in 120ms ease-out; }
+
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
