@@ -5,7 +5,7 @@ import { SectionLabel } from "@/components/ui/card";
 import { MoneyInput } from "@/components/ui/money-input";
 import { Textarea } from "@/components/ui/form";
 import { formatMoney } from "@/lib/utils/currency";
-import type { DailyInputs, DailyTotals, DetailedExpenseTotals } from "@/lib/calc/accounting";
+import { sum, type DailyInputs, type DailyTotals, type DetailedExpenseTotals } from "@/lib/calc/accounting";
 import { cn } from "@/lib/utils/cn";
 import type { DetailedExpense, MoneyField } from "./types";
 
@@ -68,7 +68,7 @@ export function ExpensesSection({ inputs, onChange, currency, detailed, expenses
   return (
     <section>
       <SectionLabel right={canAdd && (
-        <button type="button" onClick={onAddExpense} className="inline-flex items-center gap-1 text-[12.5px] font-medium text-accent hover:underline">
+        <button type="button" tabIndex={-1} onClick={onAddExpense} className="inline-flex items-center gap-1 text-[12.5px] font-medium text-accent hover:underline">
           <Plus className="h-3.5 w-3.5" />Add detailed expense
         </button>
       )}>Expenses</SectionLabel>
@@ -92,7 +92,7 @@ export function ExpensesSection({ inputs, onChange, currency, detailed, expenses
           </div>
         </div>
       )}
-      <TotalLine label="Utilities + other" value={totals.utilitiesTotal + totals.otherTotal} currency={currency} />
+      <TotalLine label="Utilities + other" value={sum(totals.utilitiesTotal, totals.otherTotal)} currency={currency} />
     </section>
   );
 }
@@ -103,7 +103,7 @@ export function CashCheckSection({ inputs, onChange, currency, expectedComputed,
   const diff = totals.cashDifference;
   return (
     <section>
-      <SectionLabel right={overridden && <button type="button" onClick={onResetExpected} className="text-[12px] text-accent hover:underline">Use calculated ({formatMoney(expectedComputed, { currency })})</button>}>Cash check</SectionLabel>
+      <SectionLabel right={overridden && <button type="button" tabIndex={-1} onClick={onResetExpected} className="text-[12px] text-accent hover:underline">Use calculated ({formatMoney(expectedComputed, { currency })})</button>}>Cash check</SectionLabel>
       <MoneyRow label="Expected closing cash" field="expected_cash" value={overridden ? inputs.expected_cash : (inputs.expected_cash ?? expectedComputed)} onChange={onChange} currency={currency}
         hint={overridden ? "Entered manually" : "Starting cash + cash sales − cash goods"} />
       <MoneyRow label="Actual closing cash" field="actual_cash" value={inputs.actual_cash} onChange={onChange} currency={currency} hint="Count the drawer" />

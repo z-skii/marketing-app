@@ -6,10 +6,12 @@ import { saveDraftAction } from "@/app/(app)/accounting/actions";
 import { localDraftKey, type DailyReportRow, type DraftPatch, type LocalDraft, type MoneyField, type SaveStatus } from "./types";
 
 type DraftKey = keyof DraftPatch;
+const RETRY_MS = 3000;
 
 /**
  * Debounced, coalescing saver for one daily report draft.
- * Only changed fields are sent. Saves are chained so flush() resolves after every pending write.
+ * Only changed fields are sent. Saves are chained; flush() resolves to false when anything is still unsaved.
+ * Failed saves keep their fields dirty and retry automatically.
  */
 export class DraftSaver {
   private dirty: DraftPatch = {};
@@ -23,48 +25,51 @@ export class DraftSaver {
     private readonly delay = 700,
   ) {}
 
-  set<K extends DraftKey>(key: K, value: DraftPatch[K]) {
-    this.dirty[key] = value;
-    this.onStatus("dirty");
-    if (this.timer) clearTimeout(this.timer);
-    this.timer = setTimeout(() => void this.flush(), this.delay);
-  }
+  set<K extends DraftKey>(key: K, value: DraftPatch[K]) { this.setMany({ [key]: value } as DraftPatch); }
 
   setMany(patch: DraftPatch) {
     Object.assign(this.dirty, patch);
     this.onStatus("dirty");
-    if (this.timer) clearTimeout(this.timer);
-    this.timer = setTimeout(() => void this.flush(), this.delay);
+    this.arm(this.delay);
   }
 
   hasDirty() { return Object.keys(this.dirty).length > 0; }
+  /** Unsaved or still saving. */
+  hasPending() { return this.inflight || this.hasDirty(); }
 
-  /** Saves everything dirty now; resolves once all in-flight saves are done. */
-  flush(): Promise<void> {
-    if (this.timer) { clearTimeout(this.timer); this.timer = null; }
-    if (!this.hasDirty()) return this.chain;
-    const patch = this.dirty;
-    this.dirty = {};
-    this.chain = this.chain.then(async () => {
-      this.inflight = true;
-      this.onStatus("saving");
-      try {
-        const r = await this.save(patch);
-        if (!r.ok) {
-          this.dirty = { ...patch, ...this.dirty };
-          this.onStatus("error", r.error);
-        } else {
-          this.onStatus(this.hasDirty() ? "dirty" : "saved");
-        }
-      } catch (e) {
-        this.dirty = { ...patch, ...this.dirty };
-        this.onStatus("error", e instanceof Error ? e.message : "Save failed");
-      } finally { this.inflight = false; }
-    });
-    return this.chain;
+  private arm(ms: number) {
+    if (this.timer) clearTimeout(this.timer);
+    this.timer = setTimeout(() => void this.flush(), ms);
   }
 
-  dispose() { if (this.timer) clearTimeout(this.timer); }
+  /** Saves everything dirty now. Resolves to true only when every change reached the server. */
+  flush(): Promise<boolean> {
+    if (this.timer) { clearTimeout(this.timer); this.timer = null; }
+    if (this.hasDirty()) {
+      const patch = this.dirty;
+      this.dirty = {};
+      this.chain = this.chain.then(async () => {
+        this.inflight = true;
+        this.onStatus("saving");
+        try {
+          const r = await this.save(patch);
+          if (!r.ok) throw new Error(r.error);
+          this.onStatus(this.hasDirty() ? "dirty" : "saved");
+        } catch (e) {
+          this.dirty = { ...patch, ...this.dirty };
+          this.onStatus("error", e instanceof Error ? e.message : "Save failed");
+          this.arm(RETRY_MS);
+        } finally { this.inflight = false; }
+      });
+    }
+    return this.chain.then(() => !this.hasDirty());
+  }
+
+  /** Component going away: push whatever is still pending instead of dropping it. */
+  dispose() {
+    if (this.timer) { clearTimeout(this.timer); this.timer = null; }
+    if (this.hasDirty()) void this.flush();
+  }
 }
 
 export interface DraftState { inputs: DailyInputs; notes: string }
@@ -79,22 +84,41 @@ export function reportInputs(r: Pick<DailyReportRow, MoneyField> | null | undefi
   return out;
 }
 
+function stateFromReport(report: DailyReportRow | null): DraftState {
+  return { inputs: reportInputs(report), notes: report?.notes ?? "" };
+}
+
 /**
  * Quick Close draft: state + debounced autosave + localStorage mirror.
- * On mount, a newer local draft (updatedAt > server updated_at) is restored and pushed to the server.
+ * - The mirror is cleared as soon as the server confirms a save; on mount a leftover (newer than the server row) is restored and pushed.
+ * - When the server row changes underneath us (close / reopen / edit) and nothing is pending, state is re-synced from it.
  */
 export function useQuickCloseDraft(args: { locationId: string; date: string; report: DailyReportRow | null; enabled: boolean }) {
   const { locationId, date, report, enabled } = args;
-  const [state, setState] = React.useState<DraftState>({ inputs: reportInputs(report), notes: report?.notes ?? "" });
+  const [state, setState] = React.useState<DraftState>(() => stateFromReport(report));
   const [status, setStatus] = React.useState<SaveStatus>("idle");
   const [error, setError] = React.useState<string | null>(null);
-  const stateRef = React.useRef(state); // kept in sync by setMany (the only writer)
+  const stateRef = React.useRef(state);
+  React.useEffect(() => { stateRef.current = state; }, [state]);
+
+  const clearLocal = React.useCallback(() => { try { localStorage.removeItem(localDraftKey(locationId, date)); } catch { /* ignore */ } }, [locationId, date]);
 
   const saver = React.useMemo(() => new DraftSaver(
     (patch) => saveDraftAction(locationId, date, patch),
-    (s, err) => { setStatus(s); setError(err ?? null); },
-  ), [locationId, date]);
+    (s, err) => {
+      setStatus(s); setError(err ?? null);
+      if (s === "saved") clearLocal();
+    },
+  ), [locationId, date, clearLocal]);
   React.useEffect(() => () => saver.dispose(), [saver]);
+
+  // Server row changed (close / reopen / audited edit): adopt it unless we have unsaved typing.
+  const serverAt = report?.updated_at ?? null;
+  const [seenAt, setSeenAt] = React.useState(serverAt);
+  if (serverAt !== seenAt) {
+    setSeenAt(serverAt);
+    if (!saver.hasPending()) setState(stateFromReport(report));
+  }
 
   const mirror = React.useCallback((next: DraftState) => {
     try { localStorage.setItem(localDraftKey(locationId, date), JSON.stringify({ ...next, updatedAt: new Date().toISOString() } satisfies LocalDraft)); } catch { /* ignore */ }
@@ -118,15 +142,15 @@ export function useQuickCloseDraft(args: { locationId: string; date: string; rep
 
   const setField = React.useCallback(<K extends DraftKey>(key: K, value: DraftPatch[K]) => setMany({ [key]: value } as DraftPatch), [setMany]);
 
-  // Restore a newer local draft once.
+  // Fallback: a mirror that survived (tab closed mid-save) and is newer than the server row is restored and pushed.
   React.useEffect(() => {
     if (!enabled) return;
     try {
       const raw = localStorage.getItem(localDraftKey(locationId, date));
       if (!raw) return;
       const local = JSON.parse(raw) as LocalDraft;
-      const serverAt = report?.updated_at ? new Date(report.updated_at).getTime() : 0;
-      if (!local.updatedAt || new Date(local.updatedAt).getTime() <= serverAt) { localStorage.removeItem(localDraftKey(locationId, date)); return; }
+      const serverTs = report?.updated_at ? new Date(report.updated_at).getTime() : 0;
+      if (!local.updatedAt || new Date(local.updatedAt).getTime() <= serverTs) { clearLocal(); return; }
       const patch: DraftPatch = {};
       for (const k of Object.keys(EMPTY_INPUTS) as MoneyField[]) {
         const v = local.inputs?.[k] ?? null;
@@ -134,12 +158,11 @@ export function useQuickCloseDraft(args: { locationId: string; date: string; rep
       }
       if ((local.notes ?? "") !== stateRef.current.notes) patch.notes = local.notes ?? "";
       if (Object.keys(patch).length) setMany(patch);
-      else localStorage.removeItem(localDraftKey(locationId, date));
+      else clearLocal();
     } catch { /* ignore */ }
-  }, [enabled, locationId, date, report?.updated_at, setMany]);
+  }, [enabled, locationId, date, report?.updated_at, setMany, clearLocal]);
 
   const flush = React.useCallback(() => saver.flush(), [saver]);
-  const clearLocal = React.useCallback(() => { try { localStorage.removeItem(localDraftKey(locationId, date)); } catch { /* ignore */ } }, [locationId, date]);
 
   return { state, status, error, setField, setMany, flush, clearLocal };
 }
@@ -177,9 +200,11 @@ export function useMultiDraft(date: string, initial: Record<string, DailyInputs>
     saverFor(locationId).set(key, value);
   }, [saverFor]);
 
-  const flush = React.useCallback(async (locationId?: string) => {
-    if (locationId) return saverFor(locationId).flush();
-    await Promise.all(Array.from(savers.current.values()).map((s) => s.flush()));
+  /** Resolves to true only when every pending change (for the given stores, or all) is on the server. */
+  const flush = React.useCallback(async (locationIds?: string[]): Promise<boolean> => {
+    const targets = locationIds ? locationIds.map((id) => saverFor(id)) : Array.from(savers.current.values());
+    const results = await Promise.all(targets.map((s) => s.flush()));
+    return results.every(Boolean);
   }, [saverFor]);
 
   return { rows, status, setField, flush };

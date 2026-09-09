@@ -77,13 +77,14 @@ await visit("/dashboard", "dashboard-empty");
 
 // Load demo data from Settings → Data
 const dataPage = await visit("/settings/data", "settings-data");
-const demoBtn = p.locator("button:has-text('Load demo data'), button:has-text('demo')").first();
+const demoBtn = p.locator("button:has-text('Create demo business')").first();
 if (await demoBtn.count()) {
   await demoBtn.click();
-  const confirm = p.locator("button:has-text('Confirm'), button:has-text('Load')").last();
-  if (await confirm.count()) await confirm.click().catch(() => {});
-  await p.waitForTimeout(8000);
-} else problems.push("No 'Load demo data' button found on /settings/data: " + dataPage.slice(0, 200));
+  await p.waitForTimeout(500);
+  await p.locator("button:has-text('Create demo')").last().click();
+  await p.waitForURL(/dashboard/, { timeout: 60000 }).catch(() => problems.push("Demo seed did not redirect to dashboard"));
+  await p.waitForTimeout(1500);
+} else problems.push("No 'Create demo business' button found on /settings/data: " + dataPage.slice(0, 200));
 
 const pages = [
   ["/dashboard", "dashboard"], ["/dashboard?range=this_month", "dashboard-month"], ["/accounting", "accounting"],
@@ -96,13 +97,13 @@ const pages = [
 for (const [path, name] of pages) await visit(path, name);
 
 // Store + employee detail pages (first links)
-const storeHref = await p.goto(base + "/stores").then(() => p.locator("a[href^='/stores/']").first().getAttribute("href"));
+const storeHref = await p.goto(base + "/stores").then(() => p.locator("a[href^='/stores/']:not([href$='/new'])").first().getAttribute("href"));
 if (storeHref) { await visit(storeHref, "store-detail"); await visit(storeHref + "/settings", "store-settings"); await visit(storeHref + "/edit", "store-edit"); }
 const empHref = await p.goto(base + "/employees").then(() => p.locator("a[href^='/employees/']:not([href*='payroll'])").first().getAttribute("href"));
 if (empHref) await visit(empHref, "employee-detail");
 const shiftHref = await p.goto(base + "/working").then(() => p.locator("a[href^='/shifts/']").first().getAttribute("href"));
 if (shiftHref) await visit(shiftHref, "shift-detail");
-const expHref = await p.goto(base + "/expenses").then(() => p.locator("a[href^='/expenses/']:not([href*='recurring']):not([href*='categories'])").first().getAttribute("href"));
+const expHref = await p.goto(base + "/expenses").then(() => p.locator("a[href^='/expenses/']:not([href*='recurring']):not([href*='categories']):not([href*='?'])").first().getAttribute("href"));
 if (expHref) await visit(expHref, "expense-detail");
 for (const r of ["daily", "weekly", "monthly", "expenses", "hours", "labor", "comparison"]) await visit(`/reports/${r}?range=this_month`, `report-${r}`);
 
@@ -110,7 +111,7 @@ for (const r of ["daily", "weekly", "monthly", "expenses", "hours", "labor", "co
 await p.goto(base + "/accounting/quick-close");
 await p.waitForTimeout(1500);
 const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-const locSel = p.locator("select").first();
+const locSel = p.locator("main select").first();
 const options = await locSel.locator("option").allTextContents();
 const cornerIdx = options.findIndex((o) => /Corner Mart/.test(o));
 if (cornerIdx >= 0) await locSel.selectOption({ index: cornerIdx });
@@ -139,6 +140,7 @@ if (n >= 6) {
   await p.screenshot({ path: `${shots}/quick-close-closed.png`, fullPage: true });
   const txt = await p.locator("body").innerText();
   if (!/CLOSED/i.test(txt)) problems.push("Quick Close did not show CLOSED after confirm");
+  if (!/6,011\.27/.test(txt)) problems.push("Quick Close total sales should be $6,011.27 after typing 2816.45 + 3194.82; keystrokes were lost");
 }
 
 // Mobile pass

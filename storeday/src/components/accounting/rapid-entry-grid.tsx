@@ -8,16 +8,19 @@ import { MoneyInput } from "@/components/ui/money-input";
 import { Modal } from "@/components/ui/modal";
 import { KV } from "@/components/ui/stat";
 import { ErrorText } from "@/components/ui/form";
-import { computeDailyTotals, isReadyToClose, missingFields, type DailyInputs, type DetailedExpenseTotals, type LaborSummary } from "@/lib/calc/accounting";
+import { computeDailyTotals, isReadyToClose, missingFields, sum, type DailyInputs, type DetailedExpenseTotals, type LaborSummary } from "@/lib/calc/accounting";
 import { formatMoney } from "@/lib/utils/currency";
 import { cn } from "@/lib/utils/cn";
 import { closeManyAction, type CloseManyResult } from "@/app/(app)/accounting/actions";
 import { useMultiDraft } from "./draft-saver";
+import { useMediaQuery } from "./use-media-query";
 import { SaveIndicator } from "./summary-bar";
 import type { MoneyField, ReportStatus, StoreOption } from "./types";
 
 export interface RapidRowData {
   location: StoreOption;
+  /** Location-local today (stores can be in different timezones). */
+  today: string;
   reportId: string | null;
   status: ReportStatus | null;
   inputs: DailyInputs;
@@ -35,22 +38,31 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
   const router = useRouter();
   const cols = React.useMemo(() => BASE_COLS.filter((c) => otherSalesEnabled || c.key !== "other_sales"), [otherSalesEnabled]);
   const { rows, status, setField, flush } = useMultiDraft(date, Object.fromEntries(initialRows.map((r) => [r.location.id, r.inputs])));
-  const [closedIds, setClosedIds] = React.useState<Set<string>>(() => new Set(initialRows.filter((r) => r.status === "closed").map((r) => r.location.id)));
+  const closedFromProps = React.useMemo(() => new Set(initialRows.filter((r) => r.status === "closed").map((r) => r.location.id)), [initialRows]);
+  const [closedIds, setClosedIds] = React.useState<Set<string>>(closedFromProps);
+  const [seenClosed, setSeenClosed] = React.useState(closedFromProps);
+  if (closedFromProps !== seenClosed) { setSeenClosed(closedFromProps); setClosedIds(closedFromProps); } // server refreshed
+  const desktop = useMediaQuery("(min-width: 768px)");
   const [confirm, setConfirm] = React.useState<{ ids: string[] } | null>(null);
   const [closing, setClosing] = React.useState(false);
   const [results, setResults] = React.useState<CloseManyResult[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const refs = React.useRef<Map<string, HTMLInputElement | null>>(new Map());
 
-  const editable = initialRows.filter((r) => !closedIds.has(r.location.id));
+  const editable = initialRows.filter((r) => !closedIds.has(r.location.id) && date <= r.today);
   const computed = initialRows.map((r) => {
     const inputs = rows[r.location.id] ?? r.inputs;
     const totals = computeDailyTotals(inputs, r.labor, r.detailed);
     const closed = closedIds.has(r.location.id);
-    const missing = closed ? [] : missingFields(inputs);
-    return { ...r, inputs, totals, closed, missing, ready: !closed && isReadyToClose(inputs) };
+    const future = date > r.today; // this store's day hasn't started yet
+    const locked = closed || future;
+    const missing = locked ? [] : missingFields(inputs);
+    return { ...r, inputs, totals, closed, future, locked, missing, ready: !locked && isReadyToClose(inputs) };
   });
-  const grand = computed.reduce((a, r) => ({ sales: a.sales + r.totals.totalSales, labor: a.labor + r.totals.laborTotal, expenses: a.expenses + r.totals.totalExpenses, profit: a.profit + r.totals.profit }), { sales: 0, labor: 0, expenses: 0, profit: 0 });
+  const grand = {
+    sales: sum(...computed.map((r) => r.totals.totalSales)), labor: sum(...computed.map((r) => r.totals.laborTotal)),
+    expenses: sum(...computed.map((r) => r.totals.totalExpenses)), profit: sum(...computed.map((r) => r.totals.profit)),
+  };
   const readyIds = computed.filter((r) => r.ready).map((r) => r.location.id);
 
   const focusCell = (rowIdx: number, colIdx: number) => {
@@ -91,7 +103,8 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
   const doClose = async () => {
     if (!confirm) return;
     setClosing(true); setError(null);
-    await flush();
+    const saved = await flush(confirm.ids);
+    if (!saved) { setClosing(false); setError("Changes could not be saved — fix and retry"); return; }
     const r = await closeManyAction(confirm.ids.map((locationId) => ({ locationId, date })));
     setClosing(false);
     if (!r.ok) { setError(r.error); return; }
@@ -103,7 +116,7 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
 
   /** Desktop grid cell: bare input wired into the refs matrix. Mobile: a regular large field (natural Enter/Tab order). */
   const cell = (r: (typeof computed)[number], col: (typeof cols)[number], editableIdx: number, mobile = false) => {
-    if (r.closed) return <span className={cn("tnum block px-2 text-right text-text-3", mobile && "px-0")}>{formatMoney(r.inputs[col.key], { currency })}</span>;
+    if (r.locked) return <span className={cn("tnum block px-2 text-right text-text-3", mobile && "px-0")}>{formatMoney(r.inputs[col.key], { currency })}</span>;
     if (mobile) {
       return <MoneyInput size="lg" value={r.inputs[col.key]} currency={currency} onValueChange={(v) => setField(r.location.id, col.key, v)}
         className={cn("w-36", r.missing.includes(col.key) && "border-warn/60")} aria-label={`${r.location.name} ${col.label}`} />;
@@ -115,7 +128,7 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
     );
   };
   const statusBadge = (r: (typeof computed)[number]) => r.closed
-    ? <Badge tone="success">Closed ✓</Badge> : r.ready ? <Badge tone="accent">Ready</Badge> : <Badge tone="warn">Missing data</Badge>;
+    ? <Badge tone="success">Closed ✓</Badge> : r.future ? <Badge tone="neutral">Not yet</Badge> : r.ready ? <Badge tone="accent">Ready</Badge> : <Badge tone="warn">Missing data</Badge>;
   const money = (v: number, tone?: boolean) => <span className={cn("tnum", tone && (v < 0 ? "text-danger" : "text-success"))}>{formatMoney(v, { currency })}</span>;
 
   return (
@@ -123,8 +136,8 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
       {results && <ResultsBanner results={results} stores={initialRows.map((r) => r.location)} onDismiss={() => setResults(null)} />}
       <ErrorText>{error}</ErrorText>
 
-      {/* Desktop grid */}
-      <div className="hidden md:block card overflow-x-auto scrollbar-thin">
+      {/* Only one entry surface is mounted at a time so there is a single set of inputs (and one autofocus). */}
+      {desktop && <div className="card overflow-x-auto scrollbar-thin">
         <table className="table min-w-[1100px]">
           <thead>
             <tr>
@@ -135,7 +148,7 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
           </thead>
           <tbody>
             {computed.map((r) => (
-              <tr key={r.location.id} className={cn(r.closed && "opacity-60 bg-surface-2/40")}>
+              <tr key={r.location.id} className={cn(r.locked && "opacity-60 bg-surface-2/40")}>
                 <td className="sticky left-0 bg-surface z-10 font-medium">
                   <div className="flex items-center gap-2">
                     <Link href={`/accounting/quick-close?location=${r.location.id}&date=${date}`} className="hover:underline" title="Open in Quick Close (cash count, notes, expenses)">{r.location.name}</Link>
@@ -150,7 +163,7 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
                 <td>{statusBadge(r)}</td>
                 <td className="text-right">
                   {r.closed ? <Link href={`/accounting/day/${r.location.id}/${date}`} className="text-[12.5px] text-accent hover:underline">View</Link>
-                    : <Button size="sm" variant="secondary" tabIndex={-1} disabled={!r.ready} onClick={() => setConfirm({ ids: [r.location.id] })}>Close</Button>}
+                    : r.future ? null : <Button size="sm" variant="secondary" tabIndex={-1} disabled={!r.ready} onClick={() => setConfirm({ ids: [r.location.id] })}>Close</Button>}
                 </td>
               </tr>
             ))}
@@ -158,18 +171,17 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
           <tfoot>
             <tr>
               <td className="sticky left-0 bg-surface-2 z-10">Total · {computed.length} stores</td>
-              {cols.map((c) => <td key={c.key} className="num">{money(computed.reduce((a, r) => a + (r.inputs[c.key] ?? 0), 0))}</td>)}
+              {cols.map((c) => <td key={c.key} className="num">{money(sum(...computed.map((r) => r.inputs[c.key])))}</td>)}
               <td className="num border-l border-border">{money(grand.sales)}</td><td className="num">{money(grand.labor)}</td><td className="num">{money(grand.expenses)}</td><td className="num">{money(grand.profit, true)}</td>
               <td colSpan={2} className="text-[12px] font-normal text-text-3">{closedIds.size}/{computed.length} closed</td>
             </tr>
           </tfoot>
         </table>
-      </div>
+      </div>}
 
-      {/* Mobile cards */}
-      <div className="md:hidden space-y-3">
+      {!desktop && <div className="space-y-3">
         {computed.map((r) => (
-          <div key={r.location.id} className={cn("card p-3", r.closed && "opacity-70")}>
+          <div key={r.location.id} className={cn("card p-3", r.locked && "opacity-70")}>
             <div className="flex items-center justify-between gap-2 mb-2">
               <Link href={`/accounting/quick-close?location=${r.location.id}&date=${date}`} className="font-medium hover:underline">{r.location.name}</Link>
               <div className="flex items-center gap-2">{statusBadge(r)}<SaveIndicator status={status[r.location.id]?.s ?? "idle"} error={status[r.location.id]?.error} /></div>
@@ -185,7 +197,7 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
               <div><div className="text-text-3 uppercase text-[10px]">Expenses</div>{money(r.totals.totalExpenses)}</div>
               <div><div className="text-text-3 uppercase text-[10px]">Profit</div>{money(r.totals.profit, true)}</div>
             </div>
-            {!r.closed && <Button size="sm" variant="secondary" block className="mt-2" disabled={!r.ready} onClick={() => setConfirm({ ids: [r.location.id] })}>Close {r.location.name}</Button>}
+            {!r.locked && <Button size="sm" variant="secondary" block className="mt-2" disabled={!r.ready} onClick={() => setConfirm({ ids: [r.location.id] })}>Close {r.location.name}</Button>}
           </div>
         ))}
         <div className="card p-3 grid grid-cols-4 gap-2 text-[12px]">
@@ -194,7 +206,7 @@ export function RapidEntryGrid({ rows: initialRows, date, currency, otherSalesEn
           <div><div className="text-text-3 uppercase text-[10px]">Expenses</div>{money(grand.expenses)}</div>
           <div><div className="text-text-3 uppercase text-[10px]">Profit</div>{money(grand.profit, true)}</div>
         </div>
-      </div>
+      </div>}
 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="text-[12px] text-text-3">Enter ↓ next store · Tab → next column · arrows move between cells. Cash count and notes live in Quick Close (click a store name).</p>

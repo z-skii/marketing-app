@@ -20,7 +20,7 @@ const COLS: Col[] = [
   { key: "sales", label: "Sales", w: 96, sum: "sales" },
   { key: "cashGoods", label: "Cash goods", w: 92, field: "cash_goods", sum: "cashGoods" }, { key: "checkGoods", label: "Check goods", w: 92, field: "check_goods", sum: "checkGoods" },
   { key: "labor", label: "Labor", w: 88, sum: "labor" }, { key: "util", label: "Util", w: 84, field: "utilities", sum: "utilities" }, { key: "otherExp", label: "Other", w: 84, field: "other_expenses", sum: "otherExp" },
-  { key: "expenses", label: "Expenses", w: 96, sum: "expenses" }, { key: "profit", label: "Profit", w: 96, sum: "profit" }, { key: "status", label: "Status", w: 96, align: "left" },
+  { key: "expenses", label: "Expenses", w: 96, sum: "expenses" }, { key: "profit", label: "Profit", w: 96, sum: "profit" }, { key: "status", label: "Status", w: 110, align: "left" },
 ];
 const WIDTH = COLS.reduce((a, c) => a + c.w, 0);
 
@@ -108,6 +108,7 @@ export function MonthTable({ days, singleLocationId, currency, canEditClosed, to
       <td className="text-text-3">{opts.dayCell}</td>
       {COLS.slice(2).map((c) => {
         if (c.key === "status") return <td key={c.key}>{opts.status}</td>;
+        if (c.field && line == null) return <td key={c.key} className="num text-text-2">{sums.reports > 0 ? money(sums[c.sum!] as number) : money(null)}</td>;
         if (c.field) return <td key={c.key} className="!p-0 num">{cell(date, line, c, opts.editable)}</td>;
         const v = sums[c.sum!] as number;
         return <td key={c.key} className={cn("num", c.key === "sales" || c.key === "profit" ? "font-medium" : "text-text-2")}>{sums.hasData ? money(v, { tone: c.key === "profit" }) : money(null)}</td>;
@@ -137,7 +138,7 @@ export function MonthTable({ days, singleLocationId, currency, canEditClosed, to
                 return renderLine(d.date, stub, sums, { editable, status, dateCell, dayCell, href: isFuture ? undefined : `/accounting/quick-close?location=${singleLocationId}&date=${d.date}` });
               }
               const open = expanded.has(d.date);
-              const status = sums.hasData ? <span className={cn("text-[11.5px]", sums.closed === d.lines.length ? "text-success" : "text-warn")}>{sums.closed}/{d.lines.length} closed</span> : isFuture ? null : <span className="text-[11px] text-text-3">No data</span>;
+              const status = sums.hasData ? <span className={cn("text-[11.5px] tnum whitespace-nowrap", sums.closed === d.lines.length ? "text-success" : "text-warn")} title={`${sums.closed} of ${d.lines.length} stores closed`}>{sums.closed}/{d.lines.length} {sums.closed === d.lines.length ? "✓" : "closed"}</span> : isFuture ? null : <span className="text-[11px] text-text-3">No data</span>;
               return (
                 <React.Fragment key={d.date}>
                   {renderLine(d.date, null, sums, { editable: false, status, dateCell: <span className="inline-flex items-center gap-1">{sums.hasData && <span className="text-text-3 text-[10px]">{open ? "▾" : "▸"}</span>}{dateCell}</span>, dayCell,
@@ -160,7 +161,7 @@ export function MonthTable({ days, singleLocationId, currency, canEditClosed, to
             <tr>
               <td colSpan={2}>Total</td>
               {COLS.slice(2).map((c) => c.key === "status"
-                ? <td key={c.key} className="text-[11.5px] font-normal text-text-3">{total.closed}/{total.reports} closed</td>
+                ? <td key={c.key} className="text-[11.5px] font-normal text-text-3 tnum whitespace-nowrap" title={`${total.closed} of ${total.reports} store-days closed`}>{total.closed}/{total.reports} ✓</td>
                 : <td key={c.key} className="num">{money(total[c.sum!] as number, { tone: c.key === "profit" })}</td>)}
             </tr>
           </tfoot>

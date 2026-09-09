@@ -1,5 +1,9 @@
 # TapMart
 
+> **Storeday** — a separate application (multi-location store operations SaaS: daily accounting,
+> Verified Shift clock-ins, expenses, schedules, dashboards) lives in [`storeday/`](storeday/README.md)
+> with its own `package.json`, Supabase project and Vercel root directory. Nothing below applies to it.
+
 **What's getting clicked right now?**
 
 Official production site: **https://tapmart.live**

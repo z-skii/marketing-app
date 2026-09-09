@@ -33,7 +33,29 @@ export const MoneyInput = React.forwardRef<HTMLInputElement, MoneyInputProps>(fu
     else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = el;
   };
 
+  // External value changes while focused (e.g. a restored draft) are adopted unless they merely differ in
+  // formatting from what is being typed ("12." vs 12), so mid-keystroke text is never clobbered.
+  const [seenValue, setSeenValue] = React.useState(value);
+  if (value !== seenValue) {
+    setSeenValue(value);
+    if (editing && parseMoneyInput(draft) !== value) setDraft(moneyToEditString(value));
+  }
+
   const display = editing ? draft : value == null ? "" : formatMoney(value, { currency });
+
+  const beginEdit = React.useCallback(() => {
+    if (!editing) {
+      setDraft(moneyToEditString(value));
+      setEditing(true);
+    }
+  }, [editing, value]);
+
+  // Select the whole value synchronously after the "editing" render commits, so a keystroke that
+  // arrives right after focus (fast typists, numpad, automation) replaces the value instead of
+  // being swallowed by a late select(). Layout effects run before any queued input events.
+  React.useLayoutEffect(() => {
+    if (editing) innerRef.current?.select();
+  }, [editing]);
 
   return (
     <input
@@ -46,15 +68,26 @@ export const MoneyInput = React.forwardRef<HTMLInputElement, MoneyInputProps>(fu
       value={display}
       placeholder={props.placeholder ?? "0.00"}
       onFocus={(e) => {
-        setDraft(moneyToEditString(value));
-        setEditing(true);
-        requestAnimationFrame(() => e.target.select());
+        beginEdit();
         onFocus?.(e);
+      }}
+      onClick={(e) => {
+        // Covers an autofocused field whose focus event fired before hydration.
+        beginEdit();
+        props.onClick?.(e);
       }}
       onChange={(e) => {
         const raw = e.target.value;
         const re = allowNegative ? /^-?\d*\.?\d{0,2}$/ : /^\d*\.?\d{0,2}$/;
-        const cleaned = raw.replace(/[$,\s]/g, "");
+        let cleaned = raw.replace(/[$,\s]/g, "");
+        if (!editing) {
+          // Typing into a formatted (non-editing) field: start fresh from the typed characters only.
+          const formatted = value == null ? "" : formatMoney(value, { currency });
+          const stripped = formatted.replace(/[$,\s]/g, "");
+          if (cleaned.startsWith(stripped)) cleaned = cleaned.slice(stripped.length);
+          else if (cleaned.endsWith(stripped)) cleaned = cleaned.slice(0, cleaned.length - stripped.length);
+          setEditing(true);
+        }
         if (cleaned === "" || re.test(cleaned)) {
           setDraft(cleaned);
           onValueChange(parseMoneyInput(cleaned));
@@ -85,6 +118,7 @@ export function focusNextNav(from: HTMLElement, dir: 1 | -1 = 1) {
   const next = all[i + dir];
   if (next) {
     next.focus();
-    if (next instanceof HTMLInputElement) requestAnimationFrame(() => next.select());
+    // MoneyInput selects itself on focus; plain inputs get selected here.
+    if (next instanceof HTMLInputElement && !next.hasAttribute("inputmode")) next.select();
   }
 }

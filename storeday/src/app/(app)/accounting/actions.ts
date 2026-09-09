@@ -32,10 +32,13 @@ function plainReport(r: Database["public"]["Functions"]["save_daily_report_draft
   return r as DailyReportRow;
 }
 
-/** Autosave for open days: upserts the daily_reports row and applies only the changed fields. */
+/**
+ * Autosave for open days: upserts the daily_reports row and applies only the changed fields.
+ * Deliberately does NOT revalidate — the editing screen owns its state; close/reopen/edit refresh the tree.
+ */
 export async function saveDraftAction(locationId: string, date: string, patch: DraftPatch): Promise<ActionResult<DailyReportRow>> {
+  const ctx = await requireManagerContext();
   try {
-    const ctx = await requireManagerContext();
     if (!ctx.locations.some((l) => l.id === locationId)) return fail("You cannot edit that store");
     if (!DATE_RE.test(date)) return fail("Invalid date");
     const clean = cleanPatch(patch);
@@ -43,15 +46,14 @@ export async function saveDraftAction(locationId: string, date: string, patch: D
     const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase.rpc("save_daily_report_draft", { p_location_id: locationId, p_date: date, p_patch: clean });
     if (error) return fail(error.message);
-    revalidate();
     return ok(plainReport(data));
   } catch (e) { return fail(e); }
 }
 
 /** Closes a day and returns the closeout snapshot (attention + comparisons included). */
 export async function closeDayAction(locationId: string, date: string): Promise<ActionResult<CloseoutRow>> {
+  const ctx = await requireManagerContext();
   try {
-    const ctx = await requireManagerContext();
     if (!ctx.locations.some((l) => l.id === locationId)) return fail("You cannot close that store");
     if (!DATE_RE.test(date)) return fail("Invalid date");
     const supabase = await createSupabaseServerClient();
@@ -63,8 +65,8 @@ export async function closeDayAction(locationId: string, date: string): Promise<
 }
 
 export async function reopenDayAction(reportId: string, reason: string): Promise<ActionResult<DailyReportRow>> {
+  const ctx = await requireManagerContext();
   try {
-    const ctx = await requireManagerContext();
     if (!(ctx.isOwner || ctx.can("can_edit_closed_days"))) return fail("You do not have permission to reopen closed days");
     if (!reason.trim()) return fail("A reason is required");
     const supabase = await createSupabaseServerClient();
@@ -77,8 +79,8 @@ export async function reopenDayAction(reportId: string, reason: string): Promise
 
 /** Edits a report through the audited RPC. For closed days a reason is mandatory. */
 export async function editClosedReportAction(reportId: string, patch: DraftPatch, reason: string): Promise<ActionResult<DailyReportRow>> {
+  const ctx = await requireManagerContext();
   try {
-    const ctx = await requireManagerContext();
     if (!reason.trim()) return fail("A reason is required");
     if (!(ctx.isOwner || ctx.can("can_edit_closed_days"))) return fail("You do not have permission to edit closed days");
     const clean = cleanPatch(patch);
@@ -96,8 +98,8 @@ export interface CloseManyResult { locationId: string; date: string; ok: boolean
 
 /** Rapid Entry: closes several stores, continuing past failures and reporting each result. */
 export async function closeManyAction(items: CloseManyItem[]): Promise<ActionResult<CloseManyResult[]>> {
+  const ctx = await requireManagerContext();
   try {
-    const ctx = await requireManagerContext();
     const supabase = await createSupabaseServerClient();
     const results: CloseManyResult[] = [];
     for (const it of items) {

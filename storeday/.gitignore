@@ -9,3 +9,6 @@ next-env.d.ts
 .DS_Store
 /coverage
 .playwright/
+
+# local supabase-compatible dev server file storage
+.local-storage/

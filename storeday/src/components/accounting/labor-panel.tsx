@@ -24,7 +24,7 @@ export function LaborPanel({ rows, summary, timezone, currency, defaultOpen = fa
           <span className="text-text-3"> · </span><b>{formatMoney(summary.cost, { currency })}</b>
         </div>
         {rows.length > 0 && (
-          <button type="button" onClick={() => setOpen((o) => !o)} className="inline-flex items-center gap-1 text-[12.5px] text-accent hover:underline">
+          <button type="button" tabIndex={-1} onClick={() => setOpen((o) => !o)} className="inline-flex items-center gap-1 text-[12.5px] text-accent hover:underline">
             {open ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}{open ? "Hide employees" : "View employees"}
           </button>
         )}
@@ -34,7 +34,7 @@ export function LaborPanel({ rows, summary, timezone, currency, defaultOpen = fa
         <div key={s.shift_id} className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border border-warn/30 bg-warn-soft px-2.5 py-1.5 text-[12.5px] font-semibold text-warn uppercase tracking-wide">
           <AlertTriangle className="h-3.5 w-3.5" />{s.employee_name} is still clocked in
           <span className="font-normal normal-case tracking-normal">· Started {formatTime(s.clock_in_at, timezone)}</span>
-          <Link href={`/shifts/${s.shift_id}`} className="font-medium normal-case tracking-normal underline underline-offset-2">View shift</Link>
+          <Link href={`/shifts/${s.shift_id}`} tabIndex={-1} className="font-medium normal-case tracking-normal underline underline-offset-2">View shift</Link>
         </div>
       ))}
       {open && rows.length > 0 && (
@@ -44,7 +44,7 @@ export function LaborPanel({ rows, summary, timezone, currency, defaultOpen = fa
             <tbody>
               {rows.map((r) => (
                 <tr key={r.shift_id} className={cn(r.status === "active" && "text-warn")}>
-                  <td><Link href={`/shifts/${r.shift_id}`} className="hover:underline">{r.employee_name}</Link></td>
+                  <td><Link href={`/shifts/${r.shift_id}`} tabIndex={-1} className="hover:underline">{r.employee_name}</Link></td>
                   <td className="tnum">{formatTime(r.clock_in_at, timezone)}</td>
                   <td className="tnum">{r.clock_out_at ? formatTime(r.clock_out_at, timezone) : <span className="text-warn">Working</span>}</td>
                   <td className="num">{r.status === "completed" ? formatHours(r.worked_minutes) : "—"}</td>

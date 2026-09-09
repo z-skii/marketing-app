@@ -12,7 +12,10 @@
     "test:watch": "vitest",
     "db:reset": "bash scripts/db-reset.sh",
     "db:push": "tsx scripts/apply-migrations.ts",
-    "seed": "tsx scripts/seed-demo.ts"
+    "seed": "tsx scripts/seed-demo.ts",
+    "local:supabase": "node scripts/local-supabase/server.mjs",
+    "local:selftest": "node scripts/local-supabase/selftest.mjs",
+    "dev:local": "node scripts/dev-local.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",

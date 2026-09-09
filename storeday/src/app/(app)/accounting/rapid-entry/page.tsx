@@ -3,7 +3,7 @@ import { requireManagerContext } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { reportToInputs } from "@/lib/data/accounting";
 import { groupDetailedExpenses, summarizeLabor, type AccountingBucket, type DetailedExpenseTotals } from "@/lib/calc/accounting";
-import { formatWeekdayDate } from "@/lib/utils/time";
+import { formatWeekdayDate, todayIn } from "@/lib/utils/time";
 import { PageHeader, EmptyState } from "@/components/ui/misc";
 import { StoreDateBar } from "@/components/accounting/store-date-bar";
 import { RapidEntryGrid, type RapidRowData } from "@/components/accounting/rapid-entry-grid";
@@ -14,7 +14,9 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 export default async function RapidEntryPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const ctx = await requireManagerContext();
   const sp = await searchParams;
-  const today = ctx.today;
+  // Stores can sit in different timezones: the page's "today" is the latest local today; each row knows its own.
+  const todays = ctx.locations.map((l) => todayIn(l.timezone));
+  const today = todays.length ? todays.reduce((a, b) => (a > b ? a : b)) : ctx.today;
   const date = sp.date && DATE_RE.test(sp.date) && sp.date <= today ? sp.date : today;
   if (ctx.locations.length === 0) {
     return (
@@ -38,10 +40,11 @@ export default async function RapidEntryPage({ searchParams }: { searchParams: P
       amount: Number(e.amount), bucket: ((e.expense_categories as { bucket: string } | null)?.bucket ?? "other") as AccountingBucket, status: e.status,
     }))));
   }
-  const rows: RapidRowData[] = ctx.locations.map((l) => {
+  const rows: RapidRowData[] = ctx.locations.map((l, i) => {
     const r = (reports ?? []).find((x) => x.location_id === l.id) ?? null;
     return {
       location: { id: l.id, name: l.name, timezone: l.timezone },
+      today: todays[i],
       reportId: r?.id ?? null,
       status: r?.status ?? null,
       inputs: reportToInputs(r),

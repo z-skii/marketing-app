@@ -27,6 +27,7 @@ export interface QuickCloseProps {
   settings: AccountingSettings;
   startingCash: number;
   requireClosingChecklist: boolean;
+  requireCashCount: boolean;
   report: DailyReportRow | null;
   labor: LaborRow[];
   laborSummary: LaborSummary;
@@ -46,6 +47,15 @@ export function QuickCloseForm(p: QuickCloseProps) {
   const reportId = p.report?.id ?? closeout?.daily_report_id ?? null;
   const draft = useQuickCloseDraft({ locationId: p.location.id, date: p.date, report: p.report, enabled: !closed });
   const [expenses, setExpenses] = React.useState<DetailedExpense[]>(p.expenses);
+  // Server props refreshed (close / reopen / edit / expense added): adopt the new expense list and closed state.
+  const [seenExpenses, setSeenExpenses] = React.useState(p.expenses);
+  if (p.expenses !== seenExpenses) { setSeenExpenses(p.expenses); setExpenses(p.expenses); }
+  const [seenReportAt, setSeenReportAt] = React.useState(p.report?.updated_at ?? null);
+  if ((p.report?.updated_at ?? null) !== seenReportAt) {
+    setSeenReportAt(p.report?.updated_at ?? null);
+    if (p.report?.status !== "closed") setSnapshot(null);
+    else if (p.lastCloseout) setSnapshot(p.lastCloseout);
+  }
   const [expenseOpen, setExpenseOpen] = React.useState(false);
   const [confirm, setConfirm] = React.useState(false);
   const [closing, setClosing] = React.useState(false);
@@ -55,6 +65,7 @@ export function QuickCloseForm(p: QuickCloseProps) {
     && Number(p.report.expected_cash) !== expectedClosingCash({ startingCash: p.startingCash, cashSales: p.report.cash_sales == null ? null : Number(p.report.cash_sales), cashGoods: p.report.cash_goods == null ? null : Number(p.report.cash_goods) }));
 
   const { inputs, notes } = draft.state;
+  const cashCheck = p.settings.cashCheckEnabled || p.requireCashCount;
   const detailed = React.useMemo(() => groupDetailedExpenses(expenses.map((e) => ({ amount: e.amount, bucket: e.bucket as AccountingBucket, status: e.status }))), [expenses]);
   const expectedComputed = expectedClosingCash({ startingCash: p.startingCash, cashSales: inputs.cash_sales, cashGoods: inputs.cash_goods });
   const totals = computeDailyTotals(inputs, p.laborSummary, detailed);
@@ -63,7 +74,7 @@ export function QuickCloseForm(p: QuickCloseProps) {
   const setMoney = React.useCallback((key: MoneyField, value: number | null) => {
     if (key === "expected_cash") { setExpectedOverridden(value != null); draft.setField("expected_cash", value); return; }
     const patch: Record<string, number | null> = { [key]: value };
-    if (p.settings.cashCheckEnabled && !expectedOverridden && (key === "cash_sales" || key === "cash_goods" || key === "actual_cash")) {
+    if (cashCheck && !expectedOverridden && (key === "cash_sales" || key === "cash_goods" || key === "actual_cash")) {
       const next = { ...draft.state.inputs, [key]: value };
       const actual = key === "actual_cash" ? value : draft.state.inputs.actual_cash;
       patch.expected_cash = actual != null || draft.state.inputs.expected_cash != null
@@ -71,7 +82,7 @@ export function QuickCloseForm(p: QuickCloseProps) {
         : null;
     }
     draft.setMany(patch);
-  }, [draft, expectedOverridden, p.settings.cashCheckEnabled, p.startingCash]);
+  }, [draft, expectedOverridden, cashCheck, p.startingCash]);
 
   const resetExpected = () => { setExpectedOverridden(false); draft.setField("expected_cash", expectedComputed); };
 
@@ -92,13 +103,14 @@ export function QuickCloseForm(p: QuickCloseProps) {
 
   const openConfirm = async () => {
     setCloseError(null);
-    if (inputs.cash_sales == null && inputs.card_sales == null && inputs.other_sales == null) { setCloseError("Enter sales before closing"); }
+    if (inputs.cash_sales == null && inputs.card_sales == null && inputs.other_sales == null) { setCloseError("Enter sales before closing"); return; }
     setConfirm(true);
   };
 
   const confirmClose = async () => {
     setClosing(true); setCloseError(null);
-    await draft.flush();
+    const saved = await draft.flush();
+    if (!saved) { setClosing(false); setCloseError("Changes could not be saved — fix and retry"); return; }
     const r = await closeDayAction(p.location.id, p.date);
     setClosing(false);
     if (!r.ok) { setCloseError(r.error); return; }
@@ -122,7 +134,7 @@ export function QuickCloseForm(p: QuickCloseProps) {
       <StoreDateBar locations={p.locations} locationId={p.location.id} date={p.date} max={p.today} status={closed ? "closed" : p.report ? "open" : "none"} className="mb-4" />
 
       {closed && closeout && reportId ? (
-        <AfterCloseView snapshot={closeout} reportId={reportId} inputs={inputs} date={p.date} location={p.location} nextStore={nextStore}
+        <AfterCloseView snapshot={closeout} reportId={reportId} inputs={inputs} live={totals} date={p.date} location={p.location} nextStore={nextStore}
           currency={currency} canEditClosed={p.canEditClosed} onReopened={() => { setSnapshot(null); router.refresh(); }} />
       ) : closed ? (
         <div className="card p-4 text-[13px] text-text-2">This day is closed but its closeout snapshot is missing.</div>
@@ -139,12 +151,13 @@ export function QuickCloseForm(p: QuickCloseProps) {
                 <SectionLabel right={<span className="text-[11px] text-text-3">Automatic from clock-ins</span>}>Labor</SectionLabel>
                 <LaborPanel rows={p.labor} summary={p.laborSummary} timezone={p.location.timezone} currency={currency} />
               </section>
-              {p.settings.cashCheckEnabled && (
+              {cashCheck && (
                 <CashCheckSection inputs={inputs} onChange={setMoney} currency={currency} expectedComputed={expectedComputed} totals={totals} onResetExpected={resetExpected} overridden={expectedOverridden} />
               )}
               <NotesSection value={notes} onChange={(v) => draft.setField("notes", v)} />
             </div>
           </div>
+          {closeError && !confirm && <div className="mt-3 rounded-md border border-danger/30 bg-danger-soft px-3 py-2 text-[13px] text-danger">{closeError}</div>}
           <SummaryBar totals={totals} currency={currency} status={draft.status} error={draft.error} onClose={openConfirm} closing={closing} />
           <CloseConfirmModal open={confirm} onClose={() => setConfirm(false)} onConfirm={confirmClose} loading={closing} error={closeError}
             dateLabel={dateLabel} storeName={p.location.name} currency={currency} totals={totals} inputs={inputs} attention={clientAttention} />

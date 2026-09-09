@@ -13,14 +13,15 @@ export function SalesProfitChart({ data, height = 220, currency = "USD" }: { dat
   if (data.length === 0) return <div className="h-[220px] flex items-center justify-center text-text-3 text-[13px]">No data for this period</div>;
 
   const W = 800, H = height, padL = 48, padR = 12, padT = 12, padB = 26;
-  const max = Math.max(1, ...data.map((d) => Math.max(d.sales, d.profit, d.expenses ?? 0)));
-  const min = Math.min(0, ...data.map((d) => d.profit));
+  const rawMax = Math.max(0, ...data.map((d) => Math.max(d.sales, d.profit, d.expenses ?? 0)));
+  const rawMin = Math.min(0, ...data.map((d) => d.profit));
+  const { min, max, step } = niceScale(rawMin, rawMax > 0 ? rawMax : 100, 4);
   const x = (i: number) => padL + (i * (W - padL - padR)) / Math.max(1, data.length - 1);
   const y = (v: number) => padT + (H - padT - padB) * (1 - (v - min) / (max - min || 1));
   const path = (key: "sales" | "profit") => data.map((d, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(d[key]).toFixed(1)}`).join(" ");
   const area = `${path("sales")} L${x(data.length - 1).toFixed(1)},${y(min)} L${x(0).toFixed(1)},${y(min)} Z`;
-  const ticks = 4;
-  const tickVals = Array.from({ length: ticks + 1 }, (_, i) => min + ((max - min) * i) / ticks);
+  const tickVals: number[] = [];
+  for (let v = min; v <= max + step / 2; v += step) tickVals.push(v);
   const labelEvery = Math.max(1, Math.ceil(data.length / 8));
 
   const onMove = (e: React.MouseEvent | React.TouchEvent) => {
@@ -70,6 +71,16 @@ export function SalesProfitChart({ data, height = 220, currency = "USD" }: { dat
       </div>
     </div>
   );
+}
+
+/** Round an axis to "nice" tick values (1/2/5 × 10^n). */
+function niceScale(rawMin: number, rawMax: number, targetTicks: number): { min: number; max: number; step: number } {
+  const span = Math.max(1, rawMax - rawMin);
+  const rough = span / targetTicks;
+  const mag = 10 ** Math.floor(Math.log10(rough));
+  const norm = rough / mag;
+  const step = (norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 5 ? 5 : 10) * mag;
+  return { min: Math.floor(rawMin / step) * step, max: Math.ceil(rawMax / step) * step, step };
 }
 
 /** Horizontal bar list (rankings). */
