@@ -34,7 +34,7 @@ export async function payMarketplaceWork(options: {
   workerId: string;
   amountCents: number;
   source: "submission" | "booking" | "adjustment";
-  sourceId: string;
+  sourceId: string | null;
   memo: string;
 }): Promise<{ earningCents: number; feeCents: number }> {
   const { payerId, workerId, amountCents, source, sourceId, memo } = options;
