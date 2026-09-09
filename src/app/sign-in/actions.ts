@@ -65,12 +65,14 @@ export async function signInWithPassword(
 
   // Accounts that haven't been through V2 onboarding land there first;
   // everyone else goes where they were headed (the app by default).
-  const onboarded = await sql<{ x: string }>(
-    `select 1 as x from profiles where id = $1 and onboarded_at is not null`,
+  const onboarded = await sql<{ business: boolean }>(
+    `select active_business_id is not null as business from profiles
+      where id = $1 and onboarded_at is not null`,
     [userId],
   );
   const requested = String(formData.get("next") ?? "");
-  const fallback = onboarded.length > 0 ? "/home" : "/onboarding";
+  // The mode the person left in is the mode they come back to.
+  const fallback = onboarded.length === 0 ? "/onboarding" : onboarded[0].business ? "/business" : "/home";
   redirect(requested.startsWith("/") ? requested : fallback);
 }
 

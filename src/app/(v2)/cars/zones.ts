@@ -1,4 +1,9 @@
-/** Shared vehicle-zone labels (client-safe). */
+/** Shared vehicle-zone facts (client-safe; no server code here). */
+export const ZONES = [
+  "driver_door", "passenger_door", "driver_rear_door", "passenger_rear_door",
+  "rear_window", "rear_panel", "bumper", "hood", "full_side", "partial_wrap", "full_wrap",
+] as const;
+
 export const ZONE_LABELS: Record<string, string> = {
   driver_door: "Driver door",
   passenger_door: "Passenger door",

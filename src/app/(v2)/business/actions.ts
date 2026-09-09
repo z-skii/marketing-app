@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { sql, sqlOne } from "@/lib/db";
-import { requireBusinessMember, requireOnboarded } from "@/lib/v2/core";
+import { requireBusinessMember, requireOnboarded, setActiveBusiness } from "@/lib/v2/core";
 import { refreshRecommendations } from "@/lib/v2/recommend";
 
 /** Business management: profile, brand kit, calendar, connections, ideas. */
@@ -37,6 +37,7 @@ export async function createBusiness(input: { name: string; category?: string; c
     );
     await sql(`update profiles set wants_business = true where id = $1`, [ctx.user.id]);
     await refreshRecommendations(business!.id);
+    await setActiveBusiness(ctx.user.id, business!.id);
     redirect("/business");
   }
   return { ok: false as const, error: "Try a slightly different name." };
@@ -124,7 +125,7 @@ export async function upsertCalendarPost(input: {
       [input.businessId, input.platform, title, input.copy?.trim().slice(0, 4000) ?? "", input.status, scheduled],
     );
   }
-  revalidatePath("/business/calendar");
+  revalidatePath("/business/content");
   return { ok: true };
 }
 
@@ -136,7 +137,7 @@ export async function deleteCalendarPost(id: string, businessId: string): Promis
     return fail(e instanceof Error ? e.message : "Not allowed.");
   }
   await sql(`delete from calendar_posts where id = $1 and business_id = $2`, [id, businessId]);
-  revalidatePath("/business/calendar");
+  revalidatePath("/business/content");
   return { ok: true };
 }
 
@@ -176,6 +177,7 @@ export async function regenerateIdeas(businessId: string): Promise<Result> {
   }
   await refreshRecommendations(businessId);
   revalidatePath("/business");
+  revalidatePath("/business/trends");
   return { ok: true };
 }
 
@@ -191,5 +193,30 @@ export async function dismissIdea(id: string, businessId: string): Promise<Resul
     [id, businessId],
   );
   revalidatePath("/business");
+  revalidatePath("/business/trends");
+  return { ok: true };
+}
+
+/**
+ * Ask TapMart to verify the business. An admin checks it by hand and sets
+ * 'verified' or 'rejected'; nothing here is automatic. Owners and managers
+ * can ask; a business already pending or verified is left alone.
+ */
+export async function requestBusinessVerification(businessId: string): Promise<Result> {
+  const ctx = await requireOnboarded();
+  try {
+    await requireBusinessMember(ctx.user.id, businessId, ["owner", "manager"]);
+  } catch (e) {
+    return fail(e instanceof Error ? e.message : "Not allowed.");
+  }
+  const updated = await sqlOne(
+    `update businesses set verification = 'pending', updated_at = now()
+      where id = $1 and verification in ('unverified', 'rejected') returning 1 as x`,
+    [businessId],
+  );
+  if (!updated) return fail("Verification is already in progress or done.");
+  revalidatePath("/business");
+  revalidatePath("/business/settings");
+  revalidatePath("/admin/market");
   return { ok: true };
 }

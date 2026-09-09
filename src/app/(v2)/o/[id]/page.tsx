@@ -1,0 +1,40 @@
+import { notFound, redirect } from "next/navigation";
+import { sqlOne } from "@/lib/db";
+import { getV2Context } from "@/lib/v2/core";
+import { getOpportunity } from "@/lib/v2/opportunities";
+import { RecreateView } from "./RecreateView";
+import { StoryView } from "./StoryView";
+import { CarView } from "./CarView";
+
+export const dynamic = "force-dynamic";
+export const metadata = { title: "Opportunity" };
+
+/**
+ * One opportunity, seen by the person who might take it. Three kinds, three
+ * layouts, one screen. People who manage the business behind it land on
+ * the campaign's business page instead.
+ */
+export default async function OpportunityPage({ params }: { params: Promise<{ id: string }> }) {
+  const [ctx, { id }] = await Promise.all([getV2Context(), params]);
+  if (!ctx) return null; // the layout redirects
+
+  const o = await getOpportunity(id, ctx.user.id);
+  if (!o) notFound();
+
+  const manages = ctx.user.role === "admin" ||
+    ctx.businesses.some((b) => b.id === o.business_id && ["owner", "manager"].includes(b.member_role));
+  if (manages) redirect(`/business/campaigns/${id}`);
+
+  const row = await sqlOne<{ status: string; rights_note: string }>(
+    `select status::text as status, rights_note from campaigns where id = $1`,
+    [id],
+  );
+  if (!row || row.status === "draft") notFound();
+  const open = row.status === "open" && (!o.deadline || new Date(o.deadline) > new Date());
+
+  switch (o.kind) {
+    case "recreate_reel": return <RecreateView o={o} ctx={ctx} open={open} rightsNote={row.rights_note} />;
+    case "instagram_story": return <StoryView o={o} ctx={ctx} open={open} />;
+    case "car_ads": return <CarView o={o} ctx={ctx} open={open} />;
+  }
+}

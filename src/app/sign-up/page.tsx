@@ -16,7 +16,7 @@ export default async function SignUpPage() {
         Make money near you
       </h1>
       <p className="mt-2 text-[0.9375rem] text-ink-soft">
-        One account to earn from your skills, content, or car.
+        Recreate a Reel, post a Story, or drive with an ad. One account, also for your business.
       </p>
       <SignUpForm />
     </AuthShell>

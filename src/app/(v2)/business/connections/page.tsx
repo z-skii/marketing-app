@@ -1,6 +1,5 @@
 import { BackButton } from "@/components/v2/BackButton";
-import { redirect } from "next/navigation";
-import { getV2Context } from "@/lib/v2/core";
+import { requireBusinessContext } from "@/lib/v2/core";
 import { sql } from "@/lib/db";
 import { StatusChip } from "@/components/v2/ui";
 import { ConnectButton } from "./ConnectButton";
@@ -21,10 +20,8 @@ const PROVIDERS = [
  * as pending and the page says exactly what's missing.
  */
 export default async function ConnectionsPage() {
-  const ctx = await getV2Context();
-  if (!ctx) return null;
-  const business = ctx.businesses[0];
-  if (!business) redirect("/business/new");
+  const ctx = await requireBusinessContext("/business/connections");
+  const business = ctx.activeBusiness;
 
   const rows = await sql<{ provider: string; status: string }>(
     `select provider, status::text as status from connected_accounts where business_id = $1`,
@@ -34,12 +31,12 @@ export default async function ConnectionsPage() {
 
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
-      <BackButton fallback="/business" label="Business" />
+      <BackButton fallback="/business/settings" label="Business" />
       <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Connected accounts</h1>
       <p className="mt-1.5 text-[0.9375rem] text-ink-soft">
         Platform sign-in is not switched on for TapMart yet. Requesting a
         connection queues it, and you get a notification when it is live.
-        Until then, the calendar works in plan-and-approve mode.
+        Until then, Content works in plan-and-approve mode: you mark posts published yourself.
       </p>
 
       <ul className="row-list mt-6">

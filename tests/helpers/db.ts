@@ -31,7 +31,8 @@ export async function truncateAll() {
       vehicle_photos, vehicle_zones, campaigns, applications, submissions, earnings,
       car_offers, car_bookings, car_proofs, conversations, conversation_members,
       messages, notifications, notification_prefs, follows, saved_items, blocks,
-      reviews, reports, connected_accounts, calendar_posts, marketing_recommendations
+      reviews, reports, connected_accounts, calendar_posts, marketing_recommendations,
+      social_accounts, business_subscriptions
       restart identity cascade;
     delete from auth.users;
   `);

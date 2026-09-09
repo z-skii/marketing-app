@@ -50,9 +50,10 @@ export async function applyToCampaign(campaignId: string, message: string): Prom
   await notify(
     campaign.business_owner_id, "application",
     `New applicant for "${campaign.title}"`,
-    { body: `@${ctx.user.username} applied.`, href: `/jobs/${campaignId}` },
+    { body: `@${ctx.user.username} applied.`, href: `/business/campaigns/${campaignId}` },
   );
-  revalidatePath(`/jobs/${campaignId}`);
+  revalidatePath(`/o/${campaignId}`);
+  revalidatePath(`/business/campaigns/${campaignId}`);
   return { ok: true };
 }
 
@@ -63,7 +64,8 @@ export async function withdrawApplication(campaignId: string): Promise<Result> {
       where campaign_id = $1 and applicant_id = $2 and status = 'applied'`,
     [campaignId, ctx.user.id],
   );
-  revalidatePath(`/jobs/${campaignId}`);
+  revalidatePath(`/o/${campaignId}`);
+  revalidatePath(`/business/campaigns/${campaignId}`);
   return { ok: true };
 }
 
@@ -112,9 +114,10 @@ export async function submitWork(
   await notify(
     campaign.business_owner_id, "submission",
     `New submission for "${campaign.title}"`,
-    { body: `@${ctx.user.username} submitted work to review.`, href: `/jobs/${campaignId}` },
+    { body: `@${ctx.user.username} submitted work to review.`, href: `/business/campaigns/${campaignId}` },
   );
-  revalidatePath(`/jobs/${campaignId}`);
+  revalidatePath(`/o/${campaignId}`);
+  revalidatePath(`/business/campaigns/${campaignId}`);
   return submission ? { ok: true } : fail("Could not submit. Try again.");
 }
 
@@ -159,10 +162,11 @@ export async function decideApplication(
       body: decision === "accepted"
         ? "The business accepted your application. Check the details and get started."
         : "The business went with someone else this time.",
-      href: `/jobs/${app.campaign_id}`,
+      href: `/o/${app.campaign_id}`,
     },
   );
-  revalidatePath(`/jobs/${app.campaign_id}`);
+  revalidatePath(`/o/${app.campaign_id}`);
+  revalidatePath(`/business/campaigns/${app.campaign_id}`);
   return { ok: true };
 }
 
@@ -247,9 +251,10 @@ export async function reviewSubmission(
       : decision === "rejected"
         ? `Submission not approved: "${campaign.title}"`
         : `Revision requested: "${campaign.title}"`,
-    { body: cleanNote || undefined, href: `/jobs/${campaign.id}` },
+    { body: cleanNote || undefined, href: `/o/${campaign.id}` },
   );
-  revalidatePath(`/jobs/${campaign.id}`);
+  revalidatePath(`/o/${campaign.id}`);
+  revalidatePath(`/business/campaigns/${campaign.id}`);
   return { ok: true };
 }
 
@@ -263,6 +268,7 @@ export async function closeCampaign(campaignId: string): Promise<Result> {
     `update campaigns set status = 'closed' where id = $1 and status in ('open', 'paused')`,
     [campaignId],
   );
-  revalidatePath(`/jobs/${campaignId}`);
+  revalidatePath(`/o/${campaignId}`);
+  revalidatePath(`/business/campaigns/${campaignId}`);
   return { ok: true };
 }

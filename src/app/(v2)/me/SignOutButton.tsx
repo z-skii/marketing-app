@@ -9,7 +9,7 @@ export function SignOutButton() {
     <button
       type="button"
       disabled={pending}
-      className="btn btn-ghost w-full !py-2.5 text-xs"
+      className="btn btn-ghost w-full"
       onClick={() => startTransition(() => signOut())}
     >
       {pending ? "Signing out…" : "Sign out"}

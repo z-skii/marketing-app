@@ -3,6 +3,8 @@ import type Stripe from "stripe";
 import { sql, sqlOne } from "@/lib/db";
 import { refreshSurfaces } from "@/lib/surfaces";
 import { stripe, isStripeConfigured } from "@/lib/stripe";
+import { activateSubscription, setSubscriptionStatus } from "@/lib/v2/subscriptions";
+import type { PlanKey } from "@/config/plans";
 
 /**
  * Stripe webhook — the only place credit is ever granted.
@@ -35,7 +37,14 @@ export async function POST(request: NextRequest) {
 
   try {
     if (event.type === "checkout.session.completed") {
-      await handleCompletedCheckout(event);
+      const session = event.data.object as Stripe.Checkout.Session;
+      if (session.mode === "subscription" && session.metadata?.kind === "subscription") {
+        await handleSubscriptionCheckout(session);
+      } else {
+        await handleCompletedCheckout(event);
+      }
+    } else if (event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {
+      await handleSubscriptionChange(event.data.object as Stripe.Subscription);
     }
   } catch (error) {
     console.error("stripe webhook failed", event.id, error);
@@ -81,4 +90,45 @@ async function handleCompletedCheckout(event: Stripe.Event) {
     }
   }
   await refreshSurfaces(funded);
+}
+
+// ------------------------------------------------------------ subscriptions
+
+/** Stripe API versions from 2025 keep the period on the subscription item. */
+function periodEnd(subscription: Stripe.Subscription): Date | null {
+  const legacy = (subscription as unknown as { current_period_end?: number }).current_period_end;
+  const seconds = legacy ?? subscription.items?.data?.[0]?.current_period_end ?? null;
+  return seconds ? new Date(seconds * 1000) : null;
+}
+
+function mapStatus(status: Stripe.Subscription.Status): "trialing" | "active" | "past_due" | "cancelled" {
+  switch (status) {
+    case "trialing": return "trialing";
+    case "active": return "active";
+    case "past_due": case "unpaid": case "incomplete": return "past_due";
+    default: return "cancelled"; // canceled, incomplete_expired, paused
+  }
+}
+
+/** A plan checkout finished: the business's plan row becomes active. */
+async function handleSubscriptionCheckout(session: Stripe.Checkout.Session) {
+  const businessId = session.metadata?.business_id;
+  const plan = session.metadata?.plan as PlanKey | undefined;
+  const subscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription?.id ?? null;
+  if (!businessId || (plan !== "essential" && plan !== "growth") || !subscriptionId) return;
+
+  const subscription = await stripe().subscriptions.retrieve(subscriptionId);
+  await activateSubscription({
+    businessId,
+    plan,
+    billing: "stripe",
+    stripeCustomerId: typeof session.customer === "string" ? session.customer : session.customer?.id ?? null,
+    stripeSubscriptionId: subscription.id,
+    periodEnd: periodEnd(subscription),
+  });
+}
+
+/** Renewals, failed payments and cancellations flow into the same row. */
+async function handleSubscriptionChange(subscription: Stripe.Subscription) {
+  await setSubscriptionStatus(subscription.id, mapStatus(subscription.status), periodEnd(subscription));
 }

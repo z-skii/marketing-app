@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { topUpWallet } from "@/app/dashboard/actions";
+import { topUpCampaignCredit } from "./actions";
 
 const PRESETS = [25, 50, 100, 250];
 
@@ -15,7 +15,7 @@ export function TopUpForm({ minCents, maxCents }: { minCents: number; maxCents: 
 
   return (
     <div className="mt-6">
-      <p className="font-display text-sm font-600">How much?</p>
+      <p className="text-sm text-ink-soft">How much?</p>
       <div className="pill-row mt-2" role="group" aria-label="Preset amounts">
         {PRESETS.map((p) => (
           <button
@@ -40,7 +40,7 @@ export function TopUpForm({ minCents, maxCents }: { minCents: number; maxCents: 
         onClick={() =>
           startTransition(async () => {
             setError(null);
-            const result = await topUpWallet(cents);
+            const result = await topUpCampaignCredit(cents);
             if (result.ok && result.redirect) window.location.assign(result.redirect);
             else setError(("error" in result && result.error) || "Checkout couldn't start. Try again.");
           })}

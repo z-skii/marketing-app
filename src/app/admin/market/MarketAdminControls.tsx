@@ -3,15 +3,15 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
-  decideCreatorVerification, decidePayout, decideVehicleVerification,
-  resolveReport, setPlatformFee,
+  decideBusinessVerification, decideCreatorVerification, decideInstagramHandle, decidePayout,
+  decideVehicleVerification, resolveReport, setPlatformFee,
 } from "./actions";
 
 type Result = { ok: boolean; error?: string };
 
 export function MarketAdminControls({
   kind, id,
-}: { kind: "creator" | "vehicle" | "payout" | "report"; id: string }) {
+}: { kind: "creator" | "vehicle" | "business" | "instagram" | "payout" | "report"; id: string }) {
   const router = useRouter();
   const [note, setNote] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -30,9 +30,13 @@ export function MarketAdminControls({
       ? ["Verify", () => decideCreatorVerification(id, true, note), "Reject", () => decideCreatorVerification(id, false, note)]
       : kind === "vehicle"
         ? ["Verify", () => decideVehicleVerification(id, true, note), "Reject", () => decideVehicleVerification(id, false, note)]
-        : kind === "payout"
-          ? ["Mark paid", () => decidePayout(id, true), "Reject", () => decidePayout(id, false)]
-          : ["Resolve", () => resolveReport(id, false), "Dismiss", () => resolveReport(id, true)];
+        : kind === "business"
+          ? ["Verify", () => decideBusinessVerification(id, true, note), "Reject", () => decideBusinessVerification(id, false, note)]
+          : kind === "instagram"
+            ? ["Confirm", () => decideInstagramHandle(id, true), "Reject", () => decideInstagramHandle(id, false)]
+            : kind === "payout"
+              ? ["Mark paid", () => decidePayout(id, true), "Reject", () => decidePayout(id, false)]
+              : ["Resolve", () => resolveReport(id, false), "Dismiss", () => resolveReport(id, true)];
 
   return (
     <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -42,7 +46,7 @@ export function MarketAdminControls({
       <button type="button" disabled={pending} className="btn btn-ghost !min-h-0 !px-3 !py-1.5 !text-[0.625rem]" onClick={() => run(pair[3])}>
         {pair[2]}
       </button>
-      {(kind === "creator" || kind === "vehicle") && (
+      {(kind === "creator" || kind === "vehicle" || kind === "business") && (
         <input
           className="field !min-h-0 !w-48 !px-2 !py-1 !text-xs" maxLength={500} value={note}
           onChange={(e) => setNote(e.target.value)} placeholder="Note (sent on reject)"

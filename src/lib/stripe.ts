@@ -42,13 +42,13 @@ export async function createTopUpSession(input: {
           unit_amount: input.amountCents,
           product_data: {
             name: `${SITE_NAME} credit`,
-            description: "Prepaid credit for placements on the board.",
+            description: "Campaign credit. Pays the people who complete your campaigns.",
           },
         },
       },
     ],
-    success_url: `${SITE_URL}/wallet?topup=success&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${SITE_URL}/wallet?topup=cancelled`,
+    success_url: `${SITE_URL}/business/billing?topup=success&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${SITE_URL}/business/billing?topup=cancelled`,
     metadata: { user_id: input.userId, ...input.metadata },
   });
 

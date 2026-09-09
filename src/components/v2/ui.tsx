@@ -165,13 +165,13 @@ export function Stat({
  * only renders the bell where the bottom bar does not.
  */
 export function ScreenHeader({
-  title, kicker, unread = 0, showSearch = true, right,
-}: { title: React.ReactNode; kicker?: React.ReactNode; unread?: number; showSearch?: boolean; right?: React.ReactNode }) {
+  title, kicker, unread = 0, showSearch = true, right, wrap = false,
+}: { title: React.ReactNode; kicker?: React.ReactNode; unread?: number; showSearch?: boolean; right?: React.ReactNode; wrap?: boolean }) {
   return (
     <header className="flex items-center gap-3">
       <div className="min-w-0 flex-1">
         {kicker && <p className="text-sm text-ink-faint">{kicker}</p>}
-        <h1 className="truncate font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">{title}</h1>
+        <h1 className={`${wrap ? "leading-[1.05]" : "truncate"} font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]`}>{title}</h1>
       </div>
       {right}
       {showSearch && (

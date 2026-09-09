@@ -31,6 +31,9 @@ const DEFAULTS: Record<string, string> = {
   feature_agent_auto_publish: "false",
   // TapMart V2 marketplace: platform fee taken from creator/driver earnings.
   platform_fee_pct: "15",
+  // V3 business subscription plans (monthly, cents). Two plans only.
+  plan_essential_cents: "9900",
+  plan_growth_cents: "19900",
 };
 
 const CACHE_MS = 10_000;

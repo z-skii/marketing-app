@@ -4,7 +4,7 @@ import { sqlOne } from "@/lib/db";
 import { StatusChip } from "@/components/v2/ui";
 import { CreatorForm } from "./CreatorForm";
 
-export const metadata = { title: "Creator profile" };
+export const metadata = { title: "Verification" };
 export const dynamic = "force-dynamic";
 
 export default async function CreatorProfilePage() {
@@ -26,12 +26,12 @@ export default async function CreatorProfilePage() {
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me" label="Profile" />
       <div className="mt-3 flex items-center justify-between gap-3">
-        <h1 className="font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Creator profile</h1>
+        <h1 className="font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Verification</h1>
         <StatusChip status={cp?.verification ?? "unverified"} />
       </div>
       <p className="mt-1 text-[0.9375rem] text-ink-soft">
-        Verified creators can take professional jobs: photoshoots, video work,
-        anything a business needs done in person.
+        The verified mark tells businesses a real person checked your account.
+        Verified people get picked first for Reels, Stories and car campaigns.
       </p>
       {cp?.verification === "rejected" && cp.verification_note && (
         <div className="card card-signal mt-4 p-4">
@@ -41,11 +41,7 @@ export default async function CreatorProfilePage() {
       )}
       <CreatorForm
         initial={{
-          categories: cp?.categories ?? [],
-          serviceRadius: cp?.service_radius_miles ?? null,
           portfolioUrl: cp?.portfolio_url ?? "",
-          equipment: cp?.equipment ?? "",
-          pricingNote: cp?.pricing_note ?? "",
           verification: cp?.verification ?? "unverified",
         }}
       />

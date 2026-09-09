@@ -8,6 +8,6 @@ export const dynamic = "force-dynamic";
 export default async function OnboardingPage() {
   const ctx = await getV2Context();
   if (!ctx) redirect("/sign-in?next=/onboarding");
-  if (ctx.onboarded) redirect("/home");
-  return <OnboardingFlow />;
+  if (ctx.onboarded) redirect(ctx.activeBusiness ? "/business" : "/home");
+  return <OnboardingFlow initialName={ctx.user.displayName ?? ""} initialCity={ctx.city ?? ""} />;
 }

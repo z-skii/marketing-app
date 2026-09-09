@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { sql, sqlOne } from "@/lib/db";
 import { requireOnboarded, requireV2 } from "@/lib/v2/core";
 
-/** Profile, creator profile and portfolio management — always self-scoped. */
+/** Profile, verification and portfolio management, always self-scoped. */
 
 type Result = { ok: boolean; error?: string };
 

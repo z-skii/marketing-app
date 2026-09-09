@@ -8,14 +8,17 @@ import { useRef, useState } from "react";
  */
 
 export function Uploader({
-  folder, accept = "image/*,video/*", multiple = false, label = "Add media", onUploaded,
+  folder, accept = "image/*,video/*", multiple = false, label = "Add media", onUploaded, id,
 }: {
   folder: string;
   accept?: string;
   multiple?: boolean;
   label?: string;
   onUploaded: (urls: string[]) => void;
+  /** Needed when several uploaders share a folder on one screen. */
+  id?: string;
 }) {
+  const inputId = id ?? `upload-${folder}`;
   const inputRef = useRef<HTMLInputElement>(null);
   const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -63,9 +66,9 @@ export function Uploader({
     <div>
       <input
         ref={inputRef} type="file" accept={accept} multiple={multiple} className="sr-only"
-        id={`upload-${folder}`} onChange={(e) => handleFiles(e.target.files)}
+        id={inputId} onChange={(e) => handleFiles(e.target.files)}
       />
-      <label htmlFor={`upload-${folder}`} className="btn btn-sm inline-flex cursor-pointer">
+      <label htmlFor={inputId} className="btn btn-sm inline-flex cursor-pointer">
         {progress === null ? label : `Uploading… ${progress}%`}
       </label>
       {progress !== null && (

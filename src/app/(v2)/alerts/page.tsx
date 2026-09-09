@@ -51,7 +51,7 @@ export default async function AlertsPage() {
         <div className="mt-6">
           <EmptyState
             title="Nothing yet"
-            body="Job matches, approvals, offers and payments show up here."
+            body="Campaign matches, approvals and payments show up here."
             actionHref="/home" actionLabel="Browse opportunities"
           />
         </div>

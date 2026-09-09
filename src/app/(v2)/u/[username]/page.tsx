@@ -7,8 +7,9 @@ import { FollowButton, ReportMenu } from "./ProfileSocial";
 export const dynamic = "force-dynamic";
 
 /**
- * A public profile: the work first, then identity, badges, reputation and
- * listed cars. No addresses, no verification documents, no earnings.
+ * A public profile: the work first, then identity, badges and reputation.
+ * No addresses, no verification documents, no earnings, and no vehicles:
+ * a car is private, only "Drives with TapMart" shows.
  */
 export default async function PublicProfilePage({ params }: { params: Promise<{ username: string }> }) {
   const [ctx, { username }] = await Promise.all([getV2Context(), params]);
@@ -29,7 +30,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   );
   if (!person || person.suspended) notFound();
 
-  const [counts, portfolio, vehicles, reviews, following] = await Promise.all([
+  const [counts, portfolio, drives, reviews, following] = await Promise.all([
     sqlOne<{ followers: string; following: string }>(
       `select (select count(*) from follows where followed_id = $1)::text as followers,
               (select count(*) from follows where follower_id = $1)::text as following`,
@@ -40,10 +41,8 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
         order by sort, created_at desc limit 12`,
       [person.id],
     ),
-    sql<{ id: string; year: number; make: string; model: string; photo_url: string | null }>(
-      `select v.id, v.year, v.make, v.model,
-              (select url from vehicle_photos p where p.vehicle_id = v.id limit 1) as photo_url
-         from vehicles v where v.owner_id = $1 and v.status = 'listed' limit 6`,
+    sqlOne(
+      `select 1 as x from vehicles v where v.owner_id = $1 and v.status = 'listed' limit 1`,
       [person.id],
     ),
     sql<{ rating: number; body: string | null; created_at: string }>(
@@ -73,10 +72,8 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
             @{person.username}{person.city ? `  ·  ${person.city}` : ""}
           </p>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {person.verification === "verified" && <Chip tone="rise">Verified creator</Chip>}
-            {(person.categories ?? []).slice(0, 4).map((c) => (
-              <Chip key={c} tone="faint">{c.replaceAll("_", " ")}</Chip>
-            ))}
+            {person.verification === "verified" && <Chip tone="rise">Verified</Chip>}
+            {drives && <Chip tone="ink">Drives with TapMart</Chip>}
           </div>
         </div>
       </header>
@@ -89,7 +86,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
       )}
 
       <div className="card mt-5 grid grid-cols-3 gap-4 p-4 md:grid-cols-4 md:p-5">
-        <Stat value={person.completed_jobs ?? 0} label="Jobs done" />
+        <Stat value={person.completed_jobs ?? 0} label="Completed" />
         <Stat value={counts?.followers ?? 0} label="Followers" />
         <Stat value={counts?.following ?? 0} label="Following" />
         {person.rating_avg && (
@@ -123,29 +120,6 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
         <section className="mt-6">
           <SectionTitle>About</SectionTitle>
           <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">{person.bio}</p>
-        </section>
-      )}
-
-      {vehicles.length > 0 && (
-        <section className="mt-6">
-          <SectionTitle count={vehicles.length}>Cars available for ads</SectionTitle>
-          <ul className="mt-3 flex gap-3 overflow-x-auto pb-1">
-            {vehicles.map((v) => (
-              <li key={v.id} className="shrink-0">
-                <a href={`/cars/${v.id}`} className="card block w-44 overflow-hidden">
-                  {v.photo_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={v.photo_url} alt="" className="aspect-[4/3] w-full bg-surface-2 object-cover" loading="lazy" />
-                  ) : (
-                    <span className="flex aspect-[4/3] w-full items-center justify-center bg-surface-2 text-sm text-ink-faint">No photo</span>
-                  )}
-                  <span className="block truncate px-3 py-2.5 font-display text-[0.9375rem] font-700">
-                    {v.year} {v.make} {v.model}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
         </section>
       )}
 

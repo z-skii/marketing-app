@@ -53,6 +53,8 @@ export type SubmissionRow = {
   note: string | null;
   status: string;
   review_note: string | null;
+  /** Story proofs: { story_url, posted_at, verified_by } */
+  meta: { story_url?: string; posted_at?: string; verified_by?: string };
   created_at: string;
   creator_username: string;
   creator_name: string | null;
@@ -63,7 +65,7 @@ export type SubmissionRow = {
 export async function getSubmissions(campaignId: string): Promise<SubmissionRow[]> {
   return sql<SubmissionRow>(
     `select s.id, s.campaign_id, s.creator_id, s.media_urls, s.note, s.status::text as status,
-            s.review_note, s.created_at,
+            s.review_note, s.meta, s.created_at,
             p.username as creator_username, p.display_name as creator_name,
             p.avatar_url as creator_avatar,
             coalesce(cp.verification = 'verified', false) as creator_verified

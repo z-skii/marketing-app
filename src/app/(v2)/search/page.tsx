@@ -6,21 +6,19 @@ import { Avatar, EmptyState, SectionTitle } from "@/components/v2/ui";
 export const metadata = { title: "Search" };
 export const dynamic = "force-dynamic";
 
-/** Initial for a hit without a photo: the business behind a job, the make of a car. */
+/** Initial for a hit without a photo: the business behind a campaign. */
 function avatarName(h: SearchHit) {
   if (h.type === "campaign") return h.subtitle ?? h.title;
-  if (h.type === "vehicle") return h.title.replace(/^\d{4}\s+/, "");
   return h.title;
 }
 
 const GROUPS: { type: SearchHit["type"]; label: string }[] = [
-  { type: "campaign", label: "Jobs" },
+  { type: "campaign", label: "Campaigns" },
   { type: "business", label: "Businesses" },
   { type: "profile", label: "People" },
-  { type: "vehicle", label: "Cars" },
 ];
 
-/** Global search across jobs, businesses, people and cars. */
+/** Global search across campaigns, businesses and people. Vehicles are private. */
 export default async function SearchPage({
   searchParams,
 }: { searchParams: Promise<{ q?: string }> }) {
@@ -36,7 +34,7 @@ export default async function SearchPage({
       <form className="flex gap-2" action="/search" role="search">
         <input
           className="field flex-1 text-[1.0625rem]" name="q" defaultValue={q}
-          placeholder="Jobs, businesses, people, cars" aria-label="Search"
+          placeholder="Campaigns, businesses, people" aria-label="Search"
           autoFocus enterKeyHint="search"
         />
         <button type="submit" className="btn btn-signal shrink-0">Search</button>

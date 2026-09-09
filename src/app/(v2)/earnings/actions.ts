@@ -7,9 +7,10 @@ import { settingInt } from "@/lib/settings";
 import { formatCredit } from "@/lib/money";
 
 /**
- * Payout request over V2 earnings: locks the available earning rows, moves
+ * Payout request over earnings: locks the available earning rows, moves
  * them to 'requested', and opens a payout_requests row for the admin queue.
- * The database decides the amount — never the client.
+ * The database decides the amount, never the client. Payouts are sent by
+ * hand by TapMart after that.
  */
 export async function requestPayout(): Promise<{ ok: boolean; error?: string; detail?: string }> {
   const ctx = await requireOnboarded();
@@ -24,7 +25,7 @@ export async function requestPayout(): Promise<{ ok: boolean; error?: string; de
       );
       const total = rows.rows.reduce((sum, r) => sum + Number(r.amount_cents), 0);
       if (total < minimum) {
-        throw new Error(`Minimum payout is ${formatCredit(minimum)}. You have ${formatCredit(total)} available.`);
+        throw new Error(`Payouts start at ${formatCredit(minimum)}. You have ${formatCredit(total)} available.`);
       }
       await client.query(
         `update earnings set status = 'requested' where profile_id = $1 and status = 'available'`,
@@ -36,8 +37,8 @@ export async function requestPayout(): Promise<{ ok: boolean; error?: string; de
       );
       return total;
     });
-    revalidatePath("/wallet");
-    return { ok: true, detail: `Payout of ${formatCredit(amount)} requested. An admin processes it shortly.` };
+    revalidatePath("/earnings");
+    return { ok: true, detail: `Payout of ${formatCredit(amount)} requested. TapMart sends it by hand, usually within a few days.` };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "Payout failed." };
   }

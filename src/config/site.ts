@@ -4,7 +4,7 @@
  * this file and nothing else.
  */
 export const SITE_NAME = "TapMart";
-export const SITE_TAGLINE = "What's getting clicked right now?";
+export const SITE_TAGLINE = "Get paid to promote businesses";
 const siteUrlOverride = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 export const SITE_URL =
   (siteUrlOverride && /^https?:\/\/[\x21-\x7e]+$/.test(siteUrlOverride)
@@ -26,19 +26,19 @@ export const CONTACT_EMAIL: string | null = null;
 
 export const siteMetadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: `${SITE_NAME} — ${SITE_TAGLINE}`, template: `%s — ${SITE_NAME}` },
+  title: { default: `${SITE_NAME}: ${SITE_TAGLINE}`, template: `%s · ${SITE_NAME}` },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   openGraph: {
     type: "website" as const,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    title: `${SITE_NAME}: ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image" as const,
-    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    title: `${SITE_NAME}: ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
   },
   robots: { index: true, follow: true },

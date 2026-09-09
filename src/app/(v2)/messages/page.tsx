@@ -2,13 +2,20 @@ import Link from "next/link";
 import { getV2Context } from "@/lib/v2/core";
 import { sql } from "@/lib/db";
 import { Avatar, Chip, EmptyState, ScreenHeader } from "@/components/v2/ui";
+import { KIND_LABEL, isEarnKind } from "@/lib/v2/opportunities";
 
 export const metadata = { title: "Messages" };
 export const dynamic = "force-dynamic";
 
 const TOPIC_LABEL: Record<string, string> = {
-  campaign: "Job", offer: "Car offer", booking: "Car ad", business: "Business", profile: "Profile",
+  campaign: "Campaign", offer: "Car ad", booking: "Car ad", business: "Business", profile: "Profile",
 };
+
+/** The chip on a thread: the campaign kind when the topic is a campaign we can resolve. */
+function topicChip(topicType: string, campaignKind: string | null): string {
+  if (topicType === "campaign" && campaignKind && isEarnKind(campaignKind)) return KIND_LABEL[campaignKind];
+  return TOPIC_LABEL[topicType] ?? topicType.replaceAll("_", " ");
+}
 
 /** The inbox: one row per conversation, unread first. */
 export default async function MessagesPage() {
@@ -16,11 +23,14 @@ export default async function MessagesPage() {
   if (!ctx) return null;
 
   const rows = await sql<{
-    id: string; topic_type: string | null;
+    id: string; topic_type: string | null; campaign_kind: string | null;
     other_name: string | null; other_username: string | null; other_avatar: string | null;
     last_body: string | null; last_at: string | null; unread: boolean;
   }>(
     `select c.id, c.topic_type,
+            (case when c.topic_type = 'campaign'
+                  then (select cp.kind::text from campaigns cp where cp.id::text = c.topic_id::text)
+                  end) as campaign_kind,
             p.display_name as other_name, p.username as other_username, p.avatar_url as other_avatar,
             lm.body as last_body, lm.created_at as last_at,
             (lm.created_at > m.last_read_at and lm.sender_id is distinct from $1) as unread
@@ -56,7 +66,7 @@ export default async function MessagesPage() {
         <div className="mt-6">
           <EmptyState
             title="No conversations yet"
-            body="Threads start automatically around jobs, submissions and car ad offers."
+            body="Threads start automatically around campaigns, submissions and car ads."
             actionHref="/home" actionLabel="Find work"
           />
         </div>
@@ -74,7 +84,7 @@ export default async function MessagesPage() {
                     <span className={`truncate font-display text-[0.9375rem] ${c.unread ? "font-700 text-ink" : "font-600 text-ink-soft"}`}>
                       {name}
                     </span>
-                    {c.topic_type && <Chip tone="faint">{TOPIC_LABEL[c.topic_type] ?? c.topic_type.replaceAll("_", " ")}</Chip>}
+                    {c.topic_type && <Chip tone="faint">{topicChip(c.topic_type, c.campaign_kind)}</Chip>}
                   </span>
                   <span className={`mt-0.5 block truncate text-sm ${c.unread ? "text-ink-soft" : "text-ink-faint"}`}>
                     {c.last_body}

@@ -8,6 +8,8 @@ import {
 } from "@/lib/v2/core";
 import { payMarketplaceWork, InsufficientCreditError } from "@/lib/v2/money";
 import { formatCredit } from "@/lib/money";
+import { safeReturnPath } from "@/lib/v2/paths";
+import { ZONES } from "./zones";
 
 /**
  * Car advertising marketplace. Drivers own their vehicles; businesses make
@@ -17,11 +19,6 @@ import { formatCredit } from "@/lib/money";
 
 type Result = { ok: boolean; error?: string };
 const fail = (error: string): Result => ({ ok: false, error });
-
-export const ZONES = [
-  "driver_door", "passenger_door", "driver_rear_door", "passenger_rear_door",
-  "rear_window", "rear_panel", "bumper", "hood", "full_side", "partial_wrap", "full_wrap",
-] as const;
 
 const ANGLES = ["front", "driver_side", "rear", "passenger_side"] as const;
 
@@ -33,6 +30,8 @@ export type VehicleInput = {
   photos: { angle: string; url: string }[];
   zones: { zone: string; available: boolean; askingDollars?: number }[];
   publish: boolean;
+  /** Where to land after creation (a campaign the person came from). Same-origin paths only. */
+  returnTo?: string;
 };
 
 export async function createVehicle(input: VehicleInput) {
@@ -91,7 +90,8 @@ export async function createVehicle(input: VehicleInput) {
     return id;
   });
 
-  redirect(`/cars/${vehicleId}`);
+  const returnTo = safeReturnPath(input.returnTo);
+  redirect(returnTo ?? `/me/vehicles/${vehicleId}`);
 }
 
 export async function setVehicleListed(vehicleId: string, listed: boolean): Promise<Result> {
@@ -101,7 +101,7 @@ export async function setVehicleListed(vehicleId: string, listed: boolean): Prom
     [vehicleId, ctx.user.id, listed ? "listed" : "unlisted"],
   );
   if (!updated) return fail("Not your vehicle.");
-  revalidatePath(`/cars/${vehicleId}`);
+  revalidatePath(`/me/vehicles/${vehicleId}`);
   return { ok: true };
 }
 
@@ -114,7 +114,7 @@ export async function requestVehicleVerification(vehicleId: string): Promise<Res
     [vehicleId, ctx.user.id],
   );
   if (!updated) return fail("Verification is already in progress or done.");
-  revalidatePath(`/cars/${vehicleId}`);
+  revalidatePath(`/me/vehicles/${vehicleId}`);
   return { ok: true };
 }
 
@@ -155,9 +155,9 @@ export async function makeCarOffer(input: {
   await notify(
     vehicle.owner_id, "car_offer",
     `${business?.name ?? "A business"} offered ${formatCredit(monthlyCents)}/month`,
-    { body: `For your ${vehicle.year} ${vehicle.make} ${vehicle.model}.`, href: `/cars/${input.vehicleId}` },
+    { body: `For your ${vehicle.year} ${vehicle.make} ${vehicle.model}.`, href: `/me/vehicles/${input.vehicleId}` },
   );
-  revalidatePath(`/cars/${input.vehicleId}`);
+  revalidatePath(`/me/vehicles/${input.vehicleId}`);
   return { ok: true };
 }
 
@@ -191,10 +191,10 @@ export async function respondToOffer(
     await systemMessage(conv, `Driver countered at ${formatCredit(cents)}/month.`);
     if (offer.created_by) {
       await notify(offer.created_by, "car_offer", `Counter-offer: ${formatCredit(cents)}/month`, {
-        href: `/cars/${offer.vehicle_id}`,
+        href: `/me/vehicles/${offer.vehicle_id}`,
       });
     }
-    revalidatePath(`/cars/${offer.vehicle_id}`);
+    revalidatePath(`/me/vehicles/${offer.vehicle_id}`);
     return { ok: true };
   }
 
@@ -217,9 +217,9 @@ export async function respondToOffer(
   if (offer.created_by) {
     await notify(offer.created_by, "car_offer",
       response === "accepted" ? "Your car ad offer was accepted" : "Your car ad offer was declined",
-      { href: `/cars/${offer.vehicle_id}` });
+      { href: `/me/vehicles/${offer.vehicle_id}` });
   }
-  revalidatePath(`/cars/${offer.vehicle_id}`);
+  revalidatePath(`/me/vehicles/${offer.vehicle_id}`);
   return { ok: true };
 }
 
@@ -255,8 +255,8 @@ export async function acceptCounter(offerId: string): Promise<Result> {
   );
   const conv = await ensureConversation("offer", offerId, [ctx.user.id, offer.owner_id]);
   await systemMessage(conv, `Counter accepted at ${formatCredit(cents)}/month. Booking created.`);
-  await notify(offer.owner_id, "car_offer", "Your counter was accepted", { href: `/cars/${offer.vehicle_id}` });
-  revalidatePath(`/cars/${offer.vehicle_id}`);
+  await notify(offer.owner_id, "car_offer", "Your counter was accepted", { href: `/me/vehicles/${offer.vehicle_id}` });
+  revalidatePath(`/me/vehicles/${offer.vehicle_id}`);
   return { ok: true };
 }
 
@@ -272,10 +272,10 @@ const BOOKING_MOVES: Record<string, { to: string; by: "business" | "driver" | "e
 export async function advanceBooking(bookingId: string, artworkUrl?: string): Promise<Result> {
   const ctx = await requireOnboarded();
   const booking = await sqlOne<{
-    id: string; status: string; business_id: string; vehicle_id: string;
+    id: string; status: string; business_id: string; vehicle_id: string; campaign_id: string | null;
     owner_id: string; monthly_cents: string; offer_id: string; business_owner: string;
   }>(
-    `select k.id, k.status::text as status, k.business_id, k.vehicle_id, v.owner_id,
+    `select k.id, k.status::text as status, k.business_id, k.vehicle_id, k.campaign_id, v.owner_id,
             k.monthly_cents::text as monthly_cents, k.offer_id, b.owner_id as business_owner
        from car_bookings k
        join vehicles v on v.id = k.vehicle_id
@@ -331,9 +331,12 @@ export async function advanceBooking(bookingId: string, artworkUrl?: string): Pr
   await systemMessage(conv, line);
   await notify(
     isDriver ? booking.business_owner : booking.owner_id,
-    "car_booking", line, { href: `/cars/${booking.vehicle_id}` },
+    "car_booking", line,
+    { href: isDriver
+        ? (booking.campaign_id ? `/business/campaigns/${booking.campaign_id}` : "/business")
+        : `/me/vehicles/${booking.vehicle_id}` },
   );
-  revalidatePath(`/cars/${booking.vehicle_id}`);
+  revalidatePath(`/me/vehicles/${booking.vehicle_id}`);
   return { ok: true };
 }
 
@@ -369,8 +372,8 @@ export async function payBookingMonth(bookingId: string): Promise<Result> {
     if (e instanceof InsufficientCreditError) return fail(e.message);
     throw e;
   }
-  await notify(booking.owner_id, "car_booking", "Car ad month paid", { href: "/wallet" });
-  revalidatePath(`/cars/${booking.vehicle_id}`);
+  await notify(booking.owner_id, "car_booking", "Car ad month paid", { href: "/earnings" });
+  revalidatePath(`/me/vehicles/${booking.vehicle_id}`);
   return { ok: true };
 }
 
@@ -379,8 +382,8 @@ export async function addProof(
   input: { kind: string; mediaUrl?: string; odometerMiles?: number; note?: string },
 ): Promise<Result> {
   const ctx = await requireOnboarded();
-  const booking = await sqlOne<{ owner_id: string; vehicle_id: string; business_owner: string }>(
-    `select v.owner_id, k.vehicle_id, b.owner_id as business_owner
+  const booking = await sqlOne<{ owner_id: string; vehicle_id: string; business_owner: string; campaign_id: string | null }>(
+    `select v.owner_id, k.vehicle_id, k.campaign_id, b.owner_id as business_owner
        from car_bookings k join vehicles v on v.id = k.vehicle_id
        join businesses b on b.id = k.business_id where k.id = $1`,
     [bookingId],
@@ -397,8 +400,8 @@ export async function addProof(
      input.note?.trim().slice(0, 500) ?? ""],
   );
   await notify(booking.business_owner, "car_booking", "New proof uploaded", {
-    href: `/cars/${booking.vehicle_id}`,
+    href: booking.campaign_id ? `/business/campaigns/${booking.campaign_id}` : "/business",
   });
-  revalidatePath(`/cars/${booking.vehicle_id}`);
+  revalidatePath(`/me/vehicles/${booking.vehicle_id}`);
   return { ok: true };
 }

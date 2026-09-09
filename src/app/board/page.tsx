@@ -1,49 +1,88 @@
 import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { Board } from "@/components/Board";
 import { Bar } from "@/components/Bar";
-import { RoundCountdown } from "@/components/RoundCountdown";
-import { getBar, getBoard, getBoardCount, getCurrentRound } from "@/lib/data";
+import { LiveMain } from "@/components/live/LiveMain";
+import { LiveRefresh } from "@/components/live/LiveRefresh";
+import { LockViewport } from "@/components/live/LockViewport";
+import { SpotPanel } from "@/components/live/SpotPanel";
+import { TopRail } from "@/components/live/TopRail";
+import { BoardWindow } from "@/components/live/BoardWindow";
+import { SurpriseMe } from "@/components/live/SurpriseMe";
 import { getCurrentUser } from "@/lib/auth";
-import { formatCount } from "@/lib/money";
+import {
+  getBar, getBoard, getBoardCount, getCurrentSpot, getNextSpot, getVisitorStats,
+} from "@/lib/data";
 
 export const metadata = { title: "The Board" };
+// The board is live state; it is never served from a static cache.
 export const dynamic = "force-dynamic";
 
+/**
+ * The classic board: TapMart's original live discovery screen, kept at
+ * /board. Header as status row, The Spot and Top 3 together, the Board
+ * cycling through rank windows, and the Bar along the bottom. Desktop and
+ * phone both fit the viewport with no tabs and no page scroll.
+ */
 export default async function BoardPage() {
-  const [user, board, bar, round, count] = await Promise.all([
-    getCurrentUser(), getBoard(200), getBar(), getCurrentRound(), getBoardCount(),
+  const [user, spot, nextSpot, board, boardCount, bar, audience] = await Promise.all([
+    getCurrentUser(),
+    getCurrentSpot(),
+    getNextSpot(),
+    getBoard(103),
+    getBoardCount(),
+    getBar(),
+    getVisitorStats(),
   ]);
 
+  const topThree = board.slice(0, 3);
+  const rest = board.slice(3);
+
   return (
-    <>
-      <Header user={user} />
-      <main id="main" className="with-docked-bar">
-        <section className="shell pt-10 pb-6 md:pt-14 md:pb-8">
-          <h1 className="font-display text-4xl leading-[0.92] font-800 tracking-[-0.045em] md:text-6xl">
-            The Board
-          </h1>
-          <dl className="mt-5 flex flex-wrap items-center gap-x-7 gap-y-2">
-            <div className="flex items-baseline gap-2">
-              <dt className="eyebrow">Live</dt>
-              <dd className="tnum font-mono text-sm font-600">{formatCount(count)}</dd>
-            </div>
-            {round && (
-              <div className="flex items-baseline gap-2">
-                <dt className="eyebrow">Resets in</dt>
-                <dd><RoundCountdown endsAt={round.ends_at} /></dd>
-              </div>
-            )}
-          </dl>
-          <p className="mt-5 max-w-xl text-sm text-ink-soft">
-            Ranked by credit added to the board today. Rank holds even as credit is spent —
-            it only moves when someone adds more.
-          </p>
-        </section>
-        <Board rows={board} startRank={1} heading="Rank" />
+    <div className="live-screen">
+      {/* The lock lands during HTML parsing, before first paint, so a
+          refresh never flashes the unlocked layout. LockViewport then
+          verifies the fit and keeps or releases it. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `document.documentElement.setAttribute("data-live-lock","")`,
+        }}
+      />
+      <Header
+        user={user}
+        stats={{
+          visitors: audience.allTime,
+          liveNow: audience.liveNow,
+          // Time stays off the board screen; the reset clock lives on the
+          // link pages instead.
+          roundEndsAt: null,
+        }}
+      />
+      <main id="main" className="flex min-h-0 flex-col">
+        <LiveMain
+          spot={<SpotPanel current={spot} next={nextSpot} />}
+          top={<TopRail rows={topThree} />}
+          board={
+            <>
+              <BoardWindow
+                rows={rest}
+                startRank={4}
+                totalCount={boardCount}
+                pageSize={4}
+                compact
+                className="md:hidden"
+              />
+              <BoardWindow
+                rows={rest}
+                startRank={4}
+                totalCount={boardCount}
+                className="hidden md:flex"
+              />
+            </>
+          }
+        />
       </main>
-      <Footer />
-      <Bar items={bar} />
-    </>
+      <Bar items={bar} docked={false} surprise={<SurpriseMe candidates={board} />} />
+      <LiveRefresh seconds={60} />
+      <LockViewport />
+    </div>
   );
 }
