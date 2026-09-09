@@ -69,7 +69,8 @@ export default async function MePage() {
           ? [{ href: "/business", title: "Business tools", sub: ctx.businesses[0].name }]
           : [{ href: "/business/new", title: "Add a business", sub: "Get marketing done" }]),
         { href: "/board", title: "The live board", sub: "TapMart's classic link board" },
-        { href: "/dashboard", title: "Board tools & credit", sub: "Your links, top-ups, receipts" },
+        { href: "/dashboard", title: "My board links", sub: "Manage links on the board" },
+        { href: "/earn", title: "Share links & earn", sub: "Earn per open on shared links" },
         ...(ctx.user.role === "admin"
           ? [{ href: "/admin", title: "Admin", sub: "Site controls" }]
           : []),
