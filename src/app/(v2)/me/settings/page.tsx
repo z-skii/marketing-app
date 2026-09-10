@@ -48,23 +48,23 @@ export default async function SettingsPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me" label="Profile" />
-      <h1 className="mt-4 font-display text-[1.375rem] font-600 tracking-[-0.02em] md:text-[1.5rem]">Settings</h1>
+      <h1 className="mt-3 font-display text-[23px] font-[800] tracking-[-0.8px]">Settings</h1>
       <section className="mt-6" aria-label="Use TapMart as">
-        <h2 className="eyebrow">Use TapMart as</h2>
-        <div className="mt-2">
+        <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">Use TapMart as</h2>
+        <div>
           <IdentitySwitcher identities={identities} canAddBusiness flat />
         </div>
       </section>
       {groups.map((group) => (
         <section key={group.title} className="mt-6">
-          <h2 className="eyebrow">{group.title}</h2>
-          <ul className="card mt-2.5 divide-y divide-rule px-4">
+          <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">{group.title}</h2>
+          <ul className="flex flex-col gap-[9px]">
             {group.rows.map((r) => (
               <li key={r.href}>
-                <Link href={r.href} className="flex min-h-[4.25rem] items-center justify-between gap-3 py-3">
+                <Link href={r.href} className="row flex items-center justify-between gap-3 px-[13px] py-3">
                   <span className="min-w-0">
-                    <span className="block truncate font-display text-[1rem] font-600">{r.title}</span>
-                    <span className="block truncate text-sm text-ink-soft">{r.sub}</span>
+                    <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{r.title}</span>
+                    <span className="mt-[3px] block truncate text-[12px] leading-[1.3] text-ink-soft">{r.sub}</span>
                   </span>
                   <span aria-hidden className="text-ink-faint"></span>
                 </Link>

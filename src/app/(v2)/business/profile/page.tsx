@@ -77,69 +77,63 @@ export default async function BusinessProfilePage() {
   const scheduledN = n(counts?.scheduled);
 
   return (
-    <main id="main" className="mx-auto w-full max-w-5xl px-4 pt-3 pb-6 md:px-8 md:py-8">
-      <div className="mx-auto max-w-xl rail:grid rail:max-w-4xl rail:grid-cols-[minmax(0,1fr)_20rem] rail:gap-x-6">
-        {/* ------------------------------------------------------ header */}
-        <div className="flex items-start justify-between gap-3 rail:col-span-2">
-          <div className="flex min-w-0 items-center gap-4">
-            <Avatar src={row?.logo_url ?? business.logo_url} name={business.name} size={88} />
-            <div className="min-w-0">
-              <h1 className="truncate font-display text-[1.625rem] leading-[1.15] font-700 tracking-[-0.02em]">
-                {business.name}
-                {row?.verification === "verified" && <CheckCircle size={20} weight="fill" className="ml-1.5 inline-block align-[-2px] text-signal" aria-label="Verified business" />}
-              </h1>
-              <p className="mt-0.5 truncate text-sm text-ink-soft">
-                {identityLine || "Business"}
-                {website && row?.website && (
-                  <>
-                    <span aria-hidden>  ·  </span>
-                    <a href={row.website.startsWith("http") ? row.website : `https://${row.website}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 align-baseline"><Globe size={13} aria-hidden />{website}</a>
-                  </>
-                )}
-              </p>
-              <div className="mt-3 flex gap-6">
-                <Figure value={String(activeN)} label={activeN === 1 ? "Campaign" : "Campaigns"} />
-                <Figure value={String(scheduledN)} label="Scheduled" />
-                <Figure value={String(n(counts?.delivered))} label="Content" />
-              </div>
+    <main id="main" className="mx-auto w-full max-w-5xl px-4 pt-[18px] pb-6 md:px-8 md:py-8">
+      <div className="mx-auto max-w-[398px] rail:grid rail:max-w-4xl rail:grid-cols-[minmax(0,1fr)_20rem] rail:gap-x-6">
+        {/* ------------------------------------------ profile head (blueprint .profile-head) */}
+        <div className="grid grid-cols-[92px_1fr] items-center gap-4 px-0.5 pt-0.5 pb-1.5 rail:col-span-2">
+          <Avatar src={row?.logo_url ?? business.logo_url} name={business.name} size={92} ring />
+          <div className="min-w-0">
+            <h1 className="flex items-center gap-2 truncate font-display text-[23px] leading-[1.15] font-[800] tracking-[-0.8px]">
+              <span className="truncate">{business.name}</span>
+              {row?.verification === "verified" && <CheckCircle size={16} weight="fill" className="shrink-0 text-signal" aria-label="Verified business" />}
+              <Link href="/business/settings" aria-label="Settings" className="ml-auto hidden h-9 w-9 shrink-0 items-center justify-center text-ink rail:flex"><Gear size={20} aria-hidden /></Link>
+            </h1>
+            <p className="mt-0.5 truncate text-[13px] text-ink-soft">
+              {identityLine || "Business"}
+              {website && row?.website && (
+                <>
+                  <span aria-hidden> · </span>
+                  <a href={row.website.startsWith("http") ? row.website : `https://${row.website}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 align-baseline"><Globe size={12} aria-hidden />{website}</a>
+                </>
+              )}
+            </p>
+            <div className="mt-[13px] grid max-w-[300px] grid-cols-3 gap-2">
+              <Figure value={String(activeN)} label={activeN === 1 ? "Campaign" : "Campaigns"} />
+              <Figure value={String(scheduledN)} label="Scheduled" />
+              <Figure value={String(n(counts?.delivered))} label="Content" />
             </div>
           </div>
-          <Link href="/business/settings" aria-label="Settings" className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink rail:flex">
-            <Gear size={22} aria-hidden />
-          </Link>
         </div>
 
-        {/* ------------------------------------------------- the brand */}
-        <section className="row mt-6 overflow-hidden rail:col-start-1 rail:row-start-2" aria-label="Your brand">
-          <Link href="/business/brand" className="flex items-center gap-3 px-4 pt-3.5">
-            <span className="min-w-0 flex-1">
-              <span className="block truncate font-display text-[1rem] leading-[1.3] font-600 tracking-[-0.01em]">Your brand</span>
-              <span className="mt-0.5 flex items-center gap-2 text-sm text-ink-soft">
-                {brandStatus === "Approved" && <span aria-hidden className="status-dot" />}
-                {brandStatus ? `Brand kit ${brandStatus.toLowerCase()}` : "Brand kit not built yet"}
-              </span>
+        {/* ------------------------------------------ the brand (blueprint .vehicle-card) */}
+        <section className="vehicle-card mt-4 rail:col-start-1 rail:row-start-2" aria-label="Your brand">
+          <Link href="/business/brand" className="flex items-center justify-between gap-3 px-[14px] pt-[13px] pb-[5px]">
+            <span className="min-w-0">
+              <span className="block truncate font-display text-[14px] font-[750]">Your brand</span>
+              {brandStatus === "Approved"
+                ? <span className="status-text mt-0.5"><span aria-hidden className="status-dot" />Brand kit approved</span>
+                : <span className="mt-0.5 block text-[10px] text-ink-soft">{brandStatus ? `Brand kit: ${brandStatus.toLowerCase()}` : "Brand kit not built yet"}</span>}
             </span>
-            <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
+            <CaretRight size={22} className="shrink-0 text-ink-faint" aria-hidden />
           </Link>
-          <div className="px-2 pt-2 pb-2">
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[12px] bg-surface-2">
-              {cover ? (
-                <MediaPreview src={cover} className="absolute inset-0 h-full w-full object-cover" priority sizes="(min-width: 768px) 36rem, 100vw" />
-              ) : (
-                <Link href="/business/edit" className="flex h-full w-full flex-col items-center justify-center gap-2 text-sm text-ink-soft">
-                  <Camera size={28} weight="duotone" aria-hidden />
-                  Add a cover photo
-                </Link>
-              )}
-            </div>
+          <div className="car-stage">
+            {cover ? (
+              <MediaPreview src={cover} className="absolute inset-0 h-full w-full object-cover" priority sizes="(min-width: 768px) 36rem, 100vw" />
+            ) : (
+              <Link href="/business/edit" className="flex h-full w-full flex-col items-center justify-center gap-2 text-[12px] text-ink-soft">
+                <Camera size={26} weight="duotone" aria-hidden />
+                Add a cover photo
+              </Link>
+            )}
           </div>
         </section>
 
+        <h2 className="eyebrow mx-0.5 mt-6 mb-2.5 rail:col-span-2">Your business</h2>
         {/* --------------------------------------------------------- rows */}
-        <ul className="mt-2.5 flex flex-col gap-2.5 rail:col-start-1" aria-label="Business setup">
+        <ul className="flex flex-col gap-[9px] rail:col-start-1" aria-label="Business setup">
           <li>
             <SurfaceRow
-              href="/business/settings/connections" icon={<InstagramLogo size={22} aria-hidden />} iconTone="instagram"
+              href="/business/settings/connections" icon={<InstagramLogo size={22} aria-hidden />}
               title="Instagram"
               sub={igOn ? (ig?.external_name ? `@${ig.external_name.replace(/^@/, "")}` : "Connected account") : ig?.status === "error" ? "Needs attention" : "For Story campaigns"}
               status={igOn ? "Connected" : undefined} statusTone="signal"
@@ -156,10 +150,10 @@ export default async function BusinessProfilePage() {
             </li>
           )}
         </ul>
-        <ul className="mt-2.5 flex flex-col gap-2.5 rail:col-start-2 rail:row-start-2 rail:mt-6" aria-label="Right now">
+        <ul className="mt-[9px] flex flex-col gap-[9px] rail:col-start-2 rail:row-start-2 rail:mt-6" aria-label="Right now">
           <li>
             <SurfaceRow
-              href="/business/campaigns" icon={<Megaphone size={22} aria-hidden />} iconTone="warn"
+              href="/business/campaigns" icon={<Megaphone size={22} aria-hidden />}
               title="Campaigns"
               sub={activeN > 0 ? `${activeN} running` : "Nothing running yet"}
               status={activeN > 0 ? "Live" : undefined} statusTone="signal"
@@ -195,8 +189,8 @@ export default async function BusinessProfilePage() {
 function Figure({ value, label }: { value: string; label: string }) {
   return (
     <div className="min-w-0">
-      <p className="tnum font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em]">{value}</p>
-      <p className="mt-1 text-sm text-ink-soft">{label}</p>
+      <p className="tnum truncate font-display text-[18px] leading-none font-[780]">{value}</p>
+      <p className="mt-0.5 text-[10px] text-ink-soft">{label}</p>
     </div>
   );
 }

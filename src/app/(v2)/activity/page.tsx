@@ -32,6 +32,8 @@ const KIND_ROW_LABEL: Record<EarnKind, string> = {
   car_ads: "Car campaign",
 };
 
+const SECTION: Record<Tab, string> = { active: "In progress", submitted: "Waiting on a business", completed: "Completed", saved: "Saved" };
+
 const EMPTY: Record<Tab, { title: string; body: string; action: string }> = {
   active: { title: "Nothing in progress", body: "Take something on Home and it shows up here while you work on it.", action: "Find something to do" },
   submitted: { title: "Nothing waiting for approval", body: "Versions and proofs you send sit here until a business approves them.", action: "See what pays" },
@@ -57,7 +59,7 @@ export default async function ActivityPage({
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <ScreenHeader bell={false} title="Activity" showSearch={false} unread={ctx.unreadNotifications} />
 
-      <nav className="pill-row mt-4" aria-label="Activity tabs">
+      <nav className="pill-row mt-[14px]" aria-label="Activity tabs">
         {TABS.map((t) => (
           <Link
             key={t.key}
@@ -71,16 +73,17 @@ export default async function ActivityPage({
       </nav>
 
       {tab === "saved" ? (
-        <div className="mt-4 flex flex-col gap-4">
+        <div className="mt-6 flex flex-col gap-[14px]">
           {saved.map((card, i) => <EarnCard key={card.id} card={card} priority={i === 0} />)}
           {saved.length === 0 && <Empty tab={tab} />}
         </div>
       ) : (
-        <div className="mt-4">
+        <div>
+          <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">{SECTION[tab]}</h2>
           {rows.length === 0 ? (
             <Empty tab={tab} />
           ) : (
-            <ul className="flex flex-col gap-2.5">
+            <ul className="flex flex-col gap-[9px]">
               {rows.map((it, i) => <ActivityRow key={`${it.record}-${it.id}`} item={it} index={i} />)}
             </ul>
           )}
@@ -96,27 +99,26 @@ function Empty({ tab }: { tab: Tab }) {
 }
 
 function ActivityRow({ item, index = 0 }: { item: ActivityItem; index?: number }) {
-  const { label, sub } = activityLabel(item);
+  const { label } = activityLabel(item);
   const hot = item.record === "invite" && item.status === "sent";
   return (
     <li className="reveal" style={{ animationDelay: `${Math.min(index, 8) * 50}ms` }}>
-      <Link href={`/o/${item.campaign_id}`} className="row flex min-h-[4.5rem] items-center gap-3.5 px-3.5 py-3">
+      <Link href={`/o/${item.campaign_id}`} className="row flex items-center gap-3 px-[13px] py-3">
         {item.cover ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.cover} alt="" className="h-12 w-12 shrink-0 rounded-[12px] object-cover" loading="lazy" />
+          <img src={item.cover} alt="" className="h-[54px] w-[54px] shrink-0 rounded-[13px] bg-[#202729] object-cover" loading="lazy" />
         ) : (
-          <Avatar src={item.business_logo} name={item.business_name} size={48} />
+          <Avatar src={item.business_logo} name={item.business_name} size={54} />
         )}
         <span className="min-w-0 flex-1">
-          <span className="block truncate font-display text-[1rem] leading-[1.3] font-600 tracking-[-0.01em]">{KIND_ROW_LABEL[item.kind]}</span>
-          <span className="mt-0.5 block truncate text-sm text-ink-soft">{item.business_name}</span>
-          <span className="mt-0.5 flex items-center gap-2 text-sm text-ink-soft">
+          <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{KIND_ROW_LABEL[item.kind]}</span>
+          <span className="mt-[3px] flex items-center gap-1.5 truncate text-[12px] leading-[1.3] text-ink-soft">
             {hot && <span aria-hidden className="status-dot" />}
-            <span className="truncate">{label}</span>
+            <span className="truncate">{item.business_name} · {label}</span>
           </span>
         </span>
-        <Money cents={item.pay_cents} size="md" suffix={item.kind === "car_ads" ? "/mo" : undefined} />
-        <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
+        <Money cents={item.pay_cents} size="sm" suffix={item.kind === "car_ads" ? "/mo" : undefined} />
+        <CaretRight size={22} className="shrink-0 text-ink-faint" aria-hidden />
       </Link>
     </li>
   );

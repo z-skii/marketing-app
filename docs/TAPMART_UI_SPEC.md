@@ -1,82 +1,85 @@
 # TapMart UI specification
 
-Reverse engineered from `docs/design-references/tapmart-primary-reference.png`
-(the phone screens are drawn at about 388 px wide, so the image pixels map
-roughly one to one onto CSS pixels). These values are the single source of
-truth and live in `src/app/globals.css` (`@theme` tokens and the primitive
-classes) and `src/components/v2/ui.tsx`. Content changes by screen; this
+The visual source of truth is the coded blueprint
+`docs/design-references/tapmart_exact_ui_blueprint.html`. Its `:root`
+variables and component rules are ported verbatim into `--tm-*` custom
+properties in `src/app/globals.css`; the Tailwind theme only maps utility
+names onto them, and the shared primitives in `src/components/v2/ui.tsx`
+(`Money`, `Avatar`, `SurfaceRow`, `ScreenHeader`, `Chip`) plus the classes
+`.card`, `.row`, `.vehicle-card`, `.car-stage`, `.rotate-hint`, `.btn`,
+`.btn-signal`, `.pill`, `.glass-tag`, `.eyebrow`, `.tm-bottomnav`,
+`.iconbtn`, `.status-text`, `.status-dot`, `.media-scrim`, `.hero-media`
+carry the composition. The saved PNG is the second reference and
+`docs/TAPMART_PRODUCT_BRAIN.md` the third. Content changes by screen; the
 system does not.
 
-## Colour
+## Colour (blueprint :root)
 
-| Token | Value | Sampled from |
+| Token | Value | Blueprint name |
 | --- | --- | --- |
-| Background (`paper`) | `#12161a` | the canvas behind the rows |
-| Chrome (`paper-deep`) | `#0f1418` | the bottom bar |
-| Surface 1 (`surface`) | `#1b2124` | rows, cards, the 3D model card |
-| Surface 2 (`surface-2`) | `#23282c` | raised controls, secondary buttons |
-| Surface 3 (`surface-3`) | `#2b3135` | icon squares, tags |
-| Primary text (`ink`) | `#f2f4f5` | the name, row titles |
-| Secondary text (`ink-soft`) | `#a6adb3` | "Creator · Car Enthusiast", row subtitles |
-| Muted text (`ink-faint`) | `#7f878e` | stat labels, captions, chevrons |
-| Signal lime (`signal`) | `#c4f25a` | the button, the dots, the active tab |
-| Lime tint | lime at 16% over surface | the "Ready for Ads" pill |
-| Border (`rule`) | `#262c30`, used as a hairline only | separators |
-| Top edge light | `rgba(255,255,255,0.045)` inset | the light along the top of every row |
-| Success (`rise`) | `#7fd48f` (text), lime dot for status | the green wallet square |
-| Warning (`warn`) | `#f2c45c` | the rating star, the megaphone |
-| Error (`alert`) | `#ff7a70` | not in the reference; kept for errors |
+| `--tm-bg` | `#090c0e` (body: radial lime glow at the top over `#0a0d0f` to `#080b0d`) | `--bg` |
+| `--tm-bg2` | `#0d1113` | `--bg2` |
+| `--tm-surface` | `#121719` | `--surface` |
+| `--tm-surface2` | `#171d20` | `--surface2` |
+| `--tm-surface3` | `#1b2225` | `--surface3` |
+| `--tm-line` | `rgba(255,255,255,.08)` | `--line` |
+| `--tm-line2` | `rgba(255,255,255,.12)` | `--line2` |
+| `--tm-text` | `#f5f7f2` | `--text` |
+| `--tm-muted` | `#9ca4a7` | `--muted` |
+| `--tm-muted2` | `#6f787c` | `--muted2` |
+| `--tm-meta` | `#c3c9c6` | `.meta` |
+| `--tm-lime` | `#c9ff38` | `--lime` |
+| `--tm-success` | `#9ded62` | `--success` |
+| `--tm-nav-inactive` | `#8f989c` | `.bottomnav button` |
 
 ## Radius
 
 | Element | Radius |
 | --- | --- |
-| Rows | 16px |
-| Cards | 18px |
-| Buttons | 14px (small buttons and inputs 12px) |
-| Icon squares | 12px |
-| Pills, tags, status chips | full |
-| Sheets | 22px |
+| Hero cards (`.card`) | 20px |
+| Vehicle card | 18px |
+| Rows (`.row`) | 16px |
+| Primary button | 16px |
+| Icon buttons, inputs | 12px |
+| Row thumbnails | 13px |
+| Floating bottom nav | 22px |
+| Chips, pills, status | full |
 
-## Sizes and spacing
+## Dimensions and spacing
 
 | Measure | Value |
 | --- | --- |
-| Top bar | 52px, wordmark centred, 24px icons |
-| Bottom bar | 64px plus the safe area, 24px icons, 12px labels |
-| Mobile horizontal padding | 16px |
-| Section gap | 24 to 28px |
-| Row | 72px tall, 16px horizontal padding, 44px icon square, 14px gap |
-| Gap between rows | 10px |
-| Card internal padding | 16px |
-| Vehicle card on the profile | about 150px tall, text top left, car right, caption bottom centre |
-| Primary button | 48px tall (54px for the one large CTA at the bottom of a screen) |
-| Icons | 24px in chrome, 22px in rows, Phosphor regular; fill only for the active tab |
-| Chevron | 18px, muted |
-| Status dot | 8px lime |
-| Avatar on a profile | 96px |
+| Top bar (`.phone-top`) | 58px, padding 0 18px, 1px bottom hairline at 4% |
+| Bottom nav (`.bottomnav`) | floating, 10px inset, 68px tall, 22px radius, blur 22px, `rgba(20,26,28,.82)`, 9% hairline |
+| Content padding | 18px 16px 96px |
+| Section title | 12px, uppercase, 0.16em, muted, margin 24px 2px 10px |
+| Hero card media | 260px (small variant 215px), filter saturate .92 contrast 1.02 brightness .9 |
+| Hero copy inset | 16px sides, 15px bottom |
+| Row | padding 12px 13px, gap 12px, 9px between rows, 54px thumb |
+| Primary button | 52px, lime gradient `#d6ff59` to `#bfff2c`, weight 800, glow `0 10px 28px rgba(201,255,56,.16)` |
+| Icon button | 38px, 12px radius, hairline, 3.5% white fill |
+| Profile head | 92px avatar with a 2px lime ring at 45%, grid 92px 1fr, gap 16px |
+| Vehicle stage | 160px |
+| Chip | padding 8px 12px, 12px text; active solid lime with `#0b0f10` text, weight 750 |
 
-## Typography (Inter)
+## Typography (Inter, variable weights)
 
 | Role | Size / weight |
 | --- | --- |
-| Name on a profile | 26px / 700 |
-| Screen title | 22 to 24px / 600 |
-| Stat value, money on a row | 20px / 600 |
-| Row title, section label | 17px / 600 |
-| Body, identity line, status text | 15px / 400 |
-| Metadata, stat label | 14px / 400 secondary |
-| Caption, tab label | 12px / 500 |
-| Money hero on Earnings | 40px / 600 lime |
-
-No uppercase labels, no mono labels, no display headings above 26px inside the app.
+| Brand (desktop rail) | 24px / 800, -1px |
+| Phone title | 16px / 750, -0.4px |
+| Profile name, screen title | 23px / 800, -0.8px |
+| Hero card title | 20px / 760, -0.6px |
+| Hero money | 27px / 850, -1.2px, lime |
+| Earnings balance | 46px / 850, -2px |
+| Stat value | 18px / 780; label 10px muted |
+| Row title | 14px / 700; row sub 12px muted; row money 17px / 800 lime |
+| Meta on media | 13px `#c3c9c6` |
+| Status | 10px success with a 6px glowing dot |
+| Nav label | 10px |
+| Type pill | 10px uppercase 0.11em |
 
 ## Lime
 
-Primary CTA, active navigation, important money, ready or connected status
-dots, the T of the wordmark, the verified check. Nothing else.
-
-## Motion
-
-Rows and cards rise in once (6px, 420ms). Buttons press to 0.99. Hover lift
-only on pointer devices. Videos preview muted. Nothing loops.
+The primary button, the active chip, the active tab, money, the verified
+mark, the brand dot. Status uses `--tm-success`, not lime.

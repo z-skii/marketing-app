@@ -8,22 +8,23 @@ import { formatCredit } from "@/lib/money";
  * doing the colour work. Nothing here draws an outline.
  */
 
+/* Blueprint sizes: row money 17px/800, stat 18px/780, hero money 27px/850, balance 46px/850. */
 const MONEY_SIZE = {
-  sm: "text-base",
-  md: "text-xl",
-  lg: "text-[1.5rem] leading-none",
-  xl: "text-[1.5rem] leading-none",
-  hero: "text-[1.5rem] leading-none",
+  sm: "text-[17px] font-[800] leading-none tracking-[-0.02em]",
+  md: "text-[18px] font-[780] leading-none tracking-[-0.02em]",
+  lg: "text-[27px] font-[850] leading-none tracking-[-1.2px]",
+  xl: "text-[34px] font-[850] leading-none tracking-[-1.5px]",
+  hero: "text-[46px] font-[850] leading-none tracking-[-2px]",
 } as const;
 
 export function Money({
   cents, suffix, size = "md", tone = "signal",
 }: { cents: number; suffix?: string; size?: keyof typeof MONEY_SIZE; tone?: "signal" | "ink" }) {
   return (
-    <span className={`tnum font-display font-600 tracking-[-0.02em] whitespace-nowrap ${MONEY_SIZE[size]} ${tone === "signal" ? "text-signal" : "text-ink"}`}>
+    <span className={`tnum font-display whitespace-nowrap ${MONEY_SIZE[size]} ${tone === "signal" ? "text-signal" : "text-ink"}`}>
       {formatCredit(cents)}
       {suffix && (
-        <span className={`ml-1 font-display font-500 tracking-normal text-ink-soft ${size === "hero" || size === "xl" ? "text-base" : size === "lg" ? "text-sm" : "text-[0.7em]"}`}>
+        <span className={`font-display font-[800] tracking-normal ${size === "hero" || size === "xl" ? "text-[0.5em]" : "text-[0.75em]"}`}>
           {suffix}
         </span>
       )}
@@ -60,15 +61,16 @@ export function StatusChip({ status }: { status: string }) {
 }
 
 export function Avatar({
-  src, name, size = 40,
-}: { src?: string | null; name: string; size?: number }) {
+  src, name, size = 40, ring = false,
+}: { src?: string | null; name: string; size?: number; ring?: boolean }) {
   const initial = (name.trim()[0] ?? "?").toUpperCase();
+  const ringCls = ring ? "avatar-ring" : "ring-1 ring-white/10";
   if (src) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={src} alt={name} width={size} height={size}
-        className="shrink-0 rounded-full object-cover ring-1 ring-white/10"
+        className={`shrink-0 rounded-full object-cover ${ringCls}`}
         style={{ width: size, height: size }}
       />
     );
@@ -76,8 +78,8 @@ export function Avatar({
   return (
     <span
       aria-hidden
-      className="flex shrink-0 items-center justify-center rounded-full bg-surface-3 font-display font-600 text-ink ring-1 ring-white/10"
-      style={{ width: size, height: size, fontSize: size * 0.42 }}
+      className={`flex shrink-0 items-center justify-center rounded-full bg-surface-3 font-display font-600 text-ink ${ringCls}`}
+      style={{ width: size, height: size, fontSize: size * 0.36 }}
     >
       {initial}
     </span>
@@ -122,9 +124,9 @@ export function SectionTitle({
 }: { children: React.ReactNode; count?: number; action?: { href: string; label: string } }) {
   return (
     <div className="flex items-baseline justify-between gap-3">
-      <h2 className="font-display text-[1.0625rem] font-600 tracking-[-0.01em]">
+      <h2 className="eyebrow">
         {children}
-        {count !== undefined && <span className="tnum ml-2 font-500 text-ink-faint">{count}</span>}
+        {count !== undefined && <span className="tnum ml-2 text-ink-faint">{count}</span>}
       </h2>
       {action && (
         <Link href={action.href} className="link-row text-sm">
@@ -152,10 +154,10 @@ export function Stat({
 }: { label: string; value: React.ReactNode; sub?: string; tone?: "ink" | "signal" }) {
   return (
     <div className="min-w-0">
-      <p className={`tnum truncate font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em] ${tone === "signal" ? "text-signal" : "text-ink"}`}>
+      <p className={`tnum truncate font-display text-[18px] leading-none font-[780] ${tone === "signal" ? "text-signal" : "text-ink"}`}>
         {value}
       </p>
-      <p className="mt-1 text-sm text-ink-soft">{label}</p>
+      <p className="mt-0.5 text-[10px] text-ink-soft">{label}</p>
       {sub && <p className="text-xs text-ink-faint">{sub}</p>}
     </div>
   );
@@ -172,17 +174,17 @@ export function ScreenHeader({
   return (
     <header className="flex items-center gap-3">
       <div className="min-w-0 flex-1">
-        {kicker && <p className="text-sm text-ink-faint">{kicker}</p>}
-        <h1 className={`${wrap ? "leading-[1.05]" : "truncate"} font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]`}>{title}</h1>
+        {kicker && <p className="eyebrow mb-1">{kicker}</p>}
+        <h1 className={`${wrap ? "leading-[1.15]" : "truncate"} font-display text-[23px] font-[800] tracking-[-0.8px]`}>{title}</h1>
       </div>
       {right}
       {showSearch && (
-        <Link href="/search" aria-label="Search" className="flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-ink">
-          <MagnifyingGlass size={22} aria-hidden />
+        <Link href="/search" aria-label="Search" className="iconbtn">
+          <MagnifyingGlass size={18} aria-hidden />
         </Link>
       )}
-      {bell && <Link href="/alerts" aria-label={unread > 0 ? `${unread} unread notifications` : "Notifications"} className="relative flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-ink rail:hidden">
-        <Bell size={22} aria-hidden />
+      {bell && <Link href="/alerts" aria-label={unread > 0 ? `${unread} unread notifications` : "Notifications"} className="iconbtn rail:hidden">
+        <Bell size={18} aria-hidden />
         {unread > 0 && <span aria-hidden className="absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full bg-signal" />}
       </Link>}
     </header>
@@ -190,37 +192,33 @@ export function ScreenHeader({
 }
 
 /**
- * A row on its own surface, exactly as the reference draws it: a 44px icon
- * square, a 17px semibold title, one 14px muted line, an optional quiet
- * status at the right (8px lime dot only when it matters) and a chevron.
- * 72px tall. Stack them with gap-2.5.
+ * A row, verbatim from the blueprint's .row-card: a plain glyph, a 14px
+ * bold title, a 12px muted line, an optional 10px success status with a
+ * glowing dot, a muted chevron. Stack with 9px gaps.
  */
 export function SurfaceRow({
-  href, icon, title, sub, status, statusTone = "faint", external = false, iconTone = "neutral", trailing,
+  href, icon, title, sub, status, statusTone = "faint", external = false, trailing,
 }: {
   href: string; icon: React.ReactNode; title: React.ReactNode; sub?: React.ReactNode;
-  status?: React.ReactNode; statusTone?: "signal" | "faint"; external?: boolean;
-  iconTone?: "neutral" | "success" | "warn" | "signal" | "instagram"; trailing?: React.ReactNode;
+  status?: React.ReactNode; statusTone?: "signal" | "faint"; external?: boolean; trailing?: React.ReactNode;
 }) {
-  const square = `icon-square${iconTone === "neutral" ? "" : ` icon-square-${iconTone}`}`;
   const inner = (
     <>
-      <span className={square}>{icon}</span>
+      <span className="icon-square">{icon}</span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate font-display text-[1rem] leading-[1.3] font-600 tracking-[-0.01em]">{title}</span>
-        {sub && <span className="mt-0.5 block truncate text-sm text-ink-soft">{sub}</span>}
+        <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{title}</span>
+        {sub && <span className="mt-[3px] block truncate text-[12px] leading-[1.3] text-ink-soft">{sub}</span>}
       </span>
       {status && (
-        <span className="flex shrink-0 items-center gap-1.5 text-[0.8125rem] text-ink-soft">
-          {statusTone === "signal" && <span aria-hidden className="status-dot" />}
-          {status}
-        </span>
+        statusTone === "signal"
+          ? <span className="status-text"><span aria-hidden className="status-dot" />{status}</span>
+          : <span className="shrink-0 text-[10px] text-ink-soft">{status}</span>
       )}
       {trailing}
       <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
     </>
   );
-  const cls = "row flex min-h-[4.5rem] items-center gap-3 px-3.5 py-3";
+  const cls = "row flex min-h-[64px] items-center gap-3 px-[13px] py-3";
   return external
     ? <a href={href} target="_blank" rel="noreferrer" className={cls}>{inner}</a>
     : <Link href={href} className={cls}>{inner}</Link>;

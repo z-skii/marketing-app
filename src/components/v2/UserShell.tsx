@@ -72,8 +72,8 @@ export function UserShell(props: ShellProps) {
     <div className="app-root min-h-dvh bg-paper rail:grid rail:grid-cols-[14rem_minmax(0,1fr)]">
       {/* Rail: only where there is width and height for it */}
       <aside className="sticky top-0 hidden h-dvh flex-col overflow-y-auto bg-paper-deep px-3 py-6 rail:flex">
-        <Link href={homeHref} className="flex min-h-11 items-center px-3 font-display text-[1.375rem] font-700 tracking-[-0.03em]" aria-label="TapMart home">
-          <span className="text-signal">T</span>apmart
+        <Link href={homeHref} className="flex min-h-11 items-center px-3 font-display text-[24px] font-[800] tracking-[-1px]" aria-label="TapMart home">
+          Tapmart<span className="text-signal">.</span>
         </Link>
         <nav className="mt-6 flex flex-col gap-0.5" aria-label="Main">
           {nav.map(railLink)}
@@ -94,14 +94,12 @@ export function UserShell(props: ShellProps) {
 
       <div className="min-w-0">
         {/* Phone top chrome: the wordmark, messages, notifications, settings. Pages carry no bells of their own. */}
-        <header className="glass sticky top-0 z-30 grid h-[52px] grid-cols-[1fr_auto_1fr] items-center px-2 rail:hidden">
-          <span className="flex">
-            <TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={props.unreadMessages} />
-          </span>
-          <Link href={homeHref} className="font-display text-[1.375rem] font-700 tracking-[-0.03em]" aria-label="TapMart home">
-            <span className="text-signal">T</span>apmart
+        <header className="glass sticky top-0 z-30 flex h-[58px] items-center justify-between border-b px-[18px] rail:hidden">
+          <Link href={homeHref} className="font-display text-[16px] font-[750] tracking-[-0.4px]" aria-label="TapMart home">
+            Tapmart<span className="text-signal">.</span>
           </Link>
-          <span className="flex justify-end">
+          <span className="-mr-2 flex items-center">
+            <TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={props.unreadMessages} />
             <TopIcon href="/alerts" label="Notifications" icon={Bell} badge={props.unreadNotifications} />
             <TopIcon href="/me/settings" label="Settings" icon={Gear} badge={0} />
           </span>
@@ -111,10 +109,7 @@ export function UserShell(props: ShellProps) {
       </div>
 
       {/* Bottom bar: navigation only, one destination per tab */}
-      <nav
-        aria-label="Main"
-        className="glass fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t pb-[env(safe-area-inset-bottom)] rail:hidden"
-      >
+      <nav aria-label="Main" className="tm-bottomnav grid-cols-4 rail:hidden">
         {nav.map((item) => <MobileTab key={item.href} item={item} active={active(item)} />)}
       </nav>
     </div>
@@ -146,18 +141,17 @@ function MobileTab({ item, active }: { item: NavItem; active: boolean }) {
     <Link
       href={item.href}
       aria-current={active ? "page" : undefined}
-      className={`relative flex h-16 flex-col items-center justify-center gap-1 transition-colors ${active ? "text-signal" : "text-ink-soft"}`}
     >
-      <item.icon size={24} weight={active ? (item.noFill ? "bold" : "fill") : "regular"} aria-hidden />
-      <span className="font-display text-xs font-500">{item.label}</span>
+      <item.icon size={20} weight={active ? (item.noFill ? "bold" : "fill") : "regular"} aria-hidden />
+      <span>{item.label}</span>
     </Link>
   );
 }
 
 function TopIcon({ href, label, icon: IconC, badge }: { href: string; label: string; icon: Icon; badge: number }) {
   return (
-    <Link href={href} aria-label={badge > 0 ? `${badge} unread ${label.toLowerCase()}` : label} className="relative flex h-11 w-11 items-center justify-center rounded-full text-ink">
-      <IconC size={22} aria-hidden />
+    <Link href={href} aria-label={badge > 0 ? `${badge} unread ${label.toLowerCase()}` : label} className="relative flex h-11 w-11 items-center justify-center text-ink">
+      <IconC size={20} aria-hidden />
       {badge > 0 && <span aria-hidden className="absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full bg-signal" />}
     </Link>
   );

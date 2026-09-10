@@ -7,7 +7,6 @@ import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
   display: "swap",
 });
@@ -26,8 +25,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#12161a" },
-    { media: "(prefers-color-scheme: dark)", color: "#12161a" },
+    { media: "(prefers-color-scheme: light)", color: "#090c0e" },
+    { media: "(prefers-color-scheme: dark)", color: "#090c0e" },
   ],
 };
 

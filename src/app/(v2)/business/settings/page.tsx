@@ -76,41 +76,41 @@ export default async function BusinessSettingsPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/profile" />
-      <h1 className="mt-3 font-display text-[1.375rem] font-600 tracking-[-0.02em] md:text-[1.5rem]">Settings</h1>
-      <p className="mt-1 text-sm text-ink-soft">{business.name}</p>
+      <h1 className="mt-3 font-display text-[23px] font-[800] tracking-[-0.8px]">Settings</h1>
+      <p className="mt-0.5 text-[13px] text-ink-soft">{business.name}</p>
 
       {groups.map((g) => (
         <section key={g.title} className="mt-7" aria-label={g.title}>
-          <h2 className="eyebrow">{g.title}</h2>
-          <ul className="card mt-2.5 divide-y divide-rule px-4">
+          <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">{g.title}</h2>
+          <ul className="flex flex-col gap-[9px]">
             {g.rows.map((r) => (
               <li key={r.title}>
                 {r.href ? (
                   r.external ? (
-                    <a href={r.href} target="_blank" rel="noreferrer" className="flex min-h-[4.25rem] items-center gap-3 py-3">
+                    <a href={r.href} target="_blank" rel="noreferrer" className="row flex items-center gap-3 px-[13px] py-3">
                       <span className="icon-square">{r.icon}</span>
                       <span className="min-w-0 flex-1">
-                        <span className="block font-display text-[1rem] font-600">{r.title}</span>
-                        <span className="block truncate text-sm text-ink-soft">{r.sub}</span>
+                        <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{r.title}</span>
+                        <span className="mt-[3px] block truncate text-[12px] leading-[1.3] text-ink-soft">{r.sub}</span>
                       </span>
                       <ArrowSquareOut size={18} className="shrink-0 text-ink-faint" aria-hidden />
                     </a>
                   ) : (
-                    <Link href={r.href} className="flex min-h-[4.25rem] items-center gap-3 py-3">
+                    <Link href={r.href} className="row flex items-center gap-3 px-[13px] py-3">
                       <span className="icon-square">{r.icon}</span>
                       <span className="min-w-0 flex-1">
-                        <span className="block font-display text-[1rem] font-600">{r.title}</span>
-                        <span className={`block truncate text-sm ${r.tone === "alert" ? "alert-text" : "text-ink-soft"}`}>{r.sub}</span>
+                        <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{r.title}</span>
+                        <span className={`mt-[3px] block truncate text-[12px] leading-[1.3] ${r.tone === "alert" ? "alert-text" : "text-ink-soft"}`}>{r.sub}</span>
                       </span>
                       <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
                     </Link>
                   )
                 ) : (
-                  <span className="flex min-h-[4.25rem] items-center gap-3 py-3 text-ink-faint">
+                  <span className="row flex items-center gap-3 px-[13px] py-3 text-ink-faint">
                     <span className="icon-square text-ink-faint">{r.icon}</span>
                     <span className="min-w-0 flex-1">
-                      <span className="block font-display text-[1rem] font-600">{r.title}</span>
-                      <span className="block truncate text-sm">{r.sub}</span>
+                      <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{r.title}</span>
+                      <span className="mt-[3px] block truncate text-[12px] leading-[1.3]">{r.sub}</span>
                     </span>
                   </span>
                 )}
@@ -122,8 +122,8 @@ export default async function BusinessSettingsPage() {
       ))}
 
       <section className="mt-8" aria-label="Switch profile">
-        <h2 className="eyebrow">Use TapMart as</h2>
-        <div className="mt-2">
+        <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">Use TapMart as</h2>
+        <div>
           <IdentitySwitcher identities={identities} canAddBusiness flat />
         </div>
       </section>

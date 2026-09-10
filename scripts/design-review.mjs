@@ -30,6 +30,7 @@ import { basename, extname, join, resolve } from "node:path";
 
 const HERE = resolve(new URL(".", import.meta.url).pathname, "..");
 const BRAIN_PATH = join(HERE, "docs", "TAPMART_PRODUCT_BRAIN.md");
+const BLUEPRINT_PATH = join(HERE, "docs", "design-references", "tapmart_exact_ui_blueprint.html");
 const REFERENCE_PATH = join(HERE, "docs", "design-references", "tapmart-primary-reference.png");
 // The Responses API in background mode: submit, then poll. A long reasoning
 // pass keeps the HTTP connection silent for a minute or more, which proxies
@@ -46,7 +47,7 @@ function usage(message) {
 }
 
 function parseArgs(argv) {
-  const opts = { model: process.env.OPENAI_REVIEW_MODEL || "gpt-5.5", out: join(HERE, "design-reviews"), effort: "medium", dryRun: false, reference: REFERENCE_PATH, useReference: true };
+  const opts = { model: process.env.OPENAI_REVIEW_MODEL || "gpt-5.5", out: join(HERE, "design-reviews"), effort: "medium", dryRun: false, reference: REFERENCE_PATH, useReference: true, blueprint: null };
   const positional = [];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -55,6 +56,7 @@ function parseArgs(argv) {
     else if (a === "--effort") opts.effort = argv[++i];
     else if (a === "--dry-run") opts.dryRun = true;
     else if (a === "--reference") opts.reference = resolve(argv[++i]);
+    else if (a === "--blueprint") opts.blueprint = resolve(argv[++i]);
     else if (a === "--no-reference") opts.useReference = false;
     else if (a === "--help" || a === "-h") usage();
     else positional.push(a);
@@ -88,24 +90,26 @@ const SCHEMA = {
       generic_ai_look: { type: "integer", minimum: 1, maximum: 10, description: "10 = looks like a template or AI dashboard." },
       reference_match: { type: "integer", minimum: 1, maximum: 10, description: "10 = same visual confidence, hierarchy, polish and restraint as the reference image. Null-equivalent 1 when no reference was given." },
       premium_feel: { type: "integer", minimum: 1, maximum: 10, description: "10 = feels like a real high-end consumer product." },
-      same_kit: { type: "boolean", description: "True only if the current screen clearly looks built from the same UI kit as the reference." },
+      same_kit: { type: "boolean", description: "True only if the current screen clearly looks built with the same CSS and design system as the blueprint." },
       kit: {
         type: "object",
         additionalProperties: false,
-        description: "Same UI kit as the reference? 0 = a different visual system, 10 = indistinguishable kit.",
+        description: "Design drift from the blueprint, 0 = a different visual system, 10 = the blueprint's CSS.",
         properties: {
           typography: { $ref: "#/$defs/kit" },
-          surfaces_material: { $ref: "#/$defs/kit" },
+          colors: { $ref: "#/$defs/kit" },
+          surfaces: { $ref: "#/$defs/kit" },
           spacing: { $ref: "#/$defs/kit" },
+          radii: { $ref: "#/$defs/kit" },
           navigation: { $ref: "#/$defs/kit" },
           buttons: { $ref: "#/$defs/kit" },
-          cards_rows: { $ref: "#/$defs/kit" },
-          accent_color: { $ref: "#/$defs/kit" },
-          media_treatment: { $ref: "#/$defs/kit" },
-          visual_density: { $ref: "#/$defs/kit" },
+          rows: { $ref: "#/$defs/kit" },
+          media: { $ref: "#/$defs/kit" },
+          density: { $ref: "#/$defs/kit" },
+          lime_restraint: { $ref: "#/$defs/kit" },
           family_resemblance: { $ref: "#/$defs/kit" },
         },
-        required: ["typography", "surfaces_material", "spacing", "navigation", "buttons", "cards_rows", "accent_color", "media_treatment", "visual_density", "family_resemblance"],
+        required: ["typography", "colors", "surfaces", "spacing", "radii", "navigation", "buttons", "rows", "media", "density", "lime_restraint", "family_resemblance"],
       },
       three_second_read: { type: "string", description: "What a first-time viewer understands in three seconds, in one sentence, and what they miss." },
       scores: {
@@ -169,15 +173,29 @@ const SCHEMA = {
   },
 };
 
-function systemPrompt(brain, hasReference) {
+/** The blueprint's CSS rules, with the embedded demo images stripped out. */
+function blueprintCss() {
+  if (!existsSync(BLUEPRINT_PATH)) return null;
+  const html = readFileSync(BLUEPRINT_PATH, "utf8");
+  const m = html.match(/<style[^>]*>([\s\S]*?)<\/style>/);
+  return m ? m[1].replace(/data:[a-zA-Z0-9/+.-]+;base64,[A-Za-z0-9+/=\s]+/g, "data:STRIPPED").trim() : null;
+}
+
+function systemPrompt(brain, hasReference, css, hasBlueprintShot) {
   return [
     "You are TapMart's visual and product design director. A coding agent (Claude Code) is the engineer: it builds the screens; you review screenshots and hand back exact, prioritized changes. You never write code and never touch files. You may recommend substantial changes: delete a section, move information, make media twice as large, replace cards with rows, use a horizontal media rail, remove copy, change the information hierarchy, simplify navigation, combine controls, turn something into a full-bleed visual, or change the composition entirely. Small padding and radius notes are welcome only after the big moves.",
     "",
-    hasReference
-      ? "Two images arrive. CURRENT SCREEN = what exists today. REFERENCE IMAGE = the TapMart UI KIT. It is the visual source of truth for the whole product, not inspiration. Your first and most important question: does the current screen look like it was built from the SAME UI KIT as the reference? Same dark graphite material and background tone, same surface colours and card darkness, same restrained borders and subtle top-edge light, same typography scale and weights (Inter-like, 17px semibold row titles, 14px quiet grey secondary text, 20px stats, 26px name), same bottom bar proportions (64px, 24px icons, 12px labels, lime active, grey inactive), same slim top bar with the centred wordmark, same 48px lime primary button with dark text and 14px radius, same 16px row radius and 72px row height with a 44px icon square, same 8px lime status dots, same chevrons, same media framing, same density. The content differs by screen (a profile, a feed of earning opportunities, activity rows, earnings, a marketplace of people and cars, content deliverables, campaigns, settings). Do NOT ask for cars or the reference's content on unrelated screens; do ask for every visual property of the kit. If the screen obviously belongs to another visual system, say so and score the kit dimensions low. A generic 8/10 is not allowed when the family resemblance is weak."
-      : "One image arrives: CURRENT SCREEN = what exists today. Judge it against the product brain.",
+    "Your job in this phase is to detect DESIGN DRIFT. TapMart has a coded design blueprint (tapmart_exact_ui_blueprint.html). Its CSS is pasted below and is the visual source of truth: colours, surfaces, hairlines, typography sizes and weights, spacing, radii, shadows, glass blur, the floating bottom navigation, the primary button, the row and hero card compositions. The saved reference PNG is the second source; the product brain is the third. The real app must look like it was built with the SAME CSS as the blueprint. The blueprint's demo content (names, cars, photos, balances, businesses) is not a target; only real data appears in the app.",
     "",
-    "Score the ten UI KIT dimensions from 0 to 10 each, independently and honestly: typography, surfaces and material, spacing, navigation, buttons, cards and rows, accent colour (lime) usage, media treatment, visual density, overall family resemblance. Placed side by side, would a viewer believe both are screens of the same app? Only when the answer is clearly yes may family resemblance reach 8 or more.",
+    hasReference
+      ? `Images: CURRENT SCREEN (the real app)${hasBlueprintShot ? ", BLUEPRINT SCREEN (the coded blueprint rendered for the same screen)" : ""}, REFERENCE IMAGE (the saved PNG). Ask one question first: does the current screen look like it was built using the same CSS and design system as the blueprint? Compare the values, not the mood: background tone, surface colours, hairline opacity, text greys, the lime, radii, font sizes and weights, section title style, top bar and bottom bar dimensions, button height and gradient, row density and padding, media ratios and scrim, shadow and glass.`
+      : "One image arrives: CURRENT SCREEN = what exists today. Judge it against the blueprint CSS and the product brain.",
+    "",
+    "Score twelve drift dimensions from 0 to 10 each, independently: typography, colors, surfaces, spacing, radii, navigation, buttons, rows, media, density, lime restraint, family resemblance. 10 means indistinguishable from the blueprint's CSS. Do not accept 'it looks clean', 'it looks premium' or a generic 8 unless it actually resembles the blueprint. The question is: do these look like the same TapMart product? Say yes only when a viewer would believe both screens come from one codebase. In the checklist, quote the blueprint value to use (for example 'row padding 12px 13px', 'section title 12px uppercase 0.16em muted').",
+    "",
+    "=== BLUEPRINT CSS (visual source of truth) ===",
+    css ?? "(blueprint file missing)",
+    "=== END BLUEPRINT CSS ===",
     "",
     "Judge against the TapMart product brain below. Be specific: name the element, the size, the count, the copy to delete. Prefer 'remove' and 'enlarge' over 'add'. Ten strong items beat thirty weak ones. If something already meets the bar, say so under keep and move on. Never suggest fake data, placeholder media or invented numbers.",
     "",
@@ -189,10 +207,10 @@ function systemPrompt(brain, hasReference) {
   ].join("\n");
 }
 
-function userPrompt(screenName, instructions, meta, hasReference) {
+function userPrompt(screenName, instructions, meta, hasReference, hasBlueprintShot) {
   return [
     `Screen: ${screenName}.`,
-    hasReference ? "The first image is the CURRENT SCREEN. The second image is the REFERENCE IMAGE (north star)." : "",
+    hasReference ? (hasBlueprintShot ? "Images in order: CURRENT SCREEN, BLUEPRINT SCREEN, REFERENCE IMAGE." : "The first image is the CURRENT SCREEN. The second image is the REFERENCE IMAGE.") : "",
     `Screenshot: ${meta.width ? `${meta.width}x${meta.height}px, ` : ""}${meta.kind}. A full-page phone capture can show the fixed bottom bar painted mid-page; that is a capture artifact, not a layout problem.`,
     instructions ? `Extra instructions from the team: ${instructions}` : "",
     "Answer: does this feel like the reference TapMart design; is the hierarchy strong; is media large enough; too much text; too many cards; too many borders; is money prominent; is lime restrained; is secondary text quiet; does it feel premium; does it feel like TapMart; does it feel like generic AI UI; can a person understand it in three seconds; and the exact changes Claude should implement. Return the JSON only.",
@@ -227,9 +245,9 @@ function toMarkdown(review, ctx) {
   lines.push(`TapMart match ${review.tapmart_match}/10 · Reference match ${review.reference_match}/10 · Premium feel ${review.premium_feel}/10 · Generic AI look ${review.generic_ai_look}/10`);
   lines.push("");
   if (review.kit) {
-    lines.push(`**Same UI kit as the reference: ${review.same_kit ? "yes" : "NO"}.**`);
+    lines.push(`**Same design system as the blueprint: ${review.same_kit ? "yes" : "NO"}.**`);
     lines.push("");
-    lines.push("| Kit dimension | 0 to 10 | Difference |");
+    lines.push("| Drift dimension | 0 to 10 | Difference from the blueprint |");
     lines.push("| --- | --- | --- |");
     for (const [key, v] of Object.entries(review.kit)) lines.push(`| ${key.replace(/_/g, " ")} | ${v.score} | ${v.note} |`);
     lines.push("");
@@ -272,21 +290,27 @@ async function main() {
   const hasReference = args.useReference && existsSync(args.reference);
   if (args.useReference && !hasReference) console.error(`No reference image at ${args.reference}; reviewing against the product brain only.`);
   const reference = hasReference ? loadImage(args.reference) : null;
+  const blueprintShot = args.blueprint && existsSync(args.blueprint) ? loadImage(args.blueprint) : null;
+  const css = blueprintCss();
 
   const body = {
     model: args.model,
     background: true,
     store: true,
-    instructions: systemPrompt(brain, hasReference),
+    instructions: systemPrompt(brain, hasReference, css, Boolean(blueprintShot)),
     input: [
       {
         role: "user",
         content: [
-          { type: "input_text", text: userPrompt(args.screenName, args.instructions, meta, hasReference) },
+          { type: "input_text", text: userPrompt(args.screenName, args.instructions, meta, hasReference, Boolean(blueprintShot)) },
           { type: "input_text", text: "CURRENT SCREEN:" },
           { type: "input_image", image_url: image.dataUrl, detail: "high" },
           ...(reference ? [
-            { type: "input_text", text: "REFERENCE IMAGE (north star, not a template):" },
+            ...(blueprintShot ? [
+              { type: "input_text", text: "BLUEPRINT SCREEN (the coded blueprint, same screen; its demo content is not a target):" },
+              { type: "input_image", image_url: blueprintShot.dataUrl, detail: "high" },
+            ] : []),
+            { type: "input_text", text: "REFERENCE IMAGE (the saved PNG):" },
             { type: "input_image", image_url: reference.dataUrl, detail: "high" },
           ] : []),
         ],

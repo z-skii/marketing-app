@@ -55,8 +55,8 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
     <div className="app-root min-h-dvh bg-paper rail:grid rail:grid-cols-[13rem_minmax(0,1fr)]">
       {/* Sidebar */}
       <aside className="sticky top-0 hidden h-dvh flex-col overflow-y-auto bg-paper-deep px-3 py-6 rail:flex">
-        <Link href="/business" className="flex min-h-11 items-center px-3 font-display text-[1.375rem] font-700 tracking-[-0.03em]" aria-label="TapMart business home">
-          <span className="text-signal">T</span>apmart
+        <Link href="/business" className="flex min-h-11 items-center px-3 font-display text-[24px] font-[800] tracking-[-1px]" aria-label="TapMart business home">
+          Tapmart<span className="text-signal">.</span>
         </Link>
         <Link href="/business/profile" className="mt-4 flex min-h-12 items-center gap-3 rounded-[12px] px-2 py-1.5 can-hover:hover:bg-surface">
           <Mark business={business} size={32} />
@@ -105,14 +105,12 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
         {/* Phone top chrome: the wordmark in the middle, messages on the left,
             alerts and settings on the right. The business identity lives on
             the Business tab. */}
-        <header className="glass sticky top-0 z-30 grid h-[52px] grid-cols-[1fr_auto_1fr] items-center px-2 rail:hidden">
-          <span className="flex">
-            <TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={unreadMessages} />
-          </span>
-          <Link href="/business" className="font-display text-[1.375rem] font-700 tracking-[-0.03em]" aria-label="TapMart business home">
-            <span className="text-signal">T</span>apmart
+        <header className="glass sticky top-0 z-30 flex h-[58px] items-center justify-between border-b px-[18px] rail:hidden">
+          <Link href="/business" className="font-display text-[16px] font-[750] tracking-[-0.4px]" aria-label="TapMart business home">
+            Tapmart<span className="text-signal">.</span>
           </Link>
-          <span className="flex justify-end">
+          <span className="-mr-2 flex items-center">
+            <TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={unreadMessages} />
             <TopIcon href="/alerts" label="Notifications" icon={Bell} badge={unreadNotifications} />
             <TopIcon href="/business/settings" label="Settings" icon={Gear} badge={0} />
           </span>
@@ -122,18 +120,13 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
       </div>
 
       {/* Phone bottom bar: five destinations, Create in the middle, drawn like every other tab. */}
-      <nav aria-label="Business" className="glass fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t pb-[env(safe-area-inset-bottom)] rail:hidden">
+      <nav aria-label="Business" className="tm-bottomnav grid-cols-5 rail:hidden">
         {MOBILE_ORDER.map((item) => {
           const on = isActive(item, pathname);
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={on ? "page" : undefined}
-              className={`relative flex h-16 flex-col items-center justify-center gap-1 transition-colors ${on ? "text-signal" : "text-ink-soft"}`}
-            >
-              <item.icon size={24} weight={on ? "fill" : "regular"} aria-hidden />
-              <span className="font-display text-xs font-500">{item.label}</span>
+            <Link key={item.href} href={item.href} aria-current={on ? "page" : undefined}>
+              <item.icon size={20} weight={on ? "fill" : "regular"} aria-hidden />
+              <span>{item.label}</span>
             </Link>
           );
         })}
@@ -179,8 +172,8 @@ function RailRow({ href, label, icon: IconC, badge, active }: { href: string; la
 
 function TopIcon({ href, label, icon: IconC, badge }: { href: string; label: string; icon: Icon; badge: number }) {
   return (
-    <Link href={href} aria-label={badge > 0 ? `${badge} unread ${label.toLowerCase()}` : label} className="relative flex h-11 w-11 items-center justify-center rounded-full text-ink">
-      <IconC size={22} aria-hidden />
+    <Link href={href} aria-label={badge > 0 ? `${badge} unread ${label.toLowerCase()}` : label} className="relative flex h-11 w-11 items-center justify-center text-ink">
+      <IconC size={20} aria-hidden />
       {badge > 0 && <span aria-hidden className="absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full bg-signal" />}
     </Link>
   );

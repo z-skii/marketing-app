@@ -79,13 +79,13 @@ export default async function CampaignsPage({
   const reviewCount = visible.filter((r) => !isDone(r) && needsYou(r)).length;
 
   return (
-    <main id="main" className="mx-auto w-full max-w-5xl px-4 py-4 md:px-8 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-5xl px-4 pt-[18px] pb-6 md:px-8 md:py-8">
       <ScreenHeader bell={false}
         title="Campaigns" unread={ctx.unreadNotifications} showSearch={false}
         
       />
 
-      <nav className="pill-row mt-5" aria-label="Campaign tabs">
+      <nav className="pill-row mt-[14px]" aria-label="Campaign tabs">
         {TABS.map((t) => (
           <Link key={t.key} href={t.key === "active" ? "/business/campaigns" : `/business/campaigns?tab=${t.key}`} aria-current={tab === t.key ? "page" : undefined} className="pill">
             {t.label}{t.key === "review" && reviewCount > 0 ? <span className="tnum ml-1.5 text-ink-soft">{reviewCount}</span> : null}
@@ -104,7 +104,7 @@ export default async function CampaignsPage({
           )}
         </div>
       ) : (
-        <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-[14px] grid gap-[14px] sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((c, i) => {
             const car = c.kind === "car_ads";
             const story = c.kind === "instagram_story";
@@ -127,26 +127,44 @@ export default async function CampaignsPage({
             const meta = lines.filter((l): l is string => Boolean(l)).slice(0, 2);
             const hot = !done && pending(c) > 0;
             const cta = done ? "Open" : hot ? (story ? "Verify" : "Review") : "View";
+            if (!hot) {
+              return (
+                <li key={c.id} className="reveal sm:col-span-2 lg:col-span-3" style={{ animationDelay: `${Math.min(i, 8) * 50}ms` }}>
+                  <Link href={`/business/campaigns/${c.id}`} className="row flex items-center gap-3 px-[13px] py-3">
+                    {media ? (
+                      <MediaPreview src={media} className="h-[54px] w-[54px] shrink-0 rounded-[13px] bg-[#202729] object-cover" />
+                    ) : (
+                      <span className="h-[54px] w-[54px] shrink-0 rounded-[13px] bg-[#202729]" aria-hidden />
+                    )}
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{c.title}</span>
+                      <span className="mt-[3px] block truncate text-[12px] leading-[1.3] text-ink-soft">{[KIND_LABEL[c.kind] ?? c.kind, meta[0], meta[1]].filter(Boolean).join(" · ")}</span>
+                    </span>
+                    {!meta[1] && <Money cents={c.pay_cents} size="sm" suffix={car ? "/mo" : undefined} />}
+                    <CaretRight size={22} className="shrink-0 text-ink-faint" aria-hidden />
+                  </Link>
+                </li>
+              );
+            }
             return (
               <li key={c.id} className="reveal" style={{ animationDelay: `${Math.min(i, 8) * 50}ms` }}>
                 <Link href={`/business/campaigns/${c.id}`} className="card block overflow-hidden">
-                  <span className={`relative block w-full overflow-hidden bg-surface-2 ${car ? "aspect-[4/3]" : "aspect-[16/11] sm:aspect-[4/5]"}`}>
-                    {media && <MediaPreview src={media} className="absolute inset-0 h-full w-full object-cover" />}
-                    <span className="media-scrim absolute inset-x-0 bottom-0 h-3/5" aria-hidden />
-                    <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">{KIND_LABEL[c.kind] ?? c.kind.replaceAll("_", " ")}</span>
-                    {c.status === "paused" && <span className="glass-tag absolute top-3 right-3 px-2.5 py-1 text-xs text-ink-faint">Paused</span>}
-                    {c.status === "draft" && <span className="glass-tag absolute top-3 right-3 px-2.5 py-1 text-xs text-ink-faint">Draft</span>}
-                    <span className="absolute inset-x-4 bottom-4">
-                      <span className="line-clamp-2 block font-display text-[1.125rem] leading-[1.2] font-600 tracking-[-0.01em] text-ink">{c.title}</span>
+                  <span className="relative block h-[215px] w-full overflow-hidden bg-surface-2 sm:h-[260px]">
+                    {media && <MediaPreview src={media} className="hero-media absolute inset-0 h-full w-full object-cover" />}
+                    <span className="media-scrim absolute inset-0" aria-hidden />
+                    {c.status === "paused" && <span className="glass-tag absolute top-3 right-3">Paused</span>}
+                    {c.status === "draft" && <span className="glass-tag absolute top-3 right-3">Draft</span>}
+                    <span className="absolute inset-x-4 bottom-[15px] z-[2] block">
+                      <span className="glass-tag">{direct ? "Direct · " : ""}{KIND_LABEL[c.kind] ?? c.kind.replaceAll("_", " ")}</span>
+                      <span className="mt-[9px] line-clamp-2 block font-display text-[20px] leading-[1.15] font-[760] tracking-[-0.6px] text-ink">{c.title}</span>
                     </span>
                   </span>
-                  <span className="flex items-center gap-3 px-3.5 py-3">
+                  <span className="flex items-center gap-3 px-[13px] py-3">
                     <span className="min-w-0 flex-1">
-                      <span className="tnum block truncate text-sm text-ink">{meta[0]}</span>
-                      {meta[1] && <span className={`tnum mt-0.5 block truncate text-sm ${hot ? "text-ink" : "text-ink-soft"}`}>{meta[1]}</span>}
-                      {!meta[1] && <Money cents={c.pay_cents} size="sm" suffix={car ? "/ mo" : undefined} />}
+                      <span className="tnum block truncate font-display text-[14px] font-700 text-ink">{meta[0]}</span>
+                      {meta[1] && <span className="tnum mt-[3px] block truncate text-[12px] text-ink">{meta[1]}</span>}
                     </span>
-                    <span className={`btn btn-sm shrink-0 ${hot ? "btn-signal" : ""}`}>{cta}<CaretRight size={16} weight="bold" aria-hidden /></span>
+                    <span className="btn btn-signal btn-sm shrink-0">{cta}</span>
                   </span>
                 </Link>
               </li>

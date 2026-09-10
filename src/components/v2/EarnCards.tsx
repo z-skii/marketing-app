@@ -5,18 +5,16 @@ import {
   type Opportunity, type VehicleSummary,
 } from "@/lib/v2/opportunities";
 import { Avatar, Money } from "./ui";
-import { SaveButton } from "./SaveButton";
 import { MediaPreview } from "./MediaPreview";
 
 /**
- * The three earning types on Home. The media IS the card: money and the
- * one-line title sit on the picture, and only a business line, one meta
- * row and the button live underneath. Nothing explains what Recreate means
- * here; the detail screen does that.
+ * The three earning types on Home, drawn as the blueprint's .hero-card:
+ * the whole card is the tap target, and the type pill, the money, the
+ * one-line title and one meta line sit on the media over the scrim.
  *
- *   Recreate  the reference video, 9:16 on phones
- *   Story     the Story creative, 9:16
- *   Car ad    the campaign artwork or the business photo, 4:3
+ *   Recreate  the reference video, the 260px hero card
+ *   Story     the Story creative, the 215px small card
+ *   Car ad    the business photo, the 215px small card
  */
 
 export type EarnCardProps = {
@@ -46,58 +44,45 @@ export function placementLabel(zone: string) {
 const SIZES = "(min-width: 1024px) 28rem, 100vw";
 
 function Verified() {
-  return <CheckCircle size={14} weight="fill" className="ml-1 inline-block align-[-2px] text-ink-faint" aria-label="Verified business" />;
+  return <CheckCircle size={12} weight="fill" className="ml-1 inline-block align-[-1px] text-ink-faint" aria-label="Verified business" />;
 }
 
-function BusinessLine({ card }: { card: Opportunity }) {
-  return (
-    <p className="min-w-0 truncate font-display text-[1rem] font-600 text-ink">
-      {card.business_name}
-      {card.business_verified && <Verified />}
-    </p>
-  );
-}
-
-function Meta({ children }: { children: React.ReactNode }) {
-  return <p className="mt-0.5 truncate text-sm text-ink-soft">{children}</p>;
-}
-
-/** Under the media, on the page: the business, one meta row, one small action. */
-function Foot({ card, meta, action }: { card: Opportunity; meta: React.ReactNode; action: string }) {
-  return (
-    <div className="flex min-h-[4.5rem] items-center justify-between gap-3 px-4 py-3">
-      <div className="min-w-0">
-        <BusinessLine card={card} />
-        <Meta>{meta}</Meta>
-      </div>
-      <span className="btn btn-signal shrink-0">{action}</span>
-    </div>
-  );
-}
 
 function Tag({ children }: { children: React.ReactNode }) {
-  return <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-500 text-ink">{children}</span>;
+  return <span className="glass-tag">{children}</span>;
 }
 
-function Shell({ children, index = 0, wide = false }: { children: React.ReactNode; index?: number; wide?: boolean }) {
+function Shell({ children, index = 0 }: { children: React.ReactNode; index?: number }) {
   return (
-    <article className={`card reveal group relative overflow-hidden ${wide ? "lg:col-span-2" : ""}`} style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}>
+    <article className="card reveal group relative overflow-hidden" style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}>
       {children}
     </article>
   );
 }
 
+/* Blueprint .hero-card img: 260px tall, 215px for the small variant. */
 const FRAME = "relative w-full overflow-hidden bg-surface-2";
+const HERO = "h-[260px] lg:h-[320px]";
+const SMALL = "h-[215px] lg:h-[280px]";
 
-function OnMedia({ money, suffix, title, right }: { money: number; suffix?: string; title: string; right?: React.ReactNode }) {
+/** Blueprint .hero-copy: the type pill, the money, the title, one meta line, all on the media. */
+function OnMedia({ tag, money, suffix, title, meta }: { tag: string; money: number; suffix?: string; title: string; meta: React.ReactNode }) {
   return (
-    <div className="absolute inset-x-4 bottom-4">
-      <div className="flex items-end justify-between gap-3">
-        <Money cents={money} size="lg" suffix={suffix} />
-        {right && <span className="shrink-0 text-sm text-ink-soft">{right}</span>}
-      </div>
-      <h3 className="mt-1 line-clamp-1 font-display text-[1.125rem] leading-[1.2] font-600 tracking-[-0.01em] text-ink">{title}</h3>
+    <div className="absolute inset-x-4 bottom-[15px] z-[2]">
+      <Tag>{tag}</Tag>
+      <div className="mt-[9px] mb-px"><Money cents={money} size="lg" suffix={suffix} /></div>
+      <h3 className="mb-1 line-clamp-1 font-display text-[20px] leading-[1.15] font-[760] tracking-[-0.6px] text-ink">{title}</h3>
+      <p className="truncate text-[13px] text-meta">{meta}</p>
     </div>
+  );
+}
+
+function MetaLine({ card, parts }: { card: Opportunity; parts: (string | null | undefined | false)[] }) {
+  return (
+    <>
+      {card.business_name}{card.business_verified && <Verified />}
+      {parts.filter(Boolean).map((p) => <span key={String(p)}> · {p}</span>)}
+    </>
   );
 }
 
@@ -113,19 +98,16 @@ function RecreateCard({ card, priority, index }: EarnCardProps) {
   return (
     <Shell index={index}>
       <Link href={`/o/${card.id}`} className="block">
-        <div className={`${FRAME} aspect-[4/5]`}>
+        <div className={`${FRAME} ${HERO}`}>
           {media ? (
-            <MediaPreview src={media} poster={card.business_cover} className="absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
+            <MediaPreview src={media} poster={card.business_cover} className="hero-media absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
           ) : (
             <NoPhoto name={card.business_name} logo={card.business_logo} />
           )}
-          <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-          <Tag>Recreate</Tag>
-          <OnMedia money={card.pay_cents} title="Recreate this Reel" />
+          <div className="media-scrim absolute inset-0" aria-hidden />
+          <OnMedia tag="Recreate" money={card.pay_cents} title="Recreate this Reel" meta={<MetaLine card={card} parts={[spots(card), deadlineLabel(card.deadline)]} />} />
         </div>
-        <Foot card={card} meta={[spots(card), deadlineLabel(card.deadline)].filter(Boolean).join(" · ")} action="Recreate" />
       </Link>
-      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3 opacity-70" />
     </Shell>
   );
 }
@@ -141,19 +123,16 @@ function StoryCard({ card, priority, index }: EarnCardProps) {
   return (
     <Shell index={index}>
       <Link href={`/o/${card.id}`} className="block">
-        <div className={`${FRAME} aspect-[4/5]`}>
+        <div className={`${FRAME} ${SMALL}`}>
           {creative ? (
-            <MediaPreview src={creative} className="absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
+            <MediaPreview src={creative} className="hero-media absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
           ) : (
             <NoPhoto name={card.business_name} logo={card.business_logo} />
           )}
-          <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-          <Tag>Story</Tag>
-          <OnMedia money={card.pay_cents} title={`Post for ${liveHours} hours`} />
+          <div className="media-scrim absolute inset-0" aria-hidden />
+          <OnMedia tag="Story" money={card.pay_cents} title={`Post for ${liveHours} hours`} meta={<MetaLine card={card} parts={[followers, spots(card)]} />} />
         </div>
-        <Foot card={card} meta={[followers, spots(card)].filter(Boolean).join(" · ")} action="Post" />
       </Link>
-      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3 opacity-70" />
     </Shell>
   );
 }
@@ -161,38 +140,23 @@ function StoryCard({ card, priority, index }: EarnCardProps) {
 // -------------------------------------------------------------------- Car ad
 
 function CarCard({ card, vehicles = [], priority, index }: EarnCardProps) {
-  const art = card.details.artwork_url ?? null;
   const photo = card.business_cover;
   const duration = card.details.duration_days ?? 30;
   const match = vehicles.map((v) => ({ v, q: vehicleQualifies(v, card) })).find((m) => m.q.ok);
-  const action = match ? "Apply" : "Check my car";
 
   return (
-    <Shell index={index} wide>
+    <Shell index={index}>
       <Link href={`/o/${card.id}`} className="block">
-        <div className={`${FRAME} aspect-[4/3] lg:aspect-[16/9]`}>
+        <div className={`${FRAME} ${SMALL}`}>
           {photo ? (
-            <MediaPreview src={photo} className="absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
+            <MediaPreview src={photo} className="hero-media absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
           ) : (
             <NoPhoto name={card.business_name} logo={card.business_logo} />
           )}
-          <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-          <Tag>Car ad</Tag>
-          {art && (
-            <span className="glass-tag absolute top-3 left-1/2 flex -translate-x-1/2 items-center rounded-[8px] p-1">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={art} alt="Campaign artwork" width={72} height={36} className="h-9 w-[4.5rem] rounded-[5px] object-cover" loading="lazy" decoding="async" />
-            </span>
-          )}
-          <OnMedia money={card.pay_cents} suffix="/ mo" title="Drive with this campaign" />
+          <div className="media-scrim absolute inset-0" aria-hidden />
+          <OnMedia tag="Car ad" money={card.pay_cents} suffix="/mo" title="Drive with this campaign" meta={<MetaLine card={card} parts={[card.city, `${duration} days`, match ? `${match.v.make} ${match.v.model} qualifies` : null]} />} />
         </div>
-        <Foot
-          card={card}
-          meta={[card.city, `${duration} days`].filter(Boolean).join("  ·  ")}
-          action={action}
-        />
       </Link>
-      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3 opacity-70" />
     </Shell>
   );
 }

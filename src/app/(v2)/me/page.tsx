@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Gear, CaretRight, CheckCircle, InstagramLogo, Car as CarIcon, Wallet, Megaphone, Camera, Star } from "@phosphor-icons/react/dist/ssr";
+import { CaretRight, CheckCircle, InstagramLogo, Car as CarIcon, Wallet, ArrowUpRight, Camera } from "@phosphor-icons/react/dist/ssr";
 import { getV2Context } from "@/lib/v2/core";
 import { getMyVehicles } from "@/lib/v2/opportunities";
 import { countShootsAssignedTo } from "@/lib/business/shoots";
@@ -60,71 +60,65 @@ export default async function MePage() {
   const identityLine = [ctx.isCreator ? "Creator" : null, ctx.city].filter(Boolean).join("  ·  ");
 
   return (
-    <main id="main" className="mx-auto w-full max-w-5xl px-4 pt-3 pb-6 md:px-8 md:py-8">
-      <div className="mx-auto max-w-xl">
+    <main id="main" className="mx-auto w-full max-w-5xl px-4 pt-[18px] pb-6 md:px-8 md:py-8">
+      <div className="mx-auto max-w-[398px] md:max-w-xl">
         <section className="min-w-0">
-          {/* ------------------------------------------------------ header */}
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex min-w-0 items-center gap-4">
-              <Avatar src={ctx.avatarUrl} name={name} size={88} />
-              <div className="min-w-0">
-                <h1 className="truncate font-display text-[1.625rem] leading-[1.15] font-700 tracking-[-0.02em]">
-                  {name}
-                  {ctx.isVerified && <CheckCircle size={22} weight="fill" className="ml-1.5 inline-block align-[-3px] text-signal" aria-label="Verified" />}
-                </h1>
-                <p className="mt-0.5 truncate text-sm text-ink-soft">{identityLine || `@${ctx.user.username}`}</p>
-                <div className="mt-3 flex gap-6">
-                  <Figure value={formatCredit(Number(stats?.lifetime ?? 0))} label="Earned" />
-                  <Figure value={stats?.completed ?? "0"} label="Campaigns" />
-                  <Figure value={stats?.rating ? Number(stats.rating).toFixed(1) : null} label="Rating" star={Boolean(stats?.rating)} />
-                </div>
+          {/* ------------------------------------------ profile head (blueprint .profile-head) */}
+          <div className="grid grid-cols-[92px_1fr] items-center gap-4 px-0.5 pt-0.5 pb-1.5">
+            <Avatar src={ctx.avatarUrl} name={name} size={92} ring />
+            <div className="min-w-0">
+              <h1 className="flex items-center gap-2 truncate font-display text-[23px] leading-[1.15] font-[800] tracking-[-0.8px]">
+                <span className="truncate">{name}</span>
+                {ctx.isVerified && <CheckCircle size={16} weight="fill" className="shrink-0 text-signal" aria-label="Verified" />}
+              </h1>
+              <p className="mt-0.5 truncate text-[13px] text-ink-soft">{identityLine || `@${ctx.user.username}`}</p>
+              <div className="mt-[13px] grid grid-cols-3 gap-2">
+                <Figure value={formatCredit(Number(stats?.lifetime ?? 0))} label="Earned" />
+                <Figure value={stats?.completed ?? "0"} label="Completed" />
+                <Figure value={stats?.rating ? `${Number(stats.rating).toFixed(1)} ★` : null} label="Rating" />
               </div>
             </div>
-            <Link href="/me/settings" aria-label="Settings" className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink rail:flex">
-              <Gear size={22} aria-hidden />
-            </Link>
           </div>
 
-          {/* ----------------------------------------------------- the car */}
+          {/* ------------------------------------------ the car (blueprint .vehicle-card) */}
           {car && stage ? (
-            <section className="row relative mt-6 h-[152px] overflow-hidden" aria-label="Your car">
-              <div className="absolute inset-y-0 right-0 w-[64%]">
-                <VehicleStage glbUrl={stage.glbUrl} posterUrl={stage.posterUrl} photos={stage.photos} label={null} fill />
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-2/5 bg-[linear-gradient(to_right,var(--color-surface),transparent)]" aria-hidden />
-              </div>
-              <Link href={`/me/vehicles/${car.id}`} className="absolute inset-0 flex items-start justify-between gap-2 p-4" aria-label={`${car.year} ${car.make} ${car.model}, ${carStatus}`}>
+            <section className="vehicle-card mt-4" aria-label="Your car">
+              <Link href={`/me/vehicles/${car.id}`} className="flex items-center justify-between gap-3 px-[14px] pt-[13px] pb-[5px]">
                 <span className="min-w-0">
-                  <span className="block truncate font-display text-[1.0625rem] leading-[1.3] font-600 tracking-[-0.01em]">{car.year} {car.make} {car.model}</span>
-                  <span className="mt-1 flex items-center gap-2 text-sm text-ink-soft">
-                    {carOn && <span aria-hidden className="status-dot" />}
-                    {carStatus}{activeBookings > 0 ? ` · ${activeBookings} active` : ""}
-                  </span>
+                  <span className="block truncate font-display text-[14px] font-[750]">{car.year} {car.make} {car.model}</span>
+                  {carOn
+                    ? <span className="status-text mt-0.5"><span aria-hidden className="status-dot" />Vehicle Ready for Ads{activeBookings > 0 ? ` · ${activeBookings} active` : ""}</span>
+                    : <span className="mt-0.5 block text-[10px] text-ink-soft">{carStatus}</span>}
                 </span>
-                <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
+                <CaretRight size={22} className="shrink-0 text-ink-faint" aria-hidden />
               </Link>
-              {stage.scanHint && (
-                <Link href={stage.scanHref} className="absolute bottom-3 left-4 z-10 text-sm text-ink-soft underline-offset-2 can-hover:hover:underline">{stage.scanHint}</Link>
-              )}
+              <div className="car-stage">
+                <VehicleStage glbUrl={stage.glbUrl} posterUrl={stage.posterUrl} photos={stage.photos} label={null} fill />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-[linear-gradient(180deg,transparent,rgba(5,7,8,0.55))]" aria-hidden />
+                {stage.scanHint && !stage.glbUrl && stage.photos.length < 2 && (
+                  <Link href={stage.scanHref} className="rotate-hint">{stage.scanHint}</Link>
+                )}
+              </div>
             </section>
           ) : (
-            <section className="row relative mt-6 overflow-hidden px-4 py-5" aria-label="Your car">
-              <div className="flex items-center gap-3.5">
-                <span className="icon-square"><CarIcon size={22} aria-hidden /></span>
-                <div className="min-w-0 flex-1">
-                  <p className="font-display text-[1.0625rem] font-600 tracking-[-0.01em]">Make money with your car</p>
-                  <p className="mt-0.5 text-sm text-ink-soft">Scan it once. Car campaigns show whether it qualifies.</p>
-                </div>
+            <section className="vehicle-card mt-4" aria-label="Your car">
+              <div className="px-[14px] pt-[13px] pb-[5px]">
+                <p className="font-display text-[14px] font-[750]">Make money with your car</p>
+                <p className="mt-0.5 text-[12px] text-ink-soft">Scan it once. Car campaigns show whether it qualifies.</p>
               </div>
-              <Link href="/me/vehicles/scan" className="btn btn-signal mt-4 w-full">Scan my car</Link>
+              <div className="car-stage flex items-center justify-center">
+                <Link href="/me/vehicles/scan" className="btn btn-signal btn-sm px-6">Scan my car</Link>
+              </div>
             </section>
           )}
 
-          {/* --------------------------------------------------------- rows */}
-          <ul className="mt-2.5 flex flex-col gap-2.5" aria-label="Earning setup">
+          {/* ------------------------------------------ rows (blueprint .row-card) */}
+          <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">Your setup</h2>
+          <ul className="flex flex-col gap-[9px]" aria-label="Earning setup">
             <li>
               <SurfaceRow
-                href="/me/instagram" icon={<InstagramLogo size={22} aria-hidden />} iconTone="instagram"
-                title="Instagram"
+                href="/me/instagram" icon={<InstagramLogo size={24} aria-hidden />}
+                title={ig.status === "connected" ? "Instagram Connected" : "Instagram"}
                 sub={ig.handle ? `@${ig.handle}` : "For Story campaigns"}
                 status={ig.status === "connected" ? "Connected" : ig.status === "pending" ? "Checking" : undefined}
                 statusTone={ig.status === "connected" ? "signal" : "faint"}
@@ -141,13 +135,13 @@ export default async function MePage() {
             )}
             <li>
               <SurfaceRow
-                href="/activity" icon={<Megaphone size={22} aria-hidden />} iconTone="warn"
+                href="/activity" icon={<ArrowUpRight size={22} aria-hidden />}
                 title="Recent Campaigns" sub={`${stats?.active ?? 0} active · ${stats?.completed ?? 0} completed`}
               />
             </li>
             <li>
               <SurfaceRow
-                href="/earnings" icon={<Wallet size={22} aria-hidden />} iconTone="success"
+                href="/earnings" icon={<Wallet size={22} aria-hidden />}
                 title={available >= minPayout ? "Payout Ready" : "Earnings"}
                 sub={available > 0 ? `${formatCredit(available)} available` : `Payouts start at ${formatCredit(minPayout)}`}
               />
@@ -204,13 +198,11 @@ async function loadStage(vehicleId: string) {
   return { glbUrl, posterUrl, photos: stagePhotos, label, scanHint, scanHref };
 }
 
-function Figure({ value, label, star = false }: { value: string | null; label: string; star?: boolean }) {
+function Figure({ value, label }: { value: string | null; label: string }) {
   return (
     <div className="min-w-0">
-      <p className="tnum flex items-center gap-1 font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em]">
-        {value ?? <span className="text-ink-faint">New</span>}{star && <Star size={15} weight="fill" className="text-warn" aria-hidden />}
-      </p>
-      <p className="mt-1 text-sm text-ink-soft">{label}</p>
+      <p className="tnum truncate font-display text-[18px] leading-none font-[780]">{value ?? <span className="text-ink-faint">New</span>}</p>
+      <p className="mt-0.5 text-[10px] text-ink-soft">{label}</p>
     </div>
   );
 }

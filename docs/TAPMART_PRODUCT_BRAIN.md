@@ -100,24 +100,24 @@ follows the normal Story, Recreate or Car booking flow.
    Reels, Story creatives, cars, business photography, shoot content, brand
    imagery) provides most of the color; the interface stays restrained,
    almost monochrome until something important appears.
-1. **One UI kit, reverse engineered from the reference** (values in
-   docs/TAPMART_UI_SPEC.md). Page `#12161a`, chrome `#0f1418`, rows and
-   cards `#1b2124`, raised controls `#23282c`, icon squares `#2b3135`,
-   text `#f2f4f5`, secondary `#a6adb3`, muted `#7f878e`. Surfaces separate
-   by tone plus a hairline of light along their top edge; no outlines.
-   Rows are 72px with a 44px icon square and 16px radius; cards 18px;
-   buttons 48px with 14px radius. Subtle glass only on chrome.
+1. **One UI kit, ported from the coded blueprint**
+   (docs/design-references/tapmart_exact_ui_blueprint.html; values in
+   docs/TAPMART_UI_SPEC.md). Page `#090c0e`, surfaces `#121719`,
+   `#171d20`, `#1b2225`, hairlines at 8% white, text `#f5f7f2`, muted
+   `#9ca4a7`, lime `#c9ff38`, success `#9ded62`. Hero cards 20px radius
+   with 260px media; rows 16px radius, padding 12px 13px, 9px apart;
+   primary button 52px lime gradient; a floating 68px glass bottom nav;
+   section titles 12px uppercase muted. Anything else is drift.
 2. **Real media first.** Reel frames, Story creatives, car photos or 3D,
    deliverables, profile work. The media is the card; money and a one-line
    title sit on it over a scrim. No stock art, no placeholder illustrations,
    no icons standing in for media.
-3. **Lime `#c4f25a` only for money, the primary CTA, active navigation,
-   the 8px status dot on ready or connected states, the verified check and
-   the T of the wordmark.** One lime button per screen region. Never every
-   icon, border, badge or title. Active filter pills use a lime tint with
-   lime text, not a solid lime block.
+3. **Lime `#c9ff38` only for money, the primary CTA, active navigation,
+   the active chip, the verified mark and the brand dot.** Ready and
+   connected states use the success green `#9ded62` with a 6px glowing dot.
+   Never every icon, border, badge or title.
 4. **Less text.** Card: title max 2 lines, meta max 2 short rows, badges max
-   3, no description. Section labels are 17px semibold, never uppercase. Explanatory
+   3, no description. Section titles are the blueprint's 12px uppercase muted labels. Explanatory
    copy is one sentence and only when the next decision needs it. No
    paragraphs on discovery screens. No "we". No em dashes or en dashes.
 5. **Fewer boxes.** Never card, card, card, card. Mix full-width media, rows
@@ -145,14 +145,13 @@ follows the normal Story, Recreate or Car booking flow.
 
 ## Type and spacing
 
-Everything is Inter, like the reference. Name on a profile 26px/700; screen
-title 22 to 24px/600; stat value and money on a row 20px/600; row title and
-section label 17px/600; body and status 15px; metadata 14px secondary;
-captions and tab labels 12px; the money hero on Earnings 40px/600 lime. No
-uppercase labels, no mono labels, nothing above 26px inside the app. Vertical
-rhythm: 16px inside a card, 10px between rows, 24 to 28px between sections.
-Radius 12px on controls and icon squares, 14px on buttons, 16px on rows,
-18px on cards.
+Everything is Inter with variable weights, as the blueprint specifies.
+Profile name and screen titles 23px/800; hero card titles 20px/760; hero
+money 27px/850 lime; the Earnings balance 46px/850; stats 18px/780 with
+10px labels; row titles 14px/700 with 12px muted subs and 17px/800 lime
+money; meta on media 13px; nav labels 10px. Content padding 18px 16px
+96px; sections start 24px below the previous block with 10px to their
+content; hero cards 14px apart; rows 9px apart.
 
 ## What a reviewer should push toward
 

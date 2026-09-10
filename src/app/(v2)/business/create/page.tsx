@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CaretRight, Play } from "@phosphor-icons/react/dist/ssr";
 import { requireBusinessContext } from "@/lib/v2/core";
 import { sqlOne } from "@/lib/db";
 import { ScreenHeader } from "@/components/v2/ui";
@@ -30,40 +29,27 @@ export default async function CreatePage({
   ] as const;
 
   return (
-    <main id="main" className="mx-auto w-full max-w-5xl px-4 py-4 md:px-8 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-5xl px-4 pt-[18px] pb-6 md:px-8 md:py-8">
       <ScreenHeader bell={false} title="Create campaign" unread={ctx.unreadNotifications} showSearch={false} />
 
-      <ul className="mt-5 grid gap-3 sm:grid-cols-3" aria-label="Campaign types">
+      <ul className="mt-[14px] grid gap-[14px] sm:grid-cols-3" aria-label="Campaign types">
         {options.map((o, i) => {
           const suggested = rec?.kind === o.kind;
           return (
             <li key={o.kind} className="reveal" style={{ animationDelay: `${i * 60}ms` }}>
-              <Link href={o.href} className={`group relative block aspect-[16/9] w-full overflow-hidden rounded-[var(--radius-card)] bg-surface-2 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] can-hover:hover:-translate-y-1 sm:aspect-[4/5] ${suggested ? "ring-2 ring-signal" : ""}`}>
+              <Link href={o.href} className={`card group relative block h-[260px] w-full overflow-hidden sm:h-[300px] ${suggested ? "card-signal" : ""}`}>
                 {/* Each type shows its own kind of media: a video frame, a Story creative in a phone, a car. */}
-                {o.look === "story" ? (
-                  <>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={o.media} alt="" className="h-full w-full scale-110 object-cover blur-[2px] brightness-50" loading="lazy" />
-                    <span className="absolute inset-y-4 right-4 aspect-[9/16] overflow-hidden rounded-[10px] ring-1 ring-white/15 sm:inset-y-6 sm:right-1/2 sm:translate-x-1/2">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={o.media} alt="" className="h-full w-full object-cover" loading="lazy" />
-                    </span>
-                  </>
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={o.media} alt="" className="h-full w-full object-cover" loading={i === 0 ? "eager" : "lazy"} />
-                )}
-                <span className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-                {o.look === "video" && (
-                  <span className="glass absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full text-ink" aria-hidden><Play size={16} weight="fill" /></span>
-                )}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={o.media} alt="" className="hero-media h-full w-full object-cover" loading={i === 0 ? "eager" : "lazy"} />
+                <span className="media-scrim absolute inset-0" aria-hidden />
                 {suggested && <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-signal">Suggested</span>}
-                <span className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3">
+                <span className="absolute inset-x-4 bottom-[15px] z-[2] flex items-end justify-between gap-3">
                   <span className="min-w-0">
-                    <span className="block font-display text-[1.5rem] leading-[1.1] font-600 tracking-[-0.02em] text-ink">{o.title}</span>
-                    <span className="mt-1 block truncate text-[0.9375rem] text-ink-soft">{o.stat}</span>
+                    {suggested && <span className="glass-tag mb-[9px] text-signal">Suggested</span>}
+                    <span className="mb-1 block font-display text-[20px] leading-[1.15] font-[760] tracking-[-0.6px] text-ink">{o.title}</span>
+                    <span className="block truncate text-[13px] text-meta">{o.stat}</span>
                   </span>
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-2/60 text-ink backdrop-blur-sm"><CaretRight size={20} aria-hidden /></span>
+                  
                 </span>
               </Link>
             </li>

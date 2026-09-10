@@ -61,7 +61,7 @@ export default async function ContentPage() {
     .formatToParts(now).find((p) => p.type === "timeZoneName")?.value ?? timeZone;
 
   return (
-    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 pt-[18px] pb-6 md:px-8 md:py-8">
       <ScreenHeader bell={false} kicker={business.name} title="Content" unread={ctx.unreadNotifications} showSearch={false} />
 
       {(info.state === "NOT_SUBSCRIBED" || info.state === "SUBSCRIBED_NO_SHOOT") && (
@@ -153,32 +153,30 @@ function NextShoot({ shoot, todayKey, picture }: { shoot: ContentShoot; todayKey
   const time = shootTimeLabel(shoot.starts_at);
 
   return (
-    <section className="mt-6" aria-labelledby="shoot-title">
-      <h2 id="shoot-title" className="eyebrow">Next shoot</h2>
-      <div className="card relative mt-3 aspect-[4/3] w-full overflow-hidden md:aspect-video">
+    <section aria-labelledby="shoot-title">
+      <h2 id="shoot-title" className="eyebrow mx-0.5 mt-6 mb-2.5">Next shoot</h2>
+      <div className="card relative h-[260px] w-full overflow-hidden lg:h-[320px]">
         {picture ? (
-          <MediaPreview src={picture} alt="" className="h-full w-full object-cover" sizes="(min-width: 768px) 672px, 100vw" priority />
+          <MediaPreview src={picture} alt="" className="hero-media h-full w-full object-cover" sizes="(min-width: 768px) 672px, 100vw" priority />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(ellipse_at_30%_20%,_var(--color-surface-2),_var(--color-surface)_70%)]">
             <Camera size={48} weight="duotone" className="text-ink-soft" aria-hidden />
           </div>
         )}
-        <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-        {soon && <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">{soon}</span>}
-        <div className="absolute inset-x-4 bottom-4">
-          <p className="font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] text-ink md:text-[1.5rem]">
+        <div className="media-scrim absolute inset-0" aria-hidden />
+        <div className="absolute inset-x-4 bottom-[15px] z-[2]">
+          {soon && <span className="glass-tag">{soon}</span>}
+          <p className="mt-[9px] mb-1 font-display text-[20px] leading-[1.15] font-[760] tracking-[-0.6px] text-ink">
             {shoot.scheduled_for ? longDayLabel(shoot.scheduled_for) : "Date to be set"}
-            {time && <span className="text-ink-soft"> · {time}</span>}
+            {time && <span className="text-meta"> · {time}</span>}
           </p>
-          <div className="mt-1.5 flex items-center justify-between gap-3">
-            <p className="tnum min-w-0 truncate text-[0.9375rem] text-ink-soft">
-              {shoot.photos_planned} photos · {shoot.videos_planned} videos
-            </p>
+          <div className="flex items-center justify-between gap-3">
+            <p className="tnum min-w-0 truncate text-[13px] text-meta">{shoot.photos_planned} photos · {shoot.videos_planned} videos</p>
             <Link href={`/business/content/shoots/${shoot.id}`} className="btn btn-signal btn-sm shrink-0">View shoot</Link>
           </div>
         </div>
       </div>
-      <div className="mt-2">
+      <div className="mt-[9px]">
         <SurfaceRow href="/business/content/shoots" icon={<Camera size={22} aria-hidden />} title="All shoots" sub="Booked and past shoots" />
       </div>
     </section>

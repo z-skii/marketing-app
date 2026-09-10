@@ -95,53 +95,50 @@ export default async function EarningsPage() {
       <ScreenHeader bell={false} title="Earnings" showSearch={false} unread={ctx.unreadNotifications} />
       <div className="rail:grid rail:grid-cols-[18rem_minmax(0,1fr)] rail:gap-x-10">
 
-      <section className="mt-5" aria-label="Your money">
-        <p className="tnum font-display text-[2.5rem] leading-none font-600 tracking-[-0.03em] text-signal">{formatCredit(available)}</p>
-        <p className="mt-1.5 text-[0.9375rem] text-ink-soft">Available</p>
-        <div className="mt-5 flex gap-8">
+      <section className="px-0.5 pt-[14px] pb-6" aria-label="Your money">
+        <p className="text-[13px] text-ink-soft">Available</p>
+        <p className="tnum font-display text-[46px] leading-none font-[850] tracking-[-2px]">{formatCredit(available)}</p>
+        <div className="mt-[14px] flex gap-7">
           <div>
-            <p className="tnum font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em]">{formatCredit(pending)}</p>
-            <p className="mt-1 text-sm text-ink-soft">Pending</p>
+            <p className="tnum font-display text-[18px] leading-none font-[780]">{formatCredit(pending)}</p>
+            <p className="mt-0.5 text-[10px] text-ink-soft">Pending</p>
           </div>
           <div>
-            <p className="tnum font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em]">{formatCredit(lifetime)}</p>
-            <p className="mt-1 text-sm text-ink-soft">Lifetime</p>
+            <p className="tnum font-display text-[18px] leading-none font-[780]">{formatCredit(lifetime)}</p>
+            <p className="mt-0.5 text-[10px] text-ink-soft">Lifetime</p>
           </div>
-        </div>
-        <div className="mt-5">
-          {canRequest ? (
-            <PayoutButton availableCents={available} minCents={minPayout} />
-          ) : (
-            <p className="text-sm text-ink-soft">Payouts start at {formatCredit(minPayout)}.{available > 0 ? ` ${formatCredit(available)} so far.` : ""}</p>
-          )}
-          <p className="mt-2 text-sm text-ink-faint">Arrives in a few days. {feePct}% fee deducted.</p>
         </div>
       </section>
+      <div>
+        {canRequest ? (
+          <PayoutButton availableCents={available} minCents={minPayout} />
+        ) : (
+          <p className="text-[13px] text-ink-soft">Payouts start at {formatCredit(minPayout)}.{available > 0 ? ` ${formatCredit(available)} so far.` : ""}</p>
+        )}
+        <p className="mt-2 text-[12px] text-ink-faint">Arrives in a few days. {feePct}% fee deducted.</p>
+      </div>
 
       <div className="rail:mt-5">
-      <section className="mt-7 rail:mt-0">
-        <h2 className="eyebrow">History</h2>
+      <section className="rail:mt-0">
+        <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">Recent</h2>
         {rows.length === 0 && (
           <p className="mt-3 text-sm text-ink-soft">
             Approved versions, stories and car ad payments land here.{" "}
             <Link href="/home" className="font-display font-600 text-ink underline decoration-ink-faint underline-offset-4">Find something that pays</Link>
           </p>
         )}
-        <ul className="mt-3 flex flex-col gap-2.5">
+        <ul className="flex flex-col gap-[9px]">
           {rows.map((e) => {
             const { line, sub } = describe(e);
             const st = EARNING_STATUS[e.status] ?? { label: e.status, tone: "ink" as const };
             return (
-              <li key={e.id} className="row flex min-h-[4.5rem] items-center gap-3 px-3.5 py-3">
-                <span className="icon-square"><KindIcon kind={e.campaign_kind ?? (e.source === "booking" ? "car_ads" : null)} /></span>
+              <li key={e.id} className="row flex items-center gap-3 px-[13px] py-3">
+                <span className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-[13px] bg-[#202729] text-ink"><KindIcon kind={e.campaign_kind ?? (e.source === "booking" ? "car_ads" : null)} /></span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate font-display text-[1rem] font-600 tracking-[-0.01em]">{line}</span>
-                  <span className="block truncate text-sm text-ink-soft">{sub}{st.label !== "Paid" ? `  ·  ${st.label}` : ""}</span>
+                  <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{line}</span>
+                  <span className="mt-[3px] block truncate text-[12px] leading-[1.3] text-ink-soft">{sub}{st.label !== "Paid" ? ` · ${st.label}` : ""}</span>
                 </span>
-                <span className="flex items-baseline">
-                  <span className="font-display text-base font-600 text-signal" aria-hidden>+</span>
-                  <Money cents={e.amount_cents} size="md" />
-                </span>
+                <span className="tnum font-display text-[17px] font-[800] text-signal">+{formatCredit(e.amount_cents)}</span>
               </li>
             );
           })}
@@ -150,16 +147,16 @@ export default async function EarningsPage() {
 
       {payouts.length > 0 && (
         <section className="mt-8">
-          <h2 className="eyebrow">Payouts</h2>
-          <ul className="mt-3 flex flex-col gap-2.5">
+          <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">Payouts</h2>
+          <ul className="flex flex-col gap-[9px]">
             {payouts.map((p) => {
               const st = PAYOUT_STATUS[p.status] ?? { label: p.status, tone: "ink" as const };
               return (
-                <li key={p.id} className="row flex min-h-[4.5rem] items-center gap-3 px-3.5 py-3">
-                  <span className="icon-square icon-square-success"><Wallet size={22} aria-hidden /></span>
+                <li key={p.id} className="row flex items-center gap-3 px-[13px] py-3">
+                  <span className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-[13px] bg-[#202729] text-rise"><Wallet size={22} aria-hidden /></span>
                   <span className="min-w-0 flex-1">
-                    <span className="block font-display text-[1rem] font-600 tracking-[-0.01em]">Payout request</span>
-                    <span className="block text-sm text-ink-soft">
+                    <span className="block font-display text-[14px] leading-[1.3] font-700">Payout request</span>
+                    <span className="mt-[3px] block text-[12px] leading-[1.3] text-ink-soft">
                       {new Date(p.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     </span>
                   </span>

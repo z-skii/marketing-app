@@ -11,11 +11,14 @@ rebuilt screen, a new card type, a new navigation shell):
 3. Run `npm run design-review -- <screenshot> "<Screen name>"` and read the
    checklist (see docs/OPENAI_DESIGN_REVIEW.md). The reviewer sends the
    screenshot, the product brain and the primary reference image
-   (docs/design-references/tapmart-primary-reference.png, the UI kit and
-   visual source of truth; its measured values live in
-   docs/TAPMART_UI_SPEC.md and in the tokens in src/app/globals.css). The
-   reviewer scores ten "same UI kit" dimensions from 0 to 10 and says
-   whether the screen is built from the same kit. Apply substantial
+   (docs/design-references/tapmart-primary-reference.png). Pass
+   `--blueprint <png>` with the matching screen rendered from the coded
+   blueprint (docs/design-references/tapmart_exact_ui_blueprint.html, the
+   visual source of truth; its CSS is pasted into every review and its
+   values live in docs/TAPMART_UI_SPEC.md and the --tm-* tokens in
+   src/app/globals.css). The reviewer scores twelve design-drift
+   dimensions from 0 to 10 and says whether the screen is built with the
+   same design system. Apply substantial
    recommendations too (delete, move, enlarge, recompose), not only tweaks.
 4. Apply the checklist top to bottom. Skip an item only for a stated reason
    (a rule in docs/TAPMART_PRODUCT_BRAIN.md, a product constraint, honesty
