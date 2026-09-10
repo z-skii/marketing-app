@@ -19,6 +19,31 @@ defines how confident and polished it should be. The 3D vehicle in it
 belongs mainly to the User Profile, Manage vehicle, the business's car
 detail and the car-ad preview, never to every screen.
 
+What the reference shows, so a review can lean on it even in text:
+
+- Two phone screens on near-black graphite. Wordmark "Tapmart" centered in
+  a slim top bar with a gear and a bell at the right; no search field.
+- Profile: a large round portrait at the left, name with a lime verified
+  check, one muted line "Creator · Car Enthusiast · Chicago", then three
+  numbers side by side with tiny labels ("$12,430 Earned · 28 Campaigns ·
+  4.9 Rating"). Under it one vehicle card on a slightly lighter surface:
+  small maker logo, "2025 BMW M4", a lime-dot status "Vehicle Ready for
+  Ads", a 3D black car on a dark turntable, "Drag to rotate", a chevron.
+  Then four compact rows on separate lighter surfaces, each with a small
+  icon in a soft square, a bold title, one muted line and a chevron:
+  "Instagram Connected @mohadi · Connected", "Vehicle Ready for Ads · 2025
+  BMW M4 · Active", "Recent Campaigns · 3 active · 25 completed", "Payout
+  Ready · $2,340 available". Bottom bar Home, Activity, Earnings, Profile
+  with only the active tab in lime.
+- Manage Vehicle: back arrow, centered title, the car large with labelled
+  ad zones (Rear Window, Full Side, Doors), "Drag to rotate", an info row
+  "3D model from your scan", "Available Ad Zones" as three small photo
+  tiles with labels, and one full-width lime button "View Ad Preview".
+- Type is tight, bold and near-white; secondary text is muted grey; lime
+  appears only on the verified mark, status dots, the active tab and the
+  one primary button. Surfaces separate by tone, not by borders. Corners
+  are moderate (about 12 to 16px). Everything is calm, dense and premium.
+
 ## What TapMart is
 
 One account, two modes.
