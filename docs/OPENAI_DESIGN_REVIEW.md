@@ -1,0 +1,107 @@
+# OpenAI design review
+
+Claude Code builds TapMart. OpenAI acts as the visual and product design
+director: it looks at a screenshot, compares it with the product brain, and
+returns a prioritized list of exact changes. It never writes code and never
+redesigns from scratch.
+
+## How it works
+
+`scripts/design-review.mjs` sends one request to OpenAI's chat completions
+endpoint with:
+
+1. the screenshot (base64, `detail: high`),
+2. `docs/TAPMART_PRODUCT_BRAIN.md` as the system prompt (product structure and
+   the design rules),
+3. the screen name and any extra instructions.
+
+It asks for a strict JSON answer (`response_format: json_schema`) with a
+verdict, a TapMart-match score, a generic-AI-look score, eight rule scores
+(clutter, text amount, media size, hierarchy, spacing, card overuse, money
+visibility, CTA visibility), things to keep, animation suggestions, and a
+numbered checklist where every item is one concrete change. The tool prints
+the review as Markdown and saves `.md` and `.json` copies under
+`design-reviews/` (ignored by git).
+
+Default model: `gpt-5.5` (override with `--model` or `OPENAI_REVIEW_MODEL`).
+Reasoning effort defaults to `medium` (`--effort low|medium|high`).
+
+## Run it by hand
+
+```
+npm run design-review -- ./screenshots/business-home.png "Business Home"
+npm run design-review -- ./screenshots/business-home.png "Business Home" "focus on the people cards, ignore the cars rail"
+npm run design-review -- ./screenshots/content.png "Content" --effort high
+npm run design-review -- ./screenshots/content.png "Content" --dry-run
+```
+
+Screenshots: PNG, JPG or WebP, under 18 MB. Phone captures at 390 wide (2x
+scale) and desktop captures at 1360 wide both work. A full-page phone capture
+paints the fixed bottom bar mid-page; the prompt tells the reviewer that is a
+capture artifact.
+
+### Where the key comes from
+
+- **Claude Code cloud sessions**: nothing to configure. The OpenAI key is an
+  API credential on the cloud environment; the agent proxy attaches it to
+  requests to `api.openai.com`. The key never appears in the session, in the
+  repository, or in this tool's output. The npm script sets
+  `NODE_USE_ENV_PROXY=1` so Node's fetch goes through that proxy.
+- **Your Mac**: put `OPENAI_API_KEY=...` in `.env.local` (ignored by git) and
+  run `set -a; source .env.local; set +a` once in the Terminal before
+  `npm run design-review`, or export the variable in your shell profile.
+  The script sends the key only as the Authorization header to
+  api.openai.com.
+
+## How Claude uses it
+
+The rule lives in `CLAUDE.md`. For a major UI change:
+
+1. Build the first pass.
+2. Screenshot it (phone 390 and, when it matters, desktop 1360).
+3. Run the review with the screen name.
+4. Read the checklist and apply it top to bottom; skip an item only with a
+   stated reason (a rule in the brain, a product constraint, honesty).
+5. Screenshot again and run a second review.
+6. Refine from the second checklist, then stop. Two reviews per screen per
+   change is the normal budget; a third only when the second still reports a
+   TapMart match under 7.
+
+Not every change is major. A copy fix, a spacing tweak, a color token change,
+a bug fix or a new row on an existing screen does not go to the reviewer.
+Major means a new screen, a rebuilt screen, a new card type, or a new
+navigation shell.
+
+## What gets sent to OpenAI
+
+- The screenshot you pass in. Screenshots of a signed-in app can contain
+  names, handles, business names and money figures from the development
+  database; do not send production customer data.
+- The full text of `docs/TAPMART_PRODUCT_BRAIN.md`.
+- The screen name and instructions.
+
+Nothing else: no source code, no repository files, no environment variables.
+Responses come back as JSON and are saved locally only.
+
+## Cost and usage control
+
+- One request per run, one image, roughly 2,000 text tokens of prompt plus
+  the image. Output is a few hundred to a couple of thousand tokens.
+- The tool prints prompt and completion token counts after every run; the
+  `.json` copy stores them.
+- Use `--effort low` for a quick pass, `--effort high` only for a flagship
+  screen. Use `--model gpt-5.4-mini` (or another smaller vision model) to
+  batch cheap passes.
+- `--dry-run` builds the request and sends nothing.
+- Cap spend in the OpenAI dashboard (Settings, Limits) so a runaway loop
+  cannot cost more than you set. The reviewer is never called automatically
+  by a hook or a cron; only a person or Claude runs it, on purpose, at most
+  twice per screen per change.
+
+## Files
+
+- `scripts/design-review.mjs`: the tool.
+- `docs/TAPMART_PRODUCT_BRAIN.md`: what the reviewer judges against. Update
+  it when the product structure or the design rules change.
+- `design-reviews/`: saved reviews (local, ignored by git).
+- `screenshots/`: what you send (local, ignored by git).

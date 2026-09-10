@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "db:reset": "bash scripts/db-reset.sh",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "design-review": "NODE_USE_ENV_PROXY=1 node scripts/design-review.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",
