@@ -6,7 +6,7 @@ import { defaultTimezone } from "@/lib/ai/schedule";
 import { getContentState, atLeast } from "@/lib/business/content-state";
 import { listDeliverables } from "@/lib/business/deliverables";
 import type { ContentShoot } from "@/lib/business/shoots";
-import { ScreenHeader } from "@/components/v2/ui";
+import { ScreenHeader, SurfaceRow } from "@/components/v2/ui";
 import { MediaPreview } from "@/components/v2/MediaPreview";
 import { MadeForYou } from "./MadeForYou";
 import { ScheduledItem } from "./ScheduledList";
@@ -146,16 +146,16 @@ function WillAppear({ subscribed }: { subscribed: boolean }) {
   );
 }
 
-/** A booked shoot: the picture, the date and time, what is coming, who is coming. */
+/** A booked shoot: one media object. The date, what is coming and who is coming sit on the picture with the one action. */
 function NextShoot({ shoot, todayKey, picture }: { shoot: ContentShoot; todayKey: string; picture: string | null }) {
   const days = shoot.scheduled_for ? daysBetween(todayKey, shoot.scheduled_for) : null;
   const soon = days === 0 ? "Today" : days === 1 ? "Tomorrow" : days != null && days > 1 ? `In ${days} days` : null;
   const time = shootTimeLabel(shoot.starts_at);
 
   return (
-    <section className="mt-7" aria-labelledby="shoot-title">
+    <section className="mt-6" aria-labelledby="shoot-title">
       <h2 id="shoot-title" className="eyebrow">Next shoot</h2>
-      <div className="relative mt-3 aspect-[4/3] w-full overflow-hidden rounded-[14px] bg-surface-2 md:aspect-video">
+      <div className="relative mt-3 aspect-[4/3] w-full overflow-hidden rounded-[16px] bg-surface-2 md:aspect-video">
         {picture ? (
           <MediaPreview src={picture} alt="" className="h-full w-full object-cover" sizes="(min-width: 768px) 672px, 100vw" priority />
         ) : (
@@ -164,23 +164,23 @@ function NextShoot({ shoot, todayKey, picture }: { shoot: ContentShoot; todayKey
           </div>
         )}
         <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-        {soon && <span className="glass-tag absolute top-3 left-3 px-2 py-1 font-display text-xs font-700 text-white">{soon}</span>}
-        <div className="absolute inset-x-0 bottom-0 p-4 text-white">
-          <p className="font-display text-[2rem] leading-none font-800 tracking-[-0.03em] md:text-[2.5rem]">
+        {soon && <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">{soon}</span>}
+        <div className="absolute inset-x-4 bottom-4">
+          <p className="font-display text-[1.625rem] leading-[1.05] font-800 tracking-[-0.03em] text-ink md:text-[2.125rem]">
             {shoot.scheduled_for ? longDayLabel(shoot.scheduled_for) : "Date to be set"}
-            {time && <span className="text-white/80"> · {time}</span>}
+            {time && <span className="text-ink-soft"> · {time}</span>}
           </p>
-          <p className="tnum mt-1.5 text-sm text-white/85">{shoot.photos_planned} photos · {shoot.videos_planned} videos</p>
+          <div className="mt-1.5 flex items-center justify-between gap-3">
+            <p className="tnum min-w-0 truncate text-[0.9375rem] text-ink-soft">
+              {shoot.photos_planned} photos · {shoot.videos_planned} videos
+            </p>
+            <Link href={`/business/content/shoots/${shoot.id}`} className="btn btn-signal btn-sm shrink-0">View shoot</Link>
+          </div>
         </div>
       </div>
-      <div className="mt-3 flex items-center justify-between gap-3">
-        <div className="min-w-0">
-          <p className="truncate font-display text-[1.0625rem] font-700">{shoot.assigned_label ?? "TapMart team"}</p>
-          <p className="text-sm text-ink-faint">Your content lands here after the shoot.</p>
-        </div>
-        <Link href={`/business/content/shoots/${shoot.id}`} className="btn shrink-0">View shoot</Link>
+      <div className="mt-2">
+        <SurfaceRow href="/business/content/shoots" icon={<Camera size={22} aria-hidden />} title="All shoots" sub="Booked and past shoots" />
       </div>
-      <Link href="/business/content/shoots" className="link-row mt-3">All shoots<CaretRight size={16} aria-hidden /></Link>
     </section>
   );
 }

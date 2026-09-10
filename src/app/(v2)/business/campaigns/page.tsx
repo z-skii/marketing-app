@@ -82,13 +82,13 @@ export default async function CampaignsPage({
     <main id="main" className="mx-auto w-full max-w-5xl px-4 py-4 md:px-8 md:py-8">
       <ScreenHeader bell={false}
         kicker="Campaigns" title="Campaigns" unread={ctx.unreadNotifications} showSearch={false}
-        right={<Link href="/business/create" className="btn btn-signal shrink-0"><Plus size={18} weight="bold" aria-hidden />Create</Link>}
+        right={<Link href="/business/create" className="btn shrink-0"><Plus size={18} weight="bold" aria-hidden />Create</Link>}
       />
 
       <nav className="pill-row mt-5" aria-label="Campaign tabs">
         {TABS.map((t) => (
           <Link key={t.key} href={t.key === "active" ? "/business/campaigns" : `/business/campaigns?tab=${t.key}`} aria-current={tab === t.key ? "page" : undefined} className="pill">
-            {t.label}{t.key === "review" && reviewCount > 0 ? <span className="tnum ml-1.5 text-signal">{reviewCount}</span> : null}
+            {t.label}{t.key === "review" && reviewCount > 0 ? <span className="tnum ml-1.5 text-ink-soft">{reviewCount}</span> : null}
           </Link>
         ))}
       </nav>
@@ -143,7 +143,7 @@ export default async function CampaignsPage({
                   <span className="flex items-center gap-3 p-3">
                     <span className="min-w-0 flex-1">
                       <span className="tnum block truncate text-sm text-ink">{meta[0]}</span>
-                      {meta[1] && <span className={`tnum mt-0.5 block truncate text-sm ${hot ? "font-display font-700 text-signal" : "text-ink-soft"}`}>{meta[1]}</span>}
+                      {meta[1] && <span className={`tnum mt-0.5 block truncate text-sm ${hot ? "text-ink" : "text-ink-soft"}`}>{meta[1]}</span>}
                       {!meta[1] && <Money cents={c.pay_cents} size="sm" suffix={car ? "/ mo" : undefined} />}
                     </span>
                     <span className={`btn btn-sm shrink-0 ${hot ? "btn-signal" : ""}`}>{cta}<CaretRight size={16} weight="bold" aria-hidden /></span>

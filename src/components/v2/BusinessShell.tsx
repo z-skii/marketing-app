@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Icon } from "@phosphor-icons/react";
 import {
-  House, CalendarBlank, Plus, Megaphone, Storefront, Bell, ChatCircle, ArrowsLeftRight, MagnifyingGlass,
+  House, CalendarBlank, Plus, Megaphone, Storefront, Bell, ChatCircle, ArrowsLeftRight, MagnifyingGlass, Gear,
 } from "@phosphor-icons/react";
 
 /**
@@ -99,19 +99,19 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
       </aside>
 
       <div className="min-w-0">
-        {/* Phone top strip: who you are acting as, and the two shared inboxes. */}
-        <header className="glass sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-rule px-4 py-2 rail:hidden">
-          <Link href="/business/profile" className="flex min-h-11 min-w-0 items-center gap-2.5">
-            <Mark business={business} size={30} />
-            <span className="min-w-0">
-              <span className="block truncate font-display text-[0.9375rem] font-800 tracking-[-0.01em]">{business.name}</span>
-            </span>
-            <span className="eyebrow shrink-0 !text-[0.625rem] text-signal">Business</span>
-          </Link>
-          <span className="flex items-center gap-1">
-            <TopIcon href="/business/search" label="Search" icon={MagnifyingGlass} badge={0} />
+        {/* Phone top chrome: the wordmark in the middle, messages on the left,
+            alerts and settings on the right. The business identity lives on
+            the Business tab. */}
+        <header className="glass sticky top-0 z-30 grid grid-cols-[1fr_auto_1fr] items-center px-2 py-1.5 rail:hidden">
+          <span className="flex">
             <TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={unreadMessages} />
+          </span>
+          <Link href="/business" className="font-display text-[1.125rem] font-800 tracking-[-0.04em]" aria-label="TapMart business home">
+            <span className="text-signal">T</span>apmart
+          </Link>
+          <span className="flex justify-end">
             <TopIcon href="/alerts" label="Notifications" icon={Bell} badge={unreadNotifications} />
+            <TopIcon href="/business/settings" label="Settings" icon={Gear} badge={0} />
           </span>
         </header>
 
@@ -128,7 +128,7 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
               key={item.href}
               href={item.href}
               aria-current={on ? "page" : undefined}
-              className={`relative flex min-h-16 flex-col items-center justify-center gap-1 transition-colors ${on ? "text-signal" : "text-ink-soft"}`}
+              className={`relative flex min-h-16 flex-col items-center justify-center gap-1 transition-colors ${on ? "text-signal" : "text-ink-faint"}`}
             >
               {create ? (
                 <span className={`flex h-9 w-9 items-center justify-center rounded-full border-2 ${on ? "border-signal bg-signal text-signal-ink" : "border-ink-soft text-ink"}`}>
@@ -161,7 +161,7 @@ function Mark({ business, size }: { business: BusinessIdentity; size: number }) 
 function Count({ n }: { n: number }) {
   if (n <= 0) return null;
   return (
-    <span className="tnum inline-flex min-w-5 items-center justify-center rounded-full bg-alert px-1.5 font-display text-[0.6875rem] font-800 leading-5 text-white">
+    <span className="tnum inline-flex min-w-5 items-center justify-center rounded-full bg-surface-2 px-1.5 font-display text-[0.6875rem] font-800 leading-5 text-ink">
       {n > 99 ? "99+" : n}
     </span>
   );

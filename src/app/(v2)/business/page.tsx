@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CaretRight } from "@phosphor-icons/react/dist/ssr";
+import { CaretRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import { requireBusinessContext } from "@/lib/v2/core";
 import { sqlOne } from "@/lib/db";
 import { listCarsForBusiness, listPeople, type Car, type Person } from "@/lib/v2/marketplace";
@@ -63,7 +63,14 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
 
   return (
     <main id="main" className="mx-auto w-full max-w-6xl px-4 pt-3 pb-6 md:px-8 md:pt-6 md:pb-10">
-      <FilterBar label="Marketplace tabs" active={tab} items={TABS.map((t) => ({ key: t.key, label: t.label, href: href(t.key) }))} />
+      <div className="flex items-center gap-2">
+        <div className="min-w-0 flex-1">
+          <FilterBar label="Marketplace tabs" active={tab} items={TABS.map((t) => ({ key: t.key, label: t.label, href: href(t.key) }))} />
+        </div>
+        <Link href="/business/search" aria-label="Search people and cars" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface text-ink rail:hidden">
+          <MagnifyingGlass size={22} aria-hidden />
+        </Link>
+      </div>
 
       {empty ? (
         <p className="mt-8 text-sm text-ink-soft">{offset > 0 ? "That is everyone." : emptyLine}</p>

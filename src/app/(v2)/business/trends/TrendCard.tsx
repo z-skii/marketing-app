@@ -67,3 +67,33 @@ export function TrendCard({ trend, large = false, index = 0 }: { trend: TrendIte
     </article>
   );
 }
+
+/**
+ * A compact tile for a rail: the media, the platform chip, a two line
+ * title. One tap prepares the brief and opens the Recreate wizard.
+ */
+export function TrendTile({ trend, index = 0 }: { trend: TrendItem; index?: number }) {
+  const [pending, start] = useTransition();
+  const media = trend.media_url ?? trend.thumbnail_url;
+  return (
+    <button
+      type="button"
+      disabled={pending}
+      onClick={() => start(() => startRecreateFromTrend(trend.id).catch(() => {}))}
+      className="reveal relative block aspect-[3/4] w-[9.75rem] shrink-0 snap-start overflow-hidden rounded-[14px] bg-surface-2 text-left transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] can-hover:hover:-translate-y-1 disabled:opacity-70"
+      style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}
+      aria-label={`Recreate: ${trend.title}`}
+    >
+      {media ? (
+        <MediaPreview src={media} className="absolute inset-0 h-full w-full object-cover" />
+      ) : (
+        <span className="flex h-full w-full items-center justify-center text-ink-faint"><TrendUp size={32} aria-hidden /></span>
+      )}
+      <span className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
+      <span className="glass-tag absolute top-2.5 left-2.5 px-2 py-0.5 font-display text-[0.6875rem] font-700 text-ink">{PLATFORM[trend.platform] ?? "Web"}</span>
+      <span className="absolute inset-x-3 bottom-3 line-clamp-2 font-display text-[0.9375rem] leading-[1.15] font-800 tracking-[-0.01em] text-ink">
+        {pending ? "Preparing your brief" : trend.title}
+      </span>
+    </button>
+  );
+}

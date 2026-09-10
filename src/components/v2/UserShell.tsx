@@ -124,7 +124,7 @@ export function UserShell(props: ShellProps) {
 
 export function Badge({ n, className = "" }: { n: number; className?: string }) {
   return (
-    <span className={`tnum inline-flex min-w-5 items-center justify-center rounded-full bg-alert px-1.5 font-display text-[0.6875rem] font-800 leading-5 text-white ${className}`}>
+    <span className={`tnum inline-flex min-w-5 items-center justify-center rounded-full bg-surface-2 px-1.5 font-display text-[0.6875rem] font-800 leading-5 text-ink ${className}`}>
       {n > 99 ? "99+" : n}
     </span>
   );
