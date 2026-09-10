@@ -4,9 +4,9 @@ import { sql, sqlOne } from "@/lib/db";
 /**
  * Growth analytics for a business. Two providers, one interface:
  *
- *   instagramApi     the Instagram Graph API, only when IG_ACCESS_TOKEN and
- *                    IG_USER_ID are set on the server and the business has a
- *                    connected instagram account. Real calls, with a timeout.
+ *   instagramApi     the Instagram Graph API with the business's own token
+ *                    (connected_accounts, provider instagram, status
+ *                    connected, source oauth). Real calls, with a timeout.
  *   manualSnapshots  numbers the business typed in itself (social_snapshots
  *                    with source "manual") or that an API run stored (source
  *                    "api").
@@ -80,16 +80,24 @@ export function defaultPeriod(now = new Date()): GrowthPeriod {
 
 // ------------------------------------------------------------ Instagram API
 
-const IG_API = "https://graph.facebook.com/v21.0";
+const IG_API = "https://graph.facebook.com/v19.0";
 const FETCH_TIMEOUT_MS = 8000;
 
-export function instagramApiConfigured(): boolean {
-  return Boolean(process.env.IG_ACCESS_TOKEN?.trim() && process.env.IG_USER_ID?.trim());
+type BusinessToken = { token: string; userId: string };
+
+/** The business's own Instagram token, only while the connection is real. */
+async function businessToken(businessId: string): Promise<BusinessToken | null> {
+  const row = await sqlOne<{ access_token: string | null; external_id: string | null; token_expires_at: string | null }>(
+    `select access_token, external_id, token_expires_at from connected_accounts
+      where business_id = $1 and provider = 'instagram' and status = 'connected' and source = 'oauth'`,
+    [businessId],
+  );
+  if (!row?.access_token || !row.external_id) return null;
+  if (row.token_expires_at && new Date(row.token_expires_at).getTime() < Date.now()) return null;
+  return { token: row.access_token, userId: row.external_id };
 }
 
-async function graphGet(path: string, params: Record<string, string>): Promise<Record<string, unknown>> {
-  const token = process.env.IG_ACCESS_TOKEN?.trim();
-  if (!token) throw new Error("IG_ACCESS_TOKEN is not configured.");
+async function graphGet(token: string, path: string, params: Record<string, string>): Promise<Record<string, unknown>> {
   const url = new URL(`${IG_API}/${path}`);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
   url.searchParams.set("access_token", token);
@@ -147,21 +155,16 @@ type MediaItem = {
 export const instagramApi: InsightsProvider = {
   id: "instagram_api",
   async available(businessId) {
-    if (!instagramApiConfigured()) return false;
-    const row = await sqlOne(
-      `select 1 as ok from connected_accounts
-        where business_id = $1 and provider = 'instagram' and status = 'connected'`,
-      [businessId],
-    );
-    return Boolean(row);
+    return Boolean(await businessToken(businessId));
   },
   async fetch(businessId, period = defaultPeriod()) {
-    if (!(await this.available(businessId))) return null;
-    const userId = process.env.IG_USER_ID!.trim();
+    const auth = await businessToken(businessId);
+    if (!auth) return null;
+    const { token, userId } = auth;
     const since = String(Math.floor(Date.parse(`${period.start}T00:00:00Z`) / 1000));
     const until = String(Math.floor(Date.parse(`${period.end}T23:59:59Z`) / 1000));
 
-    const daily = await graphGet(`${userId}/insights`, {
+    const daily = await graphGet(token, `${userId}/insights`, {
       metric: "reach,follower_count", period: "day", since, until,
     });
     const dailyRows = (daily.data as InsightRow[] | undefined) ?? [];
@@ -170,7 +173,7 @@ export const instagramApi: InsightsProvider = {
     let views: number | null = null;
     for (const metric of ["views", "impressions"]) {
       try {
-        const res = await graphGet(`${userId}/insights`, {
+        const res = await graphGet(token, `${userId}/insights`, {
           metric, period: "day", metric_type: "total_value", since, until,
         });
         views = sumValues((res.data as InsightRow[] | undefined) ?? [], metric);
@@ -180,7 +183,7 @@ export const instagramApi: InsightsProvider = {
       }
     }
 
-    const mediaRes = await graphGet(`${userId}/media`, {
+    const mediaRes = await graphGet(token, `${userId}/media`, {
       fields: "id,caption,media_type,media_url,thumbnail_url,permalink,like_count,comments_count,timestamp",
       limit: "25",
     });
@@ -218,7 +221,7 @@ export const instagramApi: InsightsProvider = {
 
 // ---------------------------------------------------------------- snapshots
 
-async function storeSnapshot(businessId: string, s: Snapshot): Promise<void> {
+export async function storeSnapshot(businessId: string, s: Snapshot): Promise<void> {
   await sql(
     `insert into social_snapshots (business_id, provider, period_start, period_end, source, metrics, top_post)
      values ($1, $2, $3::date, $4::date, $5, $6::jsonb, $7::jsonb)`,

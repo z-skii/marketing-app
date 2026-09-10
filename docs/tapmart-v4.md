@@ -4,11 +4,32 @@ One account, two modes. Users find three ways to make money; businesses
 subscribe and run the marketing that pays those users.
 
 ```
-USER       Home · Activity · Earnings · Profile        Recreate · Story · Car
-BUSINESS   Overview · Content · Create · Campaigns · Business   Essential · Growth
+USER       Home · Activity · Earnings · Profile              Recreate · Story · Car
+BUSINESS   Home · Content · Create · Campaigns · Business    Essential · Growth
+           (Home is a marketplace of people and cars; Business is the profile; Settings sits behind its gear)
 ```
 
 The screen rules every page follows are in `docs/design-rules.md`.
+
+## Business mode in one paragraph
+
+A business opens TapMart to find people and cars, run marketing, and manage
+content. Home (`/business`) is a marketplace: people who earn on TapMart
+(with their Instagram only when it is connected or confirmed) and cars
+listed for advertising. From a person's page the business sends a DIRECT
+REQUEST (Request Story, Request Reel); from a car's page, an ad offer. A
+direct request is a normal campaign with `audience = 'direct'` plus one
+`campaign_invites` row (`src/lib/v2/requests.ts`): the person accepts or
+declines on `/o/<id>`, it shows in their Activity, and the usual Story,
+Recreate or Car booking flow follows. Campaigns (`/business/campaigns`)
+lists public campaigns and direct requests together. Content
+(`/business/content`) shows only what exists: the subscription's shoots,
+what verified creators delivered, and what is scheduled or published.
+Business (`/business/profile`) is the business's own profile with three
+numbers and what is next; the gear opens Settings (`/business/settings`):
+account and log out, business details, connections (Instagram, Google
+Business Profile, real OAuth, honest states), brand kit (researched from
+connected sources), plan and billing.
 
 The two modes are two shells, not one shell with a switch:
 `src/components/v2/UserShell.tsx` (Home, Activity, Earnings, Profile) and
@@ -70,8 +91,13 @@ See `docs/business-services.md`. Shoots come from the plan allocation in `src/co
 ## Migrations and seeds
 
 Migrations 0022 (recreate loop), 0023 (vehicle scans, jobs, catalog), 0024
-(business services). Seeds, in order after `scripts/seed-v2.sql`:
-`scripts/seed-v3-recreate.sql`, `scripts/seed-v3-business.sql`.
+(business services), 0025 (direct requests, provider connections, content
+deliverables, brand research). Seeds, in order after `scripts/seed-v2.sql`:
+`scripts/seed-v3-recreate.sql`, `scripts/seed-v3-business.sql`, then
+`scripts/seed-v4-content.sql` (makes demo-creator a verified creator, books the
+Demo Coffee Co. shoot on the 18th at 2 PM for them, and removes template posts
+so the Content tab starts honest; no deliverables are seeded).
+`scripts/seed-v4-people.sql` adds five demo earners for Business Home (`demo_jasmine`, `demo_marcus`, `demo_priya`, `demo_tyler`, `demo_lena`, emails `demo-<name>@example.test`, dev password) with real reviews, admin-confirmed Instagram counts for two of them, and one listed car.
 
 ## Verifying
 

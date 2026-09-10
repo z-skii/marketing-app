@@ -8,7 +8,8 @@ import { fmtDate, isVideoUrl, type CampaignDetails } from "@/lib/v2/opportunitie
 import { placementLabel } from "@/components/v2/EarnCards";
 import { Avatar, Chip, EmptyState, Money, SectionTitle, StatusChip } from "@/components/v2/ui";
 import { ReviewControls } from "@/app/(v2)/jobs/[id]/CampaignActions";
-import { BookingSteps, CloseCampaignButton, DecideDriver, PublishDraftButton, StoryReviewControls } from "./CampaignControls";
+import { BookingSteps, CloseCampaignButton, DecideDriver, PublishDraftButton, StoryReviewControls, WithdrawInviteButton } from "./CampaignControls";
+import { sql as sqlq } from "@/lib/db";
 
 export const metadata = { title: "Campaign" };
 export const dynamic = "force-dynamic";
@@ -137,6 +138,13 @@ export default async function CampaignManagePage({
     campaign.city,
   ].filter(Boolean) as string[];
 
+  const invite = (await sqlq<{ id: string; status: string; username: string; display_name: string | null; avatar_url: string | null }>(
+    `select i.id, i.status, p.username, p.display_name, p.avatar_url
+       from campaign_invites i join profiles p on p.id = i.profile_id
+      where i.campaign_id = $1 order by i.created_at desc limit 1`,
+    [campaign.id],
+  ))[0] ?? null;
+
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/campaigns" label="Campaigns" />
@@ -147,6 +155,19 @@ export default async function CampaignManagePage({
             ? `Published. People in ${campaign.city ?? "your city"} were notified.`
             : "Saved as a draft. Publish it when you are ready."}
         </p>
+      )}
+
+      {invite && (
+        <section aria-label="Direct request" className="mt-4 flex items-center gap-3 rounded-[var(--radius-card)] bg-surface p-3">
+          <Avatar src={invite.avatar_url} name={invite.display_name ?? invite.username} size={44} />
+          <span className="min-w-0 flex-1">
+            <span className="block font-display text-[1rem] font-800 tracking-[-0.02em]">Sent to @{invite.username}</span>
+            <span className="block text-sm text-ink-soft">
+              {invite.status === "sent" ? "Waiting for an answer" : invite.status === "accepted" ? "Accepted" : invite.status === "declined" ? "Declined" : invite.status === "cancelled" ? "Withdrawn" : invite.status}
+            </span>
+          </span>
+          {invite.status === "sent" ? <WithdrawInviteButton inviteId={invite.id} campaignId={campaign.id} /> : <Link href={`/business/people/${invite.username}`} className="btn btn-sm">Profile</Link>}
+        </section>
       )}
 
       <header className="card mt-4 overflow-hidden">

@@ -115,6 +115,7 @@ export async function getOpportunities(options: {
        from campaigns c
        join businesses b on b.id = c.business_id
       where c.status = 'open'
+        and c.audience = 'public'
         and c.kind in ('recreate_reel', 'instagram_story', 'car_ads')
         and (c.deadline is null or c.deadline > now())
         and ($3::text is null or c.kind = $3::campaign_kind)
@@ -128,7 +129,11 @@ export async function getOpportunities(options: {
 
 export async function getOpportunity(id: string, viewerId: string): Promise<Opportunity | null> {
   const row = await sqlOne<Opportunity>(
-    `${SELECT} from campaigns c join businesses b on b.id = c.business_id where c.id = $2`,
+    `${SELECT} from campaigns c join businesses b on b.id = c.business_id
+      where c.id = $2
+        and (c.audience = 'public' or c.target_profile_id = $1
+             or exists (select 1 from business_members m where m.business_id = c.business_id and m.profile_id = $1)
+             or exists (select 1 from profiles p where p.id = $1 and p.role = 'admin'))`,
     [viewerId, id],
   );
   return row && isEarnKind(row.kind) ? row : null;
@@ -138,7 +143,7 @@ export async function getOpportunity(id: string, viewerId: string): Promise<Oppo
 export async function getBusinessOpportunities(businessId: string, viewerId: string): Promise<Opportunity[]> {
   return sql<Opportunity>(
     `${SELECT} from campaigns c join businesses b on b.id = c.business_id
-      where c.business_id = $2 and c.status = 'open'
+      where c.business_id = $2 and c.status = 'open' and c.audience = 'public'
         and c.kind in ('recreate_reel', 'instagram_story', 'car_ads')
         and (c.deadline is null or c.deadline > now())
       order by c.published_at desc limit 30`,
@@ -245,8 +250,8 @@ export type ActivityItem = {
   business_logo: string | null;
   cover: string | null;
   pay_cents: number;
-  /** application | submission | booking */
-  record: "application" | "submission" | "booking";
+  /** application | submission | booking | invite (a direct request waiting for, or declined by, the person) */
+  record: "application" | "submission" | "booking" | "invite";
   status: string;
   created_at: string;
   ends_on: string | null;
@@ -280,6 +285,16 @@ export async function getActivity(viewerId: string): Promise<ActivityItem[]> {
          from submissions s join campaigns c on c.id = s.campaign_id join businesses b on b.id = c.business_id
         where s.creator_id = $1
        union all
+       select i.id, c.kind::text, c.id, c.title, b.name, b.logo_url,
+              coalesce(c.details->>'reference_media_url', c.details->>'creative_url', c.details->>'artwork_url', b.cover_url),
+              i.pay_cents::int, 'invite', i.status, i.created_at, null::date, i.message,
+              (c.details->>'live_hours')::int, null::text
+         from campaign_invites i join campaigns c on c.id = i.campaign_id join businesses b on b.id = c.business_id
+        where i.profile_id = $1
+          and (i.status in ('sent', 'declined', 'cancelled')
+               or (i.status = 'accepted' and c.kind <> 'car_ads'
+                   and not exists (select 1 from submissions s2 where s2.campaign_id = c.id and s2.creator_id = $1)))
+       union all
        select k.id, 'car_ads', coalesce(o.campaign_id, k.id), coalesce(c.title, b.name || ' car ad'), b.name, b.logo_url,
               coalesce(k.artwork_url, c.details->>'artwork_url', b.cover_url),
               k.monthly_cents::int, 'booking', k.status::text, k.created_at, k.ends_on, null::text,
@@ -307,6 +322,10 @@ export function activityBucket(item: ActivityItem): "active" | "submitted" | "co
     if (["declined", "withdrawn"].includes(item.status)) return "completed";
     return "active";
   }
+  if (item.record === "invite") {
+    if (["declined", "cancelled", "expired"].includes(item.status)) return "completed";
+    return "active";
+  }
   if (["completed", "cancelled"].includes(item.status)) return "completed";
   return "active";
 }
@@ -326,6 +345,15 @@ export function activityLabel(item: ActivityItem): { label: string; sub: string 
         return { label: "Approved", sub: "Paid to your earnings" };
       case "rejected":
         return { label: "Not approved", sub: item.review_note ?? "" };
+    }
+  }
+  if (item.record === "invite") {
+    switch (item.status) {
+      case "sent": return { label: "Request for you", sub: `${item.business_name} asked you directly. Accept or decline` };
+      case "accepted": return { label: "Accepted", sub: k === "instagram_story" ? "Post the Story and send proof" : "Recreate and submit your version" };
+      case "declined": return { label: "Declined", sub: "" };
+      case "cancelled": return { label: "Withdrawn", sub: "The business withdrew the request" };
+      case "expired": return { label: "Expired", sub: "" };
     }
   }
   if (item.record === "application") {

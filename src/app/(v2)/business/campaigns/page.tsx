@@ -14,6 +14,7 @@ const EARN_KINDS = ["recreate_reel", "instagram_story", "car_ads"];
 type Row = {
   id: string; kind: string; title: string; status: string; pay_cents: number; slots: number; city: string | null;
   media: string | null; vehicle: string | null;
+  audience: "public" | "direct"; target_name: string | null; invite_status: string | null;
   approved: number; verified: number; cars_active: number; waiting: number; applications: number; artwork: number; created_at: string;
 };
 
@@ -44,7 +45,11 @@ export default async function CampaignsPage({
 
   const rows = await sql<Row>(
     `select c.id, c.kind::text as kind, c.title, c.status::text as status, c.pay_cents::int as pay_cents, c.slots, c.city, c.created_at,
-            coalesce(c.details->>'reference_media_url', c.details->>'creative_url', c.details->>'artwork_url') as media,
+            c.audience, tp.username as target_name,
+            (select i.status from campaign_invites i where i.campaign_id = c.id order by i.created_at desc limit 1) as invite_status,
+            coalesce(c.details->>'reference_media_url', c.details->>'creative_url', c.details->>'artwork_url',
+                     (select coalesce(v.poster_url, (select url from vehicle_photos p where p.vehicle_id = v.id order by p.created_at limit 1)) from vehicles v where v.id = c.target_vehicle_id),
+                     tp.avatar_url) as media,
             (select coalesce(v.poster_url, (select url from vehicle_photos p where p.vehicle_id = v.id order by p.created_at limit 1))
                from car_bookings k join vehicles v on v.id = k.vehicle_id
               where k.campaign_id = c.id and k.status in ('active', 'completed', 'creative_pending') order by k.created_at limit 1) as vehicle,
@@ -55,12 +60,13 @@ export default async function CampaignsPage({
             (select count(*) from applications a where a.campaign_id = c.id and a.status = 'applied')::int as applications,
             (select count(*) from car_bookings k where k.campaign_id = c.id and k.status = 'creative_pending')::int as artwork
        from campaigns c
+       left join profiles tp on tp.id = c.target_profile_id
       where c.business_id = $1
       order by (c.status in ('open', 'paused')) desc, c.created_at desc`,
     [business.id],
   );
 
-  const isDone = (r: Row) => ["closed", "completed"].includes(r.status);
+  const isDone = (r: Row) => ["closed", "completed", "cancelled"].includes(r.status);
   const legacy = (r: Row) => !EARN_KINDS.includes(r.kind);
   const needsYou = (r: Row) => r.waiting > 0 || r.applications > 0 || r.artwork > 0;
   const pending = (r: Row) => r.waiting + r.applications + r.artwork;
@@ -104,7 +110,16 @@ export default async function CampaignsPage({
             const story = c.kind === "instagram_story";
             const media = car ? (c.vehicle ?? c.media) : c.media;
             const done = isDone(c);
-            const lines = car
+            const direct = c.audience === "direct";
+            const inviteLine = direct
+              ? c.invite_status === "sent" ? "Waiting for an answer"
+                : c.invite_status === "accepted" ? (car ? "Accepted, booking set up" : "Accepted, working on it")
+                : c.invite_status === "declined" ? "Declined"
+                : c.invite_status === "cancelled" ? "Withdrawn" : null
+              : null;
+            const lines = direct
+              ? [`Sent to @${c.target_name ?? "someone"}`, c.waiting > 0 ? `${c.waiting} ready to review` : c.artwork > 0 ? "Waiting on artwork" : inviteLine]
+              : car
               ? [c.city ?? "Any city", `${c.cars_active} ${c.cars_active === 1 ? "car" : "cars"} active`, c.applications > 0 ? `${c.applications} ${c.applications === 1 ? "application" : "applications"}` : c.artwork > 0 ? `${c.artwork} waiting on artwork` : null]
               : story
               ? [`${c.approved} active`, `${c.verified} verified`, c.waiting > 0 ? `${c.waiting} to verify` : null]
@@ -118,7 +133,7 @@ export default async function CampaignsPage({
                   <span className={`relative block w-full overflow-hidden bg-surface-2 ${car ? "aspect-[4/3]" : "aspect-[16/11] sm:aspect-[4/5]"}`}>
                     {media && <MediaPreview src={media} className="absolute inset-0 h-full w-full object-cover" />}
                     <span className="media-scrim absolute inset-x-0 bottom-0 h-3/5" aria-hidden />
-                    <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">{KIND_LABEL[c.kind] ?? c.kind.replaceAll("_", " ")}</span>
+                    <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">{direct ? "Direct request" : (KIND_LABEL[c.kind] ?? c.kind.replaceAll("_", " "))}{direct ? ` · ${KIND_LABEL[c.kind] ?? c.kind}` : ""}</span>
                     {c.status === "paused" && <span className="glass-tag absolute top-3 right-3 px-2.5 py-1 text-xs text-ink-faint">Paused</span>}
                     {c.status === "draft" && <span className="glass-tag absolute top-3 right-3 px-2.5 py-1 text-xs text-ink-faint">Draft</span>}
                     <span className="absolute inset-x-4 bottom-4">

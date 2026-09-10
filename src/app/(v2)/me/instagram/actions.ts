@@ -6,7 +6,10 @@ import { requireOnboarded } from "@/lib/v2/core";
 import { connectInstagramManually, disconnectInstagram } from "@/lib/v2/instagram";
 import { safeReturnPath } from "@/lib/v2/paths";
 
-/** Instagram for Story campaigns. Manual until the Meta connection exists. */
+/**
+ * A person's Instagram. The manual path records a handle that waits for a
+ * TapMart check; the OAuth path lives in /api/oauth/instagram-user.
+ */
 
 type Result = { ok: boolean; error?: string };
 
@@ -15,7 +18,6 @@ export async function connectInstagram(input: { handle: string; followers: strin
   const followersClean = input.followers.replace(/[^\d]/g, "");
   const followers = followersClean ? Math.min(Number(followersClean), 500_000_000) : null;
   if (!input.handle.trim()) return { ok: false, error: "Add your Instagram handle." };
-  if (followers === null) return { ok: false, error: "Add your follower count. Round numbers are fine." };
   try {
     await connectInstagramManually(ctx.user.id, input.handle, followers);
   } catch (e) {

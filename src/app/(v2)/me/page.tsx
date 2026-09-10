@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Gear, CaretRight, CheckCircle, InstagramLogo, Car as CarIcon, Wallet } from "@phosphor-icons/react/dist/ssr";
 import { getV2Context } from "@/lib/v2/core";
 import { getMyVehicles } from "@/lib/v2/opportunities";
+import { countShootsAssignedTo } from "@/lib/business/shoots";
 import { sql, sqlOne } from "@/lib/db";
 import { getSettings } from "@/lib/settings";
 import { formatCredit } from "@/lib/money";
@@ -21,7 +22,7 @@ export default async function MePage() {
   const ctx = await getV2Context();
   if (!ctx) return null;
 
-  const [stats, vehicles, settings] = await Promise.all([
+  const [stats, vehicles, settings, assignedShoots] = await Promise.all([
     sqlOne<{ rating: string | null; completed: string; lifetime: string; available: string; saved: string; active: string }>(
       `select cp.rating_avg::text as rating,
               (select count(*) from submissions s where s.creator_id = $1 and s.status in ('approved', 'paid'))::text as completed,
@@ -40,6 +41,7 @@ export default async function MePage() {
     ),
     getMyVehicles(ctx.user.id),
     getSettings(),
+    countShootsAssignedTo(ctx.user.id),
   ]);
 
   const car = vehicles[0] ?? null;
@@ -149,6 +151,7 @@ export default async function MePage() {
               <Row href="/earnings" title="Payments" />
               <Row href="/activity?tab=saved" title="Saved" value={String(stats?.saved ?? 0)} />
               <Row href={`/u/${ctx.user.username}`} title="Public profile and reviews" />
+              {assignedShoots > 0 && <Row href="/me/shoots" title={`Your shoots · ${assignedShoots} assigned`} />}
             </ul>
           </section>
         </section>

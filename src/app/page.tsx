@@ -56,7 +56,7 @@ async function topPay(): Promise<Partial<Record<EarnKind, number>>> {
   const rows = await sql<{ kind: EarnKind; pay_cents: number }>(
     `select c.kind::text as kind, max(c.pay_cents)::int as pay_cents
        from campaigns c
-      where c.status = 'open' and c.kind in ('recreate_reel', 'instagram_story', 'car_ads')
+      where c.status = 'open' and c.audience = 'public' and c.kind in ('recreate_reel', 'instagram_story', 'car_ads')
         and (c.deadline is null or c.deadline > now())
       group by c.kind`,
   );

@@ -18,7 +18,7 @@ delete process.env.GOOGLE_CLIENT_SECRET;
 import { approveBrandKit, discardProposal, getBrandKit, proposeBrandKit } from "@/lib/business/brand";
 import { ensureMonthlyShoots, getNextShoot, listShoots, setShootStatus, shootDateFor } from "@/lib/business/shoots";
 import { approveAll, moveCalendarPost, monthSlots, proposeMonth } from "@/lib/ai/schedule";
-import { runGoogleHealth } from "@/lib/google/business";
+import { NotConnectedError, runGoogleHealth } from "@/lib/google/business";
 import { addManualSnapshot, getGrowthSummary } from "@/lib/social/insights";
 import { pool as appPool } from "@/lib/db";
 
@@ -182,32 +182,13 @@ describe("month proposal", () => {
 });
 
 describe("google business health", () => {
-  it("flags missing hours and phone from the profile and stores the run", async () => {
+  it("refuses to run before Google is connected and stores nothing", async () => {
     const owner = await createUser();
     const business = await makeBusiness(owner, { hours: null });
 
-    const health = await runGoogleHealth(business);
-    expect(health.source).toBe("profile");
-    const byKey = Object.fromEntries(health.checks.map((c) => [c.key, c.status]));
-    expect(byKey.name).toBe("ok");
-    expect(byKey.category).toBe("ok");
-    expect(byKey.hours).toBe("missing");
-    expect(byKey.phone).toBe("missing");
-    expect(health.fixes.map((f) => f.key)).toContain("hours");
-    expect(health.fixes.map((f) => f.key)).toContain("phone");
-    expect(health.fixes.every((f) => f.href.startsWith("/business/edit"))).toBe(true);
-    expect(health.score).toBeGreaterThan(0);
-    expect(health.score).toBeLessThan(100);
-
-    const stored = await q<{ source: string; score: number }>(`select source, score from google_health_checks where business_id = $1`, [business]);
-    expect(stored).toEqual([{ source: "profile", score: health.score }]);
-
-    await q(`update businesses set phone = '555 0100', hours = '{"mon":"8-5","tue":"8-5","wed":"8-5","thu":"8-5","fri":"8-5","sat":"9-2","sun":"closed"}'::jsonb where id = $1`, [business]);
-    const better = await runGoogleHealth(business);
-    const byKey2 = Object.fromEntries(better.checks.map((c) => [c.key, c.status]));
-    expect(byKey2.hours).toBe("ok");
-    expect(byKey2.phone).toBe("ok");
-    expect(better.score).toBeGreaterThan(health.score);
+    await expect(runGoogleHealth(business)).rejects.toBeInstanceOf(NotConnectedError);
+    const stored = await q(`select 1 from google_health_checks where business_id = $1`, [business]);
+    expect(stored).toEqual([]);
   });
 });
 

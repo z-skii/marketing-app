@@ -23,15 +23,16 @@ export async function CarView({ o, ctx, open }: { o: Opportunity; ctx: V2Context
       [o.id, ctx.user.id],
     ),
   ]);
-  const booking = application?.status === "accepted"
-    ? await sqlOne<{ id: string; status: string; ends_on: string | null; starts_on: string | null; vehicle_id: string }>(
-        `select k.id, k.status::text as status, k.ends_on, k.starts_on, k.vehicle_id
-           from car_bookings k join vehicles v on v.id = k.vehicle_id
-          where k.campaign_id = $1 and v.owner_id = $2
-          order by k.created_at desc limit 1`,
-        [o.id, ctx.user.id],
-      )
-    : null;
+  // A booking exists after an accepted application, or after an accepted
+  // direct request (which creates the booking without an application).
+  const booking = await sqlOne<{ id: string; status: string; ends_on: string | null; starts_on: string | null; vehicle_id: string }>(
+    `select k.id, k.status::text as status, k.ends_on, k.starts_on, k.vehicle_id
+       from car_bookings k join vehicles v on v.id = k.vehicle_id
+      where k.campaign_id = $1 and v.owner_id = $2
+      order by k.created_at desc limit 1`,
+    [o.id, ctx.user.id],
+  );
+  const direct = !application && booking ? { id: booking.id, status: "accepted", vehicle_id: booking.vehicle_id } : null;
 
   const art = o.details.artwork_url ?? null;
   const duration = o.details.duration_days ?? 30;
@@ -46,7 +47,7 @@ export async function CarView({ o, ctx, open }: { o: Opportunity; ctx: V2Context
   ].filter(Boolean) as string[];
 
   // "withdrawn" behaves like no application: the person can apply again.
-  const live = application && application.status !== "withdrawn" ? application : null;
+  const live = application && application.status !== "withdrawn" ? application : direct;
   const checks = vehicles.map((v) => ({ v, q: vehicleQualifies(v, o) }));
   const firstMatch = checks.find((c) => c.q.ok);
   const appliedWith = live ? vehicles.find((v) => v.id === live.vehicle_id) ?? null : null;

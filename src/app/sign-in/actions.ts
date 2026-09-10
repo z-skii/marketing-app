@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { createSession, destroySession, upsertUserByEmail } from "@/lib/auth";
 import { devAuthEnabled, supabaseAnon } from "@/lib/supabase";
 import { emailSchema, passwordSchema } from "@/lib/validation";
@@ -96,6 +97,9 @@ export async function resendVerification(
 
 export async function signOut() {
   await destroySession();
-  redirect("/");
+  // The (v2) layout chose a shell from this session; drop it so nothing
+  // from the old identity survives the redirect.
+  revalidatePath("/", "layout");
+  redirect("/sign-in");
 }
 

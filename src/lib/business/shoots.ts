@@ -11,10 +11,14 @@ import { PLAN_BY_KEY, type PlanKey, type PlanShoots } from "@/config/plans";
 
 export type ShootStatus = "planned" | "scheduled" | "done" | "cancelled";
 
+export type DeliveryStatus = "none" | "processing" | "delivered";
+
 export type ContentShoot = {
   id: string;
   business_id: string;
   scheduled_for: string | null;
+  /** "14:00:00" when the admin set a start time. */
+  starts_at: string | null;
   status: ShootStatus;
   photos_planned: number;
   videos_planned: number;
@@ -22,15 +26,31 @@ export type ContentShoot = {
   assigned_to: string | null;
   assigned_label: string | null;
   notes: string | null;
+  delivery_status: DeliveryStatus;
+  completed_at: string | null;
   created_at: string;
   updated_at: string;
 };
 
+/** A shoot as the assigned creator sees it: which business, and what has been uploaded so far. */
+export type AssignedShoot = ContentShoot & {
+  business_name: string;
+  business_logo_url: string | null;
+  photos_uploaded: number;
+  videos_uploaded: number;
+};
+
 export type ShootActor = { userId: string; isAdmin: boolean };
 
-const SHOOT_COLUMNS =
-  `id, business_id, scheduled_for::text as scheduled_for, status, photos_planned, videos_planned,
-   deliverable_urls, assigned_to, assigned_label, notes, created_at, updated_at`;
+/** The shoot row as ContentShoot; `t` is the table alias when the query joins. */
+function shootColumns(t = ""): string {
+  const c = (name: string) => `${t}${name}`;
+  return `${c("id")}, ${c("business_id")}, ${c("scheduled_for")}::text as scheduled_for, ${c("starts_at")}::text as starts_at,
+   ${c("status")}, ${c("photos_planned")}, ${c("videos_planned")}, ${c("deliverable_urls")}, ${c("assigned_to")},
+   ${c("assigned_label")}, ${c("notes")}, ${c("delivery_status")}, ${c("completed_at")}::text as completed_at,
+   ${c("created_at")}::text as created_at, ${c("updated_at")}::text as updated_at`;
+}
+const SHOOT_COLUMNS = shootColumns();
 
 /** Preferred days of the month for each shoot slot: the 18th first, then two weeks earlier. */
 export const SHOOT_DAYS = [18, 4, 25, 11];
@@ -109,15 +129,62 @@ export async function ensureMonthlyShoots(
   return { created, plan: allocation.plan, total: have + created };
 }
 
-/** The next shoot that has not happened yet, soonest first. */
+/** The next shoot that has not happened yet, soonest first. Booked shoots come before planned slots. */
 export async function getNextShoot(businessId: string): Promise<ContentShoot | null> {
   return sqlOne<ContentShoot>(
     `select ${SHOOT_COLUMNS} from content_shoots
       where business_id = $1 and status in ('planned', 'scheduled')
         and (scheduled_for is null or scheduled_for >= current_date)
-      order by scheduled_for nulls last, created_at limit 1`,
+      order by (status = 'scheduled') desc, scheduled_for nulls last, created_at limit 1`,
     [businessId],
   );
+}
+
+/** The most recent shoot that happened (done), newest first. */
+export async function getLastShoot(businessId: string): Promise<ContentShoot | null> {
+  return sqlOne<ContentShoot>(
+    `select ${SHOOT_COLUMNS} from content_shoots
+      where business_id = $1 and status = 'done'
+      order by coalesce(completed_at, updated_at) desc limit 1`,
+    [businessId],
+  );
+}
+
+/** One shoot by id, without a business scope: for the assigned creator and admins. Check permission first. */
+export async function getShootById(shootId: string): Promise<ContentShoot | null> {
+  return sqlOne<ContentShoot>(`select ${SHOOT_COLUMNS} from content_shoots where id = $1`, [shootId]);
+}
+
+/** Shoots assigned to a person, with the business and what they have uploaded so far. Not a marketplace job. */
+export async function listShootsAssignedTo(userId: string, limit = 24): Promise<AssignedShoot[]> {
+  return sql<AssignedShoot>(
+    `select ${shootColumns("s.")},
+            b.name as business_name, b.logo_url as business_logo_url,
+            (select count(*) from content_deliverables d where d.shoot_id = s.id and d.kind = 'photo')::int as photos_uploaded,
+            (select count(*) from content_deliverables d where d.shoot_id = s.id and d.kind = 'video')::int as videos_uploaded
+       from content_shoots s join businesses b on b.id = s.business_id
+      where s.assigned_to = $1 and s.status <> 'cancelled'
+      order by (s.status = 'done'), s.scheduled_for nulls last, s.created_at
+      limit $2`,
+    [userId, Math.min(Math.max(limit, 1), 100)],
+  );
+}
+
+export async function countShootsAssignedTo(userId: string): Promise<number> {
+  const row = await sqlOne<{ n: string }>(
+    `select count(*)::text as n from content_shoots where assigned_to = $1 and status <> 'cancelled'`,
+    [userId],
+  );
+  return Number(row?.n ?? 0);
+}
+
+/** True when the person is a verified TapMart creator (creator_profiles.verification = 'verified'). */
+export async function isVerifiedCreator(userId: string): Promise<boolean> {
+  const row = await sqlOne<{ ok: boolean }>(
+    `select exists(select 1 from creator_profiles where profile_id = $1 and verification = 'verified') as ok`,
+    [userId],
+  );
+  return Boolean(row?.ok);
 }
 
 export async function listShoots(businessId: string, limit = 12): Promise<ContentShoot[]> {
@@ -176,12 +243,19 @@ export async function setShootStatus(shootId: string, status: ShootStatus, actor
   return updated;
 }
 
-/** Admin-only: who is going. `assigneeId` may be null with a label for someone outside the platform. */
+/**
+ * Admin-only: who is going. A platform assignee must be a verified creator,
+ * because only the assigned verified creator can upload deliverables.
+ * `assigneeId` may be null with a label for someone outside the platform.
+ */
 export async function assignShootTo(
   shootId: string,
   assigneeId: string | null,
   label: string | null,
 ): Promise<ContentShoot> {
+  if (assigneeId && !(await isVerifiedCreator(assigneeId))) {
+    throw new Error("Only a verified TapMart creator can be assigned to a shoot.");
+  }
   const updated = await sqlOne<ContentShoot>(
     `update content_shoots
         set assigned_to = $2, assigned_label = nullif($3, ''),

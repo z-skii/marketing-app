@@ -1,5 +1,7 @@
 "use server";
 
+import { respondToInvite } from "@/lib/v2/requests";
+
 import { revalidatePath } from "next/cache";
 import { sqlOne } from "@/lib/db";
 import { notify, requireOnboarded } from "@/lib/v2/core";
@@ -26,6 +28,16 @@ export async function withdrawCarApplication(campaignId: string): Promise<Result
     href: `/business/campaigns/${campaignId}`,
   });
   revalidatePath(`/o/${campaignId}`);
+  revalidatePath("/activity");
+  return { ok: true };
+}
+
+/** The person answers a direct request from a business. */
+export async function respondToInviteAction(inviteId: string, answer: "accepted" | "declined"): Promise<Result> {
+  const ctx = await requireOnboarded();
+  const r = await respondToInvite(inviteId, ctx.user.id, answer);
+  if (!r.ok) return { ok: false, error: r.error };
+  revalidatePath(`/o/${r.invite.campaign_id}`);
   revalidatePath("/activity");
   return { ok: true };
 }

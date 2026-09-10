@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { sql, sqlOne } from "@/lib/db";
 import { notifyMany, requireBusinessMember, requireOnboarded } from "@/lib/v2/core";
 import { formatCredit } from "@/lib/money";
+import { cancelInvite } from "@/lib/v2/requests";
 
 type Result = { ok: boolean; error?: string };
 const fail = (error: string): Result => ({ ok: false, error });
@@ -52,6 +53,19 @@ export async function publishDraft(campaignId: string): Promise<Result> {
       : `${formatCredit(payCents)}/month: drivers wanted in ${campaign.city}`;
     await notifyMany(audience.map((a) => a.id), "opportunity", headline, { body: `New in ${campaign.city}.`, href: `/o/${campaignId}` });
   }
+  revalidatePath(`/business/campaigns/${campaignId}`);
+  revalidatePath("/business/campaigns");
+  return { ok: true };
+}
+
+/** Withdraw a direct request that the person has not answered yet. */
+export async function withdrawInvite(inviteId: string, campaignId: string): Promise<Result> {
+  const ctx = await requireOnboarded();
+  const row = await sqlOne<{ business_id: string }>(`select business_id from campaign_invites where id = $1`, [inviteId]);
+  if (!row) return fail("Request not found.");
+  await requireBusinessMember(ctx.user.id, row.business_id, ["owner", "manager"]);
+  const ok = await cancelInvite(inviteId, row.business_id);
+  if (!ok) return fail("This request was already answered.");
   revalidatePath(`/business/campaigns/${campaignId}`);
   revalidatePath("/business/campaigns");
   return { ok: true };

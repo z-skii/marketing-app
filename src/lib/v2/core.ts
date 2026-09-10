@@ -113,7 +113,8 @@ async function loadV2Context(): Promise<V2Context | null> {
     instagram: {
       status: instagram?.status ?? "disconnected",
       handle: instagram?.handle ?? null,
-      followers: instagram?.follower_count ?? null,
+      // A follower count is only shown once the account is connected (API or confirmed by TapMart).
+      followers: instagram?.status === "connected" ? (instagram?.follower_count ?? null) : null,
       verifiedBy: instagram?.verified_by ?? "none",
     },
     unreadNotifications: Number(counts?.unread ?? 0),

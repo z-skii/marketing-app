@@ -7,7 +7,7 @@ import { Uploader } from "@/components/v2/Uploader";
 import { closeCampaign, reviewSubmission } from "@/app/(v2)/jobs/[id]/actions";
 import { decideCarApplication } from "@/app/(v2)/o/actions";
 import { advanceBooking, payBookingMonth } from "@/app/(v2)/cars/actions";
-import { publishDraft } from "./actions";
+import { publishDraft, withdrawInvite } from "./actions";
 
 /**
  * The buttons on a campaign's management screen. Every one calls an
@@ -183,4 +183,21 @@ export function BookingSteps({
     );
   }
   return null;
+}
+
+/** Withdraw a direct request while it is still unanswered. */
+export function WithdrawInviteButton({ inviteId, campaignId }: { inviteId: string; campaignId: string }) {
+  const router = useRouter();
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+  return (
+    <span className="flex items-center gap-2">
+      <button type="button" className="btn btn-sm" disabled={pending} onClick={() => start(async () => {
+        const r = await withdrawInvite(inviteId, campaignId);
+        if (!r.ok) { setError(r.error ?? "Could not withdraw."); return; }
+        router.refresh();
+      })}>{pending ? "Withdrawing" : "Withdraw request"}</button>
+      {error && <span className="text-sm alert-text">{error}</span>}
+    </span>
+  );
 }

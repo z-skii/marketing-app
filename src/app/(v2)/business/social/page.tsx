@@ -1,29 +1,17 @@
 import Link from "next/link";
-import { CaretRight, FacebookLogo, GoogleLogo, InstagramLogo, TiktokLogo } from "@phosphor-icons/react/dist/ssr";
+import { CaretRight, InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import { BackButton } from "@/components/v2/BackButton";
 import { MediaPreview } from "@/components/v2/MediaPreview";
 import { NoPhoto } from "@/components/v2/EarnCards";
-import { Chip } from "@/components/v2/ui";
+import { Avatar, Chip } from "@/components/v2/ui";
 import { requireBusinessContext } from "@/lib/v2/core";
-import { providerConfigured } from "@/lib/business/publishing";
-import { defaultPeriod, getGrowthSummary, type SnapshotProvider } from "@/lib/social/insights";
-import { listConnections, type ConnectionProvider, type ConnectionRow } from "@/lib/social/summary";
-import { ConnectButton } from "./ConnectButton";
+import { defaultPeriod, getGrowthSummary } from "@/lib/social/insights";
+import { getInstagramBusiness } from "@/lib/social/instagram-business";
+import { connectionState, STATE_LABEL } from "@/lib/social/summary";
 import { ManualGrowthForm } from "./ManualGrowthForm";
 
-export const metadata = { title: "Social" };
+export const metadata = { title: "Instagram insights" };
 export const dynamic = "force-dynamic";
-
-const PLATFORMS: { key: ConnectionProvider; name: string; Logo: typeof InstagramLogo }[] = [
-  { key: "instagram", name: "Instagram", Logo: InstagramLogo },
-  { key: "facebook", name: "Facebook", Logo: FacebookLogo },
-  { key: "tiktok", name: "TikTok", Logo: TiktokLogo },
-  { key: "google_business", name: "Google Business", Logo: GoogleLogo },
-];
-
-const PROVIDER_NAMES: Record<SnapshotProvider, string> = {
-  instagram: "Instagram", facebook: "Facebook", tiktok: "TikTok", google_business: "Google Business",
-};
 
 /** 84,213 reads as 84K; 1,240 as 1.2K; below 1,000 the number itself. Formatting only, never rounding a stored value away. */
 function compact(n: number): string {
@@ -43,75 +31,68 @@ function periodLabel(start: string, end: string): string {
   return `${fmt(start)} to ${fmt(end)}`;
 }
 
+function synced(iso: string | null): string | null {
+  if (!iso) return null;
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? null : `Synced ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+}
+
 /**
- * Social in one place: which accounts are connected (connections live here
- * now), this period's real numbers, and the post that did best. Every figure
- * was measured by the platform or typed in by the business; nothing is
- * estimated.
+ * Instagram insights: the account as Instagram reports it, this period's
+ * growth, the post that did best and the latest posts. Every figure was
+ * measured by Instagram or typed in by the business and is labelled as
+ * such. Connecting happens under Settings, Connections.
  */
 export default async function SocialPage() {
   const ctx = await requireBusinessContext("/business/social");
   const business = ctx.activeBusiness;
 
-  const [rows, growth] = await Promise.all([listConnections(business.id), getGrowthSummary(business.id)]);
-  const rowFor = (key: ConnectionProvider): ConnectionRow | undefined => rows.find((r) => r.provider === key);
-  const anyConfigured = (["instagram", "facebook", "tiktok"] as const).some((p) => providerConfigured(p));
+  const [ig, growth] = await Promise.all([getInstagramBusiness(business.id), getGrowthSummary(business.id)]);
+  const state = connectionState(ig);
+  const connected = state === "connected" && ig?.source === "oauth";
+  const followers = connected ? ig?.meta.followers ?? null : null;
+  const media = connected ? (ig?.meta.media ?? []).slice(0, 12) : [];
 
   const period = growth.period ?? defaultPeriod();
   const m = growth.metrics;
-  const providerName = growth.provider ? PROVIDER_NAMES[growth.provider] : "Instagram";
   const sourceLabel = growth.source === "manual"
     ? `Entered by you · ${periodLabel(period.start, period.end)}`
-    : `From ${providerName}`;
+    : `From Instagram · ${periodLabel(period.start, period.end)}`;
 
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Business" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Social</h1>
+      <h2 className="eyebrow mt-3">Instagram</h2>
+      <h1 className="mt-2 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Insights</h1>
 
-      {/* ---------------------------------------------------------- ACCOUNTS */}
-      <section className="mt-7" aria-labelledby="accounts-title">
-        <h2 id="accounts-title" className="eyebrow">Accounts</h2>
-        <ul className="mt-1 divide-y divide-rule">
-          {PLATFORMS.map((p, i) => {
-            const row = rowFor(p.key);
-            const status = row?.status ?? "disconnected";
-            const handle = row?.external_name?.trim() || null;
-            return (
-              <li key={p.key} className="reveal flex min-h-16 items-center gap-3 py-3" style={{ animationDelay: `${Math.min(i, 6) * 60}ms` }}>
-                <p.Logo size={30} weight="fill" className="shrink-0 text-ink" aria-hidden />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-display text-[1.0625rem] leading-tight font-700">{p.name}</p>
-                  <div className="mt-1 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-                    <span className="whitespace-nowrap">
-                      {status === "connected" && <Chip tone="rise">Connected</Chip>}
-                      {status === "error" && <Chip tone="alert">Needs reconnect</Chip>}
-                      {status === "pending" && <Chip tone="ink">Requested</Chip>}
-                      {status === "disconnected" && <Chip tone="faint">Not connected</Chip>}
-                    </span>
-                    {handle && <span className="min-w-0 truncate text-sm text-ink-faint">{handle}</span>}
-                  </div>
-                </div>
-                {status === "disconnected" && <ConnectButton businessId={business.id} provider={p.key} label="Connect" />}
-                {status === "error" && <ConnectButton businessId={business.id} provider={p.key} label="Reconnect" />}
-              </li>
-            );
-          })}
-        </ul>
-        {!anyConfigured && (
-          <p className="mt-3 text-sm text-ink-soft">Connecting needs TapMart&apos;s Meta and TikTok app keys. Ask support to enable it.</p>
-        )}
+      {/* ----------------------------------------------------------- ACCOUNT */}
+      <section className="mt-5 flex items-center gap-3" aria-label="Account">
+        {connected && ig?.avatar_url
+          ? <Avatar src={ig.avatar_url} name={ig.external_name ?? "Instagram"} size={48} />
+          : <InstagramLogo size={40} weight="fill" className="shrink-0 text-ink" aria-hidden />}
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-display text-[1.0625rem] leading-tight font-700">
+            {connected && ig?.external_name ? `@${ig.external_name}` : "No account connected"}
+          </p>
+          <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-faint">
+            <Chip tone={connected ? "rise" : state === "needs_reconnect" || state === "error" ? "alert" : "faint"}>{STATE_LABEL[state]}</Chip>
+            {connected && followers !== null && <span className="tnum">{followers.toLocaleString("en-US")} followers</span>}
+            {connected && <span>{synced(ig?.last_synced_at ?? null) ?? "Not synced yet"}</span>}
+          </p>
+        </div>
+        <Link href="/business/settings/connections" className="btn btn-sm shrink-0">
+          {connected ? "Manage" : "Connect"}<CaretRight size={16} weight="bold" aria-hidden />
+        </Link>
       </section>
+      {!connected && (
+        <p className="mt-3 text-sm text-ink-soft">Connect Instagram under Settings, Connections to see measured numbers here. Until then you can enter this month&apos;s numbers yourself.</p>
+      )}
 
-      {/* ------------------------------------------------------- PERFORMANCE */}
+      {/* ------------------------------------------------------------ GROWTH */}
       <section className="mt-10" aria-labelledby="growth-title">
-        <h2 id="growth-title" className="eyebrow">{providerName}</h2>
-
+        <h2 id="growth-title" className="eyebrow">Growth</h2>
         {growth.source === "unavailable" ? (
-          <>
-            <p className="mt-3 text-sm text-ink-soft">No connected account yet. Add this month&apos;s numbers yourself or connect Instagram.</p>
-            <ManualGrowthForm periodStart={period.start} periodEnd={period.end} />
-          </>
+          <p className="mt-3 text-sm text-ink-soft">No numbers for this period yet.</p>
         ) : (
           <>
             <div className="mt-4 grid grid-cols-3 gap-x-4 gap-y-5">
@@ -126,12 +107,14 @@ export default async function SocialPage() {
             <p className="mt-4 text-sm text-ink-faint">{sourceLabel}</p>
           </>
         )}
+        <ManualGrowthForm periodStart={period.start} periodEnd={period.end} />
       </section>
 
       {/* ------------------------------------------------------ BEST CONTENT */}
       {growth.top_post && (
         <section className="mt-10" aria-labelledby="best-title">
           <h2 id="best-title" className="eyebrow">Best content</h2>
+          <p className="mt-1 text-sm text-ink-faint">{growth.source === "manual" ? "Entered by you" : "From Instagram"}</p>
           <div className="mt-3 lg:flex lg:items-end lg:gap-8">
             <TopPostTile
               title={growth.top_post.title} thumb={growth.top_post.thumbnail_url}
@@ -142,6 +125,29 @@ export default async function SocialPage() {
               <Link href="/business/trends" className="btn btn-signal btn-lg mt-0 w-full lg:mt-4">Do another</Link>
             </div>
           </div>
+        </section>
+      )}
+
+      {/* ------------------------------------------------------ LATEST POSTS */}
+      {media.length > 0 && (
+        <section className="mt-10" aria-labelledby="posts-title">
+          <h2 id="posts-title" className="eyebrow">Latest posts</h2>
+          <p className="mt-1 text-sm text-ink-faint">From Instagram</p>
+          <ul className="mt-3 grid grid-cols-3 gap-1.5" aria-label="Latest posts">
+            {media.map((item, i) => {
+              const thumb = item.thumbnail_url ?? item.media_url;
+              const body = thumb
+                ? <MediaPreview src={thumb} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                : <NoPhoto name={business.name} logo={business.logo_url ?? null} />;
+              return (
+                <li key={item.id} className="reveal relative aspect-square overflow-hidden rounded-[8px] bg-surface-2" style={{ animationDelay: `${Math.min(i, 6) * 60}ms` }}>
+                  {item.permalink
+                    ? <a href={item.permalink} target="_blank" rel="noreferrer" className="absolute inset-0" aria-label={item.caption?.slice(0, 80) || "Instagram post"}>{body}</a>
+                    : body}
+                </li>
+              );
+            })}
+          </ul>
         </section>
       )}
     </main>

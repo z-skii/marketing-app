@@ -26,6 +26,7 @@ export async function globalSearch(q: string, limit = 8): Promise<SearchHit[]> {
               coalesce(c.details->>'creative_url', c.details->>'artwork_url', b.cover_url, b.logo_url) as image_url
          from campaigns c join businesses b on b.id = c.business_id
         where c.status = 'open'
+          and c.audience = 'public'
           and c.kind in ('recreate_reel', 'instagram_story', 'car_ads')
           and (c.deadline is null or c.deadline > now())
           and (c.title ilike $1 or c.brief ilike $1 or b.name ilike $1)

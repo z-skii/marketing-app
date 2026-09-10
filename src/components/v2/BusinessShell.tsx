@@ -4,17 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Icon } from "@phosphor-icons/react";
 import {
-  SquaresFour, CalendarBlank, Plus, Megaphone, Storefront, Bell, ChatCircle, ArrowsLeftRight,
+  House, CalendarBlank, Plus, Megaphone, Storefront, Bell, ChatCircle, ArrowsLeftRight, MagnifyingGlass,
 } from "@phosphor-icons/react";
 
 /**
  * The Business shell: a marketing operating system for one business.
  *
- *   Overview   what needs attention
- *   Content    shoots, calendar, library, scheduling
- *   Create     Recreate / Story / Car
- *   Campaigns  active, review, completed
- *   Business   brand, social, Google, plan
+ *   Home       browse people and cars to advertise through
+ *   Content    what TapMart shot, delivered and scheduled for the business
+ *   Create     Recreate / Story / Car public campaigns
+ *   Campaigns  public campaigns and direct requests: active, review, completed
+ *   Business   the business's own profile, with settings behind a gear
  *
  * Phones: a slim top strip (who you are acting as, messages, notifications)
  * and a five-tab bottom bar with Create in the middle. Screens with room:
@@ -34,10 +34,10 @@ export type BusinessShellProps = {
 type NavItem = { href: string; label: string; icon: Icon; exact?: boolean };
 
 const NAV: NavItem[] = [
-  { href: "/business", label: "Overview", icon: SquaresFour, exact: true },
+  { href: "/business", label: "Home", icon: House, exact: true },
   { href: "/business/content", label: "Content", icon: CalendarBlank },
   { href: "/business/campaigns", label: "Campaigns", icon: Megaphone },
-  { href: "/business/settings", label: "Business", icon: Storefront },
+  { href: "/business/profile", label: "Business", icon: Storefront },
 ];
 
 const CREATE: NavItem = { href: "/business/create", label: "Create", icon: Plus };
@@ -55,7 +55,7 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
     <div className="app-root min-h-dvh bg-paper rail:grid rail:grid-cols-[13rem_minmax(0,1fr)]">
       {/* Sidebar */}
       <aside className="sticky top-0 hidden h-dvh flex-col overflow-y-auto border-r border-rule bg-paper-deep px-3 py-5 rail:flex">
-        <Link href="/business/settings" className="flex min-h-12 items-center gap-3 rounded-[var(--radius-control)] px-2 py-1.5 can-hover:hover:bg-surface">
+        <Link href="/business/profile" className="flex min-h-12 items-center gap-3 rounded-[var(--radius-control)] px-2 py-1.5 can-hover:hover:bg-surface">
           <Mark business={business} size={36} />
           <span className="min-w-0">
             <span className="block truncate font-display text-[0.9375rem] font-800 tracking-[-0.01em]">{business.name}</span>
@@ -88,6 +88,7 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
         </nav>
 
         <div className="mt-auto flex flex-col gap-0.5 border-t border-rule pt-3">
+          <RailRow href="/business/search" label="Search" icon={MagnifyingGlass} badge={0} active={pathname.startsWith("/business/search")} />
           <RailRow href="/messages" label="Messages" icon={ChatCircle} badge={unreadMessages} active={pathname.startsWith("/messages")} />
           <RailRow href="/alerts" label="Notifications" icon={Bell} badge={unreadNotifications} active={pathname.startsWith("/alerts")} />
           <Link href="/me" className="flex min-h-11 items-center gap-3 rounded-[var(--radius-control)] px-3 py-2 text-sm text-ink-faint can-hover:hover:text-ink">
@@ -100,7 +101,7 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
       <div className="min-w-0">
         {/* Phone top strip: who you are acting as, and the two shared inboxes. */}
         <header className="glass sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-rule px-4 py-2 rail:hidden">
-          <Link href="/business/settings" className="flex min-h-11 min-w-0 items-center gap-2.5">
+          <Link href="/business/profile" className="flex min-h-11 min-w-0 items-center gap-2.5">
             <Mark business={business} size={30} />
             <span className="min-w-0">
               <span className="block truncate font-display text-[0.9375rem] font-800 tracking-[-0.01em]">{business.name}</span>
@@ -108,6 +109,7 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
             <span className="eyebrow shrink-0 !text-[0.625rem] text-signal">Business</span>
           </Link>
           <span className="flex items-center gap-1">
+            <TopIcon href="/business/search" label="Search" icon={MagnifyingGlass} badge={0} />
             <TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={unreadMessages} />
             <TopIcon href="/alerts" label="Notifications" icon={Bell} badge={unreadNotifications} />
           </span>

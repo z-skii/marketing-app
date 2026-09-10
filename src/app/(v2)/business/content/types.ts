@@ -1,55 +1,13 @@
-export type PostFormat = "reel" | "photo" | "story" | "post";
+/**
+ * Labels for the Content screens. Nothing here shows a raw enum value, and
+ * every label describes something that exists (a booked shoot, a delivered
+ * file, a scheduled post).
+ */
 
-export type CalendarPost = {
-  id: string;
-  platform: string;
-  status: string;
-  title: string;
-  copy: string | null;
-  caption: string | null;
-  format: PostFormat | null;
-  source: "manual" | "ai" | "template";
-  thumbnail_url: string | null;
-  media_urls: string[];
-  scheduled_for: string | null;
-  recommended_time: string | null;
-  published_at: string | null;
-  created_at: string;
-};
-
-/** Plain labels for calendar_post_status values. Nothing on the Content tab shows the raw enum. */
-const CONTENT_STATUS_LABEL: Record<string, string> = {
-  idea: "Idea",
-  draft: "Draft",
-  needs_approval: "Needs approval",
-  approved: "Approved",
-  scheduled: "Scheduled",
-  published: "Published",
-  failed: "Failed",
-};
-
-export function contentStatusLabel(status: string): string {
-  return CONTENT_STATUS_LABEL[status] ?? status.replaceAll("_", " ");
-}
-
-/** Chip tone for a post status: rise for done states, alert for failure, quiet for the rest. */
-export function contentStatusTone(status: string): "ink" | "faint" | "rise" | "alert" {
-  switch (status) {
-    case "approved":
-    case "published":
-      return "rise";
-    case "failed":
-      return "alert";
-    case "idea":
-    case "draft":
-      return "faint";
-    default:
-      return "ink";
-  }
-}
+export type ChipTone = "ink" | "faint" | "rise" | "alert" | "signal";
 
 const SHOOT_STATUS_LABEL: Record<string, string> = {
-  planned: "Planned",
+  planned: "Being scheduled",
   scheduled: "Booked",
   done: "Done",
   cancelled: "Cancelled",
@@ -59,20 +17,64 @@ export function shootStatusLabel(status: string): string {
   return SHOOT_STATUS_LABEL[status] ?? status.replaceAll("_", " ");
 }
 
-export function shootStatusTone(status: string): "ink" | "faint" | "rise" | "alert" {
+export function shootStatusTone(status: string): ChipTone {
   return status === "done" ? "rise" : status === "cancelled" ? "faint" : "ink";
 }
 
-/** Video by file extension; everything else is treated as a photo. */
-export function isVideoUrl(url: string): boolean {
-  return /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(url);
+/** "Content on its way" / "Content delivered": the delivery side of a shoot. */
+export function deliveryLabel(delivery: string): string | null {
+  return delivery === "processing" ? "Content on its way" : delivery === "delivered" ? "Content delivered" : null;
 }
 
-/** One tile in the content library. `postStatus` is set only for calendar post media. */
-export type LibraryItem = {
-  url: string;
+const DELIVERABLE_STATUS_LABEL: Record<string, string> = {
+  new: "New",
+  approved: "Ready",
+  rejected: "Not used",
+  scheduled: "Scheduled",
+  published: "Published",
+};
+
+export function deliverableStatusLabel(status: string, editNote?: string | null): string {
+  if (status === "new" && editNote) return "Edit requested";
+  return DELIVERABLE_STATUS_LABEL[status] ?? status.replaceAll("_", " ");
+}
+
+export function deliverableStatusTone(status: string, editNote?: string | null): ChipTone {
+  if (status === "new" && editNote) return "alert";
+  switch (status) {
+    case "new": return "signal";
+    case "approved": case "scheduled": case "published": return "rise";
+    case "rejected": return "faint";
+    default: return "ink";
+  }
+}
+
+/** "Instagram Reel", "Instagram", "Story": the platform and format of a scheduled post. */
+export function postKindLabel(platform: string, format: string | null): string {
+  const name = PLATFORM_LABEL[platform] ?? platform.replaceAll("_", " ");
+  if (format === "story") return `${name} Story`;
+  if (format === "reel") return `${name} Reel`;
+  return name;
+}
+
+export const PLATFORM_LABEL: Record<string, string> = {
+  instagram: "Instagram", facebook: "Facebook", tiktok: "TikTok", google_business: "Google", other: "Other",
+};
+
+export const FORMAT_LABEL: Record<string, string> = { reel: "Reel", photo: "Photo", story: "Story", post: "Post" };
+
+/** A scheduled or published post built from a real deliverable. */
+export type ScheduledPost = {
+  id: string;
+  deliverable_id: string;
+  platform: string;
+  status: "scheduled" | "published";
+  title: string;
+  caption: string | null;
+  format: string | null;
   kind: "photo" | "video";
-  /** "From the Sep 18 shoot", "Post: Behind the counter", "Campaign: Employee POV", "Brand cover". */
-  source: string;
-  postStatus: string | null;
+  url: string;
+  thumbnail_url: string | null;
+  /** ISO instant. */
+  when: string;
 };

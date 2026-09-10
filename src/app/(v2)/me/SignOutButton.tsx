@@ -12,7 +12,7 @@ export function SignOutButton() {
       className="btn btn-ghost w-full"
       onClick={() => startTransition(() => signOut())}
     >
-      {pending ? "Signing out…" : "Sign out"}
+      {pending ? "Logging out" : "Log out"}
     </button>
   );
 }

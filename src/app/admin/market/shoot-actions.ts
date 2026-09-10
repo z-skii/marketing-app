@@ -5,13 +5,15 @@ import { getCurrentUser } from "@/lib/auth";
 import { sqlOne } from "@/lib/db";
 import { notify } from "@/lib/v2/core";
 import {
-  addDeliverables, assignShootTo, setShootStatus, type ContentShoot, type ShootStatus,
+  assignShootTo, getShoot, setShootStatus, type ContentShoot, type ShootStatus,
 } from "@/lib/business/shoots";
+import { addDeliverable, finishDelivery } from "@/lib/business/deliverables";
 
 /**
- * Content shoot fulfilment is admin-assigned: an admin decides who goes,
- * marks progress, and attaches the delivered files. The same admin check as
- * the rest of /admin/market (profiles.role = 'admin').
+ * Content shoot fulfilment is admin-assigned: an admin decides who goes
+ * (a verified creator, or a label for someone outside the platform), marks
+ * progress, and can attach delivered files on the creator's behalf. The
+ * same admin check as the rest of /admin/market (profiles.role = 'admin').
  */
 
 type Result<T = undefined> = { ok: true; data?: T } | { ok: false; error: string };
@@ -33,7 +35,11 @@ async function businessOwnerOf(shoot: ContentShoot): Promise<{ owner_id: string;
   );
 }
 
-/** Who is going. `assigneeId` may be null with a label for someone outside the platform. */
+/**
+ * Who is going. A platform assignee must be a verified creator (the library
+ * refuses anyone else). `assigneeId` may be null with a label for someone
+ * outside the platform.
+ */
 export async function assignShoot(
   shootId: string,
   assigneeId: string | null,
@@ -53,7 +59,7 @@ export async function assignShoot(
     if (assigneeId) {
       await notify(assigneeId, "system", `You are assigned to a content shoot`, {
         body: business ? `${business.name}${shoot.scheduled_for ? `, ${shoot.scheduled_for}` : ""}` : undefined,
-        href: "/admin/market",
+        href: `/me/shoots/${shoot.id}`,
       });
     }
     revalidatePath("/admin/market");
@@ -81,7 +87,11 @@ export async function setShootStatusAction(shootId: string, status: string): Pro
   }
 }
 
-/** Attach delivered files and, when asked, mark the shoot done. */
+/**
+ * Attach delivered files as content_deliverables rows (uploaded by the
+ * admin) and, when asked, mark the shoot delivered, which notifies the
+ * business owner.
+ */
 export async function addShootDeliverables(
   shootId: string,
   businessId: string,
@@ -91,16 +101,14 @@ export async function addShootDeliverables(
   const admin = await requireAdmin().catch(() => null);
   if (!admin) return { ok: false, error: "Admin only." };
   try {
-    let shoot = await addDeliverables(shootId, businessId, urls);
+    let shoot = await getShoot(shootId, businessId);
     if (!shoot) return { ok: false, error: "Shoot not found." };
-    if (markDone) shoot = await setShootStatus(shootId, "done", { userId: admin.id, isAdmin: true });
-    const business = await businessOwnerOf(shoot);
-    if (business && urls.length > 0) {
-      await notify(business.owner_id, "system", "New photos and videos from your shoot", {
-        body: `${shoot.deliverable_urls.length} files are ready to use in your calendar.`,
-        href: "/business/content",
-      });
+    const clean = Array.from(new Set(urls.map((u) => u.trim()).filter(Boolean))).slice(0, 200);
+    for (const url of clean) {
+      await addDeliverable({ shootId, uploadedBy: { id: admin.id, role: "admin" }, url });
     }
+    if (markDone) shoot = await finishDelivery(shootId, { id: admin.id, role: "admin" });
+    else shoot = (await getShoot(shootId, businessId)) ?? shoot;
     revalidatePath("/admin/market");
     revalidatePath("/business/content");
     return { ok: true, data: shoot };

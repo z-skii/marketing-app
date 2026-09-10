@@ -101,7 +101,7 @@ export default async function BusinessCarsPage({
             const hasMedia = stage.glbUrl || stage.photos.length > 0 || stage.posterUrl;
             return (
               <li key={r.id} className="reveal py-5 md:grid md:grid-cols-[17rem_minmax(0,1fr)] md:items-center md:gap-6" style={{ animationDelay: `${Math.min(k, 6) * 60}ms` }}>
-                <Link href={`/business/cars/${r.id}`} aria-label={`Preview my ad on ${name}`} className="block">
+                <Link href={`/business/cars/${r.id}`} aria-label={`View ${name}`} className="block">
                   {hasMedia ? (
                     <VehicleStage glbUrl={stage.glbUrl} posterUrl={stage.posterUrl} photos={stage.photos} label={stage.label} compact />
                   ) : (
@@ -128,7 +128,7 @@ export default async function BusinessCarsPage({
                       {r.zones.slice(0, own ? 2 : 3).map((z) => <Chip key={z}>{placementLabel(z)}</Chip>)}
                     </div>
                   )}
-                  <Link href={`/business/cars/${r.id}`} className="btn btn-sm mt-4">Preview my ad</Link>
+                  <Link href={`/business/cars/${r.id}`} className="btn btn-sm mt-4">View car</Link>
                 </div>
               </li>
             );
