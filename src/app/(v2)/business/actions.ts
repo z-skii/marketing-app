@@ -38,6 +38,7 @@ export async function createBusiness(input: { name: string; category?: string; c
     await sql(`update profiles set wants_business = true where id = $1`, [ctx.user.id]);
     await refreshRecommendations(business!.id);
     await setActiveBusiness(ctx.user.id, business!.id);
+    revalidatePath("/", "layout");
     redirect("/business");
   }
   return { ok: false as const, error: "Try a slightly different name." };

@@ -31,8 +31,6 @@ export default async function SettingsPage() {
     {
       title: "More",
       rows: [
-        { href: "/board", title: "The classic board", sub: "TapMart's original link board, kept around for now" },
-        { href: "/dashboard", title: "Board links", sub: "Manage links on the classic board" },
         ...(ctx.user.role === "admin" ? [{ href: "/admin", title: "Admin", sub: "Site controls" }] : []),
       ],
     },

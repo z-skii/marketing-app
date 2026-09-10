@@ -167,8 +167,8 @@ export function Stat({
  * only renders the bell where the bottom bar does not.
  */
 export function ScreenHeader({
-  title, kicker, unread = 0, showSearch = true, right, wrap = false,
-}: { title: React.ReactNode; kicker?: React.ReactNode; unread?: number; showSearch?: boolean; right?: React.ReactNode; wrap?: boolean }) {
+  title, kicker, unread = 0, showSearch = true, right, wrap = false, bell = true,
+}: { title: React.ReactNode; kicker?: React.ReactNode; unread?: number; showSearch?: boolean; right?: React.ReactNode; wrap?: boolean; bell?: boolean }) {
   return (
     <header className="flex items-center gap-3">
       <div className="min-w-0 flex-1">
@@ -181,14 +181,14 @@ export function ScreenHeader({
           <MagnifyingGlass size={22} aria-hidden />
         </Link>
       )}
-      <Link href="/alerts" aria-label={unread > 0 ? `${unread} unread notifications` : "Notifications"} className="relative flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-ink rail:hidden">
+      {bell && <Link href="/alerts" aria-label={unread > 0 ? `${unread} unread notifications` : "Notifications"} className="relative flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-ink rail:hidden">
         <Bell size={22} aria-hidden />
         {unread > 0 && (
           <span className="tnum absolute -top-0.5 -right-0.5 min-w-5 rounded-full bg-alert px-1.5 text-center font-display text-[0.6875rem] font-800 leading-5 text-white">
             {unread > 99 ? "99+" : unread}
           </span>
         )}
-      </Link>
+      </Link>}
     </header>
   );
 }

@@ -10,6 +10,15 @@ BUSINESS   Overview · Content · Create · Campaigns · Business   Essential ·
 
 The screen rules every page follows are in `docs/design-rules.md`.
 
+The two modes are two shells, not one shell with a switch:
+`src/components/v2/UserShell.tsx` (Home, Activity, Earnings, Profile) and
+`src/components/v2/BusinessShell.tsx` (Overview, Content, Create, Campaigns,
+Business: a five-tab bottom bar on phones, a compact sidebar with one lime
+Create button on wider screens). `src/app/(v2)/layout.tsx` picks one from the
+active identity. They share auth, the account, notifications, messages, the
+design tokens and the media components, and nothing else. The old board lives
+at `/board` (also `/legacy`) and is not linked from the product.
+
 ## What changed in V4
 
 | Area | Before | Now |

@@ -205,7 +205,6 @@ export default async function LandingPage() {
               <Link key={l.href} href={l.href} className="hover:text-ink">{l.label}</Link>
             ))}
           </nav>
-          <Link href="/board" className="text-sm text-ink-faint hover:text-ink">The classic board</Link>
         </div>
       </footer>
     </div>

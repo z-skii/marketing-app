@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { sql, sqlOne } from "@/lib/db";
 import { requireV2, setActiveBusiness } from "@/lib/v2/core";
 
@@ -71,6 +72,7 @@ export async function completeOnboarding(input: OnboardingInput) {
   // Business-only people land in Business mode. "Both" starts in user mode.
   if (businessId && !wantsEarn) {
     await setActiveBusiness(ctx.user.id, businessId);
+    revalidatePath("/", "layout");
     redirect("/business");
   }
   redirect("/home");

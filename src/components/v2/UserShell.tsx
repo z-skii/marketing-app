@@ -3,25 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Icon } from "@phosphor-icons/react";
-import {
-  House, Pulse, Wallet, User, CalendarBlank, Plus, Megaphone, Storefront, Bell, ChatCircle,
-} from "@phosphor-icons/react";
+import { House, Pulse, Wallet, User, Bell, ChatCircle } from "@phosphor-icons/react";
 
 /**
- * The TapMart shell. One account, two modes, two navigations:
+ * The User shell: the earning marketplace. Home · Activity · Earnings ·
+ * Profile. Phones (and short landscape windows) get a fixed bottom bar;
+ * screens with room get a left rail with the same destinations plus
+ * Messages and Notifications, and who you are at the bottom.
  *
- *   User mode      Home · Activity · Earnings · Profile
- *   Business mode  Overview · Content · Create · Campaigns · Business
- *
- * Phones (and short landscape windows) get a fixed bottom bar; screens with
- * room get a left rail with the same destinations plus Messages and
- * Notifications, and the identity you are acting as at the bottom.
+ * Business mode has its own shell (BusinessShell.tsx) with a different
+ * navigation and structure; the layout picks one or the other.
  */
 
 export type ShellIdentity = { name: string; sub: string; logo: string | null };
 
 export type ShellProps = {
-  mode: "user" | "business";
   identity: ShellIdentity;
   unreadNotifications: number;
   unreadMessages: number;
@@ -37,22 +33,14 @@ const USER_NAV: NavItem[] = [
   { href: "/me", label: "Profile", icon: User },
 ];
 
-const BUSINESS_NAV: NavItem[] = [
-  { href: "/business", label: "Overview", icon: House, exact: true },
-  { href: "/business/content", label: "Content", icon: CalendarBlank },
-  { href: "/business/create", label: "Create", icon: Plus },
-  { href: "/business/campaigns", label: "Campaigns", icon: Megaphone },
-  { href: "/business/settings", label: "Business", icon: Storefront },
-];
-
 const RAIL_EXTRA: NavItem[] = [
   { href: "/messages", label: "Messages", icon: ChatCircle },
   { href: "/alerts", label: "Notifications", icon: Bell },
 ];
 
-export function AppShell(props: ShellProps) {
+export function UserShell(props: ShellProps) {
   const pathname = usePathname();
-  const nav = props.mode === "business" ? BUSINESS_NAV : USER_NAV;
+  const nav = USER_NAV;
 
   const badge = (href: string) =>
     href === "/alerts" ? props.unreadNotifications : href === "/messages" ? props.unreadMessages : 0;
@@ -78,7 +66,7 @@ export function AppShell(props: ShellProps) {
     );
   };
 
-  const homeHref = props.mode === "business" ? "/business" : "/home";
+  const homeHref = "/home";
 
   return (
     <div className="app-root min-h-dvh bg-paper rail:grid rail:grid-cols-[14rem_minmax(0,1fr)]">
@@ -111,7 +99,7 @@ export function AppShell(props: ShellProps) {
       {/* Bottom bar: navigation only, one destination per tab */}
       <nav
         aria-label="Main"
-        className={`glass fixed inset-x-0 bottom-0 z-40 grid pb-[env(safe-area-inset-bottom)] rail:hidden ${nav.length === 5 ? "grid-cols-5" : "grid-cols-4"}`}
+        className="glass fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 pb-[env(safe-area-inset-bottom)] rail:hidden"
       >
         {nav.map((item) => <MobileTab key={item.href} item={item} active={active(item)} />)}
       </nav>

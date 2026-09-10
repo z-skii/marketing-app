@@ -58,3 +58,9 @@ export function postWhen(post: { scheduled_for: string | null; recommended_time:
 }
 
 export const FORMAT_LABEL: Record<string, string> = { reel: "Reel", photo: "Photo", story: "Story", post: "Post" };
+
+/** "September 18" for a day key: the big date on a shoot. */
+export function longDayLabel(dayKey: string): string {
+  const d = new Date(`${dayKey}T00:00:00Z`);
+  return new Intl.DateTimeFormat("en-US", { timeZone: "UTC", month: "long", day: "numeric" }).format(d);
+}

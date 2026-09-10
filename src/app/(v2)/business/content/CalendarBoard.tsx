@@ -1,15 +1,18 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CaretRight, CheckCircle, Circle, FilmStrip, Image as ImageIcon, Plus } from "@phosphor-icons/react";
-import { StatusChip } from "@/components/v2/ui";
+import { Chip } from "@/components/v2/ui";
 import { MediaPreview } from "@/components/v2/MediaPreview";
+import { Uploader } from "@/components/v2/Uploader";
 import { deleteCalendarPost, upsertCalendarPost } from "../actions";
-import { approveAllAction, movePostAction, proposeMonthAction } from "./schedule-actions";
+import {
+  approveAllAction, editPostAction, movePostAction, proposeMonthAction, replacePostMediaAction, schedulePostAction,
+} from "./schedule-actions";
 import { FORMAT_LABEL, dayLabel, dayKeyOf, monthGrid, monthLabel, postWhen, timeOf } from "./dates";
-import type { CalendarPost, PostFormat } from "./types";
+import { contentStatusLabel, contentStatusTone, type CalendarPost, type PostFormat } from "./types";
 
 const PLATFORMS = [
   ["instagram", "Instagram"], ["facebook", "Facebook"], ["tiktok", "TikTok"],
@@ -24,13 +27,46 @@ const BAR: Record<string, string> = {
 const WAITING = ["idea", "draft", "needs_approval"];
 const WEEKDAYS = ["M", "T", "W", "T", "F", "S", "S"];
 
+type Result = { ok: boolean; error?: string };
+type Run = (work: () => Promise<Result>) => void;
+
+function plural(n: number, one: string, many: string) {
+  return `${n} ${n === 1 ? one : many}`;
+}
+
+/** "8 ready · 3 scheduled · 1 needs approval": only the parts that are not zero. */
+function statusSummary(posts: CalendarPost[]): string {
+  const n = (s: string) => posts.filter((p) => p.status === s).length;
+  const parts = [
+    n("published") > 0 && `${n("published")} published`,
+    n("scheduled") > 0 && `${n("scheduled")} scheduled`,
+    n("approved") > 0 && `${n("approved")} ready`,
+    n("needs_approval") > 0 && `${n("needs_approval")} ${n("needs_approval") === 1 ? "needs" : "need"} approval`,
+    n("draft") > 0 && plural(n("draft"), "draft", "drafts"),
+    n("idea") > 0 && plural(n("idea"), "idea", "ideas"),
+    n("failed") > 0 && `${n("failed")} failed`,
+  ].filter(Boolean) as string[];
+  return parts.join(" · ");
+}
+
+/** Local wall-clock "YYYY-MM-DDTHH:MM" for a datetime-local input, in the business time zone. */
+function localInputValue(iso: string | null, timeZone: string): string {
+  if (!iso) return "";
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-US", {
+      timeZone, hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
+    }).formatToParts(new Date(iso)).map((p) => [p.type, p.value]),
+  );
+  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+}
+
 /**
- * One month of the content calendar: a seven-column grid of thumbnails,
- * one primary action for the month (plan it, then approve it), and the
- * posts underneath filtered by the tapped day.
+ * The month's workspace: the plan and its one action, the seven-column
+ * calendar, whatever the page puts between (the next shoot), and the posts
+ * underneath filtered by the tapped day.
  */
 export function CalendarBoard({
-  businessId, month, timeZone, todayKey, initialDay, posts, canAutoPost, canApprove,
+  businessId, month, timeZone, todayKey, initialDay, posts, canAutoPost, canApprove, between,
 }: {
   businessId: string;
   month: string;
@@ -40,12 +76,15 @@ export function CalendarBoard({
   posts: CalendarPost[];
   canAutoPost: boolean;
   canApprove: boolean;
+  /** Server-rendered content shown between the calendar and the posts. */
+  between?: ReactNode;
 }) {
   const router = useRouter();
   const [day, setDay] = useState<string | null>(initialDay);
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const monthName = monthLabel(month).split(" ")[0];
 
   const byDay = useMemo(() => {
     const map = new Map<string, CalendarPost[]>();
@@ -82,7 +121,7 @@ export function CalendarBoard({
     window.history.replaceState(null, "", next ? `/business/content?day=${next}` : "/business/content");
   };
 
-  const run = (work: () => Promise<{ ok: boolean; error?: string }>) =>
+  const run: Run = (work) =>
     startTransition(async () => {
       setError(null);
       const result = await work();
@@ -90,81 +129,95 @@ export function CalendarBoard({
       else router.refresh();
     });
 
-  const metaParts = [
-    counts.reel > 0 && `${counts.reel} ${counts.reel === 1 ? "Reel" : "Reels"}`,
-    counts.photo > 0 && `${counts.photo} ${counts.photo === 1 ? "photo" : "photos"}`,
-    counts.story > 0 && `${counts.story} ${counts.story === 1 ? "Story" : "Stories"}`,
-    counts.post > 0 && `${counts.post} ${counts.post === 1 ? "post" : "posts"}`,
-    sourceLabel,
+  const planParts = [
+    counts.reel > 0 && plural(counts.reel, "Reel", "Reels"),
+    counts.photo > 0 && plural(counts.photo, "Photo", "Photos"),
+    counts.story > 0 && plural(counts.story, "Story", "Stories"),
+    counts.post > 0 && plural(counts.post, "Post", "Posts"),
   ].filter(Boolean) as string[];
+  const summary = statusSummary(posts);
 
   return (
     <div>
-      {/* ------------------------------------------------ month summary */}
-      <div className="mt-3 flex items-center justify-between gap-4">
-        <div className="min-w-0">
-          <p className="font-display text-[1.0625rem] leading-tight font-700">
-            {posts.length === 0 ? `Nothing planned for ${monthLabel(month).split(" ")[0]}` : `${posts.length} ${posts.length === 1 ? "post" : "posts"} planned`}
-          </p>
-          {metaParts.length > 0 && <p className="mt-0.5 text-sm text-ink-faint">{metaParts.join(" · ")}</p>}
-        </div>
-        {!planned ? (
-          <button type="button" disabled={pending} className="btn btn-signal shrink-0" onClick={() => run(() => proposeMonthAction(month))}>
-            {pending ? "Planning" : "Plan my month"}
-          </button>
-        ) : waiting && canApprove ? (
-          <button type="button" disabled={pending} className="btn btn-signal shrink-0" onClick={() => run(() => approveAllAction(month))}>
-            Approve all
-          </button>
-        ) : !waiting ? (
-          <span className="flex shrink-0 items-center gap-1.5 text-sm text-rise"><CheckCircle size={18} weight="fill" aria-hidden />All approved</span>
-        ) : null}
-      </div>
-      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
+      {/* ------------------------------------------------ this month */}
+      <section aria-labelledby="month-title">
+        <h2 id="month-title" className="eyebrow">{monthName} content</h2>
+        <p className="mt-2 font-display text-[2.5rem] leading-none font-800 tracking-[-0.03em]">
+          <span className="tnum">{posts.length}</span>
+          <span className="ml-2 font-display text-[1.0625rem] font-700 tracking-normal text-ink-soft">
+            {posts.length === 1 ? "post planned" : "posts planned"}
+          </span>
+        </p>
+        {summary && <p className="settle mt-1.5 text-sm text-ink-soft">{summary}</p>}
 
-      {/* ---------------------------------------------------- the grid */}
-      <div className="mt-4 grid grid-cols-7 gap-0.5" role="group" aria-label={monthLabel(month)}>
-        {WEEKDAYS.map((w, i) => (
-          <span key={i} className="pb-1 text-center font-mono text-[0.6875rem] tracking-[0.14em] text-ink-faint" aria-hidden>{w}</span>
-        ))}
-        {cells.map((cell, i) => {
-          if (!cell) return <span key={`blank-${i}`} aria-hidden />;
-          const dayPosts = byDay.get(cell.key) ?? [];
-          const selected = day === cell.key;
-          const isToday = cell.key === todayKey;
-          return (
-            <button
-              key={cell.key}
-              type="button"
-              aria-pressed={selected}
-              aria-label={`${dayLabel(cell.key)}, ${dayPosts.length} ${dayPosts.length === 1 ? "post" : "posts"}`}
-              onClick={() => pick(cell.key)}
-              className={`flex flex-col rounded-lg p-1 text-left transition-colors ${selected ? "bg-surface-2 ring-2 ring-signal" : "can-hover:hover:bg-surface"}`}
-            >
-              <span className={`tnum inline-flex h-4 min-w-4 items-center justify-center self-start rounded-full px-1 font-display text-[0.6875rem] leading-none font-700 ${isToday ? "bg-ink text-paper" : dayPosts.length ? "text-ink" : "text-ink-faint"}`}>
-                {cell.day}
-              </span>
-              <span className="mt-1 grid aspect-[2/1] w-full grid-cols-2 gap-0.5">
-                {dayPosts.slice(0, 2).map((p) => (
-                  <span key={p.id} className={`block overflow-hidden rounded-[3px] bg-surface-2 ${dayPosts.length === 1 ? "col-span-2" : ""}`}>
-                    <Thumb post={p} size="cell" />
-                  </span>
-                ))}
-              </span>
-              <span className="mt-1 flex h-0.5 w-full gap-px" aria-hidden>
-                {dayPosts.slice(0, 4).map((p) => (
-                  <span key={p.id} className={`h-0.5 flex-1 rounded-full ${BAR[p.status] ?? "bg-ink-faint/40"}`} />
-                ))}
-              </span>
+        <h2 className="eyebrow mt-6">Your {monthName} plan</h2>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
+          <div className="min-w-0">
+            <p className="font-display text-[1.0625rem] leading-tight font-700">
+              {planParts.length > 0 ? planParts.join(" · ") : "Nothing planned yet"}
+            </p>
+            {sourceLabel && <p className="mt-0.5 text-sm text-ink-faint">{sourceLabel}</p>}
+          </div>
+          {!planned ? (
+            <button type="button" disabled={pending} className="btn btn-signal w-full sm:w-auto" onClick={() => run(() => proposeMonthAction(month))}>
+              {pending ? "Planning" : "Plan my month"}
             </button>
-          );
-        })}
-      </div>
+          ) : waiting && canApprove ? (
+            <button type="button" disabled={pending} className="btn btn-signal w-full sm:w-auto" onClick={() => run(() => approveAllAction(month))}>
+              Approve all
+            </button>
+          ) : !waiting ? (
+            <span className="flex shrink-0 items-center gap-1.5 text-sm text-rise"><CheckCircle size={18} weight="fill" aria-hidden />All approved</span>
+          ) : null}
+        </div>
+        {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
+
+        {/* ---------------------------------------------------- the grid */}
+        <div className="mt-5 grid grid-cols-7 gap-0.5" role="group" aria-label={monthLabel(month)}>
+          {WEEKDAYS.map((w, i) => (
+            <span key={i} className="pb-1 text-center font-mono text-[0.6875rem] tracking-[0.14em] text-ink-faint" aria-hidden>{w}</span>
+          ))}
+          {cells.map((cell, i) => {
+            if (!cell) return <span key={`blank-${i}`} aria-hidden />;
+            const dayPosts = byDay.get(cell.key) ?? [];
+            const selected = day === cell.key;
+            const isToday = cell.key === todayKey;
+            return (
+              <button
+                key={cell.key}
+                type="button"
+                aria-pressed={selected}
+                aria-label={`${dayLabel(cell.key)}, ${dayPosts.length} ${dayPosts.length === 1 ? "post" : "posts"}`}
+                onClick={() => pick(cell.key)}
+                className={`flex flex-col rounded-lg p-1 text-left transition-colors ${selected ? "bg-surface-2 ring-2 ring-signal" : "can-hover:hover:bg-surface"}`}
+              >
+                <span className={`tnum inline-flex h-4 min-w-4 items-center justify-center self-start rounded-full px-1 font-display text-[0.6875rem] leading-none font-700 ${isToday ? "bg-ink text-paper" : dayPosts.length ? "text-ink" : "text-ink-faint"}`}>
+                  {cell.day}
+                </span>
+                <span className="mt-1 grid aspect-[2/1] w-full grid-cols-2 gap-0.5">
+                  {dayPosts.slice(0, 2).map((p) => (
+                    <span key={p.id} className={`block overflow-hidden rounded-[3px] bg-surface-2 ${dayPosts.length === 1 ? "col-span-2" : ""}`}>
+                      <Thumb post={p} size="cell" />
+                    </span>
+                  ))}
+                </span>
+                <span className="mt-1 flex h-0.5 w-full gap-px" aria-hidden>
+                  {dayPosts.slice(0, 4).map((p) => (
+                    <span key={p.id} className={`h-0.5 flex-1 rounded-full ${BAR[p.status] ?? "bg-ink-faint/40"}`} />
+                  ))}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      {between}
 
       {/* ------------------------------------------------------- posts */}
-      <section className="mt-6" aria-label="Posts">
+      <section className="mt-9" aria-label="Posts">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="eyebrow min-w-0 truncate">Posts{day ? ` · ${dayLabel(day, { weekday: false })}` : ` · ${monthLabel(month).split(" ")[0]}`}</h2>
+          <h2 className="eyebrow min-w-0 truncate">Posts{day ? ` · ${dayLabel(day, { weekday: false })}` : ` · ${monthName}`}</h2>
           <div className="flex shrink-0 items-center gap-1">
             {day && (
               <button type="button" className="btn btn-ghost btn-sm" onClick={() => pick(day)}>Whole month</button>
@@ -207,8 +260,9 @@ export function CalendarBoard({
 
 /** A post's thumbnail, or the glyph of its format when it has no media yet. */
 function Thumb({ post, size }: { post: CalendarPost; size: "cell" | "row" }) {
-  if (post.thumbnail_url) {
-    return <MediaPreview src={post.thumbnail_url} alt="" className="h-full w-full object-cover" sizes={size === "row" ? "56px" : "48px"} />;
+  const src = post.thumbnail_url ?? post.media_urls[0] ?? null;
+  if (src) {
+    return <MediaPreview src={src} alt="" className="h-full w-full object-cover" sizes={size === "row" ? "56px" : "48px"} />;
   }
   const px = size === "row" ? 24 : 14;
   const Icon = post.format === "reel" ? FilmStrip : post.format === "story" ? Circle : ImageIcon;
@@ -218,6 +272,12 @@ function Thumb({ post, size }: { post: CalendarPost; size: "cell" | "row" }) {
     </span>
   );
 }
+
+export function PostStatusChip({ status }: { status: string }) {
+  return <Chip tone={contentStatusTone(status)}>{contentStatusLabel(status)}</Chip>;
+}
+
+type Panel = "move" | "replace" | "edit" | "schedule" | null;
 
 function PostRow({
   post, index, businessId, timeZone, canAutoPost, canDelete, pending, run,
@@ -229,22 +289,36 @@ function PostRow({
   canAutoPost: boolean;
   canDelete: boolean;
   pending: boolean;
-  run: (work: () => Promise<{ ok: boolean; error?: string }>) => void;
+  run: Run;
 }) {
   const [open, setOpen] = useState(false);
-  const [moving, setMoving] = useState(false);
+  const [panel, setPanel] = useState<Panel>(null);
   const [when, setWhen] = useState("");
+  const [title, setTitle] = useState(post.title);
+  const [caption, setCaption] = useState(post.caption ?? post.copy ?? "");
   const at = postWhen(post);
   const meta = [
     FORMAT_LABEL[post.format ?? "post"],
     at ? `${dayLabel(dayKeyOf(at, timeZone), { weekday: false })} · ${timeOf(at, timeZone)}` : "No date",
   ].join(" · ");
 
+  const toggle = (next: Exclude<Panel, null>) => {
+    if (panel === next) { setPanel(null); return; }
+    if (next === "move" || next === "schedule") setWhen(localInputValue(at, timeZone));
+    if (next === "edit") { setTitle(post.title); setCaption(post.caption ?? post.copy ?? ""); }
+    setPanel(next);
+  };
+
   const setStatus = (status: string) =>
     run(() => upsertCalendarPost({
       id: post.id, businessId, platform: post.platform, title: post.title,
       copy: post.copy ?? "", status, scheduledFor: post.scheduled_for ?? undefined,
     }));
+
+  const finish = (work: () => Promise<Result>) =>
+    run(async () => { const r = await work(); if (r.ok) setPanel(null); return r; });
+
+  const editable = post.status !== "published";
 
   return (
     <li className="reveal" style={{ animationDelay: `${Math.min(index, 6) * 60}ms` }}>
@@ -256,17 +330,22 @@ function PostRow({
           <span className="block truncate font-display text-[1.0625rem] leading-tight font-700">{post.title}</span>
           <span className="mt-0.5 block truncate text-sm text-ink-faint">{meta}</span>
         </span>
-        <StatusChip status={post.status} />
+        <PostStatusChip status={post.status} />
       </button>
 
       {open && (
         <div className="pb-4 pl-[4.25rem]">
-          {(post.caption ?? post.copy) && (
+          {panel !== "edit" && (post.caption ?? post.copy) && (
             <p className="line-clamp-3 text-sm whitespace-pre-wrap text-ink-soft">{post.caption ?? post.copy}</p>
           )}
           <div className="mt-3 flex flex-wrap items-center gap-2">
             {WAITING.includes(post.status) && (
               <button type="button" disabled={pending} className="btn btn-sm" onClick={() => setStatus(post.scheduled_for ? "scheduled" : "approved")}>Approve</button>
+            )}
+            {post.status === "approved" && (
+              <button type="button" disabled={pending} className="btn btn-sm" aria-expanded={panel === "schedule"} onClick={() => toggle("schedule")}>
+                Schedule
+              </button>
             )}
             {["approved", "scheduled"].includes(post.status) && (
               <button type="button" disabled={pending} className="btn btn-sm" onClick={() => setStatus("published")}>
@@ -276,10 +355,18 @@ function PostRow({
             {post.status === "failed" && (
               <button type="button" disabled={pending} className="btn btn-sm" onClick={() => setStatus("scheduled")}>Try again</button>
             )}
-            {post.status !== "published" && (
-              <button type="button" className="btn btn-ghost btn-sm" aria-expanded={moving} onClick={() => setMoving((v) => !v)}>
-                {moving ? "Cancel" : "Move"}
-              </button>
+            {editable && (
+              <>
+                <button type="button" className="btn btn-ghost btn-sm" aria-expanded={panel === "move"} onClick={() => toggle("move")}>
+                  Move
+                </button>
+                <button type="button" className="btn btn-ghost btn-sm" aria-expanded={panel === "replace"} onClick={() => toggle("replace")}>
+                  Replace
+                </button>
+                <button type="button" className="btn btn-ghost btn-sm" aria-expanded={panel === "edit"} onClick={() => toggle("edit")}>
+                  Edit
+                </button>
+              </>
             )}
             {canDelete && (
               <button
@@ -290,15 +377,45 @@ function PostRow({
               </button>
             )}
           </div>
-          {moving && (
+
+          {(panel === "move" || panel === "schedule") && (
             <div className="mt-2 flex items-center gap-2">
-              <input type="datetime-local" className="field min-w-0 flex-1" value={when} onChange={(e) => setWhen(e.target.value)} aria-label="New date and time" />
+              <input type="datetime-local" className="field min-w-0 flex-1" value={when} onChange={(e) => setWhen(e.target.value)} aria-label={panel === "move" ? "New date and time" : "Publish date and time"} />
               <button
                 type="button" disabled={pending || !when} className="btn btn-sm"
-                onClick={() => run(async () => { const r = await movePostAction(post.id, when); if (r.ok) setMoving(false); return r; })}
+                onClick={() => finish(() => panel === "move" ? movePostAction(post.id, when) : schedulePostAction(post.id, when))}
               >
-                Save
+                {panel === "move" ? "Save" : "Schedule"}
               </button>
+              <button type="button" className="btn btn-ghost btn-sm" onClick={() => setPanel(null)}>Cancel</button>
+            </div>
+          )}
+
+          {panel === "replace" && (
+            <div className="mt-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <Uploader
+                  folder="business" accept="image/*,video/*" label="Choose a photo or video" id={`replace-${post.id}`}
+                  onUploaded={(urls) => { if (urls[0]) finish(() => replacePostMediaAction(post.id, urls[0])); }}
+                />
+                <button type="button" className="btn btn-ghost btn-sm" onClick={() => setPanel(null)}>Cancel</button>
+              </div>
+            </div>
+          )}
+
+          {panel === "edit" && (
+            <div className="mt-2">
+              <input className="field w-full" maxLength={200} value={title} onChange={(e) => setTitle(e.target.value)} aria-label="Post title" />
+              <textarea className="field mt-2 min-h-20 w-full" maxLength={4000} value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="Caption" aria-label="Caption" />
+              <div className="mt-2 flex items-center gap-2">
+                <button
+                  type="button" disabled={pending || !title.trim()} className="btn btn-sm"
+                  onClick={() => finish(() => editPostAction(post.id, { title, caption }))}
+                >
+                  Save
+                </button>
+                <button type="button" className="btn btn-ghost btn-sm" onClick={() => setPanel(null)}>Cancel</button>
+              </div>
             </div>
           )}
         </div>

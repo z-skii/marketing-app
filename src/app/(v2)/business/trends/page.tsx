@@ -34,7 +34,7 @@ export default async function TrendsPage() {
 
   return (
     <main id="main" className="mx-auto w-full max-w-5xl px-4 py-4 md:px-8 md:py-8">
-      <ScreenHeader kicker={business.name} title="Trending for you" unread={ctx.unreadNotifications} showSearch={false} />
+      <ScreenHeader bell={false} kicker={business.name} title="Trending for you" unread={ctx.unreadNotifications} showSearch={false} />
 
       {trends.length === 0 ? (
         <p className="mt-6 text-sm text-ink-soft">Nothing yet. Paste a Reel or TikTok you want people to recreate.</p>

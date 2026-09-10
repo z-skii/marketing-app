@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { requireV2, setActiveBusiness } from "@/lib/v2/core";
 
 /**
@@ -12,9 +13,12 @@ export async function switchContext(target: "personal" | string) {
   const ctx = await requireV2();
   if (target === "personal") {
     await setActiveBusiness(ctx.user.id, null);
+    revalidatePath("/", "layout");
     redirect("/home");
   }
   if (!ctx.businesses.some((b) => b.id === target)) redirect("/me");
   await setActiveBusiness(ctx.user.id, target);
+  // The shell is chosen in the (v2) layout; drop the cached one so the new mode renders at once.
+  revalidatePath("/", "layout");
   redirect("/business");
 }

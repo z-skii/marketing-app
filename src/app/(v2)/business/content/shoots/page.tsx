@@ -1,10 +1,12 @@
-import { Camera } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
+import { Camera, CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { BackButton } from "@/components/v2/BackButton";
 import { requireBusinessContext } from "@/lib/v2/core";
 import { listShoots } from "@/lib/business/shoots";
-import { StatusChip } from "@/components/v2/ui";
+import { Chip } from "@/components/v2/ui";
 import { MediaPreview } from "@/components/v2/MediaPreview";
 import { dayLabel } from "../dates";
+import { shootStatusLabel, shootStatusTone } from "../types";
 
 export const metadata = { title: "Shoots" };
 export const dynamic = "force-dynamic";
@@ -45,9 +47,9 @@ export default async function ShootsPage() {
                       {s.photos_planned} photos · {s.videos_planned} short videos
                       {delivered > 0 && <span className="text-ink"> · {delivered} delivered</span>}
                     </p>
-                    {s.assigned_label && <p className="mt-0.5 truncate text-sm text-ink-faint">with {s.assigned_label}</p>}
+                    <p className="mt-0.5 truncate text-sm text-ink-faint">{s.assigned_label ?? "TapMart team"}</p>
                   </div>
-                  <StatusChip status={s.status} />
+                  <Chip tone={shootStatusTone(s.status)}>{shootStatusLabel(s.status)}</Chip>
                 </div>
                 {delivered > 0 && (
                   <div className="-mx-4 mt-3 flex gap-2 overflow-x-auto px-4 pb-1 md:-mx-8 md:px-8" aria-label={`${delivered} delivered files`}>
@@ -58,6 +60,7 @@ export default async function ShootsPage() {
                     ))}
                   </div>
                 )}
+                <Link href={`/business/content/shoots/${s.id}`} className="link-row">View shoot<CaretRight size={16} aria-hidden /></Link>
               </li>
             );
           })}

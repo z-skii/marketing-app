@@ -42,7 +42,7 @@ export default async function BusinessCarsPage({
 
   const rows = await sql<Row>(
     `select v.id, v.owner_id, v.year, v.make, v.model, v.city, v.monthly_miles, v.model_glb_url, v.poster_url,
-            ($1::text is not null and lower(coalesce(v.city, '')) = lower($1)) as same_city,
+            ($1::text is not null and lower(coalesce(v.city, '')) = lower($1::text)) as same_city,
             coalesce((select array_agg(z.zone::text order by z.zone) from vehicle_zones z
                        where z.vehicle_id = v.id and z.available), '{}') as zones,
             (select min(z.asking_cents_monthly)::int from vehicle_zones z
@@ -73,7 +73,7 @@ export default async function BusinessCarsPage({
 
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
-      <ScreenHeader kicker={business.name} title="Cars near you" unread={ctx.unreadNotifications} showSearch={false} />
+      <ScreenHeader bell={false} kicker={business.name} title="Cars near you" unread={ctx.unreadNotifications} showSearch={false} />
 
       <div className="mt-5">
         <FilterBar

@@ -15,7 +15,7 @@ export const SITE_URL =
     : "https://tapmart.live");
 
 export const SITE_DESCRIPTION =
-  "A live board of links competing for attention. Add your link, add credit, get seen.";
+  "Make money promoting local businesses, or grow your own. Recreate. Post. Drive. Get paid.";
 
 /**
  * Public contact address. Null until a real mailbox exists — the footer hides
