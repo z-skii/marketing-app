@@ -3,6 +3,7 @@ import { cache } from "react";
 import { redirect } from "next/navigation";
 import { getCurrentUser, type CurrentUser } from "@/lib/auth";
 import { sql, sqlOne } from "@/lib/db";
+import { wantsNotification } from "@/lib/v2/notification-prefs";
 
 /**
  * TapMart identity: one account, two modes. A person is always themselves
@@ -195,6 +196,7 @@ export async function notify(
   title: string,
   options: { body?: string; href?: string } = {},
 ) {
+  if (!(await wantsNotification(profileId, category))) return;
   await sql(
     `insert into notifications (profile_id, category, title, body, href) values ($1, $2, $3, $4, $5)`,
     [profileId, category, title, options.body ?? null, options.href ?? null],

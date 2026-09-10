@@ -3,7 +3,6 @@ import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { requireV2 } from "@/lib/v2/core";
 import { BackButton } from "@/components/v2/BackButton";
 import { SignOutButton } from "@/app/(v2)/me/SignOutButton";
-import { devAuthEnabled } from "@/lib/supabase";
 
 export const metadata = { title: "Account" };
 export const dynamic = "force-dynamic";
@@ -14,12 +13,11 @@ export const dynamic = "force-dynamic";
  */
 export default async function AccountSettingsPage() {
   const ctx = await requireV2("/business/settings/account");
-  const dev = devAuthEnabled();
 
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Settings" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Account and security</h1>
+      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Account</h1>
 
       <section className="mt-6" aria-label="Account">
         <h2 className="eyebrow">Account</h2>
@@ -37,17 +35,6 @@ export default async function AccountSettingsPage() {
           <Row label="Signed in as" value={`${ctx.user.email ?? ctx.user.username} on this device`} />
           <Row label="Stays signed in" value="30 days, or until you log out" />
           <Row label="Identities" value={`Personal${ctx.businesses.length > 0 ? ` and ${ctx.businesses.length} ${ctx.businesses.length === 1 ? "business" : "businesses"}` : ""}`} href="/business/settings" />
-        </dl>
-      </section>
-
-      <section className="mt-7" aria-label="Security">
-        <h2 className="eyebrow">Security</h2>
-        <dl className="mt-1 divide-y divide-rule">
-          {dev ? (
-            <Row label="Password" value="Development sign-in is on. Password changes are handled by the real sign-in in production." />
-          ) : (
-            <Row label="Password" value="Send a reset link to your email" href="/reset" />
-          )}
         </dl>
       </section>
 

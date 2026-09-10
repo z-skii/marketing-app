@@ -12,10 +12,10 @@ export type Identity = { id: "personal" | string; name: string; sub: string; log
  * the whole app into that mode. The current identity is marked, not lime,
  * so the switch itself stays the only accent.
  */
-export function IdentitySwitcher({ identities, canAddBusiness }: { identities: Identity[]; canAddBusiness: boolean }) {
+export function IdentitySwitcher({ identities, canAddBusiness, flat = false }: { identities: Identity[]; canAddBusiness: boolean; flat?: boolean }) {
   const [pending, start] = useTransition();
   return (
-    <ul className="row-list">
+    <ul className={flat ? "divide-y divide-rule overflow-hidden rounded-[var(--radius-card)] bg-surface" : "row-list"}>
       {identities.map((i) => (
         <li key={i.id}>
           <button
@@ -23,7 +23,7 @@ export function IdentitySwitcher({ identities, canAddBusiness }: { identities: I
             disabled={pending || i.active}
             aria-current={i.active ? "true" : undefined}
             onClick={() => start(() => switchContext(i.id))}
-            className={`card flex w-full items-center gap-3 px-4 py-3 text-left ${i.active ? "" : "hover:bg-surface-2"}`}
+            className={`${flat ? "" : "card"} flex min-h-16 w-full items-center gap-3 px-4 py-3 text-left ${i.active ? "" : "hover:bg-surface-2"}`}
           >
             <Avatar src={i.logo} name={i.name} size={40} />
             <span className="min-w-0 flex-1">
@@ -40,7 +40,7 @@ export function IdentitySwitcher({ identities, canAddBusiness }: { identities: I
       ))}
       {canAddBusiness && (
         <li>
-          <Link href="/business/new" className="card-2 flex items-center gap-3 px-4 py-3">
+          <Link href="/business/new" className={`${flat ? "" : "card-2"} flex min-h-14 items-center gap-3 px-4 py-3`}>
             <span aria-hidden className="flex h-10 w-10 items-center justify-center rounded-full bg-surface font-display text-xl font-700">+</span>
             <span className="font-display text-[0.9375rem] font-700">Add business</span>
           </Link>
