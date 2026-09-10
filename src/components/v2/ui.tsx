@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MagnifyingGlass, Bell } from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlass, Bell, CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { formatCredit } from "@/lib/money";
 
 /**
@@ -191,4 +191,37 @@ export function ScreenHeader({
       </Link>}
     </header>
   );
+}
+
+/**
+ * A row on its own surface, in the reference's language: an icon in a soft
+ * square, a bold title, one muted line, an optional status at the right
+ * (lime dot only when it matters) and a chevron. Stack them with gap-2.
+ */
+export function SurfaceRow({
+  href, icon, title, sub, status, statusTone = "faint", external = false,
+}: {
+  href: string; icon: React.ReactNode; title: React.ReactNode; sub?: React.ReactNode;
+  status?: React.ReactNode; statusTone?: "signal" | "faint"; external?: boolean;
+}) {
+  const inner = (
+    <>
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px] bg-surface-2 text-ink">{icon}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block truncate font-display text-[1.0625rem] leading-tight font-700">{title}</span>
+        {sub && <span className="mt-0.5 block truncate text-sm text-ink-faint">{sub}</span>}
+      </span>
+      {status && (
+        <span className={`flex shrink-0 items-center gap-1.5 text-sm ${statusTone === "signal" ? "text-ink-soft" : "text-ink-faint"}`}>
+          {statusTone === "signal" && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-signal" />}
+          {status}
+        </span>
+      )}
+      <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
+    </>
+  );
+  const cls = "flex min-h-[4.25rem] items-center gap-3.5 rounded-[14px] bg-surface px-3.5 py-3 transition-colors can-hover:hover:bg-surface-2";
+  return external
+    ? <a href={href} target="_blank" rel="noreferrer" className={cls}>{inner}</a>
+    : <Link href={href} className={cls}>{inner}</Link>;
 }
