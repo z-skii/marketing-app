@@ -11,6 +11,7 @@ Claude Code on the web session picks them up automatically.
 | `awesome-design-md` | [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md/) | Pulls a ready-made `DESIGN.md` design system from any of 73 real websites into the project root. Catalog vendored at `awesome-design-md/references/catalog.md`. |
 | `apple-design-skill` | [NutshellEngineering/apple-design-skill](https://github.com/NutshellEngineering/apple-design-skill) | Apple's Human Interface Guidelines, mirrored locally (components, patterns, typography, color, materials, motion, accessibility). Grounds native-feeling mobile UI decisions in what Apple actually recommends. |
 | `playwright-cli` | [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli) | Drive a real browser from the CLI — navigate, interact, snapshot, trace, generate tests. Token-efficient alternative to Playwright MCP. |
+| `mobile-first-design` | maintained in this repo (sources: MDN, WCAG 2.2 SC 2.5.8, web.dev Learn Responsive Design, Front-End Checklist) | Mobile-first checklist with citations plus `scripts/audit.mjs`, a Playwright script that measures a running site on phone viewports (overflow, tap targets, text size, images, fixed chrome, thumb reach, orientation, page weight) and maps every number to a checklist ID. |
 
 Plus one MCP server, configured in [`.mcp.json`](../../.mcp.json):
 
@@ -58,5 +59,5 @@ npx skills update            # design-taste-frontend, image-to-code, web-design-
 playwright-cli install --skills   # playwright-cli
 ```
 
-`awesome-design-md` is maintained in this repo; refresh its catalog from the upstream
+`awesome-design-md` and `mobile-first-design` are maintained in this repo; refresh its catalog from the upstream
 README when new sites are added.
