@@ -131,7 +131,7 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
               className={`relative flex min-h-16 flex-col items-center justify-center gap-1 transition-colors ${on ? "text-signal" : "text-ink-soft"}`}
             >
               {create ? (
-                <span className={`flex h-9 w-9 items-center justify-center rounded-full border-2 ${on ? "border-signal bg-signal text-signal-ink" : "border-signal text-signal"}`}>
+                <span className={`flex h-9 w-9 items-center justify-center rounded-full border-2 ${on ? "border-signal bg-signal text-signal-ink" : "border-ink-soft text-ink"}`}>
                   <Plus size={20} weight="bold" aria-hidden />
                 </span>
               ) : (
@@ -185,7 +185,7 @@ function TopIcon({ href, label, icon: IconC, badge }: { href: string; label: str
   return (
     <Link href={href} aria-label={badge > 0 ? `${badge} unread ${label.toLowerCase()}` : label} className="relative flex h-11 w-11 items-center justify-center rounded-full text-ink">
       <IconC size={22} aria-hidden />
-      {badge > 0 && <span className="absolute top-1 right-1"><Count n={badge} /></span>}
+      {badge > 0 && <span aria-hidden className="absolute top-2 right-2 h-2 w-2 rounded-full bg-signal ring-2 ring-paper" />}
     </Link>
   );
 }

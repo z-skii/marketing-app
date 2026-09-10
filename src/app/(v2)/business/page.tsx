@@ -4,7 +4,6 @@ import { requireBusinessContext } from "@/lib/v2/core";
 import { sqlOne } from "@/lib/db";
 import { listCarsForBusiness, listPeople, type Car, type Person } from "@/lib/v2/marketplace";
 import { FilterBar } from "@/components/v2/FilterBar";
-import { ScreenHeader } from "@/components/v2/ui";
 import { PersonCard } from "./people/PersonCard";
 import { CarCard } from "./cars/CarCard";
 
@@ -21,7 +20,8 @@ const TABS: { key: Tab; label: string }[] = [
 
 /**
  * Business Home is a marketplace: the people and the cars a business can
- * advertise through. No numbers, no intro. Pick someone, send a request.
+ * advertise through. Tabs, then faces, then cars. No title, no numbers, no
+ * sentence. Pick someone, send a request.
  */
 export default async function BusinessHome({ searchParams }: { searchParams: Promise<{ tab?: string; offset?: string }> }) {
   const [ctx, params] = await Promise.all([requireBusinessContext("/business"), searchParams]);
@@ -52,55 +52,63 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
     : tab === "nearby" ? `Nobody in ${city ?? "your city"} is earning on TapMart yet.`
     : "Nobody is earning on TapMart yet.";
 
-  return (
-    <main id="main" className="mx-auto w-full max-w-6xl px-4 py-4 md:px-8 md:py-8">
-      <ScreenHeader bell={false} showSearch={false} kicker="People and cars to advertise through" title={city ?? business.name} unread={ctx.unreadNotifications} />
+  // On For you: four people (one row of three on wide screens, the fourth
+  // hides there), then the cars rail, then everyone else.
+  const preview = tab === "for_you" && shownCars.length > 0;
+  const firstPeople = preview ? shownPeople.slice(0, 4) : shownPeople;
+  const morePeople = preview ? shownPeople.slice(4) : [];
+  const nearYou = Boolean(city) && firstPeople.some((p) => p.same_city);
+  const peopleLabel = tab === "nearby" ? `People in ${city}` : nearYou ? "People near you" : "People";
+  const carsLabel = tab === "nearby" ? `Cars in ${city}` : "Cars available";
 
-      <div className="mt-4">
-        <FilterBar label="Marketplace tabs" active={tab} items={TABS.map((t) => ({ key: t.key, label: t.label, href: href(t.key) }))} />
-      </div>
+  return (
+    <main id="main" className="mx-auto w-full max-w-6xl px-4 pt-3 pb-6 md:px-8 md:pt-6 md:pb-10">
+      <FilterBar label="Marketplace tabs" active={tab} items={TABS.map((t) => ({ key: t.key, label: t.label, href: href(t.key) }))} />
 
       {empty ? (
         <p className="mt-8 text-sm text-ink-soft">{offset > 0 ? "That is everyone." : emptyLine}</p>
       ) : (
         <>
-          {tab !== "cars" && shownPeople.length > 0 && (
-            <section className="mt-5" aria-label="People">
-              {tab === "nearby" && <h2 className="eyebrow mb-3">People in {city ?? "your city"}</h2>}
-              <PeopleGrid people={tab === "for_you" && shownCars.length > 0 ? shownPeople.slice(0, 4) : shownPeople} nearbyTag={tab !== "nearby"} />
+          {tab !== "cars" && firstPeople.length > 0 && (
+            <section className="mt-6" aria-label={peopleLabel}>
+              <div className="flex items-baseline justify-between gap-3">
+                <h2 className="eyebrow">{peopleLabel}</h2>
+                {preview && <Link href={href("people")} className="link-row text-sm">All people<CaretRight size={16} aria-hidden /></Link>}
+              </div>
+              <PeopleGrid people={firstPeople} hideFourthOnWide={preview} />
             </section>
           )}
 
           {tab === "for_you" && shownCars.length > 0 && (
-            <section className="mt-8" aria-label="Available cars">
+            <section className="mt-6 md:mt-7" aria-label={carsLabel}>
               <div className="flex items-baseline justify-between gap-3">
-                <h2 className="eyebrow">Available cars</h2>
+                <h2 className="eyebrow">{carsLabel}</h2>
                 <Link href={href("cars")} className="link-row text-sm">All cars<CaretRight size={16} aria-hidden /></Link>
               </div>
-              <ul className="-mx-4 mt-3 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:-mx-8 md:px-8 [&::-webkit-scrollbar]:hidden">
+              <ul className="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:-mx-8 md:gap-5 md:px-8 [&::-webkit-scrollbar]:hidden">
                 {shownCars.map((car, i) => <li key={car.id} className="shrink-0 snap-start"><CarCard car={car} index={i} rail /></li>)}
               </ul>
             </section>
           )}
 
-          {tab === "for_you" && shownCars.length > 0 && shownPeople.length > 4 && (
-            <section className="mt-8" aria-label="More people">
-              <h2 className="eyebrow mb-3">More people</h2>
-              <PeopleGrid people={shownPeople.slice(4)} startIndex={4} />
+          {morePeople.length > 0 && (
+            <section className="mt-8 md:mt-9" aria-label="More people">
+              <h2 className="eyebrow">More people</h2>
+              <PeopleGrid people={morePeople} startIndex={4} />
             </section>
           )}
 
           {(tab === "cars" || tab === "nearby") && shownCars.length > 0 && (
-            <section className="mt-8" aria-label="Cars">
-              {tab === "nearby" && <h2 className="eyebrow mb-3">Cars in {city ?? "your city"}</h2>}
-              <ul className="grid gap-x-4 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+            <section className={tab === "nearby" ? "mt-9" : "mt-6"} aria-label={carsLabel}>
+              <h2 className="eyebrow">{carsLabel}</h2>
+              <ul className="mt-4 grid gap-x-4 gap-y-7 sm:grid-cols-2 md:gap-x-5 lg:grid-cols-3">
                 {shownCars.map((car, i) => <li key={car.id}><CarCard car={car} index={i} /></li>)}
               </ul>
             </section>
           )}
 
           {(hasMore || offset > 0) && (tab === "cars" || tab === "people") && (
-            <div className="mt-6 flex items-center justify-between">
+            <div className="mt-8 flex items-center justify-between">
               {offset > 0 ? <Link href={href(tab, Math.max(offset - pageSize, 0))} className="btn">Newer</Link> : <span />}
               {hasMore && <Link href={href(tab, offset + pageSize)} className="btn">More</Link>}
             </div>
@@ -111,10 +119,14 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
   );
 }
 
-function PeopleGrid({ people, startIndex = 0, nearbyTag = true }: { people: Person[]; startIndex?: number; nearbyTag?: boolean }) {
+function PeopleGrid({ people, startIndex = 0, hideFourthOnWide = false }: { people: Person[]; startIndex?: number; hideFourthOnWide?: boolean }) {
   return (
-    <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
-      {people.map((p, i) => <li key={p.id}><PersonCard person={p} index={startIndex + i} priority={startIndex + i < 4} nearbyTag={nearbyTag} /></li>)}
+    <ul className="mt-4 grid grid-cols-2 gap-x-3 gap-y-9 md:gap-x-5 lg:grid-cols-3">
+      {people.map((p, i) => (
+        <li key={p.id} className={hideFourthOnWide && i === 3 ? "lg:hidden" : undefined}>
+          <PersonCard person={p} index={startIndex + i} priority={startIndex + i < 4} />
+        </li>
+      ))}
     </ul>
   );
 }
