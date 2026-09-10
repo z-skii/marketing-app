@@ -5,7 +5,7 @@ import { sql, sqlOne } from "@/lib/db";
 import { getSettings } from "@/lib/settings";
 import { formatCredit } from "@/lib/money";
 import { fmtDate } from "@/lib/v2/opportunities";
-import { Chip, Money, ScreenHeader, SectionTitle, Stat } from "@/components/v2/ui";
+import { Chip, Money, ScreenHeader } from "@/components/v2/ui";
 import { PayoutButton } from "./PayoutButton";
 
 export const metadata = { title: "Earnings" };
@@ -91,49 +91,49 @@ export default async function EarningsPage() {
 
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
-      <ScreenHeader title="Earnings" showSearch={false} unread={ctx.unreadNotifications} />
+      <ScreenHeader bell={false} title="Earnings" showSearch={false} unread={ctx.unreadNotifications} />
 
-      <section className="card mt-5 p-5" aria-label="Your money">
-        <p className="text-sm text-ink-soft">Available</p>
-        <p className="mt-1.5"><Money cents={available} size="hero" /></p>
-        <div className="mt-5 grid grid-cols-2 gap-4">
-          <Stat value={formatCredit(pending)} label="Pending payout" />
-          <Stat value={formatCredit(lifetime)} label="Lifetime" />
+      <section className="mt-6" aria-label="Your money">
+        <p className="tnum font-display text-[3rem] leading-none font-800 tracking-[-0.04em] text-signal md:text-[3.5rem]">{formatCredit(available)}</p>
+        <p className="mt-1.5 text-sm text-ink-soft">Available</p>
+        <div className="mt-6 flex gap-10">
+          <div>
+            <p className="tnum font-display text-[1.375rem] leading-none font-800 tracking-[-0.03em]">{formatCredit(pending)}</p>
+            <p className="mt-1.5 text-sm text-ink-faint">Pending</p>
+          </div>
+          <div>
+            <p className="tnum font-display text-[1.375rem] leading-none font-800 tracking-[-0.03em]">{formatCredit(lifetime)}</p>
+            <p className="mt-1.5 text-sm text-ink-faint">Lifetime</p>
+          </div>
         </div>
-        <div className="mt-5">
+        <div className="mt-6">
           {canRequest ? (
             <PayoutButton availableCents={available} minCents={minPayout} />
           ) : (
-            <p className="font-display text-[0.9375rem] font-600 text-ink-soft">
-              Payouts start at {formatCredit(minPayout)}.
-              {available > 0 && ` You have ${formatCredit(available)} so far.`}
-            </p>
+            <p className="text-sm text-ink-soft">Payouts start at {formatCredit(minPayout)}.{available > 0 ? ` ${formatCredit(available)} so far.` : ""}</p>
           )}
-          <p className="mt-3 text-sm text-ink-faint">
-            Sent by TapMart within a few days. The {feePct}% fee is already out.
-          </p>
+          <p className="mt-2 text-xs text-ink-faint">Sent by TapMart within a few days. The {feePct}% fee is already out.</p>
         </div>
       </section>
 
-      <section className="mt-8">
-        <SectionTitle count={rows.length}>History</SectionTitle>
+      <section className="mt-9">
+        <h2 className="eyebrow">History</h2>
         {rows.length === 0 && (
-          <div className="card-2 mt-3 p-4 text-sm text-ink-soft">
+          <p className="mt-3 text-sm text-ink-soft">
             Approved versions, stories and car ad payments land here.{" "}
-            <Link href="/home" className="font-display font-600 text-signal">Find something that pays</Link>
-          </div>
+            <Link href="/home" className="font-display font-600 text-ink underline decoration-ink-faint underline-offset-4">Find something that pays</Link>
+          </p>
         )}
-        <ul className="row-list mt-3">
+        <ul className="mt-1 divide-y divide-rule">
           {rows.map((e) => {
             const { line, sub } = describe(e);
             const st = EARNING_STATUS[e.status] ?? { label: e.status, tone: "ink" as const };
             return (
-              <li key={e.id} className="card-2 flex items-center gap-3 px-4 py-3">
+              <li key={e.id} className="flex min-h-16 items-center gap-3 py-3">
                 <span className="min-w-0 flex-1">
                   <span className="block truncate font-display text-[0.9375rem] font-700">{line}</span>
-                  <span className="block truncate text-sm text-ink-faint">{sub}</span>
+                  <span className="block truncate text-sm text-ink-faint">{sub}{st.label !== "Paid" ? `  ·  ${st.label}` : ""}</span>
                 </span>
-                <Chip tone={st.tone}>{st.label}</Chip>
                 <span className="flex items-baseline">
                   <span className="font-display text-base font-800 text-signal" aria-hidden>+</span>
                   <Money cents={e.amount_cents} size="sm" />
@@ -146,12 +146,12 @@ export default async function EarningsPage() {
 
       {payouts.length > 0 && (
         <section className="mt-8">
-          <SectionTitle count={payouts.length}>Payouts</SectionTitle>
-          <ul className="row-list mt-3">
+          <h2 className="eyebrow">Payouts</h2>
+          <ul className="mt-1 divide-y divide-rule">
             {payouts.map((p) => {
               const st = PAYOUT_STATUS[p.status] ?? { label: p.status, tone: "ink" as const };
               return (
-                <li key={p.id} className="card-2 flex items-center gap-3 px-4 py-3">
+                <li key={p.id} className="flex min-h-16 items-center gap-3 py-3">
                   <span className="min-w-0 flex-1">
                     <span className="block font-display text-[0.9375rem] font-700">Payout request</span>
                     <span className="block text-sm text-ink-faint">

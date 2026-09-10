@@ -241,7 +241,7 @@
 
   /* Photography sits under a soft scrim so lime money and white type stay legible. */
   .media-scrim {
-    background: linear-gradient(to top, rgba(7, 8, 9, 0.88) 0%, rgba(7, 8, 9, 0.35) 45%, rgba(7, 8, 9, 0) 75%);
+    background: linear-gradient(to top, rgba(7, 8, 9, 0.92) 0%, rgba(7, 8, 9, 0.55) 35%, rgba(7, 8, 9, 0.18) 60%, rgba(7, 8, 9, 0) 85%);
   }
 
   /* A plain row list: rows separate by spacing, not by rules. */

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { redirect } from "next/navigation";
 import { getV2Context } from "@/lib/v2/core";
 import {
@@ -54,7 +55,7 @@ export default async function ActivityPage({
 
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
-      <ScreenHeader title="Activity" showSearch={false} unread={ctx.unreadNotifications} />
+      <ScreenHeader bell={false} title="Activity" showSearch={false} unread={ctx.unreadNotifications} />
 
       <nav className="mt-6 flex gap-5 overflow-x-auto" aria-label="Activity tabs">
         {TABS.map((t) => (
@@ -83,7 +84,7 @@ export default async function ActivityPage({
           {rows.length === 0 ? (
             <Empty tab={tab} />
           ) : (
-            <ul className="row-list">
+            <ul className="divide-y divide-rule">
               {rows.map((it) => <ActivityRow key={`${it.record}-${it.id}`} item={it} />)}
             </ul>
           )}
@@ -100,9 +101,10 @@ function Empty({ tab }: { tab: Tab }) {
 
 function ActivityRow({ item }: { item: ActivityItem }) {
   const { label, sub } = activityLabel(item);
+  const hot = item.record === "invite" && item.status === "sent";
   return (
     <li>
-      <Link href={`/o/${item.campaign_id}`} className="card flex items-center gap-3 p-3 md:p-4">
+      <Link href={`/o/${item.campaign_id}`} className="flex min-h-[4.5rem] items-center gap-3 py-2.5">
         {item.cover ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.cover} alt="" className="h-14 w-14 shrink-0 rounded-[12px] object-cover" loading="lazy" />
@@ -110,14 +112,12 @@ function ActivityRow({ item }: { item: ActivityItem }) {
           <Avatar src={item.business_logo} name={item.business_name} size={56} />
         )}
         <span className="min-w-0 flex-1">
-          <span className="block text-sm text-ink-faint">{KIND_ROW_LABEL[item.kind]}{"  ·  "}{item.business_name}</span>
-          <span className="block truncate font-display text-[1.0625rem] leading-tight font-800 tracking-[-0.02em]">{item.title}</span>
-          <span className="mt-0.5 block truncate text-sm">
-            <span className="font-600 text-ink">{label}</span>
-            {sub && <span className="text-ink-faint">{"  ·  "}{sub}</span>}
-          </span>
+          <span className="block truncate text-xs text-ink-faint">{KIND_ROW_LABEL[item.kind]}{"  ·  "}{item.business_name}</span>
+          <span className="block truncate font-display text-[1rem] leading-tight font-700">{item.title}</span>
+          <span className={`mt-0.5 block truncate text-sm ${hot ? "text-signal" : "text-ink-soft"}`}>{label}{sub ? <span className="text-ink-faint">{"  ·  "}{sub}</span> : null}</span>
         </span>
         <Money cents={item.pay_cents} size="sm" suffix={item.kind === "car_ads" ? "/ mo" : undefined} />
+        <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
       </Link>
     </li>
   );

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Icon } from "@phosphor-icons/react";
-import { House, Pulse, Wallet, User, Bell, ChatCircle } from "@phosphor-icons/react";
+import { House, Pulse, Wallet, User, Bell, ChatCircle, Gear } from "@phosphor-icons/react";
 
 /**
  * The User shell: the earning marketplace. Home · Activity · Earnings ·
@@ -93,8 +93,23 @@ export function UserShell(props: ShellProps) {
         </Link>
       </aside>
 
-      {/* Content; bottom padding clears the mobile bar */}
-      <div className="min-w-0 pb-24 rail:pb-0">{props.children}</div>
+      <div className="min-w-0">
+        {/* Phone top chrome: the wordmark, messages, notifications, settings. Pages carry no bells of their own. */}
+        <header className="glass sticky top-0 z-30 grid grid-cols-[1fr_auto_1fr] items-center px-2 py-1.5 rail:hidden">
+          <span className="flex">
+            <TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={props.unreadMessages} />
+          </span>
+          <Link href={homeHref} className="font-display text-[1.125rem] font-800 tracking-[-0.04em]" aria-label="TapMart home">
+            <span className="text-signal">T</span>apmart
+          </Link>
+          <span className="flex justify-end">
+            <TopIcon href="/alerts" label="Notifications" icon={Bell} badge={props.unreadNotifications} />
+            <TopIcon href="/me/settings" label="Settings" icon={Gear} badge={0} />
+          </span>
+        </header>
+        {/* Content; bottom padding clears the mobile bar */}
+        <div className="pb-24 rail:pb-0">{props.children}</div>
+      </div>
 
       {/* Bottom bar: navigation only, one destination per tab */}
       <nav
@@ -136,6 +151,15 @@ function MobileTab({ item, active }: { item: NavItem; active: boolean }) {
     >
       <item.icon size={24} weight={active ? "fill" : "regular"} aria-hidden />
       <span className="font-display text-[0.6875rem] font-600">{item.label}</span>
+    </Link>
+  );
+}
+
+function TopIcon({ href, label, icon: IconC, badge }: { href: string; label: string; icon: Icon; badge: number }) {
+  return (
+    <Link href={href} aria-label={badge > 0 ? `${badge} unread ${label.toLowerCase()}` : label} className="relative flex h-11 w-11 items-center justify-center rounded-full text-ink">
+      <IconC size={22} aria-hidden />
+      {badge > 0 && <span aria-hidden className="absolute top-2 right-2 h-2 w-2 rounded-full bg-signal ring-2 ring-paper" />}
     </Link>
   );
 }

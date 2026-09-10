@@ -206,13 +206,13 @@ export function SurfaceRow({
 }) {
   const inner = (
     <>
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px] bg-surface-2 text-ink">{icon}</span>
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-surface-2 text-ink">{icon}</span>
       <span className="min-w-0 flex-1">
         <span className="block truncate font-display text-[1.0625rem] leading-tight font-700">{title}</span>
         {sub && <span className="mt-0.5 block truncate text-sm text-ink-faint">{sub}</span>}
       </span>
       {status && (
-        <span className={`flex shrink-0 items-center gap-1.5 text-sm ${statusTone === "signal" ? "text-ink-soft" : "text-ink-faint"}`}>
+        <span className="flex shrink-0 items-center gap-1.5 text-[0.8125rem] text-ink-faint">
           {statusTone === "signal" && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-signal" />}
           {status}
         </span>
@@ -220,7 +220,7 @@ export function SurfaceRow({
       <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
     </>
   );
-  const cls = "flex min-h-[4.25rem] items-center gap-3.5 rounded-[14px] bg-surface px-3.5 py-3 transition-colors can-hover:hover:bg-surface-2";
+  const cls = "flex min-h-[3.875rem] items-center gap-3 rounded-[14px] bg-surface px-3.5 py-2.5 transition-colors can-hover:hover:bg-surface-2";
   return external
     ? <a href={href} target="_blank" rel="noreferrer" className={cls}>{inner}</a>
     : <Link href={href} className={cls}>{inner}</Link>;
