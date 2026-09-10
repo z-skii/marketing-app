@@ -9,6 +9,7 @@ Claude Code on the web session picks them up automatically.
 | `image-to-code` | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md) | Image-first pipeline: generate section reference images → deep-analyze them → implement the frontend to match. |
 | `web-design-guidelines` | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/blob/main/skills/web-design-guidelines/SKILL.md) | Audits UI code against the Web Interface Guidelines (accessibility, UX, best practices) and reports `file:line` findings. |
 | `awesome-design-md` | [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md/) | Pulls a ready-made `DESIGN.md` design system from any of 73 real websites into the project root. Catalog vendored at `awesome-design-md/references/catalog.md`. |
+| `apple-design-skill` | [NutshellEngineering/apple-design-skill](https://github.com/NutshellEngineering/apple-design-skill) | Apple's Human Interface Guidelines, mirrored locally (components, patterns, typography, color, materials, motion, accessibility). Grounds native-feeling mobile UI decisions in what Apple actually recommends. |
 | `playwright-cli` | [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli) | Drive a real browser from the CLI — navigate, interact, snapshot, trace, generate tests. Token-efficient alternative to Playwright MCP. |
 
 Plus one MCP server, configured in [`.mcp.json`](../../.mcp.json):

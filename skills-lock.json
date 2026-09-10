@@ -18,6 +18,12 @@
       "sourceType": "github",
       "skillPath": "skills/web-design-guidelines/SKILL.md",
       "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
+    },
+    "apple-design-skill": {
+      "source": "NutshellEngineering/apple-design-skill",
+      "sourceType": "github",
+      "skillPath": "skills/apple-design-skill/SKILL.md",
+      "computedHash": "536e4ad217c0d6db6f769809fb119da1eaa10689fb762d284c216b9ea9d6607b"
     }
   }
 }
