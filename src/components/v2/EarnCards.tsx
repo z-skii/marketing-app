@@ -51,7 +51,7 @@ function Verified() {
 
 function BusinessLine({ card }: { card: Opportunity }) {
   return (
-    <p className="min-w-0 truncate text-[0.9375rem] text-ink-soft">
+    <p className="min-w-0 truncate font-display text-[1rem] font-600 text-ink">
       {card.business_name}
       {card.business_verified && <Verified />}
     </p>
@@ -59,44 +59,44 @@ function BusinessLine({ card }: { card: Opportunity }) {
 }
 
 function Meta({ children }: { children: React.ReactNode }) {
-  return <p className="mt-0.5 truncate text-sm text-ink-faint">{children}</p>;
+  return <p className="mt-0.5 truncate text-sm text-ink-soft">{children}</p>;
 }
 
 /** Under the media, on the page: the business, one meta row, one small action. */
 function Foot({ card, meta, action }: { card: Opportunity; meta: React.ReactNode; action: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 px-0.5 pt-3">
+    <div className="flex min-h-[4.5rem] items-center justify-between gap-3 px-4 py-3">
       <div className="min-w-0">
         <BusinessLine card={card} />
         <Meta>{meta}</Meta>
       </div>
-      <span className="btn btn-signal btn-sm shrink-0">{action}</span>
+      <span className="btn btn-signal shrink-0">{action}</span>
     </div>
   );
 }
 
 function Tag({ children }: { children: React.ReactNode }) {
-  return <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">{children}</span>;
+  return <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-500 text-ink">{children}</span>;
 }
 
 function Shell({ children, index = 0, wide = false }: { children: React.ReactNode; index?: number; wide?: boolean }) {
   return (
-    <article className={`reveal group relative ${wide ? "lg:col-span-2" : ""}`} style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}>
+    <article className={`card reveal group relative overflow-hidden ${wide ? "lg:col-span-2" : ""}`} style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}>
       {children}
     </article>
   );
 }
 
-const FRAME = "relative w-full overflow-hidden rounded-[16px] bg-surface-2 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] can-hover:group-hover:-translate-y-1";
+const FRAME = "relative w-full overflow-hidden bg-surface-2";
 
 function OnMedia({ money, suffix, title, right }: { money: number; suffix?: string; title: string; right?: React.ReactNode }) {
   return (
     <div className="absolute inset-x-4 bottom-4">
       <div className="flex items-end justify-between gap-3">
-        <Money cents={money} size="xl" suffix={suffix} />
+        <Money cents={money} size="lg" suffix={suffix} />
         {right && <span className="shrink-0 text-sm text-ink-soft">{right}</span>}
       </div>
-      <h3 className="mt-1 line-clamp-1 font-display text-[1.25rem] leading-[1.1] font-800 tracking-[-0.02em] text-ink">{title}</h3>
+      <h3 className="mt-1 line-clamp-1 font-display text-[1.125rem] leading-[1.2] font-600 tracking-[-0.01em] text-ink">{title}</h3>
     </div>
   );
 }
@@ -113,7 +113,7 @@ function RecreateCard({ card, priority, index }: EarnCardProps) {
   return (
     <Shell index={index}>
       <Link href={`/o/${card.id}`} className="block">
-        <div className={`${FRAME} aspect-[9/16] lg:aspect-[4/5]`}>
+        <div className={`${FRAME} aspect-[4/5]`}>
           {media ? (
             <MediaPreview src={media} poster={card.business_cover} className="absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
           ) : (
@@ -125,7 +125,7 @@ function RecreateCard({ card, priority, index }: EarnCardProps) {
         </div>
         <Foot card={card} meta={[spots(card), deadlineLabel(card.deadline)].filter(Boolean).join(" · ")} action="Recreate" />
       </Link>
-      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3 opacity-80" />
+      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3 opacity-70" />
     </Shell>
   );
 }
@@ -141,7 +141,7 @@ function StoryCard({ card, priority, index }: EarnCardProps) {
   return (
     <Shell index={index}>
       <Link href={`/o/${card.id}`} className="block">
-        <div className={`${FRAME} aspect-[9/16] lg:aspect-[4/5]`}>
+        <div className={`${FRAME} aspect-[4/5]`}>
           {creative ? (
             <MediaPreview src={creative} className="absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
           ) : (
@@ -153,7 +153,7 @@ function StoryCard({ card, priority, index }: EarnCardProps) {
         </div>
         <Foot card={card} meta={[followers, spots(card)].filter(Boolean).join(" · ")} action="Post" />
       </Link>
-      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3 opacity-80" />
+      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3 opacity-70" />
     </Shell>
   );
 }
@@ -192,7 +192,7 @@ function CarCard({ card, vehicles = [], priority, index }: EarnCardProps) {
           action={action}
         />
       </Link>
-      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3 opacity-80" />
+      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3 opacity-70" />
     </Shell>
   );
 }

@@ -18,7 +18,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="app-root flex min-h-dvh flex-col bg-paper">
       <header className="mx-auto flex h-16 w-full max-w-5xl items-center px-5">
-        <Link href="/" className="flex items-center gap-2 font-display text-lg font-800 tracking-[-0.03em]">
+        <Link href="/" className="flex items-center gap-2 font-display text-lg font-700 tracking-[-0.02em]">
           <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-signal" />
           {SITE_NAME}
         </Link>

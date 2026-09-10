@@ -18,7 +18,7 @@ export default async function PortfolioPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me" label="Profile" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Portfolio</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Portfolio</h1>
       <p className="mt-1 text-[0.9375rem] text-ink-soft">
         Your best work. Businesses see this when you apply.
       </p>

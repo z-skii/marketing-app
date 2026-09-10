@@ -57,17 +57,13 @@ export default async function ActivityPage({
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <ScreenHeader bell={false} title="Activity" showSearch={false} unread={ctx.unreadNotifications} />
 
-      <nav className="mt-6 flex gap-5 overflow-x-auto" aria-label="Activity tabs">
+      <nav className="pill-row mt-4" aria-label="Activity tabs">
         {TABS.map((t) => (
           <Link
             key={t.key}
             href={t.key === "active" ? "/activity" : `/activity?tab=${t.key}`}
             aria-current={tab === t.key ? "page" : undefined}
-            className={`relative shrink-0 pb-2 font-display text-lg font-800 tracking-[-0.02em] transition-colors ${
-              tab === t.key
-                ? "text-ink after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:rounded-full after:bg-signal"
-                : "text-ink-faint hover:text-ink-soft"
-            }`}
+            className="pill"
           >
             {t.label}
           </Link>
@@ -84,8 +80,8 @@ export default async function ActivityPage({
           {rows.length === 0 ? (
             <Empty tab={tab} />
           ) : (
-            <ul className="divide-y divide-rule">
-              {rows.map((it) => <ActivityRow key={`${it.record}-${it.id}`} item={it} />)}
+            <ul className="flex flex-col gap-2.5">
+              {rows.map((it, i) => <ActivityRow key={`${it.record}-${it.id}`} item={it} index={i} />)}
             </ul>
           )}
         </div>
@@ -99,24 +95,27 @@ function Empty({ tab }: { tab: Tab }) {
   return <EmptyState title={e.title} body={e.body} actionHref="/home" actionLabel={e.action} />;
 }
 
-function ActivityRow({ item }: { item: ActivityItem }) {
+function ActivityRow({ item, index = 0 }: { item: ActivityItem; index?: number }) {
   const { label, sub } = activityLabel(item);
   const hot = item.record === "invite" && item.status === "sent";
   return (
-    <li>
-      <Link href={`/o/${item.campaign_id}`} className="flex min-h-[4.5rem] items-center gap-3 py-2.5">
+    <li className="reveal" style={{ animationDelay: `${Math.min(index, 8) * 50}ms` }}>
+      <Link href={`/o/${item.campaign_id}`} className="row flex min-h-[4.5rem] items-center gap-3.5 px-3.5 py-3">
         {item.cover ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.cover} alt="" className="h-14 w-14 shrink-0 rounded-[12px] object-cover" loading="lazy" />
+          <img src={item.cover} alt="" className="h-12 w-12 shrink-0 rounded-[12px] object-cover" loading="lazy" />
         ) : (
-          <Avatar src={item.business_logo} name={item.business_name} size={56} />
+          <Avatar src={item.business_logo} name={item.business_name} size={48} />
         )}
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-xs text-ink-faint">{KIND_ROW_LABEL[item.kind]}{"  ·  "}{item.business_name}</span>
-          <span className="block truncate font-display text-[1rem] leading-tight font-700">{item.title}</span>
-          <span className={`mt-0.5 block truncate text-sm ${hot ? "text-signal" : "text-ink-soft"}`}>{label}{sub ? <span className="text-ink-faint">{"  ·  "}{sub}</span> : null}</span>
+          <span className="block truncate font-display text-[1rem] leading-[1.3] font-600 tracking-[-0.01em]">{KIND_ROW_LABEL[item.kind]}</span>
+          <span className="mt-0.5 block truncate text-sm text-ink-soft">{item.business_name}</span>
+          <span className="mt-0.5 flex items-center gap-2 text-sm text-ink-soft">
+            {hot && <span aria-hidden className="status-dot" />}
+            <span className="truncate">{label}</span>
+          </span>
         </span>
-        <Money cents={item.pay_cents} size="sm" suffix={item.kind === "car_ads" ? "/ mo" : undefined} />
+        <Money cents={item.pay_cents} size="md" suffix={item.kind === "car_ads" ? "/mo" : undefined} />
         <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
       </Link>
     </li>

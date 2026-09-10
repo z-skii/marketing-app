@@ -63,7 +63,7 @@ export default async function AlertsPage() {
           const inner = (
             <>
               <span className="min-w-0 flex-1">
-                <span className={`block font-display text-[0.9375rem] leading-snug ${isUnread ? "font-700 text-ink" : "font-600 text-ink-soft"}`}>
+                <span className={`block font-display text-[0.9375rem] leading-snug ${isUnread ? "font-600 text-ink" : "font-600 text-ink-soft"}`}>
                   {n.title}
                 </span>
                 {n.body && <span className={`mt-0.5 block text-sm ${isUnread ? "text-ink-soft" : "text-ink-faint"}`}>{n.body}</span>}

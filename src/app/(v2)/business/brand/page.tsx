@@ -32,7 +32,7 @@ export default async function BrandPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Business" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Your brand</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Your brand</h1>
       <BrandStudio
         record={record}
         businessName={business.name}

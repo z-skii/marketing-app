@@ -39,7 +39,7 @@ export default async function MyShootPage({ params }: { params: Promise<{ id: st
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me/shoots" label="Your shoots" />
       <p className="mt-3 text-sm text-ink-faint">{business?.name ?? "Business"}</p>
-      <h1 className="font-display text-[1.75rem] leading-none font-800 tracking-[-0.03em] md:text-[2rem]">
+      <h1 className="font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em] md:text-[1.5rem]">
         {shoot.scheduled_for ? longDayLabel(shoot.scheduled_for) : "Date to be set"}
         {time && <span className="text-ink-soft"> · {time}</span>}
       </h1>
@@ -48,7 +48,7 @@ export default async function MyShootPage({ params }: { params: Promise<{ id: st
       </p>
 
       <div className="mt-5 flex items-center justify-between gap-3">
-        <p className="tnum font-display text-[1.0625rem] leading-tight font-700">{shoot.photos_planned} photos · {shoot.videos_planned} videos</p>
+        <p className="tnum font-display text-[1.0625rem] leading-tight font-600">{shoot.photos_planned} photos · {shoot.videos_planned} videos</p>
         <Chip tone={shootStatusTone(shoot.status)}>{delivered ? "Delivered" : shootStatusLabel(shoot.status)}</Chip>
       </div>
       {shoot.notes && <p className="mt-3 text-sm whitespace-pre-wrap text-ink-soft">{shoot.notes}</p>}

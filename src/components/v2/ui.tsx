@@ -11,19 +11,19 @@ import { formatCredit } from "@/lib/money";
 const MONEY_SIZE = {
   sm: "text-base",
   md: "text-xl",
-  lg: "text-[1.75rem] leading-none",
-  xl: "text-[2.5rem] leading-none",
-  hero: "text-[3.25rem] leading-none",
+  lg: "text-[1.5rem] leading-none",
+  xl: "text-[1.5rem] leading-none",
+  hero: "text-[1.5rem] leading-none",
 } as const;
 
 export function Money({
   cents, suffix, size = "md", tone = "signal",
 }: { cents: number; suffix?: string; size?: keyof typeof MONEY_SIZE; tone?: "signal" | "ink" }) {
   return (
-    <span className={`tnum font-display font-800 tracking-[-0.03em] whitespace-nowrap ${MONEY_SIZE[size]} ${tone === "signal" ? "text-signal" : "text-ink"}`}>
+    <span className={`tnum font-display font-600 tracking-[-0.02em] whitespace-nowrap ${MONEY_SIZE[size]} ${tone === "signal" ? "text-signal" : "text-ink"}`}>
       {formatCredit(cents)}
       {suffix && (
-        <span className={`ml-1.5 font-display font-600 tracking-normal text-ink-soft ${size === "hero" || size === "xl" ? "text-lg" : size === "lg" ? "text-base" : "text-[0.6em]"}`}>
+        <span className={`ml-1 font-display font-500 tracking-normal text-ink-soft ${size === "hero" || size === "xl" ? "text-base" : size === "lg" ? "text-sm" : "text-[0.7em]"}`}>
           {suffix}
         </span>
       )}
@@ -40,7 +40,7 @@ export function Chip({ children, tone = "ink" }: { children: React.ReactNode; to
     alert: "bg-alert/15 text-alert",
   } as const;
   return (
-    <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-display text-xs font-700 ${tones[tone]}`}>
+    <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-display text-xs font-600 ${tones[tone]}`}>
       {children}
     </span>
   );
@@ -68,7 +68,7 @@ export function Avatar({
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={src} alt={name} width={size} height={size}
-        className="shrink-0 rounded-full object-cover"
+        className="shrink-0 rounded-full object-cover ring-1 ring-white/10"
         style={{ width: size, height: size }}
       />
     );
@@ -76,7 +76,7 @@ export function Avatar({
   return (
     <span
       aria-hidden
-      className="flex shrink-0 items-center justify-center rounded-full bg-surface-2 font-display font-800 text-ink"
+      className="flex shrink-0 items-center justify-center rounded-full bg-surface-3 font-display font-600 text-ink ring-1 ring-white/10"
       style={{ width: size, height: size, fontSize: size * 0.42 }}
     >
       {initial}
@@ -88,9 +88,9 @@ export function EmptyState({
   title, body, actionHref, actionLabel,
 }: { title: string; body?: string; actionHref?: string; actionLabel?: string }) {
   return (
-    <div className="card px-6 py-12 text-center">
-      <p className="font-display text-xl font-800 tracking-[-0.02em]">{title}</p>
-      {body && <p className="mx-auto mt-2 max-w-sm text-[0.9375rem] leading-relaxed text-ink-soft">{body}</p>}
+    <div className="card px-6 py-10 text-center">
+      <p className="font-display text-[1.125rem] font-600 tracking-[-0.01em]">{title}</p>
+      {body && <p className="mx-auto mt-1.5 max-w-sm text-sm leading-relaxed text-ink-soft">{body}</p>}
       {actionHref && actionLabel && (
         <Link href={actionHref} className="btn btn-signal mt-5 inline-flex">
           {actionLabel}
@@ -122,9 +122,9 @@ export function SectionTitle({
 }: { children: React.ReactNode; count?: number; action?: { href: string; label: string } }) {
   return (
     <div className="flex items-baseline justify-between gap-3">
-      <h2 className="font-display text-lg font-800 tracking-[-0.02em]">
+      <h2 className="font-display text-[1.0625rem] font-600 tracking-[-0.01em]">
         {children}
-        {count !== undefined && <span className="tnum ml-2 text-ink-faint">{count}</span>}
+        {count !== undefined && <span className="tnum ml-2 font-500 text-ink-faint">{count}</span>}
       </h2>
       {action && (
         <Link href={action.href} className="link-row text-sm">
@@ -152,10 +152,10 @@ export function Stat({
 }: { label: string; value: React.ReactNode; sub?: string; tone?: "ink" | "signal" }) {
   return (
     <div className="min-w-0">
-      <p className={`tnum truncate font-display text-[1.75rem] leading-none font-800 tracking-[-0.03em] ${tone === "signal" ? "text-signal" : "text-ink"}`}>
+      <p className={`tnum truncate font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em] ${tone === "signal" ? "text-signal" : "text-ink"}`}>
         {value}
       </p>
-      <p className="mt-1.5 text-sm text-ink-soft">{label}</p>
+      <p className="mt-1 text-sm text-ink-soft">{label}</p>
       {sub && <p className="text-xs text-ink-faint">{sub}</p>}
     </div>
   );
@@ -173,7 +173,7 @@ export function ScreenHeader({
     <header className="flex items-center gap-3">
       <div className="min-w-0 flex-1">
         {kicker && <p className="text-sm text-ink-faint">{kicker}</p>}
-        <h1 className={`${wrap ? "leading-[1.05]" : "truncate"} font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]`}>{title}</h1>
+        <h1 className={`${wrap ? "leading-[1.05]" : "truncate"} font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]`}>{title}</h1>
       </div>
       {right}
       {showSearch && (
@@ -183,44 +183,44 @@ export function ScreenHeader({
       )}
       {bell && <Link href="/alerts" aria-label={unread > 0 ? `${unread} unread notifications` : "Notifications"} className="relative flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-ink rail:hidden">
         <Bell size={22} aria-hidden />
-        {unread > 0 && (
-          <span className="tnum absolute -top-0.5 -right-0.5 min-w-5 rounded-full bg-alert px-1.5 text-center font-display text-[0.6875rem] font-800 leading-5 text-white">
-            {unread > 99 ? "99+" : unread}
-          </span>
-        )}
+        {unread > 0 && <span aria-hidden className="absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full bg-signal" />}
       </Link>}
     </header>
   );
 }
 
 /**
- * A row on its own surface, in the reference's language: an icon in a soft
- * square, a bold title, one muted line, an optional status at the right
- * (lime dot only when it matters) and a chevron. Stack them with gap-2.
+ * A row on its own surface, exactly as the reference draws it: a 44px icon
+ * square, a 17px semibold title, one 14px muted line, an optional quiet
+ * status at the right (8px lime dot only when it matters) and a chevron.
+ * 72px tall. Stack them with gap-2.5.
  */
 export function SurfaceRow({
-  href, icon, title, sub, status, statusTone = "faint", external = false,
+  href, icon, title, sub, status, statusTone = "faint", external = false, iconTone = "neutral", trailing,
 }: {
   href: string; icon: React.ReactNode; title: React.ReactNode; sub?: React.ReactNode;
   status?: React.ReactNode; statusTone?: "signal" | "faint"; external?: boolean;
+  iconTone?: "neutral" | "success" | "warn" | "signal" | "instagram"; trailing?: React.ReactNode;
 }) {
+  const square = `icon-square${iconTone === "neutral" ? "" : ` icon-square-${iconTone}`}`;
   const inner = (
     <>
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-surface-2 text-ink">{icon}</span>
+      <span className={square}>{icon}</span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate font-display text-[1.0625rem] leading-tight font-700">{title}</span>
-        {sub && <span className="mt-0.5 block truncate text-sm text-ink-faint">{sub}</span>}
+        <span className="block truncate font-display text-[1rem] leading-[1.3] font-600 tracking-[-0.01em]">{title}</span>
+        {sub && <span className="mt-0.5 block truncate text-sm text-ink-soft">{sub}</span>}
       </span>
       {status && (
-        <span className="flex shrink-0 items-center gap-1.5 text-[0.8125rem] text-ink-faint">
-          {statusTone === "signal" && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-signal" />}
+        <span className="flex shrink-0 items-center gap-1.5 text-[0.8125rem] text-ink-soft">
+          {statusTone === "signal" && <span aria-hidden className="status-dot" />}
           {status}
         </span>
       )}
+      {trailing}
       <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
     </>
   );
-  const cls = "flex min-h-[3.875rem] items-center gap-3 rounded-[14px] bg-surface px-3.5 py-2.5 transition-colors can-hover:hover:bg-surface-2";
+  const cls = "row flex min-h-[4.5rem] items-center gap-3 px-3.5 py-3";
   return external
     ? <a href={href} target="_blank" rel="noreferrer" className={cls}>{inner}</a>
     : <Link href={href} className={cls}>{inner}</Link>;

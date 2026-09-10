@@ -27,7 +27,7 @@ export function TopUpForm({ minCents, maxCents }: { minCents: number; maxCents: 
         ))}
       </div>
       <label className="mt-3 flex items-center gap-3">
-        <span className="font-display text-[1.75rem] font-800 tracking-[-0.03em] text-signal">$</span>
+        <span className="font-display text-[1.5rem] font-700 tracking-[-0.02em] text-signal">$</span>
         <input
           className="field flex-1" inputMode="numeric" value={dollars}
           onChange={(e) => setDollars(e.target.value.replace(/[^0-9]/g, ""))}

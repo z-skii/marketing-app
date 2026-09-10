@@ -69,7 +69,7 @@ export function SubmitForm({ campaignId, rightsNote }: { campaignId: string; rig
 
   return (
     <div id="submit" className="card mt-3 p-4">
-      <p className="font-display text-lg font-800 tracking-[-0.02em]">Submit your work</p>
+      <p className="font-display text-lg font-700 tracking-[-0.02em]">Submit your work</p>
       <div className="mt-3">
         <Uploader folder="submissions" multiple label="Upload photos or video" onUploaded={(u) => setUrls([...urls, ...u])} />
         {urls.length > 0 && (

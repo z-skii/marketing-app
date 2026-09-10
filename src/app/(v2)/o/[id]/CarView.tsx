@@ -72,18 +72,18 @@ export async function CarView({ o, ctx, open }: { o: Opportunity; ctx: V2Context
             <NoPhoto name={o.business_name} logo={o.business_logo} />
           )}
           <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-          <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">Car ad</span>
+          <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">Car ad</span>
           {art && (
             <span className="glass-tag absolute right-4 bottom-4 flex items-center gap-3 rounded-[12px] p-1.5 pr-3.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={art} alt="The artwork that goes on the car" className="h-16 w-32 rounded-[8px] object-cover md:h-20 md:w-40" />
-              <span className="font-display text-sm font-700 text-ink">The artwork</span>
+              <span className="font-display text-sm font-600 text-ink">The artwork</span>
             </span>
           )}
         </div>
         <div className="p-5">
           <Money cents={o.pay_cents} size="hero" suffix="/ month" />
-          <h1 className="mt-2 font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em] md:text-[2rem]">
+          <h1 className="mt-2 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] md:text-[1.5rem]">
             Drivers wanted for this campaign
           </h1>
           <BusinessRow o={o} />
@@ -124,7 +124,7 @@ export async function CarView({ o, ctx, open }: { o: Opportunity; ctx: V2Context
                     <div className="flex items-center gap-3">
                       <VehicleThumb v={v} />
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate font-display text-[1.0625rem] font-800 tracking-[-0.02em]">{v.year} {v.make} {v.model}</span>
+                        <span className="block truncate font-display text-[1.0625rem] font-700 tracking-[-0.02em]">{v.year} {v.make} {v.model}</span>
                         {q.ok ? (
                           <span className="block text-sm font-600 text-signal">Your {v.make} {v.model} qualifies ✓</span>
                         ) : (

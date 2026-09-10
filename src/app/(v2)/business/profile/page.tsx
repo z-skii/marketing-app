@@ -82,13 +82,13 @@ export default async function BusinessProfilePage() {
         {/* ------------------------------------------------------ header */}
         <div className="flex items-start justify-between gap-3 rail:col-span-2">
           <div className="flex min-w-0 items-center gap-4">
-            <Avatar src={row?.logo_url ?? business.logo_url} name={business.name} size={64} />
+            <Avatar src={row?.logo_url ?? business.logo_url} name={business.name} size={88} />
             <div className="min-w-0">
-              <h1 className="truncate font-display text-[1.5rem] leading-none font-800 tracking-[-0.03em] md:text-[1.75rem]">
+              <h1 className="truncate font-display text-[1.625rem] leading-[1.15] font-700 tracking-[-0.02em]">
                 {business.name}
                 {row?.verification === "verified" && <CheckCircle size={20} weight="fill" className="ml-1.5 inline-block align-[-2px] text-signal" aria-label="Verified business" />}
               </h1>
-              <p className="mt-2 truncate text-sm text-ink-faint">
+              <p className="mt-0.5 truncate text-sm text-ink-soft">
                 {identityLine || "Business"}
                 {website && row?.website && (
                   <>
@@ -110,12 +110,12 @@ export default async function BusinessProfilePage() {
         </div>
 
         {/* ------------------------------------------------- the brand */}
-        <section className="mt-6 overflow-hidden rounded-[16px] bg-surface rail:col-start-1 rail:row-start-2" aria-label="Your brand">
+        <section className="row mt-6 overflow-hidden rail:col-start-1 rail:row-start-2" aria-label="Your brand">
           <Link href="/business/brand" className="flex items-center gap-3 px-4 pt-3.5">
             <span className="min-w-0 flex-1">
-              <span className="block truncate font-display text-[1.0625rem] leading-tight font-700">Your brand</span>
-              <span className="mt-0.5 flex items-center gap-1.5 text-xs text-ink-faint">
-                {brandStatus === "Approved" && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-signal" />}
+              <span className="block truncate font-display text-[1rem] leading-[1.3] font-600 tracking-[-0.01em]">Your brand</span>
+              <span className="mt-0.5 flex items-center gap-2 text-sm text-ink-soft">
+                {brandStatus === "Approved" && <span aria-hidden className="status-dot" />}
                 {brandStatus ? `Brand kit ${brandStatus.toLowerCase()}` : "Brand kit not built yet"}
               </span>
             </span>
@@ -136,10 +136,10 @@ export default async function BusinessProfilePage() {
         </section>
 
         {/* --------------------------------------------------------- rows */}
-        <ul className="mt-2 flex flex-col gap-1.5 rail:col-start-1" aria-label="Business setup">
+        <ul className="mt-2.5 flex flex-col gap-2.5 rail:col-start-1" aria-label="Business setup">
           <li>
             <SurfaceRow
-              href="/business/settings/connections" icon={<InstagramLogo size={22} aria-hidden />}
+              href="/business/settings/connections" icon={<InstagramLogo size={22} aria-hidden />} iconTone="instagram"
               title="Instagram"
               sub={igOn ? (ig?.external_name ? `@${ig.external_name.replace(/^@/, "")}` : "Connected account") : ig?.status === "error" ? "Needs attention" : "For Story campaigns"}
               status={igOn ? "Connected" : undefined} statusTone="signal"
@@ -156,10 +156,10 @@ export default async function BusinessProfilePage() {
             </li>
           )}
         </ul>
-        <ul className="mt-1.5 flex flex-col gap-1.5 rail:col-start-2 rail:row-start-2 rail:mt-6" aria-label="Right now">
+        <ul className="mt-2.5 flex flex-col gap-2.5 rail:col-start-2 rail:row-start-2 rail:mt-6" aria-label="Right now">
           <li>
             <SurfaceRow
-              href="/business/campaigns" icon={<Megaphone size={22} aria-hidden />}
+              href="/business/campaigns" icon={<Megaphone size={22} aria-hidden />} iconTone="warn"
               title="Campaigns"
               sub={activeN > 0 ? `${activeN} running` : "Nothing running yet"}
               status={activeN > 0 ? "Live" : undefined} statusTone="signal"
@@ -195,8 +195,8 @@ export default async function BusinessProfilePage() {
 function Figure({ value, label }: { value: string; label: string }) {
   return (
     <div className="min-w-0">
-      <p className="tnum font-display text-[1.125rem] leading-none font-800 tracking-[-0.02em] md:text-[1.25rem]">{value}</p>
-      <p className="mt-1 text-xs text-ink-faint">{label}</p>
+      <p className="tnum font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em]">{value}</p>
+      <p className="mt-1 text-sm text-ink-soft">{label}</p>
     </div>
   );
 }

@@ -66,7 +66,7 @@ export function EditBusinessForm({ business }: { business: Business }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={f.coverUrl} alt="" className="h-full w-full object-cover" />
             <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-            <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">Cover</span>
+            <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">Cover</span>
           </div>
         )}
         <div className="flex items-center gap-4 p-4">

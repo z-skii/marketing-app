@@ -161,7 +161,7 @@ export default async function CampaignManagePage({
         <section aria-label="Direct request" className="mt-4 flex items-center gap-3 rounded-[var(--radius-card)] bg-surface p-3">
           <Avatar src={invite.avatar_url} name={invite.display_name ?? invite.username} size={44} />
           <span className="min-w-0 flex-1">
-            <span className="block font-display text-[1rem] font-800 tracking-[-0.02em]">Sent to @{invite.username}</span>
+            <span className="block font-display text-[1rem] font-700 tracking-[-0.02em]">Sent to @{invite.username}</span>
             <span className="block text-sm text-ink-soft">
               {invite.status === "sent" ? "Waiting for an answer" : invite.status === "accepted" ? "Accepted" : invite.status === "declined" ? "Declined" : invite.status === "cancelled" ? "Withdrawn" : invite.status}
             </span>
@@ -186,10 +186,10 @@ export default async function CampaignManagePage({
         )}
         <div className="p-4 md:p-5">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-700 text-ink-faint">{KIND_LABEL[campaign.kind] ?? campaign.kind.replaceAll("_", " ")}</span>
+            <span className="text-xs font-600 text-ink-faint">{KIND_LABEL[campaign.kind] ?? campaign.kind.replaceAll("_", " ")}</span>
             <StatusChip status={campaign.status} />
           </div>
-          <h1 className="mt-2 font-display text-[1.5rem] leading-[1.1] font-800 tracking-[-0.03em] md:text-[1.75rem]">{campaign.title}</h1>
+          <h1 className="mt-2 font-display text-[1.5rem] leading-[1.1] font-700 tracking-[-0.02em] md:text-[1.5rem]">{campaign.title}</h1>
           <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
             <Money cents={campaign.pay_cents} size="lg" suffix={car ? "/ mo" : "each"} />
             <p className="tnum text-sm text-ink-faint">{facts.join("  ·  ")}</p>
@@ -231,13 +231,13 @@ export default async function CampaignManagePage({
             <>
               {waiting.length > 0 && (
                 <>
-                  <p className="mt-4 font-display text-sm font-700 text-signal">Ready to review</p>
+                  <p className="mt-4 font-display text-sm font-600 text-signal">Ready to review</p>
                   <ul className="row-list mt-2">{waiting.map((s) => <SubmissionCard key={s.id} s={s} kind="recreate" />)}</ul>
                 </>
               )}
               {decided.length > 0 && (
                 <>
-                  <p className="mt-5 font-display text-sm font-700 text-ink-faint">Decided</p>
+                  <p className="mt-5 font-display text-sm font-600 text-ink-faint">Decided</p>
                   <ul className="row-list mt-2">{decided.map((s) => <SubmissionCard key={s.id} s={s} kind="recreate" />)}</ul>
                 </>
               )}
@@ -258,13 +258,13 @@ export default async function CampaignManagePage({
             <>
               {waiting.length > 0 && (
                 <>
-                  <p className="mt-4 font-display text-sm font-700 text-signal">Ready to check</p>
+                  <p className="mt-4 font-display text-sm font-600 text-signal">Ready to check</p>
                   <ul className="row-list mt-2">{waiting.map((s) => <SubmissionCard key={s.id} s={s} kind="story" />)}</ul>
                 </>
               )}
               {decided.length > 0 && (
                 <>
-                  <p className="mt-5 font-display text-sm font-700 text-ink-faint">Decided</p>
+                  <p className="mt-5 font-display text-sm font-600 text-ink-faint">Decided</p>
                   <ul className="row-list mt-2">{decided.map((s) => <SubmissionCard key={s.id} s={s} kind="story" />)}</ul>
                 </>
               )}
@@ -293,7 +293,7 @@ export default async function CampaignManagePage({
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="font-display text-[1.0625rem] leading-tight font-800 tracking-[-0.02em]">
+                        <p className="font-display text-[1.0625rem] leading-tight font-700 tracking-[-0.02em]">
                           {a.year ? `${a.year} ${a.make} ${a.model}` : "No vehicle attached"}
                           {a.color && <span className="text-ink-soft">, {a.color}</span>}
                         </p>
@@ -333,9 +333,9 @@ export default async function CampaignManagePage({
                           ) : null}
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="font-display text-[1.0625rem] leading-tight font-800 tracking-[-0.02em]">{b.year} {b.make} {b.model}</p>
+                          <p className="font-display text-[1.0625rem] leading-tight font-700 tracking-[-0.02em]">{b.year} {b.make} {b.model}</p>
                           <p className="mt-1 text-sm text-ink-faint">@{b.username}{"  ·  "}{b.zones.map(placementLabel).join(", ")}</p>
-                          <p className="mt-1.5 font-display text-sm font-700">{BOOKING_WORDS[b.status] ?? b.status.replaceAll("_", " ")}
+                          <p className="mt-1.5 font-display text-sm font-600">{BOOKING_WORDS[b.status] ?? b.status.replaceAll("_", " ")}
                             {b.starts_on && b.status === "active" && <span className="font-600 text-ink-faint">{"  ·  "}since {fmtDate(b.starts_on)}</span>}
                           </p>
                         </div>
@@ -412,7 +412,7 @@ function SubmissionCard({ s, kind }: { s: SubmissionRow; kind: "recreate" | "sto
         <div className="flex items-center gap-2.5">
           <Avatar src={s.creator_avatar} name={s.creator_name ?? s.creator_username} size={32} />
           <div className="min-w-0 flex-1">
-            <p className="truncate font-display text-[0.9375rem] font-700">
+            <p className="truncate font-display text-[0.9375rem] font-600">
               {s.creator_name ?? `@${s.creator_username}`}
               {s.creator_verified && <span className="ml-1 text-signal" aria-label="Verified">✓</span>}
             </p>

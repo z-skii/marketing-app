@@ -129,7 +129,7 @@ function PreviewSheet({
     <div role="dialog" aria-modal="true" aria-label={`${item.kind === "video" ? "Video" : "Photo"} preview`} className="glass fixed inset-0 z-50 flex flex-col">
       <div className="flex items-center justify-between gap-3 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)] pb-3">
         <div className="flex min-w-0 items-center gap-2">
-          <p className="truncate font-display text-[1.0625rem] font-700">{fromShoot}</p>
+          <p className="truncate font-display text-[1.0625rem] font-600">{fromShoot}</p>
           <Chip tone={deliverableStatusTone(item.status, item.edit_note)}>{deliverableStatusLabel(item.status, item.edit_note)}</Chip>
         </div>
         <button type="button" onClick={onClose} aria-label="Close" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-2 text-ink">
@@ -185,11 +185,11 @@ function PreviewSheet({
             <div className="mt-4">
               <div className="grid grid-cols-2 gap-2">
                 <label className="block">
-                  <span className="eyebrow block">Date</span>
+                  <span className="label block">Date</span>
                   <input type="date" className="field mt-1" value={date} min={defaultSlot.date} onChange={(e) => setDate(e.target.value)} />
                 </label>
                 <label className="block">
-                  <span className="eyebrow block">Time</span>
+                  <span className="label block">Time</span>
                   <input type="time" className="field mt-1" value={time} onChange={(e) => setTime(e.target.value)} />
                 </label>
               </div>
@@ -216,7 +216,7 @@ function PreviewSheet({
           {panel === "edit" && (
             <div className="mt-4">
               <label className="block">
-                <span className="eyebrow block">What should change</span>
+                <span className="label block">What should change</span>
                 <textarea className="field mt-1 min-h-24" maxLength={1000} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Crop tighter on the cup, warmer colours" />
               </label>
               <div className="mt-3 flex items-center gap-2">

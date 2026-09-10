@@ -24,18 +24,18 @@ export function PersonCard({ person, index = 0, priority = false }: { person: Pe
   const href = `/business/people/${person.username}`;
 
   return (
-    <article className="reveal group min-w-0" style={{ animationDelay: `${Math.min(index, 6) * 60}ms` }}>
+    <article className="card reveal group min-w-0 overflow-hidden" style={{ animationDelay: `${Math.min(index, 6) * 60}ms` }}>
       <Link href={href} className="block">
-        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-card)] bg-surface-2 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] can-hover:group-hover:-translate-y-1">
+        <div className="relative aspect-[4/5] w-full overflow-hidden bg-surface-2">
           {image ? (
             <MediaPreview src={image} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out can-hover:group-hover:scale-[1.03]" priority={priority} sizes="(min-width: 1024px) 24rem, 50vw" />
           ) : (
-            <div className="flex h-full w-full items-center justify-center font-display text-[3rem] font-800 text-ink-faint">{name.trim()[0]?.toUpperCase()}</div>
+            <div className="flex h-full w-full items-center justify-center font-display text-[1.5rem] font-700 text-ink-faint">{name.trim()[0]?.toUpperCase()}</div>
           )}
           <div className="media-scrim absolute inset-x-0 bottom-0 h-1/2" aria-hidden />
           <div className="absolute inset-x-0 bottom-0 h-2/5 bg-[linear-gradient(to_top,rgba(7,8,9,0.7),rgba(7,8,9,0))]" aria-hidden />
           <div className="absolute inset-x-3 bottom-3 min-w-0 md:inset-x-4 md:bottom-4">
-            <h3 className="truncate font-display text-[1.125rem] leading-[1.1] font-800 tracking-[-0.02em] text-ink md:text-[1.25rem]">
+            <h3 className="truncate font-display text-[1.0625rem] leading-[1.2] font-600 tracking-[-0.01em] text-ink md:text-[1.125rem]">
               {name}
               {person.verification === "verified" && <CheckCircle size={18} weight="fill" className="ml-1 inline-block align-[-3px] text-signal" aria-label="Verified" />}
             </h3>
@@ -43,10 +43,12 @@ export function PersonCard({ person, index = 0, priority = false }: { person: Pe
           </div>
         </div>
       </Link>
-      {line && <p className="tnum mt-2.5 truncate px-0.5 text-[0.8125rem] text-ink-faint md:text-sm">{line}</p>}
-      <div className="mt-2.5 flex flex-col gap-0.5">
-        <Link href={`${href}?request=story`} className="btn btn-sm w-full bg-[color:var(--color-rule-strong)]">Request Story</Link>
-        <Link href={`${href}?request=reel`} className="link-row justify-center text-sm">Request Reel<CaretRight size={14} weight="bold" aria-hidden /></Link>
+      <div className="px-3 pt-2.5 pb-3">
+        {line && <p className="tnum truncate text-[0.8125rem] text-ink-soft md:text-sm">{line}</p>}
+        <div className={`${line ? "mt-2.5" : ""} flex flex-col gap-0.5`}>
+          <Link href={`${href}?request=story`} className="btn btn-signal btn-sm w-full">Request Story</Link>
+          <Link href={`${href}?request=reel`} className="link-row justify-center text-sm">Request Reel<CaretRight size={14} weight="bold" aria-hidden /></Link>
+        </div>
       </div>
     </article>
   );

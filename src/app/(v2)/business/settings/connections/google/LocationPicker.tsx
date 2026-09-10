@@ -32,7 +32,7 @@ export function LocationPicker({ locations }: { locations: PickerLocation[] }) {
           <li key={l.name} className="reveal flex min-h-16 items-center gap-3 py-3" style={{ animationDelay: `${Math.min(i, 6) * 60}ms` }}>
             <MapPin size={24} weight="fill" className="shrink-0 text-ink-soft" aria-hidden />
             <div className="min-w-0 flex-1">
-              <p className="truncate font-display text-[1.0625rem] leading-tight font-700">{l.title}</p>
+              <p className="truncate font-display text-[1.0625rem] leading-tight font-600">{l.title}</p>
               {l.address && <p className="mt-0.5 truncate text-sm text-ink-soft">{l.address}</p>}
             </div>
             {choosing === l.name && pending ? (

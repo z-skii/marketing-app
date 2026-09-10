@@ -24,7 +24,7 @@ export default async function EditBusinessPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Business" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Business and brand kit</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Business and brand kit</h1>
       <p className="mt-1.5 text-[0.9375rem] text-ink-soft">What creators and customers see. The essentials are on top.</p>
       <EditBusinessForm business={business} />
     </main>

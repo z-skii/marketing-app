@@ -22,7 +22,7 @@ export default async function MyShootsPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me" label="Profile" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Your shoots</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Your shoots</h1>
       <p className="mt-1 text-sm text-ink-soft">Shoots TapMart assigned to you. Upload the files here after each one.</p>
 
       {shoots.length === 0 ? (
@@ -41,7 +41,7 @@ export default async function MyShootsPage() {
                 <Link href={`/me/shoots/${s.id}`} className="flex min-h-16 items-center gap-3 py-3">
                   <Avatar src={s.business_logo_url} name={s.business_name} size={44} />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate font-display text-[1.0625rem] font-700">{s.business_name}</span>
+                    <span className="block truncate font-display text-[1.0625rem] font-600">{s.business_name}</span>
                     <span className="tnum block truncate text-sm text-ink-soft">
                       {s.scheduled_for ? dayLabel(s.scheduled_for) : "Date to be set"}{time ? ` · ${time}` : ""} · {s.photos_planned} photos · {s.videos_planned} videos
                     </span>

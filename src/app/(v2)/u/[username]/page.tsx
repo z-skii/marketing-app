@@ -65,7 +65,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
       <header className="flex items-start gap-4">
         <Avatar src={person.avatar_url} name={name} size={88} />
         <div className="min-w-0 flex-1">
-          <h1 className="truncate font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">
+          <h1 className="truncate font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">
             {person.display_name ?? `@${person.username}`}
           </h1>
           <p className="mt-0.5 text-sm text-ink-faint">
@@ -130,7 +130,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
             {reviews.map((r, i) => (
               <li key={i} className="card p-4">
                 <p className="flex items-center justify-between gap-3">
-                  <span className="font-display text-base font-700 text-signal" aria-label={`${r.rating} out of 5`}>
+                  <span className="font-display text-base font-600 text-signal" aria-label={`${r.rating} out of 5`}>
                     {"★".repeat(r.rating)}<span className="text-ink-faint">{"★".repeat(5 - r.rating)}</span>
                   </span>
                   <span className="text-sm text-ink-faint">

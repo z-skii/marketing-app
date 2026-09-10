@@ -15,7 +15,7 @@ import { createVehicle, type VehicleInput } from "../../../cars/actions";
 /** The placements a campaign can ask for. Same keys as campaigns.details.placements. */
 const PLACEMENTS = ["rear_window", "driver_door", "passenger_door", "full_side", "partial_wrap", "full_wrap"] as const;
 const BODY_TYPES = ["Sedan", "SUV", "Truck", "Coupe", "Hatchback", "Van", "Wagon"];
-const STEP_TITLE = "font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em]";
+const STEP_TITLE = "font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em]";
 const LABEL = "text-sm text-ink-soft";
 const STEPS = ["Your car", "Photos", "Placements", "Check"] as const;
 
@@ -137,12 +137,12 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={photos[a.key]} alt={`${a.label} photo`} className="h-20 w-28 shrink-0 rounded-[10px] object-cover" />
                   ) : (
-                    <span className="card-2 flex h-20 w-28 shrink-0 items-center justify-center font-display text-lg font-800 text-ink-faint">
+                    <span className="card-2 flex h-20 w-28 shrink-0 items-center justify-center font-display text-lg font-700 text-ink-faint">
                       {i + 1}
                     </span>
                   )}
                   <div className="min-w-0 flex-1">
-                    <p className="font-display text-[1.125rem] font-800 tracking-[-0.02em]">
+                    <p className="font-display text-[1.125rem] font-700 tracking-[-0.02em]">
                       {a.label}
                       {photos[a.key] && <span className="ml-2 text-signal" aria-label="Added">✓</span>}
                     </p>
@@ -182,7 +182,7 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
                 <li key={zone}>
                   <button
                     type="button" aria-pressed={on} onClick={() => toggle(zone)}
-                    className={`card-2 flex min-h-14 w-full items-center justify-between gap-2 px-4 py-3 text-left font-display text-[0.9375rem] font-700 transition-colors ${on ? "bg-signal text-signal-ink" : "hover:bg-rule-strong"}`}
+                    className={`card-2 flex min-h-14 w-full items-center justify-between gap-2 px-4 py-3 text-left font-display text-[0.9375rem] font-600 transition-colors ${on ? "bg-signal text-signal-ink" : "hover:bg-rule-strong"}`}
                   >
                     {(ZONE_LABELS[zone] ?? zone)}
                     {on && <span aria-hidden>✓</span>}
@@ -195,10 +195,10 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
             {showMinimum ? (
               <label className="card flex items-center justify-between gap-3 p-4">
                 <span className="min-w-0">
-                  <span className="block font-display text-[0.9375rem] font-700">Minimum a month</span>
+                  <span className="block font-display text-[0.9375rem] font-600">Minimum a month</span>
                   <span className="block text-sm text-ink-faint">Campaigns under this will not be suggested.</span>
                 </span>
-                <span className="flex shrink-0 items-center gap-1.5 font-display font-700">
+                <span className="flex shrink-0 items-center gap-1.5 font-display font-600">
                   $
                   <input className="field w-24" inputMode="numeric" value={minimum} placeholder="90"
                     onChange={(e) => setMinimum(e.target.value.replace(/\D/g, ""))} aria-label="Minimum price a month" />
@@ -232,7 +232,7 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
                   className="aspect-[4/3] w-full object-cover md:aspect-[16/9]"
                 />
                 <div className="media-scrim absolute inset-x-0 bottom-0 h-2/3" aria-hidden />
-                <p className="absolute inset-x-4 bottom-3 font-display text-[1.375rem] font-800 tracking-[-0.02em]">{year} {make} {model}</p>
+                <p className="absolute inset-x-4 bottom-3 font-display text-[1.375rem] font-700 tracking-[-0.02em]">{year} {make} {model}</p>
               </div>
             )}
             <div className="p-4 pt-3.5">
@@ -249,7 +249,7 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
               <p className="mt-4 text-sm text-ink-soft">Open to</p>
               <div className="mt-1.5 flex flex-wrap gap-1.5">
                 {placements.map((z) => (
-                  <span key={z} className="rounded-md bg-surface-2 px-2 py-0.5 font-display text-xs font-700">{(ZONE_LABELS[z] ?? z)}</span>
+                  <span key={z} className="rounded-md bg-surface-2 px-2 py-0.5 font-display text-xs font-600">{(ZONE_LABELS[z] ?? z)}</span>
                 ))}
               </div>
               {minimum && <p className="mt-3 text-sm text-ink-faint">Minimum ${minimum} a month</p>}

@@ -70,7 +70,7 @@ export default async function ConnectionsPage({ searchParams }: { searchParams: 
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Business" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Connections</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Connections</h1>
       {params.connected === "instagram" && igState === "connected" && (
         <p className="pop mt-2 text-sm text-signal">Instagram is connected.</p>
       )}
@@ -83,7 +83,7 @@ export default async function ConnectionsPage({ searchParams }: { searchParams: 
               ? <Avatar src={ig.avatar_url} name={ig.external_name ?? "Instagram"} size={40} />
               : <InstagramLogo size={32} weight="fill" className="shrink-0 text-ink" aria-hidden />}
             <div className="min-w-0 flex-1">
-              <p className="font-display text-[1.0625rem] leading-tight font-700">
+              <p className="font-display text-[1.0625rem] leading-tight font-600">
                 Instagram{igState === "connected" && ig?.external_name ? <span className="text-ink-soft"> @{ig.external_name}</span> : null}
               </p>
               <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -107,7 +107,7 @@ export default async function ConnectionsPage({ searchParams }: { searchParams: 
           <div className="flex items-center gap-3">
             <GoogleLogo size={32} weight="bold" className="shrink-0 text-ink" aria-hidden />
             <div className="min-w-0 flex-1">
-              <p className="font-display text-[1.0625rem] leading-tight font-700">
+              <p className="font-display text-[1.0625rem] leading-tight font-600">
                 Google Business Profile{googleState === "connected" && gMeta.location?.title ? <span className="block truncate text-ink-soft">{gMeta.location.title}</span> : null}
               </p>
               <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -135,7 +135,7 @@ export default async function ConnectionsPage({ searchParams }: { searchParams: 
           <li key={q.name} className="reveal flex items-center gap-3 py-4" style={{ animationDelay: `${(i + 2) * 60}ms` }}>
             <q.Logo size={32} weight="fill" className="shrink-0 text-ink-faint" aria-hidden />
             <div className="min-w-0 flex-1">
-              <p className="truncate font-display text-[1.0625rem] leading-tight font-700 text-ink-soft">{q.name}</p>
+              <p className="truncate font-display text-[1.0625rem] leading-tight font-600 text-ink-soft">{q.name}</p>
               <p className="mt-1 text-sm text-ink-faint">Not available yet</p>
             </div>
           </li>

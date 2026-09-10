@@ -88,6 +88,25 @@ const SCHEMA = {
       generic_ai_look: { type: "integer", minimum: 1, maximum: 10, description: "10 = looks like a template or AI dashboard." },
       reference_match: { type: "integer", minimum: 1, maximum: 10, description: "10 = same visual confidence, hierarchy, polish and restraint as the reference image. Null-equivalent 1 when no reference was given." },
       premium_feel: { type: "integer", minimum: 1, maximum: 10, description: "10 = feels like a real high-end consumer product." },
+      same_kit: { type: "boolean", description: "True only if the current screen clearly looks built from the same UI kit as the reference." },
+      kit: {
+        type: "object",
+        additionalProperties: false,
+        description: "Same UI kit as the reference? 0 = a different visual system, 10 = indistinguishable kit.",
+        properties: {
+          typography: { $ref: "#/$defs/kit" },
+          surfaces_material: { $ref: "#/$defs/kit" },
+          spacing: { $ref: "#/$defs/kit" },
+          navigation: { $ref: "#/$defs/kit" },
+          buttons: { $ref: "#/$defs/kit" },
+          cards_rows: { $ref: "#/$defs/kit" },
+          accent_color: { $ref: "#/$defs/kit" },
+          media_treatment: { $ref: "#/$defs/kit" },
+          visual_density: { $ref: "#/$defs/kit" },
+          family_resemblance: { $ref: "#/$defs/kit" },
+        },
+        required: ["typography", "surfaces_material", "spacing", "navigation", "buttons", "cards_rows", "accent_color", "media_treatment", "visual_density", "family_resemblance"],
+      },
       three_second_read: { type: "string", description: "What a first-time viewer understands in three seconds, in one sentence, and what they miss." },
       scores: {
         type: "object",
@@ -126,8 +145,17 @@ const SCHEMA = {
         },
       },
     },
-    required: ["verdict", "tapmart_match", "generic_ai_look", "reference_match", "premium_feel", "three_second_read", "scores", "keep", "animation", "checklist"],
+    required: ["verdict", "tapmart_match", "generic_ai_look", "reference_match", "premium_feel", "same_kit", "kit", "three_second_read", "scores", "keep", "animation", "checklist"],
     $defs: {
+      kit: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          score: { type: "integer", minimum: 0, maximum: 10, description: "0 = different visual system, 10 = same kit." },
+          note: { type: "string", description: "One short sentence: the concrete difference from the reference, or 'matches'." },
+        },
+        required: ["score", "note"],
+      },
       score: {
         type: "object",
         additionalProperties: false,
@@ -146,8 +174,10 @@ function systemPrompt(brain, hasReference) {
     "You are TapMart's visual and product design director. A coding agent (Claude Code) is the engineer: it builds the screens; you review screenshots and hand back exact, prioritized changes. You never write code and never touch files. You may recommend substantial changes: delete a section, move information, make media twice as large, replace cards with rows, use a horizontal media rail, remove copy, change the information hierarchy, simplify navigation, combine controls, turn something into a full-bleed visual, or change the composition entirely. Small padding and radius notes are welcome only after the big moves.",
     "",
     hasReference
-      ? "Two images arrive. CURRENT SCREEN = what exists today. REFERENCE IMAGE = TapMart's primary visual north star: the visual quality, design language and polish target. Do not ask for a pixel copy of the reference and do not turn every screen into the reference's subject; compare overall visual confidence, typography hierarchy, spacing, media prominence, graphite surfaces, signal-lime restraint, button quality, navigation quality, glass treatment, card proportions, depth, icon quality, profile composition, information density, text amount, visual rhythm, interaction and motion opportunities, whether it feels like a real premium consumer product, and whether it still looks generically AI-generated."
+      ? "Two images arrive. CURRENT SCREEN = what exists today. REFERENCE IMAGE = the TapMart UI KIT. It is the visual source of truth for the whole product, not inspiration. Your first and most important question: does the current screen look like it was built from the SAME UI KIT as the reference? Same dark graphite material and background tone, same surface colours and card darkness, same restrained borders and subtle top-edge light, same typography scale and weights (Inter-like, 17px semibold row titles, 14px quiet grey secondary text, 20px stats, 26px name), same bottom bar proportions (64px, 24px icons, 12px labels, lime active, grey inactive), same slim top bar with the centred wordmark, same 48px lime primary button with dark text and 14px radius, same 16px row radius and 72px row height with a 44px icon square, same 8px lime status dots, same chevrons, same media framing, same density. The content differs by screen (a profile, a feed of earning opportunities, activity rows, earnings, a marketplace of people and cars, content deliverables, campaigns, settings). Do NOT ask for cars or the reference's content on unrelated screens; do ask for every visual property of the kit. If the screen obviously belongs to another visual system, say so and score the kit dimensions low. A generic 8/10 is not allowed when the family resemblance is weak."
       : "One image arrives: CURRENT SCREEN = what exists today. Judge it against the product brain.",
+    "",
+    "Score the ten UI KIT dimensions from 0 to 10 each, independently and honestly: typography, surfaces and material, spacing, navigation, buttons, cards and rows, accent colour (lime) usage, media treatment, visual density, overall family resemblance. Placed side by side, would a viewer believe both are screens of the same app? Only when the answer is clearly yes may family resemblance reach 8 or more.",
     "",
     "Judge against the TapMart product brain below. Be specific: name the element, the size, the count, the copy to delete. Prefer 'remove' and 'enlarge' over 'add'. Ten strong items beat thirty weak ones. If something already meets the bar, say so under keep and move on. Never suggest fake data, placeholder media or invented numbers.",
     "",
@@ -196,6 +226,14 @@ function toMarkdown(review, ctx) {
   lines.push("");
   lines.push(`TapMart match ${review.tapmart_match}/10 · Reference match ${review.reference_match}/10 · Premium feel ${review.premium_feel}/10 · Generic AI look ${review.generic_ai_look}/10`);
   lines.push("");
+  if (review.kit) {
+    lines.push(`**Same UI kit as the reference: ${review.same_kit ? "yes" : "NO"}.**`);
+    lines.push("");
+    lines.push("| Kit dimension | 0 to 10 | Difference |");
+    lines.push("| --- | --- | --- |");
+    for (const [key, v] of Object.entries(review.kit)) lines.push(`| ${key.replace(/_/g, " ")} | ${v.score} | ${v.note} |`);
+    lines.push("");
+  }
   lines.push(`**Three seconds.** ${review.three_second_read}`);
   lines.push("");
   lines.push("| Check | Score | Note |");

@@ -43,11 +43,11 @@ export function ManualHandleForm({ returnTo, initialHandle, primary }: { returnT
 
   return (
     <form className="card mt-4 flex flex-col gap-4 p-4 md:p-5" onSubmit={(e) => { e.preventDefault(); submit(); }}>
-      <p className="font-display text-[1.0625rem] font-700">Add your handle, TapMart will confirm it</p>
+      <p className="font-display text-[1.0625rem] font-600">Add your handle, TapMart will confirm it</p>
       <label className="flex flex-col gap-1.5">
         <span className="text-sm text-ink-soft">Instagram handle</span>
         <span className="relative">
-          <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center font-display font-700 text-ink-faint" aria-hidden>@</span>
+          <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center font-display font-600 text-ink-faint" aria-hidden>@</span>
           <input
             className="field w-full pl-9" value={handle} maxLength={60} autoCapitalize="none" autoCorrect="off" spellCheck={false}
             onChange={(e) => setHandle(e.target.value.replace(/^@/, ""))} placeholder="yourhandle" inputMode="text"

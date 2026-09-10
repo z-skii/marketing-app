@@ -5,6 +5,7 @@ import { sql, sqlOne } from "@/lib/db";
 import { getSettings } from "@/lib/settings";
 import { formatCredit } from "@/lib/money";
 import { fmtDate } from "@/lib/v2/opportunities";
+import { Wallet, Car, InstagramLogo, FilmStrip } from "@phosphor-icons/react/dist/ssr";
 import { Chip, Money, ScreenHeader } from "@/components/v2/ui";
 import { PayoutButton } from "./PayoutButton";
 
@@ -90,33 +91,35 @@ export default async function EarningsPage() {
   const canRequest = available >= minPayout;
 
   return (
-    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8 rail:max-w-4xl">
       <ScreenHeader bell={false} title="Earnings" showSearch={false} unread={ctx.unreadNotifications} />
+      <div className="rail:grid rail:grid-cols-[18rem_minmax(0,1fr)] rail:gap-x-10">
 
-      <section className="mt-6" aria-label="Your money">
-        <p className="tnum font-display text-[3rem] leading-none font-800 tracking-[-0.04em] text-signal md:text-[3.5rem]">{formatCredit(available)}</p>
-        <p className="mt-1.5 text-sm text-ink-soft">Available</p>
-        <div className="mt-6 flex gap-10">
+      <section className="mt-5" aria-label="Your money">
+        <p className="tnum font-display text-[2.5rem] leading-none font-600 tracking-[-0.03em] text-signal">{formatCredit(available)}</p>
+        <p className="mt-1.5 text-[0.9375rem] text-ink-soft">Available</p>
+        <div className="mt-5 flex gap-8">
           <div>
-            <p className="tnum font-display text-[1.375rem] leading-none font-800 tracking-[-0.03em]">{formatCredit(pending)}</p>
-            <p className="mt-1.5 text-sm text-ink-faint">Pending</p>
+            <p className="tnum font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em]">{formatCredit(pending)}</p>
+            <p className="mt-1 text-sm text-ink-soft">Pending</p>
           </div>
           <div>
-            <p className="tnum font-display text-[1.375rem] leading-none font-800 tracking-[-0.03em]">{formatCredit(lifetime)}</p>
-            <p className="mt-1.5 text-sm text-ink-faint">Lifetime</p>
+            <p className="tnum font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em]">{formatCredit(lifetime)}</p>
+            <p className="mt-1 text-sm text-ink-soft">Lifetime</p>
           </div>
         </div>
-        <div className="mt-6">
+        <div className="mt-5">
           {canRequest ? (
             <PayoutButton availableCents={available} minCents={minPayout} />
           ) : (
             <p className="text-sm text-ink-soft">Payouts start at {formatCredit(minPayout)}.{available > 0 ? ` ${formatCredit(available)} so far.` : ""}</p>
           )}
-          <p className="mt-2 text-xs text-ink-faint">Sent by TapMart within a few days. The {feePct}% fee is already out.</p>
+          <p className="mt-2 text-sm text-ink-faint">Arrives in a few days. {feePct}% fee deducted.</p>
         </div>
       </section>
 
-      <section className="mt-9">
+      <div className="rail:mt-5">
+      <section className="mt-7 rail:mt-0">
         <h2 className="eyebrow">History</h2>
         {rows.length === 0 && (
           <p className="mt-3 text-sm text-ink-soft">
@@ -124,19 +127,20 @@ export default async function EarningsPage() {
             <Link href="/home" className="font-display font-600 text-ink underline decoration-ink-faint underline-offset-4">Find something that pays</Link>
           </p>
         )}
-        <ul className="mt-1 divide-y divide-rule">
+        <ul className="mt-3 flex flex-col gap-2.5">
           {rows.map((e) => {
             const { line, sub } = describe(e);
             const st = EARNING_STATUS[e.status] ?? { label: e.status, tone: "ink" as const };
             return (
-              <li key={e.id} className="flex min-h-16 items-center gap-3 py-3">
+              <li key={e.id} className="row flex min-h-[4.5rem] items-center gap-3 px-3.5 py-3">
+                <span className="icon-square"><KindIcon kind={e.campaign_kind ?? (e.source === "booking" ? "car_ads" : null)} /></span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate font-display text-[0.9375rem] font-700">{line}</span>
-                  <span className="block truncate text-sm text-ink-faint">{sub}{st.label !== "Paid" ? `  ·  ${st.label}` : ""}</span>
+                  <span className="block truncate font-display text-[1rem] font-600 tracking-[-0.01em]">{line}</span>
+                  <span className="block truncate text-sm text-ink-soft">{sub}{st.label !== "Paid" ? `  ·  ${st.label}` : ""}</span>
                 </span>
                 <span className="flex items-baseline">
-                  <span className="font-display text-base font-800 text-signal" aria-hidden>+</span>
-                  <Money cents={e.amount_cents} size="sm" />
+                  <span className="font-display text-base font-600 text-signal" aria-hidden>+</span>
+                  <Money cents={e.amount_cents} size="md" />
                 </span>
               </li>
             );
@@ -147,14 +151,15 @@ export default async function EarningsPage() {
       {payouts.length > 0 && (
         <section className="mt-8">
           <h2 className="eyebrow">Payouts</h2>
-          <ul className="mt-1 divide-y divide-rule">
+          <ul className="mt-3 flex flex-col gap-2.5">
             {payouts.map((p) => {
               const st = PAYOUT_STATUS[p.status] ?? { label: p.status, tone: "ink" as const };
               return (
-                <li key={p.id} className="flex min-h-16 items-center gap-3 py-3">
+                <li key={p.id} className="row flex min-h-[4.5rem] items-center gap-3 px-3.5 py-3">
+                  <span className="icon-square icon-square-success"><Wallet size={22} aria-hidden /></span>
                   <span className="min-w-0 flex-1">
-                    <span className="block font-display text-[0.9375rem] font-700">Payout request</span>
-                    <span className="block text-sm text-ink-faint">
+                    <span className="block font-display text-[1rem] font-600 tracking-[-0.01em]">Payout request</span>
+                    <span className="block text-sm text-ink-soft">
                       {new Date(p.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     </span>
                   </span>
@@ -166,8 +171,17 @@ export default async function EarningsPage() {
           </ul>
         </section>
       )}
+      </div>
+      </div>
     </main>
   );
+}
+
+function KindIcon({ kind }: { kind: string | null }) {
+  if (kind === "car_ads") return <Car size={22} aria-hidden />;
+  if (kind === "instagram_story") return <InstagramLogo size={22} aria-hidden />;
+  if (kind === "recreate_reel") return <FilmStrip size={22} aria-hidden />;
+  return <Wallet size={22} aria-hidden />;
 }
 
 /** One human line per earning: what it was for, and where it came from. */

@@ -14,7 +14,7 @@ export function NotificationToggle({ kind, label, sub, initial }: { kind: string
       onClick={() => { const next = !on; setOn(next); start(async () => { const r = await toggleNotification(kind, next); if (!r.ok) setOn(!next); }); }}
     >
       <span className="min-w-0">
-        <span className="block font-display text-[1rem] font-700">{label}</span>
+        <span className="block font-display text-[1rem] font-600">{label}</span>
         <span className="block text-sm text-ink-soft">{sub}</span>
       </span>
       <span aria-hidden className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${on ? "bg-signal" : "bg-rule-strong"}`}>

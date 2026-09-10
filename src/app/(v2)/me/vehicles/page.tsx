@@ -21,7 +21,7 @@ export default async function MyVehiclesPage() {
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me" label="Profile" />
       <div className="mt-3 flex items-end justify-between gap-3">
-        <h1 className="font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">My vehicles</h1>
+        <h1 className="font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">My vehicles</h1>
         {vehicles.length > 0 && (
           <Link href="/me/vehicles/new" className="btn btn-sm shrink-0">+ Add vehicle</Link>
         )}
@@ -33,7 +33,7 @@ export default async function MyVehiclesPage() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/uploads/seed/demo-bmw.webp" alt="" className="h-full w-full object-cover" fetchPriority="high" />
             <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-            <p className="absolute inset-x-5 bottom-5 font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em] md:text-[2rem]">
+            <p className="absolute inset-x-5 bottom-5 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] md:text-[1.5rem]">
               Make money with your car.
             </p>
           </div>
@@ -60,15 +60,15 @@ export default async function MyVehiclesPage() {
                     )}
                     <div className="media-scrim absolute inset-x-0 bottom-0 h-2/3" aria-hidden />
                     {v.verification === "verified" && (
-                      <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-signal">Verified ✓</span>
+                      <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-signal">Verified ✓</span>
                     )}
-                    <p className="absolute inset-x-4 bottom-3 font-display text-[1.5rem] leading-[1.1] font-800 tracking-[-0.02em]">
+                    <p className="absolute inset-x-4 bottom-3 font-display text-[1.5rem] leading-[1.1] font-700 tracking-[-0.02em]">
                       {v.year} {v.make} {v.model}
                     </p>
                   </div>
                   <div className="flex items-center justify-between gap-3 p-4">
                     <span className="min-w-0">
-                      <span className={`block font-display text-[0.9375rem] font-700 ${available ? "text-signal" : "text-ink-soft"}`}>
+                      <span className={`block font-display text-[0.9375rem] font-600 ${available ? "text-signal" : "text-ink-soft"}`}>
                         {v.status === "listed" ? (v.available ? "Available for ads" : "Unavailable") : "Not listed"}
                       </span>
                       <span className="block truncate text-sm text-ink-faint">

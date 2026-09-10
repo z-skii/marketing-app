@@ -67,7 +67,7 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
         <div className="min-w-0 flex-1">
           <FilterBar label="Marketplace tabs" active={tab} items={TABS.map((t) => ({ key: t.key, label: t.label, href: href(t.key) }))} />
         </div>
-        <Link href="/business/search" aria-label="Search people and cars" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface text-ink rail:hidden">
+        <Link href="/business/search" aria-label="Search people and cars" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink rail:hidden">
           <MagnifyingGlass size={22} aria-hidden />
         </Link>
       </div>

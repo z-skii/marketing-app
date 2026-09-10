@@ -13,7 +13,7 @@ export function ChoosePlanButton({
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   if (current) {
-    return <p className="mt-5 font-display text-sm font-700 text-signal">Current plan</p>;
+    return <p className="mt-5 font-display text-sm font-600 text-signal">Current plan</p>;
   }
   return (
     <div className="mt-5">

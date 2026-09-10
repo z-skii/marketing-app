@@ -15,7 +15,7 @@ export function PayoutButton({ availableCents, minCents }: { availableCents: num
       <button
         type="button"
         disabled={pending || availableCents < minCents}
-        className="btn btn-signal btn-lg w-full"
+        className="btn btn-signal w-full"
         onClick={() =>
           startTransition(async () => {
             const result = await requestPayout();

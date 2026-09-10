@@ -25,8 +25,8 @@ export function IdeaCard({
   const target = KIND_TARGET[kind ?? ""] ?? "";
   return (
     <article className="card p-5">
-      <h3 className="font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em]">{title}</h3>
-      {stat && <p className="mt-1 font-display text-sm font-700 text-signal">{stat}</p>}
+      <h3 className="font-display text-[1.125rem] leading-tight font-700 tracking-[-0.02em]">{title}</h3>
+      {stat && <p className="mt-1 font-display text-sm font-600 text-signal">{stat}</p>}
       <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">{body}</p>
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <Link href={`/business/create/${target}?rec=${id}`} className="btn btn-signal btn-sm">

@@ -53,7 +53,7 @@ export default async function BillingPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Business" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Billing</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Billing</h1>
       <p className="mt-1.5 text-[0.9375rem] text-ink-soft">Campaign credit pays the people who do the work. Your plan is billed separately.</p>
 
       <section className="card mt-5 p-5 md:p-6" aria-label="Campaign credit">
@@ -110,7 +110,7 @@ export default async function BillingPage() {
       <section className="card mt-8 flex items-center justify-between gap-4 p-4" aria-label="Plan">
         <span>
           <span className="block text-sm text-ink-soft">Plan</span>
-          <span className="mt-0.5 block font-display text-[1.125rem] font-800 tracking-[-0.02em]">
+          <span className="mt-0.5 block font-display text-[1.125rem] font-700 tracking-[-0.02em]">
             {active ? `${PLAN_BY_KEY[active.plan].name}${active.status !== "active" ? `, ${active.status.replace("_", " ")}` : ""}` : "No plan yet"}
           </span>
           {active?.billing === "dev" && <span className="block text-xs text-ink-faint">Development billing, no card on file</span>}

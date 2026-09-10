@@ -29,7 +29,7 @@ export function EditProfileForm({
       <div className="card flex items-center gap-4 p-4">
         <Avatar src={f.avatarUrl || null} name={f.displayName || "?"} size={72} />
         <div className="min-w-0 flex-1">
-          <p className="font-display text-[0.9375rem] font-700">Profile photo</p>
+          <p className="font-display text-[0.9375rem] font-600">Profile photo</p>
           <p className="mb-2 text-sm text-ink-faint">A clear photo of you gets more replies.</p>
           <Uploader folder="avatars" accept="image/*" label="Change photo" onUploaded={(u) => setF({ ...f, avatarUrl: u[0] })} />
         </div>

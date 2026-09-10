@@ -42,7 +42,7 @@ export default async function BusinessPublicPage({ params }: { params: Promise<{
   const reviewCount = Number(reviewStats?.n ?? 0);
   const verified = business.verification === "verified";
   const verifiedTag = verified && (
-    <span className="glass-tag px-2.5 py-1 font-display text-xs font-700 text-signal">Verified business ✓</span>
+    <span className="glass-tag px-2.5 py-1 font-display text-xs font-600 text-signal">Verified business ✓</span>
   );
 
   return (
@@ -55,7 +55,7 @@ export default async function BusinessPublicPage({ params }: { params: Promise<{
             <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
             <div className="absolute top-3 left-3 flex flex-wrap items-center gap-2">
               {verifiedTag}
-              {meta && <span className="glass-tag px-2.5 py-1 font-display text-xs font-700 text-ink">{meta}</span>}
+              {meta && <span className="glass-tag px-2.5 py-1 font-display text-xs font-600 text-ink">{meta}</span>}
             </div>
             <span className="glass-tag absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full">
               <SaveButton itemType="business" itemId={business.id} initialSaved={Boolean(saved)} />
@@ -63,12 +63,12 @@ export default async function BusinessPublicPage({ params }: { params: Promise<{
             <div className="absolute inset-x-4 bottom-4 flex items-end gap-3">
               <Avatar src={business.logo_url} name={business.name} size={56} />
               <div className="min-w-0 flex-1">
-                <h1 className="truncate font-display text-[1.75rem] leading-none font-800 tracking-[-0.03em] text-ink md:text-[2rem]">
+                <h1 className="truncate font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em] text-ink md:text-[1.5rem]">
                   {business.name}
                 </h1>
                 {reviewCount > 0 && (
                   <p className="mt-1.5 text-sm text-ink">
-                    <span className="font-display font-700 text-signal">★ {reviewStats!.avg}</span>
+                    <span className="font-display font-600 text-signal">★ {reviewStats!.avg}</span>
                     <span className="text-ink-soft">{"  ·  "}{reviewStats!.n} review{reviewStats!.n === "1" ? "" : "s"}</span>
                   </p>
                 )}
@@ -80,13 +80,13 @@ export default async function BusinessPublicPage({ params }: { params: Promise<{
         <header className="flex items-start gap-4">
           <Avatar src={business.logo_url} name={business.name} size={88} />
           <div className="min-w-0 flex-1">
-            <h1 className="truncate font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">{business.name}</h1>
+            <h1 className="truncate font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">{business.name}</h1>
             {meta && <p className="mt-0.5 text-sm text-ink-faint">{meta}</p>}
             <div className="mt-2 flex flex-wrap items-center gap-2">
               {verifiedTag}
               {reviewCount > 0 && (
                 <p className="text-sm">
-                  <span className="font-display font-700 text-signal">★ {reviewStats!.avg}</span>
+                  <span className="font-display font-600 text-signal">★ {reviewStats!.avg}</span>
                   <span className="text-ink-faint">{"  ·  "}{reviewStats!.n} review{reviewStats!.n === "1" ? "" : "s"}</span>
                 </p>
               )}

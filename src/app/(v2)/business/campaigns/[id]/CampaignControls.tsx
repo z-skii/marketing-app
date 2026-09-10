@@ -37,7 +37,7 @@ function ErrorLine({ error }: { error: string | null }) {
   return (
     <p role="alert" className="mt-2 text-sm alert-text">
       {error}
-      {credit && <> <Link href="/business/billing" className="font-display font-700 underline underline-offset-2">Add credit</Link></>}
+      {credit && <> <Link href="/business/billing" className="font-display font-600 underline underline-offset-2">Add credit</Link></>}
     </p>
   );
 }

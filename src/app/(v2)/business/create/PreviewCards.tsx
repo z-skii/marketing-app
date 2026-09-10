@@ -109,17 +109,17 @@ function RecreatePreview({ card }: { card: PreviewCardData }) {
           <NoPhoto name={card.business.name} logo={card.business.logo} />
         )}
         <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-        <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">Recreate</span>
+        <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">Recreate</span>
         <span className="glass-tag absolute top-1/2 left-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full" aria-hidden>
           <svg width="22" height="22" viewBox="0 0 20 20" fill="currentColor" className="ml-0.5 text-ink"><path d="M6 3.5v13l10-6.5z" /></svg>
         </span>
         <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3">
           <Money cents={card.pay_cents} size="xl" />
-          {card.slots > 0 && <span className="font-display text-sm font-700 text-ink">{card.slots} spot{card.slots === 1 ? "" : "s"} left</span>}
+          {card.slots > 0 && <span className="font-display text-sm font-600 text-ink">{card.slots} spot{card.slots === 1 ? "" : "s"} left</span>}
         </div>
       </div>
       <div className="p-4 pt-3.5">
-        <h3 className="font-display text-[1.25rem] leading-[1.15] font-800 tracking-[-0.02em] text-ink">Recreate this Reel</h3>
+        <h3 className="font-display text-[1.25rem] leading-[1.15] font-700 tracking-[-0.02em] text-ink">Recreate this Reel</h3>
         <BusinessLine card={card} />
         <ActionRow note={[range ? `${range[0]} to ${range[1]} seconds` : card.requirements[0], deadlineLabel(card.deadline)].filter(Boolean).join("  ·  ")}>
           Recreate
@@ -144,12 +144,12 @@ function StoryPreview({ card }: { card: PreviewCardData }) {
           ) : (
             <div className="absolute inset-0"><NoPhoto name={card.business.name} logo={card.business.logo} /></div>
           )}
-          <span className="glass-tag absolute bottom-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">Story</span>
+          <span className="glass-tag absolute bottom-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">Story</span>
         </div>
         <div className="flex min-w-0 flex-1 flex-col justify-center p-4">
           <p className="text-sm text-ink-soft">Earn</p>
           <Money cents={card.pay_cents} size="xl" />
-          <h3 className="mt-2 font-display text-[1.25rem] leading-[1.15] font-800 tracking-[-0.02em] text-ink">Post this to your Story</h3>
+          <h3 className="mt-2 font-display text-[1.25rem] leading-[1.15] font-700 tracking-[-0.02em] text-ink">Post this to your Story</h3>
           <BusinessLine card={card} compact />
           <ul className="mt-3 flex flex-col gap-1 text-sm text-ink-soft">
             <li>Keep it live {liveHours} hours</li>
@@ -183,21 +183,21 @@ function CarPreview({ card }: { card: PreviewCardData }) {
           <NoPhoto name={card.business.name} logo={card.business.logo} />
         )}
         <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-        <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">Car ad</span>
+        <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">Car ad</span>
         {art && (
           <span className="glass-tag absolute top-3 right-3 flex items-center gap-2 rounded-[8px] p-1 pr-2.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={art} alt="Campaign artwork" width={64} height={32} className="h-8 w-16 rounded-[5px] object-cover" />
-            <span className="font-display text-xs font-700 text-ink">Artwork</span>
+            <span className="font-display text-xs font-600 text-ink">Artwork</span>
           </span>
         )}
         <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3">
           <Money cents={card.pay_cents} size="xl" suffix="/ month" />
-          <span className="font-display text-sm font-700 text-ink">{duration} days</span>
+          <span className="font-display text-sm font-600 text-ink">{duration} days</span>
         </div>
       </div>
       <div className="p-4 pt-3.5">
-        <h3 className="font-display text-[1.25rem] leading-[1.15] font-800 tracking-[-0.02em] text-ink">Drivers wanted for this campaign</h3>
+        <h3 className="font-display text-[1.25rem] leading-[1.15] font-700 tracking-[-0.02em] text-ink">Drivers wanted for this campaign</h3>
         <BusinessLine card={card} />
         {meta.length > 0 && <p className="mt-2 text-sm text-ink-faint">{meta.join("  ·  ")}</p>}
         <ActionRow note="Open it to check your car">See if my car qualifies</ActionRow>

@@ -145,7 +145,7 @@ export function CarWizard({
         <div className="flex flex-col gap-4">
           <Presets label="Duration" options={DURATIONS} value={durationDays} onPick={setDurationDays} format={(n) => `${n} days`} />
           <div className="card p-4">
-            <p className="font-display text-[1.75rem] leading-none font-800 tracking-[-0.03em]">{durationDays} days</p>
+            <p className="font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em]">{durationDays} days</p>
             <p className="mt-2 text-sm text-ink-soft">About {Math.max(1, Math.round(durationDays / 30))} monthly payment{Math.round(durationDays / 30) > 1 ? "s" : ""} per car.</p>
           </div>
           <label className="flex flex-col gap-1.5">
@@ -189,7 +189,7 @@ export function CarWizard({
               )}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="font-display text-[1.0625rem] font-800 tracking-[-0.02em]">Decal or wrap design</p>
+              <p className="font-display text-[1.0625rem] font-700 tracking-[-0.02em]">Decal or wrap design</p>
               <p className="mt-1 text-sm text-ink-soft">PNG or JPG. You can add it after drivers are accepted.</p>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <Uploader folder="campaigns" accept="image/*" label={artworkUrl ? "Replace" : "Upload artwork"} onUploaded={(u) => setArtworkUrl(u[0])} />

@@ -24,11 +24,11 @@ export type ShellProps = {
   children: React.ReactNode;
 };
 
-type NavItem = { href: string; label: string; icon: Icon; exact?: boolean };
+type NavItem = { href: string; label: string; icon: Icon; exact?: boolean; noFill?: boolean };
 
 const USER_NAV: NavItem[] = [
   { href: "/home", label: "Home", icon: House },
-  { href: "/activity", label: "Activity", icon: Pulse },
+  { href: "/activity", label: "Activity", icon: Pulse, noFill: true },
   { href: "/earnings", label: "Earnings", icon: Wallet },
   { href: "/me", label: "Profile", icon: User },
 ];
@@ -55,11 +55,11 @@ export function UserShell(props: ShellProps) {
         key={item.href}
         href={item.href}
         aria-current={on ? "page" : undefined}
-        className={`flex min-h-11 items-center gap-3 rounded-[var(--radius-control)] px-3 py-2 font-display text-[0.9375rem] font-600 transition-colors ${
-          on ? "bg-surface-2 text-signal" : "text-ink-soft can-hover:hover:bg-surface can-hover:hover:text-ink"
+        className={`flex min-h-11 items-center gap-3 rounded-[12px] px-3 py-2 font-display text-[0.9375rem] font-500 transition-colors ${
+          on ? "bg-surface text-signal" : "text-ink-soft can-hover:hover:bg-surface can-hover:hover:text-ink"
         }`}
       >
-        <item.icon size={22} weight={on ? "fill" : "regular"} aria-hidden />
+        <item.icon size={22} weight={on ? (item.noFill ? "bold" : "fill") : "regular"} aria-hidden />
         {item.label}
         {badge(item.href) > 0 && <Badge n={badge(item.href)} className="ml-auto" />}
       </Link>
@@ -72,9 +72,8 @@ export function UserShell(props: ShellProps) {
     <div className="app-root min-h-dvh bg-paper rail:grid rail:grid-cols-[14rem_minmax(0,1fr)]">
       {/* Rail: only where there is width and height for it */}
       <aside className="sticky top-0 hidden h-dvh flex-col overflow-y-auto bg-paper-deep px-3 py-6 rail:flex">
-        <Link href={homeHref} className="flex min-h-11 items-center gap-2.5 px-3">
-          <span className="h-2.5 w-2.5 rounded-full bg-signal" aria-hidden />
-          <span className="font-display text-lg font-800 tracking-[-0.03em]">TAPMART</span>
+        <Link href={homeHref} className="flex min-h-11 items-center px-3 font-display text-[1.375rem] font-700 tracking-[-0.03em]" aria-label="TapMart home">
+          <span className="text-signal">T</span>apmart
         </Link>
         <nav className="mt-6 flex flex-col gap-0.5" aria-label="Main">
           {nav.map(railLink)}
@@ -87,7 +86,7 @@ export function UserShell(props: ShellProps) {
         >
           <IdentityMark identity={props.identity} />
           <span className="min-w-0">
-            <span className="block truncate font-display text-sm font-700">{props.identity.name}</span>
+            <span className="block truncate font-display text-sm font-600">{props.identity.name}</span>
             <span className="block truncate text-xs text-ink-faint">{props.identity.sub}</span>
           </span>
         </Link>
@@ -95,11 +94,11 @@ export function UserShell(props: ShellProps) {
 
       <div className="min-w-0">
         {/* Phone top chrome: the wordmark, messages, notifications, settings. Pages carry no bells of their own. */}
-        <header className="glass sticky top-0 z-30 grid grid-cols-[1fr_auto_1fr] items-center px-2 py-1.5 rail:hidden">
+        <header className="glass sticky top-0 z-30 grid h-[52px] grid-cols-[1fr_auto_1fr] items-center px-2 rail:hidden">
           <span className="flex">
             <TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={props.unreadMessages} />
           </span>
-          <Link href={homeHref} className="font-display text-[1.125rem] font-800 tracking-[-0.04em]" aria-label="TapMart home">
+          <Link href={homeHref} className="font-display text-[1.375rem] font-700 tracking-[-0.03em]" aria-label="TapMart home">
             <span className="text-signal">T</span>apmart
           </Link>
           <span className="flex justify-end">
@@ -114,7 +113,7 @@ export function UserShell(props: ShellProps) {
       {/* Bottom bar: navigation only, one destination per tab */}
       <nav
         aria-label="Main"
-        className="glass fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 pb-[env(safe-area-inset-bottom)] rail:hidden"
+        className="glass fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t pb-[env(safe-area-inset-bottom)] rail:hidden"
       >
         {nav.map((item) => <MobileTab key={item.href} item={item} active={active(item)} />)}
       </nav>
@@ -124,7 +123,7 @@ export function UserShell(props: ShellProps) {
 
 export function Badge({ n, className = "" }: { n: number; className?: string }) {
   return (
-    <span className={`tnum inline-flex min-w-5 items-center justify-center rounded-full bg-surface-2 px-1.5 font-display text-[0.6875rem] font-800 leading-5 text-ink ${className}`}>
+    <span className={`tnum inline-flex min-w-5 items-center justify-center rounded-full bg-surface-3 px-1.5 font-display text-[0.6875rem] font-600 leading-5 text-ink ${className}`}>
       {n > 99 ? "99+" : n}
     </span>
   );
@@ -136,7 +135,7 @@ function IdentityMark({ identity }: { identity: ShellIdentity }) {
     return <img src={identity.logo} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full object-cover" />;
   }
   return (
-    <span aria-hidden className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface-2 font-display text-sm font-800">
+    <span aria-hidden className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface-3 font-display text-sm font-600">
       {(identity.name.trim()[0] ?? "?").toUpperCase()}
     </span>
   );
@@ -147,10 +146,10 @@ function MobileTab({ item, active }: { item: NavItem; active: boolean }) {
     <Link
       href={item.href}
       aria-current={active ? "page" : undefined}
-      className={`relative flex min-h-16 flex-col items-center justify-center gap-1 transition-colors ${active ? "text-signal" : "text-ink-soft"}`}
+      className={`relative flex h-16 flex-col items-center justify-center gap-1 transition-colors ${active ? "text-signal" : "text-ink-soft"}`}
     >
-      <item.icon size={24} weight={active ? "fill" : "regular"} aria-hidden />
-      <span className="font-display text-[0.6875rem] font-600">{item.label}</span>
+      <item.icon size={24} weight={active ? (item.noFill ? "bold" : "fill") : "regular"} aria-hidden />
+      <span className="font-display text-xs font-500">{item.label}</span>
     </Link>
   );
 }
@@ -159,7 +158,7 @@ function TopIcon({ href, label, icon: IconC, badge }: { href: string; label: str
   return (
     <Link href={href} aria-label={badge > 0 ? `${badge} unread ${label.toLowerCase()}` : label} className="relative flex h-11 w-11 items-center justify-center rounded-full text-ink">
       <IconC size={22} aria-hidden />
-      {badge > 0 && <span aria-hidden className="absolute top-2 right-2 h-2 w-2 rounded-full bg-signal ring-2 ring-paper" />}
+      {badge > 0 && <span aria-hidden className="absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full bg-signal" />}
     </Link>
   );
 }

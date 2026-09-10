@@ -22,7 +22,7 @@ export default async function ScanPage({ searchParams }: { searchParams: Promise
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me" label="Profile" />
-      <h1 className="mt-3 font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em] md:text-[2rem]">Scan your car</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] md:text-[1.5rem]">Scan your car</h1>
       <p className="mt-1.5 text-sm text-ink-soft">Walk around it and take a photo at each marker.</p>
       <div className="mt-6">
         <ScanCapture vehicleId={vehicleId} devMode={devAuthEnabled()} />

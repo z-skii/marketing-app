@@ -37,7 +37,7 @@ export default async function GoogleLocationPage() {
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings/connections" label="Connections" />
       <h2 className="eyebrow mt-3">Google Business Profile</h2>
-      <h1 className="mt-2 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Which location is {business.name}?</h1>
+      <h1 className="mt-2 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Which location is {business.name}?</h1>
       <p className="mt-1.5 text-sm text-ink-soft">Google lists {locations.length} locations on that account. TapMart manages one.</p>
       <LocationPicker locations={locations.map((l) => ({ name: l.name, title: l.title, address: l.address }))} />
     </main>

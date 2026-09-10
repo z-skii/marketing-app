@@ -61,11 +61,11 @@ export function ScanCapture({ vehicleId, devMode }: { vehicleId: string | null; 
     <div>
       {/* Progress and the one instruction that matters right now. */}
       <div className="flex items-end justify-between">
-        <p className="tnum font-display text-[2.5rem] leading-none font-800 tracking-[-0.03em]">
+        <p className="tnum font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em]">
           {done}<span className="text-ink-faint">/{SCAN_ANGLES.length}</span>
         </p>
         <p className="text-right text-sm text-ink-soft">
-          {next ? <>Next: <span className="font-display font-700 text-ink">{SCAN_ANGLE_LABEL[next]}</span></> : "All angles done"}
+          {next ? <>Next: <span className="font-display font-600 text-ink">{SCAN_ANGLE_LABEL[next]}</span></> : "All angles done"}
         </p>
       </div>
       <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
@@ -93,7 +93,7 @@ export function ScanCapture({ vehicleId, devMode }: { vehicleId: string | null; 
                   <Camera size={26} className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isNext ? "text-signal" : "text-ink-faint"}`} aria-hidden />
                 )}
                 {shot && <CheckCircle size={20} weight="fill" className="absolute top-1.5 right-1.5 text-signal" aria-hidden />}
-                <span className={`relative z-10 font-display text-[0.6875rem] font-700 leading-tight ${shot ? "glass-tag px-1.5 py-0.5 text-ink" : "text-ink-soft"}`}>{SCAN_ANGLE_LABEL[a]}</span>
+                <span className={`relative z-10 font-display text-[0.6875rem] font-600 leading-tight ${shot ? "glass-tag px-1.5 py-0.5 text-ink" : "text-ink-soft"}`}>{SCAN_ANGLE_LABEL[a]}</span>
               </label>
             </li>
           );
@@ -113,7 +113,7 @@ export function ScanCapture({ vehicleId, devMode }: { vehicleId: string | null; 
 
       {busy && (
         <div className="mt-5 rounded-[var(--radius-card)] bg-surface p-4">
-          <p className="font-display text-[1.0625rem] font-700">{busy.label}</p>
+          <p className="font-display text-[1.0625rem] font-600">{busy.label}</p>
           <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-surface-2" role="progressbar" aria-valuenow={busy.pct} aria-valuemin={0} aria-valuemax={100}>
             <div className="h-full rounded-full bg-signal transition-[width] duration-200" style={{ width: `${busy.pct}%` }} />
           </div>

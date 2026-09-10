@@ -29,7 +29,7 @@ export default async function ShootsPage() {
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/content" label="Content" />
       <p className="mt-3 text-sm text-ink-faint">{business.name}</p>
-      <h1 className="font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Shoots</h1>
+      <h1 className="font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Shoots</h1>
 
       {shoots.length === 0 ? (
         <div className="mt-8 py-10 text-center">
@@ -46,7 +46,7 @@ export default async function ShootsPage() {
               <li key={s.id} className="reveal py-4" style={{ animationDelay: `${Math.min(i, 6) * 60}ms` }}>
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="font-display text-[1.375rem] leading-none font-800 tracking-[-0.03em]">
+                    <p className="font-display text-[1.375rem] leading-none font-700 tracking-[-0.02em]">
                       {s.scheduled_for ? dayLabel(s.scheduled_for) : "Date to be set"}
                       {time && <span className="text-ink-soft"> · {time}</span>}
                     </p>

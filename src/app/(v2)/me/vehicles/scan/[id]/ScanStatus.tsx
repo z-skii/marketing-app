@@ -43,7 +43,7 @@ export function ScanStatus({ initial, devMode }: { initial: VehicleScan; devMode
       {/* Progress */}
       <div className="rounded-[var(--radius-card)] bg-surface p-4">
         <div className="flex items-center justify-between">
-          <p className="font-display text-[1.125rem] font-800 tracking-[-0.02em]">
+          <p className="font-display text-[1.125rem] font-700 tracking-[-0.02em]">
             {scan.status === "failed" ? "Scan failed" : STAGES[stageIndex]?.label ?? scan.stage ?? "Processing"}
           </p>
           <span className="tnum text-sm text-ink-faint">{scan.progress}%</span>
@@ -62,7 +62,7 @@ export function ScanStatus({ initial, devMode }: { initial: VehicleScan; devMode
       {scan.quality && (
         <div className="mt-4">
           <div className="flex items-center justify-between">
-            <p className="font-display text-[1.0625rem] font-700">{scan.quality.label}</p>
+            <p className="font-display text-[1.0625rem] font-600">{scan.quality.label}</p>
             <span className="tnum text-sm text-ink-faint">{scan.quality.coverage_pct}% coverage</span>
           </div>
           {scan.status === "needs_retake" && <Retake scan={scan} onUpdated={setScan} devMode={devMode} />}
@@ -77,7 +77,7 @@ export function ScanStatus({ initial, devMode }: { initial: VehicleScan; devMode
       {/* Result */}
       {confirmed && (
         <div className="mt-4 rounded-[var(--radius-card)] bg-surface p-4">
-          <p className="flex items-center gap-2 font-display text-[1.125rem] font-800 tracking-[-0.02em]">
+          <p className="flex items-center gap-2 font-display text-[1.125rem] font-700 tracking-[-0.02em]">
             <CheckCircle size={22} weight="fill" className="text-signal" aria-hidden />
             {scan.model ? "Your 3D car is ready" : "Your car is on your profile"}
           </p>
@@ -171,7 +171,7 @@ function Recognize({ scan, onDone }: { scan: VehicleScan; onDone: (vehicleId: st
       {sure && !editing ? (
         <>
           <p className="text-sm text-ink-soft">We think this is</p>
-          <p className="mt-1 font-display text-[1.5rem] leading-none font-800 tracking-[-0.03em]">{yearLabel} {r!.make} {r!.model}</p>
+          <p className="mt-1 font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em]">{yearLabel} {r!.make} {r!.model}</p>
           {r!.color && <p className="mt-1.5 text-sm text-ink-faint">{r!.color}{r!.body_type ? ` · ${r!.body_type}` : ""}</p>}
           <div className="mt-4 flex gap-2">
             <button type="button" className="btn btn-signal flex-1" disabled={pending} onClick={() => accept()}>Correct</button>
@@ -180,7 +180,7 @@ function Recognize({ scan, onDone }: { scan: VehicleScan; onDone: (vehicleId: st
         </>
       ) : (
         <>
-          <p className="font-display text-[1.0625rem] font-700">{r ? "Check the details" : "Tell us what car this is"}</p>
+          <p className="font-display text-[1.0625rem] font-600">{r ? "Check the details" : "Tell us what car this is"}</p>
           {!r && <p className="mt-1 text-sm text-ink-faint">We could not identify it from the photos.</p>}
           <div className="mt-3 grid grid-cols-2 gap-2">
             <input className="field" inputMode="numeric" placeholder="Year" aria-label="Year" value={form.year_min ?? ""} onChange={(e) => setForm({ ...form, year_min: Number(e.target.value.replace(/\D/g, "")) || null })} />

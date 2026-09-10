@@ -75,7 +75,7 @@ export function AdPreview({
         {!hasMedia && <p className="mt-2 text-sm text-ink-faint">The owner has not added photos yet.</p>}
 
         <div className="mt-4">
-          <h1 className="font-display text-[1.75rem] leading-none font-800 tracking-[-0.03em] md:text-[2rem]">{name}</h1>
+          <h1 className="font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em] md:text-[1.5rem]">{name}</h1>
           <p className="mt-2 text-sm text-ink-faint">{meta}</p>
         </div>
       </section>
@@ -100,7 +100,7 @@ export function AdPreview({
         <div className="mt-2 flex items-center gap-3">
           <Avatar src={driver.avatar} name={driver.name} size={40} />
           <div className="min-w-0 flex-1">
-            <p className="truncate font-display text-[1rem] font-700">{driver.name}</p>
+            <p className="truncate font-display text-[1rem] font-600">{driver.name}</p>
             <p className="tnum truncate text-sm text-ink-faint">
               {driver.ratingCount > 0 && driver.ratingAvg != null ? (
                 <><Star size={13} weight="fill" className="mr-1 inline-block align-[-1px] text-signal" aria-hidden />{driver.ratingAvg.toFixed(1)} ({driver.ratingCount} {driver.ratingCount === 1 ? "review" : "reviews"})</>
@@ -116,7 +116,7 @@ export function AdPreview({
             <p className="text-sm text-ink-soft">This is your own car. Offers go to other owners.</p>
           ) : sent ? (
             <div className={justSent ? "pop" : ""}>
-              <p className="flex items-center gap-2 font-display text-[1.125rem] font-800 tracking-[-0.02em] text-signal">
+              <p className="flex items-center gap-2 font-display text-[1.125rem] font-700 tracking-[-0.02em] text-signal">
                 <CheckCircle size={22} weight="fill" aria-hidden />{justSent ? "Offer sent" : "Offer sent, waiting for an answer"}
               </p>
               <p className="mt-1 text-sm text-ink-soft">{driver.name} gets a notification and can accept or decline.</p>
@@ -124,7 +124,7 @@ export function AdPreview({
             </div>
           ) : existing?.status === "accepted" ? (
             <div>
-              <p className="flex items-center gap-2 font-display text-[1.125rem] font-800 tracking-[-0.02em] text-signal">
+              <p className="flex items-center gap-2 font-display text-[1.125rem] font-700 tracking-[-0.02em] text-signal">
                 <CheckCircle size={22} weight="fill" aria-hidden />Offer accepted
               </p>
               <Link href={`/business/campaigns/${existing.campaign_id}`} className="link-row mt-1">Open the campaign<CaretRight size={16} aria-hidden /></Link>
@@ -232,7 +232,7 @@ function OfferSheet({
       <button type="button" aria-label="Close" className="absolute inset-0 bg-paper-deep/70" onClick={onClose} />
       <div role="dialog" aria-modal="true" aria-label={`Ad offer for ${name}`} className="glass spot-in relative max-h-[92dvh] w-full overflow-y-auto rounded-t-[var(--radius-sheet)] border px-5 pt-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:max-w-lg md:rounded-[var(--radius-sheet)]">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="font-display text-[1.375rem] font-800 tracking-[-0.02em]">Ad offer</h2>
+          <h2 className="font-display text-[1.375rem] font-700 tracking-[-0.02em]">Ad offer</h2>
           <button type="button" aria-label="Close" className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-ink-soft can-hover:hover:text-ink" onClick={onClose}><X size={22} aria-hidden /></button>
         </div>
         <p className="mt-0.5 text-sm text-ink-soft">{name}</p>
@@ -263,7 +263,7 @@ function OfferSheet({
           <label className="flex flex-col gap-1.5">
             <span className={LABEL}>Pay per month</span>
             <span className="flex items-center gap-3">
-              <span className="font-display text-[1.75rem] font-800 tracking-[-0.03em] text-signal" aria-hidden>$</span>
+              <span className="font-display text-[1.5rem] font-700 tracking-[-0.02em] text-signal" aria-hidden>$</span>
               <input className="field flex-1 text-lg" inputMode="decimal" type="number" min={25} step="1" value={monthly} aria-label="Monthly amount" placeholder="Amount" onChange={(e) => setMonthly(e.target.value)} />
               <span className="text-sm whitespace-nowrap text-ink-soft">/ month</span>
             </span>

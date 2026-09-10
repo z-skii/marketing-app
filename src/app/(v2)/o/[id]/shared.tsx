@@ -57,7 +57,7 @@ export function StepList({ steps, poster }: { steps: CreatorStep[]; poster?: str
               <span className="tnum absolute right-1 bottom-0.5 font-mono text-[0.6875rem] font-600 text-ink">{String(s.n).padStart(2, "0")}</span>
             </span>
             <span className="min-w-0">
-              <span className="block font-display text-[1.0625rem] leading-snug font-700">{s.text}</span>
+              <span className="block font-display text-[1.0625rem] leading-snug font-600">{s.text}</span>
               {s.timing && <span className="block text-xs text-ink-faint">{s.timing}</span>}
             </span>
           </li>
@@ -91,7 +91,7 @@ export function StateCard({
 }: { title: string; body?: string | null; tone?: "plain" | "signal"; children?: React.ReactNode }) {
   return (
     <div className={`card p-4 md:p-5 ${tone === "signal" ? "card-signal" : ""}`}>
-      <p className={`font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em] ${tone === "signal" ? "text-signal" : ""}`}>{title}</p>
+      <p className={`font-display text-[1.125rem] leading-tight font-700 tracking-[-0.02em] ${tone === "signal" ? "text-signal" : ""}`}>{title}</p>
       {body && <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-soft">{body}</p>}
       {children}
     </div>

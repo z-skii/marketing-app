@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CaretRight, Plus } from "@phosphor-icons/react/dist/ssr";
+import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { requireBusinessContext } from "@/lib/v2/core";
 import { sql } from "@/lib/db";
 import { EmptyState, Money, ScreenHeader } from "@/components/v2/ui";
@@ -81,8 +81,8 @@ export default async function CampaignsPage({
   return (
     <main id="main" className="mx-auto w-full max-w-5xl px-4 py-4 md:px-8 md:py-8">
       <ScreenHeader bell={false}
-        kicker="Campaigns" title="Campaigns" unread={ctx.unreadNotifications} showSearch={false}
-        right={<Link href="/business/create" className="btn shrink-0"><Plus size={18} weight="bold" aria-hidden />Create</Link>}
+        title="Campaigns" unread={ctx.unreadNotifications} showSearch={false}
+        
       />
 
       <nav className="pill-row mt-5" aria-label="Campaign tabs">
@@ -129,18 +129,18 @@ export default async function CampaignsPage({
             const cta = done ? "Open" : hot ? (story ? "Verify" : "Review") : "View";
             return (
               <li key={c.id} className="reveal" style={{ animationDelay: `${Math.min(i, 8) * 50}ms` }}>
-                <Link href={`/business/campaigns/${c.id}`} className="block overflow-hidden rounded-[var(--radius-card)] bg-surface">
+                <Link href={`/business/campaigns/${c.id}`} className="card block overflow-hidden">
                   <span className={`relative block w-full overflow-hidden bg-surface-2 ${car ? "aspect-[4/3]" : "aspect-[16/11] sm:aspect-[4/5]"}`}>
                     {media && <MediaPreview src={media} className="absolute inset-0 h-full w-full object-cover" />}
                     <span className="media-scrim absolute inset-x-0 bottom-0 h-3/5" aria-hidden />
-                    <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">{direct ? "Direct request" : (KIND_LABEL[c.kind] ?? c.kind.replaceAll("_", " "))}{direct ? ` · ${KIND_LABEL[c.kind] ?? c.kind}` : ""}</span>
+                    <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">{KIND_LABEL[c.kind] ?? c.kind.replaceAll("_", " ")}</span>
                     {c.status === "paused" && <span className="glass-tag absolute top-3 right-3 px-2.5 py-1 text-xs text-ink-faint">Paused</span>}
                     {c.status === "draft" && <span className="glass-tag absolute top-3 right-3 px-2.5 py-1 text-xs text-ink-faint">Draft</span>}
                     <span className="absolute inset-x-4 bottom-4">
-                      <span className="line-clamp-2 block font-display text-[1.25rem] leading-[1.1] font-800 tracking-[-0.02em] text-ink">{c.title}</span>
+                      <span className="line-clamp-2 block font-display text-[1.125rem] leading-[1.2] font-600 tracking-[-0.01em] text-ink">{c.title}</span>
                     </span>
                   </span>
-                  <span className="flex items-center gap-3 p-3">
+                  <span className="flex items-center gap-3 px-3.5 py-3">
                     <span className="min-w-0 flex-1">
                       <span className="tnum block truncate text-sm text-ink">{meta[0]}</span>
                       {meta[1] && <span className={`tnum mt-0.5 block truncate text-sm ${hot ? "text-ink" : "text-ink-soft"}`}>{meta[1]}</span>}

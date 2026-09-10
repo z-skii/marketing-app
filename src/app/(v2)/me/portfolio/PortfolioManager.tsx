@@ -17,7 +17,7 @@ export function PortfolioManager({
   return (
     <div className="mt-3">
       <div className="card p-4">
-        <p className="font-display text-[0.9375rem] font-700">Add photos or videos</p>
+        <p className="font-display text-[0.9375rem] font-600">Add photos or videos</p>
         <p className="mt-1 text-sm text-ink-faint">Up to 24 items. The first six show on your profile.</p>
         <input
           className="field mt-3" maxLength={200} value={caption}
@@ -55,7 +55,7 @@ export function PortfolioManager({
               {item.caption && <p className="truncate px-3 py-2 text-sm text-ink-soft">{item.caption}</p>}
               <button
                 type="button" aria-label="Remove item" disabled={pending}
-                className="glass-tag absolute top-2 right-2 flex h-9 w-9 items-center justify-center rounded-full font-display text-sm font-700 text-ink hover:text-signal"
+                className="glass-tag absolute top-2 right-2 flex h-9 w-9 items-center justify-center rounded-full font-display text-sm font-600 text-ink hover:text-signal"
                 onClick={() => startTransition(async () => { await removePortfolioItem(item.id); router.refresh(); })}
               >
                 ✕

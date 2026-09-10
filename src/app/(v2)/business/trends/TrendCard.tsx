@@ -35,12 +35,12 @@ export function TrendCard({ trend, large = false, index = 0 }: { trend: TrendIte
           <div className="flex h-full w-full items-center justify-center text-ink-faint"><TrendUp size={40} aria-hidden /></div>
         )}
         <div className="media-scrim absolute inset-x-0 bottom-0 h-3/5" aria-hidden />
-        <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">{PLATFORM[trend.platform] ?? "Web"}</span>
+        <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">{PLATFORM[trend.platform] ?? "Web"}</span>
         {trend.source === "fixture" && <span className="glass-tag absolute top-3 right-3 px-2.5 py-1 text-xs text-ink-faint">Development fixture</span>}
         <div className="absolute inset-x-4 bottom-4">
-          <h3 className="line-clamp-2 font-display text-[1.375rem] leading-[1.1] font-800 tracking-[-0.02em] text-ink">{trend.title}</h3>
+          <h3 className="line-clamp-2 font-display text-[1.375rem] leading-[1.1] font-700 tracking-[-0.02em] text-ink">{trend.title}</h3>
           <p className="mt-1 flex items-center gap-x-3 text-sm text-ink-soft">
-            {v && <span className="shrink-0 font-display font-700 text-ink">{v}</span>}
+            {v && <span className="shrink-0 font-display font-600 text-ink">{v}</span>}
             {trend.growth_note && <span className="flex shrink-0 items-center gap-1"><TrendUp size={14} aria-hidden />{trend.growth_note}</span>}
             {trend.fit_note && <span className="truncate">{trend.fit_note}</span>}
           </p>
@@ -90,8 +90,8 @@ export function TrendTile({ trend, index = 0 }: { trend: TrendItem; index?: numb
         <span className="flex h-full w-full items-center justify-center text-ink-faint"><TrendUp size={32} aria-hidden /></span>
       )}
       <span className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-      <span className="glass-tag absolute top-2.5 left-2.5 px-2 py-0.5 font-display text-[0.6875rem] font-700 text-ink">{PLATFORM[trend.platform] ?? "Web"}</span>
-      <span className="absolute inset-x-3 bottom-3 line-clamp-2 font-display text-[0.9375rem] leading-[1.15] font-800 tracking-[-0.01em] text-ink">
+      <span className="glass-tag absolute top-2.5 left-2.5 px-2 py-0.5 font-display text-[0.6875rem] font-600 text-ink">{PLATFORM[trend.platform] ?? "Web"}</span>
+      <span className="absolute inset-x-3 bottom-3 line-clamp-2 font-display text-[0.9375rem] leading-[1.15] font-700 tracking-[-0.01em] text-ink">
         {pending ? "Preparing your brief" : trend.title}
       </span>
     </button>

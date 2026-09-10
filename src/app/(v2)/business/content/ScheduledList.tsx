@@ -49,9 +49,9 @@ export function ScheduledItem({ post, time, index }: { post: ScheduledPost; time
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="tnum font-display text-[1.375rem] leading-none font-800 tracking-[-0.03em]">{time}</p>
+        <p className="tnum font-display text-[1.375rem] leading-none font-700 tracking-[-0.02em]">{time}</p>
         <p className="mt-1.5 text-sm text-ink-soft">{postKindLabel(post.platform, post.format)}</p>
-        <p className="mt-2 line-clamp-2 font-display text-[1.0625rem] leading-tight font-700">{post.title}</p>
+        <p className="mt-2 line-clamp-2 font-display text-[1.0625rem] leading-tight font-600">{post.title}</p>
         <p className={`mt-2 flex items-center gap-1.5 text-sm font-600 ${published ? "text-rise" : "text-ink"}`}>
           <CheckCircle size={16} weight="fill" aria-hidden />
           {published ? "Published" : "Scheduled"}

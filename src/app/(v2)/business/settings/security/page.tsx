@@ -20,7 +20,7 @@ export default async function SecuritySettingsPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Settings" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Security</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Security</h1>
 
       <section className="mt-6" aria-label="Password">
         <h2 className="eyebrow">Password</h2>
@@ -29,7 +29,7 @@ export default async function SecuritySettingsPage() {
         ) : (
           <Link href="/reset" className="flex min-h-14 items-center justify-between gap-3 py-3">
             <span className="min-w-0">
-              <span className="block font-display text-[1rem] font-700">Change password</span>
+              <span className="block font-display text-[1rem] font-600">Change password</span>
               <span className="block truncate text-sm text-ink-soft">A reset link goes to {ctx.user.email ?? "your email"}</span>
             </span>
             <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />

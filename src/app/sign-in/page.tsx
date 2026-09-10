@@ -17,7 +17,7 @@ export default async function SignInPage({
 
   return (
     <AuthShell>
-        <h1 className="font-display text-[2rem] font-800 tracking-[-0.03em]">
+        <h1 className="font-display text-[1.5rem] font-700 tracking-[-0.02em]">
           Welcome back
         </h1>
         {verified === "1" ? (

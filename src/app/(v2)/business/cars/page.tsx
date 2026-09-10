@@ -112,9 +112,9 @@ export default async function BusinessCarsPage({
                 </Link>
                 <div className="mt-4 min-w-0 md:mt-0">
                   <div className="flex items-start justify-between gap-3">
-                    <p className="min-w-0 font-display text-[1.5rem] leading-none font-800 tracking-[-0.03em]">{name}</p>
+                    <p className="min-w-0 font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em]">{name}</p>
                     {r.from_cents != null && (
-                      <p className="tnum shrink-0 font-display text-[1.125rem] leading-none font-800 tracking-[-0.02em] text-signal">
+                      <p className="tnum shrink-0 font-display text-[1.125rem] leading-none font-700 tracking-[-0.02em] text-signal">
                         <span className="mr-1 text-sm font-600 text-ink-soft">from</span>{formatCredit(r.from_cents)}<span className="ml-1 text-sm font-600 text-ink-soft">/ mo</span>
                       </p>
                     )}

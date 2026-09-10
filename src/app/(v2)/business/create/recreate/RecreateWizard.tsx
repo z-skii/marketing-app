@@ -134,7 +134,7 @@ export function RecreateWizard({
       {step === 0 && (
         <div className="flex flex-col gap-4">
           <div className="card p-4">
-            <p className="font-display text-[1.0625rem] font-800 tracking-[-0.02em]">Upload a video</p>
+            <p className="font-display text-[1.0625rem] font-700 tracking-[-0.02em]">Upload a video</p>
             <p className="mt-1 text-sm text-ink-soft">MP4, WebM or MOV. This becomes the cover of your campaign.</p>
             <div className="mt-3">
               <Uploader folder="campaigns" accept="video/*,image/*" label={mediaUrl ? "Replace" : "Upload"} onUploaded={(u) => setMediaUrl(u[0])} />
@@ -152,7 +152,7 @@ export function RecreateWizard({
           </div>
           <div className="card p-4">
             <label className="flex flex-col gap-1.5">
-              <span className="font-display text-[1.0625rem] font-800 tracking-[-0.02em]">Or paste a Reel link</span>
+              <span className="font-display text-[1.0625rem] font-700 tracking-[-0.02em]">Or paste a Reel link</span>
               <input className="field mt-1" inputMode="url" maxLength={500} value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://www.instagram.com/reel/..." />
             </label>
             {link && !linkOk && <p className="mt-2 text-sm text-ink-faint">Paste the full link, starting with https://</p>}
@@ -270,7 +270,7 @@ export function RecreateWizard({
           }} />
           {requirements.length > 0 && (
             <div className="card mt-4 p-4">
-              <p className="font-display text-[1.0625rem] font-800 tracking-[-0.02em]">Requirements</p>
+              <p className="font-display text-[1.0625rem] font-700 tracking-[-0.02em]">Requirements</p>
               <ul className="mt-2 flex flex-col gap-1 text-[0.9375rem] text-ink-soft">
                 {requirements.map((r) => <li key={r}>{r}</li>)}
               </ul>

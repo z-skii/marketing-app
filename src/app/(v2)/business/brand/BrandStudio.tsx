@@ -136,7 +136,7 @@ export function BrandStudio({
               {signals.notes.map((n) => <li key={n}>{n}</li>)}
             </ul>
           )}
-          <p className="mt-6 font-display text-[1.25rem] leading-tight font-800 tracking-[-0.02em]">
+          <p className="mt-6 font-display text-[1.25rem] leading-tight font-700 tracking-[-0.02em]">
             {proposal.improvements.length === 0
               ? "TapMart found nothing to change. Your brand already reads as one."
               : `TapMart found ${proposal.improvements.length} way${proposal.improvements.length === 1 ? "" : "s"} to make your brand more consistent.`}
@@ -161,7 +161,7 @@ export function BrandStudio({
             <ol className="mt-2 divide-y divide-rule">
               {proposal.improvements.map((line, i) => (
                 <li key={line} className="reveal flex gap-3 py-3" style={{ animationDelay: `${Math.min(i, 6) * 60}ms` }}>
-                  <span className="tnum w-6 shrink-0 font-display text-[1.0625rem] font-800 text-signal">{i + 1}</span>
+                  <span className="tnum w-6 shrink-0 font-display text-[1.0625rem] font-700 text-signal">{i + 1}</span>
                   <span className="text-[0.9375rem] text-ink">{line}</span>
                 </li>
               ))}
@@ -254,7 +254,7 @@ function SourcesPanel({
           <CaretLeft size={20} weight="bold" aria-hidden />Back
         </button>
       )}
-      <h2 className="font-display text-[1.375rem] leading-tight font-800 tracking-[-0.02em]">{title}</h2>
+      <h2 className="font-display text-[1.375rem] leading-tight font-700 tracking-[-0.02em]">{title}</h2>
       <p className="mt-1 text-sm text-ink-soft">TapMart reads what you already have and shows what it found.</p>
 
       <ul className="mt-4 divide-y divide-rule" aria-label="Sources">
@@ -262,7 +262,7 @@ function SourcesPanel({
         <li className="reveal flex min-h-16 items-center gap-3 py-3">
           <InstagramLogo size={28} weight="fill" className="shrink-0 text-ink" aria-hidden />
           <div className="min-w-0 flex-1">
-            <p className="font-display text-[1.0625rem] leading-tight font-700">Instagram</p>
+            <p className="font-display text-[1.0625rem] leading-tight font-600">Instagram</p>
             <p className="mt-0.5 flex items-center gap-1 text-sm text-ink-soft">
               {sources.instagram.connected
                 ? <><CheckCircle size={16} weight="fill" className="text-rise" aria-hidden />Connected{sources.instagram.handle ? ` @${sources.instagram.handle}` : ""}</>
@@ -275,7 +275,7 @@ function SourcesPanel({
         <li className="reveal flex min-h-16 items-center gap-3 py-3" style={{ animationDelay: "60ms" }}>
           <GoogleLogo size={28} weight="bold" className="shrink-0 text-ink" aria-hidden />
           <div className="min-w-0 flex-1">
-            <p className="font-display text-[1.0625rem] leading-tight font-700">Google</p>
+            <p className="font-display text-[1.0625rem] leading-tight font-600">Google</p>
             <p className="mt-0.5 flex items-center gap-1 text-sm text-ink-soft">
               {sources.google.connected
                 ? <><CheckCircle size={16} weight="fill" className="text-rise" aria-hidden />Connected{sources.google.title ? ` ${sources.google.title}` : ""}</>
@@ -289,7 +289,7 @@ function SourcesPanel({
           <div className="flex min-h-10 items-center gap-3">
             <Globe size={28} weight="fill" className="shrink-0 text-ink" aria-hidden />
             <div className="min-w-0 flex-1">
-              <p className="font-display text-[1.0625rem] leading-tight font-700">Website</p>
+              <p className="font-display text-[1.0625rem] leading-tight font-600">Website</p>
               <p className="mt-0.5 truncate text-sm text-ink-soft">{sources.website ?? "No website on your profile"}</p>
             </div>
             {canEdit && !editingSite && (
@@ -314,7 +314,7 @@ function SourcesPanel({
               : <ImageIcon size={24} className="text-ink-faint" aria-hidden />}
           </span>
           <div className="min-w-0 flex-1">
-            <p className="font-display text-[1.0625rem] leading-tight font-700">Logo</p>
+            <p className="font-display text-[1.0625rem] leading-tight font-600">Logo</p>
             <p className="mt-0.5 text-sm text-ink-soft">{sources.logoUrl ? "On your profile" : "No logo yet"}</p>
           </div>
           {canEdit && <Uploader id="brand-logo" folder="business" accept="image/*" label={sources.logoUrl ? "Replace" : "Upload"} onUploaded={logoUploaded} />}
@@ -324,7 +324,7 @@ function SourcesPanel({
           <div className="flex min-h-10 items-center gap-3">
             <ImageIcon size={28} weight="fill" className="shrink-0 text-ink" aria-hidden />
             <div className="min-w-0 flex-1">
-              <p className="font-display text-[1.0625rem] leading-tight font-700">Photos</p>
+              <p className="font-display text-[1.0625rem] leading-tight font-600">Photos</p>
               <p className="mt-0.5 text-sm text-ink-soft">{photos.length === 0 ? "Optional. Photos you like." : `${photos.length} of 8`}</p>
             </div>
             {canEdit && photos.length < 8 && (
@@ -382,7 +382,7 @@ function Progress({ sources, photos, running }: { sources: BrandSources; photos:
         {lines.slice(0, shown).map((line, i) => {
           const current = i === shown - 1 && running;
           return (
-            <li key={line} className="settle flex items-center gap-3 font-display text-[1.0625rem] font-700">
+            <li key={line} className="settle flex items-center gap-3 font-display text-[1.0625rem] font-600">
               {current ? <span className="live-dot" aria-hidden /> : <CheckCircle size={18} weight="fill" className="text-rise" aria-hidden />}
               <span className={current ? "text-ink" : "text-ink-soft"}>{line}</span>
             </li>
@@ -411,7 +411,7 @@ function BrandVisual({ kit, businessName, traits, reveal = false }: { kit: Brand
           )}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-[1.375rem] leading-tight font-800 tracking-[-0.02em]">{businessName}</p>
+          <p className="truncate font-display text-[1.375rem] leading-tight font-700 tracking-[-0.02em]">{businessName}</p>
           {!kit.logo_url && <p className="mt-1 text-sm text-ink-faint">No logo yet</p>}
         </div>
       </div>

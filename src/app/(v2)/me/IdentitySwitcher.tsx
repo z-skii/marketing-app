@@ -27,11 +27,11 @@ export function IdentitySwitcher({ identities, canAddBusiness, flat = false }: {
           >
             <Avatar src={i.logo} name={i.name} size={40} />
             <span className="min-w-0 flex-1">
-              <span className="block truncate font-display text-[0.9375rem] font-700">{i.name}</span>
+              <span className="block truncate font-display text-[0.9375rem] font-600">{i.name}</span>
               <span className="block truncate text-sm text-ink-faint">{i.sub}</span>
             </span>
             {i.active ? (
-              <span className="font-display text-sm font-700 text-signal">Current</span>
+              <span className="font-display text-sm font-600 text-signal">Current</span>
             ) : (
               <span className="font-display text-sm font-600 text-ink-soft">{pending ? "Switching…" : "Switch"}</span>
             )}
@@ -41,8 +41,8 @@ export function IdentitySwitcher({ identities, canAddBusiness, flat = false }: {
       {canAddBusiness && (
         <li>
           <Link href="/business/new" className={`${flat ? "" : "card-2"} flex min-h-14 items-center gap-3 px-4 py-3`}>
-            <span aria-hidden className="flex h-10 w-10 items-center justify-center rounded-full bg-surface font-display text-xl font-700">+</span>
-            <span className="font-display text-[0.9375rem] font-700">Add business</span>
+            <span aria-hidden className="flex h-10 w-10 items-center justify-center rounded-full bg-surface font-display text-xl font-600">+</span>
+            <span className="font-display text-[0.9375rem] font-600">Add business</span>
           </Link>
         </li>
       )}

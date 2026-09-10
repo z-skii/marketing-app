@@ -100,18 +100,24 @@ follows the normal Story, Recreate or Car booking flow.
    Reels, Story creatives, cars, business photography, shoot content, brand
    imagery) provides most of the color; the interface stays restrained,
    almost monochrome until something important appears.
-1. **Dark graphite, not black.** Page `#0B0D0E`, surfaces `#111416`,
-   `#15191B` and `#1A1E20`, text `#F7F7F5`. Subtle glass only on chrome
-   (navigation, top and bottom bars, sheets, floating controls, dialogs).
+1. **One UI kit, reverse engineered from the reference** (values in
+   docs/TAPMART_UI_SPEC.md). Page `#12161a`, chrome `#0f1418`, rows and
+   cards `#1b2124`, raised controls `#23282c`, icon squares `#2b3135`,
+   text `#f2f4f5`, secondary `#a6adb3`, muted `#7f878e`. Surfaces separate
+   by tone plus a hairline of light along their top edge; no outlines.
+   Rows are 72px with a 44px icon square and 16px radius; cards 18px;
+   buttons 48px with 14px radius. Subtle glass only on chrome.
 2. **Real media first.** Reel frames, Story creatives, car photos or 3D,
    deliverables, profile work. The media is the card; money and a one-line
    title sit on it over a scrim. No stock art, no placeholder illustrations,
    no icons standing in for media.
-3. **Lime `#C8FF3D` only for money, the primary CTA, active navigation,
-   important success and important status.** One lime button per screen
-   region. Never every icon, border, badge or title.
+3. **Lime `#c4f25a` only for money, the primary CTA, active navigation,
+   the 8px status dot on ready or connected states, the verified check and
+   the T of the wordmark.** One lime button per screen region. Never every
+   icon, border, badge or title. Active filter pills use a lime tint with
+   lime text, not a solid lime block.
 4. **Less text.** Card: title max 2 lines, meta max 2 short rows, badges max
-   3, no description. Section headings are small mono eyebrows. Explanatory
+   3, no description. Section labels are 17px semibold, never uppercase. Explanatory
    copy is one sentence and only when the next decision needs it. No
    paragraphs on discovery screens. No "we". No em dashes or en dashes.
 5. **Fewer boxes.** Never card, card, card, card. Mix full-width media, rows
@@ -139,11 +145,14 @@ follows the normal Story, Recreate or Car booking flow.
 
 ## Type and spacing
 
-Display type is Archivo (800, tight tracking), body is Inter. Sizes: eyebrow
-0.6875rem mono uppercase; body 0.9375rem; card title 1.125rem to 1.375rem;
-screen title 1.75rem to 2rem; big number 1.75rem to 1.875rem. Vertical rhythm
-in 4px steps: 12 inside a card, 16 between rows, 28 to 36 between sections.
-Rounded 12px on controls, 16px on cards and media.
+Everything is Inter, like the reference. Name on a profile 26px/700; screen
+title 22 to 24px/600; stat value and money on a row 20px/600; row title and
+section label 17px/600; body and status 15px; metadata 14px secondary;
+captions and tab labels 12px; the money hero on Earnings 40px/600 lime. No
+uppercase labels, no mono labels, nothing above 26px inside the app. Vertical
+rhythm: 16px inside a card, 10px between rows, 24 to 28px between sections.
+Radius 12px on controls and icon squares, 14px on buttons, 16px on rows,
+18px on cards.
 
 ## What a reviewer should push toward
 

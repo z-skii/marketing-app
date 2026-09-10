@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Icon } from "@phosphor-icons/react";
 import {
-  House, CalendarBlank, Plus, Megaphone, Storefront, Bell, ChatCircle, ArrowsLeftRight, MagnifyingGlass, Gear,
+  House, CalendarBlank, Plus, PlusCircle, Megaphone, Storefront, Bell, ChatCircle, ArrowsLeftRight, MagnifyingGlass, Gear,
 } from "@phosphor-icons/react";
 
 /**
@@ -40,7 +40,7 @@ const NAV: NavItem[] = [
   { href: "/business/profile", label: "Business", icon: Storefront },
 ];
 
-const CREATE: NavItem = { href: "/business/create", label: "Create", icon: Plus };
+const CREATE: NavItem = { href: "/business/create", label: "Create", icon: PlusCircle };
 
 const MOBILE_ORDER: NavItem[] = [NAV[0], NAV[1], CREATE, NAV[2], NAV[3]];
 
@@ -54,12 +54,15 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
   return (
     <div className="app-root min-h-dvh bg-paper rail:grid rail:grid-cols-[13rem_minmax(0,1fr)]">
       {/* Sidebar */}
-      <aside className="sticky top-0 hidden h-dvh flex-col overflow-y-auto border-r border-rule bg-paper-deep px-3 py-5 rail:flex">
-        <Link href="/business/profile" className="flex min-h-12 items-center gap-3 rounded-[var(--radius-control)] px-2 py-1.5 can-hover:hover:bg-surface">
-          <Mark business={business} size={36} />
+      <aside className="sticky top-0 hidden h-dvh flex-col overflow-y-auto bg-paper-deep px-3 py-6 rail:flex">
+        <Link href="/business" className="flex min-h-11 items-center px-3 font-display text-[1.375rem] font-700 tracking-[-0.03em]" aria-label="TapMart business home">
+          <span className="text-signal">T</span>apmart
+        </Link>
+        <Link href="/business/profile" className="mt-4 flex min-h-12 items-center gap-3 rounded-[12px] px-2 py-1.5 can-hover:hover:bg-surface">
+          <Mark business={business} size={32} />
           <span className="min-w-0">
-            <span className="block truncate font-display text-[0.9375rem] font-800 tracking-[-0.01em]">{business.name}</span>
-            <span className="eyebrow block !text-[0.625rem] text-signal">Business</span>
+            <span className="block truncate font-display text-[0.9375rem] font-600">{business.name}</span>
+            <span className="block text-xs text-ink-faint">Business</span>
           </span>
         </Link>
 
@@ -76,22 +79,22 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
                 key={item.href}
                 href={item.href}
                 aria-current={on ? "page" : undefined}
-                className={`flex min-h-11 items-center gap-3 rounded-[var(--radius-control)] px-3 py-2 font-display text-[0.9375rem] font-600 transition-colors ${
-                  on ? "bg-surface-2 text-ink" : "text-ink-soft can-hover:hover:bg-surface can-hover:hover:text-ink"
+                className={`flex min-h-11 items-center gap-3 rounded-[12px] px-3 py-2 font-display text-[0.9375rem] font-500 transition-colors ${
+                  on ? "bg-surface text-signal" : "text-ink-soft can-hover:hover:bg-surface can-hover:hover:text-ink"
                 }`}
               >
-                <item.icon size={22} weight={on ? "fill" : "regular"} className={on ? "text-signal" : ""} aria-hidden />
+                <item.icon size={22} weight={on ? "fill" : "regular"} aria-hidden />
                 {item.label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="mt-auto flex flex-col gap-0.5 border-t border-rule pt-3">
+        <div className="mt-auto flex flex-col gap-0.5 pt-3">
           <RailRow href="/business/search" label="Search" icon={MagnifyingGlass} badge={0} active={pathname.startsWith("/business/search")} />
           <RailRow href="/messages" label="Messages" icon={ChatCircle} badge={unreadMessages} active={pathname.startsWith("/messages")} />
           <RailRow href="/alerts" label="Notifications" icon={Bell} badge={unreadNotifications} active={pathname.startsWith("/alerts")} />
-          <Link href="/me" className="flex min-h-11 items-center gap-3 rounded-[var(--radius-control)] px-3 py-2 text-sm text-ink-faint can-hover:hover:text-ink">
+          <Link href="/me" className="flex min-h-11 items-center gap-3 rounded-[12px] px-3 py-2 text-sm text-ink-faint can-hover:hover:text-ink">
             <ArrowsLeftRight size={20} aria-hidden />
             Switch account
           </Link>
@@ -102,11 +105,11 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
         {/* Phone top chrome: the wordmark in the middle, messages on the left,
             alerts and settings on the right. The business identity lives on
             the Business tab. */}
-        <header className="glass sticky top-0 z-30 grid grid-cols-[1fr_auto_1fr] items-center px-2 py-1.5 rail:hidden">
+        <header className="glass sticky top-0 z-30 grid h-[52px] grid-cols-[1fr_auto_1fr] items-center px-2 rail:hidden">
           <span className="flex">
             <TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={unreadMessages} />
           </span>
-          <Link href="/business" className="font-display text-[1.125rem] font-800 tracking-[-0.04em]" aria-label="TapMart business home">
+          <Link href="/business" className="font-display text-[1.375rem] font-700 tracking-[-0.03em]" aria-label="TapMart business home">
             <span className="text-signal">T</span>apmart
           </Link>
           <span className="flex justify-end">
@@ -118,26 +121,19 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
         <div className="pb-24 rail:pb-0">{children}</div>
       </div>
 
-      {/* Phone bottom bar: five destinations, Create in the middle. */}
-      <nav aria-label="Business" className="glass fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-rule pb-[env(safe-area-inset-bottom)] rail:hidden">
+      {/* Phone bottom bar: five destinations, Create in the middle, drawn like every other tab. */}
+      <nav aria-label="Business" className="glass fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t pb-[env(safe-area-inset-bottom)] rail:hidden">
         {MOBILE_ORDER.map((item) => {
           const on = isActive(item, pathname);
-          const create = item === CREATE;
           return (
             <Link
               key={item.href}
               href={item.href}
               aria-current={on ? "page" : undefined}
-              className={`relative flex min-h-16 flex-col items-center justify-center gap-1 transition-colors ${on ? "text-signal" : "text-ink-faint"}`}
+              className={`relative flex h-16 flex-col items-center justify-center gap-1 transition-colors ${on ? "text-signal" : "text-ink-soft"}`}
             >
-              {create ? (
-                <span className={`flex h-9 w-9 items-center justify-center rounded-full border-2 ${on ? "border-signal bg-signal text-signal-ink" : "border-ink-soft text-ink"}`}>
-                  <Plus size={20} weight="bold" aria-hidden />
-                </span>
-              ) : (
-                <item.icon size={24} weight={on ? "fill" : "regular"} aria-hidden />
-              )}
-              <span className="eyebrow !text-[0.625rem] !tracking-[0.1em] text-current">{item.label}</span>
+              <item.icon size={24} weight={on ? "fill" : "regular"} aria-hidden />
+              <span className="font-display text-xs font-500">{item.label}</span>
             </Link>
           );
         })}
@@ -152,7 +148,7 @@ function Mark({ business, size }: { business: BusinessIdentity; size: number }) 
     return <img src={business.logo} alt="" width={size} height={size} className="shrink-0 rounded-[8px] object-cover" style={{ width: size, height: size }} />;
   }
   return (
-    <span aria-hidden className="flex shrink-0 items-center justify-center rounded-[8px] bg-surface-2 font-display font-800" style={{ width: size, height: size, fontSize: size * 0.42 }}>
+    <span aria-hidden className="flex shrink-0 items-center justify-center rounded-[8px] bg-surface-3 font-display font-600" style={{ width: size, height: size, fontSize: size * 0.42 }}>
       {(business.name.trim()[0] ?? "?").toUpperCase()}
     </span>
   );
@@ -161,7 +157,7 @@ function Mark({ business, size }: { business: BusinessIdentity; size: number }) 
 function Count({ n }: { n: number }) {
   if (n <= 0) return null;
   return (
-    <span className="tnum inline-flex min-w-5 items-center justify-center rounded-full bg-surface-2 px-1.5 font-display text-[0.6875rem] font-800 leading-5 text-ink">
+    <span className="tnum inline-flex min-w-5 items-center justify-center rounded-full bg-surface-3 px-1.5 font-display text-[0.6875rem] font-600 leading-5 text-ink">
       {n > 99 ? "99+" : n}
     </span>
   );
@@ -172,7 +168,7 @@ function RailRow({ href, label, icon: IconC, badge, active }: { href: string; la
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`flex min-h-11 items-center gap-3 rounded-[var(--radius-control)] px-3 py-2 font-display text-[0.9375rem] font-600 ${active ? "bg-surface-2 text-ink" : "text-ink-soft can-hover:hover:bg-surface can-hover:hover:text-ink"}`}
+      className={`flex min-h-11 items-center gap-3 rounded-[12px] px-3 py-2 font-display text-[0.9375rem] font-500 ${active ? "bg-surface text-signal" : "text-ink-soft can-hover:hover:bg-surface can-hover:hover:text-ink"}`}
     >
       <IconC size={22} aria-hidden />
       {label}
@@ -185,7 +181,7 @@ function TopIcon({ href, label, icon: IconC, badge }: { href: string; label: str
   return (
     <Link href={href} aria-label={badge > 0 ? `${badge} unread ${label.toLowerCase()}` : label} className="relative flex h-11 w-11 items-center justify-center rounded-full text-ink">
       <IconC size={22} aria-hidden />
-      {badge > 0 && <span aria-hidden className="absolute top-2 right-2 h-2 w-2 rounded-full bg-signal ring-2 ring-paper" />}
+      {badge > 0 && <span aria-hidden className="absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full bg-signal" />}
     </Link>
   );
 }

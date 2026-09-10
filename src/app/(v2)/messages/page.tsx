@@ -81,7 +81,7 @@ export default async function MessagesPage() {
                 <Avatar src={c.other_avatar} name={c.other_name ?? c.other_username ?? "?"} size={44} />
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center gap-2">
-                    <span className={`truncate font-display text-[0.9375rem] ${c.unread ? "font-700 text-ink" : "font-600 text-ink-soft"}`}>
+                    <span className={`truncate font-display text-[0.9375rem] ${c.unread ? "font-600 text-ink" : "font-600 text-ink-soft"}`}>
                       {name}
                     </span>
                     {c.topic_type && <Chip tone="faint">{topicChip(c.topic_type, c.campaign_kind)}</Chip>}

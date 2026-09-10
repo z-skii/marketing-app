@@ -17,13 +17,15 @@ export type StagePhoto = { angle: string; url: string };
  * Nothing spins forever. The stage turns a little when it first appears.
  */
 export function VehicleStage({
-  glbUrl, posterUrl, photos, label, compact = false, onAngleChange, children,
+  glbUrl, posterUrl, photos, label, compact = false, fill = false, onAngleChange, children,
 }: {
   glbUrl: string | null;
   posterUrl: string | null;
   photos: StagePhoto[];
   label?: string | null;
   compact?: boolean;
+  /** Fill the parent (which must be positioned) instead of owning an aspect box; no radius, no background of its own. */
+  fill?: boolean;
   /** Fires with the angle currently on stage ("left", "driver_side", "other"). Not called for a 3D model. */
   onAngleChange?: (angle: string) => void;
   /** Overlay slot drawn over the media, under the label. Pointer events pass through to the stage. */
@@ -52,7 +54,7 @@ export function VehicleStage({
   const height = compact ? "aspect-[16/10]" : "aspect-[4/3] md:aspect-[16/9]";
 
   return (
-    <div ref={stage} className={`relative w-full overflow-hidden rounded-[var(--radius-card)] bg-[radial-gradient(ellipse_at_50%_80%,_var(--color-surface-2),_var(--color-paper)_75%)] ${height}`}>
+    <div ref={stage} className={fill ? "absolute inset-0 overflow-hidden" : `relative w-full overflow-hidden rounded-[var(--radius-card)] bg-[radial-gradient(ellipse_at_50%_80%,_var(--color-surface-2),_var(--color-paper)_75%)] ${height}`}>
       {glbUrl ? (
         <>
           {posterUrl && !ready && (
@@ -69,7 +71,7 @@ export function VehicleStage({
         <img src={posterUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
       ) : null}
       {children && <div className="pointer-events-none absolute inset-0">{children}</div>}
-      {label && <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">{label}</span>}
+      {label && <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">{label}</span>}
     </div>
   );
 }

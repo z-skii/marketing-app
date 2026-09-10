@@ -22,7 +22,7 @@ export default async function ScanDetailPage({ params }: { params: Promise<{ id:
       <div className="mt-3">
         <VehicleStage glbUrl={scan.model?.glb_url ?? null} posterUrl={scan.model?.poster_url ?? photos[0]?.url ?? null} photos={photos} label={scan.model?.quality_label ?? null} compact />
       </div>
-      <h1 className="mt-4 font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em]">Processing vehicle scan</h1>
+      <h1 className="mt-4 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em]">Processing vehicle scan</h1>
       <div className="mt-4">
         <ScanStatus initial={scan} devMode={devAuthEnabled()} />
       </div>

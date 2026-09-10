@@ -5,6 +5,10 @@ director: it looks at a screenshot, compares it with the product brain, and
 returns a prioritized list of exact changes. It never writes code and never
 redesigns from scratch.
 
+## Same UI kit
+
+The reference image is the UI kit, not inspiration. Every review scores ten kit dimensions from 0 to 10 (typography, surfaces and material, spacing, navigation, buttons, cards and rows, accent colour, media treatment, visual density, family resemblance) and states whether the screen is built from the same kit. The measured kit values are in docs/TAPMART_UI_SPEC.md. A screen is not done while the reviewer still answers no.
+
 ## How it works
 
 `scripts/design-review.mjs` sends one request to OpenAI's Responses API

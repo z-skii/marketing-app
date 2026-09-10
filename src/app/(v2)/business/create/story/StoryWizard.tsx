@@ -106,7 +106,7 @@ export function StoryWizard({
               )}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="font-display text-[1.0625rem] font-800 tracking-[-0.02em]">Your creative</p>
+              <p className="font-display text-[1.0625rem] font-700 tracking-[-0.02em]">Your creative</p>
               <p className="mt-1 text-sm text-ink-soft">PNG or JPG, 1080 by 1920 works best. Text stays readable when it is large.</p>
               <div className="mt-3">
                 <Uploader folder="campaigns" accept="image/*" label={creativeUrl ? "Replace" : "Upload image"} onUploaded={(u) => setCreativeUrl(u[0])} />
@@ -149,7 +149,7 @@ export function StoryWizard({
         <div>
           <Presets label="Live duration" options={HOUR_OPTIONS} value={liveHours} onPick={setLiveHours} format={(n) => `${n} hours`} />
           <div className="card mt-4 p-4">
-            <p className="font-display text-[1.75rem] leading-none font-800 tracking-[-0.03em]">{liveHours} hours</p>
+            <p className="font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em]">{liveHours} hours</p>
             <p className="mt-2 text-sm text-ink-soft">
               Instagram Stories disappear after 24 hours. Choosing 48 asks people to post it twice.
               Checking is manual today: you look at the screenshot and the link, then approve.

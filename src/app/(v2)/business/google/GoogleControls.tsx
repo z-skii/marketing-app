@@ -55,16 +55,16 @@ export function FixList({ fixes, canEdit }: { fixes: GoogleFix[]; canEdit: boole
     <ul className="mt-1 divide-y divide-rule" aria-label="Fixes">
       {fixes.map((fix, i) => (
         <li key={fix.key} className="reveal py-4" style={{ animationDelay: `${Math.min(i, 6) * 60}ms` }}>
-          <p className="font-display text-[1.0625rem] font-700">{fix.label}</p>
+          <p className="font-display text-[1.0625rem] font-600">{fix.label}</p>
           <dl className="mt-2 grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-3 gap-y-1.5 text-[0.9375rem]">
-            <dt className="eyebrow pt-0.5">Current</dt>
+            <dt className="label pt-0.5">Current</dt>
             <dd className="min-w-0 break-words text-ink-soft">{fix.current ?? "Nothing on the listing"}</dd>
-            <dt className="eyebrow pt-0.5">Proposed</dt>
+            <dt className="label pt-0.5">Proposed</dt>
             <dd className="min-w-0 break-words text-ink">{fix.proposed ?? "Nothing to propose yet"}</dd>
           </dl>
           <div className="mt-3 flex flex-wrap items-center gap-3">
             {done[fix.key] ? (
-              <span className="pop flex items-center gap-1.5 font-display text-sm font-700 text-signal">
+              <span className="pop flex items-center gap-1.5 font-display text-sm font-600 text-signal">
                 <CheckCircle size={18} weight="fill" aria-hidden />{done[fix.key]}
               </span>
             ) : fix.canApply ? (

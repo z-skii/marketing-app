@@ -57,7 +57,7 @@ export default async function GooglePage({ searchParams }: { searchParams: Promi
       <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
         <BackButton fallback="/business/settings" label="Business" />
         <h2 className="eyebrow mt-3">Google Business Profile</h2>
-        <h1 className="mt-2 font-display text-[1.75rem] leading-tight font-800 tracking-[-0.03em] md:text-[2.25rem]">
+        <h1 className="mt-2 font-display text-[1.5rem] leading-tight font-700 tracking-[-0.02em] md:text-[1.5rem]">
           Connect Google to let TapMart check and help manage your business listing.
         </h1>
         {state === "connecting" && (meta.locations?.length ?? 0) > 0 ? (
@@ -91,7 +91,7 @@ export default async function GooglePage({ searchParams }: { searchParams: Promi
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Business" />
       <h2 className="eyebrow mt-3">Google Business Profile</h2>
-      <h1 className="mt-2 font-display text-[1.75rem] leading-tight font-800 tracking-[-0.03em] md:text-[2rem]">{title}</h1>
+      <h1 className="mt-2 font-display text-[1.5rem] leading-tight font-700 tracking-[-0.02em] md:text-[1.5rem]">{title}</h1>
       {address && <p className="mt-1 text-[0.9375rem] text-ink-soft">{address}</p>}
       <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-faint">
         <Chip tone="rise">Connected</Chip>
@@ -103,11 +103,11 @@ export default async function GooglePage({ searchParams }: { searchParams: Promi
       <section className="mt-8" aria-labelledby="attention-title">
         {health ? (
           <>
-            <p id="attention-title" className={`font-display text-[2rem] leading-none font-800 tracking-[-0.03em] md:text-[2.5rem] ${failing.length === 0 ? "text-signal" : "text-ink"}`}>
+            <p id="attention-title" className={`font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em] md:text-[1.5rem] ${failing.length === 0 ? "text-signal" : "text-ink"}`}>
               {failing.length === 0 ? "Looking good" : "Needs attention"}
             </p>
             <p className="mt-2 text-sm text-ink-soft">
-              <span className="tnum font-display font-700 text-ink">{health.score}</span> out of 100
+              <span className="tnum font-display font-600 text-ink">{health.score}</span> out of 100
               {when(health.ran_at) && <span className="text-ink-faint"> · Checked {when(health.ran_at)}</span>}
             </p>
             <ul className="mt-5 divide-y divide-rule" aria-label="Checks">
@@ -130,7 +130,7 @@ export default async function GooglePage({ searchParams }: { searchParams: Promi
           </>
         ) : (
           <>
-            <p id="attention-title" className="font-display text-[1.5rem] leading-tight font-800 tracking-[-0.02em]">No check yet</p>
+            <p id="attention-title" className="font-display text-[1.5rem] leading-tight font-700 tracking-[-0.02em]">No check yet</p>
             <p className="mt-1 text-sm text-ink-soft">Run the check to read the listing from Google.</p>
           </>
         )}

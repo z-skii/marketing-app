@@ -10,7 +10,7 @@ import { completeOnboarding, type OnboardingInput } from "./actions";
  */
 
 const STEPS = 3;
-const TITLE = "font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em]";
+const TITLE = "font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em]";
 
 const PATHS = [
   ["earn", "Earn money", "Recreate Reels, post Stories, drive with a car ad."],
@@ -54,7 +54,7 @@ export function OnboardingFlow({ initialName, initialCity }: { initialName: stri
         <section className="mt-8">
           <span className="flex items-center gap-2.5">
             <span className="h-2.5 w-2.5 rounded-full bg-signal" aria-hidden />
-            <span className="font-display text-lg font-800 tracking-[-0.03em]">TapMart</span>
+            <span className="font-display text-lg font-700 tracking-[-0.02em]">TapMart</span>
           </span>
           <h1 className={`mt-6 ${TITLE}`}>Welcome to TapMart</h1>
           <p className="mt-2 text-[1.0625rem] leading-relaxed text-ink-soft">
@@ -78,7 +78,7 @@ export function OnboardingFlow({ initialName, initialCity }: { initialName: stri
                   onClick={() => setPath(key)}
                   className={`card-2 p-4 text-left transition-colors ${on ? "bg-signal text-signal-ink" : "hover:bg-rule-strong"}`}
                 >
-                  <span className="block font-display text-[1.125rem] font-800 tracking-[-0.02em]">{title}</span>
+                  <span className="block font-display text-[1.125rem] font-700 tracking-[-0.02em]">{title}</span>
                   <span className={`mt-0.5 block text-sm ${on ? "text-signal-ink/80" : "text-ink-faint"}`}>{sub}</span>
                 </button>
               );
@@ -115,7 +115,7 @@ export function OnboardingFlow({ initialName, initialCity }: { initialName: stri
 
           {wantsBusiness && (
             <div className="mt-6 flex flex-col gap-4">
-              <p className="font-display text-[1.125rem] font-800 tracking-[-0.02em]">Your business</p>
+              <p className="font-display text-[1.125rem] font-700 tracking-[-0.02em]">Your business</p>
               <label className="flex flex-col gap-1.5">
                 <span className="text-sm text-ink-soft">Business name</span>
                 <input

@@ -85,7 +85,7 @@ export default async function ContentPage() {
             ) : (
               groups.map((g) => (
                 <div key={g.key} className="mt-4">
-                  <p className="font-display text-[1.0625rem] font-800 tracking-[-0.02em] uppercase">{groupLabel(g.key, todayKey)}</p>
+                  <p className="font-display text-[1.0625rem] font-700 tracking-[-0.02em] uppercase">{groupLabel(g.key, todayKey)}</p>
                   <ul className="divide-y divide-rule">
                     {g.posts.map((p, i) => <ScheduledItem key={p.id} post={p} time={timeOf(p.when, timeZone)} index={i} />)}
                   </ul>
@@ -135,7 +135,7 @@ function WillAppear({ subscribed }: { subscribed: boolean }) {
     <section className="mt-10 py-6" aria-labelledby="empty-title">
       <Camera size={44} weight="duotone" className="text-ink-soft" aria-hidden />
       <p className="mt-4 eyebrow">Your content will appear here</p>
-      <h2 id="empty-title" className="mt-2 max-w-sm font-display text-[1.75rem] leading-[1.02] font-800 tracking-[-0.03em] md:text-[2rem]">
+      <h2 id="empty-title" className="mt-2 max-w-sm font-display text-[1.5rem] leading-[1.02] font-700 tracking-[-0.02em] md:text-[1.5rem]">
         {subscribed ? "Your first shoot is being scheduled." : "Real photos and videos, shot for you."}
       </h2>
       <p className="mt-3 max-w-md text-sm text-ink-soft">
@@ -155,7 +155,7 @@ function NextShoot({ shoot, todayKey, picture }: { shoot: ContentShoot; todayKey
   return (
     <section className="mt-6" aria-labelledby="shoot-title">
       <h2 id="shoot-title" className="eyebrow">Next shoot</h2>
-      <div className="relative mt-3 aspect-[4/3] w-full overflow-hidden rounded-[16px] bg-surface-2 md:aspect-video">
+      <div className="card relative mt-3 aspect-[4/3] w-full overflow-hidden md:aspect-video">
         {picture ? (
           <MediaPreview src={picture} alt="" className="h-full w-full object-cover" sizes="(min-width: 768px) 672px, 100vw" priority />
         ) : (
@@ -164,9 +164,9 @@ function NextShoot({ shoot, todayKey, picture }: { shoot: ContentShoot; todayKey
           </div>
         )}
         <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-        {soon && <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">{soon}</span>}
+        {soon && <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">{soon}</span>}
         <div className="absolute inset-x-4 bottom-4">
-          <p className="font-display text-[1.625rem] leading-[1.05] font-800 tracking-[-0.03em] text-ink md:text-[2.125rem]">
+          <p className="font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] text-ink md:text-[1.5rem]">
             {shoot.scheduled_for ? longDayLabel(shoot.scheduled_for) : "Date to be set"}
             {time && <span className="text-ink-soft"> · {time}</span>}
           </p>
@@ -190,7 +190,7 @@ function Preparing({ shoot }: { shoot: ContentShoot | null }) {
   return (
     <section className="mt-10 py-6" aria-labelledby="prep-title">
       <HourglassMedium size={44} weight="duotone" className="text-ink-soft" aria-hidden />
-      <h2 id="prep-title" className="mt-4 font-display text-[1.75rem] leading-[1.02] font-800 tracking-[-0.03em] md:text-[2rem]">Content is being prepared.</h2>
+      <h2 id="prep-title" className="mt-4 font-display text-[1.5rem] leading-[1.02] font-700 tracking-[-0.02em] md:text-[1.5rem]">Content is being prepared.</h2>
       <p className="mt-3 text-sm text-ink-soft">
         {shoot?.scheduled_for ? `From the ${shootWhenLabel(shoot.scheduled_for, shoot.starts_at)} shoot. ` : ""}
         Your photos and videos appear here as soon as they are delivered.
@@ -213,13 +213,13 @@ function ShootsRow({ next, last }: { next: ContentShoot | null; last: ContentSho
       <ul className="mt-1 divide-y divide-rule">
         <li>
           <Link href={shown ? `/business/content/shoots/${shown.id}` : "/business/content/shoots"} className="flex min-h-14 items-center justify-between gap-3 py-3">
-            <span className="font-display text-[1.0625rem] font-700">{label}</span>
+            <span className="font-display text-[1.0625rem] font-600">{label}</span>
             <CaretRight size={18} className="text-ink-faint" aria-hidden />
           </Link>
         </li>
         <li>
           <Link href="/business/content/shoots" className="flex min-h-14 items-center justify-between gap-3 py-3">
-            <span className="font-display text-[1.0625rem] font-700 text-ink-soft">All shoots</span>
+            <span className="font-display text-[1.0625rem] font-600 text-ink-soft">All shoots</span>
             <CaretRight size={18} className="text-ink-faint" aria-hidden />
           </Link>
         </li>

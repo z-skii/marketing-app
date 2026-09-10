@@ -3,7 +3,9 @@ import { notFound, redirect } from "next/navigation";
 import { BackButton } from "@/components/v2/BackButton";
 import { getV2Context } from "@/lib/v2/core";
 import { sql, sqlOne } from "@/lib/db";
+import { CheckCircle, Cube, CaretRight, Car as CarIcon } from "@phosphor-icons/react/dist/ssr";
 import { Avatar, MetaLine, Money, SectionTitle } from "@/components/v2/ui";
+import { VehicleStage } from "@/components/v2/vehicle/VehicleStage";
 import { placementLabel } from "@/components/v2/EarnCards";
 import { fmtDate } from "@/lib/v2/opportunities";
 import { OwnerSwitches, ProofForm, VerificationCard } from "./VehicleControls";
@@ -15,7 +17,7 @@ type Vehicle = {
   id: string; owner_id: string; year: number; make: string; model: string; trim: string | null;
   body_type: string | null; color: string | null; monthly_miles: number | null; city: string | null;
   radius_miles: number | null; status: string; verification: string; verification_note: string | null;
-  available: boolean;
+  available: boolean; model_glb_url: string | null; poster_url: string | null;
 };
 
 type Booking = {
@@ -49,7 +51,7 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
 
   const vehicle = await sqlOne<Vehicle>(
     `select id, owner_id, year, make, model, trim, body_type, color, monthly_miles, city, radius_miles,
-            status, verification::text as verification, verification_note, available
+            status, verification::text as verification, verification_note, available, model_glb_url, poster_url
        from vehicles where id = $1`,
     [id],
   );
@@ -85,52 +87,85 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
 
   const title = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
   const hero = photos.find((p) => p.angle === "driver_side") ?? photos[0] ?? null;
-  const rest = photos.filter((p) => p !== hero);
-  const minimum = zones.map((z) => z.asking_cents_monthly).filter((c): c is number => c != null);
+    const minimum = zones.map((z) => z.asking_cents_monthly).filter((c): c is number => c != null);
   const available = vehicle.status === "listed" && vehicle.available;
 
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me/vehicles" label="My vehicles" />
 
-      <div className="card mt-3 overflow-hidden">
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-2 md:aspect-[16/9]">
-          {hero ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={hero.url} alt={`${title}, ${hero.angle.replaceAll("_", " ")} view`} className="h-full w-full object-cover" fetchPriority="high" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-sm text-ink-faint">No photo yet</div>
-          )}
-          <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-          <div className="absolute top-3 left-3 flex items-center gap-2">
-            {vehicle.verification === "verified" && (
-              <span className="glass-tag px-2.5 py-1 font-display text-xs font-700 text-signal">Verified ✓</span>
-            )}
-            <span className={`glass-tag px-2.5 py-1 font-display text-xs font-700 ${available ? "text-signal" : "text-ink-soft"}`}>
-              {vehicle.status === "listed" ? (vehicle.available ? "Available for ads" : "Unavailable") : "Not listed"}
-            </span>
-          </div>
-          <div className="absolute inset-x-4 bottom-4">
-            <h1 className="font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em] md:text-[2rem]">{title}</h1>
+      {/* ------------------------------------------------ name and status */}
+      <div className="mt-3 flex items-start justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="icon-square"><CarIcon size={22} aria-hidden /></span>
+          <div className="min-w-0">
+            <h1 className="truncate font-display text-[1.25rem] leading-[1.2] font-600 tracking-[-0.02em]">
+              {title}
+              {vehicle.verification === "verified" && <CheckCircle size={18} weight="fill" className="ml-1.5 inline-block align-[-2px] text-signal" aria-label="Verified" />}
+            </h1>
+            <p className="mt-0.5 truncate text-sm text-ink-soft">{vehicle.model_glb_url ? "3D model" : `${photos.length} ${photos.length === 1 ? "photo" : "photos"}`}{vehicle.color ? ` · ${vehicle.color}` : ""}</p>
           </div>
         </div>
-        <div className="p-4 pt-3.5">
-          <MetaLine parts={[
-            vehicle.color, vehicle.body_type, vehicle.trim,
-            vehicle.monthly_miles ? `${vehicle.monthly_miles.toLocaleString()} miles a month` : null,
-            vehicle.city && `${vehicle.city}${vehicle.radius_miles ? `, ${vehicle.radius_miles} mile area` : ""}`,
-          ]} />
-          {rest.length > 0 && (
-            <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-              {rest.map((p) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={p.angle} src={p.url} alt={`${p.angle.replaceAll("_", " ")} view`}
-                  className="h-20 w-28 shrink-0 rounded-[10px] object-cover" loading="lazy" />
-              ))}
-            </div>
-          )}
-        </div>
+        <span className={`mt-1 inline-flex shrink-0 items-center gap-2 rounded-full bg-surface-2 px-3 py-1.5 text-[0.8125rem] font-500 ${available ? "text-signal" : "text-ink-soft"}`}>
+          {available && <span aria-hidden className="status-dot" />}
+          {vehicle.status === "listed" ? (vehicle.available ? "Ready for Ads" : "Paused") : "Not listed"}
+        </span>
       </div>
+
+      {/* --------------------------------------------------------- stage */}
+      <div className="mt-4">
+        {hero || vehicle.model_glb_url ? (
+          <VehicleStage glbUrl={vehicle.model_glb_url} posterUrl={vehicle.poster_url ?? hero?.url ?? null} photos={photos} label={null} />
+        ) : (
+          <div className="card flex aspect-[4/3] w-full items-center justify-center text-sm text-ink-faint">No photo yet</div>
+        )}
+      </div>
+      <MetaLine className="mt-3" parts={[
+        vehicle.monthly_miles ? `${vehicle.monthly_miles.toLocaleString()} miles a month` : null,
+        vehicle.city && `${vehicle.city}${vehicle.radius_miles ? `, ${vehicle.radius_miles} mile area` : ""}`,
+      ]} />
+
+      {/* ------------------------------------------------- the model row */}
+      <div className="row mt-4 flex items-center gap-3 px-3.5 py-3">
+        <span className="icon-square"><Cube size={22} aria-hidden /></span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display text-[1rem] leading-[1.3] font-600 tracking-[-0.01em]">
+            {vehicle.model_glb_url ? "3D model from your scan" : `${photos.length} ${photos.length === 1 ? "photo" : "photos"} from your scan`}
+          </span>
+          <span className="block text-sm text-ink-soft">
+            {vehicle.model_glb_url ? "From your TapMart scan." : "Businesses preview ads on these."}
+          </span>
+        </span>
+        <Link href={`/me/vehicles/scan?vehicle=${vehicle.id}`} className="shrink-0 text-sm font-500 text-ink-soft">{photos.length > 0 ? "Rescan" : "Scan"}</Link>
+      </div>
+
+      {/* ------------------------------------------------------ ad zones */}
+      <section className="mt-6" aria-labelledby="zones-title">
+        <h2 id="zones-title" className="eyebrow">Available ad zones</h2>
+        <p className="mt-0.5 text-sm text-ink-soft">
+          {zones.length > 0 ? "Where a business can place its ad on your car." : "No placements marked available yet."}
+          {minimum.length > 0 ? ` Your minimum is $${Math.round(Math.min(...minimum) / 100)} a month.` : ""}
+        </p>
+        {zones.length > 0 && (
+          <ul className="mt-3 grid grid-cols-3 gap-2">
+            {zones.map((z) => (
+              <li key={z.zone} className="card overflow-hidden">
+                <div className="relative aspect-[4/3] w-full bg-surface-2">
+                  {hero && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={hero.url} alt="" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+                  )}
+                </div>
+                <div className="flex items-center justify-between gap-1 px-2.5 py-2">
+                  <span className="truncate font-display text-[0.8125rem] font-600">{placementLabel(z.zone)}</span>
+                  {z.asking_cents_monthly != null && <span className="tnum shrink-0 text-xs text-ink-soft">${Math.round(z.asking_cents_monthly / 100)}/mo</span>}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        <Link href="/home?f=cars" className="btn btn-signal btn-lg mt-4 w-full">See car campaigns<CaretRight size={18} weight="bold" aria-hidden /></Link>
+      </section>
 
       <section className="mt-6">
         <SectionTitle>Availability</SectionTitle>
@@ -147,31 +182,9 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
       </section>
 
       <section className="mt-6">
-        <SectionTitle count={zones.length}>Placements you are open to</SectionTitle>
-        <div className="card mt-3 px-4 py-3.5">
-          {zones.length > 0 ? (
-            <div className="flex flex-wrap gap-1.5">
-              {zones.map((z) => (
-                <span key={z.zone} className="rounded-md bg-surface-2 px-2 py-1 font-display text-xs font-700">{placementLabel(z.zone)}</span>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-ink-faint">No placements marked available.</p>
-          )}
-          <p className="mt-2.5 text-sm text-ink-faint">
-            Pay is set by each campaign.{minimum.length > 0 ? ` Your minimum is $${Math.round(Math.min(...minimum) / 100)} a month.` : ""}
-          </p>
-        </div>
-      </section>
-
-      <section className="mt-6">
         <SectionTitle count={bookings.length}>Campaigns with this car</SectionTitle>
         {bookings.length === 0 ? (
-          <div className="card mt-3 px-4 py-5">
-            <p className="font-display text-[1.0625rem] font-800 tracking-[-0.02em]">No campaigns yet</p>
-            <p className="mt-1 text-sm text-ink-soft">Car campaigns show on Home. When your car qualifies, apply from the campaign.</p>
-            <Link href="/home?f=cars" className="btn btn-signal mt-4">See car campaigns</Link>
-          </div>
+          <p className="mt-2 text-sm text-ink-soft">Car campaigns show on Home. When your car qualifies, apply from the campaign.</p>
         ) : (
           <ul className="row-list mt-3">
             {bookings.map((b) => {
@@ -186,11 +199,11 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
                     <Avatar src={b.business_logo} name={b.business_name} size={44} />
                   )}
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em]">
+                    <span className="block truncate font-display text-[1.125rem] leading-tight font-700 tracking-[-0.02em]">
                       {b.campaign_title ?? `${b.business_name} car ad`}
                     </span>
                     <span className="block truncate text-sm text-ink-faint">{b.business_name}</span>
-                    <span className={`mt-1 block font-display text-sm font-700 ${tone}`}>{state.label}</span>
+                    <span className={`mt-1 block font-display text-sm font-600 ${tone}`}>{state.label}</span>
                   </span>
                   <Money cents={b.monthly_cents} size="md" suffix="/ mo" />
                 </div>

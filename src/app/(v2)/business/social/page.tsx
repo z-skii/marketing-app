@@ -63,7 +63,7 @@ export default async function SocialPage() {
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Business" />
       <h2 className="eyebrow mt-3">Instagram</h2>
-      <h1 className="mt-2 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Insights</h1>
+      <h1 className="mt-2 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Insights</h1>
 
       {/* ----------------------------------------------------------- ACCOUNT */}
       <section className="mt-5 flex items-center gap-3" aria-label="Account">
@@ -71,7 +71,7 @@ export default async function SocialPage() {
           ? <Avatar src={ig.avatar_url} name={ig.external_name ?? "Instagram"} size={48} />
           : <InstagramLogo size={40} weight="fill" className="shrink-0 text-ink" aria-hidden />}
         <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-[1.0625rem] leading-tight font-700">
+          <p className="truncate font-display text-[1.0625rem] leading-tight font-600">
             {connected && ig?.external_name ? `@${ig.external_name}` : "No account connected"}
           </p>
           <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-faint">
@@ -158,9 +158,9 @@ function Figure({ value, label, tone = "ink" }: { value: string | null; label: s
   return (
     <div className="min-w-0">
       {value !== null ? (
-        <p className={`tnum settle truncate font-display text-[1.75rem] leading-none font-800 tracking-[-0.03em] md:text-[2.25rem] ${tone === "signal" ? "text-signal" : "text-ink"}`}>{value}</p>
+        <p className={`tnum settle truncate font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em] md:text-[1.5rem] ${tone === "signal" ? "text-signal" : "text-ink"}`}>{value}</p>
       ) : (
-        <p className="truncate font-display text-[1.125rem] leading-none font-700 text-ink-faint md:text-[1.25rem]">No data</p>
+        <p className="truncate font-display text-[1.125rem] leading-none font-600 text-ink-faint md:text-[1.25rem]">No data</p>
       )}
       <p className="mt-1.5 text-sm text-ink-soft">{label}</p>
     </div>
@@ -178,7 +178,7 @@ function TopPostTile({
         <NoPhoto name={businessName} logo={logo} />
       )}
       <span className="media-scrim absolute inset-0 flex flex-col justify-end p-4">
-        <span className="line-clamp-2 font-display text-[1.125rem] leading-tight font-800 tracking-[-0.02em] text-white">{title}</span>
+        <span className="line-clamp-2 font-display text-[1.125rem] leading-tight font-700 tracking-[-0.02em] text-white">{title}</span>
         {views !== null && <span className="tnum mt-1 text-sm text-white/80">{views.toLocaleString("en-US")} views</span>}
       </span>
       {href && (

@@ -30,7 +30,12 @@ export default async function HomePage({
     getMyVehicles(ctx.user.id),
   ]);
   const hasMore = cards.length > pageSize;
-  const page = cards.slice(0, pageSize);
+  // The first page opens with one of each earning type, then the rest in feed order.
+  const firstPage = cards.slice(0, pageSize);
+  const leads = ["car_ads", "recreate_reel", "instagram_story"]
+    .map((k) => firstPage.find((c) => c.kind === k))
+    .filter((c): c is NonNullable<typeof c> => Boolean(c));
+  const page = offset === 0 ? [...leads, ...firstPage.filter((c) => !leads.includes(c))] : firstPage;
   const href = (off = 0) => `/home${off ? `?offset=${off}` : ""}`;
   const listedVehicle = vehicles.find((v) => v.status === "listed");
 

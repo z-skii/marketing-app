@@ -43,7 +43,7 @@ export default async function InstagramPage({ searchParams }: { searchParams: Pr
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback={returnTo ?? "/me"} label={returnTo ? "Campaign" : "Profile"} />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Instagram</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Instagram</h1>
 
       {/* ------------------------------------------------------- NOT CONNECTED */}
       {ig.status === "disconnected" && (
@@ -60,7 +60,7 @@ export default async function InstagramPage({ searchParams }: { searchParams: Pr
       {ig.status === "pending" && (
         <section className="card mt-5 p-4 md:p-5" aria-label="Connecting">
           <p className="flex items-center gap-2 text-sm text-ink-soft"><span className="live-dot" aria-hidden />Connecting</p>
-          <p className="mt-1 font-display text-[1.5rem] leading-tight font-800 tracking-[-0.02em]">@{ig.handle}</p>
+          <p className="mt-1 font-display text-[1.5rem] leading-tight font-700 tracking-[-0.02em]">@{ig.handle}</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-faint">Someone at TapMart is confirming this handle. You can still open Story campaigns; approval of your proof waits for the check.</p>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <DisconnectButton />
@@ -75,7 +75,7 @@ export default async function InstagramPage({ searchParams }: { searchParams: Pr
           <div className="flex items-center gap-4">
             {ig.avatarUrl ? <Avatar src={ig.avatarUrl} name={ig.handle ?? "Instagram"} size={64} /> : <InstagramLogo size={48} weight="fill" className="text-ink" aria-hidden />}
             <div className="min-w-0 flex-1">
-              <p className="truncate font-display text-[1.5rem] leading-tight font-800 tracking-[-0.02em] text-signal">
+              <p className="truncate font-display text-[1.5rem] leading-tight font-700 tracking-[-0.02em] text-signal">
                 @{ig.handle}
                 <CheckCircle size={20} weight="fill" className="ml-1.5 inline-block align-[-3px]" aria-label="Connected" />
               </p>
@@ -110,7 +110,7 @@ export default async function InstagramPage({ searchParams }: { searchParams: Pr
       {ig.status === "error" && (
         <section className="mt-5" aria-label={ig.verifiedBy === "api" ? "Needs reconnect" : "Error"}>
           <Chip tone="alert">{ig.verifiedBy === "api" ? "Needs reconnect" : "Error"}</Chip>
-          <p className="mt-2 font-display text-[1.375rem] leading-tight font-800 tracking-[-0.02em]">
+          <p className="mt-2 font-display text-[1.375rem] leading-tight font-700 tracking-[-0.02em]">
             {ig.verifiedBy === "api" ? "Instagram needs to be connected again." : ig.handle ? `@${ig.handle} could not be confirmed.` : "The connection did not complete."}
           </p>
           {(errorLine ?? ig.lastError) && <p role="alert" className="mt-2 text-sm alert-text">{errorLine ?? ig.lastError}</p>}
@@ -124,11 +124,11 @@ export default async function InstagramPage({ searchParams }: { searchParams: Pr
         <p className="text-sm text-ink-faint">What Instagram is used for</p>
         <ul className="row-list mt-2">
           <li className="card px-4 py-3">
-            <p className="font-display text-[0.9375rem] font-700">Story campaigns</p>
+            <p className="font-display text-[0.9375rem] font-600">Story campaigns</p>
             <p className="text-sm text-ink-faint">Post a ready-made Story, keep it live, send a screenshot and the link, get paid.</p>
           </li>
           <li className="card px-4 py-3">
-            <p className="font-display text-[0.9375rem] font-700">Follower minimums</p>
+            <p className="font-display text-[0.9375rem] font-600">Follower minimums</p>
             <p className="text-sm text-ink-faint">Some campaigns ask for a minimum. A confirmed count decides which ones you see as ready to take.</p>
           </li>
         </ul>

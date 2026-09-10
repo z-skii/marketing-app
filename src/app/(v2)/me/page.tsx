@@ -66,17 +66,17 @@ export default async function MePage() {
           {/* ------------------------------------------------------ header */}
           <div className="flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-center gap-4">
-              <Avatar src={ctx.avatarUrl} name={name} size={64} />
+              <Avatar src={ctx.avatarUrl} name={name} size={88} />
               <div className="min-w-0">
-                <h1 className="truncate font-display text-[1.5rem] leading-none font-800 tracking-[-0.03em] md:text-[1.75rem]">
+                <h1 className="truncate font-display text-[1.625rem] leading-[1.15] font-700 tracking-[-0.02em]">
                   {name}
                   {ctx.isVerified && <CheckCircle size={22} weight="fill" className="ml-1.5 inline-block align-[-3px] text-signal" aria-label="Verified" />}
                 </h1>
-                <p className="mt-2 truncate text-sm text-ink-faint">{identityLine || `@${ctx.user.username}`}</p>
+                <p className="mt-0.5 truncate text-sm text-ink-soft">{identityLine || `@${ctx.user.username}`}</p>
                 <div className="mt-3 flex gap-6">
                   <Figure value={formatCredit(Number(stats?.lifetime ?? 0))} label="Earned" />
                   <Figure value={stats?.completed ?? "0"} label="Campaigns" />
-                  <Figure value={stats?.rating ? Number(stats.rating).toFixed(1) : "No rating yet"} label="Rating" star={Boolean(stats?.rating)} />
+                  <Figure value={stats?.rating ? Number(stats.rating).toFixed(1) : null} label="Rating" star={Boolean(stats?.rating)} />
                 </div>
               </div>
             </div>
@@ -87,40 +87,43 @@ export default async function MePage() {
 
           {/* ----------------------------------------------------- the car */}
           {car && stage ? (
-            <section className="mt-6 overflow-hidden rounded-[16px] bg-surface" aria-label="Your car">
-              <Link href={`/me/vehicles/${car.id}`} className="flex items-center gap-3 px-4 pt-3.5">
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-display text-[1.0625rem] leading-tight font-700">{car.year} {car.make} {car.model}</span>
-                  <span className="mt-0.5 flex items-center gap-1.5 text-xs text-ink-faint">
-                    {carOn && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-signal" />}
+            <section className="row relative mt-6 h-[152px] overflow-hidden" aria-label="Your car">
+              <div className="absolute inset-y-0 right-0 w-[64%]">
+                <VehicleStage glbUrl={stage.glbUrl} posterUrl={stage.posterUrl} photos={stage.photos} label={null} fill />
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-2/5 bg-[linear-gradient(to_right,var(--color-surface),transparent)]" aria-hidden />
+              </div>
+              <Link href={`/me/vehicles/${car.id}`} className="absolute inset-0 flex items-start justify-between gap-2 p-4" aria-label={`${car.year} ${car.make} ${car.model}, ${carStatus}`}>
+                <span className="min-w-0">
+                  <span className="block truncate font-display text-[1.0625rem] leading-[1.3] font-600 tracking-[-0.01em]">{car.year} {car.make} {car.model}</span>
+                  <span className="mt-1 flex items-center gap-2 text-sm text-ink-soft">
+                    {carOn && <span aria-hidden className="status-dot" />}
                     {carStatus}{activeBookings > 0 ? ` · ${activeBookings} active` : ""}
                   </span>
                 </span>
                 <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
               </Link>
-              <div className="px-2 pt-2 pb-2">
-                <VehicleStage glbUrl={stage.glbUrl} posterUrl={stage.posterUrl} photos={stage.photos} label={stage.glbUrl ? stage.label : null} compact />
-              </div>
               {stage.scanHint && (
-                <div className="px-4 pb-3.5">
-                  <Link href={stage.scanHref} className="link-row text-sm">{stage.scanHint}<CaretRight size={14} aria-hidden /></Link>
-                </div>
+                <Link href={stage.scanHref} className="absolute bottom-3 left-4 z-10 text-sm text-ink-soft underline-offset-2 can-hover:hover:underline">{stage.scanHint}</Link>
               )}
             </section>
           ) : (
-            <section className="relative mt-6 overflow-hidden rounded-[16px] bg-surface px-5 py-7" aria-label="Your car">
-              <CarIcon size={40} weight="duotone" className="text-ink-soft" aria-hidden />
-              <p className="mt-3 font-display text-[1.375rem] leading-[1.05] font-800 tracking-[-0.03em]">Make money with your car</p>
-              <p className="mt-1.5 max-w-xs text-sm text-ink-soft">Scan it once. Car campaigns near you show whether it qualifies.</p>
-              <Link href="/me/vehicles/scan" className="btn btn-signal mt-4">Scan my car</Link>
+            <section className="row relative mt-6 overflow-hidden px-4 py-5" aria-label="Your car">
+              <div className="flex items-center gap-3.5">
+                <span className="icon-square"><CarIcon size={22} aria-hidden /></span>
+                <div className="min-w-0 flex-1">
+                  <p className="font-display text-[1.0625rem] font-600 tracking-[-0.01em]">Make money with your car</p>
+                  <p className="mt-0.5 text-sm text-ink-soft">Scan it once. Car campaigns show whether it qualifies.</p>
+                </div>
+              </div>
+              <Link href="/me/vehicles/scan" className="btn btn-signal mt-4 w-full">Scan my car</Link>
             </section>
           )}
 
           {/* --------------------------------------------------------- rows */}
-          <ul className="mt-2 flex flex-col gap-1.5" aria-label="Earning setup">
+          <ul className="mt-2.5 flex flex-col gap-2.5" aria-label="Earning setup">
             <li>
               <SurfaceRow
-                href="/me/instagram" icon={<InstagramLogo size={22} aria-hidden />}
+                href="/me/instagram" icon={<InstagramLogo size={22} aria-hidden />} iconTone="instagram"
                 title="Instagram"
                 sub={ig.handle ? `@${ig.handle}` : "For Story campaigns"}
                 status={ig.status === "connected" ? "Connected" : ig.status === "pending" ? "Checking" : undefined}
@@ -131,23 +134,22 @@ export default async function MePage() {
               <li>
                 <SurfaceRow
                   href={`/me/vehicles/${car.id}`} icon={<CarIcon size={22} aria-hidden />}
-                  title={carOn ? "Vehicle ready for ads" : "Your vehicle"} sub={`${car.year} ${car.make} ${car.model}`}
+                  title={carOn ? "Vehicle Ready for Ads" : "Your vehicle"} sub={`${car.year} ${car.make} ${car.model}`}
                   status={carOn ? "Active" : carStatus ?? undefined} statusTone={carOn ? "signal" : "faint"}
                 />
               </li>
             )}
             <li>
               <SurfaceRow
-                href="/activity" icon={<Megaphone size={22} aria-hidden />}
-                title="Recent campaigns" sub={`${stats?.active ?? 0} active · ${stats?.completed ?? 0} completed`}
+                href="/activity" icon={<Megaphone size={22} aria-hidden />} iconTone="warn"
+                title="Recent Campaigns" sub={`${stats?.active ?? 0} active · ${stats?.completed ?? 0} completed`}
               />
             </li>
             <li>
               <SurfaceRow
-                href="/earnings" icon={<Wallet size={22} aria-hidden />}
-                title={available >= minPayout ? "Payout ready" : "Earnings"}
+                href="/earnings" icon={<Wallet size={22} aria-hidden />} iconTone="success"
+                title={available >= minPayout ? "Payout Ready" : "Earnings"}
                 sub={available > 0 ? `${formatCredit(available)} available` : `Payouts start at ${formatCredit(minPayout)}`}
-                status={available >= minPayout ? "Ready" : undefined} statusTone="signal"
               />
             </li>
             {assignedShoots > 0 && (
@@ -202,14 +204,13 @@ async function loadStage(vehicleId: string) {
   return { glbUrl, posterUrl, photos: stagePhotos, label, scanHint, scanHref };
 }
 
-function Figure({ value, label, star = false }: { value: string; label: string; star?: boolean }) {
-  const quiet = value.length > 6;
+function Figure({ value, label, star = false }: { value: string | null; label: string; star?: boolean }) {
   return (
     <div className="min-w-0">
-      <p className={`tnum flex items-center gap-1 leading-none ${quiet ? "h-[1.125rem] items-end text-sm text-ink-faint md:h-[1.25rem]" : "font-display text-[1.125rem] font-800 tracking-[-0.02em] md:text-[1.25rem]"}`}>
-        {value}{star && <Star size={14} weight="fill" className="text-signal" aria-hidden />}
+      <p className="tnum flex items-center gap-1 font-display text-[1.25rem] leading-none font-600 tracking-[-0.02em]">
+        {value ?? <span className="text-ink-faint">New</span>}{star && <Star size={15} weight="fill" className="text-warn" aria-hidden />}
       </p>
-      <p className="mt-1 text-xs text-ink-faint">{label}</p>
+      <p className="mt-1 text-sm text-ink-soft">{label}</p>
     </div>
   );
 }

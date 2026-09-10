@@ -75,7 +75,7 @@ export default async function BusinessPersonPage({
 
         {/* ---------------------------------------------------- identity */}
         <section className="mt-5 min-w-0 lg:mt-0">
-          <h1 className="font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em] md:text-[2rem]">
+          <h1 className="font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] md:text-[1.5rem]">
             {name}
             {person.verification === "verified" && <CheckCircle size={24} weight="fill" className="ml-1.5 inline-block align-[-3px] text-signal" aria-label="Verified" />}
           </h1>
@@ -145,7 +145,7 @@ export default async function BusinessPersonPage({
                 </Link>
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="truncate font-display text-[1.125rem] leading-none font-800 tracking-[-0.02em]">{vehicle.year} {vehicle.make} {vehicle.model}</p>
+                    <p className="truncate font-display text-[1.125rem] leading-none font-700 tracking-[-0.02em]">{vehicle.year} {vehicle.make} {vehicle.model}</p>
                     <p className="mt-1.5 truncate text-sm text-ink-faint">
                       {[vehicle.city, vehicle.monthly_miles ? `~${vehicle.monthly_miles.toLocaleString()} mi/month` : null].filter(Boolean).join("  ·  ")}
                     </p>

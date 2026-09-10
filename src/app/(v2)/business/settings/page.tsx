@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowSquareOut, CaretRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowSquareOut, CaretRight, UserCircle, Bell, LockKey, Storefront, PlugsConnected, Palette, CreditCard, UsersThree, Globe } from "@phosphor-icons/react/dist/ssr";
 import { requireBusinessContext } from "@/lib/v2/core";
 import { sqlOne } from "@/lib/db";
 import { getSubscription } from "@/lib/v2/subscriptions";
@@ -49,64 +49,67 @@ export default async function BusinessSettingsPage() {
     ...ctx.businesses.map((b) => ({ id: b.id, name: b.name, sub: "Business", logo: b.logo_url, active: b.id === business.id })),
   ];
 
-  type Row = { href?: string; title: string; sub: string; tone?: "alert"; external?: boolean };
+  type Row = { href?: string; title: string; sub: string; tone?: "alert"; external?: boolean; icon: React.ReactNode };
   const groups: { title: string; rows: Row[]; logout?: boolean }[] = [
     {
       title: "Account",
       logout: true,
       rows: [
-        { href: "/business/settings/account", title: "Account", sub: ctx.user.email ?? "Email, name, username" },
-        { href: "/business/settings/notifications", title: "Notifications", sub: muted > 0 ? `${muted} ${muted === 1 ? "type" : "types"} muted` : "All on" },
-        { href: "/business/settings/security", title: "Security", sub: "Password and sessions" },
+        { href: "/business/settings/account", icon: <UserCircle size={22} aria-hidden />, title: "Account", sub: ctx.user.email ?? "Email, name, username" },
+        { href: "/business/settings/notifications", icon: <Bell size={22} aria-hidden />, title: "Notifications", sub: muted > 0 ? `${muted} ${muted === 1 ? "type" : "types"} muted` : "All on" },
+        { href: "/business/settings/security", icon: <LockKey size={22} aria-hidden />, title: "Security", sub: "Password and sessions" },
       ],
     },
     {
       title: "Business",
       rows: [
-        { href: "/business/edit", title: "Business details", sub: [details?.category, details?.city].filter(Boolean).join(" · ") || "Name, category, city, hours, website" },
-        { href: "/business/settings/connections", title: "Connections", sub: attention > 0 ? `${attention} ${attention === 1 ? "connection needs" : "connections need"} attention` : connected > 0 ? `${connected} connected` : "Instagram, Google Business Profile", tone: attention > 0 ? "alert" : undefined },
-        { href: "/business/brand", title: "Brand kit", sub: hasKit ? (brand?.proposed ? "Improvements waiting for review" : "Approved") : "Research your brand from real sources" },
-        { href: "/business/plan", title: "Plan and billing", sub: plan ? `${plan.name}${active && active.status !== "active" ? `, ${active.status.replace("_", " ")}` : ""}` : "No plan yet" },
-        { title: "Team", sub: "Coming later" },
-        { href: `/b/${business.slug}`, title: "Public page", sub: `tapmart.live/b/${business.slug}`, external: true },
+        { href: "/business/edit", icon: <Storefront size={22} aria-hidden />, title: "Business details", sub: [details?.category, details?.city].filter(Boolean).join(" · ") || "Name, category, city, hours, website" },
+        { href: "/business/settings/connections", icon: <PlugsConnected size={22} aria-hidden />, title: "Connections", sub: attention > 0 ? `${attention} ${attention === 1 ? "connection needs" : "connections need"} attention` : connected > 0 ? `${connected} connected` : "Instagram, Google Business Profile", tone: attention > 0 ? "alert" : undefined },
+        { href: "/business/brand", icon: <Palette size={22} aria-hidden />, title: "Brand kit", sub: hasKit ? (brand?.proposed ? "Improvements waiting for review" : "Approved") : "Research your brand from real sources" },
+        { href: "/business/plan", icon: <CreditCard size={22} aria-hidden />, title: "Plan and billing", sub: plan ? `${plan.name}${active && active.status !== "active" ? `, ${active.status.replace("_", " ")}` : ""}` : "No plan yet" },
+        { icon: <UsersThree size={22} aria-hidden />, title: "Team", sub: "Coming later" },
+        { href: `/b/${business.slug}`, icon: <Globe size={22} aria-hidden />, title: "Public page", sub: `tapmart.live/b/${business.slug}`, external: true },
       ],
     },
   ];
 
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
-      <BackButton fallback="/business/profile" label="Business" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Settings</h1>
+      <BackButton fallback="/business/profile" />
+      <h1 className="mt-3 font-display text-[1.375rem] font-600 tracking-[-0.02em] md:text-[1.5rem]">Settings</h1>
       <p className="mt-1 text-sm text-ink-soft">{business.name}</p>
 
       {groups.map((g) => (
         <section key={g.title} className="mt-7" aria-label={g.title}>
           <h2 className="eyebrow">{g.title}</h2>
-          <ul className="mt-1 divide-y divide-rule">
+          <ul className="card mt-2.5 divide-y divide-rule px-4">
             {g.rows.map((r) => (
               <li key={r.title}>
                 {r.href ? (
                   r.external ? (
-                    <a href={r.href} target="_blank" rel="noreferrer" className="flex min-h-14 items-center justify-between gap-3 py-3">
-                      <span className="min-w-0">
-                        <span className="block font-display text-[1rem] font-700">{r.title}</span>
+                    <a href={r.href} target="_blank" rel="noreferrer" className="flex min-h-[4.25rem] items-center gap-3 py-3">
+                      <span className="icon-square">{r.icon}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-display text-[1rem] font-600">{r.title}</span>
                         <span className="block truncate text-sm text-ink-soft">{r.sub}</span>
                       </span>
                       <ArrowSquareOut size={18} className="shrink-0 text-ink-faint" aria-hidden />
                     </a>
                   ) : (
-                    <Link href={r.href} className="flex min-h-14 items-center justify-between gap-3 py-3">
-                      <span className="min-w-0">
-                        <span className="block font-display text-[1rem] font-700">{r.title}</span>
+                    <Link href={r.href} className="flex min-h-[4.25rem] items-center gap-3 py-3">
+                      <span className="icon-square">{r.icon}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-display text-[1rem] font-600">{r.title}</span>
                         <span className={`block truncate text-sm ${r.tone === "alert" ? "alert-text" : "text-ink-soft"}`}>{r.sub}</span>
                       </span>
                       <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
                     </Link>
                   )
                 ) : (
-                  <span className="flex min-h-14 items-center justify-between gap-3 py-3 text-ink-faint">
-                    <span className="min-w-0">
-                      <span className="block font-display text-[1rem] font-700">{r.title}</span>
+                  <span className="flex min-h-[4.25rem] items-center gap-3 py-3 text-ink-faint">
+                    <span className="icon-square text-ink-faint">{r.icon}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-display text-[1rem] font-600">{r.title}</span>
                       <span className="block truncate text-sm">{r.sub}</span>
                     </span>
                   </span>

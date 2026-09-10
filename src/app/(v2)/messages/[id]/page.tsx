@@ -48,7 +48,7 @@ export default async function ConversationPage({ params }: { params: Promise<{ i
         {other && (
           <>
             <Avatar src={other.avatar_url} name={other.display_name ?? other.username} size={36} />
-            <Link href={`/u/${other.username}`} className="min-w-0 truncate font-display text-[1.0625rem] font-800 tracking-[-0.02em] hover:text-signal">
+            <Link href={`/u/${other.username}`} className="min-w-0 truncate font-display text-[1.0625rem] font-700 tracking-[-0.02em] hover:text-signal">
               {other.display_name ?? `@${other.username}`}
             </Link>
           </>

@@ -107,7 +107,7 @@ function Sheet({ title, onClose, children }: { title: string; onClose: () => voi
       <button type="button" aria-label="Close" className="absolute inset-0 bg-paper-deep/70" onClick={onClose} />
       <div role="dialog" aria-modal="true" aria-label={title} className="glass spot-in relative max-h-[92dvh] w-full overflow-y-auto rounded-t-[var(--radius-sheet)] border px-5 pt-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:max-w-lg md:rounded-[var(--radius-sheet)]">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="font-display text-[1.375rem] font-800 tracking-[-0.02em]">{title}</h2>
+          <h2 className="font-display text-[1.375rem] font-700 tracking-[-0.02em]">{title}</h2>
           <button type="button" aria-label="Close" className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-ink-soft can-hover:hover:text-ink" onClick={onClose}><X size={22} aria-hidden /></button>
         </div>
         {children}
@@ -121,7 +121,7 @@ function PayField({ value, onChange, min, hint }: { value: string; onChange: (v:
     <label className="flex flex-col gap-1.5">
       <span className={LABEL}>Pay</span>
       <span className="flex items-center gap-3">
-        <span className="font-display text-[1.75rem] font-800 tracking-[-0.03em] text-signal" aria-hidden>$</span>
+        <span className="font-display text-[1.5rem] font-700 tracking-[-0.02em] text-signal" aria-hidden>$</span>
         <input className="field flex-1 text-lg" inputMode="decimal" type="number" min={min} step="1" value={value} aria-label="Pay in dollars" onChange={(e) => onChange(e.target.value)} />
         <span className="text-sm whitespace-nowrap text-ink-soft">{hint}</span>
       </span>

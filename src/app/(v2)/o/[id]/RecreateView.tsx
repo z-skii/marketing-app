@@ -63,18 +63,18 @@ export async function RecreateView({
               <NoPhoto name={o.business_name} logo={o.business_logo} />
             )}
             {!video && <div className="media-scrim absolute inset-x-0 bottom-0 h-3/5" aria-hidden />}
-            <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">The reference</span>
+            <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-ink">The reference</span>
             {!video && (
               <div className="absolute inset-x-4 bottom-4">
                 <Money cents={o.pay_cents} size="hero" />
-                <h1 className="mt-1 font-display text-[1.625rem] leading-[1.05] font-800 tracking-[-0.03em]">Recreate this Reel</h1>
+                <h1 className="mt-1 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em]">Recreate this Reel</h1>
               </div>
             )}
           </div>
           {video && (
             <div className="mt-4">
               <Money cents={o.pay_cents} size="hero" />
-              <h1 className="mt-1 font-display text-[1.625rem] leading-[1.05] font-800 tracking-[-0.03em]">Recreate this Reel</h1>
+              <h1 className="mt-1 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em]">Recreate this Reel</h1>
             </div>
           )}
           <div className="mt-3 flex items-center justify-between gap-3">

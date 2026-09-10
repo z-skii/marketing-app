@@ -37,7 +37,7 @@ export default async function PlanPage({
   return (
     <main id="main" className="mx-auto w-full max-w-5xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/settings" label="Business" />
-      <h1 className="mt-3 font-display text-[1.75rem] font-800 tracking-[-0.03em] md:text-[2rem]">Plan</h1>
+      <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Plan</h1>
       <p className="mt-1.5 text-sm text-ink-soft">Plans never include campaign spend. Campaign budgets go to the people who do the work.</p>
 
       {notice && <p role="status" className="card-2 mt-4 px-4 py-3 text-sm text-ink">{notice}</p>}
@@ -62,11 +62,11 @@ export default async function PlanPage({
           return (
             <section key={plan.key} className={`card flex flex-col p-5 md:p-6 ${current ? "card-signal" : ""}`} aria-label={plan.name}>
               <div className="flex items-center justify-between gap-3">
-                <h2 className="font-display text-[1.5rem] leading-none font-800 tracking-[-0.03em]">{plan.name}</h2>
+                <h2 className="font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em]">{plan.name}</h2>
                 {current && <Chip tone="signal">Current plan</Chip>}
               </div>
               <p className="mt-3"><Money cents={prices[plan.key]} size="xl" suffix="/ mo" tone={current ? "signal" : "ink"} /></p>
-              <p className="mt-3 font-display text-[1rem] font-700 text-ink">{shootsLine(plan.shoots)}</p>
+              <p className="mt-3 font-display text-[1rem] font-600 text-ink">{shootsLine(plan.shoots)}</p>
               <ul className="mt-3 divide-y divide-rule">
                 {features.map((f) => (
                   <li key={f.label} className={`flex items-center justify-between gap-3 py-2 text-[0.9375rem] ${f.soon ? "text-ink-faint" : "text-ink"}`}>

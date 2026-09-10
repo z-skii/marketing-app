@@ -40,7 +40,7 @@ export function WizardFrame({
         ))}
       </div>
       <p className="mt-3 text-sm text-ink-faint">Step {step + 1} of {total}</p>
-      <h1 className="mt-2 font-display text-[1.75rem] leading-[1.05] font-800 tracking-[-0.03em] md:text-[2rem]">{title}</h1>
+      <h1 className="mt-2 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] md:text-[1.5rem]">{title}</h1>
       {hint && <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">{hint}</p>}
       <div className="mt-5">{children}</div>
 
@@ -52,7 +52,7 @@ export function WizardFrame({
           {creditError && (
             <>
               {" "}
-              <Link href="/business/billing" className="font-display font-700 underline underline-offset-2">Add credit</Link>
+              <Link href="/business/billing" className="font-display font-600 underline underline-offset-2">Add credit</Link>
             </>
           )}
         </p>
@@ -108,7 +108,7 @@ export function DollarField({
 }: { value: string; onChange: (v: string) => void; placeholder?: string; label: string }) {
   return (
     <label className="flex items-center gap-3">
-      <span className="font-display text-[1.75rem] font-800 tracking-[-0.03em] text-signal" aria-hidden>$</span>
+      <span className="font-display text-[1.5rem] font-700 tracking-[-0.02em] text-signal" aria-hidden>$</span>
       <input
         className="field flex-1 text-lg" inputMode="decimal" value={value} aria-label={label}
         onChange={(e) => onChange(e.target.value.replace(/[^0-9.]/g, ""))} placeholder={placeholder}
@@ -161,7 +161,7 @@ export function SummaryList({ rows }: { rows: [string, React.ReactNode][] }) {
       {rows.map(([k, v]) => (
         <div key={k} className="flex items-baseline justify-between gap-4 py-1.5">
           <dt className="text-sm text-ink-soft">{k}</dt>
-          <dd className="text-right font-display text-[0.9375rem] font-700">{v}</dd>
+          <dd className="text-right font-display text-[0.9375rem] font-600">{v}</dd>
         </div>
       ))}
     </dl>

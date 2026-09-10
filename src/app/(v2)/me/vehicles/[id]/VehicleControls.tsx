@@ -29,12 +29,12 @@ function Toggle({
   return (
     <div className="card flex items-center justify-between gap-3 px-4 py-3.5">
       <span className="min-w-0">
-        <span className="block font-display text-[0.9375rem] font-700">{title}</span>
+        <span className="block font-display text-[0.9375rem] font-600">{title}</span>
         <span className="block text-sm text-ink-faint">{sub}</span>
       </span>
       <button
         type="button" role="switch" aria-checked={on} disabled={pending}
-        className={`btn btn-sm shrink-0 ${on ? "btn-signal" : ""}`}
+        className={`btn btn-sm shrink-0 ${on ? "!bg-signal/15 !text-signal" : ""}`}
         onClick={onToggle}
       >
         {on ? onLabel : offLabel}
@@ -83,7 +83,7 @@ export function VerificationCard({
   return (
     <div className="card flex items-center justify-between gap-3 px-4 py-3.5">
       <span className="min-w-0">
-        <span className={`block font-display text-[0.9375rem] font-700 ${verification === "verified" ? "text-signal" : ""}`}>{copy.title}</span>
+        <span className={`block font-display text-[0.9375rem] font-600 ${verification === "verified" ? "text-signal" : ""}`}>{copy.title}</span>
         <span className="block text-sm text-ink-faint">{copy.sub}</span>
         {error && <span role="alert" className="mt-1 block text-sm alert-text">{error}</span>}
       </span>
@@ -105,7 +105,7 @@ export function ProofForm({ bookingId }: { bookingId: string }) {
   const { pending, error, run } = useAction();
   return (
     <div className="card-2 mt-3 p-3">
-      <p className="font-display text-sm font-700">Upload proof</p>
+      <p className="font-display text-sm font-600">Upload proof</p>
       <p className="mt-0.5 text-sm text-ink-faint">A photo of the ad on your car keeps the monthly payments coming.</p>
       <div className="mt-2.5 flex flex-wrap items-center gap-2">
         <select className="field w-auto" value={kind} onChange={(e) => setKind(e.target.value)} aria-label="Proof type">

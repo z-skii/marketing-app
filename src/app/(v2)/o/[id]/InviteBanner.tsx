@@ -39,9 +39,9 @@ export function InviteBanner({ inviteId, businessName, verb, pay, message, kind 
   }
   return (
     <section aria-label="Direct request" className="reveal rounded-[var(--radius-card)] bg-surface p-4 ring-1 ring-signal/40">
-      <p className="eyebrow text-signal">Request for you</p>
-      <p className="mt-1.5 font-display text-[1.25rem] leading-[1.15] font-800 tracking-[-0.02em]">{businessName} {verb}</p>
-      <p className="mt-1 font-display text-[1.5rem] leading-none font-800 tracking-[-0.03em] text-signal">{pay}</p>
+      <p className="text-sm font-500 text-signal">Request for you</p>
+      <p className="mt-1.5 font-display text-[1.25rem] leading-[1.15] font-700 tracking-[-0.02em]">{businessName} {verb}</p>
+      <p className="mt-1 font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em] text-signal">{pay}</p>
       {message && <p className="mt-2 text-sm text-ink-soft">{message}</p>}
       {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
       <div className="mt-4 flex gap-2">

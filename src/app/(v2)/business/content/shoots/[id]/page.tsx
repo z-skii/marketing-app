@@ -36,7 +36,7 @@ export default async function ShootPage({ params }: { params: Promise<{ id: stri
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/business/content" label="Content" />
       <p className="mt-3 text-sm text-ink-faint">{business.name}</p>
-      <h1 className="font-display text-[1.75rem] leading-none font-800 tracking-[-0.03em] md:text-[2rem]">
+      <h1 className="font-display text-[1.5rem] leading-none font-700 tracking-[-0.02em] md:text-[1.5rem]">
         {shoot.scheduled_for ? longDayLabel(shoot.scheduled_for) : "Date to be set"}
         {time && <span className="text-ink-soft"> · {time}</span>}
       </h1>
@@ -44,7 +44,7 @@ export default async function ShootPage({ params }: { params: Promise<{ id: stri
 
       <div className="mt-5 flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="tnum font-display text-[1.0625rem] leading-tight font-700">{shoot.photos_planned} photos · {shoot.videos_planned} videos</p>
+          <p className="tnum font-display text-[1.0625rem] leading-tight font-600">{shoot.photos_planned} photos · {shoot.videos_planned} videos</p>
           <p className="mt-0.5 truncate text-sm text-ink-soft">{shoot.assigned_label ?? "TapMart team"}{delivery ? ` · ${delivery}` : ""}</p>
         </div>
         <Chip tone={shootStatusTone(shoot.status)}>{shootStatusLabel(shoot.status)}</Chip>

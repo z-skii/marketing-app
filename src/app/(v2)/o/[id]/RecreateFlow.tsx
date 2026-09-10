@@ -79,7 +79,7 @@ export function RecreateFlow({ campaignId, guide, rightsNote }: { campaignId: st
         <div className="rounded-[var(--radius-card)] bg-surface p-4">
           <div className="flex items-center gap-3">
             <VideoCamera size={24} className="text-ink-soft" aria-hidden />
-            <p className="font-display text-[1.0625rem] font-700">{stage === "reading" ? "Reading your video" : `Uploading ${progress}%`}</p>
+            <p className="font-display text-[1.0625rem] font-600">{stage === "reading" ? "Reading your video" : `Uploading ${progress}%`}</p>
           </div>
           <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-surface-2" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
             <div className="h-full rounded-full bg-signal transition-[width] duration-200" style={{ width: `${stage === "reading" ? 4 : progress}%` }} />
@@ -90,7 +90,7 @@ export function RecreateFlow({ campaignId, guide, rightsNote }: { campaignId: st
 
       {stage === "checking" && (
         <div className="rounded-[var(--radius-card)] bg-surface p-4">
-          <p className="font-display text-[1.0625rem] font-700">Checking your submission</p>
+          <p className="font-display text-[1.0625rem] font-600">Checking your submission</p>
           <ul className="mt-3 flex flex-col gap-1.5">
             {local.map((v) => <Line key={v.key} item={v} />)}
             {guide.checklist.slice(0, 4).map((c, i) => (
@@ -105,7 +105,7 @@ export function RecreateFlow({ campaignId, guide, rightsNote }: { campaignId: st
 
       {(stage === "review" || stage === "sending") && check && (
         <div className="rounded-[var(--radius-card)] bg-surface p-4">
-          <p className="font-display text-[1.0625rem] font-700">
+          <p className="font-display text-[1.0625rem] font-600">
             {fails > 0 ? `${fails} thing${fails === 1 ? "" : "s"} to look at` : "Looks ready"}
           </p>
           <ul className="mt-3 flex flex-col gap-1.5">
@@ -143,7 +143,7 @@ export function RecreateFlow({ campaignId, guide, rightsNote }: { campaignId: st
       {stage === "done" && (
         <div className="rounded-[var(--radius-card)] bg-surface p-5 text-center">
           <CheckCircle size={40} weight="fill" className="mx-auto text-signal" aria-hidden />
-          <p className="mt-2 font-display text-[1.25rem] font-800 tracking-[-0.02em]">Sent</p>
+          <p className="mt-2 font-display text-[1.25rem] font-700 tracking-[-0.02em]">Sent</p>
           <p className="mt-1 text-sm text-ink-soft">The business reviews it. Approval pays into your earnings.</p>
         </div>
       )}
