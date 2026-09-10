@@ -49,7 +49,7 @@ export function EditProfileForm({
         <input className="field" maxLength={60} value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} placeholder="Raleigh, NC" />
         <span className="text-sm text-ink-faint">Shown publicly at city level only.</span>
       </label>
-      {message && <p role="alert" className={`text-sm ${message.ok ? "text-rise" : "text-signal"}`}>{message.text}</p>}
+      {message && <p role="alert" className={`text-sm ${message.ok ? "text-rise" : "alert-text"}`}>{message.text}</p>}
       <button type="submit" disabled={pending} className="btn btn-signal btn-lg mt-1">
         {pending ? "Saving" : "Save"}
       </button>

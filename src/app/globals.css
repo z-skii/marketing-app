@@ -3,6 +3,13 @@
 /* Short viewports (small phones, squat windows): the live screen compacts
    its densest rows instead of scrolling. */
 @custom-variant short (@media (max-height: 700px));
+/* The desktop rail needs width AND height; a landscape phone has neither. */
+@custom-variant rail (@media (min-width: 768px) and (min-height: 600px));
+/* Fingers, not pointers. */
+@custom-variant coarse (@media (pointer: coarse));
+/* Hover only where hover exists, so a tap never leaves a stuck hover state. */
+@custom-variant hover (&:hover);
+@custom-variant can-hover (@media (hover: hover));
 
 /* ------------------------------------------------------------------ tokens */
 /*
@@ -23,13 +30,19 @@
   --color-surface-2:    #1a1f21;   /* raised controls */
   --color-ink:          #f5f5f2;   /* primary text */
   --color-ink-soft:     #b9bdbe;
-  --color-ink-faint:    #878e90;
+  --color-ink-faint:    #a9b0b2;   /* 7.5:1 on raised surfaces */
+  --color-alert:        #ff7a70;   /* errors, rejected, needs attention */
+  --color-alert-ink:    #2a0d0a;
   --color-rule:         #242a2c;
   --color-rule-strong:  #363d40;
   --color-signal:       #c8ff3d;   /* TapMart lime */
   --color-signal-deep:  #a9e226;
   --color-signal-ink:   #101400;   /* text on lime */
   --color-rise:         #3ddc97;   /* paid / approved / success */
+
+  /* Type floor: 17px product base, 15px secondary, 12px chips, 11px tab labels. */
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.4;
 
   --font-display: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
   --font-mono:    var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
@@ -79,7 +92,7 @@
   h1, h2, h3 { letter-spacing: -0.035em; line-height: 0.96; text-wrap: balance; }
 
   /* Product screens read at 16px; the classic board keeps its own scale. */
-  .app-root { font-size: 1rem; line-height: 1.5; }
+  .app-root { font-size: 1.0625rem; line-height: 1.5; }
 
   a, button, input, select, textarea, label { touch-action: manipulation; }
   * { -webkit-tap-highlight-color: transparent; }
@@ -134,18 +147,28 @@
     min-height: 44px;
     white-space: nowrap;
   }
-  .btn:hover  { background: var(--color-rule-strong); }
+  @media (hover: hover) { .btn:hover { background: var(--color-rule-strong); } }
   .btn:active { transform: translateY(1px) scale(0.99); }
-  .btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+  .btn[disabled] { background: var(--color-surface-2); color: var(--color-ink-faint); cursor: not-allowed; box-shadow: none; }
 
   .btn-ghost { background: transparent; color: var(--color-ink-soft); }
-  .btn-ghost:hover { color: var(--color-ink); background: var(--color-surface-2); }
+  @media (hover: hover) { .btn-ghost:hover { color: var(--color-ink); background: var(--color-surface-2); } }
 
   .btn-signal { background: var(--color-signal); color: var(--color-signal-ink); }
-  .btn-signal:hover { background: var(--color-signal-deep); color: var(--color-signal-ink); }
+  @media (hover: hover) { .btn-signal:hover { background: var(--color-signal-deep); color: var(--color-signal-ink); } }
 
   .btn-lg { font-size: 1.0625rem; padding: 0.9375rem 1.5rem; min-height: 52px; }
-  .btn-sm { font-size: 0.875rem; padding: 0.5rem 0.875rem; min-height: 36px; }
+  .btn-sm { font-size: 0.875rem; padding: 0.5rem 0.875rem; min-height: 40px; }
+  /* Everything tappable is at least 44px under a finger. */
+  @media (pointer: coarse) {
+    .btn-sm, .pill { min-height: 44px; }
+    .link-row { padding-block: 0.75rem; }
+  }
+  /* Quiet inline links: ink, underline on hover, 44px tall on touch. */
+  .link-row { display: inline-flex; align-items: center; gap: 0.25rem; min-height: 44px; font-family: var(--font-display); font-weight: 600; color: var(--color-ink-soft); }
+  @media (hover: hover) { .link-row:hover { color: var(--color-ink); } }
+  /* Error text: red, never lime. */
+  .alert-text { color: var(--color-alert); }
 
   .field {
     width: 100%;
@@ -180,8 +203,10 @@
   /* The one card that must read as "act on this": a lime hairline, nothing else. */
   .card-signal { box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-signal) 45%, transparent), 0 10px 30px -18px rgba(0, 0, 0, 0.8); }
   a.card, a.card-2 { transition: background 140ms ease, transform 140ms ease; }
-  a.card:hover { background: color-mix(in srgb, var(--color-surface) 82%, var(--color-surface-2)); }
-  a.card-2:hover { background: color-mix(in srgb, var(--color-surface-2) 70%, var(--color-rule-strong)); }
+  @media (hover: hover) {
+    a.card:hover { background: color-mix(in srgb, var(--color-surface) 82%, var(--color-surface-2)); }
+    a.card-2:hover { background: color-mix(in srgb, var(--color-surface-2) 70%, var(--color-rule-strong)); }
+  }
   a.card:active, a.card-2:active { transform: scale(0.995); }
 
   /* Filter pills: one compact row, the selected one is lime. */
@@ -202,7 +227,7 @@
     white-space: nowrap;
     transition: background 120ms ease, color 120ms ease;
   }
-  .pill:hover { background: var(--color-rule-strong); }
+  @media (hover: hover) { .pill:hover { background: var(--color-rule-strong); } }
   .pill[aria-current="page"], .pill[aria-pressed="true"] { background: var(--color-signal); color: var(--color-signal-ink); }
   .pill-row {
     display: flex;
@@ -229,11 +254,9 @@
     backdrop-filter: blur(16px) saturate(1.15);
     border-color: color-mix(in srgb, var(--color-ink) 12%, transparent);
   }
-  /* Small frosted tags that sit on top of photographs. */
+  /* Small solid scrim tags that sit on top of photographs (content layer: no blur). */
   .glass-tag {
-    background: color-mix(in srgb, var(--color-paper) 62%, transparent);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--color-paper-deep) 82%, transparent);
     border-radius: var(--radius-control);
   }
   @media (prefers-reduced-transparency: reduce) {
@@ -272,6 +295,24 @@
 }
 .tape:hover .tape-track,
 .tape:focus-within .tape-track { animation-play-state: paused; }
+
+/* Feed cards rise into place once, staggered by their index. */
+.reveal { animation: rise-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Save: one small pop, then rest. */
+@keyframes pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+.pop { animation: pop 320ms cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* Count-up and status changes: a short fade so numbers do not blink. */
+@keyframes settle {
+  from { opacity: 0.4; transform: translate3d(0, 2px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+.settle { animation: settle 260ms ease-out both; }
 
 @keyframes rise-in {
   from { opacity: 0; transform: translate3d(0, 6px, 0); }

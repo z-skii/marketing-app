@@ -104,7 +104,7 @@ export default async function BusinessPublicPage({ params }: { params: Promise<{
           {business.website && (
             <p className={business.description ? "mt-2" : ""}>
               <a href={business.website} target="_blank" rel="noopener noreferrer" className="font-display text-sm font-600 text-ink-soft hover:text-ink">
-                {business.website.replace(/^https?:\/\//, "")} ↗
+                {business.website.replace(/^https?:\/\//, "")}
               </a>
             </p>
           )}

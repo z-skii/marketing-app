@@ -47,12 +47,12 @@ export function WizardFrame({
       {last && publishNote && <div className="mt-5 text-sm text-ink-soft">{publishNote}</div>}
 
       {error && (
-        <p role="alert" className="mt-4 text-sm text-signal">
+        <p role="alert" className="mt-4 text-sm alert-text">
           {error}
           {creditError && (
             <>
               {" "}
-              <Link href="/business/billing" className="font-display font-700 underline underline-offset-2">Add credit →</Link>
+              <Link href="/business/billing" className="font-display font-700 underline underline-offset-2">Add credit</Link>
             </>
           )}
         </p>
@@ -62,10 +62,10 @@ export function WizardFrame({
         <div className="glass flex items-center gap-2 rounded-[var(--radius-card)] p-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] md:bg-transparent md:p-0 md:shadow-none md:[backdrop-filter:none]">
           {step > 0 ? (
             <button type="button" className="btn btn-ghost" onClick={onBack} disabled={pending}>
-              ← Back
+              Back
             </button>
           ) : (
-            <Link href="/business/create" className="btn btn-ghost">← Back</Link>
+            <Link href="/business/create" className="btn btn-ghost">Back</Link>
           )}
           {!last ? (
             <button type="button" disabled={!canNext} className="btn btn-signal btn-lg ml-auto min-w-32" onClick={onNext}>

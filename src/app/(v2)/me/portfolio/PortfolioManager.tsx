@@ -39,7 +39,7 @@ export function PortfolioManager({
               })}
           />
         </div>
-        {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+        {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
       </div>
 
       {items.length > 0 && (

@@ -6,6 +6,16 @@ import { Money } from "@/components/v2/ui";
 import { createEarnCampaign } from "../actions";
 import { markIdeaUsed } from "../ideas-actions";
 import type { Prefill, WizardBusiness } from "../prefill";
+import type { CampaignBrief } from "@/lib/ai/types";
+
+export type StoredBriefProp = {
+  id: string;
+  trendId: string | null;
+  brief: CampaignBrief;
+  source: "ai" | "template";
+  referenceUrl: string | null;
+  referenceMediaUrl: string | null;
+};
 import { PreviewCard, isVideoUrl } from "../PreviewCards";
 import {
   ChipToggles, CountField, DollarField, LABEL, MoneyPreview, Presets, SummaryList, WizardFrame, fmtDay, todayPlus,
@@ -19,24 +29,27 @@ import {
 const TOTAL = 7;
 
 export function RecreateWizard({
-  business, defaultCity, prefill,
-}: { business: WizardBusiness; defaultCity: string; prefill: Prefill | null }) {
+  business, defaultCity, prefill, storedBrief = null,
+}: { business: WizardBusiness; defaultCity: string; prefill: Prefill | null; storedBrief?: StoredBriefProp | null }) {
   const suggestions = ["15 to 25 seconds", "Vertical 9:16", `Say ${business.name} once`, "Show the product"];
+  const b = storedBrief?.brief ?? null;
 
   const [step, setStep] = useState(0);
-  const [mediaUrl, setMediaUrl] = useState("");
-  const [link, setLink] = useState("");
-  const [title, setTitle] = useState(prefill?.title ?? "Recreate our video");
-  const [brief, setBrief] = useState(prefill?.brief ?? "");
+  const [mediaUrl, setMediaUrl] = useState(storedBrief?.referenceMediaUrl ?? "");
+  const [link, setLink] = useState(storedBrief?.referenceUrl ?? "");
+  const [title, setTitle] = useState(b?.title ?? prefill?.title ?? "Recreate our video");
+  const [brief, setBrief] = useState(b?.summary ?? prefill?.brief ?? "");
+  const [steps, setSteps] = useState<string[]>(b?.steps.map((s) => s.text) ?? []);
   const [requirements, setRequirements] = useState<string[]>(
-    prefill?.requirements?.length ? prefill.requirements : [suggestions[0], suggestions[1]],
+    b ? Array.from(new Set([...b.required_elements, ...b.must_keep])).filter((r) => !suggestions.some((x) => x.toLowerCase() === r.toLowerCase())).slice(0, 4)
+      : prefill?.requirements?.length ? prefill.requirements : [suggestions[0], suggestions[1]],
   );
   const [custom, setCustom] = useState("");
-  const [durMin, setDurMin] = useState("15");
-  const [durMax, setDurMax] = useState("25");
-  const [pay, setPay] = useState(prefill?.payDollars ? String(prefill.payDollars) : "50");
-  const [slots, setSlots] = useState(prefill?.slots ? String(prefill.slots) : "10");
-  const [deadline, setDeadline] = useState(todayPlus(14));
+  const [durMin, setDurMin] = useState(b ? String(b.duration_seconds[0]) : "15");
+  const [durMax, setDurMax] = useState(b ? String(b.duration_seconds[1]) : "25");
+  const [pay, setPay] = useState(b ? String(Math.round(b.suggested_pay_cents / 100)) : prefill?.payDollars ? String(prefill.payDollars) : "50");
+  const [slots, setSlots] = useState(b ? String(b.suggested_slots) : prefill?.slots ? String(prefill.slots) : "10");
+  const [deadline, setDeadline] = useState(todayPlus(b?.deadline_days ?? 14));
   const [city, setCity] = useState(defaultCity);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
@@ -61,11 +74,18 @@ export function RecreateWizard({
     start(async () => {
       setError(null);
       if (prefill?.id) await markIdeaUsed(prefill.id, business.id);
+      const campaignBrief: CampaignBrief | undefined = b ? {
+        ...b, title, summary: brief,
+        steps: steps.map((text, i) => ({ n: i + 1, text, frame_hint: b.steps[i]?.frame_hint ?? null })),
+        required_elements: requirements, duration_seconds: range ?? b.duration_seconds,
+        suggested_pay_cents: payCents, suggested_slots: slotCount,
+      } : undefined;
       const result = await createEarnCampaign({
         businessId: business.id, kind: "recreate_reel", publish,
         title, brief, referenceUrl: linkOk ? link.trim() : undefined,
         referenceMediaUrl: mediaUrl || undefined, requirements, durationSeconds: range,
         payDollars: Number(pay), slots: slotCount, deadline: deadline || undefined, city,
+        briefId: storedBrief?.id, campaignBrief, trendId: storedBrief?.trendId ?? undefined,
       });
       if (result && !result.ok) setError(result.error);
     });
@@ -137,8 +157,8 @@ export function RecreateWizard({
             </label>
             {link && !linkOk && <p className="mt-2 text-sm text-ink-faint">Paste the full link, starting with https://</p>}
             {linkOk && (
-              <a href={link.trim()} target="_blank" rel="noreferrer" className="mt-3 block truncate font-display text-sm font-600 text-signal">
-                {link.trim()} →
+              <a href={link.trim()} target="_blank" rel="noreferrer" className="mt-3 block truncate link-row text-sm">
+                {link.trim()}
               </a>
             )}
           </div>
@@ -159,6 +179,26 @@ export function RecreateWizard({
             />
             {brief.trim().length > 0 && brief.trim().length < 20 && <span className="text-sm text-ink-faint">A couple of sentences is enough.</span>}
           </label>
+          {b && (
+            <div>
+              <p className={LABEL}>Shot by shot <span className="text-ink-faint">· prepared by {storedBrief?.source === "ai" ? "AI" : "template"}, edit anything</span></p>
+              <ol className="mt-2 flex flex-col gap-2">
+                {steps.map((text, i) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <span className="tnum w-6 shrink-0 font-mono text-sm text-ink-faint">{String(i + 1).padStart(2, "0")}</span>
+                    <input
+                      className="field" maxLength={140} value={text} aria-label={`Step ${i + 1}`}
+                      onChange={(e) => setSteps(steps.map((t, k) => (k === i ? e.target.value : t)))}
+                    />
+                    <button type="button" className="btn btn-ghost btn-sm shrink-0" aria-label={`Remove step ${i + 1}`} onClick={() => setSteps(steps.filter((_, k) => k !== i))}>Remove</button>
+                  </li>
+                ))}
+              </ol>
+              {steps.length < 9 && (
+                <button type="button" className="link-row mt-1 text-sm" onClick={() => setSteps([...steps, ""])}>Add a step</button>
+              )}
+            </div>
+          )}
           <div>
             <p className={LABEL}>Requirements</p>
             <div className="mt-2">

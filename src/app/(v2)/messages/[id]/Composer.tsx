@@ -28,7 +28,7 @@ export function Composer({ conversationId }: { conversationId: string }) {
 
   return (
     <div className="pt-2 pb-[env(safe-area-inset-bottom)]">
-      {error && <p role="alert" className="mb-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mb-2 text-sm alert-text">{error}</p>}
       <form
         className="flex items-end gap-2"
         onSubmit={(e) => { e.preventDefault(); send(); }}

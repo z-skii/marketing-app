@@ -26,7 +26,7 @@ export function SignUpForm() {
           <p role="status" className="text-sm text-rise">{resendState.notice}</p>
         )}
         {resendState.error && (
-          <p role="alert" className="text-sm text-signal">{resendState.error}</p>
+          <p role="alert" className="text-sm alert-text">{resendState.error}</p>
         )}
         <form action={resend} className="flex flex-col gap-3">
           <input type="hidden" name="email" value={state.email ?? ""} />
@@ -93,7 +93,7 @@ export function SignUpForm() {
       />
 
       {state.error && (
-        <p role="alert" className="text-sm text-signal">{state.error}</p>
+        <p role="alert" className="text-sm alert-text">{state.error}</p>
       )}
 
       <button type="submit" className="btn btn-signal btn-lg mt-2 w-full" disabled={pending}>

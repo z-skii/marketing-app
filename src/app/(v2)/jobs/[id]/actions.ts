@@ -7,6 +7,8 @@ import {
 } from "@/lib/v2/core";
 import { payMarketplaceWork, InsufficientCreditError } from "@/lib/v2/money";
 import { getCampaign } from "@/lib/v2/campaigns";
+import { submissionMeta } from "@/lib/ai/submission-meta";
+import type { ClientMediaMeta, SubmissionCheck } from "@/lib/ai/types";
 
 /**
  * Campaign participation and review. Every action re-checks authorization
@@ -71,7 +73,12 @@ export async function withdrawApplication(campaignId: string): Promise<Result> {
 
 export async function submitWork(
   campaignId: string,
-  input: { mediaUrls: string[]; note: string; rightsAck: boolean },
+  input: {
+    mediaUrls: string[]; note: string; rightsAck: boolean;
+    /** Advisory pre-submission check the creator saw (Recreate). Never decides money. */
+    check?: SubmissionCheck | null;
+    clientMeta?: ClientMediaMeta | null;
+  },
 ): Promise<Result> {
   const ctx = await requireOnboarded();
   const campaign = await openCampaignOrNull(campaignId);
@@ -102,9 +109,10 @@ export async function submitWork(
   }
 
   const submission = await sqlOne<{ id: string }>(
-    `insert into submissions (campaign_id, creator_id, media_urls, note, rights_ack)
-     values ($1, $2, $3, nullif($4, ''), true) returning id`,
-    [campaignId, ctx.user.id, mediaUrls, input.note.trim().slice(0, 2000)],
+    `insert into submissions (campaign_id, creator_id, media_urls, note, rights_ack, meta)
+     values ($1, $2, $3, nullif($4, ''), true, $5::jsonb) returning id`,
+    [campaignId, ctx.user.id, mediaUrls, input.note.trim().slice(0, 2000),
+     JSON.stringify(submissionMeta(input.check, input.clientMeta))],
   );
 
   const conversation = await ensureConversation("campaign", campaignId, [

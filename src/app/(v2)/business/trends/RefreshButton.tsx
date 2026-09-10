@@ -22,7 +22,7 @@ export function RefreshIdeasButton({ businessId }: { businessId: string }) {
       >
         {pending ? "Refreshing…" : "Refresh ideas"}
       </button>
-      {error && <span role="alert" className="text-sm text-signal">{error}</span>}
+      {error && <span role="alert" className="text-sm alert-text">{error}</span>}
     </span>
   );
 }

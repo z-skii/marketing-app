@@ -3,11 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { sql, sqlOne } from "@/lib/db";
 import {
-  ensureConversation, notify, requireBusinessMember, requireOnboarded, systemMessage,
+  ensureConversation, notify, notifyMany, requireBusinessMember, requireOnboarded, systemMessage,
 } from "@/lib/v2/core";
 import { getOpportunity, vehicleQualifies, getMyVehicles } from "@/lib/v2/opportunities";
 import { meetsFollowerRequirement } from "@/lib/v2/instagram";
 import { formatCredit } from "@/lib/money";
+import { checkSubmission } from "@/lib/ai/check";
+import { submissionMeta } from "@/lib/ai/submission-meta";
+import type { ClientMediaMeta, SubmissionCheck } from "@/lib/ai/types";
 
 /**
  * Taking part in the three earning types. Recreate campaigns reuse
@@ -35,6 +38,104 @@ async function openOpportunity(campaignId: string, viewerId: string) {
   if (!status || status.status !== "open") return null;
   if (o.deadline && new Date(o.deadline) < new Date()) return null;
   return { ...o, business_owner_id: status.owner_id };
+}
+
+// ---------------------------------------------------------------- Recreate
+
+/**
+ * The advisory pre-submission check. Deterministic items always (length and
+ * orientation from what the browser read), AI items only when configured
+ * and frames were captured. Nothing is persisted here; the client sends the
+ * result back with the submission. Never decides money.
+ */
+export async function runSubmissionCheck(
+  campaignId: string,
+  mediaUrl: string,
+  clientMeta: ClientMediaMeta | null,
+): Promise<SubmissionCheck> {
+  await requireOnboarded();
+  const campaign = await sqlOne<{
+    kind: string; details: Record<string, unknown>; requirements: string[]; title: string; business_name: string;
+  }>(
+    `select c.kind::text as kind, c.details, c.requirements, c.title, b.name as business_name
+       from campaigns c join businesses b on b.id = c.business_id where c.id = $1`,
+    [campaignId],
+  );
+  if (!campaign) {
+    return { items: [], summary: "Campaign not found.", checked_by: "none", checked_at: new Date().toISOString() };
+  }
+  const safeMeta: ClientMediaMeta | null = clientMeta ? {
+    durationSeconds: numOrNull(clientMeta.durationSeconds),
+    width: numOrNull(clientMeta.width),
+    height: numOrNull(clientMeta.height),
+    sizeBytes: numOrNull(clientMeta.sizeBytes),
+    frames: (clientMeta.frames ?? []).filter((f) => typeof f === "string" && f.startsWith("data:image/") && f.length < 2_000_000).slice(0, 6),
+  } : null;
+  return checkSubmission({ campaign, mediaUrl: String(mediaUrl ?? ""), clientMeta: safeMeta });
+}
+
+function numOrNull(v: unknown): number | null {
+  return typeof v === "number" && Number.isFinite(v) ? v : null;
+}
+
+/**
+ * A recreated video goes in. Same rules as submitWork (one live submission
+ * per creator, campaign open, rights acknowledged) plus the advisory check
+ * and the browser's file numbers stored in meta for the reviewer.
+ */
+export async function submitRecreate(
+  campaignId: string,
+  input: {
+    mediaUrls: string[]; note: string; rightsAck: boolean;
+    check?: SubmissionCheck | null; clientMeta?: ClientMediaMeta | null;
+  },
+): Promise<Result> {
+  const ctx = await requireOnboarded();
+  const o = await openOpportunity(campaignId, ctx.user.id);
+  if (!o || o.kind !== "recreate_reel") return fail("This campaign is no longer open.");
+  if (o.business_owner_id === ctx.user.id) return fail("This is your own campaign.");
+  if (!input.rightsAck) return fail("Confirm the content-rights note before submitting.");
+  const mediaUrls = (input.mediaUrls ?? []).filter((u) => typeof u === "string" && u.trim()).slice(0, 10);
+  if (mediaUrls.length === 0) return fail("Upload your video first.");
+  if (o.approved_count >= o.slots) return fail("All spots are already filled.");
+
+  const application = await sqlOne<{ status: string }>(
+    `select status::text as status from applications where campaign_id = $1 and applicant_id = $2`,
+    [campaignId, ctx.user.id],
+  );
+  if (application && ["declined", "withdrawn"].includes(application.status)) {
+    return fail("This campaign is not open to you any more.");
+  }
+
+  const existing = await sqlOne<{ status: string }>(
+    `select status::text as status from submissions where campaign_id = $1 and creator_id = $2 order by created_at desc limit 1`,
+    [campaignId, ctx.user.id],
+  );
+  if (existing && ["submitted", "under_review", "approved", "paid"].includes(existing.status)) {
+    return fail("You already have a submission in review here.");
+  }
+
+  const submission = await sqlOne<{ id: string }>(
+    `insert into submissions (campaign_id, creator_id, media_urls, note, rights_ack, meta)
+     values ($1, $2, $3, nullif($4, ''), true, $5::jsonb) returning id`,
+    [campaignId, ctx.user.id, mediaUrls, (input.note ?? "").trim().slice(0, 2000),
+     JSON.stringify(submissionMeta(input.check, input.clientMeta))],
+  );
+  if (!submission) return fail("Could not submit. Try again.");
+
+  const conv = await ensureConversation("campaign", campaignId, [ctx.user.id, o.business_owner_id]);
+  await systemMessage(conv, `@${ctx.user.username} uploaded their recreation.`);
+  const members = await sql<{ profile_id: string }>(
+    `select profile_id from business_members where business_id = $1`, [o.business_id],
+  );
+  const audience = Array.from(new Set([o.business_owner_id, ...members.map((m) => m.profile_id)]));
+  await notifyMany(audience, "submission", `New recreation from @${ctx.user.username}`, {
+    body: `For "${o.title}". Review it and approve to pay ${formatCredit(o.pay_cents)}.`,
+    href: `/business/campaigns/${campaignId}`,
+  });
+  revalidatePath(`/o/${campaignId}`);
+  revalidatePath(`/business/campaigns/${campaignId}`);
+  return { ok: true };
 }
 
 // ------------------------------------------------------------------- Story

@@ -43,13 +43,13 @@ export function SignInForm({ next }: { next: string }) {
       />
 
       {state.error && (
-        <p role="alert" className="text-sm text-signal">{state.error}</p>
+        <p role="alert" className="text-sm alert-text">{state.error}</p>
       )}
       {resendState.notice && (
         <p role="status" className="text-sm text-rise">{resendState.notice}</p>
       )}
       {resendState.error && (
-        <p role="alert" className="text-sm text-signal">{resendState.error}</p>
+        <p role="alert" className="text-sm alert-text">{resendState.error}</p>
       )}
 
       <button type="submit" className="btn btn-signal btn-lg mt-2 w-full" disabled={pending}>

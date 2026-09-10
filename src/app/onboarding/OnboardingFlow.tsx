@@ -87,7 +87,7 @@ export function OnboardingFlow({ initialName, initialCity }: { initialName: stri
           <button type="button" disabled={!path} className="btn btn-signal btn-lg mt-6 w-full" onClick={() => setStep(2)}>
             Next
           </button>
-          <button type="button" className="btn btn-ghost mt-3 w-full" onClick={() => setStep(0)}>← Back</button>
+          <button type="button" className="btn btn-ghost mt-3 w-full" onClick={() => setStep(0)}>Back</button>
         </section>
       )}
 
@@ -146,12 +146,12 @@ export function OnboardingFlow({ initialName, initialCity }: { initialName: stri
             </p>
           )}
 
-          {error && <p role="alert" className="mt-3 text-sm text-signal">{error}</p>}
+          {error && <p role="alert" className="mt-3 text-sm alert-text">{error}</p>}
 
           <button type="button" disabled={pending || !ready} className="btn btn-signal btn-lg mt-6 w-full" onClick={finish}>
             {pending ? "Setting up…" : wantsBusiness && !wantsEarn ? "Open my business" : "Enter TapMart"}
           </button>
-          <button type="button" className="btn btn-ghost mt-3 w-full" onClick={() => setStep(1)}>← Back</button>
+          <button type="button" className="btn btn-ghost mt-3 w-full" onClick={() => setStep(1)}>Back</button>
         </section>
       )}
     </div>

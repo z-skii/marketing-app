@@ -53,7 +53,7 @@ export default async function SettingsPage() {
                     <span className="block truncate font-display text-[0.9375rem] font-700">{r.title}</span>
                     <span className="block truncate text-sm text-ink-faint">{r.sub}</span>
                   </span>
-                  <span aria-hidden className="text-ink-faint">→</span>
+                  <span aria-hidden className="text-ink-faint"></span>
                 </Link>
               </li>
             ))}

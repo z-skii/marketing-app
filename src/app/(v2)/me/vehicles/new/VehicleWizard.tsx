@@ -160,7 +160,7 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
             ))}
           </ul>
           <div className="mt-6 flex items-center gap-3">
-            <button type="button" className="btn btn-ghost" onClick={() => setStep(0)}>← Back</button>
+            <button type="button" className="btn btn-ghost" onClick={() => setStep(0)}>Back</button>
             <span className="ml-auto text-sm text-ink-faint">{photoCount} of 4</span>
             <button type="button" disabled={!photosDone} className="btn btn-signal" onClick={() => setStep(2)}>
               Next: placements
@@ -211,7 +211,7 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
             )}
           </div>
           <div className="mt-6 flex gap-3">
-            <button type="button" className="btn btn-ghost" onClick={() => setStep(1)}>← Back</button>
+            <button type="button" className="btn btn-ghost" onClick={() => setStep(1)}>Back</button>
             <button type="button" disabled={placements.length === 0} className="btn btn-signal ml-auto" onClick={() => setStep(3)}>
               Check and save
             </button>
@@ -258,9 +258,9 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
           <p className="mt-3 text-sm text-ink-faint">
             Your car stays private. Only businesses whose campaign you apply to see it.
           </p>
-          {error && <p role="alert" className="mt-3 text-sm text-signal">{error}</p>}
+          {error && <p role="alert" className="mt-3 text-sm alert-text">{error}</p>}
           <div className="mt-6 flex gap-3">
-            <button type="button" className="btn btn-ghost" onClick={() => setStep(2)}>← Back</button>
+            <button type="button" className="btn btn-ghost" onClick={() => setStep(2)}>Back</button>
             <button type="button" disabled={pending} className="btn btn-signal btn-lg ml-auto" onClick={submit}>
               {pending ? "Saving…" : "Save my car"}
             </button>

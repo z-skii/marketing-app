@@ -173,17 +173,31 @@ export type VehicleSummary = {
   available: boolean;
   photo_url: string | null;
   zones: string[];
+  /** Still from the scan (front photo, or the model's poster once built). */
+  poster_url: string | null;
+  /** Set only when a reconstruction provider actually built a model. */
+  model_glb_url: string | null;
+  /** Status of the newest scan attached to this vehicle, or null if never scanned. */
+  scan_status: string | null;
+  scan_id: string | null;
 };
 
 export async function getMyVehicles(ownerId: string): Promise<VehicleSummary[]> {
   return sql<VehicleSummary>(
     `select v.id, v.year, v.make, v.model, v.color, v.body_type, v.city, v.status,
             v.verification::text as verification, v.available,
-            (select url from vehicle_photos p where p.vehicle_id = v.id
-              order by (p.angle = 'driver_side') desc, p.created_at limit 1) as photo_url,
+            coalesce((select url from vehicle_photos p where p.vehicle_id = v.id
+                       order by (p.angle = 'driver_side') desc, p.created_at limit 1),
+                     v.poster_url) as photo_url,
             coalesce((select array_agg(z.zone::text order by z.zone) from vehicle_zones z
-                       where z.vehicle_id = v.id and z.available), '{}') as zones
-       from vehicles v where v.owner_id = $1 order by v.created_at`,
+                       where z.vehicle_id = v.id and z.available), '{}') as zones,
+            v.poster_url, v.model_glb_url,
+            ls.status as scan_status,
+            coalesce(ls.id, v.scan_id) as scan_id
+       from vehicles v
+       left join lateral (select s.id, s.status from vehicle_scans s
+                           where s.vehicle_id = v.id order by s.created_at desc limit 1) ls on true
+      where v.owner_id = $1 order by v.created_at`,
     [ownerId],
   );
 }

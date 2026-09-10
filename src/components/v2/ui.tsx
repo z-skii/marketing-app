@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MagnifyingGlass, Bell } from "@phosphor-icons/react/dist/ssr";
 import { formatCredit } from "@/lib/money";
 
 /**
@@ -30,12 +31,13 @@ export function Money({
   );
 }
 
-export function Chip({ children, tone = "ink" }: { children: React.ReactNode; tone?: "ink" | "signal" | "faint" | "rise" }) {
+export function Chip({ children, tone = "ink" }: { children: React.ReactNode; tone?: "ink" | "signal" | "faint" | "rise" | "alert" }) {
   const tones = {
     ink: "bg-surface-2 text-ink",
     signal: "bg-signal text-signal-ink",
     faint: "bg-surface-2 text-ink-faint",
     rise: "bg-rise/15 text-rise",
+    alert: "bg-alert/15 text-alert",
   } as const;
   return (
     <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-display text-xs font-700 ${tones[tone]}`}>
@@ -44,13 +46,13 @@ export function Chip({ children, tone = "ink" }: { children: React.ReactNode; to
   );
 }
 
-const STATUS_TONES: Record<string, "ink" | "signal" | "faint" | "rise"> = {
+const STATUS_TONES: Record<string, "ink" | "signal" | "faint" | "rise" | "alert"> = {
   open: "rise", active: "rise", approved: "rise", paid: "rise", accepted: "rise",
   completed: "rise", published: "rise", verified: "rise", connected: "rise",
   draft: "faint", idea: "faint", unverified: "faint", disconnected: "faint",
   closed: "faint", unlisted: "faint", withdrawn: "faint",
-  rejected: "signal", declined: "signal", failed: "signal", cancelled: "signal",
-  disputed: "signal", revision_requested: "signal", proof_required: "signal",
+  rejected: "alert", declined: "alert", failed: "alert", cancelled: "faint",
+  disputed: "alert", revision_requested: "alert", proof_required: "alert",
 };
 
 export function StatusChip({ status }: { status: string }) {
@@ -125,7 +127,7 @@ export function SectionTitle({
         {count !== undefined && <span className="tnum ml-2 text-ink-faint">{count}</span>}
       </h2>
       {action && (
-        <Link href={action.href} className="font-display text-sm font-600 text-signal">
+        <Link href={action.href} className="link-row text-sm">
           {action.label}
         </Link>
       )}
@@ -175,19 +177,14 @@ export function ScreenHeader({
       </div>
       {right}
       {showSearch && (
-        <Link href="/search" aria-label="Search" className="flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-ink hover:bg-rule-strong">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-            <circle cx="8.8" cy="8.8" r="5.3" stroke="currentColor" strokeWidth="1.8" />
-            <path d="M13 13l4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
+        <Link href="/search" aria-label="Search" className="flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-ink">
+          <MagnifyingGlass size={22} aria-hidden />
         </Link>
       )}
-      <Link href="/alerts" aria-label={unread > 0 ? `${unread} unread notifications` : "Notifications"} className="relative flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-ink hover:bg-rule-strong md:hidden">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-          <path d="M10 3.5a4.4 4.4 0 0 1 4.4 4.4c0 3.4 1.3 4.6 1.3 4.6H4.3s1.3-1.2 1.3-4.6A4.4 4.4 0 0 1 10 3.5zM8.4 15.5a1.7 1.7 0 0 0 3.2 0" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-        </svg>
+      <Link href="/alerts" aria-label={unread > 0 ? `${unread} unread notifications` : "Notifications"} className="relative flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-ink rail:hidden">
+        <Bell size={22} aria-hidden />
         {unread > 0 && (
-          <span className="tnum absolute -top-0.5 -right-0.5 min-w-5 rounded-full bg-signal px-1.5 text-center font-display text-[0.6875rem] font-800 leading-5 text-signal-ink">
+          <span className="tnum absolute -top-0.5 -right-0.5 min-w-5 rounded-full bg-alert px-1.5 text-center font-display text-[0.6875rem] font-800 leading-5 text-white">
             {unread > 99 ? "99+" : unread}
           </span>
         )}

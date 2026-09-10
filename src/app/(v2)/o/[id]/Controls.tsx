@@ -37,7 +37,7 @@ export function ParticipateButton({ campaignId }: { campaignId: string }) {
       >
         {pending ? "One moment" : "Participate"}
       </button>
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
     </div>
   );
 }
@@ -67,7 +67,7 @@ export function StoryProofForm({ campaignId }: { campaignId: string }) {
           onChange={(e) => setStoryUrl(e.target.value)} placeholder="https://instagram.com/stories/..."
         />
       </label>
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
       <button
         type="button" disabled={pending || shots.length === 0 || !storyUrl.trim()}
         className="btn btn-signal btn-lg mt-3 w-full"
@@ -91,7 +91,7 @@ export function ApplyVehicleButton({ campaignId, vehicleId, first }: { campaignI
       >
         {pending ? "Applying" : "Apply with this vehicle"}
       </button>
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
     </div>
   );
 }
@@ -106,7 +106,7 @@ export function WithdrawCarButton({ campaignId }: { campaignId: string }) {
       >
         Withdraw
       </button>
-      {error && <span role="alert" className="text-sm text-signal">{error}</span>}
+      {error && <span role="alert" className="text-sm alert-text">{error}</span>}
     </span>
   );
 }
@@ -130,7 +130,7 @@ export function BookingProofForm({ bookingId }: { bookingId: string }) {
       >
         {pending ? "Sending" : "Send photo"}
       </button>
-      {error && <p role="alert" className="w-full text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="w-full text-sm alert-text">{error}</p>}
     </div>
   );
 }

@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { BookmarkSimple } from "@phosphor-icons/react";
 import { toggleSave } from "@/app/(v2)/actions";
 
-/** Bookmark toggle with instant feedback; the server confirms. */
+/** Bookmark toggle with instant feedback; the server confirms. 44px hit region. */
 export function SaveButton({
-  itemType, itemId, initialSaved,
-}: { itemType: string; itemId: string; initialSaved: boolean }) {
+  itemType, itemId, initialSaved, className = "",
+}: { itemType: string; itemId: string; initialSaved: boolean; className?: string }) {
   const [saved, setSaved] = useState(initialSaved);
+  const [pop, setPop] = useState(false);
   const [, startTransition] = useTransition();
 
   return (
@@ -15,23 +17,21 @@ export function SaveButton({
       type="button"
       aria-label={saved ? "Remove from saved" : "Save"}
       aria-pressed={saved}
-      onClick={() => {
-        setSaved(!saved);
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const next = !saved;
+        setSaved(next);
+        if (next) { setPop(true); window.setTimeout(() => setPop(false), 350); }
         startTransition(async () => {
           const result = await toggleSave(itemType, itemId);
           if (result.ok && result.saved !== undefined) setSaved(result.saved);
           else if (!result.ok) setSaved(saved);
         });
       }}
-      className={`flex items-center justify-center p-1.5 transition-colors ${saved ? "text-signal" : "text-ink hover:text-signal"}`}
+      className={`glass-tag flex h-11 w-11 items-center justify-center rounded-full transition-colors ${saved ? "text-signal" : "text-ink"} ${className}`}
     >
-      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden>
-        <path
-          d="M5 2.75h10v14.5L10 13.2l-5 4.05z"
-          fill={saved ? "currentColor" : "none"}
-          stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"
-        />
-      </svg>
+      <BookmarkSimple size={22} weight={saved ? "fill" : "regular"} className={pop ? "pop" : ""} aria-hidden />
     </button>
   );
 }

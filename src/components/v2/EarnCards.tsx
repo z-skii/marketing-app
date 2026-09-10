@@ -1,27 +1,29 @@
 import Link from "next/link";
+import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import {
-  deadlineLabel, isVideoUrl, vehicleQualifies,
+  deadlineLabel, vehicleQualifies,
   type Opportunity, type VehicleSummary,
 } from "@/lib/v2/opportunities";
 import { Avatar, Money } from "./ui";
 import { SaveButton } from "./SaveButton";
+import { MediaPreview } from "./MediaPreview";
 
 /**
- * The three earning types get three card anatomies. They share type, colour,
- * spacing and the one lime action; what leads differs:
+ * The three earning types on Home. The media IS the card: money and the
+ * one-line title sit on the picture, and only a business line, one meta
+ * row and the button live underneath. Nothing explains what Recreate means
+ * here; the detail screen does that.
  *
- *   Recreate  the reference video, the pay, spots and deadline
- *   Story     the 9:16 creative, the pay, follower and 24-hour requirements
- *   Car ad    the artwork, the monthly pay, city, duration, vehicle preferences
- *
- * Every card is one tap to the opportunity. Save sits in a glass circle so it
- * never competes with the money.
+ *   Recreate  the reference video, 9:16 on phones
+ *   Story     the Story creative, 9:16
+ *   Car ad    the campaign artwork or the business photo, 4:3
  */
 
 export type EarnCardProps = {
   card: Opportunity;
   vehicles?: VehicleSummary[];
   priority?: boolean;
+  index?: number;
 };
 
 export function EarnCard(props: EarnCardProps) {
@@ -41,181 +43,163 @@ export function placementLabel(zone: string) {
   return PLACEMENT_LABEL[zone] ?? zone.replaceAll("_", " ");
 }
 
-function BusinessLine({ card, compact = false }: { card: Opportunity; compact?: boolean }) {
+const SIZES = "(min-width: 1024px) 28rem, 100vw";
+
+function Verified() {
+  return <CheckCircle size={16} weight="fill" className="ml-1 inline-block align-[-2px] text-signal" aria-label="Verified business" />;
+}
+
+function BusinessLine({ card }: { card: Opportunity }) {
   return (
-    <div className="mt-2 flex items-center gap-2.5">
-      <Avatar src={card.business_logo} name={card.business_name} size={26} />
-      <p className="min-w-0 truncate text-sm">
-        <span className="font-600 text-ink">{card.business_name}</span>
-        {card.business_verified && <span className="ml-1 text-signal" aria-label="Verified business">✓</span>}
-        {card.city && !compact && <span className="text-ink-faint">{"  ·  "}{card.city}</span>}
+    <div className="flex min-w-0 items-center gap-2">
+      <Avatar src={card.business_logo} name={card.business_name} size={24} />
+      <p className="min-w-0 truncate font-display text-[0.9375rem] font-600 text-ink">
+        {card.business_name}
+        {card.business_verified && <Verified />}
       </p>
     </div>
   );
 }
 
-function Save({ card }: { card: Opportunity }) {
-  return (
-    <span className="glass-tag absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full">
-      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} />
-    </span>
-  );
+function Meta({ children }: { children: React.ReactNode }) {
+  return <p className="mt-1 line-clamp-2 text-sm leading-snug text-ink-faint">{children}</p>;
 }
 
-function Meta({ parts }: { parts: (string | null | false | undefined)[] }) {
-  const shown = parts.filter(Boolean) as string[];
-  if (shown.length === 0) return null;
-  return <p className="mt-2 text-sm text-ink-faint">{shown.join("  ·  ")}</p>;
-}
-
-/** Meta on the left, the one lime action on the right. */
-function ActionRow({ children, note }: { children: React.ReactNode; note?: React.ReactNode }) {
+function Foot({ card, meta, action }: { card: Opportunity; meta: React.ReactNode; action: string }) {
   return (
-    <div className="mt-3.5 flex items-center justify-between gap-3">
-      <div className="min-w-0 text-sm text-ink-faint">{note}</div>
-      <span className="btn btn-signal shrink-0">{children}</span>
+    <div className="flex items-end justify-between gap-3 px-4 pt-3 pb-4">
+      <div className="min-w-0">
+        <BusinessLine card={card} />
+        <Meta>{meta}</Meta>
+      </div>
+      <span className="btn btn-signal shrink-0">{action}</span>
     </div>
   );
 }
 
+function Tag({ children }: { children: React.ReactNode }) {
+  return <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">{children}</span>;
+}
+
+function Shell({ children, index = 0 }: { children: React.ReactNode; index?: number }) {
+  return (
+    <article className="reveal card relative overflow-hidden" style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}>
+      {children}
+    </article>
+  );
+}
+
+function OnMedia({ money, suffix, title, right }: { money: number; suffix?: string; title: string; right?: React.ReactNode }) {
+  return (
+    <div className="absolute inset-x-4 bottom-4">
+      <div className="flex items-end justify-between gap-3">
+        <Money cents={money} size="xl" suffix={suffix} />
+        {right && <span className="shrink-0 font-display text-sm font-700 text-ink">{right}</span>}
+      </div>
+      <h3 className="mt-1 line-clamp-2 font-display text-[1.375rem] leading-[1.1] font-800 tracking-[-0.02em] text-ink">{title}</h3>
+    </div>
+  );
+}
+
+function spots(card: Opportunity) {
+  const left = Math.max(card.slots - card.approved_count, 0);
+  return left > 0 ? `${left} spot${left === 1 ? "" : "s"}` : "Spots filled";
+}
+
 // ------------------------------------------------------------------ Recreate
 
-function RecreateCard({ card, priority }: EarnCardProps) {
-  const spotsLeft = Math.max(card.slots - card.approved_count, 0);
+function RecreateCard({ card, priority, index }: EarnCardProps) {
   const media = card.details.reference_media_url ?? card.business_cover;
-  const range = card.details.duration_seconds;
-
   return (
-    <article className="card relative overflow-hidden">
+    <Shell index={index}>
       <Link href={`/o/${card.id}`} className="block">
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-2 md:aspect-[16/9]">
+        <div className="relative aspect-[9/16] w-full overflow-hidden bg-surface-2 lg:aspect-[4/5]">
           {media ? (
-            isVideoUrl(media) ? (
-              <video src={media} muted playsInline preload="metadata" className="h-full w-full object-cover" />
-            ) : (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={media} alt="" className="h-full w-full object-cover" loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} />
-            )
+            <MediaPreview src={media} poster={card.business_cover} className="absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
           ) : (
             <NoPhoto name={card.business_name} logo={card.business_logo} />
           )}
-          <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-          <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">Recreate</span>
-          <span className="glass-tag absolute top-1/2 left-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full" aria-hidden>
-            <svg width="22" height="22" viewBox="0 0 20 20" fill="currentColor" className="ml-0.5 text-ink"><path d="M6 3.5v13l10-6.5z" /></svg>
-          </span>
-          <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3">
-            <Money cents={card.pay_cents} size="xl" />
-            {spotsLeft > 0 && (
-              <span className="font-display text-sm font-700 text-ink">{spotsLeft} spot{spotsLeft === 1 ? "" : "s"} left</span>
-            )}
-          </div>
+          <div className="media-scrim absolute inset-x-0 bottom-0 h-2/3" aria-hidden />
+          <Tag>Recreate</Tag>
+          <OnMedia money={card.pay_cents} title="Recreate this Reel" />
         </div>
-        <div className="p-4 pt-3.5">
-          <h3 className="font-display text-[1.25rem] leading-[1.15] font-800 tracking-[-0.02em] text-ink">Recreate this Reel</h3>
-          <BusinessLine card={card} />
-          <ActionRow note={[range ? `${range[0]} to ${range[1]} seconds` : card.requirements[0], deadlineLabel(card.deadline)].filter(Boolean).join("  ·  ")}>
-            Recreate
-          </ActionRow>
-        </div>
+        <Foot card={card} meta={[spots(card), deadlineLabel(card.deadline)].filter(Boolean).join(" · ")} action="Recreate" />
       </Link>
-      <Save card={card} />
-    </article>
+      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3" />
+    </Shell>
   );
 }
 
 // --------------------------------------------------------------------- Story
 
-function StoryCard({ card, priority }: EarnCardProps) {
-  const spotsLeft = Math.max(card.slots - card.approved_count, 0);
+function StoryCard({ card, priority, index }: EarnCardProps) {
   const creative = card.details.creative_url ?? card.business_cover;
   const minFollowers = card.details.min_followers ?? null;
   const liveHours = card.details.live_hours ?? 24;
+  const followers = minFollowers ? `${minFollowers >= 1000 ? `${Math.round(minFollowers / 1000)}K` : minFollowers}+ followers` : null;
 
   return (
-    <article className="card relative overflow-hidden">
-      <Link href={`/o/${card.id}`} className="flex">
-        <div className="relative w-[42%] shrink-0 overflow-hidden bg-surface-2 md:w-[36%]">
-          <div className="relative aspect-[9/16] w-full">
-            {creative ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={creative} alt="" className="absolute inset-0 h-full w-full object-cover" loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} />
-            ) : (
-              <NoPhoto name={card.business_name} logo={card.business_logo} />
-            )}
-            <span className="glass-tag absolute bottom-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">Story</span>
-          </div>
+    <Shell index={index}>
+      <Link href={`/o/${card.id}`} className="block">
+        <div className="relative aspect-[9/16] w-full overflow-hidden bg-surface-2 lg:aspect-[4/5]">
+          {creative ? (
+            <MediaPreview src={creative} className="absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
+          ) : (
+            <NoPhoto name={card.business_name} logo={card.business_logo} />
+          )}
+          <div className="media-scrim absolute inset-x-0 bottom-0 h-2/3" aria-hidden />
+          <Tag>Story</Tag>
+          <OnMedia money={card.pay_cents} title={`Post for ${liveHours} hours`} />
         </div>
-        <div className="flex min-w-0 flex-1 flex-col justify-center p-4">
-          <p className="text-sm text-ink-soft">Earn</p>
-          <Money cents={card.pay_cents} size="xl" />
-          <h3 className="mt-2 font-display text-[1.25rem] leading-[1.15] font-800 tracking-[-0.02em] text-ink">Post this to your Story</h3>
-          <BusinessLine card={card} compact />
-          <ul className="mt-3 flex flex-col gap-1 text-sm text-ink-soft">
-            <li>Keep it live {liveHours} hours</li>
-            {minFollowers ? <li>{minFollowers.toLocaleString()}+ followers</li> : null}
-          </ul>
-          <ActionRow note={spotsLeft > 0 ? `${spotsLeft} spot${spotsLeft === 1 ? "" : "s"} left` : "Spots filled"}>Story</ActionRow>
-        </div>
+        <Foot card={card} meta={[followers, spots(card)].filter(Boolean).join(" · ")} action="View" />
       </Link>
-      <Save card={card} />
-    </article>
+      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3" />
+    </Shell>
   );
 }
 
 // -------------------------------------------------------------------- Car ad
 
-function CarCard({ card, vehicles = [], priority }: EarnCardProps) {
+function CarCard({ card, vehicles = [], priority, index }: EarnCardProps) {
   const art = card.details.artwork_url ?? null;
   const photo = card.business_cover;
   const duration = card.details.duration_days ?? 30;
   const prefs = card.details.vehicle_prefs ?? {};
-  const prefLine = [
-    prefs.colors?.length ? `${prefs.colors.join(" or ")} vehicles preferred` : null,
-    prefs.body_types?.length ? `${prefs.body_types.join(" or ")} preferred` : null,
-  ].filter(Boolean).join(", ");
-  const placements = (card.details.placements ?? []).map(placementLabel).join(", ");
+  const prefLine = prefs.colors?.length
+    ? `${prefs.colors.join(" or ")} vehicles preferred`
+    : prefs.body_types?.length ? `${prefs.body_types.join(" or ")} preferred` : null;
   const match = vehicles.map((v) => ({ v, q: vehicleQualifies(v, card) })).find((m) => m.q.ok);
+  const action = match ? "Apply" : vehicles.length > 0 ? "Check my car" : "Check my car";
 
   return (
-    <article className="card relative overflow-hidden">
+    <Shell index={index}>
       <Link href={`/o/${card.id}`} className="block">
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-surface-2 md:aspect-[2/1]">
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-2">
           {photo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={photo} alt="" className="h-full w-full object-cover" loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} />
+            <MediaPreview src={photo} className="absolute inset-0 h-full w-full object-cover" priority={priority} sizes={SIZES} />
           ) : (
             <NoPhoto name={card.business_name} logo={card.business_logo} />
           )}
-          <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-          <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-700 text-ink">Car ad</span>
+          <div className="media-scrim absolute inset-x-0 bottom-0 h-2/3" aria-hidden />
+          <Tag>Car ad</Tag>
           {art && (
-            <span className="glass-tag absolute top-3 right-14 flex items-center gap-2 rounded-[8px] p-1 pr-2.5">
+            <span className="glass-tag absolute top-3 left-1/2 flex -translate-x-1/2 items-center rounded-[8px] p-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={art} alt="Campaign artwork" width={64} height={32} className="h-8 w-16 rounded-[5px] object-cover" loading="lazy" />
-              <span className="font-display text-xs font-700 text-ink">Artwork</span>
+              <img src={art} alt="Campaign artwork" width={72} height={36} className="h-9 w-[4.5rem] rounded-[5px] object-cover" loading="lazy" decoding="async" />
             </span>
           )}
-          <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3">
-            <Money cents={card.pay_cents} size="xl" suffix="/ month" />
-            <span className="font-display text-sm font-700 text-ink">{duration} days</span>
-          </div>
+          <OnMedia money={card.pay_cents} suffix="/ mo" title="Drive with this campaign" right={`${duration} days`} />
         </div>
-        <div className="p-4 pt-3.5">
-          <h3 className="font-display text-[1.25rem] leading-[1.15] font-800 tracking-[-0.02em] text-ink">Drivers wanted for this campaign</h3>
-          <BusinessLine card={card} />
-          <Meta parts={[placements, prefLine]} />
-          {match ? (
-            <ActionRow note={<span className="font-display font-700 text-signal">Your {match.v.make} {match.v.model} qualifies ✓</span>}>Apply</ActionRow>
-          ) : vehicles.length > 0 ? (
-            <ActionRow note="Open it to check your car">See if my car qualifies</ActionRow>
-          ) : (
-            <ActionRow note="Add your car to apply">Add my car</ActionRow>
-          )}
-        </div>
+        <Foot
+          card={card}
+          meta={match
+            ? <span className="font-display font-700 text-signal">Your {match.v.make} {match.v.model} qualifies</span>
+            : [card.city, prefLine].filter(Boolean).join(" · ")}
+          action={action}
+        />
       </Link>
-      <Save card={card} />
-    </article>
+      <SaveButton itemType="campaign" itemId={card.id} initialSaved={card.saved} className="absolute top-3 right-3" />
+    </Shell>
   );
 }
 

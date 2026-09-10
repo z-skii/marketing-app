@@ -4,7 +4,7 @@ import type { V2Context } from "@/lib/v2/core";
 import {
   fmtDate, getMyVehicles, vehicleQualifies, type Opportunity, type VehicleSummary,
 } from "@/lib/v2/opportunities";
-import { Avatar, Money, SectionTitle } from "@/components/v2/ui";
+import { Avatar, Money } from "@/components/v2/ui";
 import { NoPhoto, placementLabel } from "@/components/v2/EarnCards";
 import { ApplyVehicleButton, BookingProofForm, WithdrawCarButton } from "./Controls";
 import { BusinessRow, StateCard, StickyCta, TopBar, WhatToDo } from "./shared";
@@ -58,7 +58,7 @@ export async function CarView({ o, ctx, open }: { o: Opportunity; ctx: V2Context
       : firstMatch ? { href: "#apply", label: "Apply with my car" } : null;
 
   return (
-    <main id="main" className={`mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8 ${sticky ? "pb-32 md:pb-8" : ""}`}>
+    <main id="main" className={`mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8 ${sticky ? "pb-32 rail:pb-8" : ""}`}>
       <TopBar o={o} open={open} />
 
       {/* Hero: the business's photo with the artwork set into it. */}
@@ -91,7 +91,7 @@ export async function CarView({ o, ctx, open }: { o: Opportunity; ctx: V2Context
       </div>
 
       <WhatToDo items={o.requirements} />
-      {o.brief && <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-soft">{o.brief}</p>}
+      
 
       <section className="mt-8">
         {live?.status === "applied" && (
@@ -104,7 +104,7 @@ export async function CarView({ o, ctx, open }: { o: Opportunity; ctx: V2Context
         )}
         {live?.status === "declined" && (
           <StateCard title="Not selected this time" body="The business went with other drivers. Your car stays listed for the next campaign.">
-            <Link href="/home?f=cars" className="btn btn-sm mt-3">Other car campaigns →</Link>
+            <Link href="/home?f=cars" className="btn btn-sm mt-3">Other car campaigns</Link>
           </StateCard>
         )}
         {live?.status === "accepted" && <BookingState booking={booking} vehicle={appliedWith} />}
@@ -116,7 +116,7 @@ export async function CarView({ o, ctx, open }: { o: Opportunity; ctx: V2Context
             </StateCard>
           ) : (
             <>
-              <SectionTitle>Your {vehicles.length === 1 ? "car" : "cars"}</SectionTitle>
+              <h2 className="eyebrow">Your {vehicles.length === 1 ? "car" : "cars"}</h2>
               <ul className="row-list mt-2">
                 {checks.map(({ v, q }, i) => (
                   <li key={v.id} className={`card p-4 ${q.ok && open ? "card-signal" : ""}`}>
@@ -137,7 +137,7 @@ export async function CarView({ o, ctx, open }: { o: Opportunity; ctx: V2Context
                       </ul>
                     )}
                     {!q.ok && v.status !== "listed" && (
-                      <Link href={`/me/vehicles/${v.id}`} className="btn btn-sm mt-3">Finish my car →</Link>
+                      <Link href={`/me/vehicles/${v.id}`} className="btn btn-sm mt-3">Finish my car</Link>
                     )}
                     {q.ok && open && (
                       <ApplyVehicleButton campaignId={o.id} vehicleId={v.id} first={firstMatch?.v.id === v.id && i >= 0} />
@@ -194,7 +194,7 @@ function BookingState({
       {dates && <p className="mt-2 text-sm text-ink-faint">{dates}</p>}
       {booking.status === "proof_required" && <BookingProofForm bookingId={booking.id} />}
       {booking.status === "active" && (
-        <Link href="/earnings" className="btn btn-sm mt-3">See earnings →</Link>
+        <Link href="/earnings" className="btn btn-sm mt-3">See earnings</Link>
       )}
     </StateCard>
   );

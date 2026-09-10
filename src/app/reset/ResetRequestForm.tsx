@@ -45,7 +45,7 @@ export function ResetRequestForm() {
         />
       </div>
       {state.error && (
-        <p role="alert" className="text-sm text-signal">{state.error}</p>
+        <p role="alert" className="text-sm alert-text">{state.error}</p>
       )}
       <button type="submit" className="btn btn-signal btn-lg mt-2 w-full" disabled={pending}>
         {pending ? "Sending…" : "Send reset link"}

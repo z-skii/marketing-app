@@ -28,7 +28,7 @@ export function PayoutButton({ availableCents, minCents }: { availableCents: num
         {pending ? "Requesting" : "Request payout"}
       </button>
       {message && (
-        <p role="alert" className={`mt-3 text-sm ${message.ok ? "text-rise" : "text-signal"}`}>
+        <p role="alert" className={`mt-3 text-sm ${message.ok ? "text-rise" : "alert-text"}`}>
           {message.text}
         </p>
       )}

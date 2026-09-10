@@ -72,7 +72,7 @@ export function ConfirmClient() {
 
   return (
     <div className="mt-6">
-      <p role="alert" className="font-mono text-sm text-signal">
+      <p role="alert" className="font-mono text-sm alert-text">
         {message}
       </p>
       <div className="mt-6 flex flex-wrap gap-3">

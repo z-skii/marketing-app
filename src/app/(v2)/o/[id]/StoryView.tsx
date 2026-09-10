@@ -5,7 +5,7 @@ import type { V2Context } from "@/lib/v2/core";
 import { storyVerification } from "@/lib/v2/instagram";
 import { deadlineLabel, type Opportunity } from "@/lib/v2/opportunities";
 import { formatCredit } from "@/lib/money";
-import { Money, SectionTitle } from "@/components/v2/ui";
+import { Money } from "@/components/v2/ui";
 import { NoPhoto } from "@/components/v2/EarnCards";
 import { ParticipateButton, StoryProofForm } from "./Controls";
 import { BusinessRow, StateCard, StickyCta, TopBar, WhatToDo } from "./shared";
@@ -61,18 +61,17 @@ export async function StoryView({ o, ctx, open }: { o: Opportunity; ctx: V2Conte
   const returnTo = encodeURIComponent(`/o/${o.id}`);
 
   return (
-    <main id="main" className={`mx-auto w-full max-w-4xl px-4 py-4 md:px-8 md:py-8 ${sticky ? "pb-32 md:pb-8" : ""}`}>
+    <main id="main" className={`mx-auto w-full max-w-4xl px-4 py-4 md:px-8 md:py-8 ${sticky ? "pb-32 rail:pb-8" : ""}`}>
       <TopBar o={o} open={open} />
 
       <div className="mt-4 lg:grid lg:grid-cols-[minmax(0,20rem)_1fr] lg:items-start lg:gap-8">
         {/* Hero: the 9:16 creative, exactly as it will be posted. */}
         <div className="relative mx-auto w-full max-w-[24rem] md:max-w-none">
           {creative ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={creative} alt="The story creative" fetchPriority="high"
-              className="mx-auto block max-h-[70vh] w-auto rounded-[var(--radius-card)] object-contain lg:max-h-none lg:w-full"
-            />
+            <div className="relative mx-auto aspect-[9/16] w-full max-w-[24rem] overflow-hidden rounded-[var(--radius-card)] bg-surface-2 lg:max-w-none">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={creative} alt="The story creative" fetchPriority="high" width={1080} height={1920} className="absolute inset-0 h-full w-full object-cover" />
+            </div>
           ) : (
             <div className="mx-auto aspect-[9/16] w-full max-w-[16rem] overflow-hidden rounded-[var(--radius-card)] md:max-w-none">
               <NoPhoto name={o.business_name} logo={o.business_logo} />
@@ -91,14 +90,11 @@ export async function StoryView({ o, ctx, open }: { o: Opportunity; ctx: V2Conte
 
           <WhatToDo items={requirements} />
 
-          <section className="card-2 mt-6 p-4">
-            <p className="font-display text-[0.9375rem] font-700">How verification works</p>
-            <p className="mt-1 text-sm leading-relaxed text-ink-soft">
-              {verification.mode === "manual"
-                ? `Manual today. You send a screenshot and the story link, ${o.business_name} checks them and approves. Nothing is checked automatically yet.`
-                : verification.note}
-            </p>
-          </section>
+          <p className="mt-3 text-sm text-ink-faint">
+            {verification.mode === "manual"
+              ? `Verified by ${o.business_name} from your screenshot and story link.`
+              : verification.note}
+          </p>
 
           <section className="mt-6">
             {needsInstagram && (
@@ -111,14 +107,14 @@ export async function StoryView({ o, ctx, open }: { o: Opportunity; ctx: V2Conte
                 title={`This one needs ${(minFollowers ?? 0).toLocaleString()}+ followers`}
                 body={`@${ig.handle ?? "you"} has ${(ig.followers ?? 0).toLocaleString()} on file. If that changed, update it on your profile.`}
               >
-                <Link href={`/me/instagram?return=${returnTo}`} className="btn btn-sm mt-3">Update my Instagram →</Link>
+                <Link href={`/me/instagram?return=${returnTo}`} className="btn btn-sm mt-3">Update my Instagram</Link>
               </StateCard>
             )}
 
             {eligible && state === "none" && !participating && (
               canParticipate ? (
                 <>
-                  <SectionTitle>Take a spot</SectionTitle>
+                  <h2 className="eyebrow">Take a spot</h2>
                   <p className="mt-1 mb-3 text-sm text-ink-soft">
                     Posting as @{ig.handle}. Then you download the creative, post it, and send proof.
                   </p>
@@ -129,7 +125,7 @@ export async function StoryView({ o, ctx, open }: { o: Opportunity; ctx: V2Conte
                   title={!open ? "This campaign is closed" : "All spots are taken"}
                   body={!open ? "It is no longer taking stories." : "Every paid spot is already used."}
                 >
-                  <Link href="/home" className="btn btn-sm mt-3">Find another →</Link>
+                  <Link href="/home" className="btn btn-sm mt-3">Find another</Link>
                 </StateCard>
               )
             )}
@@ -141,7 +137,7 @@ export async function StoryView({ o, ctx, open }: { o: Opportunity; ctx: V2Conte
                     <StateCard tone="signal" title="Changes requested" body={latest.review_note ?? "The business asked for a change. Send new proof."} />
                   </div>
                 )}
-                <SectionTitle>Three steps</SectionTitle>
+                <h2 className="eyebrow">Three steps</h2>
                 <ol className="row-list mt-2">
                   <li className="card flex gap-3 p-4">
                     <span className="tnum font-display text-lg font-800 text-signal">1</span>
@@ -178,12 +174,12 @@ export async function StoryView({ o, ctx, open }: { o: Opportunity; ctx: V2Conte
 
             {["submitted", "under_review"].includes(state) && (
               <StateCard title="Proof sent" body={`${o.business_name} checks it and approves. Then ${formatCredit(o.pay_cents)} goes to your earnings.`}>
-                <Link href="/activity" className="btn btn-sm mt-3">See my activity →</Link>
+                <Link href="/activity" className="btn btn-sm mt-3">See my activity</Link>
               </StateCard>
             )}
             {["approved", "paid"].includes(state) && (
               <StateCard title={`Approved, ${formatCredit(paid?.cents ?? o.pay_cents)} paid to your earnings`} body="Thanks for posting. The money is ready to pay out.">
-                <Link href="/earnings" className="btn btn-signal btn-sm mt-3">See earnings →</Link>
+                <Link href="/earnings" className="btn btn-signal btn-sm mt-3">See earnings</Link>
               </StateCard>
             )}
             {state === "rejected" && latest && (

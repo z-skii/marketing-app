@@ -34,6 +34,8 @@ const DEFAULTS: Record<string, string> = {
   // V3 business subscription plans (monthly, cents). Two plans only.
   plan_essential_cents: "9900",
   plan_growth_cents: "19900",
+  // V3 Recreate loop: default pay per approved video suggested in a brief.
+  recreate_default_pay_cents: "7500",
 };
 
 const CACHE_MS = 10_000;

@@ -42,7 +42,7 @@ export function ConnectForm({ returnTo, initialHandle }: { returnTo: string | nu
         />
         <span className="text-xs text-ink-faint">Story campaigns often set a minimum. This number decides which ones you can take.</span>
       </label>
-      {error && <p role="alert" className="text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="text-sm alert-text">{error}</p>}
       <button type="submit" disabled={pending || !handle.trim() || !followers} className="btn btn-signal btn-lg w-full">
         {pending ? "Saving…" : returnTo ? "Save and go back" : "Add Instagram"}
       </button>

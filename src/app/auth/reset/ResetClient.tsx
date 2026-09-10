@@ -53,7 +53,7 @@ export function ResetClient() {
   if (stage.kind === "failed") {
     return (
       <div className="mt-6">
-        <p role="alert" className="text-[0.9375rem] text-signal">{stage.message}</p>
+        <p role="alert" className="text-[0.9375rem] alert-text">{stage.message}</p>
         <Link href="/reset" className="btn mt-6">
           Request a new link
         </Link>
@@ -95,7 +95,7 @@ export function ResetClient() {
         placeholder="Same password again"
       />
       {error && (
-        <p role="alert" className="text-sm text-signal">{error}</p>
+        <p role="alert" className="text-sm alert-text">{error}</p>
       )}
       <button type="submit" className="btn btn-signal btn-lg mt-1 w-full" disabled={saving}>
         {saving ? "Saving…" : "Save new password"}

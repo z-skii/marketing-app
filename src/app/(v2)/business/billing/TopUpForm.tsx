@@ -34,7 +34,7 @@ export function TopUpForm({ minCents, maxCents }: { minCents: number; maxCents: 
           aria-label="Amount in dollars"
         />
       </label>
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
       <button
         type="button" disabled={pending || !valid} className="btn btn-signal btn-lg mt-4 w-full"
         onClick={() =>

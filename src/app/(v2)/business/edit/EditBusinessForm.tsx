@@ -114,7 +114,7 @@ export function EditBusinessForm({ business }: { business: Business }) {
       )}
 
       {message && (
-        <p role="alert" className={`text-sm ${message.ok ? "text-rise" : "text-signal"}`}>{message.text}</p>
+        <p role="alert" className={`text-sm ${message.ok ? "text-rise" : "alert-text"}`}>{message.text}</p>
       )}
       <button type="submit" disabled={pending} className="btn btn-signal btn-lg mt-2 w-full">
         {pending ? "Saving…" : "Save"}

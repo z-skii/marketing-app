@@ -35,7 +35,7 @@ export function NewBusinessForm({ defaultCity }: { defaultCity: string }) {
         <span className={LABEL}>City</span>
         <input className="field" maxLength={60} value={city} onChange={(e) => setCity(e.target.value)} placeholder="Raleigh, NC" />
       </label>
-      {error && <p role="alert" className="text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="text-sm alert-text">{error}</p>}
       <button type="submit" disabled={pending || name.trim().length < 2} className="btn btn-signal btn-lg mt-2 w-full">
         {pending ? "Creating…" : "Create business"}
       </button>

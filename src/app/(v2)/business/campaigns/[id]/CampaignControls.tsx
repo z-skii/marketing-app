@@ -35,9 +35,9 @@ function ErrorLine({ error }: { error: string | null }) {
   if (!error) return null;
   const credit = /credit/i.test(error);
   return (
-    <p role="alert" className="mt-2 text-sm text-signal">
+    <p role="alert" className="mt-2 text-sm alert-text">
       {error}
-      {credit && <> <Link href="/business/billing" className="font-display font-700 underline underline-offset-2">Add credit →</Link></>}
+      {credit && <> <Link href="/business/billing" className="font-display font-700 underline underline-offset-2">Add credit</Link></>}
     </p>
   );
 }
@@ -69,7 +69,7 @@ export function CloseCampaignButton({ campaignId }: { campaignId: string }) {
         {pending ? "Closing…" : "Yes, close"}
       </button>
       <button type="button" className="btn btn-ghost btn-sm" onClick={() => setConfirm(false)}>Keep it open</button>
-      {error && <span role="alert" className="text-sm text-signal">{error}</span>}
+      {error && <span role="alert" className="text-sm alert-text">{error}</span>}
     </span>
   );
 }

@@ -62,7 +62,7 @@ export function OwnerSwitches({
         on={listed} onLabel="Listed" offLabel="Unlisted" pending={pending}
         onToggle={() => run(() => setVehicleListed(vehicleId, !listed))}
       />
-      {error && <p role="alert" className="text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="text-sm alert-text">{error}</p>}
     </div>
   );
 }
@@ -85,7 +85,7 @@ export function VerificationCard({
       <span className="min-w-0">
         <span className={`block font-display text-[0.9375rem] font-700 ${verification === "verified" ? "text-signal" : ""}`}>{copy.title}</span>
         <span className="block text-sm text-ink-faint">{copy.sub}</span>
-        {error && <span role="alert" className="mt-1 block text-sm text-signal">{error}</span>}
+        {error && <span role="alert" className="mt-1 block text-sm alert-text">{error}</span>}
       </span>
       {["unverified", "rejected"].includes(verification) && (
         <button type="button" disabled={pending} className="btn btn-sm shrink-0" onClick={() => run(() => requestVehicleVerification(vehicleId))}>
@@ -128,7 +128,7 @@ export function ProofForm({ bookingId }: { bookingId: string }) {
         </button>
       </div>
       {done && !error && <p className="mt-2 text-sm text-rise">Proof sent. The business will see it.</p>}
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
     </div>
   );
 }

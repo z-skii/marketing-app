@@ -27,7 +27,7 @@ export function ChoosePlanButton({
       >
         {pending ? "One moment…" : label}
       </button>
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
     </div>
   );
 }
@@ -55,7 +55,7 @@ export function CancelPlanButton({ businessId }: { businessId: string }) {
         {pending ? "Cancelling…" : "Yes, cancel"}
       </button>
       <button type="button" className="btn btn-ghost btn-sm" onClick={() => setConfirm(false)}>Keep it</button>
-      {error && <span role="alert" className="text-sm text-signal">{error}</span>}
+      {error && <span role="alert" className="text-sm alert-text">{error}</span>}
     </span>
   );
 }

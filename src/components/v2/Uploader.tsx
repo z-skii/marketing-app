@@ -76,7 +76,7 @@ export function Uploader({
           <div className="h-1 rounded-full bg-signal transition-all" style={{ width: `${progress}%` }} />
         </div>
       )}
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
     </div>
   );
 }

@@ -103,13 +103,10 @@ export default async function LandingPage() {
           <div className="md:grid md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-center md:gap-12">
             <div>
               <h1 className="font-display text-[2.75rem] leading-[0.98] font-800 tracking-[-0.04em] md:text-[4.5rem]">
-                Get paid to promote businesses.
+                Recreate.<br />Post.<br />Drive.<br /><span className="text-signal">Get paid.</span>
               </h1>
-              <p className="mt-5 font-display text-[1.25rem] leading-snug font-700 tracking-[-0.02em] text-ink-soft md:text-[1.5rem]">
-                Recreate. Post. Drive. Get paid.
-              </p>
-              <p className="mt-4 max-w-md text-[0.9375rem] leading-relaxed text-ink-faint">
-                Local businesses post campaigns. You do one real thing with your phone or your car, and the money lands in your earnings.
+              <p className="mt-5 max-w-md font-display text-[1.25rem] leading-snug font-700 tracking-[-0.02em] text-ink-soft md:text-[1.5rem]">
+                Local businesses pay you to do one real thing with your phone or your car.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link href="/sign-up" className="btn btn-signal btn-lg">Create account</Link>

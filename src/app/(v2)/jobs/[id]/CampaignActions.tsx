@@ -38,7 +38,7 @@ export function ApplyForm({ campaignId }: { campaignId: string }) {
         onChange={(e) => setMessage(e.target.value)}
         placeholder="A short pitch and links to relevant work"
       />
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
       <button
         type="button" disabled={pending} className="btn btn-signal btn-lg mt-3 w-full"
         onClick={() => run(() => applyToCampaign(campaignId, message))}
@@ -92,7 +92,7 @@ export function SubmitForm({ campaignId, rightsNote }: { campaignId: string; rig
         <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} className="mt-1 h-4 w-4 accent-signal" />
         <span className="text-ink-soft">{rightsNote}</span>
       </label>
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
       <button
         type="button" disabled={pending || urls.length === 0 || !ack}
         className="btn btn-signal btn-lg mt-3 w-full"
@@ -135,7 +135,7 @@ export function ReviewControls({ submissionId }: { submissionId: string }) {
           Reject
         </button>
       </div>
-      {error && <p role="alert" className="mt-2 text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}
     </div>
   );
 }
@@ -156,7 +156,7 @@ export function DecideApplication({ applicationId }: { applicationId: string }) 
       >
         Decline
       </button>
-      {error && <p role="alert" className="text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="text-sm alert-text">{error}</p>}
     </div>
   );
 }
@@ -192,7 +192,7 @@ export function ReviewStars({
       >
         Rate
       </button>
-      {error && <p role="alert" className="text-sm text-signal">{error}</p>}
+      {error && <p role="alert" className="text-sm alert-text">{error}</p>}
     </div>
   );
 }

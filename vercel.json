@@ -12,6 +12,10 @@
     {
       "path": "/api/agents/generate",
       "schedule": "30 13 * * *"
+    },
+    {
+      "path": "/api/jobs/run",
+      "schedule": "*/5 * * * *"
     }
   ]
 }

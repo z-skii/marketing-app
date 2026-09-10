@@ -5,6 +5,11 @@ import { sql, sqlOne } from "@/lib/db";
 import { notifyMany, requireBusinessMember, requireOnboarded } from "@/lib/v2/core";
 import { formatCredit } from "@/lib/money";
 import { ZONES } from "@/app/(v2)/cars/zones";
+import type { CampaignBrief } from "@/lib/ai/types";
+import { normalizeBrief } from "@/lib/ai/brief";
+import { getBrief, markBriefUsed } from "@/lib/ai/briefs";
+import { buildCreatorGuide } from "@/lib/ai/guide";
+import { isImageUrl } from "@/lib/ai/client";
 
 /**
  * Creating one of the three campaign types. Each wizard collects a few
@@ -25,6 +30,11 @@ export type RecreateInput = {
   slots: number;
   deadline?: string;
   city: string;
+  /** A stored brief (from Trends) the campaign was built from. */
+  briefId?: string;
+  /** The structured brief as edited in the wizard (`brief` is the campaign text); validated and clamped server-side. */
+  campaignBrief?: CampaignBrief;
+  trendId?: string;
 };
 
 export type StoryInput = {
@@ -98,6 +108,22 @@ export async function createEarnCampaign(input: EarnCampaignInput): Promise<Fail
     const parsed = parseDeadline(input.deadline);
     if (parsed === undefined) return fail("Deadline must be in the future.");
     deadline = parsed;
+
+    // A brief from the Recreate loop: keep it, derive the creator guide from
+    // it, and remember the trend it came from. The stored brief must belong
+    // to this business; the edited copy is validated like model output.
+    const stored = input.briefId ? await getBrief(input.briefId, input.businessId) : null;
+    if (input.briefId && !stored) return fail("That brief is no longer available. Start again from Trends.");
+    const structured = input.campaignBrief ? normalizeBrief(input.campaignBrief) : stored?.brief ?? null;
+    if (input.campaignBrief && !structured) return fail("The brief is missing something. Check the steps and length.");
+    if (structured) {
+      const { guide } = await buildCreatorGuide(structured, { referenceFrameUrls: isImageUrl(media) ? [media] : [] });
+      details.brief = structured;
+      details.guide = guide;
+      if (!details.duration_seconds) details.duration_seconds = structured.duration_seconds;
+    }
+    const trendId = input.trendId ?? stored?.trend_id ?? null;
+    if (trendId && /^[0-9a-f-]{36}$/i.test(trendId)) details.trend_id = trendId;
   } else if (input.kind === "instagram_story") {
     payCents = Math.round(input.payDollars * 100);
     if (!Number.isFinite(payCents) || payCents < 500 || payCents > 100_000) return fail("Pay must be between $5 and $1,000 per story.");
@@ -166,6 +192,8 @@ export async function createEarnCampaign(input: EarnCampaignInput): Promise<Fail
       input.publish ? "open" : "draft",
     ],
   );
+
+  if (campaign && input.kind === "recreate_reel" && input.briefId) await markBriefUsed(input.briefId);
 
   if (input.publish && campaign) {
     const audience = await sql<{ id: string }>(

@@ -76,7 +76,7 @@ export default async function CreatePage({
                 </div>
                 <div className="flex items-center justify-between gap-3 p-4">
                   <p className="text-[0.9375rem] leading-relaxed text-ink-soft">{o.body}</p>
-                  <span aria-hidden className="text-ink-faint">→</span>
+                  <span aria-hidden className="text-ink-faint"></span>
                 </div>
               </Link>
             </li>

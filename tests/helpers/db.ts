@@ -32,7 +32,9 @@ export async function truncateAll() {
       car_offers, car_bookings, car_proofs, conversations, conversation_members,
       messages, notifications, notification_prefs, follows, saved_items, blocks,
       reviews, reports, connected_accounts, calendar_posts, marketing_recommendations,
-      social_accounts, business_subscriptions
+      social_accounts, business_subscriptions, trend_items, campaign_briefs,
+      content_shoots, brand_kits, social_snapshots, google_health_checks,
+      jobs, vehicle_scans
       restart identity cascade;
     delete from auth.users;
   `);

@@ -24,7 +24,7 @@ export function CreatorForm({ initial }: { initial: { portfolioUrl: string; veri
           onChange={(e) => setPortfolioUrl(e.target.value)} placeholder="https://instagram.com/you" />
       </label>
 
-      {message && <p role="alert" className={`text-sm ${message.ok ? "text-rise" : "text-signal"}`}>{message.text}</p>}
+      {message && <p role="alert" className={`text-sm ${message.ok ? "text-rise" : "alert-text"}`}>{message.text}</p>}
 
       {canRequest ? (
         <button

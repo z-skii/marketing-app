@@ -110,7 +110,7 @@ export default async function EarningsPage() {
             </p>
           )}
           <p className="mt-3 text-sm text-ink-faint">
-            Payouts are sent manually by TapMart after you request one. TapMart&apos;s {feePct}% fee is already taken out of the amounts shown.
+            Sent by TapMart within a few days. The {feePct}% fee is already out.
           </p>
         </div>
       </section>
@@ -120,7 +120,7 @@ export default async function EarningsPage() {
         {rows.length === 0 && (
           <div className="card-2 mt-3 p-4 text-sm text-ink-soft">
             Approved versions, stories and car ad payments land here.{" "}
-            <Link href="/home" className="font-display font-600 text-signal">Find something that pays →</Link>
+            <Link href="/home" className="font-display font-600 text-signal">Find something that pays</Link>
           </div>
         )}
         <ul className="row-list mt-3">

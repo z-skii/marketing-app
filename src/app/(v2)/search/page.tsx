@@ -66,7 +66,7 @@ export default async function SearchPage({
                     <span className="block truncate font-display text-[1.0625rem] font-800 tracking-[-0.02em]">{h.title}</span>
                     {h.subtitle && <span className="block truncate text-sm text-ink-faint">{h.subtitle}</span>}
                   </span>
-                  <span aria-hidden className="text-ink-faint">→</span>
+                  <span aria-hidden className="text-ink-faint"></span>
                 </Link>
               </li>
             ))}

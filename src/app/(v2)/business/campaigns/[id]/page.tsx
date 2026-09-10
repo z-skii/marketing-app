@@ -181,8 +181,8 @@ export default async function CampaignManagePage({
             </div>
           )}
           {campaign.reference_url && (
-            <a href={campaign.reference_url} target="_blank" rel="noreferrer" className="mt-3 inline-block font-display text-sm font-600 text-signal">
-              Open the reference →
+            <a href={campaign.reference_url} target="_blank" rel="noreferrer" className="mt-3 inline-block link-row text-sm">
+              Open the reference
             </a>
           )}
           <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -402,7 +402,7 @@ function SubmissionCard({ s, kind }: { s: SubmissionRow; kind: "recreate" | "sto
         {kind === "story" && (
           <p className="mt-3 text-sm">
             {s.meta?.story_url ? (
-              <a href={s.meta.story_url} target="_blank" rel="noreferrer" className="font-display font-600 text-signal">Open the story →</a>
+              <a href={s.meta.story_url} target="_blank" rel="noreferrer" className="font-display font-600 text-signal">Open the story</a>
             ) : (
               <span className="text-ink-faint">No story link</span>
             )}
