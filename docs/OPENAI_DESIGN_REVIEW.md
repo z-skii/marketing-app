@@ -7,19 +7,29 @@ redesigns from scratch.
 
 ## How it works
 
-`scripts/design-review.mjs` sends one request to OpenAI's chat completions
-endpoint with:
+`scripts/design-review.mjs` sends one request to OpenAI's Responses API
+(background mode, polled) with:
 
-1. the screenshot (base64, `detail: high`),
+1. the CURRENT screen screenshot (base64, `detail: high`),
 2. `docs/TAPMART_PRODUCT_BRAIN.md` as the system prompt (product structure and
    the design rules),
-3. the screen name and any extra instructions.
+3. the PRIMARY reference image, `docs/design-references/tapmart-primary-reference.png`,
+   labelled as the visual north star (quality, design language and polish
+   target, never a template to copy),
+4. the screen name and any extra instructions.
 
-It asks for a strict JSON answer (`response_format: json_schema`) with a
-verdict, a TapMart-match score, a generic-AI-look score, eight rule scores
-(clutter, text amount, media size, hierarchy, spacing, card overuse, money
-visibility, CTA visibility), things to keep, animation suggestions, and a
-numbered checklist where every item is one concrete change. The tool prints
+The reviewer is a design director, not a linter: it may recommend deleting
+sections, moving information, doubling media, replacing cards with rows,
+media rails, full-bleed visuals and recomposition. Claude stays the
+engineer; OpenAI never touches files.
+
+It asks for a strict JSON answer with a verdict, a three-second read,
+TapMart-match, reference-match, premium-feel and generic-AI-look scores,
+twelve rule scores (clutter, text amount, media size, hierarchy, spacing,
+card overuse, money visibility, CTA visibility, lime restraint, quiet
+secondary text, typography, navigation and glass), things to keep,
+animation suggestions, and a numbered checklist where every item is one
+concrete change. The tool prints
 the review as Markdown and saves `.md` and `.json` copies under
 `design-reviews/` (ignored by git).
 
@@ -33,6 +43,8 @@ npm run design-review -- ./screenshots/business-home.png "Business Home"
 npm run design-review -- ./screenshots/business-home.png "Business Home" "focus on the people cards, ignore the cars rail"
 npm run design-review -- ./screenshots/content.png "Content" --effort high
 npm run design-review -- ./screenshots/content.png "Content" --dry-run
+npm run design-review -- ./screenshots/content.png "Content" --reference docs/design-references/other.png
+npm run design-review -- ./screenshots/content.png "Content" --no-reference
 ```
 
 Screenshots: PNG, JPG or WebP, under 18 MB. Phone captures at 390 wide (2x
@@ -78,6 +90,7 @@ navigation shell.
   names, handles, business names and money figures from the development
   database; do not send production customer data.
 - The full text of `docs/TAPMART_PRODUCT_BRAIN.md`.
+- The reference image in `docs/design-references/`.
 - The screen name and instructions.
 
 Nothing else: no source code, no repository files, no environment variables.

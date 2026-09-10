@@ -9,7 +9,11 @@ rebuilt screen, a new card type, a new navigation shell):
 2. Screenshot it with Playwright (phone 390x844 at 2x; desktop 1360 when the
    screen has a rail layout).
 3. Run `npm run design-review -- <screenshot> "<Screen name>"` and read the
-   checklist (see docs/OPENAI_DESIGN_REVIEW.md).
+   checklist (see docs/OPENAI_DESIGN_REVIEW.md). The reviewer sends the
+   screenshot, the product brain and the primary reference image
+   (docs/design-references/tapmart-primary-reference.png, the visual north
+   star, a quality bar and not a template). Apply substantial
+   recommendations too (delete, move, enlarge, recompose), not only tweaks.
 4. Apply the checklist top to bottom. Skip an item only for a stated reason
    (a rule in docs/TAPMART_PRODUCT_BRAIN.md, a product constraint, honesty
    about data).

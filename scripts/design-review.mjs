@@ -9,7 +9,16 @@
 //   --model <id>        OpenAI model (default: OPENAI_REVIEW_MODEL or gpt-5.5)
 //   --out <dir>         where to save the review (default: design-reviews/)
 //   --effort <level>    reasoning effort: low | medium | high (default: medium)
+//   --reference <png>   the visual north star to compare against
+//                       (default: docs/design-references/tapmart-primary-reference.png)
+//   --no-reference      review against the product brain only
 //   --dry-run           build the request, print its size, send nothing
+//
+// Every review sends the CURRENT screen, the product brain, the PRIMARY
+// reference image and the screen name. The reference is the quality bar,
+// not a template: the reviewer compares confidence, hierarchy, spacing,
+// media, surfaces, lime restraint, chrome, depth, density and motion, and
+// may recommend substantial changes (delete, move, enlarge, recompose).
 //
 // Authentication: an OPENAI_API_KEY environment variable when present; in a
 // Claude Code cloud session the agent proxy attaches the stored credential
@@ -21,6 +30,7 @@ import { basename, extname, join, resolve } from "node:path";
 
 const HERE = resolve(new URL(".", import.meta.url).pathname, "..");
 const BRAIN_PATH = join(HERE, "docs", "TAPMART_PRODUCT_BRAIN.md");
+const REFERENCE_PATH = join(HERE, "docs", "design-references", "tapmart-primary-reference.png");
 // The Responses API in background mode: submit, then poll. A long reasoning
 // pass keeps the HTTP connection silent for a minute or more, which proxies
 // (including the Claude Code cloud proxy) cut off; polling never waits long.
@@ -31,12 +41,12 @@ const MAX_IMAGE_BYTES = 18 * 1024 * 1024;
 
 function usage(message) {
   if (message) console.error(`\n${message}\n`);
-  console.error(`usage: npm run design-review -- <screenshot.png> "<Screen name>" [instructions] [--model id] [--out dir] [--effort low|medium|high] [--dry-run]`);
+  console.error(`usage: npm run design-review -- <screenshot.png> "<Screen name>" [instructions] [--model id] [--out dir] [--effort low|medium|high] [--reference png] [--no-reference] [--dry-run]`);
   process.exit(message ? 1 : 0);
 }
 
 function parseArgs(argv) {
-  const opts = { model: process.env.OPENAI_REVIEW_MODEL || "gpt-5.5", out: join(HERE, "design-reviews"), effort: "medium", dryRun: false };
+  const opts = { model: process.env.OPENAI_REVIEW_MODEL || "gpt-5.5", out: join(HERE, "design-reviews"), effort: "medium", dryRun: false, reference: REFERENCE_PATH, useReference: true };
   const positional = [];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -44,6 +54,8 @@ function parseArgs(argv) {
     else if (a === "--out") opts.out = resolve(argv[++i]);
     else if (a === "--effort") opts.effort = argv[++i];
     else if (a === "--dry-run") opts.dryRun = true;
+    else if (a === "--reference") opts.reference = resolve(argv[++i]);
+    else if (a === "--no-reference") opts.useReference = false;
     else if (a === "--help" || a === "-h") usage();
     else positional.push(a);
   }
@@ -74,6 +86,9 @@ const SCHEMA = {
       verdict: { type: "string", description: "One sentence: how far this screen is from TapMart's standard and why." },
       tapmart_match: { type: "integer", minimum: 1, maximum: 10, description: "10 = unmistakably TapMart." },
       generic_ai_look: { type: "integer", minimum: 1, maximum: 10, description: "10 = looks like a template or AI dashboard." },
+      reference_match: { type: "integer", minimum: 1, maximum: 10, description: "10 = same visual confidence, hierarchy, polish and restraint as the reference image. Null-equivalent 1 when no reference was given." },
+      premium_feel: { type: "integer", minimum: 1, maximum: 10, description: "10 = feels like a real high-end consumer product." },
+      three_second_read: { type: "string", description: "What a first-time viewer understands in three seconds, in one sentence, and what they miss." },
       scores: {
         type: "object",
         additionalProperties: false,
@@ -86,8 +101,12 @@ const SCHEMA = {
           card_overuse: { $ref: "#/$defs/score" },
           money_visibility: { $ref: "#/$defs/score" },
           cta_visibility: { $ref: "#/$defs/score" },
+          lime_restraint: { $ref: "#/$defs/score" },
+          secondary_text_quiet: { $ref: "#/$defs/score" },
+          typography: { $ref: "#/$defs/score" },
+          navigation_and_glass: { $ref: "#/$defs/score" },
         },
-        required: ["clutter", "text_amount", "media_size", "hierarchy", "spacing", "card_overuse", "money_visibility", "cta_visibility"],
+        required: ["clutter", "text_amount", "media_size", "hierarchy", "spacing", "card_overuse", "money_visibility", "cta_visibility", "lime_restraint", "secondary_text_quiet", "typography", "navigation_and_glass"],
       },
       keep: { type: "array", items: { type: "string" }, description: "Up to 5 things that already work and must not be changed." },
       animation: { type: "array", items: { type: "string" }, description: "Up to 4 specific, subtle motion suggestions with the element and the trigger." },
@@ -107,7 +126,7 @@ const SCHEMA = {
         },
       },
     },
-    required: ["verdict", "tapmart_match", "generic_ai_look", "scores", "keep", "animation", "checklist"],
+    required: ["verdict", "tapmart_match", "generic_ai_look", "reference_match", "premium_feel", "three_second_read", "scores", "keep", "animation", "checklist"],
     $defs: {
       score: {
         type: "object",
@@ -122,13 +141,17 @@ const SCHEMA = {
   },
 };
 
-function systemPrompt(brain) {
+function systemPrompt(brain, hasReference) {
   return [
-    "You are TapMart's visual and product design director. A coding agent (Claude Code) builds the screens; you review screenshots and hand back exact, prioritized changes it should make. You never write code and never redesign from scratch: you tell the builder what to change on the screen in front of you.",
+    "You are TapMart's visual and product design director. A coding agent (Claude Code) is the engineer: it builds the screens; you review screenshots and hand back exact, prioritized changes. You never write code and never touch files. You may recommend substantial changes: delete a section, move information, make media twice as large, replace cards with rows, use a horizontal media rail, remove copy, change the information hierarchy, simplify navigation, combine controls, turn something into a full-bleed visual, or change the composition entirely. Small padding and radius notes are welcome only after the big moves.",
     "",
-    "Judge only against the TapMart product brain below. Be specific: name the element, the size, the count, the copy to delete. Prefer 'remove' and 'enlarge' over 'add'. Ten strong items beat thirty weak ones. Do not repeat generic design advice. If something already meets the rule, say so under keep and move on.",
+    hasReference
+      ? "Two images arrive. CURRENT SCREEN = what exists today. REFERENCE IMAGE = TapMart's primary visual north star: the visual quality, design language and polish target. Do not ask for a pixel copy of the reference and do not turn every screen into the reference's subject; compare overall visual confidence, typography hierarchy, spacing, media prominence, graphite surfaces, signal-lime restraint, button quality, navigation quality, glass treatment, card proportions, depth, icon quality, profile composition, information density, text amount, visual rhythm, interaction and motion opportunities, whether it feels like a real premium consumer product, and whether it still looks generically AI-generated."
+      : "One image arrives: CURRENT SCREEN = what exists today. Judge it against the product brain.",
     "",
-    "Checklist items must be buildable without a follow-up question: e.g. 'Make the people card media 4:5 instead of 16:10', 'Delete the sentence under the screen title', 'Move the $75 above the title, 1.5rem lime', 'Merge the three stat boxes into one row of numbers on the page with no borders', 'Only the first Request button is lime; the second becomes a plain button'.",
+    "Judge against the TapMart product brain below. Be specific: name the element, the size, the count, the copy to delete. Prefer 'remove' and 'enlarge' over 'add'. Ten strong items beat thirty weak ones. If something already meets the bar, say so under keep and move on. Never suggest fake data, placeholder media or invented numbers.",
+    "",
+    "Checklist items must be buildable without a follow-up question: e.g. 'Make the people card media 4:5 instead of 16:10', 'Delete the sentence under the screen title', 'Move the $75 above the title, 1.5rem lime', 'Merge the three stat boxes into one row of numbers on the page with no borders', 'Replace the four stacked cards with one media rail'.",
     "",
     "=== TAPMART PRODUCT BRAIN ===",
     brain,
@@ -136,12 +159,13 @@ function systemPrompt(brain) {
   ].join("\n");
 }
 
-function userPrompt(screenName, instructions, meta) {
+function userPrompt(screenName, instructions, meta, hasReference) {
   return [
     `Screen: ${screenName}.`,
+    hasReference ? "The first image is the CURRENT SCREEN. The second image is the REFERENCE IMAGE (north star)." : "",
     `Screenshot: ${meta.width ? `${meta.width}x${meta.height}px, ` : ""}${meta.kind}. A full-page phone capture can show the fixed bottom bar painted mid-page; that is a capture artifact, not a layout problem.`,
     instructions ? `Extra instructions from the team: ${instructions}` : "",
-    "Review clutter, text amount, media size, hierarchy, spacing, card overuse, money visibility, CTA visibility, whether it looks generic or AI-generated, whether it matches TapMart, what subtle animation would improve it, and the exact changes to make. Return the JSON only.",
+    "Answer: does this feel like the reference TapMart design; is the hierarchy strong; is media large enough; too much text; too many cards; too many borders; is money prominent; is lime restrained; is secondary text quiet; does it feel premium; does it feel like TapMart; does it feel like generic AI UI; can a person understand it in three seconds; and the exact changes Claude should implement. Return the JSON only.",
   ].filter(Boolean).join("\n");
 }
 
@@ -165,12 +189,14 @@ function toMarkdown(review, ctx) {
   const lines = [];
   lines.push(`# Design review: ${ctx.screenName}`);
   lines.push("");
-  lines.push(`Screenshot: \`${basename(ctx.screenshot)}\` · Model: ${ctx.model} · ${ctx.when}`);
+  lines.push(`Screenshot: \`${basename(ctx.screenshot)}\`${ctx.hasReference ? ` · Reference: \`${basename(ctx.reference)}\`` : " · No reference image"} · Model: ${ctx.model} · ${ctx.when}`);
   if (ctx.instructions) lines.push(`Instructions: ${ctx.instructions}`);
   lines.push("");
   lines.push(`**Verdict.** ${review.verdict}`);
   lines.push("");
-  lines.push(`TapMart match ${review.tapmart_match}/10 · Generic AI look ${review.generic_ai_look}/10`);
+  lines.push(`TapMart match ${review.tapmart_match}/10 · Reference match ${review.reference_match}/10 · Premium feel ${review.premium_feel}/10 · Generic AI look ${review.generic_ai_look}/10`);
+  lines.push("");
+  lines.push(`**Three seconds.** ${review.three_second_read}`);
   lines.push("");
   lines.push("| Check | Score | Note |");
   lines.push("| --- | --- | --- |");
@@ -205,18 +231,26 @@ async function main() {
   const image = loadImage(args.screenshot);
   const size = pngSize(args.screenshot);
   const meta = { ...size, kind: size.width && size.width <= 900 ? "phone capture" : "desktop capture" };
+  const hasReference = args.useReference && existsSync(args.reference);
+  if (args.useReference && !hasReference) console.error(`No reference image at ${args.reference}; reviewing against the product brain only.`);
+  const reference = hasReference ? loadImage(args.reference) : null;
 
   const body = {
     model: args.model,
     background: true,
     store: true,
-    instructions: systemPrompt(brain),
+    instructions: systemPrompt(brain, hasReference),
     input: [
       {
         role: "user",
         content: [
-          { type: "input_text", text: userPrompt(args.screenName, args.instructions, meta) },
+          { type: "input_text", text: userPrompt(args.screenName, args.instructions, meta, hasReference) },
+          { type: "input_text", text: "CURRENT SCREEN:" },
           { type: "input_image", image_url: image.dataUrl, detail: "high" },
+          ...(reference ? [
+            { type: "input_text", text: "REFERENCE IMAGE (north star, not a template):" },
+            { type: "input_image", image_url: reference.dataUrl, detail: "high" },
+          ] : []),
         ],
       },
     ],
@@ -226,7 +260,7 @@ async function main() {
   else body.temperature = 0.2;
 
   const approxTokens = Math.round((brain.length + 2500) / 4);
-  console.error(`Reviewing "${args.screenName}" with ${args.model}. Image ${(image.bytes / 1024).toFixed(0)} KB${size.width ? ` (${size.width}x${size.height})` : ""}, brain about ${approxTokens} text tokens.`);
+  console.error(`Reviewing "${args.screenName}" with ${args.model}. Image ${(image.bytes / 1024).toFixed(0)} KB${size.width ? ` (${size.width}x${size.height})` : ""}${reference ? `, reference ${(reference.bytes / 1024).toFixed(0)} KB` : ""}, brain about ${approxTokens} text tokens.`);
   if (args.dryRun) {
     console.error("Dry run: nothing sent.");
     return;
@@ -274,14 +308,14 @@ async function main() {
   }
   const review = JSON.parse(content);
   const when = new Date().toISOString();
-  const ctx = { ...args, when };
+  const ctx = { ...args, when, hasReference };
   const md = toMarkdown(review, ctx);
 
   mkdirSync(args.out, { recursive: true });
   const stamp = when.replace(/[:.]/g, "-").slice(0, 19);
   const base = join(args.out, `${slug(args.screenName)}-${stamp}`);
   writeFileSync(`${base}.md`, md);
-  writeFileSync(`${base}.json`, JSON.stringify({ screen: args.screenName, screenshot: basename(args.screenshot), model: args.model, when, usage: data.usage ?? null, review }, null, 2));
+  writeFileSync(`${base}.json`, JSON.stringify({ screen: args.screenName, screenshot: basename(args.screenshot), reference: hasReference ? basename(args.reference) : null, model: args.model, when, usage: data.usage ?? null, review }, null, 2));
 
   process.stdout.write(md);
   const u = data.usage ?? {};
