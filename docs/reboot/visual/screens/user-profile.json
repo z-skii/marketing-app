@@ -1,0 +1,117 @@
+{
+  "screen": "User Profile",
+  "model": "gpt-6-astra",
+  "when": "2026-09-11T17:59:14.385Z",
+  "spec": {
+    "acceptance": [
+      "The first impression is Maya's identity, not a settings list or vehicle showroom. The graphite masthead is full width and the portrait is 96px.",
+      "Earned, Completed and Rating sit on the light canvas as three unboxed facts. They carry demo provenance through the visible identity label.",
+      "Instagram Manual and creator verification Not verified are separate literal states. No verified badge appears for Maya.",
+      "The vehicle slot is modest and photo-led; there is no default canvas, fake reconstruction or View 3D control without a model.",
+      "Recent work displays actual fixture media and source/state labels, not decorative portfolio filler or installation evidence.",
+      "Private payout information appears after recent work and links to Earnings. It does not turn a requested payout into paid money.",
+      "No-rating, no-vehicle and section-error states remain compact and deliberate without invented media or zero values."
+    ],
+    "composition": [
+      {
+        "technology": "React shell with graphite surface variant",
+        "height_or_size": "390×248px minimum masthead",
+        "content": "Graphite fills the root header and identity area. Header is 64px with portrait, Personal · Demo, Maya and the three white utility icons. At y=76, Profile is 30/36px with a 44px Edit profile text action aligned right. At y=136, a 96px circular portrait sits at x=16; identity begins x=128: Maya Chen at 26/30px, @maya.frame_demo at 16/24px and Austin, Texas at 14/20px. No cover photo, verification mark or optional bio in the default fixture. Bottom padding 16px.",
+        "region": "Working identity masthead"
+      },
+      {
+        "technology": "Semantic definition list and CSS grid",
+        "height_or_size": "358px wide; y=272; 56px minimum",
+        "content": "Three unboxed tracks with 12px gaps. $312.40 / Earned, 7 / Completed, 4.8 / Rating · 5 reviews. Values Archivo 700 28/32px, labels IBM Plex Sans 14/20px, ink on canvas. The numeric earned figure is a private fixture lifetime-earned field, not a payout total.",
+        "region": "Record strip"
+      },
+      {
+        "technology": "Capability links",
+        "height_or_size": "Instagram 64px at y=344; verification 48px beneath",
+        "content": "Instagram link has label at 16/24px and @maya.frame_demo · Manual · 1,420 followers at 14/20px. Creator verification is a separate line, Not verified, with the subline For assigned content shoots available in its destination preview. One decorative divider separates the two; no colored icon containers.",
+        "region": "Instagram and creator qualification"
+      },
+      {
+        "technology": "CSS grid and original photo",
+        "height_or_size": "Section title y=480, 44px; source slot 176×112px at y=532",
+        "content": "Vehicles at 22/28px with Add vehicle in a 44px target. The source slot at x=16 contains vehicle-maya-01 at 168×112px within the 176px reservation. Facts at x=208, width=166px: Toyota Corolla, 2020 · Hatchback, Blue · Austin. Below, a 44px View vehicle link and a 14/20px Photos available label. No scan-progress strip or model-loading placeholder.",
+        "region": "Owned vehicle"
+      },
+      {
+        "technology": "Contained image strip with source-aware links",
+        "height_or_size": "Heading near y=720; three 104×139px previews, 12px gaps",
+        "content": "Recent work at 22/28px. Left-aligned frames begin x=16,132,248; originals are contained on #E6EBF0, with no frame shadow. Sources are work-maya-loopday-01, the completed story-loopday-01 master and work-maya-spurroom-02. Beneath each, 14/20px source and state: Recreate / Approved, Story / Approved, Recreate / In review. View Activity is a separate 44px link below.",
+        "region": "Recent work"
+      },
+      {
+        "technology": "Plain private money summary",
+        "height_or_size": "358px field; 24px after recent-work actions; content-driven",
+        "content": "Earnings at 22/28px. Available $78.40 at 18/24px with a 14/20px source label. Beneath, Payout requested · $50.00 and May 10, 2026. A 48px Open Earnings action leads to the actual fixture balance and payout request. No payout management form is duplicated here.",
+        "region": "Private earnings and payout"
+      },
+      {
+        "technology": "Ordinary destination links and fixed shell",
+        "height_or_size": "64px-minimum rows; 24px final bottom clearance",
+        "content": "Portfolio, Public profile and reviews, then Settings. Assigned Shoots is absent because Maya is not a verified creator. The bottom navigation is Home, Activity, Earnings, Profile with Profile selected. Public profile preview excludes private financial data.",
+        "region": "Secondary identity access and navigation"
+      }
+    ],
+    "removed_or_hidden": [
+      "Email, password, notification preferences and logout remain under Settings.",
+      "Full follower provenance, connection editing and disconnect remain under Instagram.",
+      "Verification submission and assigned-shoot eligibility explanation stay in verification detail.",
+      "All nine vehicle zones, asking prices, capture angles and reconstruction records remain in vehicle detail.",
+      "Payout minimum, fee/net ledger detail and payout-request management stay in Earnings.",
+      "No profile-completion score, social follow button, default verification badge or public sharing of private balances."
+    ],
+    "implementation_steps": [
+      "Reuse the User Home shell with graphite header treatment; do not create a separate dark theme or cover-image component.",
+      "Bind record-strip values directly to fixture fields. A missing rating renders No reviews without stars; an unavailable amount renders unavailable text rather than zero.",
+      "Build Instagram and verification links from separate records. In ?state=instagram-error, retain the identity and vehicle while showing Instagram information could not be loaded with Retry.",
+      "Build the one-vehicle photo slot. ?state=waiting-provider retains the saved photo and says Waiting for provider in the vehicle preview; do not show View 3D.",
+      "Wire recent-work items to source-aware Activity previews. The Story thumbnail is explicitly Supplied creative in its detail, not proof of a real Instagram publication.",
+      "Implement edit-profile name and bio fields in a dirty-state-aware sheet, with demo save confirmation. Keep the root layout stable after returning.",
+      "Capture the masthead/vehicle view and a scrolled recent-work/payout view; test long name, no history and no vehicle scenarios."
+    ],
+    "media": [
+      "portrait-maya-01: 96px circular masthead portrait and 28px shell avatar, using the same source.",
+      "vehicle-maya-01: 3:2 original contained at 168×112px inside a 176×112px slot; the original opens in the vehicle preview.",
+      "work-maya-loopday-01: 9:16 source contained in a 104×139px recent-work frame.",
+      "story-loopday-01: identical completed 9:16 creative contained in a 104×139px frame and identified as supplied creative in detail.",
+      "work-maya-spurroom-02: 4:5 original contained in the third 104×139px frame.",
+      "No background asset or default 3D model is required."
+    ],
+    "motion_and_interaction": [
+      "Identity, portrait and record-strip values appear without entrance or counting animation.",
+      "Edit profile opens with the shared 320ms sheet transition; save waits for the demo response and replaces the record with 140ms feedback.",
+      "Selecting recent work or the vehicle uses a 280ms single-source transition where supported, otherwise a 140ms fade; Back restores focus and scroll.",
+      "Gallery images hand off over 180ms after the new source is ready. No profile thumbnail autoplays or moves on hover.",
+      "A future supplied, identity-matched GLB may load only after View 3D. Its appearance is 180ms and Reset is 220ms. The default fixture has no model, so no such control is rendered.",
+      "Reduced motion removes all geometry interpolation and keeps source changes immediate."
+    ],
+    "three_second_read": "This is my working identity and record. My Instagram, vehicle and recent work are visible, and my actual money has a clear route to Earnings.",
+    "route": "/design-lab/user-profile",
+    "name": "User Profile",
+    "states_shown_in_the_prototype": [
+      "Established fictional profile with earned/completed/rating fields, manual Instagram, one vehicle and three recent work records.",
+      "Private available balance and a requested, not paid, payout.",
+      "Missing rating and no recent work, with no default stars or sample history.",
+      "No vehicle, with Add vehicle and no replacement image.",
+      "Instagram query error independent of the rest of the profile.",
+      "Vehicle waiting_provider with saved photographs, static status and no View 3D.",
+      "Dirty edit cancellation, confirmed demo save and save failure."
+    ],
+    "money": "The private record strip uses $312.40 at 28/32px with Earned immediately below. Later, Available $78.40 and Payout requested · $50.00 use ordinary ink on light surfaces, not cobalt cards. Fixture balances are available 7840 cents, pending 3600 cents and lifetime earned 31240 cents; the 5000-cent requested payout is a separate request record. Open Earnings reveals a configured demo minimum of 2500 cents and explicit fee/ledger details. None of these is a real customer result.",
+    "mock_data": [
+      "demo-maya: Maya Chen, @maya.frame_demo, Austin, Texas; no bio in the default state; creator verification unverified.",
+      "Private statistics: lifetime earned 31240 cents, completed work 7, rating 4.8 from 5 fictional reviews. These fields are explicitly fixture data.",
+      "Instagram record: manual handle maya.frame_demo, follower count 1420, verified_by manual; not API connected. Story eligibility is a separate returned fixture permission.",
+      "demo-vehicle-maya: blue 2020 Toyota Corolla hatchback, Austin, photos available, model_url null; offered rear doors with asking price 18000 cents per month.",
+      "Recent work: Coffee handoff / Recreate / approved; Coffee break / Story / approved using manual confirmation; Tire check / Recreate / under_review.",
+      "demo-payout-01: amount 5000 cents, status requested, requested_at 2026-05-10T14:30:00-05:00; no paid date.",
+      "No assigned Shoots record exists for Maya; the root does not invent a booking or verified-creator shortcut."
+    ],
+    "depth_and_technology": "The full-width graphite identity plane, light record strip and contained source media create recognition without profile cards. The vehicle occupies one small factual slot. No WebGL loads by default. If an actual matching model is supplied later, dynamically import three.js and GLTFLoader on request, preserve source materials, normalize longest dimension to 3.2 units, ground at y=0, use FOV 32, near 0.1, far 50, 15% camera margin and initial direction proportional to (4.6,2.2,5.4). Matte #D9E1E9 floor; key (4,6,5) intensity 3, hemisphere fill intensity 0.9 and rim (-4,3,-2) intensity 1.2; ACESFilmic, sRGB, exposure 1, 512px shadow map. No automatic rotation, artwork projection or zone picking. Photos remain the equal fallback.",
+    "viewport": "phone 390x844; verify 320x568 and 200% text enlargement"
+  }
+}

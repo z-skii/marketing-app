@@ -1,0 +1,120 @@
+{
+  "screen": "User Home",
+  "model": "gpt-6-astra",
+  "when": "2026-09-11T17:59:14.383Z",
+  "spec": {
+    "acceptance": [
+      "At 390×844, Find paid work, the $65.00 opportunity amount, its per approved video basis, business, deadline, View work and Save are readable without opening or playing anything.",
+      "The default Recreate object starts at approximately y=236 and ends at y=520; its footer ends at y=608. Story begins at approximately y=632, with its money and the top of the intact creative visible above navigation.",
+      "Recreate is a joined dark media/payment object, Story reverses the media alignment and removes the shell, and Car is landscape with an attached white monthly-pay caption. They must not look like three variants of one card.",
+      "No play triangle or duration appears on the default still reference. Inspect reference opens the original image; unavailable video is not fabricated.",
+      "The first amount is not an earnings balance, fee-net claim or guaranteed income. Story conditions and per month on Car are visible in the corresponding full article.",
+      "Bottom navigation occupies y=780–844 at zero safe-area inset and never obscures the final action after scrolling.",
+      "At 320px and 200% text enlargement, Kind wraps and media/commitment stack before amounts or conditions clip.",
+      "Empty, error, external-reference and pending-application previews retain their distinct meanings. Applying in the destination preview produces Waiting for acceptance, never accepted-work upload controls."
+    ],
+    "composition": [
+      {
+        "technology": "React shell, CSS flexbox",
+        "height_or_size": "390×64px minimum; 16px horizontal padding",
+        "content": "Identity at left: portrait-maya-01 at 28px, Personal · Demo at 14/20px, Maya at 16/20px and chevron. Search, Messages and Notifications occupy three 44px targets at right. Canvas background, no wordmark or greeting.",
+        "region": "Root identity header"
+      },
+      {
+        "technology": "Plain HTML and CSS",
+        "height_or_size": "358px field; title y=76, 36px high",
+        "content": "Find paid work in Archivo 700, 30/36px, #151B23, tracking -0.03em. After 12px, a 44px resume line reads Reel revision ready with a right arrow, opening the existing submission fixture. The line is at y=124 in the default state.",
+        "region": "Purpose and one next task"
+      },
+      {
+        "technology": "Accessible radio group and Kind sheet",
+        "height_or_size": "44px at y=176; 16px gap below",
+        "content": "For you, Nearby, Top pay and Kind. Use 14/20px labels, 44px targets and the cobalt underline on For you. No count pills. At 320px, Kind moves to a second row separated by 8px.",
+        "region": "Discovery controls"
+      },
+      {
+        "technology": "CSS grid and contained image",
+        "height_or_size": "358×284px at x=16,y=236; grid 160px 198px",
+        "content": "Left: reference-loopday-01 contained at 160×284px with a separate 44px Inspect reference icon target on an opaque graphite backing; source label Reference · still at 14/20px. Right: graphite with 12px padding; Recreate Reel at 14/20px, Your coffee pour at 18/24px, Loopday Coffee at 14/20px and Film your version. at 14/20px. Lower-right 198×112px cobalt ledge: $65.00 in Archivo 700 30/34px and per approved video at 14/20px. Outer media corners 6px; attached ledge corners 0px; no shadow.",
+        "region": "First opportunity — Recreate"
+      },
+      {
+        "technology": "Plain HTML links and Save toggle",
+        "height_or_size": "88px below Recreate; ends near y=608",
+        "content": "At y=532, 4 spots · Apply by May 22, 2026 in 14/20px muted ink. At y=560, a 48px View work text action with arrow at left and separate 48px Save toggle with bookmark at right. The footer has no card boundary or filled action slab.",
+        "region": "Recreate decision footer"
+      },
+      {
+        "technology": "CSS grid; image as shallow source object",
+        "height_or_size": "358px wide; begins y=632; 256px minimum media row",
+        "content": "Left 198px commitment column with 3px cobalt rule and 12px inset: Instagram Story ad, $35.00 at 30/34px, after 24h live and approval at 14/20px, Coffee break at 18/24px, Loopday Coffee and 1,000+ followers at 14/20px. Right at x=230: the completed story-loopday-01 master, exactly 144×256px, uncropped. Below the row: Supplied creative · Demo, 8 spots · Apply by May 24, 2026 and a separate 48px View work/Save action row. The creative has a 0 4px 12px #10182014 shadow; the commitment sits directly on canvas.",
+        "region": "Second opportunity — Story"
+      },
+      {
+        "technology": "Contained image, ordinary caption layout and deterministic diagram in detail",
+        "height_or_size": "358×239px image; 96px-minimum attached caption; 24px after Story",
+        "content": "campaign-car-context-01 is the broad 3:2 scene, followed by a white caption. Left caption track: $240.00 at 30/34px and per month at 14/20px. Right: Bike-shop car ad at 18/24px and Spurroom Bikes at 14/20px. Below, unboxed lines read Campaign visual · Demo · No installed ad, Rear doors · 60 days, Vehicle required, and 2 spots · Apply by May 28, 2026. View work and Save follow. Actual artwork and the rear-door diagram appear in detail, not projected onto the photograph.",
+        "region": "Third opportunity — Car"
+      },
+      {
+        "technology": "Fixed CSS navigation with measured spacer",
+        "height_or_size": "64px plus safe-area inset; four equal tracks",
+        "content": "White bottom navigation with a 1px #CBD3DD top divider. Home selected, then Activity, Earnings and Profile. Icons 20px; labels 14/18px. Selection is a cobalt 24×3px edge and 600 weight. No floating center control.",
+        "region": "Personal navigation"
+      }
+    ],
+    "removed_or_hidden": [
+      "Full creator guide, numbered steps, avoid list and checklist stay in work detail.",
+      "Gross/fee/net breakdown stays in the payment explanation; the feed amount remains the fixture's opportunity pay.",
+      "Instagram connection/manual confirmation, vehicle selection and application actions occur only in the relevant detail.",
+      "No payout setup, creator-verification gate, profile-completion score, balance banner or fourth earning type.",
+      "Conversations, evidence, revision history and proof periods remain behind the resume/detail destination.",
+      "Car asking prices and negotiated booking pay are not shown as campaign pay."
+    ],
+    "implementation_steps": [
+      "Implement the phone shell and exact first-fold geometry before adding secondary scenarios. Use CSS Grid for the two portrait compositions, not one polymorphic card with swapped media.",
+      "Load demo-recreate-01, demo-story-01 and demo-car-campaign-01 in the fixture's explicit ranking order. Do not reorder them after rendering to manufacture a fold.",
+      "Build a fixture-backed work detail sheet with Back, original source, terms and the permitted Apply action. Apply returns an applied record after the demo adapter response and then shows Waiting for acceptance.",
+      "Connect Save to the shared Lab store. The same saved record appears in the Activity destination preview's Saved view. Test ?mutation=fail.",
+      "Implement ?state=empty, no-matches, loading, error, external-reference, large-money and missing-city. Loading keeps controls visible and never renders sample money.",
+      "Capture the default, Story scrolled into view and Car scrolled into view at 390×844. Capture 320×568 and enlarged-text variants before approving the component system."
+    ],
+    "media": [
+      "portrait-maya-01: 4:5 source cropped to a 28px circular identity avatar.",
+      "reference-loopday-01: 9:16 still, contained in 160×284px; original opens in the shared viewer. No fabricated video duration or playback.",
+      "story-loopday-01: deterministic finished 1080×1920 master, shown intact at 144×256px. Source shadow only; no TapMart overlays.",
+      "campaign-car-context-01: 3:2 campaign illustration at 358×239px, not vehicle inventory and not installation proof.",
+      "demo-car-artwork.svg and the deterministic 1200×800 rear-door diagram: detail-only supplied artwork and labeled placement diagram."
+    ],
+    "motion_and_interaction": [
+      "Filter activation moves the selection edge over 180ms and replaces confirmed fixture results over 140ms, cubic-bezier(0.22,1,0.36,1). Nearby without a city opens Set your city; no GPS permission.",
+      "Kind and detail sheets enter in 320ms from at most 48px below, same ease-out; exit in 200ms cubic-bezier(0.4,0,1,1). Close, Escape and focus return are mandatory.",
+      "Inspect reference and View work may use 280ms selected-media continuity for one image only; unsupported browsers receive a 140ms fade. Money, shell and full feed never interpolate.",
+      "Save changes only after the 250ms demo response, then uses 140ms icon/color feedback. Failure keeps the previous state and exposes Retry.",
+      "If a genuine directly playable reference is later supplied, preview once after 75% visibility for 500ms, muted and inline, for at most 6 seconds. Show a persistent 44px Pause control; stop below 50% visibility or when the tab hides. Default still fixture does not activate this behavior.",
+      "Reduced motion removes geometry changes and any automatic preview, retaining complete static compositions and all controls."
+    ],
+    "three_second_read": "I can make money by doing specific work: film my version, post a supplied Story, or carry an ad on my car. The pay and commitment are visible before I apply.",
+    "route": "/design-lab/user-home",
+    "name": "User Home",
+    "states_shown_in_the_prototype": [
+      "Default open mixed feed, one revision to resume and a manually recorded Instagram identity.",
+      "Saved and unsaved after confirmed demo responses; save failure retains the old state.",
+      "Application waiting for acceptance in the work destination preview, with no submission controls.",
+      "No open campaigns, no filter matches, missing city, initial loading and failed query.",
+      "External-only reference with Open reference and no synthesized poster.",
+      "Large formatted amount and 200% text enlargement, triggering the stacked layout."
+    ],
+    "money": "Recreate shows $65.00 in white on its opaque cobalt ledge, with per approved video immediately below. Story shows $35.00 in ink beside the creative, with after 24h live and approval. Car shows $240.00 in the white attached band with per month. These are opportunity amounts, not available earnings or guaranteed net income. The Recreate detail fixture separately records gross 6500 cents, fee 650 cents and net 5850 cents; these values are not inferred from a universal fee percentage.",
+    "mock_data": [
+      "Person demo-maya: Maya Chen, @maya.frame_demo, Austin, Texas; fictional Personal identity.",
+      "demo-recreate-01: Loopday Coffee; Your coffee pour; open; USD pay 6500 cents; 4 spots; deadline 2026-05-22T23:59:00-05:00; source reference-loopday-01; no Instagram or vehicle requirement.",
+      "demo-story-01: Loopday Coffee; Coffee break; open; USD pay 3500 cents; 8 spots; deadline 2026-05-24T23:59:00-05:00; 24 required live hours; minimum 1000 followers; finished story-loopday-01 master.",
+      "demo-car-campaign-01: Spurroom Bikes; Bike-shop car ad; open; monthly pay 24000 cents; rear doors; duration 60 days; 2 spots; deadline 2026-05-28T23:59:00-05:00; vehicle required.",
+      "demo-submission-09: Spurroom Bikes, A quick tire check, revision_requested, opportunity amount 4000 cents; supplied note Please hold the final wheel shot for two seconds. This is the single resume item.",
+      "The Top pay fixture order is explicit and retains the payment basis of each kind; the client does not normalize monthly pay to per-task pay."
+    ],
+    "depth_and_technology": "Depth is concentrated at the Recreate payment junction and the physically separate supplied Story. Everything else remains on the cool canvas. Standard images, CSS and one selected-media transition provide the complete default. No device frame, 3D, ambient video, moving background or shadowed card stack appears inside Home.",
+    "viewport": "phone 390x844; verify 320x568 and 200% text enlargement"
+  }
+}

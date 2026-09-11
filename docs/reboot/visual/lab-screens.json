@@ -1,0 +1,1062 @@
+{
+  "lab_notes": [
+    "Authority: preserve the supplied product model, canonical destinations, permissions, record states and monetary semantics. Frame Shift replaces the old visual specifications. Do not implement the old photographic UI mockup prompts, warm palette, 224px rail, portrait directory rows or blanket motion restrictions.",
+    "Direction selection is complete. The supplied eleven-criterion forecasts total Local Edit 88/110, Frame Shift 96/110 and Night Relay 89/110. Frame Shift wins on the combined earning, marketplace and media-review experience. These are design forecasts, not measured results; do not spend this sprint exploring another direction.",
+    "Build exactly five root prototypes: /design-lab/user-home, /design-lab/user-profile, /design-lab/business-home, /design-lab/business-content and /design-lab/public-home. Supporting dialogs and destination previews belong to these prototypes, not to a sixth application redesign.",
+    "Primary captures: User Home and User Profile at 390×844; Business Home and Business Content at 1440×900, plus 1440×1000 captures matching the supplied direction; Public Homepage at both 1440×900 and 390×844. Desktop pages use the same geometry at 900px and 1000px height: allow scrolling, never shrink the layout to fit.",
+    "All people, businesses, campaigns, work, qualifications, amounts and service records in this Lab are fictional. Show Personal · Demo or Business · Demo in authenticated identity selectors. Public demonstrations must have an adjacent, readable Demo product label. Generated scenes must be identified as illustrations. These labels are HTML, not watermarks inside source files.",
+    "Use a Lab-only fixture adapter and store. Never seed production, invoke live payment or approval handlers, connect accounts, send messages or use production signed media URLs. Each fixture includes demo:true, sourceAssetId, recordType and explicit permittedActions. Keep application, submission, offer, booking, proof, file, delivery, post, earning and payout states separate.",
+    "Freeze the demonstration clock at 2026-05-12T15:00:00Z. Use en-US formatting, USD cents and America/Chicago for these fixtures. Dates are absolute. Fixture financial breakdowns are explicit records, not calculations inferred by the UI. Currency formatting never truncates or substitutes zero while loading.",
+    "The default media package is intentionally still-image based: no source video or provider vehicle model has been supplied. Do not create a fake playable video from a poster, animate a photograph to imply footage, or substitute a generic GLB. Real product interaction recordings can be captured from implemented HTML. Optional source-video and model behavior is specified, but its controls appear only when the corresponding usable file exists.",
+    "Every image-model output is supporting imagery, never UI. Generate the assets listed below once, retain the originals, and reuse them only under the stated fixture relationships. No model-generated interface, device screen, financial record, verification badge, logo or installation proof is permitted.",
+    "Generate portraits first. Use portrait-maya-01 as the identity reference for Maya's working scenes. Generate public-filming-01 next and use its café materials as the visual reference for the Loopday imagery. Asset prompts are complete; reference images improve continuity but must not change the specified composition.",
+    "Produce three deterministic assets outside the image model: the TapMart SVG mark; a 1200×800 car-placement diagram with a highlighted rear-door zone; and demo-car-artwork.svg, a 1080×720 #F1D87A field with Spurroom Bikes in Archivo 700 at 104/112px and Keep moving. at 56/64px, both #151B23, inset 72px. The artwork is a supplied fictional campaign file, not an installed-ad preview.",
+    "Finish story-loopday-01 deterministically from its generated photographic base. At 1080×1920, add only Take a coffee break. as one centered line in Archivo 700, 76/84px, #F1D87A, at x=72, y=300, width=936. Rasterize the finished master once and use that same unmodified file for every Story presentation and download. Retain the photographic base separately. No TapMart money, status or controls enter the master.",
+    "After the authenticated screens render, capture capture-user-home-390 at 390×844, capture-business-home-1440 at 1440×1000 and capture-business-content-1440 at 1440×1000. Save lossless masters and WebP display derivatives under /design-lab/captures. These are browser outputs, not image-generation jobs. The public page imports these files; it must not recursively capture itself.",
+    "Public capture refresh is a build step, not a runtime service. Until captures exist, render the corresponding implemented components in an inert, clipped capture host at their logical dimensions. Once captured, replace the host with its browser-produced image without changing the reserved geometry.",
+    "Resolve links within the isolated Lab. The five main routes navigate normally. View work, View person, View car, Activity and Earnings open functional fixture-backed destination previews using the canonical destination mapping. Other retained destinations open a clearly labeled Destination preview with the destination name and Outside this five-screen prototype; never silently navigate to production or pretend an unimplemented action succeeded.",
+    "A simulated mutation returns a Promise from the Lab adapter after 250ms. This is explicitly a demo response, not backend progress. Keep the old state while pending, prevent duplicates, then update the fixture and announce the literal result. ?mutation=fail rejects that promise and retains the previous record. No optimistic approval, earnings or payout success.",
+    "Expose scenario selection on the /design-lab index and through URL parameters. Do not place a floating scenario toolbar over screenshot targets. Defaults are populated states. Screenshots must include the visible Demo identity/provenance but not developer controls.",
+    "Load Archivo variable 600–800 and IBM Plex Sans 400/500/600 with display:swap and metric-adjusted fallbacks. Use rem equivalents of the specified pixels. Target combined font transfer ≤100KB, phone initial transfer ≤600KB before optional media, route JS ≤180KB gzip where the stack permits, LCP ≤2.5s, CLS <0.1 and INP <200ms. These are targets to measure, not claims.",
+    "Use React, CSS Grid/Flexbox, CSS transitions, the Web Animations API, IntersectionObserver and standard video. Native View Transitions are optional enhancement for one selected media rectangle. No GSAP, scene framework, full-page WebGL background, generated environment or custom scrolling engine is required.",
+    "Review order: build and capture User Home before propagating components; then Profile and Business Home; then Content and its absence/error states; then public captures and storytelling. Final QA includes 320×568, 390×844, 768px, 1024px, 1280px and 1440px widths, 200% text enlargement, reduced motion, forced colors, keyboard operation and media failures.",
+    "All root screenshots must remain useful with JavaScript enhancement, video and 3D absent. No automatic income counters, fabricated analytics, follower leaderboards, testimonial evidence, future-feature tabs or decorative empty-state media."
+  ],
+  "shared_components": [
+    "Tokens: --tm-canvas:#F2F5F7; --tm-surface:#FFFFFF; --tm-underlay:#E6EBF0; --tm-ink:#151B23; --tm-muted:#526171; --tm-divider:#CBD3DD; --tm-control-border:#788595; --tm-graphite:#101820; --tm-stage:#1D2833; --tm-on-dark:#F6F8FB; --tm-muted-dark:#B3C0CE; --tm-control-border-dark:#6E8194; --tm-accent:#2450E8; --tm-accent-hover:#193CC4; --tm-accent-pressed:#1634AD; --tm-accent-wash:#E7EDFF; --tm-focus-dark:#AFC8FF; --tm-confirmed:#176B4B; --tm-waiting:#845600; --tm-problem:#B12B3F; --tm-studio-floor:#D9E1E9.",
+    "Geometry tokens: 4px spacing base; principal gaps 8/12/16/24/32/48/64/96px. Media radius 6px; controls 8px; desktop overlays 12px; phone sheet top corners 16px; attached payment ledges and structural planes 0px. Personal avatars are circular. No shadow on rails, opportunity shells, balances or marketplace items.",
+    "Typography: Archivo 700 for app headings and money, 800 for public hero; IBM Plex Sans 400/500/600 for operations. App title 30/36px phone, 36/40px desktop. Section title 22/28px phone, 24/30px desktop. Task title 18/24px. Body 16/24px. Metadata and source labels 14/20px. Money uses tabular lining numerals and -0.02em tracking.",
+    "Brand lockup: deterministic SVG viewBox 0 0 32 32, paths M3 3H19V9H9V23H3Z and M13 23H23V9H29V29H13Z. Mark 28px, 8px gap, TapMart in Archivo 700 at 30/32px with -0.04em tracking. Mark cobalt on light surfaces and #AFC8FF on graphite. No repeated wordmark in authenticated phone headers.",
+    "Action control: minimum 48px height, 16px horizontal padding, 8px icon gap, IBM Plex Sans 600 at 16/20px. Primary cobalt/white; secondary white/ink with 1px control border; text action retains a 44px target. Lucide icons use 1.75px strokes, 20px in navigation and 24px for media controls. All essential or unfamiliar actions have visible labels.",
+    "Focus and selection: immediate 3px cobalt outline with 3px offset on light surfaces; #AFC8FF on dark. Cobalt buttons have a 2px white separation ring before focus. Selected media has a 3px cobalt outline with 2px offset plus a Selected check/label. Do not clip focus or use status color as the only selection cue.",
+    "Phone shell: 64px-minimum scrolling root header, 16px gutters, current identity at left and Search/Messages/Notifications in three 44px targets at right. White fixed bottom navigation is 64px plus safe-area inset, with 20px icons, 14/18px labels and a 24×3px cobalt selected edge. Personal order is Home, Activity, Earnings, Profile. Reserve its measured height plus 24px after content.",
+    "Desktop business shell: fixed 200px graphite spine. Lockup at x=16,y=24; 168px-wide identity selector below; five 48px navigation rows in Home, Content, Create, Campaigns, Business order; utilities below a 24px gap. Selected row has a 3×20px cobalt edge, 600-weight label and aria-current. Main field begins x=232 and is 1176px wide at a 1440px viewport.",
+    "Identity selector: 28px avatar or business initials tile, 14/20px mode-plus-Demo line, 16/20px name and chevron. Desktop menu width 320px; phone sheet uses the shared modal. Rows are 56px minimum. Order Personal, Businesses, actual memberships, Add business. Clear old identity records before changing context; dirty forms require Keep editing or Discard and switch.",
+    "Local navigation: 44px-minimum text controls with a 24×3px cobalt underline, no pill backgrounds. Use links for routes, tabs only for same-page panels and radio-group semantics for ranking choices. Kind opens All kinds, Recreate Reel, Instagram Story ad, Car advertising. At narrow widths allow wrapping rather than reducing type.",
+    "Attention line: one compact factual work-resumption line on Personal Home and at most two factual summaries on Business Home. Body 16/24px, minimum 44px action target, no icon tile or shadow. Remove the line and its spacing when no record requires attention.",
+    "Recreate spread: phone grid 160px 198px within a 358px field. A contained 160×284px source stage joins a graphite commitment region. Its lower-right 112px is an opaque cobalt payment ledge, with 12px padding, 30/34px white amount and immediate 14/20px basis. Footer is unboxed, with deadline/spots and separate View work and Save controls. Money is never over moving pixels.",
+    "Story composition: 198px commitment column, 16px gap, intact 144×256px creative at right. Money is ink on canvas beside a 3px cobalt structural rule. The creative has only 0 4px 12px #10182014 shadow. Labels, follower minimum, required live time, deadline, Save and View work remain outside the artwork.",
+    "Car opportunity: a 358×239px 3:2 campaign visual followed by an attached white caption at least 96px high. Amount is 30/34px with per month at 14/20px. Zones, duration, vehicle requirement, spots and deadline follow as ordinary text. Campaign visuals, vehicle inventory, artwork and installation evidence are separate source types.",
+    "Source-aware media: every instructional, creative, delivered or evidence source is contained and has an inspect-original path. Discovery portraits alone may crop. Missing source media produces its literal state, not a replacement image. Full inspection uses graphite, opaque controls and one active player. Alt text describes the task or source, not the filename.",
+    "Person comparison spread: 376px desktop column, 168px-high open media group; 96×144px portrait at left, 12px gap and 268×168px work-sample stage. Original work is contained. A 48px caption row holds name/city and a visible View person link; one 20px qualification line follows. No enclosing card, hover-only action, rating badge or social metric panel.",
+    "Vehicle inventory object: 336×224px source photo on desktop, followed by make/model/year, city, offered zones and a named Asking price with its actual source basis. Captions sit on the canvas. A native horizontal shelf uses 24px gaps and 44px Previous/Next controls. This is not the Car campaign component.",
+    "Profile identity and record strip: graphite full-width masthead, 96px circular owner portrait, name 26/30px, handle 16/24px and city 14/20px. The light record strip is a definition list with three unboxed tracks, 28/32px values and 14/20px labels. Missing rating reads No reviews in place of a fabricated numeric value.",
+    "Content workspace: 816px media field, 24px gap and 336px white inspector at 1440px. Selected original is contained within an 816×420px graphite stage. Four additional 192×144px contained previews make a 144px-high filmstrip with 16px gaps. Inspector padding 24px; file state, provenance, caption, existing edit note, separate post state and permitted actions remain distinct.",
+    "Forms and overlays: persistent labels 14/20px; inputs minimum 48px, 12px padding, 16/24px entered text, 1px control border. Textareas start at 120px except the compact Content caption editor at 72px. Phone sheets have 16px padding and max-height 90dvh; desktop dialogs max-width 480px and 24px padding. Scrim #101820 at 48%; overlay shadow 0 16px 40px #10182029. Close and Escape always work, with focus containment and return.",
+    "Honest state component: title 22/28px, one short 16/24px factual sentence, one useful 48px action when supported. Loading uses static reserved underlay geometry without fake amounts. Failed queries are not empty responses. Processing and waiting_provider use static text without progress percentages.",
+    "Motion primitives: --tm-ease-out:cubic-bezier(0.22,1,0.36,1). Control feedback 140ms; selection edge 180ms; source crossfade 180ms; selected-media continuity 280ms with 140ms fade fallback; sheet entry 320ms with at most 48px translation, exit 200ms cubic-bezier(0.4,0,1,1). Confirmed state changes use 140ms and an optional 1200ms accent-wash highlight. Financial numbers never move or count.",
+    "Adaptive behavior: stack an opportunity when its remaining commitment column is narrower than 9em of body text or its full amount cannot fit. At enlarged text, headers grow and utilities may occupy another row. If permanent navigation labels cannot fit, use a labeled Navigation sheet trigger naming the current destination. Move task bars into document flow when the keyboard is open or they exceed 25% of the visual viewport.",
+    "Public device frame: logical viewport 390×844, 6px side bezels, 10px top/bottom bezels, outer 402×864px, outer radius 30px and viewport radius 24px. Use graphite, no manufacturer hardware or camera decoration. Shadow 0 18px 40px #10182024 only where it overlaps a physical stage. Captured UI is inert; provide a separate 48px Open example or Play demo action and readable HTML explanation.",
+    "Public browser frame: 32px title strip, 1px #788595 boundary and 10px outer radius around a browser-produced 1440×1000 product capture. No fake URL text, metrics or browser controls. A small HTML Demo product label and external Open example action identify its purpose.",
+    "Reduced motion and accessibility: disable autoplay, geometric transitions, scroll choreography and spinner rotation; retain all content and controls. Use at most 80ms color feedback. Honor forced colors, provide skip links, semantic headings/lists/definition lists, 44px targets and source-specific media alternatives. No fact may require motion, hover, color or a 3D view."
+  ],
+  "assets": [
+    {
+      "avoid": [
+        "Text or logos",
+        "Beauty-filter skin",
+        "Influencer pose",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Fictional owner identity reused in personal screens and the business people marketplace.",
+      "id": "portrait-maya-01",
+      "kind": "portrait",
+      "aspect_ratio": "4:5",
+      "prompt": "Create a photorealistic portrait of a clearly fictional adult named Maya Chen, age approximately 29, an East Asian woman with a straight dark jaw-length bob, warm brown eyes and a few natural freckles. She wears a plain slate-blue overshirt over an off-white T-shirt. Relaxed direct gaze and a small natural smile, shoulders and upper torso visible, ordinary urban courtyard softly recognizable behind her. Use a 50mm-equivalent lens and directional daylight from camera left at approximately 45 degrees, neutral white balance, realistic skin texture and dimensional shadows. Center the face with generous headroom so the source supports a circular avatar and a narrow portrait crop. This is fictional Design Lab supporting photography, not a real member. No text, logos, badges, screens, watermarks or UI.",
+      "used_by": [
+        "User Home",
+        "User Profile",
+        "Business Home",
+        "Business Content",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text",
+        "Brand marks",
+        "Fashion campaign posing",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Fictional marketplace participant with bicycle-work samples and an offered car.",
+      "id": "portrait-eli-01",
+      "kind": "portrait",
+      "aspect_ratio": "4:5",
+      "prompt": "Photorealistic environmental portrait of a fictional adult named Eli Moreno, approximately 34, a Latino man with short dark curly hair, light stubble and an easy neutral expression. Plain olive work shirt, no jewelry or branded clothing. Frame head and upper torso in the open doorway of a modest bicycle workshop, with practical tools softly visible and no readable signage. Use a 50mm-equivalent lens, one large soft daylight source 45 degrees from camera right, neutral color, natural skin detail and restrained background separation. Center the face with room for a 2:3 discovery crop and a circular avatar. This is a fictional Design Lab person, not a real account. No text, logos, watermark, screen content or UI.",
+      "used_by": [
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Verification graphics",
+        "Text",
+        "Over-retouching",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Fictional verified-creator fixture and uploader identity for the mock Loopday shoot.",
+      "id": "portrait-imani-01",
+      "kind": "portrait",
+      "aspect_ratio": "4:5",
+      "prompt": "Create a realistic portrait of a fictional adult named Imani Cole, approximately 32, a Black woman with short natural twists, deep brown skin and a composed, friendly expression. She wears a plain charcoal crew-neck shirt. Photograph head and upper torso beside a large café window with subtle steel and pale blue tile materials in the background; no camera held as a prop. Use a 50mm-equivalent lens, soft directional window light at 45 degrees, accurate skin tone, natural texture and enough contextual focus to feel like a working place. Center the face with generous crop margins. Fictional Design Lab supporting photography only. No text, badges, logos, watermarks, devices displaying screens or UI.",
+      "used_by": [
+        "Business Home",
+        "Business Content",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text",
+        "Fashion-editorial styling",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Fourth fictional person in the open comparison gallery.",
+      "id": "portrait-jules-01",
+      "kind": "portrait",
+      "aspect_ratio": "4:5",
+      "prompt": "Photorealistic portrait of a fictional adult named Jules Park, approximately 27, an androgynous Korean adult with cropped black hair and thin round clear-lens glasses. Plain dark brown cotton shirt, relaxed expression, head and upper torso visible. Place them in a practical flower-workroom doorway with green stems and a neutral wall softly visible, not a luxury florist set. Use a 50mm-equivalent lens and a large soft key from camera left at 45 degrees; preserve realistic skin, fabric texture and neutral colors. Center the face for circular and narrow portrait crops. Clearly fictional Design Lab photography, not a real member. No text, logos, watermarks or UI.",
+      "used_by": [
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text",
+        "Stock-business posing",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Fifth fictional marketplace person and second vehicle-owner identity.",
+      "id": "portrait-nora-01",
+      "kind": "portrait",
+      "aspect_ratio": "4:5",
+      "prompt": "Create a realistic portrait of a fictional adult named Nora Bell, approximately 41, a white woman with shoulder-length auburn hair tied loosely back, faint freckles and an open, calm expression. She wears a plain navy cotton top. Head and upper torso are photographed outside an ordinary neighborhood lunch counter in open shade; background context is modest and contains no readable signs. Use a 50mm-equivalent lens, directional daylight, neutral white balance and natural skin detail. Center the face and leave useful headroom for alternate crops. This person is fictional mock data for a Design Lab. No logos, lettering, watermarks, screens or UI.",
+      "used_by": [
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Readable phone screens",
+        "Text or signage",
+        "Extra fingers",
+        "Luxury café styling",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Public filming illustration and environmental anchor for all Loopday scenes.",
+      "id": "public-filming-01",
+      "kind": "photo",
+      "aspect_ratio": "3:2",
+      "prompt": "Photorealistic scene inside a fictional modest neighborhood coffee counter called Loopday, without any visible sign. Maya, an East Asian woman around 29 with a straight dark jaw-length bob and plain slate-blue overshirt, films a barista pouring milk into a ceramic coffee cup. Show Maya's phone from its back or an oblique angle with no readable screen. The meaningful action, Maya's hands, the cup and the barista's pouring hand must stay within the left 60 percent of the image so the right edge can be overlapped in a public composition. The setting has brushed stainless-steel counters, pale blue square tiles, dark forest-green ceramic cups and a large side window. Ordinary achievable filming, not influencer performance. Use a 35mm-equivalent lens, dimensional daylight at 45 degrees, natural skin and coffee colors, realistic hands and useful environmental focus. Fictional public illustration, not a real business or customer shoot. No text, signs, logos, watermarks or UI.",
+      "used_by": [
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Play buttons",
+        "Text",
+        "Social controls",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Still reference for the first Recreate opportunity; never represented as available video footage.",
+      "id": "reference-loopday-01",
+      "kind": "photo",
+      "aspect_ratio": "9:16",
+      "prompt": "Create a photorealistic vertical instructional still of a simple coffee-making action at a fictional neighborhood coffee counter. A barista's natural hands tilt a small stainless pitcher to pour milk into a dark forest-green ceramic cup on a brushed steel counter. Include enough of the barista's plain charcoal apron and the pale blue square-tile wall to establish context. The cup and pouring stream are clearly visible near the middle of the portrait frame; no dramatic splash or impossible latte art. Directional window light comes from camera left at approximately 45 degrees, with clear texture, neutral white balance and no global color grade. Compose deliberately for 9:16, not as an extended landscape image. This is a fictional Design Lab reference photograph, not a frame claimed from an existing video. No lettering, logos, controls, watermarks or UI.",
+      "used_by": [
+        "User Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Generated lettering",
+        "Prices or promotions",
+        "Logos",
+        "TapMart controls",
+        "Watermarks"
+      ],
+      "purpose": "Photographic base of the finished supplied Story; its one line is added deterministically.",
+      "id": "story-loopday-01",
+      "kind": "story_creative",
+      "aspect_ratio": "9:16",
+      "prompt": "Create a finished, text-free photographic advertising composition for a fictional coffee counter, portrait 9:16. Use a deep forest-green matte backdrop, approximately #1F493C. In the lower two-thirds, place one dark forest-green ceramic cup filled with coffee on a pale butter-yellow saucer, with a small real-looking flaky pastry beside it. Strong soft side light from upper left produces tangible product depth and a restrained shadow, without glossy luxury styling. Keep the upper quarter calm and dark with no objects, ready for one short line of typography to be composited later. Use realistic ceramic, coffee and pastry textures and source-faithful colors; the finished creative should feel bold, simple and commercially useful at a 144px-wide preview. This is a fictional demonstration creative, not a live merchant offer. Absolutely no text, letters, logos, prices, discounts, watermarks, social chrome or UI.",
+      "used_by": [
+        "User Home",
+        "User Profile",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text",
+        "Phone UI",
+        "Impossible hand positions",
+        "Watermarks"
+      ],
+      "purpose": "Maya's fictional completed Recreate work, distinct from the reference source.",
+      "id": "work-maya-loopday-01",
+      "kind": "photo",
+      "aspect_ratio": "9:16",
+      "prompt": "Photorealistic portrait-oriented work sample made by a fictional participant at a small coffee counter. Show a natural hand in the sleeve of a slate-blue overshirt sliding a dark forest-green coffee cup onto a brushed stainless-steel counter beside a small pastry. This is a different action and camera position from a milk-pouring reference: low close perspective, cup in foreground, pale blue tiles and ordinary café equipment recognizable behind it. Use a 35mm-equivalent camera, directional daylight, realistic skin and materials, clean dimensional contrast and neutral colors. Compose as a complete 9:16 original photograph with the hand and cup intact. Fictional Design Lab work sample, not real approved customer work. No text, logos, badges, watermarks, device screens or UI.",
+      "used_by": [
+        "User Profile",
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Visible brand logos",
+        "Text",
+        "Luxury cycling imagery",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Maya's second fictional Recreate work and recent In review example.",
+      "id": "work-maya-spurroom-02",
+      "kind": "product",
+      "aspect_ratio": "4:5",
+      "prompt": "Photorealistic 4:5 product-work photograph in a fictional ordinary bicycle repair shop. Show a practical city bicycle's front wheel, silver spokes and dark rubber tire resting beside a repair stand, with a natural hand in a slate-blue overshirt sleeve checking the tire. Use a close but complete composition with useful workshop context: painted concrete floor, simple tools and muted shelves, no readable branding. Side daylight at 45 degrees gives the metal and tire clear depth without showroom glamour. Neutral colors, believable mechanics and realistic hand anatomy. This is fictional Design Lab portfolio media, not customer evidence. No lettering, logos, price labels, watermarks or UI.",
+      "used_by": [
+        "User Profile",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text",
+        "Bike brand marks",
+        "Impossible tools",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Eli's fictional work sample in the people comparison spread.",
+      "id": "work-eli-spurroom-01",
+      "kind": "photo",
+      "aspect_ratio": "4:5",
+      "prompt": "Create a photorealistic 4:5 work sample showing a simple bicycle repair in a fictional local workshop. A Latino adult with short dark curly hair and an olive work shirt adjusts a city bicycle's rear brake with a small hand tool. Show face in partial profile, hands, brake and enough of the bicycle to understand the service. Ordinary tools and a practical repair stand sit in the background. Use a 35mm-equivalent lens, directional daylight from one side, realistic anatomy, mechanically plausible parts and neutral source-faithful colors. The frame should read as useful local marketing work rather than a posed portrait or luxury bicycle campaign. Fictional Design Lab media only. No text, brand marks, watermarks or UI.",
+      "used_by": [
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text or menus",
+        "Exaggerated food portions",
+        "Luxury editorial styling",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Imani's fictional portfolio sample and the selected file from the same fictional commissioned shoot.",
+      "id": "content-loopday-counter-01",
+      "kind": "photo",
+      "aspect_ratio": "3:2",
+      "prompt": "Photorealistic landscape photograph from a fictional commissioned shoot at a modest coffee counter. A barista in a plain charcoal apron arranges a small tray of pastries and two dark forest-green ceramic cups on a brushed stainless-steel counter. The environment has pale blue square tiles, practical coffee equipment and a large side window, matching a real-feeling everyday shop rather than a luxury bakery. Keep the barista's hands, tray and cups fully visible, with a strong diagonal of daylight from camera left at 45 degrees. Use a 35mm-equivalent lens, natural skin, truthful food textures, neutral white balance and controlled contrast. Compose a complete 3:2 original with no crop-dependent instructions. This is fictional Design Lab delivered-media illustration, not an actual customer deliverable. No text, menus, logos, watermarks, phone screens or UI.",
+      "used_by": [
+        "Business Home",
+        "Business Content",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text",
+        "Unrealistic flower colors",
+        "Luxury florist styling",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Jules's fictional portfolio sample.",
+      "id": "work-jules-flowers-01",
+      "kind": "product",
+      "aspect_ratio": "4:5",
+      "prompt": "Photorealistic 4:5 product photograph of a small everyday flower arrangement being tied with plain paper twine in a fictional neighborhood flower workshop. Natural hands, green stems, cream and rust-colored seasonal flowers, a simple metal worktable and useful offcut context. Keep the arrangement complete and readable, not an abstract extreme close-up. Use one large soft directional daylight source from camera left, a 50mm-equivalent lens, accurate plant detail and natural colors. The image should feel like practical marketing work produced for a small shop. Fictional Design Lab portfolio illustration only. No typography, signs, logos, watermarks or UI.",
+      "used_by": [
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text",
+        "Invented offers",
+        "Impossible food",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Nora's fictional portfolio sample.",
+      "id": "work-nora-lunch-01",
+      "kind": "product",
+      "aspect_ratio": "4:5",
+      "prompt": "Create a photorealistic 4:5 marketing photograph for a fictional ordinary neighborhood lunch counter. A modest ceramic plate holds a freshly made vegetable sandwich cut in half and a small side salad, on a clean brushed-metal table beside a folded plain navy napkin. Show truthful food portions, natural bread and vegetable textures, and enough background to feel like a working lunch counter. Use a 50mm-equivalent lens with directional window light at 45 degrees and neutral color balance. Avoid dramatic steam, excessive garnish and luxury restaurant styling. This is fictional Design Lab portfolio media, not a real offer or delivered customer file. No text, menus, packaging logos, watermarks or UI.",
+      "used_by": [
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text",
+        "Overperfect food",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Second mock delivered file; demonstrates an approved file with a separately failed post.",
+      "id": "content-loopday-pastry-02",
+      "kind": "product",
+      "aspect_ratio": "4:5",
+      "prompt": "Photorealistic 4:5 photograph from the same fictional Loopday coffee-counter shoot: two modest flaky pastries on a simple brushed-steel tray, a dark forest-green ceramic cup partly visible behind them, and pale blue square tiles softly recognizable in the background. Photograph at table height with a 50mm-equivalent lens, directional daylight from camera left, neutral white balance, real crumbs and honest pastry texture. Preserve a complete useful product composition without artificial steam or excessive food styling. Fictional Design Lab delivered-media illustration only. No text, prices, labels, logos, watermarks or UI.",
+      "used_by": [
+        "Business Content",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Play icons",
+        "Text",
+        "Impossible liquid",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Portrait still from the fictional shoot, explicitly a photo rather than a fabricated video.",
+      "id": "content-loopday-pour-03",
+      "kind": "photo",
+      "aspect_ratio": "9:16",
+      "prompt": "Create a photorealistic 9:16 still photograph from a fictional coffee-counter shoot. A barista's natural hands lift a plain stainless-steel kettle and pour water into a small ceramic filter brewer beside a dark forest-green mug. Pale blue square tiles, a brushed steel counter and ordinary coffee tools establish the same compact neighborhood setting. Keep kettle, stream, brewer and hands visible in the vertical composition. Use a 35mm-equivalent lens, soft but directional window light, realistic liquid behavior and neutral source-faithful colors. This is a still photograph for fictional Design Lab delivered media, not a claimed video poster. No lettering, logos, controls, watermarks or UI.",
+      "used_by": [
+        "Business Content",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Readable storefront signs",
+        "Invented addresses",
+        "Text",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Landscape environmental file from the fictional shoot.",
+      "id": "content-loopday-window-04",
+      "kind": "photo",
+      "aspect_ratio": "3:2",
+      "prompt": "Photorealistic 3:2 environmental photograph of a fictional modest neighborhood coffee counter seen from inside toward its large front window. Brushed stainless counter, pale blue square tiles, a few forest-green cups and two ordinary stools; soft street context outside but no legible shop signs or addresses. A small patch of directional morning daylight falls across the counter. Use a 35mm-equivalent lens, straight practical architectural framing, natural materials, neutral color and useful environmental detail. No luxury décor, artificial atmosphere or exaggerated empty space. This is fictional Design Lab shoot imagery, not evidence of an actual business. No text, logos, watermarks, visible screen content or UI.",
+      "used_by": [
+        "Business Content",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Text",
+        "Logos",
+        "Plastic-looking materials",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Square product original proving that Content preserves mixed source ratios.",
+      "id": "content-loopday-cups-05",
+      "kind": "product",
+      "aspect_ratio": "1:1",
+      "prompt": "Photorealistic square product photograph from a fictional neighborhood coffee-counter shoot. Three ordinary dark forest-green ceramic cups sit in a purposeful loose arrangement on a brushed stainless-steel counter, one with black coffee and two empty. Pale blue square tiles appear at the top edge. Directional window light at 45 degrees produces tangible ceramic edges and restrained real shadows. Use a 50mm-equivalent lens, accurate ceramic texture, neutral color balance and clean but not sterile commercial photography. This is fictional Design Lab delivered-media illustration only. No lettering, brand marks, graphic overlays, watermarks or UI.",
+      "used_by": [
+        "Business Content",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Installed ads or wraps",
+        "Readable plates",
+        "Text",
+        "Showroom lighting",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Maya's fictional owned vehicle, offered inventory and public Drive example.",
+      "id": "vehicle-maya-01",
+      "kind": "car",
+      "aspect_ratio": "3:2",
+      "prompt": "Photorealistic 3:2 photograph of a fictional owner's ordinary blue 2020 Toyota Corolla hatchback, five doors, stock wheels, clean but used condition, completely unmodified and with no advertising. Park it on a quiet practical urban side street in Austin-like daylight, with low buildings and restrained greenery but no recognizable address. Three-quarter front view from the driver side at normal standing camera height, full vehicle and all wheels visible with 12 percent framing margin. Use a 35mm-equivalent lens without wide-angle distortion, soft directional daylight, realistic paint and glass, neutral colors. Plates must be blank or naturally unreadable and badges not legible. This is a fictional Design Lab vehicle image, not live inventory or installation evidence. No lettering, wrap, watermark or UI.",
+      "used_by": [
+        "User Profile",
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Installed advertising",
+        "Readable plates",
+        "Text",
+        "Luxury car staging",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Second fictional car in the business shelf.",
+      "id": "vehicle-eli-01",
+      "kind": "car",
+      "aspect_ratio": "3:2",
+      "prompt": "Create a photorealistic 3:2 vehicle photograph of an ordinary silver 2018 Honda Civic sedan belonging to a fictional Design Lab owner. Stock wheels, clean everyday condition, no modifications or advertising. Full car in a three-quarter front passenger-side view, parked beside a modest brick workshop on a quiet street. Use a 35mm-equivalent lens at natural standing height, directional open-shade daylight, realistic metallic paint and glass, and neutral white balance. Leave approximately 12 percent margin around the car and keep all wheels visible. No readable plate, badges, address or signage. This is fictional mock inventory, never proof of a real listing or installed ad. No text, watermark or UI.",
+      "used_by": [
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Advertising wraps",
+        "Readable plates",
+        "Text",
+        "SUV glamour styling",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Third fictional car in the business shelf.",
+      "id": "vehicle-nora-01",
+      "kind": "car",
+      "aspect_ratio": "3:2",
+      "prompt": "Photorealistic 3:2 photograph of a fictional owner's ordinary white 2019 Mazda CX-5, stock specification, five doors, no advertising or modifications. Park it in a small practical neighborhood parking area with low buildings and trees, not a showroom or wilderness scene. Show the full vehicle in a driver-side three-quarter rear view so the body and rear doors are clear. Use a 35mm-equivalent lens, neutral daylight with a soft directional key, accurate proportions and believable white paint and glass. Keep all wheels and the entire roof visible with comfortable margin. Plates and badges are unreadable. Fictional Design Lab supporting imagery only. No lettering, logos, watermark or UI.",
+      "used_by": [
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Commercial livery",
+        "Readable plates",
+        "Text",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Fourth fictional vehicle creates an honest horizontally overflowing inventory shelf.",
+      "id": "vehicle-theo-01",
+      "kind": "car",
+      "aspect_ratio": "3:2",
+      "prompt": "Create a realistic 3:2 photograph of a fictional owner's plain white 2021 Ford Transit Connect compact panel van, ordinary stock vehicle with no lettering, livery, advertising or modifications. Park it outside a modest light-industrial workshop on a clear overcast day. Show a full three-quarter front view from the driver side at normal camera height, with all wheels visible and enough margin for a contained gallery. Use a 35mm-equivalent lens, natural perspective, soft directional illumination and realistic paint, tires and window reflections. Plates and model badges are not readable. This is fictional Design Lab vehicle imagery, not an actual marketplace listing. No text, logos, watermark or UI.",
+      "used_by": [
+        "Business Home",
+        "Public Homepage"
+      ]
+    },
+    {
+      "avoid": [
+        "Applied artwork",
+        "Installed advertising",
+        "Maya's blue hatchback",
+        "Readable plates or signs",
+        "Watermarks",
+        "UI"
+      ],
+      "purpose": "Separate campaign-context illustration for the open Car opportunity; never borrowed inventory or proof.",
+      "id": "campaign-car-context-01",
+      "kind": "car",
+      "aspect_ratio": "3:2",
+      "prompt": "Photorealistic broad 3:2 campaign-context illustration for a fictional neighborhood bicycle shop's car-advertising brief. An ordinary graphite-gray compact station wagon is parked beside an open, modest bicycle repair bay, with one practical city bicycle visible in the background. The vehicle has no decal, wrap, lettering or advertising whatsoever. Show a clear full driver-side three-quarter view and all wheels, with the rear-door area unobstructed. Use a 35mm-equivalent lens, directional daylight, natural paint reflections and neutral source-faithful color. The car is not the blue hatchback used elsewhere and must not resemble installation evidence. This is a fictional Design Lab campaign illustration, not a real listing, actual business or promised installation. No readable signs, plates, text, logos, watermark or UI.",
+      "used_by": [
+        "User Home",
+        "Public Homepage"
+      ]
+    }
+  ],
+  "screens": [
+    {
+      "acceptance": [
+        "At 390×844, Find paid work, the $65.00 opportunity amount, its per approved video basis, business, deadline, View work and Save are readable without opening or playing anything.",
+        "The default Recreate object starts at approximately y=236 and ends at y=520; its footer ends at y=608. Story begins at approximately y=632, with its money and the top of the intact creative visible above navigation.",
+        "Recreate is a joined dark media/payment object, Story reverses the media alignment and removes the shell, and Car is landscape with an attached white monthly-pay caption. They must not look like three variants of one card.",
+        "No play triangle or duration appears on the default still reference. Inspect reference opens the original image; unavailable video is not fabricated.",
+        "The first amount is not an earnings balance, fee-net claim or guaranteed income. Story conditions and per month on Car are visible in the corresponding full article.",
+        "Bottom navigation occupies y=780–844 at zero safe-area inset and never obscures the final action after scrolling.",
+        "At 320px and 200% text enlargement, Kind wraps and media/commitment stack before amounts or conditions clip.",
+        "Empty, error, external-reference and pending-application previews retain their distinct meanings. Applying in the destination preview produces Waiting for acceptance, never accepted-work upload controls."
+      ],
+      "composition": [
+        {
+          "technology": "React shell, CSS flexbox",
+          "height_or_size": "390×64px minimum; 16px horizontal padding",
+          "content": "Identity at left: portrait-maya-01 at 28px, Personal · Demo at 14/20px, Maya at 16/20px and chevron. Search, Messages and Notifications occupy three 44px targets at right. Canvas background, no wordmark or greeting.",
+          "region": "Root identity header"
+        },
+        {
+          "technology": "Plain HTML and CSS",
+          "height_or_size": "358px field; title y=76, 36px high",
+          "content": "Find paid work in Archivo 700, 30/36px, #151B23, tracking -0.03em. After 12px, a 44px resume line reads Reel revision ready with a right arrow, opening the existing submission fixture. The line is at y=124 in the default state.",
+          "region": "Purpose and one next task"
+        },
+        {
+          "technology": "Accessible radio group and Kind sheet",
+          "height_or_size": "44px at y=176; 16px gap below",
+          "content": "For you, Nearby, Top pay and Kind. Use 14/20px labels, 44px targets and the cobalt underline on For you. No count pills. At 320px, Kind moves to a second row separated by 8px.",
+          "region": "Discovery controls"
+        },
+        {
+          "technology": "CSS grid and contained image",
+          "height_or_size": "358×284px at x=16,y=236; grid 160px 198px",
+          "content": "Left: reference-loopday-01 contained at 160×284px with a separate 44px Inspect reference icon target on an opaque graphite backing; source label Reference · still at 14/20px. Right: graphite with 12px padding; Recreate Reel at 14/20px, Your coffee pour at 18/24px, Loopday Coffee at 14/20px and Film your version. at 14/20px. Lower-right 198×112px cobalt ledge: $65.00 in Archivo 700 30/34px and per approved video at 14/20px. Outer media corners 6px; attached ledge corners 0px; no shadow.",
+          "region": "First opportunity — Recreate"
+        },
+        {
+          "technology": "Plain HTML links and Save toggle",
+          "height_or_size": "88px below Recreate; ends near y=608",
+          "content": "At y=532, 4 spots · Apply by May 22, 2026 in 14/20px muted ink. At y=560, a 48px View work text action with arrow at left and separate 48px Save toggle with bookmark at right. The footer has no card boundary or filled action slab.",
+          "region": "Recreate decision footer"
+        },
+        {
+          "technology": "CSS grid; image as shallow source object",
+          "height_or_size": "358px wide; begins y=632; 256px minimum media row",
+          "content": "Left 198px commitment column with 3px cobalt rule and 12px inset: Instagram Story ad, $35.00 at 30/34px, after 24h live and approval at 14/20px, Coffee break at 18/24px, Loopday Coffee and 1,000+ followers at 14/20px. Right at x=230: the completed story-loopday-01 master, exactly 144×256px, uncropped. Below the row: Supplied creative · Demo, 8 spots · Apply by May 24, 2026 and a separate 48px View work/Save action row. The creative has a 0 4px 12px #10182014 shadow; the commitment sits directly on canvas.",
+          "region": "Second opportunity — Story"
+        },
+        {
+          "technology": "Contained image, ordinary caption layout and deterministic diagram in detail",
+          "height_or_size": "358×239px image; 96px-minimum attached caption; 24px after Story",
+          "content": "campaign-car-context-01 is the broad 3:2 scene, followed by a white caption. Left caption track: $240.00 at 30/34px and per month at 14/20px. Right: Bike-shop car ad at 18/24px and Spurroom Bikes at 14/20px. Below, unboxed lines read Campaign visual · Demo · No installed ad, Rear doors · 60 days, Vehicle required, and 2 spots · Apply by May 28, 2026. View work and Save follow. Actual artwork and the rear-door diagram appear in detail, not projected onto the photograph.",
+          "region": "Third opportunity — Car"
+        },
+        {
+          "technology": "Fixed CSS navigation with measured spacer",
+          "height_or_size": "64px plus safe-area inset; four equal tracks",
+          "content": "White bottom navigation with a 1px #CBD3DD top divider. Home selected, then Activity, Earnings and Profile. Icons 20px; labels 14/18px. Selection is a cobalt 24×3px edge and 600 weight. No floating center control.",
+          "region": "Personal navigation"
+        }
+      ],
+      "removed_or_hidden": [
+        "Full creator guide, numbered steps, avoid list and checklist stay in work detail.",
+        "Gross/fee/net breakdown stays in the payment explanation; the feed amount remains the fixture's opportunity pay.",
+        "Instagram connection/manual confirmation, vehicle selection and application actions occur only in the relevant detail.",
+        "No payout setup, creator-verification gate, profile-completion score, balance banner or fourth earning type.",
+        "Conversations, evidence, revision history and proof periods remain behind the resume/detail destination.",
+        "Car asking prices and negotiated booking pay are not shown as campaign pay."
+      ],
+      "implementation_steps": [
+        "Implement the phone shell and exact first-fold geometry before adding secondary scenarios. Use CSS Grid for the two portrait compositions, not one polymorphic card with swapped media.",
+        "Load demo-recreate-01, demo-story-01 and demo-car-campaign-01 in the fixture's explicit ranking order. Do not reorder them after rendering to manufacture a fold.",
+        "Build a fixture-backed work detail sheet with Back, original source, terms and the permitted Apply action. Apply returns an applied record after the demo adapter response and then shows Waiting for acceptance.",
+        "Connect Save to the shared Lab store. The same saved record appears in the Activity destination preview's Saved view. Test ?mutation=fail.",
+        "Implement ?state=empty, no-matches, loading, error, external-reference, large-money and missing-city. Loading keeps controls visible and never renders sample money.",
+        "Capture the default, Story scrolled into view and Car scrolled into view at 390×844. Capture 320×568 and enlarged-text variants before approving the component system."
+      ],
+      "media": [
+        "portrait-maya-01: 4:5 source cropped to a 28px circular identity avatar.",
+        "reference-loopday-01: 9:16 still, contained in 160×284px; original opens in the shared viewer. No fabricated video duration or playback.",
+        "story-loopday-01: deterministic finished 1080×1920 master, shown intact at 144×256px. Source shadow only; no TapMart overlays.",
+        "campaign-car-context-01: 3:2 campaign illustration at 358×239px, not vehicle inventory and not installation proof.",
+        "demo-car-artwork.svg and the deterministic 1200×800 rear-door diagram: detail-only supplied artwork and labeled placement diagram."
+      ],
+      "motion_and_interaction": [
+        "Filter activation moves the selection edge over 180ms and replaces confirmed fixture results over 140ms, cubic-bezier(0.22,1,0.36,1). Nearby without a city opens Set your city; no GPS permission.",
+        "Kind and detail sheets enter in 320ms from at most 48px below, same ease-out; exit in 200ms cubic-bezier(0.4,0,1,1). Close, Escape and focus return are mandatory.",
+        "Inspect reference and View work may use 280ms selected-media continuity for one image only; unsupported browsers receive a 140ms fade. Money, shell and full feed never interpolate.",
+        "Save changes only after the 250ms demo response, then uses 140ms icon/color feedback. Failure keeps the previous state and exposes Retry.",
+        "If a genuine directly playable reference is later supplied, preview once after 75% visibility for 500ms, muted and inline, for at most 6 seconds. Show a persistent 44px Pause control; stop below 50% visibility or when the tab hides. Default still fixture does not activate this behavior.",
+        "Reduced motion removes geometry changes and any automatic preview, retaining complete static compositions and all controls."
+      ],
+      "three_second_read": "I can make money by doing specific work: film my version, post a supplied Story, or carry an ad on my car. The pay and commitment are visible before I apply.",
+      "route": "/design-lab/user-home",
+      "name": "User Home",
+      "states_shown_in_the_prototype": [
+        "Default open mixed feed, one revision to resume and a manually recorded Instagram identity.",
+        "Saved and unsaved after confirmed demo responses; save failure retains the old state.",
+        "Application waiting for acceptance in the work destination preview, with no submission controls.",
+        "No open campaigns, no filter matches, missing city, initial loading and failed query.",
+        "External-only reference with Open reference and no synthesized poster.",
+        "Large formatted amount and 200% text enlargement, triggering the stacked layout."
+      ],
+      "money": "Recreate shows $65.00 in white on its opaque cobalt ledge, with per approved video immediately below. Story shows $35.00 in ink beside the creative, with after 24h live and approval. Car shows $240.00 in the white attached band with per month. These are opportunity amounts, not available earnings or guaranteed net income. The Recreate detail fixture separately records gross 6500 cents, fee 650 cents and net 5850 cents; these values are not inferred from a universal fee percentage.",
+      "mock_data": [
+        "Person demo-maya: Maya Chen, @maya.frame_demo, Austin, Texas; fictional Personal identity.",
+        "demo-recreate-01: Loopday Coffee; Your coffee pour; open; USD pay 6500 cents; 4 spots; deadline 2026-05-22T23:59:00-05:00; source reference-loopday-01; no Instagram or vehicle requirement.",
+        "demo-story-01: Loopday Coffee; Coffee break; open; USD pay 3500 cents; 8 spots; deadline 2026-05-24T23:59:00-05:00; 24 required live hours; minimum 1000 followers; finished story-loopday-01 master.",
+        "demo-car-campaign-01: Spurroom Bikes; Bike-shop car ad; open; monthly pay 24000 cents; rear doors; duration 60 days; 2 spots; deadline 2026-05-28T23:59:00-05:00; vehicle required.",
+        "demo-submission-09: Spurroom Bikes, A quick tire check, revision_requested, opportunity amount 4000 cents; supplied note Please hold the final wheel shot for two seconds. This is the single resume item.",
+        "The Top pay fixture order is explicit and retains the payment basis of each kind; the client does not normalize monthly pay to per-task pay."
+      ],
+      "depth_and_technology": "Depth is concentrated at the Recreate payment junction and the physically separate supplied Story. Everything else remains on the cool canvas. Standard images, CSS and one selected-media transition provide the complete default. No device frame, 3D, ambient video, moving background or shadowed card stack appears inside Home.",
+      "viewport": "phone 390x844; verify 320x568 and 200% text enlargement"
+    },
+    {
+      "acceptance": [
+        "The first impression is Maya's identity, not a settings list or vehicle showroom. The graphite masthead is full width and the portrait is 96px.",
+        "Earned, Completed and Rating sit on the light canvas as three unboxed facts. They carry demo provenance through the visible identity label.",
+        "Instagram Manual and creator verification Not verified are separate literal states. No verified badge appears for Maya.",
+        "The vehicle slot is modest and photo-led; there is no default canvas, fake reconstruction or View 3D control without a model.",
+        "Recent work displays actual fixture media and source/state labels, not decorative portfolio filler or installation evidence.",
+        "Private payout information appears after recent work and links to Earnings. It does not turn a requested payout into paid money.",
+        "No-rating, no-vehicle and section-error states remain compact and deliberate without invented media or zero values."
+      ],
+      "composition": [
+        {
+          "technology": "React shell with graphite surface variant",
+          "height_or_size": "390×248px minimum masthead",
+          "content": "Graphite fills the root header and identity area. Header is 64px with portrait, Personal · Demo, Maya and the three white utility icons. At y=76, Profile is 30/36px with a 44px Edit profile text action aligned right. At y=136, a 96px circular portrait sits at x=16; identity begins x=128: Maya Chen at 26/30px, @maya.frame_demo at 16/24px and Austin, Texas at 14/20px. No cover photo, verification mark or optional bio in the default fixture. Bottom padding 16px.",
+          "region": "Working identity masthead"
+        },
+        {
+          "technology": "Semantic definition list and CSS grid",
+          "height_or_size": "358px wide; y=272; 56px minimum",
+          "content": "Three unboxed tracks with 12px gaps. $312.40 / Earned, 7 / Completed, 4.8 / Rating · 5 reviews. Values Archivo 700 28/32px, labels IBM Plex Sans 14/20px, ink on canvas. The numeric earned figure is a private fixture lifetime-earned field, not a payout total.",
+          "region": "Record strip"
+        },
+        {
+          "technology": "Capability links",
+          "height_or_size": "Instagram 64px at y=344; verification 48px beneath",
+          "content": "Instagram link has label at 16/24px and @maya.frame_demo · Manual · 1,420 followers at 14/20px. Creator verification is a separate line, Not verified, with the subline For assigned content shoots available in its destination preview. One decorative divider separates the two; no colored icon containers.",
+          "region": "Instagram and creator qualification"
+        },
+        {
+          "technology": "CSS grid and original photo",
+          "height_or_size": "Section title y=480, 44px; source slot 176×112px at y=532",
+          "content": "Vehicles at 22/28px with Add vehicle in a 44px target. The source slot at x=16 contains vehicle-maya-01 at 168×112px within the 176px reservation. Facts at x=208, width=166px: Toyota Corolla, 2020 · Hatchback, Blue · Austin. Below, a 44px View vehicle link and a 14/20px Photos available label. No scan-progress strip or model-loading placeholder.",
+          "region": "Owned vehicle"
+        },
+        {
+          "technology": "Contained image strip with source-aware links",
+          "height_or_size": "Heading near y=720; three 104×139px previews, 12px gaps",
+          "content": "Recent work at 22/28px. Left-aligned frames begin x=16,132,248; originals are contained on #E6EBF0, with no frame shadow. Sources are work-maya-loopday-01, the completed story-loopday-01 master and work-maya-spurroom-02. Beneath each, 14/20px source and state: Recreate / Approved, Story / Approved, Recreate / In review. View Activity is a separate 44px link below.",
+          "region": "Recent work"
+        },
+        {
+          "technology": "Plain private money summary",
+          "height_or_size": "358px field; 24px after recent-work actions; content-driven",
+          "content": "Earnings at 22/28px. Available $78.40 at 18/24px with a 14/20px source label. Beneath, Payout requested · $50.00 and May 10, 2026. A 48px Open Earnings action leads to the actual fixture balance and payout request. No payout management form is duplicated here.",
+          "region": "Private earnings and payout"
+        },
+        {
+          "technology": "Ordinary destination links and fixed shell",
+          "height_or_size": "64px-minimum rows; 24px final bottom clearance",
+          "content": "Portfolio, Public profile and reviews, then Settings. Assigned Shoots is absent because Maya is not a verified creator. The bottom navigation is Home, Activity, Earnings, Profile with Profile selected. Public profile preview excludes private financial data.",
+          "region": "Secondary identity access and navigation"
+        }
+      ],
+      "removed_or_hidden": [
+        "Email, password, notification preferences and logout remain under Settings.",
+        "Full follower provenance, connection editing and disconnect remain under Instagram.",
+        "Verification submission and assigned-shoot eligibility explanation stay in verification detail.",
+        "All nine vehicle zones, asking prices, capture angles and reconstruction records remain in vehicle detail.",
+        "Payout minimum, fee/net ledger detail and payout-request management stay in Earnings.",
+        "No profile-completion score, social follow button, default verification badge or public sharing of private balances."
+      ],
+      "implementation_steps": [
+        "Reuse the User Home shell with graphite header treatment; do not create a separate dark theme or cover-image component.",
+        "Bind record-strip values directly to fixture fields. A missing rating renders No reviews without stars; an unavailable amount renders unavailable text rather than zero.",
+        "Build Instagram and verification links from separate records. In ?state=instagram-error, retain the identity and vehicle while showing Instagram information could not be loaded with Retry.",
+        "Build the one-vehicle photo slot. ?state=waiting-provider retains the saved photo and says Waiting for provider in the vehicle preview; do not show View 3D.",
+        "Wire recent-work items to source-aware Activity previews. The Story thumbnail is explicitly Supplied creative in its detail, not proof of a real Instagram publication.",
+        "Implement edit-profile name and bio fields in a dirty-state-aware sheet, with demo save confirmation. Keep the root layout stable after returning.",
+        "Capture the masthead/vehicle view and a scrolled recent-work/payout view; test long name, no history and no vehicle scenarios."
+      ],
+      "media": [
+        "portrait-maya-01: 96px circular masthead portrait and 28px shell avatar, using the same source.",
+        "vehicle-maya-01: 3:2 original contained at 168×112px inside a 176×112px slot; the original opens in the vehicle preview.",
+        "work-maya-loopday-01: 9:16 source contained in a 104×139px recent-work frame.",
+        "story-loopday-01: identical completed 9:16 creative contained in a 104×139px frame and identified as supplied creative in detail.",
+        "work-maya-spurroom-02: 4:5 original contained in the third 104×139px frame.",
+        "No background asset or default 3D model is required."
+      ],
+      "motion_and_interaction": [
+        "Identity, portrait and record-strip values appear without entrance or counting animation.",
+        "Edit profile opens with the shared 320ms sheet transition; save waits for the demo response and replaces the record with 140ms feedback.",
+        "Selecting recent work or the vehicle uses a 280ms single-source transition where supported, otherwise a 140ms fade; Back restores focus and scroll.",
+        "Gallery images hand off over 180ms after the new source is ready. No profile thumbnail autoplays or moves on hover.",
+        "A future supplied, identity-matched GLB may load only after View 3D. Its appearance is 180ms and Reset is 220ms. The default fixture has no model, so no such control is rendered.",
+        "Reduced motion removes all geometry interpolation and keeps source changes immediate."
+      ],
+      "three_second_read": "This is my working identity and record. My Instagram, vehicle and recent work are visible, and my actual money has a clear route to Earnings.",
+      "route": "/design-lab/user-profile",
+      "name": "User Profile",
+      "states_shown_in_the_prototype": [
+        "Established fictional profile with earned/completed/rating fields, manual Instagram, one vehicle and three recent work records.",
+        "Private available balance and a requested, not paid, payout.",
+        "Missing rating and no recent work, with no default stars or sample history.",
+        "No vehicle, with Add vehicle and no replacement image.",
+        "Instagram query error independent of the rest of the profile.",
+        "Vehicle waiting_provider with saved photographs, static status and no View 3D.",
+        "Dirty edit cancellation, confirmed demo save and save failure."
+      ],
+      "money": "The private record strip uses $312.40 at 28/32px with Earned immediately below. Later, Available $78.40 and Payout requested · $50.00 use ordinary ink on light surfaces, not cobalt cards. Fixture balances are available 7840 cents, pending 3600 cents and lifetime earned 31240 cents; the 5000-cent requested payout is a separate request record. Open Earnings reveals a configured demo minimum of 2500 cents and explicit fee/ledger details. None of these is a real customer result.",
+      "mock_data": [
+        "demo-maya: Maya Chen, @maya.frame_demo, Austin, Texas; no bio in the default state; creator verification unverified.",
+        "Private statistics: lifetime earned 31240 cents, completed work 7, rating 4.8 from 5 fictional reviews. These fields are explicitly fixture data.",
+        "Instagram record: manual handle maya.frame_demo, follower count 1420, verified_by manual; not API connected. Story eligibility is a separate returned fixture permission.",
+        "demo-vehicle-maya: blue 2020 Toyota Corolla hatchback, Austin, photos available, model_url null; offered rear doors with asking price 18000 cents per month.",
+        "Recent work: Coffee handoff / Recreate / approved; Coffee break / Story / approved using manual confirmation; Tire check / Recreate / under_review.",
+        "demo-payout-01: amount 5000 cents, status requested, requested_at 2026-05-10T14:30:00-05:00; no paid date.",
+        "No assigned Shoots record exists for Maya; the root does not invent a booking or verified-creator shortcut."
+      ],
+      "depth_and_technology": "The full-width graphite identity plane, light record strip and contained source media create recognition without profile cards. The vehicle occupies one small factual slot. No WebGL loads by default. If an actual matching model is supplied later, dynamically import three.js and GLTFLoader on request, preserve source materials, normalize longest dimension to 3.2 units, ground at y=0, use FOV 32, near 0.1, far 50, 15% camera margin and initial direction proportional to (4.6,2.2,5.4). Matte #D9E1E9 floor; key (4,6,5) intensity 3, hemisphere fill intensity 0.9 and rim (-4,3,-2) intensity 1.2; ACESFilmic, sRGB, exposure 1, 512px shadow map. No automatic rotation, artwork projection or zone picking. Photos remain the equal fallback.",
+      "viewport": "phone 390x844; verify 320x568 and 200% text enlargement"
+    },
+    {
+      "acceptance": [
+        "At 1440px, the main field is exactly 1176px wide after the 200px rail and two 32px gutters. There is no permanent empty context column.",
+        "Six people appear as three open comparison columns and two rows, with source work larger than the narrow portraits. They must not resemble a CRM list, repeated portrait-card directory or KPI dashboard.",
+        "Names, city, supplied qualifications and View person are visible without hover. The missing-sample participant is truthful rather than filled with stock work.",
+        "At 900px height, the Available cars heading and beginning of the shelf are visible; at 1000px, more vehicle photography is revealed without changing any dimensions.",
+        "The vehicle shelf uses four 336px objects with 24px gaps and a partial next object, giving genuine native overflow. Asking price remains explicit.",
+        "Attention contains exactly two real fixture summaries, not analytics. Switching identity clears them before another identity renders.",
+        "Cars-only, no results and partial-query failure do not reuse or manufacture the people data."
+      ],
+      "composition": [
+        {
+          "technology": "Fixed CSS rail and ordinary navigation links",
+          "height_or_size": "200px wide; full viewport height",
+          "content": "Graphite rail with offset-frame TapMart lockup, a 168px-wide selector showing LC initials, Business · Demo and Loopday Coffee. Five 48px navigation rows; Home selected with cobalt edge. Search, Messages and Notifications are labeled utilities below. No wallet total, upgrade card or miniature chart.",
+          "region": "Business navigation spine"
+        },
+        {
+          "technology": "Flexbox heading and city dialog",
+          "height_or_size": "x=232,y=32,width=1176,height=48px",
+          "content": "Find people and cars in Archivo 700 36/40px, tracking -0.03em. Austin, Texas city control is right aligned in a 48px target. Main background #F2F5F7. No introductory paragraph or business cover image.",
+          "region": "Marketplace purpose"
+        },
+        {
+          "technology": "Plain actionable summary links",
+          "height_or_size": "44px at y=88",
+          "content": "Two factual summaries inline with a 32px gap: 2 campaign decisions and 1 file to approve. Each has a source-specific arrow and opens its actual fixture queue or Content selection. No count cards or urgency animation.",
+          "region": "Attention"
+        },
+        {
+          "technology": "Accessible local view controls",
+          "height_or_size": "44px at y=140",
+          "content": "For you, People, Cars, Nearby in 16/20px. For you selected with the 24×3px cobalt edge. The people gallery has a semantic heading that is visually hidden to avoid another redundant title row.",
+          "region": "Discovery views"
+        },
+        {
+          "technology": "CSS grid; source images contained",
+          "height_or_size": "Starts y=200; three 376px columns, 24px gaps; two 248px rows with 24px row gap",
+          "content": "Column x positions 232,632,1032. Each open spread has a 168px media group: 96×144px portrait vertically centered at left, 12px gap and a 268×168px contained work sample. An 8px gap precedes a 48px caption row: 18/24px name and 14/20px city/record facts on the left, visible View person link on the right. A 4px gap precedes one 14/20px qualification line. No shell border, raised surface or hover reveal. Theo's missing portrait uses initials and the absent work area is plain canvas with No work samples shared., not an empty framed tile.",
+          "region": "People-first comparison gallery"
+        },
+        {
+          "technology": "Link plus native horizontal scroll region",
+          "height_or_size": "See all people y=728,height=44px; car heading y=788,height=44px; images begin y=844",
+          "content": "See all people selects People. Available cars at 24/30px is followed by See all cars and separate 44px Previous/Next controls. Four 336×224px photographs use 24px gaps, starting x=232. The shelf width is 1176px; overflow remains inside the region. Captions below images use 18/24px vehicle name, 14/20px city and zones, then the named Asking price in 16/24px with its recorded basis.",
+          "region": "Vehicle marketplace shelf"
+        }
+      ],
+      "removed_or_hidden": [
+        "Direct Reel and Story request forms stay in person detail, not on every gallery item.",
+        "Full portfolio, reviews, Instagram provenance and verification detail remain behind View person.",
+        "Complete vehicle gallery, zones, asking prices, offer duration and monthly negotiation stay in car detail.",
+        "Campaign review evidence, applications and payment decisions stay in their source queue.",
+        "Wallet, subscription billing, brand kit, connections and health remain under their canonical business destinations.",
+        "No follower leaderboard, projected reach, map-first search, classifieds controls or future team tools."
+      ],
+      "implementation_steps": [
+        "Build the fixed 200px rail and 1176px field, then the comparison-spread component with no enclosing card.",
+        "Bind the six-person fixture list and four-vehicle list independently. One failed query must not erase the other successful section.",
+        "Implement For you, People, Cars and Nearby as explicit fixture views. Cars-only uses a two-column open gallery with 576px columns and 24px gap, not list rows.",
+        "Implement View person with a portfolio-led preview and the two existing request destinations; show the named recipient before any request form.",
+        "Implement View car with the correct asking-price record and a separate Send offer preview. Its proposed monthly pay must not overwrite the vehicle's asking price.",
+        "Wire the two attention links to Campaigns destination preview and /design-lab/business-content?asset=content-01 respectively.",
+        "Use native overflow-x:auto and proximity scroll snapping for the vehicle shelf. Previous/Next move one 360px item step and disable only at genuine ends.",
+        "Capture 1440×900 and 1440×1000, then inspect two-column behavior below 1280px and source-aware absence states."
+      ],
+      "media": [
+        "portrait-maya-01, portrait-eli-01, portrait-imani-01, portrait-jules-01 and portrait-nora-01: 4:5 originals cropped to 96×144px discovery portraits. Theo uses deterministic TC initials, not a generated replacement face.",
+        "work-maya-loopday-01: 9:16, contained in Maya's 268×168px sample field.",
+        "work-eli-spurroom-01: 4:5, contained in Eli's 268×168px sample field.",
+        "content-loopday-counter-01: 3:2, contained in Imani's 268×168px sample field. This is the same fictional shoot/file relationship used in Content.",
+        "work-jules-flowers-01 and work-nora-lunch-01: 4:5 originals contained in the corresponding 268×168px fields.",
+        "vehicle-maya-01, vehicle-eli-01, vehicle-nora-01 and vehicle-theo-01: 3:2 originals at 336×224px in the shelf; no campaign artwork is projected onto them.",
+        "Loopday business identity uses deterministic LC initials on #E6EBF0, not a model-generated logo."
+      ],
+      "motion_and_interaction": [
+        "View selection moves its edge over 180ms and replaces fixture results over 140ms with the shared ease-out. No staggered gallery entrance or re-ranking animation.",
+        "View person and View car use one 280ms source-media transition, with a 140ms fade fallback. The source name, qualifications and money do not animate between records.",
+        "Hover changes the link underline or control color over 140ms. Portraits and work samples do not lift, zoom or autoplay.",
+        "Previous/Next advance the native shelf by 360px over 180ms using Web Animations or a controlled scroll interpolation; touch and trackpad retain native scrolling. Reduced motion moves immediately.",
+        "City editing uses the shared 320ms sheet or desktop modal. Saving changes only the fixture's city after response; missing city does not request location access.",
+        "Identity switching clears old marketplace and attention content before rendering the new context. No visual crossfade may mix two businesses' data."
+      ],
+      "three_second_read": "I can choose people by their actual work, inspect suitable cars and deal with the two decisions waiting for this business.",
+      "route": "/design-lab/business-home",
+      "name": "Business Home",
+      "states_shown_in_the_prototype": [
+        "For you with six fictional people, four offered vehicles and two source-specific attention summaries.",
+        "People-only and Cars-only discovery.",
+        "Nearby with Austin and missing-city correction.",
+        "A participant with missing portrait and no work sample.",
+        "No people, no cars and no matching results without invented inventory.",
+        "People-query failure with the car section still usable.",
+        "No attention records, removing the band and its spacing."
+      ],
+      "money": "People discovery has no unsolicited price or reach metric. Vehicle captions label recorded Asking price: Rear doors · $180.00 per month for Maya; Driver door · $120.00 per month for Eli; Rear panel · $160.00 per month for Nora; Full side · $260.00 per month for Theo. These are named-zone asking prices, not accepted offers or campaign earnings. Use 16/24px tabular ink, not giant cobalt money badges. A Send offer preview shows any proposed monthly amount in a separate labeled field.",
+      "mock_data": [
+        "Active business demo-loopday: Loopday Coffee, coffee counter, Austin, Texas, logo absent, membership role owner; fictional Business identity.",
+        "Maya Chen: Austin; 7 completed; rating 4.8 from 5 demo reviews; Instagram Manual · 1,420 followers; unverified creator; work-maya-loopday-01.",
+        "Eli Moreno: Austin; 4 completed; rating 4.7 from 3 demo reviews; Instagram API connected · 2,080 followers; work-eli-spurroom-01.",
+        "Imani Cole: Austin; 12 completed; rating 4.9 from 8 demo reviews; verified creator; Instagram facts omitted; content-loopday-counter-01.",
+        "Jules Park: Austin; 3 completed; rating absent; Instagram API connected · 1,180 followers; work-jules-flowers-01.",
+        "Nora Bell: Round Rock; 5 completed; rating 4.6 from 4 demo reviews; Instagram facts omitted; work-nora-lunch-01.",
+        "Theo Grant: Austin; no portrait, no rating and no work samples; completed count unavailable; creator verification unverified. Display TG initials in the final build.",
+        "Vehicles: Maya's blue 2020 Toyota Corolla hatchback, Eli's silver 2018 Honda Civic sedan, Nora's white 2019 Mazda CX-5 and Theo's white 2021 Ford Transit Connect. All have model_url null.",
+        "Attention query returns exactly 2 actionable campaign decisions and 1 new delivered file needing approval. Do not derive these counts from visible gallery items."
+      ],
+      "depth_and_technology": "The graphite spine is the structural anchor; media spreads remain open on the light canvas. Depth comes from a narrow identity portrait beside larger work, not raised cards. The lower landscape shelf changes scale to physical vehicles. No WebGL or video loads on this root, no decorative map and no persistent empty inspector. Below 1280px use two people columns; when available media/inspector widths would be violated, destination inspection becomes a dedicated preview.",
+      "viewport": "desktop 1440x900; also capture 1440x1000 without rescaling"
+    },
+    {
+      "acceptance": [
+        "The default screenshot reads as real media under review, not a library dashboard. One large original dominates, with four smaller sources below and one white decision inspector.",
+        "At 1440px, widths are 816px media + 24px gap + 336px inspector. The original is fully contained in the 420px-high stage.",
+        "Approve content contains no dollar amount and never becomes Approve and pay. Selection alone never changes a file state.",
+        "File, shoot, delivery and post states are separately labeled. The approved-file/failed-post scenario must visibly preserve both facts.",
+        "The five default delivered files are actual local fixture files. Planned plan output counts do not imply that unseen deliverables exist or that the full monthly entitlement has been delivered.",
+        "Processing, scheduled, shoot-completed and not-subscribed states remove the large empty media stage. No ghost thumbnails or false progress appear.",
+        "Failed file fetch, successfully empty file list and processing are distinct screenshots with distinct copy and actions.",
+        "Scheduling states the timezone and that scheduling does not automatically publish. Manually marked publication remains literal."
+      ],
+      "composition": [
+        {
+          "technology": "Shared fixed business rail",
+          "height_or_size": "200px wide",
+          "content": "Same graphite spine and Loopday Coffee · Demo identity as Business Home, with Content selected. No campaign-wallet amount or subscription upsell card in the rail.",
+          "region": "Business navigation"
+        },
+        {
+          "technology": "Plain HTML header and local view tabs",
+          "height_or_size": "x=232,width=1176; title y=32; tabs y=116,height=44px",
+          "content": "Content at 36/40px. Growth · Active at 14/20px below, with Manage plan as a quiet link. Brand kit is a 48px action at right. Local views are Overview, Library, Calendar, Shoots in 16/20px; Overview selected. There is no universal production-progress bar.",
+          "region": "Workspace heading and service context"
+        },
+        {
+          "technology": "CSS grid lead heading",
+          "height_or_size": "y=176,height=30px; 12px gap below",
+          "content": "Ready to review at 24/30px over the media field, with 1 file needs approval · 5 delivered files at 14/20px. These are fixture query results. The inspector aligns with the image stage below, not with the page title.",
+          "region": "Next real step"
+        },
+        {
+          "technology": "Contained original image and explicit original-view action",
+          "height_or_size": "x=232,y=218,width=816,height=420px",
+          "content": "Graphite inset stage with 6px media radius. content-loopday-counter-01 is a 3:2 original displayed at 630×420px, centered horizontally with 93px side letterboxing. No crop, photo play button, caption over pixels or simulated timeline. Inspector provides Open original.",
+          "region": "Selected delivered source"
+        },
+        {
+          "technology": "CSS grid filmstrip and selection buttons",
+          "height_or_size": "x=232,y=654;width=816; four 192×144px frames with 16px gaps",
+          "content": "The four additional files are pastry 4:5, pour 9:16 still, window 3:2 and cups 1:1. All are contained in 4:3 underlay frames. File names and literal states sit 8px below at 14/20px, wrapping to two lines. Selection adds the shared 3px outline and Selected label, never a status-colored card.",
+          "region": "Actual delivered filmstrip"
+        },
+        {
+          "technology": "White inspection region with controlled caption form",
+          "height_or_size": "x=1072,y=218,width=336; 24px padding; minimum approximately 584px",
+          "content": "Inner width 288px. Order: File state · New at 14/20px; Counter reset at 22/28px; Shoot 01 · May 7, 2026, Uploaded by Imani Cole and Demo delivered file at 14/20px. Caption label precedes a 72px textarea containing A fresh start at the counter. Existing edit-note content appears only when supplied. Separate Post label reads Not scheduled. Primary Approve content is 48px, followed by Request an edit at 48px, Skip at 44px and Open original at 44px. No money, animated approval icon or empty post-control placeholders.",
+          "region": "One decisive inspector"
+        },
+        {
+          "technology": "Plain independent service rows",
+          "height_or_size": "Begins approximately y=878; 32px major section gaps",
+          "content": "This month's shoots at 24/30px. Shoot 01: Shoot completed / Delivery recorded / 5 files available, with planned 10 photos · 3 videos kept as planned counts. Shoot 02: Your shoot is being scheduled, planned 10 photos · 3 videos, no invented date or assigned creator. Each is an independent link. Upcoming posts follows; one failed post retains its real error, and one scheduled post retains its timezone. Ideas are omitted because none are returned.",
+          "region": "Service and publishing continuation"
+        }
+      ],
+      "removed_or_hidden": [
+        "Campaign budgets, wallet credit, participant approval and approve-and-pay controls are not part of Content.",
+        "Full shoot assignment, delivery history and location stay in the shoot destination.",
+        "Date/time/format scheduling opens a short form rather than occupying the inspector permanently.",
+        "Brand-kit proposals, connection management and health fixes remain canonical linked destinations.",
+        "No imaginary content files, shoot ETA, self-booking calendar, generated deliverable or production percentage.",
+        "No automatic publication promise, calendar drag-to-reschedule or unsupported platform selector."
+      ],
+      "implementation_steps": [
+        "Build the ready Overview using five local file records. Default-select content-01 without marking it approved.",
+        "Implement asset selection as a source handoff that changes file, caption, uploader, edit note and linked post together. Keep the stage dimensions stable while the next image loads.",
+        "Implement Approve content through the demo adapter, then persist approved and make Schedule the primary permitted action. Do not create an earning or wallet entry.",
+        "Implement Request an edit with a required note, preserving that note and the actual file state; do not invent an editing_in_progress enum. Skip uses the fixture's explicit rejected status plus action provenance skipped.",
+        "Implement Schedule with date, time, America/Chicago, Instagram and Photo/Reel/Story fields constrained by permitted formats. Confirmation creates a scheduled post fixture, not a published post. A later explicit Mark published action records manually_marked provenance.",
+        "Library groups the five originals under Shoot 01 using CSS grid with minimum 176px columns and 16px gaps. Calendar offers Agenda and Month. Show a month only when seven 96px columns fit; otherwise use Agenda. Shoots renders the independent slot records.",
+        "Implement ?state=processing, scheduled, shoot-completed, not-subscribed, files-error, delivered-empty, slots-error and approved-failed-post. Remove media regions when there are no files; preserve any successfully loaded independent sections.",
+        "Capture ready, approved-file/failed-post, processing and failed-fetch views before generating the public Content capture."
+      ],
+      "media": [
+        "content-loopday-counter-01: 3:2 original, selected at 630×420px inside an 816×420px graphite stage.",
+        "content-loopday-pastry-02: 4:5 original in a 192×144px contained filmstrip frame.",
+        "content-loopday-pour-03: 9:16 still photo in a 192×144px contained frame; explicitly not a video.",
+        "content-loopday-window-04: 3:2 original in a 192×144px contained frame.",
+        "content-loopday-cups-05: 1:1 original in a 192×144px contained frame.",
+        "portrait-imani-01: 40px source avatar only in the assigned-creator shoot detail; not a decorative portrait in the ready inspector.",
+        "Library uses these same five sources, not generated thumbnail replacements or extra files inferred from plan counts."
+      ],
+      "motion_and_interaction": [
+        "Selecting a filmstrip source crossfades only imagery over 180ms after the next source loads. Metadata changes atomically with its file record. Reduced motion replaces immediately.",
+        "Overview/Library/Calendar/Shoots selection moves the edge over 180ms and changes the panel over 140ms. Preserve each view's scroll and selection.",
+        "Approve content, caption save, edit request and Skip wait for the 250ms demo response. Confirmed state uses 140ms feedback and optional 1200ms accent-wash highlighting, with no financial animation.",
+        "Edit and schedule dialogs enter over 320ms with at most 48px translation and the shared ease-out. Keep dirty input on error or cancelled dismissal.",
+        "Calendar records never animate into Published. Manual marking changes the explicit post state only after the demo response.",
+        "No filmstrip autoplay or hover playback. If a genuine video file is supplied later, only explicit Play starts it, and starting another source stops the first.",
+        "Processing and missing-provider/service states are static text. No spinner stands in for unknown-duration production."
+      ],
+      "three_second_read": "These are my delivered files. I can inspect one, approve it or request a change, then schedule it without confusing file approval with publication or campaign payment.",
+      "route": "/design-lab/business-content",
+      "name": "Business Content",
+      "states_shown_in_the_prototype": [
+        "Ready: one new file, four approved files, five available originals and two independent Growth shoot slots.",
+        "Approved selected file with a separately failed Instagram post and the stored error.",
+        "Confirmed content approval, edit note saved, explicit skip provenance and mutation failure.",
+        "Scheduled post, followed only on explicit action by Manually marked published.",
+        "Planned shoot without a date, scheduled shoot with actual fixture time, completed shoot with delivery none, and processing delivery.",
+        "Not subscribed with no retained assets: factual Essential/Growth counts and View plans; missing configured prices say Pricing unavailable.",
+        "Delivery recorded but file fetch failed, successful empty delivered-file response and unavailable shoot-slot query as separate states.",
+        "Library contact sheet, Calendar agenda/month fit behavior and independent Shoots view."
+      ],
+      "money": "No campaign or personal money appears in the review workspace. The plan line says Growth · Active, with no fabricated subscription price. The not-subscribed scenario lists Essential: 1 monthly shoot, 10 photos, 3 videos and Growth: 2 monthly shoots, 20 photos, 6 videos, followed by Campaign spending is separate. Missing price settings produce Pricing unavailable rather than $0. Approve content never displays a payable amount.",
+      "mock_data": [
+        "Business demo-loopday: Loopday Coffee, Austin; content subscription Growth, active; configured price absent in the Lab.",
+        "shoot-demo-01: scheduled_at 2026-05-07T09:00:00-05:00, America/Chicago; shoot state done; delivery state delivered; planned photos 10, planned videos 3; assigned creator Imani Cole, verified; exactly five returned photo files.",
+        "shoot-demo-02: planned, delivery none, no date and no assigned creator; planned photos 10, videos 3. One slot's completion never completes this slot.",
+        "content-01: Counter reset; photo; new; content-loopday-counter-01; uploader Imani Cole; caption A fresh start at the counter.; no edit note; no linked post.",
+        "content-02: Pastry detail; photo; approved; content-loopday-pastry-02; linked post failed with stored error Instagram authorization expired.; supported next action Open Connections.",
+        "content-03: Slow pour; photo; approved; content-loopday-pour-03; existing edit note Keep the kettle and cup fully visible.; no post.",
+        "content-04: Window light; photo; approved; content-loopday-window-04; post scheduled for 2026-05-15T10:30:00-05:00 on Instagram as Photo; not published.",
+        "content-05: Green cups; photo; approved; content-loopday-cups-05; no post.",
+        "The five-file count is the returned delivery inventory, not a claim that all planned monthly output has been delivered. No missing videos are fabricated."
+      ],
+      "depth_and_technology": "A dark contained original and a white inspector form the useful media-to-decision edge. Filmstrip sources are shallow, unboxed selections rather than a moving wall. CSS Grid supplies the workspace; no WebGL or animation behind approval controls. Use the split only when primary media remains at least 540px wide beside the 336px inspector and 24px gap; otherwise open dedicated inspection. Empty service states collapse to content height rather than reserving a cinematic blank stage.",
+      "viewport": "desktop 1440x900; also capture 1440x1000 without rescaling"
+    },
+    {
+      "acceptance": [
+        "The first fold contains the literal Recreate. / Post. Drive. / Get paid. headline, two equally prominent audience actions, a person filming and one actual implemented phone demonstration.",
+        "The public page has neither an application rail nor bottom navigation. It does not present generated people or demo money as live customer evidence.",
+        "The hero phone is one upright frame, not a device pile. The filming action remains visible where the phone overlaps on mobile.",
+        "Recreate, Post and Drive remain understandable in still screenshots. The supplied Story is intact and the vehicle is not shown with an invented installed ad.",
+        "Desktop scroll changes only the explanatory media assembly. Native scrolling, keyboard navigation and ordinary document order remain intact.",
+        "The business section contains browser-produced captures of the implemented marketplace and Content workspace, with readable HTML descriptions, plan output counts and the spending exclusion outside the captures.",
+        "Get paid distinguishes approval, available earnings and reviewed payout requests. It does not count a balance upward or show a fabricated paid payout.",
+        "At 390px there is no pinning, horizontal page overflow or tiny interactive embedded app. Every capture has a separate 48px Open example action.",
+        "With reduced motion or unavailable footage, the complete static page remains finished; no empty film or 3D stage appears."
+      ],
+      "composition": [
+        {
+          "technology": "Semantic public header; CSS flexbox; menu sheet on phone",
+          "height_or_size": "80px desktop; 64px phone",
+          "content": "Desktop container has 48px gutters: TapMart lockup, Earn, For businesses, How it works, Sign in and cobalt Get started. Phone uses 16px gutters, lockup, Sign in and labeled Menu. At 320px, the lockup may reduce to a 24px mark and 26/28px wordmark while controls remain at least 44px. No app identity selector.",
+          "region": "Public navigation"
+        },
+        {
+          "technology": "CSS grid, foreground photography and browser-produced phone capture",
+          "height_or_size": "Desktop 1344px inner field: 540px text + 48px gap + 756px media; hero padding 32px 48px 48px; inner minimum 600px",
+          "content": "Headline at approximately y=144: Recreate. / Post. Drive. / Get paid. in Archivo 800 96/92px, -0.045em, ink. Below, two equal 48px white/ink outlined actions: Start earning and For businesses, separated by 12px. A short 16/24px line says Check the task, eligibility and approval conditions. Right stage is 756×600px: public-filming-01 at x=0,y=40, 510×340px; one 224px-wide phone at right=16px,top=64px, using capture-user-home-390. A solid underlay plane at x=24,y=112,width=716,height=360 gives the phone an actual edge to overlap. Bottom caption: Demo product · Generated filming illustration at 14/20px, plus a 48px Open earning example action.",
+          "region": "Hero — desktop"
+        },
+        {
+          "technology": "Single-column CSS composition",
+          "height_or_size": "Phone 358px field; headline begins y=88; media stage maximum 358×336px",
+          "content": "Phone headline uses 48/48px, three lines; 40/42px at 320–359px. After 24px, the two audience actions occupy equal 171px tracks with a 16px gap; stack at 320px if intrinsic text cannot fit. Conditions use 14/20px below. Stage shows public-filming-01 at x=0,y=16,248×165px and a 152px-wide phone at x=206,y=8, outer height approximately 327px. The phone overlaps only the rightmost 42px of the photograph; meaningful filming remains in the left safe area. Demo caption and Open earning example remain readable HTML outside the image.",
+          "region": "Hero — phone override"
+        },
+        {
+          "technology": "CSS sticky desktop media stage, IntersectionObserver and ordinary document sections",
+          "height_or_size": "Desktop two-column field 540px + 48px + 756px; three chapters each min-height min(70vh,560px); sticky stage top 112px,height 480px",
+          "content": "Order Recreate, Post, Drive. Headings Archivo 700 64/64px; one 18/24px explanatory line each. Recreate: Film your version of a business's Reel. Stage pairs a 180×320px contained reference-loopday-01 with a 510×340px public-filming-01 scene, 24px apart and vertically centered; source labels distinguish reference still and filming illustration. Post: Share the supplied Story. Instagram eligibility and required live time apply. Stage shows the intact finished story-loopday-01 at 240×427px with only a shallow source shadow. Drive: Carry an ad on your car. Monthly pay follows approved proofs. Stage contains vehicle-maya-01 at 600×400px within a 640×400px reservation; a labeled 160px rear-door diagram sits under the text, not on the photographed car. Each chapter has one quiet example link and visible demo/illustration provenance.",
+          "region": "Three earning explanations — desktop"
+        },
+        {
+          "technology": "Normal document flow, no sticky positioning",
+          "height_or_size": "Phone section padding 64px 16px; headings 36/38px",
+          "content": "Each earning chapter is independently complete. Recreate uses a 144×256px reference beside a 198px-wide filming crop, 16px gap, with both source labels outside. Post centers the intact Story at 180×320px. Drive uses vehicle-maya-01 at 358×239px, then the labeled diagram and proof-based-pay line. There is no horizontal chapter carousel, scroll pin or dependence on the previous stage remaining visible.",
+          "region": "Three earning explanations — phone"
+        },
+        {
+          "technology": "Two editorial columns with actual product captures",
+          "height_or_size": "Desktop 96px section padding; two 648px columns with 48px gap; phone stacked with 32px inter-column gap",
+          "content": "Heading Put your business out there. at 64/64px desktop or 36/38px phone. Campaigns: Choose people or cars. Fund the work. followed by capture-business-home-1440 in a 648px-wide browser frame. Monthly content: Real shoots. Photos and videos to review and schedule. followed by capture-business-content-1440 in an equal frame. Each has a readable Demo product label and a separate 48px Open example action. Beneath Monthly content: Essential: 1 shoot, 10 photos, 3 videos each month. Growth: 2 shoots, 20 photos, 6 videos each month. Full-width exclusion: Campaign spending is separate from your content subscription. Captures scale to 358px on phone but are inert illustrations, supported by readable HTML copy and full-size example routes.",
+          "region": "Business product, not a SaaS dashboard"
+        },
+        {
+          "technology": "Semantic ordered explanation and static implemented Earnings summary",
+          "height_or_size": "96px desktop or 64px phone section padding; three text steps plus a maximum 400px example field",
+          "content": "Get paid. heading at 64/64px desktop, 36/38px phone. Three ordinary steps: Choose work. Check the task, pay and conditions. / Do the work. Submit the required video, confirmation or proof. / Approval creates earnings. Request a payout from your available balance. Numbers are 32/36px, step titles 22/28px and body 16/24px. A static implemented read-only EarningsSummary shows Available earnings $78.40 and Payout requested $50.00 under Demo money · Not a customer result. Keep Fees and a payout minimum apply. Payout requests are reviewed. as visible 16/24px copy. No amount changes while scrolling.",
+          "region": "Work decision to Earnings"
+        },
+        {
+          "technology": "Plain HTML audience links and footer",
+          "height_or_size": "64px phone or 96px desktop finale padding; footer 32px phone or 48px desktop",
+          "content": "Your next move. at 36/38px phone and 64/64px desktop, followed by the same equal Start earning and For businesses actions. No real-examples section is rendered because no consented customer examples exist. Footer contains lockup, Earn, For businesses, Sign in, Terms, Privacy, Creator terms and Rules, plus the current year and Design Lab demonstration notice. Link targets are at least 44px.",
+          "region": "Final choice and legal access"
+        }
+      ],
+      "removed_or_hidden": [
+        "No fabricated testimonials, partner-logo wall, customer results, earned-income promises or real-example section.",
+        "No generated application screens, simulated social UI, fake installed vehicle advertising or decorative model.",
+        "No subscription price is invented for the public pitch; exact configured pricing remains in the plan destination.",
+        "No automatic-publishing claim, instant-payout language or claim that campaign spending is included in subscription fees.",
+        "Authentication and audience onboarding are destination previews with preserved intent, not a second account model.",
+        "No looping hero film control is shown when actual footage is unavailable."
+      ],
+      "implementation_steps": [
+        "Build the public header, headline, audience actions and static photography first. These must render without enhancement or capture-generation services.",
+        "Generate the three authenticated browser captures from their actual Lab routes. Insert them into deterministic device/browser frames with explicit dimensions and readable Demo labels.",
+        "Create Recreate, Post and Drive as ordinary sections with complete HTML copy. Add one sticky desktop stage only at 1200px and above and only when its height fits the viewport.",
+        "Use IntersectionObserver to select the active explanatory source. Apply one requestAnimationFrame-throttled CSS scroll variable if geometric movement is enabled; never set React state every animation frame.",
+        "Build the business section from the two actual desktop captures and their readable external descriptions, not a fabricated product montage.",
+        "Reuse the actual Lab EarningsSummary read-only in Get paid, with conspicuous demo-money provenance and no paid payout. It is an explanation, not a public proof point.",
+        "Map Start earning to the /earn destination preview, For businesses to /for-business, and shared Get started to signup intent selection. Do not link the public business CTA directly to authenticated /business.",
+        "Record a short genuine product walkthrough only after the HTML interactions work. An external Play demo can open that recording if generated; otherwise Open example remains the working control.",
+        "Capture desktop and phone first folds, each earning chapter, the business comparison and Get paid. Record a short desktop scroll pass and repeat it with reduced motion."
+      ],
+      "media": [
+        "public-filming-01: 3:2 public illustration, 510×340px desktop hero and 248×165px phone hero. The phone overlap must not cover the meaningful filming action.",
+        "capture-user-home-390: browser-produced 390×844 actual User Home capture inside the 402×864 logical phone frame, displayed at outer widths 224px desktop and 152px phone. Not image-generated.",
+        "reference-loopday-01: 9:16 still, 180×320px desktop earning stage and 144×256px phone; label Reference still · Demo.",
+        "story-loopday-01: same unmodified finished 9:16 master, 240×427px desktop and 180×320px phone.",
+        "vehicle-maya-01: 3:2 source, contained at 600×400px in the desktop Drive reservation and 358×239px on phone; label Demo vehicle · No installed ad.",
+        "Deterministic rear-door placement diagram: 160px reference width, 2px strokes, ordinary named-zone explanation; never projected onto the vehicle.",
+        "capture-business-home-1440 and capture-business-content-1440: actual browser-produced 1440×1000 captures, each in a 648px-wide desktop or 358px-wide phone browser frame.",
+        "The business captures visibly reuse the portrait, portfolio, car and delivered-file assets listed for their source screens. They do not create additional source-media records.",
+        "EarningsSummary is live read-only HTML using the existing Lab money fixture, not a generated screenshot or animated financial illustration."
+      ],
+      "motion_and_interaction": [
+        "Hero text and audience actions are visible immediately. The default photograph never pretends to play. Public Open example controls respond with the shared 140ms control feedback.",
+        "At desktop chapter boundaries, source selection uses a 220ms crossfade. Optional scroll movement translates the explanatory assembly by at most 24px and rotates a device by at most 8 degrees around Y; it returns to 0 degrees before a recorded demo plays.",
+        "Sticky positioning is native CSS; scrolling is never prevented, accelerated, snapped between chapters or tied to a synthetic work-state timeline.",
+        "On phone, all chapter scenes remain in normal document flow with no scroll choreography. They need no reveal animation to become visible.",
+        "Menu opens the shared 320ms sheet, with visible Close, Escape support and focus return.",
+        "If actual public footage is supplied later, play one muted 12-second film only when visible and preferences permit: four 3-second shots of filming, supplied creative, real vehicle context and implemented content review. Provide immediate Pause and Replay; no autoplay audio. Otherwise retain the still and omit Play film.",
+        "Get paid never animates an amount, approval or payout status. Any recorded product walkthrough is explicitly started and labeled Demo.",
+        "Reduced motion removes autoplay, sticky choreography, translation and rotation, replacing the desktop sequence with three complete static chapter compositions in ordinary flow."
+      ],
+      "three_second_read": "Recreate. Post. Drive. Get paid. TapMart connects understandable paid work with businesses that need people, car advertising and a separate real content service.",
+      "route": "/design-lab/public-home",
+      "name": "Public Homepage",
+      "states_shown_in_the_prototype": [
+        "Static default with generated supporting illustrations and visibly labeled browser-produced product demonstrations.",
+        "Desktop active Recreate, Post and Drive chapters under native scrolling.",
+        "Phone stacked explanations without pinning.",
+        "Open and closed public navigation menu.",
+        "Reduced-motion and no-enhancement complete static layouts.",
+        "Public example dialogs and intent-preserving audience destination previews.",
+        "No footage and no vehicle model, with finished static fallbacks and no misleading playback or 3D controls."
+      ],
+      "money": "The hero phone contains the same visibly labeled demo opportunity amounts as User Home, not a new earnings claim. Public HTML explains payment basis and approval conditions rather than advertising an income total. Get paid may show the actual implemented Lab summary with $78.40 available and a $50.00 requested payout, accompanied by Demo money · Not a customer result. There is no paid payout or count-up animation. Essential/Growth output counts are factual product inclusions; prices are omitted because no real settings value is supplied, and campaign spending is explicitly separate.",
+      "mock_data": [
+        "All product captures use the same fictional Maya Chen and Loopday Coffee fixtures as the authenticated prototypes; no separate marketing-only customer records.",
+        "Public acquisition copy: Recreate. / Post. Drive. / Get paid.; Start earning; For businesses; Check the task, eligibility and approval conditions.",
+        "Recreate explanation: Film your version of a business's Reel. Post explanation: Share the supplied Story. Drive explanation: Carry an ad on your car. Monthly pay follows approved proofs.",
+        "Plan output copy: Essential 1 monthly shoot, 10 photos, 3 videos; Growth 2 monthly shoots, 20 photos, 6 videos. Campaign spending is separate from your content subscription.",
+        "Demo EarningsSummary reads the same available 7840-cent and requested-payout 5000-cent fields as Profile; it never creates a new balance for the public site.",
+        "No customer testimonials, production logos, real installed-ad records or consented case studies are available; omit that section entirely.",
+        "Public route intents are earn and business preselection within the shared onboarding model, not separate account types."
+      ],
+      "depth_and_technology": "The public site uses one physical phone frame meeting a filming scene, then one explanatory source stage whose material changes with the task. Depth is limited to the useful overlap, the supplied creative and browser frames. Solid CSS planes provide the stage; no atmospheric generated background or glow. A genuine identity-matched vehicle model may replace the Drive photo only after explicit activation and only with permissioned model data, using the Profile viewer lighting and camera rules in a maximum 640×400px stage. The baseline needs no model, footage or WebGL. Keep at most one active canvas/player, dynamically load optional three.js only on request, cap DPR at 1.5 and render on demand.",
+      "viewport": "both: desktop 1440x900 and phone 390x844; verify 320x568, 768px and 1024px"
+    }
+  ]
+}

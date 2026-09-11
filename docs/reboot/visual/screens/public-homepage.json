@@ -1,0 +1,132 @@
+{
+  "screen": "Public Homepage",
+  "model": "gpt-6-astra",
+  "when": "2026-09-11T17:59:14.386Z",
+  "spec": {
+    "acceptance": [
+      "The first fold contains the literal Recreate. / Post. Drive. / Get paid. headline, two equally prominent audience actions, a person filming and one actual implemented phone demonstration.",
+      "The public page has neither an application rail nor bottom navigation. It does not present generated people or demo money as live customer evidence.",
+      "The hero phone is one upright frame, not a device pile. The filming action remains visible where the phone overlaps on mobile.",
+      "Recreate, Post and Drive remain understandable in still screenshots. The supplied Story is intact and the vehicle is not shown with an invented installed ad.",
+      "Desktop scroll changes only the explanatory media assembly. Native scrolling, keyboard navigation and ordinary document order remain intact.",
+      "The business section contains browser-produced captures of the implemented marketplace and Content workspace, with readable HTML descriptions, plan output counts and the spending exclusion outside the captures.",
+      "Get paid distinguishes approval, available earnings and reviewed payout requests. It does not count a balance upward or show a fabricated paid payout.",
+      "At 390px there is no pinning, horizontal page overflow or tiny interactive embedded app. Every capture has a separate 48px Open example action.",
+      "With reduced motion or unavailable footage, the complete static page remains finished; no empty film or 3D stage appears."
+    ],
+    "composition": [
+      {
+        "technology": "Semantic public header; CSS flexbox; menu sheet on phone",
+        "height_or_size": "80px desktop; 64px phone",
+        "content": "Desktop container has 48px gutters: TapMart lockup, Earn, For businesses, How it works, Sign in and cobalt Get started. Phone uses 16px gutters, lockup, Sign in and labeled Menu. At 320px, the lockup may reduce to a 24px mark and 26/28px wordmark while controls remain at least 44px. No app identity selector.",
+        "region": "Public navigation"
+      },
+      {
+        "technology": "CSS grid, foreground photography and browser-produced phone capture",
+        "height_or_size": "Desktop 1344px inner field: 540px text + 48px gap + 756px media; hero padding 32px 48px 48px; inner minimum 600px",
+        "content": "Headline at approximately y=144: Recreate. / Post. Drive. / Get paid. in Archivo 800 96/92px, -0.045em, ink. Below, two equal 48px white/ink outlined actions: Start earning and For businesses, separated by 12px. A short 16/24px line says Check the task, eligibility and approval conditions. Right stage is 756×600px: public-filming-01 at x=0,y=40, 510×340px; one 224px-wide phone at right=16px,top=64px, using capture-user-home-390. A solid underlay plane at x=24,y=112,width=716,height=360 gives the phone an actual edge to overlap. Bottom caption: Demo product · Generated filming illustration at 14/20px, plus a 48px Open earning example action.",
+        "region": "Hero — desktop"
+      },
+      {
+        "technology": "Single-column CSS composition",
+        "height_or_size": "Phone 358px field; headline begins y=88; media stage maximum 358×336px",
+        "content": "Phone headline uses 48/48px, three lines; 40/42px at 320–359px. After 24px, the two audience actions occupy equal 171px tracks with a 16px gap; stack at 320px if intrinsic text cannot fit. Conditions use 14/20px below. Stage shows public-filming-01 at x=0,y=16,248×165px and a 152px-wide phone at x=206,y=8, outer height approximately 327px. The phone overlaps only the rightmost 42px of the photograph; meaningful filming remains in the left safe area. Demo caption and Open earning example remain readable HTML outside the image.",
+        "region": "Hero — phone override"
+      },
+      {
+        "technology": "CSS sticky desktop media stage, IntersectionObserver and ordinary document sections",
+        "height_or_size": "Desktop two-column field 540px + 48px + 756px; three chapters each min-height min(70vh,560px); sticky stage top 112px,height 480px",
+        "content": "Order Recreate, Post, Drive. Headings Archivo 700 64/64px; one 18/24px explanatory line each. Recreate: Film your version of a business's Reel. Stage pairs a 180×320px contained reference-loopday-01 with a 510×340px public-filming-01 scene, 24px apart and vertically centered; source labels distinguish reference still and filming illustration. Post: Share the supplied Story. Instagram eligibility and required live time apply. Stage shows the intact finished story-loopday-01 at 240×427px with only a shallow source shadow. Drive: Carry an ad on your car. Monthly pay follows approved proofs. Stage contains vehicle-maya-01 at 600×400px within a 640×400px reservation; a labeled 160px rear-door diagram sits under the text, not on the photographed car. Each chapter has one quiet example link and visible demo/illustration provenance.",
+        "region": "Three earning explanations — desktop"
+      },
+      {
+        "technology": "Normal document flow, no sticky positioning",
+        "height_or_size": "Phone section padding 64px 16px; headings 36/38px",
+        "content": "Each earning chapter is independently complete. Recreate uses a 144×256px reference beside a 198px-wide filming crop, 16px gap, with both source labels outside. Post centers the intact Story at 180×320px. Drive uses vehicle-maya-01 at 358×239px, then the labeled diagram and proof-based-pay line. There is no horizontal chapter carousel, scroll pin or dependence on the previous stage remaining visible.",
+        "region": "Three earning explanations — phone"
+      },
+      {
+        "technology": "Two editorial columns with actual product captures",
+        "height_or_size": "Desktop 96px section padding; two 648px columns with 48px gap; phone stacked with 32px inter-column gap",
+        "content": "Heading Put your business out there. at 64/64px desktop or 36/38px phone. Campaigns: Choose people or cars. Fund the work. followed by capture-business-home-1440 in a 648px-wide browser frame. Monthly content: Real shoots. Photos and videos to review and schedule. followed by capture-business-content-1440 in an equal frame. Each has a readable Demo product label and a separate 48px Open example action. Beneath Monthly content: Essential: 1 shoot, 10 photos, 3 videos each month. Growth: 2 shoots, 20 photos, 6 videos each month. Full-width exclusion: Campaign spending is separate from your content subscription. Captures scale to 358px on phone but are inert illustrations, supported by readable HTML copy and full-size example routes.",
+        "region": "Business product, not a SaaS dashboard"
+      },
+      {
+        "technology": "Semantic ordered explanation and static implemented Earnings summary",
+        "height_or_size": "96px desktop or 64px phone section padding; three text steps plus a maximum 400px example field",
+        "content": "Get paid. heading at 64/64px desktop, 36/38px phone. Three ordinary steps: Choose work. Check the task, pay and conditions. / Do the work. Submit the required video, confirmation or proof. / Approval creates earnings. Request a payout from your available balance. Numbers are 32/36px, step titles 22/28px and body 16/24px. A static implemented read-only EarningsSummary shows Available earnings $78.40 and Payout requested $50.00 under Demo money · Not a customer result. Keep Fees and a payout minimum apply. Payout requests are reviewed. as visible 16/24px copy. No amount changes while scrolling.",
+        "region": "Work decision to Earnings"
+      },
+      {
+        "technology": "Plain HTML audience links and footer",
+        "height_or_size": "64px phone or 96px desktop finale padding; footer 32px phone or 48px desktop",
+        "content": "Your next move. at 36/38px phone and 64/64px desktop, followed by the same equal Start earning and For businesses actions. No real-examples section is rendered because no consented customer examples exist. Footer contains lockup, Earn, For businesses, Sign in, Terms, Privacy, Creator terms and Rules, plus the current year and Design Lab demonstration notice. Link targets are at least 44px.",
+        "region": "Final choice and legal access"
+      }
+    ],
+    "removed_or_hidden": [
+      "No fabricated testimonials, partner-logo wall, customer results, earned-income promises or real-example section.",
+      "No generated application screens, simulated social UI, fake installed vehicle advertising or decorative model.",
+      "No subscription price is invented for the public pitch; exact configured pricing remains in the plan destination.",
+      "No automatic-publishing claim, instant-payout language or claim that campaign spending is included in subscription fees.",
+      "Authentication and audience onboarding are destination previews with preserved intent, not a second account model.",
+      "No looping hero film control is shown when actual footage is unavailable."
+    ],
+    "implementation_steps": [
+      "Build the public header, headline, audience actions and static photography first. These must render without enhancement or capture-generation services.",
+      "Generate the three authenticated browser captures from their actual Lab routes. Insert them into deterministic device/browser frames with explicit dimensions and readable Demo labels.",
+      "Create Recreate, Post and Drive as ordinary sections with complete HTML copy. Add one sticky desktop stage only at 1200px and above and only when its height fits the viewport.",
+      "Use IntersectionObserver to select the active explanatory source. Apply one requestAnimationFrame-throttled CSS scroll variable if geometric movement is enabled; never set React state every animation frame.",
+      "Build the business section from the two actual desktop captures and their readable external descriptions, not a fabricated product montage.",
+      "Reuse the actual Lab EarningsSummary read-only in Get paid, with conspicuous demo-money provenance and no paid payout. It is an explanation, not a public proof point.",
+      "Map Start earning to the /earn destination preview, For businesses to /for-business, and shared Get started to signup intent selection. Do not link the public business CTA directly to authenticated /business.",
+      "Record a short genuine product walkthrough only after the HTML interactions work. An external Play demo can open that recording if generated; otherwise Open example remains the working control.",
+      "Capture desktop and phone first folds, each earning chapter, the business comparison and Get paid. Record a short desktop scroll pass and repeat it with reduced motion."
+    ],
+    "media": [
+      "public-filming-01: 3:2 public illustration, 510×340px desktop hero and 248×165px phone hero. The phone overlap must not cover the meaningful filming action.",
+      "capture-user-home-390: browser-produced 390×844 actual User Home capture inside the 402×864 logical phone frame, displayed at outer widths 224px desktop and 152px phone. Not image-generated.",
+      "reference-loopday-01: 9:16 still, 180×320px desktop earning stage and 144×256px phone; label Reference still · Demo.",
+      "story-loopday-01: same unmodified finished 9:16 master, 240×427px desktop and 180×320px phone.",
+      "vehicle-maya-01: 3:2 source, contained at 600×400px in the desktop Drive reservation and 358×239px on phone; label Demo vehicle · No installed ad.",
+      "Deterministic rear-door placement diagram: 160px reference width, 2px strokes, ordinary named-zone explanation; never projected onto the vehicle.",
+      "capture-business-home-1440 and capture-business-content-1440: actual browser-produced 1440×1000 captures, each in a 648px-wide desktop or 358px-wide phone browser frame.",
+      "The business captures visibly reuse the portrait, portfolio, car and delivered-file assets listed for their source screens. They do not create additional source-media records.",
+      "EarningsSummary is live read-only HTML using the existing Lab money fixture, not a generated screenshot or animated financial illustration."
+    ],
+    "motion_and_interaction": [
+      "Hero text and audience actions are visible immediately. The default photograph never pretends to play. Public Open example controls respond with the shared 140ms control feedback.",
+      "At desktop chapter boundaries, source selection uses a 220ms crossfade. Optional scroll movement translates the explanatory assembly by at most 24px and rotates a device by at most 8 degrees around Y; it returns to 0 degrees before a recorded demo plays.",
+      "Sticky positioning is native CSS; scrolling is never prevented, accelerated, snapped between chapters or tied to a synthetic work-state timeline.",
+      "On phone, all chapter scenes remain in normal document flow with no scroll choreography. They need no reveal animation to become visible.",
+      "Menu opens the shared 320ms sheet, with visible Close, Escape support and focus return.",
+      "If actual public footage is supplied later, play one muted 12-second film only when visible and preferences permit: four 3-second shots of filming, supplied creative, real vehicle context and implemented content review. Provide immediate Pause and Replay; no autoplay audio. Otherwise retain the still and omit Play film.",
+      "Get paid never animates an amount, approval or payout status. Any recorded product walkthrough is explicitly started and labeled Demo.",
+      "Reduced motion removes autoplay, sticky choreography, translation and rotation, replacing the desktop sequence with three complete static chapter compositions in ordinary flow."
+    ],
+    "three_second_read": "Recreate. Post. Drive. Get paid. TapMart connects understandable paid work with businesses that need people, car advertising and a separate real content service.",
+    "route": "/design-lab/public-home",
+    "name": "Public Homepage",
+    "states_shown_in_the_prototype": [
+      "Static default with generated supporting illustrations and visibly labeled browser-produced product demonstrations.",
+      "Desktop active Recreate, Post and Drive chapters under native scrolling.",
+      "Phone stacked explanations without pinning.",
+      "Open and closed public navigation menu.",
+      "Reduced-motion and no-enhancement complete static layouts.",
+      "Public example dialogs and intent-preserving audience destination previews.",
+      "No footage and no vehicle model, with finished static fallbacks and no misleading playback or 3D controls."
+    ],
+    "money": "The hero phone contains the same visibly labeled demo opportunity amounts as User Home, not a new earnings claim. Public HTML explains payment basis and approval conditions rather than advertising an income total. Get paid may show the actual implemented Lab summary with $78.40 available and a $50.00 requested payout, accompanied by Demo money · Not a customer result. There is no paid payout or count-up animation. Essential/Growth output counts are factual product inclusions; prices are omitted because no real settings value is supplied, and campaign spending is explicitly separate.",
+    "mock_data": [
+      "All product captures use the same fictional Maya Chen and Loopday Coffee fixtures as the authenticated prototypes; no separate marketing-only customer records.",
+      "Public acquisition copy: Recreate. / Post. Drive. / Get paid.; Start earning; For businesses; Check the task, eligibility and approval conditions.",
+      "Recreate explanation: Film your version of a business's Reel. Post explanation: Share the supplied Story. Drive explanation: Carry an ad on your car. Monthly pay follows approved proofs.",
+      "Plan output copy: Essential 1 monthly shoot, 10 photos, 3 videos; Growth 2 monthly shoots, 20 photos, 6 videos. Campaign spending is separate from your content subscription.",
+      "Demo EarningsSummary reads the same available 7840-cent and requested-payout 5000-cent fields as Profile; it never creates a new balance for the public site.",
+      "No customer testimonials, production logos, real installed-ad records or consented case studies are available; omit that section entirely.",
+      "Public route intents are earn and business preselection within the shared onboarding model, not separate account types."
+    ],
+    "depth_and_technology": "The public site uses one physical phone frame meeting a filming scene, then one explanatory source stage whose material changes with the task. Depth is limited to the useful overlap, the supplied creative and browser frames. Solid CSS planes provide the stage; no atmospheric generated background or glow. A genuine identity-matched vehicle model may replace the Drive photo only after explicit activation and only with permissioned model data, using the Profile viewer lighting and camera rules in a maximum 640×400px stage. The baseline needs no model, footage or WebGL. Keep at most one active canvas/player, dynamically load optional three.js only on request, cap DPR at 1.5 and render on demand.",
+    "viewport": "both: desktop 1440x900 and phone 390x844; verify 320x568, 768px and 1024px"
+  }
+}

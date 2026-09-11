@@ -1,0 +1,124 @@
+{
+  "screen": "Business Content",
+  "model": "gpt-6-astra",
+  "when": "2026-09-11T17:59:14.386Z",
+  "spec": {
+    "acceptance": [
+      "The default screenshot reads as real media under review, not a library dashboard. One large original dominates, with four smaller sources below and one white decision inspector.",
+      "At 1440px, widths are 816px media + 24px gap + 336px inspector. The original is fully contained in the 420px-high stage.",
+      "Approve content contains no dollar amount and never becomes Approve and pay. Selection alone never changes a file state.",
+      "File, shoot, delivery and post states are separately labeled. The approved-file/failed-post scenario must visibly preserve both facts.",
+      "The five default delivered files are actual local fixture files. Planned plan output counts do not imply that unseen deliverables exist or that the full monthly entitlement has been delivered.",
+      "Processing, scheduled, shoot-completed and not-subscribed states remove the large empty media stage. No ghost thumbnails or false progress appear.",
+      "Failed file fetch, successfully empty file list and processing are distinct screenshots with distinct copy and actions.",
+      "Scheduling states the timezone and that scheduling does not automatically publish. Manually marked publication remains literal."
+    ],
+    "composition": [
+      {
+        "technology": "Shared fixed business rail",
+        "height_or_size": "200px wide",
+        "content": "Same graphite spine and Loopday Coffee · Demo identity as Business Home, with Content selected. No campaign-wallet amount or subscription upsell card in the rail.",
+        "region": "Business navigation"
+      },
+      {
+        "technology": "Plain HTML header and local view tabs",
+        "height_or_size": "x=232,width=1176; title y=32; tabs y=116,height=44px",
+        "content": "Content at 36/40px. Growth · Active at 14/20px below, with Manage plan as a quiet link. Brand kit is a 48px action at right. Local views are Overview, Library, Calendar, Shoots in 16/20px; Overview selected. There is no universal production-progress bar.",
+        "region": "Workspace heading and service context"
+      },
+      {
+        "technology": "CSS grid lead heading",
+        "height_or_size": "y=176,height=30px; 12px gap below",
+        "content": "Ready to review at 24/30px over the media field, with 1 file needs approval · 5 delivered files at 14/20px. These are fixture query results. The inspector aligns with the image stage below, not with the page title.",
+        "region": "Next real step"
+      },
+      {
+        "technology": "Contained original image and explicit original-view action",
+        "height_or_size": "x=232,y=218,width=816,height=420px",
+        "content": "Graphite inset stage with 6px media radius. content-loopday-counter-01 is a 3:2 original displayed at 630×420px, centered horizontally with 93px side letterboxing. No crop, photo play button, caption over pixels or simulated timeline. Inspector provides Open original.",
+        "region": "Selected delivered source"
+      },
+      {
+        "technology": "CSS grid filmstrip and selection buttons",
+        "height_or_size": "x=232,y=654;width=816; four 192×144px frames with 16px gaps",
+        "content": "The four additional files are pastry 4:5, pour 9:16 still, window 3:2 and cups 1:1. All are contained in 4:3 underlay frames. File names and literal states sit 8px below at 14/20px, wrapping to two lines. Selection adds the shared 3px outline and Selected label, never a status-colored card.",
+        "region": "Actual delivered filmstrip"
+      },
+      {
+        "technology": "White inspection region with controlled caption form",
+        "height_or_size": "x=1072,y=218,width=336; 24px padding; minimum approximately 584px",
+        "content": "Inner width 288px. Order: File state · New at 14/20px; Counter reset at 22/28px; Shoot 01 · May 7, 2026, Uploaded by Imani Cole and Demo delivered file at 14/20px. Caption label precedes a 72px textarea containing A fresh start at the counter. Existing edit-note content appears only when supplied. Separate Post label reads Not scheduled. Primary Approve content is 48px, followed by Request an edit at 48px, Skip at 44px and Open original at 44px. No money, animated approval icon or empty post-control placeholders.",
+        "region": "One decisive inspector"
+      },
+      {
+        "technology": "Plain independent service rows",
+        "height_or_size": "Begins approximately y=878; 32px major section gaps",
+        "content": "This month's shoots at 24/30px. Shoot 01: Shoot completed / Delivery recorded / 5 files available, with planned 10 photos · 3 videos kept as planned counts. Shoot 02: Your shoot is being scheduled, planned 10 photos · 3 videos, no invented date or assigned creator. Each is an independent link. Upcoming posts follows; one failed post retains its real error, and one scheduled post retains its timezone. Ideas are omitted because none are returned.",
+        "region": "Service and publishing continuation"
+      }
+    ],
+    "removed_or_hidden": [
+      "Campaign budgets, wallet credit, participant approval and approve-and-pay controls are not part of Content.",
+      "Full shoot assignment, delivery history and location stay in the shoot destination.",
+      "Date/time/format scheduling opens a short form rather than occupying the inspector permanently.",
+      "Brand-kit proposals, connection management and health fixes remain canonical linked destinations.",
+      "No imaginary content files, shoot ETA, self-booking calendar, generated deliverable or production percentage.",
+      "No automatic publication promise, calendar drag-to-reschedule or unsupported platform selector."
+    ],
+    "implementation_steps": [
+      "Build the ready Overview using five local file records. Default-select content-01 without marking it approved.",
+      "Implement asset selection as a source handoff that changes file, caption, uploader, edit note and linked post together. Keep the stage dimensions stable while the next image loads.",
+      "Implement Approve content through the demo adapter, then persist approved and make Schedule the primary permitted action. Do not create an earning or wallet entry.",
+      "Implement Request an edit with a required note, preserving that note and the actual file state; do not invent an editing_in_progress enum. Skip uses the fixture's explicit rejected status plus action provenance skipped.",
+      "Implement Schedule with date, time, America/Chicago, Instagram and Photo/Reel/Story fields constrained by permitted formats. Confirmation creates a scheduled post fixture, not a published post. A later explicit Mark published action records manually_marked provenance.",
+      "Library groups the five originals under Shoot 01 using CSS grid with minimum 176px columns and 16px gaps. Calendar offers Agenda and Month. Show a month only when seven 96px columns fit; otherwise use Agenda. Shoots renders the independent slot records.",
+      "Implement ?state=processing, scheduled, shoot-completed, not-subscribed, files-error, delivered-empty, slots-error and approved-failed-post. Remove media regions when there are no files; preserve any successfully loaded independent sections.",
+      "Capture ready, approved-file/failed-post, processing and failed-fetch views before generating the public Content capture."
+    ],
+    "media": [
+      "content-loopday-counter-01: 3:2 original, selected at 630×420px inside an 816×420px graphite stage.",
+      "content-loopday-pastry-02: 4:5 original in a 192×144px contained filmstrip frame.",
+      "content-loopday-pour-03: 9:16 still photo in a 192×144px contained frame; explicitly not a video.",
+      "content-loopday-window-04: 3:2 original in a 192×144px contained frame.",
+      "content-loopday-cups-05: 1:1 original in a 192×144px contained frame.",
+      "portrait-imani-01: 40px source avatar only in the assigned-creator shoot detail; not a decorative portrait in the ready inspector.",
+      "Library uses these same five sources, not generated thumbnail replacements or extra files inferred from plan counts."
+    ],
+    "motion_and_interaction": [
+      "Selecting a filmstrip source crossfades only imagery over 180ms after the next source loads. Metadata changes atomically with its file record. Reduced motion replaces immediately.",
+      "Overview/Library/Calendar/Shoots selection moves the edge over 180ms and changes the panel over 140ms. Preserve each view's scroll and selection.",
+      "Approve content, caption save, edit request and Skip wait for the 250ms demo response. Confirmed state uses 140ms feedback and optional 1200ms accent-wash highlighting, with no financial animation.",
+      "Edit and schedule dialogs enter over 320ms with at most 48px translation and the shared ease-out. Keep dirty input on error or cancelled dismissal.",
+      "Calendar records never animate into Published. Manual marking changes the explicit post state only after the demo response.",
+      "No filmstrip autoplay or hover playback. If a genuine video file is supplied later, only explicit Play starts it, and starting another source stops the first.",
+      "Processing and missing-provider/service states are static text. No spinner stands in for unknown-duration production."
+    ],
+    "three_second_read": "These are my delivered files. I can inspect one, approve it or request a change, then schedule it without confusing file approval with publication or campaign payment.",
+    "route": "/design-lab/business-content",
+    "name": "Business Content",
+    "states_shown_in_the_prototype": [
+      "Ready: one new file, four approved files, five available originals and two independent Growth shoot slots.",
+      "Approved selected file with a separately failed Instagram post and the stored error.",
+      "Confirmed content approval, edit note saved, explicit skip provenance and mutation failure.",
+      "Scheduled post, followed only on explicit action by Manually marked published.",
+      "Planned shoot without a date, scheduled shoot with actual fixture time, completed shoot with delivery none, and processing delivery.",
+      "Not subscribed with no retained assets: factual Essential/Growth counts and View plans; missing configured prices say Pricing unavailable.",
+      "Delivery recorded but file fetch failed, successful empty delivered-file response and unavailable shoot-slot query as separate states.",
+      "Library contact sheet, Calendar agenda/month fit behavior and independent Shoots view."
+    ],
+    "money": "No campaign or personal money appears in the review workspace. The plan line says Growth · Active, with no fabricated subscription price. The not-subscribed scenario lists Essential: 1 monthly shoot, 10 photos, 3 videos and Growth: 2 monthly shoots, 20 photos, 6 videos, followed by Campaign spending is separate. Missing price settings produce Pricing unavailable rather than $0. Approve content never displays a payable amount.",
+    "mock_data": [
+      "Business demo-loopday: Loopday Coffee, Austin; content subscription Growth, active; configured price absent in the Lab.",
+      "shoot-demo-01: scheduled_at 2026-05-07T09:00:00-05:00, America/Chicago; shoot state done; delivery state delivered; planned photos 10, planned videos 3; assigned creator Imani Cole, verified; exactly five returned photo files.",
+      "shoot-demo-02: planned, delivery none, no date and no assigned creator; planned photos 10, videos 3. One slot's completion never completes this slot.",
+      "content-01: Counter reset; photo; new; content-loopday-counter-01; uploader Imani Cole; caption A fresh start at the counter.; no edit note; no linked post.",
+      "content-02: Pastry detail; photo; approved; content-loopday-pastry-02; linked post failed with stored error Instagram authorization expired.; supported next action Open Connections.",
+      "content-03: Slow pour; photo; approved; content-loopday-pour-03; existing edit note Keep the kettle and cup fully visible.; no post.",
+      "content-04: Window light; photo; approved; content-loopday-window-04; post scheduled for 2026-05-15T10:30:00-05:00 on Instagram as Photo; not published.",
+      "content-05: Green cups; photo; approved; content-loopday-cups-05; no post.",
+      "The five-file count is the returned delivery inventory, not a claim that all planned monthly output has been delivered. No missing videos are fabricated."
+    ],
+    "depth_and_technology": "A dark contained original and a white inspector form the useful media-to-decision edge. Filmstrip sources are shallow, unboxed selections rather than a moving wall. CSS Grid supplies the workspace; no WebGL or animation behind approval controls. Use the split only when primary media remains at least 540px wide beside the 336px inspector and 24px gap; otherwise open dedicated inspection. Empty service states collapse to content height rather than reserving a cinematic blank stage.",
+    "viewport": "desktop 1440x900; also capture 1440x1000 without rescaling"
+  }
+}

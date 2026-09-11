@@ -1,0 +1,115 @@
+{
+  "screen": "Business Home",
+  "model": "gpt-6-astra",
+  "when": "2026-09-11T17:59:14.386Z",
+  "spec": {
+    "acceptance": [
+      "At 1440px, the main field is exactly 1176px wide after the 200px rail and two 32px gutters. There is no permanent empty context column.",
+      "Six people appear as three open comparison columns and two rows, with source work larger than the narrow portraits. They must not resemble a CRM list, repeated portrait-card directory or KPI dashboard.",
+      "Names, city, supplied qualifications and View person are visible without hover. The missing-sample participant is truthful rather than filled with stock work.",
+      "At 900px height, the Available cars heading and beginning of the shelf are visible; at 1000px, more vehicle photography is revealed without changing any dimensions.",
+      "The vehicle shelf uses four 336px objects with 24px gaps and a partial next object, giving genuine native overflow. Asking price remains explicit.",
+      "Attention contains exactly two real fixture summaries, not analytics. Switching identity clears them before another identity renders.",
+      "Cars-only, no results and partial-query failure do not reuse or manufacture the people data."
+    ],
+    "composition": [
+      {
+        "technology": "Fixed CSS rail and ordinary navigation links",
+        "height_or_size": "200px wide; full viewport height",
+        "content": "Graphite rail with offset-frame TapMart lockup, a 168px-wide selector showing LC initials, Business · Demo and Loopday Coffee. Five 48px navigation rows; Home selected with cobalt edge. Search, Messages and Notifications are labeled utilities below. No wallet total, upgrade card or miniature chart.",
+        "region": "Business navigation spine"
+      },
+      {
+        "technology": "Flexbox heading and city dialog",
+        "height_or_size": "x=232,y=32,width=1176,height=48px",
+        "content": "Find people and cars in Archivo 700 36/40px, tracking -0.03em. Austin, Texas city control is right aligned in a 48px target. Main background #F2F5F7. No introductory paragraph or business cover image.",
+        "region": "Marketplace purpose"
+      },
+      {
+        "technology": "Plain actionable summary links",
+        "height_or_size": "44px at y=88",
+        "content": "Two factual summaries inline with a 32px gap: 2 campaign decisions and 1 file to approve. Each has a source-specific arrow and opens its actual fixture queue or Content selection. No count cards or urgency animation.",
+        "region": "Attention"
+      },
+      {
+        "technology": "Accessible local view controls",
+        "height_or_size": "44px at y=140",
+        "content": "For you, People, Cars, Nearby in 16/20px. For you selected with the 24×3px cobalt edge. The people gallery has a semantic heading that is visually hidden to avoid another redundant title row.",
+        "region": "Discovery views"
+      },
+      {
+        "technology": "CSS grid; source images contained",
+        "height_or_size": "Starts y=200; three 376px columns, 24px gaps; two 248px rows with 24px row gap",
+        "content": "Column x positions 232,632,1032. Each open spread has a 168px media group: 96×144px portrait vertically centered at left, 12px gap and a 268×168px contained work sample. An 8px gap precedes a 48px caption row: 18/24px name and 14/20px city/record facts on the left, visible View person link on the right. A 4px gap precedes one 14/20px qualification line. No shell border, raised surface or hover reveal. Theo's missing portrait uses initials and the absent work area is plain canvas with No work samples shared., not an empty framed tile.",
+        "region": "People-first comparison gallery"
+      },
+      {
+        "technology": "Link plus native horizontal scroll region",
+        "height_or_size": "See all people y=728,height=44px; car heading y=788,height=44px; images begin y=844",
+        "content": "See all people selects People. Available cars at 24/30px is followed by See all cars and separate 44px Previous/Next controls. Four 336×224px photographs use 24px gaps, starting x=232. The shelf width is 1176px; overflow remains inside the region. Captions below images use 18/24px vehicle name, 14/20px city and zones, then the named Asking price in 16/24px with its recorded basis.",
+        "region": "Vehicle marketplace shelf"
+      }
+    ],
+    "removed_or_hidden": [
+      "Direct Reel and Story request forms stay in person detail, not on every gallery item.",
+      "Full portfolio, reviews, Instagram provenance and verification detail remain behind View person.",
+      "Complete vehicle gallery, zones, asking prices, offer duration and monthly negotiation stay in car detail.",
+      "Campaign review evidence, applications and payment decisions stay in their source queue.",
+      "Wallet, subscription billing, brand kit, connections and health remain under their canonical business destinations.",
+      "No follower leaderboard, projected reach, map-first search, classifieds controls or future team tools."
+    ],
+    "implementation_steps": [
+      "Build the fixed 200px rail and 1176px field, then the comparison-spread component with no enclosing card.",
+      "Bind the six-person fixture list and four-vehicle list independently. One failed query must not erase the other successful section.",
+      "Implement For you, People, Cars and Nearby as explicit fixture views. Cars-only uses a two-column open gallery with 576px columns and 24px gap, not list rows.",
+      "Implement View person with a portfolio-led preview and the two existing request destinations; show the named recipient before any request form.",
+      "Implement View car with the correct asking-price record and a separate Send offer preview. Its proposed monthly pay must not overwrite the vehicle's asking price.",
+      "Wire the two attention links to Campaigns destination preview and /design-lab/business-content?asset=content-01 respectively.",
+      "Use native overflow-x:auto and proximity scroll snapping for the vehicle shelf. Previous/Next move one 360px item step and disable only at genuine ends.",
+      "Capture 1440×900 and 1440×1000, then inspect two-column behavior below 1280px and source-aware absence states."
+    ],
+    "media": [
+      "portrait-maya-01, portrait-eli-01, portrait-imani-01, portrait-jules-01 and portrait-nora-01: 4:5 originals cropped to 96×144px discovery portraits. Theo uses deterministic TC initials, not a generated replacement face.",
+      "work-maya-loopday-01: 9:16, contained in Maya's 268×168px sample field.",
+      "work-eli-spurroom-01: 4:5, contained in Eli's 268×168px sample field.",
+      "content-loopday-counter-01: 3:2, contained in Imani's 268×168px sample field. This is the same fictional shoot/file relationship used in Content.",
+      "work-jules-flowers-01 and work-nora-lunch-01: 4:5 originals contained in the corresponding 268×168px fields.",
+      "vehicle-maya-01, vehicle-eli-01, vehicle-nora-01 and vehicle-theo-01: 3:2 originals at 336×224px in the shelf; no campaign artwork is projected onto them.",
+      "Loopday business identity uses deterministic LC initials on #E6EBF0, not a model-generated logo."
+    ],
+    "motion_and_interaction": [
+      "View selection moves its edge over 180ms and replaces fixture results over 140ms with the shared ease-out. No staggered gallery entrance or re-ranking animation.",
+      "View person and View car use one 280ms source-media transition, with a 140ms fade fallback. The source name, qualifications and money do not animate between records.",
+      "Hover changes the link underline or control color over 140ms. Portraits and work samples do not lift, zoom or autoplay.",
+      "Previous/Next advance the native shelf by 360px over 180ms using Web Animations or a controlled scroll interpolation; touch and trackpad retain native scrolling. Reduced motion moves immediately.",
+      "City editing uses the shared 320ms sheet or desktop modal. Saving changes only the fixture's city after response; missing city does not request location access.",
+      "Identity switching clears old marketplace and attention content before rendering the new context. No visual crossfade may mix two businesses' data."
+    ],
+    "three_second_read": "I can choose people by their actual work, inspect suitable cars and deal with the two decisions waiting for this business.",
+    "route": "/design-lab/business-home",
+    "name": "Business Home",
+    "states_shown_in_the_prototype": [
+      "For you with six fictional people, four offered vehicles and two source-specific attention summaries.",
+      "People-only and Cars-only discovery.",
+      "Nearby with Austin and missing-city correction.",
+      "A participant with missing portrait and no work sample.",
+      "No people, no cars and no matching results without invented inventory.",
+      "People-query failure with the car section still usable.",
+      "No attention records, removing the band and its spacing."
+    ],
+    "money": "People discovery has no unsolicited price or reach metric. Vehicle captions label recorded Asking price: Rear doors · $180.00 per month for Maya; Driver door · $120.00 per month for Eli; Rear panel · $160.00 per month for Nora; Full side · $260.00 per month for Theo. These are named-zone asking prices, not accepted offers or campaign earnings. Use 16/24px tabular ink, not giant cobalt money badges. A Send offer preview shows any proposed monthly amount in a separate labeled field.",
+    "mock_data": [
+      "Active business demo-loopday: Loopday Coffee, coffee counter, Austin, Texas, logo absent, membership role owner; fictional Business identity.",
+      "Maya Chen: Austin; 7 completed; rating 4.8 from 5 demo reviews; Instagram Manual · 1,420 followers; unverified creator; work-maya-loopday-01.",
+      "Eli Moreno: Austin; 4 completed; rating 4.7 from 3 demo reviews; Instagram API connected · 2,080 followers; work-eli-spurroom-01.",
+      "Imani Cole: Austin; 12 completed; rating 4.9 from 8 demo reviews; verified creator; Instagram facts omitted; content-loopday-counter-01.",
+      "Jules Park: Austin; 3 completed; rating absent; Instagram API connected · 1,180 followers; work-jules-flowers-01.",
+      "Nora Bell: Round Rock; 5 completed; rating 4.6 from 4 demo reviews; Instagram facts omitted; work-nora-lunch-01.",
+      "Theo Grant: Austin; no portrait, no rating and no work samples; completed count unavailable; creator verification unverified. Display TG initials in the final build.",
+      "Vehicles: Maya's blue 2020 Toyota Corolla hatchback, Eli's silver 2018 Honda Civic sedan, Nora's white 2019 Mazda CX-5 and Theo's white 2021 Ford Transit Connect. All have model_url null.",
+      "Attention query returns exactly 2 actionable campaign decisions and 1 new delivered file needing approval. Do not derive these counts from visible gallery items."
+    ],
+    "depth_and_technology": "The graphite spine is the structural anchor; media spreads remain open on the light canvas. Depth comes from a narrow identity portrait beside larger work, not raised cards. The lower landscape shelf changes scale to physical vehicles. No WebGL or video loads on this root, no decorative map and no persistent empty inspector. Below 1280px use two people columns; when available media/inspector widths would be violated, destination inspection becomes a dedicated preview.",
+    "viewport": "desktop 1440x900; also capture 1440x1000 without rescaling"
+  }
+}
