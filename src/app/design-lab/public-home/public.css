@@ -71,6 +71,7 @@
   .lab .pub-header { min-height: 80px; }
   .lab .pub-nav { display: flex; }
   .lab .pub-menu { display: none; }
+  .lab .pub-header-m { display: none; }
   .lab .pub-hero { display: grid; grid-template-columns: 540px 756px; gap: 48px; align-items: start; padding: 32px 48px 48px; max-width: 1440px; margin: 0 auto; }
   .lab .pub-hero-text { padding-top: 32px; }
   .lab .pub-conditions { font-size: 16px; line-height: 24px; }
