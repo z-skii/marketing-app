@@ -1,0 +1,58 @@
+{
+  "id": "work-maya-spurroom-02",
+  "kind": "product",
+  "aspect": "4:5",
+  "prompt": "Photorealistic 4:5 product-work photograph in a fictional ordinary bicycle repair shop. Show a practical city bicycle's front wheel, silver spokes and dark rubber tire resting beside a repair stand, with a natural hand in a slate-blue overshirt sleeve checking the tire. Use a close but complete composition with useful workshop context: painted concrete floor, simple tools and muted shelves, no readable branding. Side daylight at 45 degrees gives the metal and tire clear depth without showroom glamour. Neutral colors, believable mechanics and realistic hand anatomy. This is fictional Design Lab portfolio media, not customer evidence. No lettering, logos, price labels, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Correct the canvas to the required 4:5 ratio using a crop only. For the displayed 1024×1536 image, retain the full width and crop approximately 176 pixels from the top and 80 pixels from the bottom, producing 1024×1280. Keep the hand, tire contact point, hub and bottom of the tire intact. Leave the bicycle mechanics, hand anatomy, slate-blue sleeve, workshop surfaces, daylight and colors unchanged; do not generatively extend the scene or add text, logos or overlays.",
+        "summary": "A convincing daylight photograph of a city bicycle tire being checked in an ordinary repair workshop. The practical styling, natural hand and restrained setting closely match the brief, but the delivered portrait canvas is 2:3 rather than the required 4:5.",
+        "problems": [
+          "Overall canvas: the image is 2:3, not the specified 4:5, requiring a deliberate crop before delivery."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "",
+        "summary": "A convincing workshop photograph shows a slate-blue-sleeved hand checking an ordinary city bicycle tire in natural daylight. The styling closely matches the brief, but the delivered 2:3 format and clipped wheel miss the requested complete 4:5 composition.",
+        "problems": [
+          "Overall canvas: the image is 2:3 rather than the specified 4:5, making it unsuitable for the intended placement without reframing.",
+          "Left edge: a substantial section of the wheel extends outside the frame, undermining the requested close but complete product view."
+        ],
+        "scores": {
+          "purpose": 7,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 8,
+          "product_correct": 8,
+          "not_ai_looking": 9,
+          "premium": 8
+        },
+        "revised_prompt": "Create a photorealistic product-work photograph for clearly labeled fictional TapMart Design Lab portfolio media, not customer evidence. Output exactly 4:5 portrait. In an ordinary bicycle repair workshop, show a practical muted-green city bicycle's complete front wheel, silver rim and spokes, dark rubber tire, fork and believable front brake hardware beside a simple repair stand. Frame slightly wider than an extreme close-up: the entire tire circumference must remain visible with comfortable clearance from all four image edges, especially the left and bottom. The bicycle frame may continue beyond the upper edge. A single anatomically natural hand enters from the right in a slate-blue overshirt sleeve and gently squeezes the tire; show believable finger placement and contact. Use a 50mm-equivalent viewpoint without wide-angle distortion. Include useful but restrained context: worn painted concrete floor, workbench, simple tools and muted storage shelves. Directional window daylight from the right at approximately 45 degrees should give the rubber, hand and metal realistic depth. Neutral source-like color, modest everyday materials, no showroom glamour or luxury cycling styling. Keep the wheel mechanically coherent, with clean spoke connections, plausible hub construction and correctly aligned brake pads. No lettering, visible logos, labels, watermarks, UI, neon or artificial glow. Compose natively at 4:5 rather than stretching, cropping an incomplete wheel or generatively extending an existing photograph.",
+        "verdict": "regenerate"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}
