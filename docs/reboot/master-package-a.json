@@ -1,0 +1,363 @@
+{
+  "chosen_direction": {
+    "what_was_merged": [
+      "From The Night Stage: immersive, user-controlled media previews and a cinematic public introduction. Not its dark application shell, theatrical transitions or emphasis on continuous watching.",
+      "From The Civic Ledger: compact attention queues, explicit money breakdowns and literal status language. Not its spreadsheet-led composition or reduction of creative work to thumbnail rows."
+    ],
+    "name": "The Local Edit",
+    "why_it_won": "It makes the work tangible before making the software visible. Real media explains the opportunity; an editorial hierarchy makes the commitment and money readable; restrained utility surfaces handle the operational detail. It accommodates a video, a finished Story, a physical vehicle and a monthly content service without pretending they are the same object. Its distinctive red return mark, condensed headlines and warm working surfaces are recognizable without expensive effects. The main implementation work is disciplined composition, not a new rendering platform."
+  },
+  "information_architecture": {
+    "business_journey": [
+      "01 — First login and identity. Complete the shared name → intent → profile-basics onboarding. Choosing business continues into business setup; put name, category and city first, with the remaining profile fields available in Business. Existing members choose a business in the identity switcher. Decision: which business am I working for? Arrive at /business with its name and logo visible. Do not make a subscription purchase an additional onboarding requirement for capabilities that the existing backend permits.",
+      "02 — Home: find someone. Top to bottom: global identity header; 'Find people and cars' heading and business-city control; a compact attention strip only when real actions exist; For you / People / Cars / Nearby filters; people; available cars. For you shows up to four person rows on phone and six on desktop before 'See all people', followed by a landscape car rail. The attention strip exposes at most two actionable summaries, linking directly to campaign review or content approval. Decision: find a person, find a car, or create an open campaign. Home remains a marketplace, not an analytics dashboard.",
+      "03 — Person or car detail: assess fit. A person page presents portrait, name and city; actual verification and connected Instagram facts; completed work and rating when present; work samples; reviews; 'Request a Reel' and 'Request a Story'. A car page presents real photographs, confirmed vehicle details and city; offered zones and their asking prices; an actual 3D view only when available; then 'Send offer'. Decision: is this person or vehicle suitable? Missing social information is omitted or explicitly unavailable, never filled with plausible numbers.",
+      "04 — Direct route. A person request collects the appropriate Reel or Story brief and pay, then uses the existing direct-request flow. A car offer collects offered zones, duration and monthly pay. Show the recipient and the full commitment before sending. The existing request or offer opens its conversation. Acceptance follows the normal work lifecycle; an accepted car offer becomes a booking. Do not publish a private request into the open marketplace or introduce bidding for Reel and Story work.",
+      "05 — Open campaign route: Create. At /business/create show exactly three large, media-led choices in this order: Recreate a Reel, Instagram Story ad, Car advertising. Each has one sentence describing the actual work. A Growth trend enters the Recreate flow with its existing generated brief; it is not a fourth campaign type. Decision: what should someone do for this business?",
+      "06 — Configure the work. Recreate: paste reference → inspect reference and drafted brief → edit title, steps, must keep, can change, required elements, duration, pay, spots and deadline. Story: upload the finished 9:16 image or video → set pay, spots, follower minimum and live hours, defaulting to the real 24-hour default. Car: select zones → duration in days → color and body-type preferences → artwork and optional campaign visual → monthly pay, spots and deadline. All three retain the common brief, requirements and campaign fields. Show only the fields relevant to the selected kind.",
+      "07 — Review and fund. Present the actual reference or artwork, the precise task, eligibility, timing, spots and the existing funding calculation. Separate payment to participants, platform fee and total campaign funding according to the server's amount semantics. Car pay remains monthly; do not invent a total by dividing days by 30. Show this business's wallet balance and any funding shortfall. Stripe top-up opens within this flow and returns to the preserved setup. State 'Campaign funding is separate from your content subscription.' Decision: fund and publish, return to edit, or retain an existing draft.",
+      "08 — Campaign is running. Show success only after the server confirms publication and its actual campaign state. Open the campaign detail, not a celebratory dashboard. Top to bottom: kind and status; media and brief summary; funding facts; applications or invitations; work awaiting review; remaining work; management actions. Pause and close remain available where permitted. Campaigns uses All / Review / History, with a status filter and a distinct Drafts section in All. Closed work still awaiting a decision is not presented as completed.",
+      "09 — Review work and pay. The Review view combines actionable applications, submitted videos, Story verification decisions and car proofs, retaining their source labels. Open one item: evidence first; relevant requirement checklist; conversation and revision history; decision controls. Accept an application separately from approving a submission. Campaign approval says 'Approve and pay' with the actual amount; revision requires a note where the existing flow requires one; rejection is explicit. Only the server-confirmed approval and earnings records establish payment. Installation approval does not imply that future car months have been paid. After completed work, retain the business review and rating action.",
+      "10 — Enter the separate content service. Content is useful even when empty: a not-subscribed business sees what a real shoot supplies, the two configured plans and a clear plan CTA, not a library of invented assets. Essential provides one monthly shoot, 10 photos and 3 videos; Growth provides two, 20 photos and 6 videos. Prices and trialing, active, past_due or cancelled status come from settings and billing. The purchase summary explicitly excludes campaign budgets. Decision: subscribe, manage the existing plan, or continue using other available business capabilities.",
+      "11 — Follow the shoot. Content Overview shows the next real step first. Planned slot without a date: 'Your shoot is being scheduled'. Scheduled slot: actual date, time, location, planned counts and assigned verified creator when assigned. Done with no delivery progress: 'Shoot completed'. Processing: 'Your content is processing'. Delivered: 'Ready to review'. Cancelled shoots remain visible in shoot history. Show each monthly slot separately; one completed shoot must not imply that the second Growth shoot is complete. Do not invent a self-booking scheduler or delivery ETA.",
+      "12 — Review delivered content. The library contains only actual deliverables, grouped by shoot. Open an asset to see the image or video, caption, shoot provenance and current status; then Approve, Request an edit with a note, Skip, or Schedule as supported by the existing flow. 'Approve content' is visually and verbally distinct from campaign 'Approve and pay'. Edit notes do not become a fabricated production-progress status. Decision: use this asset, ask for a change, skip it or place it on the calendar.",
+      "13 — Schedule and publish. Schedule selects the real date, time, Instagram platform and Reel, photo or Story format. Show the actual scheduling timezone. Calendar records retain idea, draft, needs_approval, approved, scheduled, published and failed independently of the file's status. Scheduling does not promise automatic publishing. Until an account actually posts, use the existing manual 'Mark published' path and identify the result as manually marked. Failed posts remain visible with their real error and supported next action, not silently moved to Published.",
+      "14 — Decide what to post next. Content Overview ends with recommendations and ideas from existing sources, plus a Growth trends entry when entitled. A ready asset can lead directly to scheduling; an idea is labeled Idea, not delivered content; a trend leads to a Recreate draft. Brand-kit approval, account connections and health fixes are contextual links into their existing screens. Business holds profile, connections, health, campaign wallet, subscription and billing. Decision: use what is ready, improve a real missing input, or launch the next campaign."
+    ],
+    "audit": [
+      "This is an inventory-level structural audit, not an assessment of an unseen interface. Preserve the useful four-destination Personal model and five-destination Business model. The principal problem to solve is duplicated access and overlapping meanings, not the number of underlying tables.",
+      "A new person should not have to finish Instagram connection, creator verification, vehicle registration and a portfolio before discovering work. Keep progressive eligibility: Recreate needs neither Instagram nor a vehicle; Story checks Instagram and followers; Car checks a vehicle. Creator verification is its own qualification for assigned subscription shoots.",
+      "Activity, notifications, messages and opportunity detail all refer to the same work. Activity becomes the place to resume it; alerts and conversations deep-link to that work page. Do not create separate mini-apps for requests, submissions, revisions and car proofs.",
+      "Campaigns, invites, applications, submissions, offers and bookings have related but different state machines. Group them around the relevant work for comprehension, but retain their record types and actions. Do not replace them with one invented universal progress percentage or change backend architecture.",
+      "Content, Calendar and Social currently expose overlapping post and account information. Establish Content as the primary home for files, shoots and publishing; make Calendar a view of the same posts and Social an account overview, not additional independent planning systems.",
+      "A shoot, its delivery, a deliverable and a calendar post can be in different states simultaneously. Preserve that distinction. A completed shoot can still be processing, an approved file can have a failed post, and a scheduled post is not evidence that publication occurred.",
+      "Wallet, Plan, Billing and Earnings describe different money. Keep personal earnings separate from business campaign credit, and keep subscription billing separate from campaign funding. The interface must not create an 'all money' total that crosses identities or payment models.",
+      "Profile and Settings duplicate access to Saved, Instagram, Vehicles, verification and payouts. Give each capability one primary home, preserve useful shortcuts, and keep infrequent account settings one level deeper. Do not introduce more permanent navigation destinations.",
+      "Preserve genuine local discovery: freshness, pay, city relevance, real people and actual cars. Tens of results do not require complex search taxonomies, an interactive map, a follower leaderboard or invented performance recommendations.",
+      "Optional integrations and later features are architectural facts, not opportunities for aspirational UI. Preserve manual Instagram handling where supported, provider-waiting vehicle states, template-generated assistance and manual publishing. Do not display later team management, multi-location tools, digital-car zone picking, realistic ad previews or generated Story production as working controls."
+    ],
+    "user_journey": [
+      "01 — First login. After account creation and any required email confirmation, onboarding is name → 'How do you want to use TapMart?' → profile basics. The earn choice lands at /home. Collect the existing required basics and allow the existing optional fields to remain optional. Do not add an Instagram, vehicle, verification or payout-method setup wall. Returning people resume through Home, with a real outstanding task linked at the top.",
+      "02 — Home: understand earning. Top to bottom: identity and utilities; page title; a single compact 'Continue your work' or unanswered-request link when applicable; For you / Nearby / Top pay text filters; a Kind control; the mixed opportunity feed. The feed retains the real ranking inputs and all three kinds. Every opportunity exposes pay basis, business, title, task type, spots and deadline without requiring playback. Nearby requests the person's city only when missing. Decision: which piece of work fits me?",
+      "03 — Opportunity detail. Top to bottom: direct-request Accept / Decline block when applicable; type-appropriate media; amount and its payment unit; title and business; 'What you do'; requirements and eligibility; spots and deadline; primary action. A compact payment explanation exposes the existing gross, fee and net semantics without turning the screen into a ledger. Recreate pay is for an approved video; Story pay depends on the required live period and approval; Car pay is monthly on approved proofs. Save remains a secondary action.",
+      "04 — Resolve only relevant eligibility. Recreate proceeds without an Instagram or vehicle detour. Story shows the actual connected or manual Instagram state and follower requirement; 'Connect Instagram' or the supported manual path returns to this opportunity. Car shows existing vehicles and 'Add a vehicle', then returns with that vehicle selected. Scan and 3D reconstruction are not mandatory substitutes for adding a vehicle. Decisions are based on server eligibility, not optimistic client assumptions.",
+      "05 — Commit honestly. Use the existing acceptance behavior: an applied application says 'Waiting for acceptance'; only an accepted application exposes accepted-work actions. Do not turn an application into confirmed work in the interface. A direct Reel or Story invite presents Accept and Decline and continues through the normal flow. A car offer opens the offered zones, duration, monthly pay and permitted response or counteroffer actions. An accepted offer becomes the existing booking, not a newly invented campaign type.",
+      "06 — Do the work on the same detail page. Accepted Recreate work presents the playable reference, numbered timed guide, must-keep rules, allowed changes, avoid list and final checklist, then upload. Accepted Story work presents the unaltered downloadable creative, posting instructions and required live hours, then the configured verification or manual confirmation path. Car work presents the selected vehicle, zones, artwork, actual booking state and the next required installation, periodic or odometer proof. Decision: what exactly must I do next?",
+      "07 — Submit. Show file requirements before opening the picker and actual upload progress while transferring. Preserve server validation errors and allow the supported correction path. A video is Submitted or In review only after the server confirms it. A Story is not called API-verified when the manual path was used. A car proof is attached to its actual proof period and type. Do not display fabricated progress or treat upload completion as approval.",
+      "08 — Track in Activity. Default to To do, followed by In review, History and Saved. To do places unanswered requests and offers first, then revisions and proof requirements, then other accepted work. In review distinguishes applications waiting for acceptance from submitted work and counteroffers waiting for a response. History retains completed, rejected, declined, withdrawn, cancelled and expired records with literal labels. Every row shows the business, work, amount basis, exact current state and next action or waiting party.",
+      "09 — Respond to a decision. A revision notification opens the existing submission and business note, with the supported resubmission action. Approval opens the approved work and its actual earnings record. Rejection remains an explicit decision, with a reason only when supplied. Approved and paid submission states do not by themselves assert that a bank payout has happened. The conversation remains available for that request, offer or booking.",
+      "10 — See the money. /earnings presents available balance and 'Request payout' first; pending and lifetime totals second; transaction history third; payout requests fourth. These are server balances and ledger states, not a sum of prospective opportunity pay. Each transaction exposes amount, platform fee, net and its linked work where available. A completed monthly car proof pays only its approved period, not the entire booking in advance.",
+      "11 — Request payout. Explain the real configured minimum next to the action. Below the minimum, show the actual threshold and why the action is unavailable. Above it, use the existing request flow and show requested → approved → paid or rejected from the server. Do not promise instant withdrawal, invent an arrival date or add an unsupported payout-method or identity-verification flow.",
+      "12 — Paid and ready for more. Only a paid payout request receives 'Payout paid', with its actual amount and date. A contextual link returns to Home; Activity retains the completed work; Profile reflects real earned and completed statistics and any business review. Instagram, vehicles, portfolio and verification remain available in Profile when the person wants to qualify for more appropriate work, not as compulsory completion scores."
+    ],
+    "preserved_capabilities": [
+      "Account and authentication — Retain one personal profile with email, password, username, display name, photo, bio and city; sign in, sign up, password reset and email confirmation; the existing onboarding order; user and admin roles. Profile → Settings holds account actions and Log out. The existing /admin destination remains an admin-only link and is otherwise out of scope.",
+      "Membership and active identity — Retain business_members, any number of business memberships and the session's active business. The global identity switcher and Settings → Use TapMart as expose Personal, each actual business and Add business. Switching changes the whole application context; it does not create another personal account, merge wallets or add a new permission model.",
+      "Personal Home and discovery — /home retains open campaigns, freshness/pay/city ranking, mixed kinds, For you, Nearby, Top pay and kind filtering. /o/[id] remains the canonical work detail. Media, business, title, pay, spots, deadline, requirements and save/unsave remain. Empty results offer relevant filter or city correction, not fictional opportunities.",
+      "Common campaign model — Keep business, title, brief, requirements, pay in cents, spots, deadline and all draft, open, paused, closed, completed and cancelled states. Kind-specific presentations read the same campaign model. Campaign state is separate from a participant's application, submission or booking state.",
+      "Applications and video submissions — Keep applied, accepted, declined and withdrawn application states, and submitted, under_review, revision_requested, approved, rejected and paid submission states. Work detail owns the actual actions; Activity and Campaigns provide filtered entry points. A status label never grants an action that the server does not permit.",
+      "Recreate Reel — Preserve reference_media_url and reference_url, duration range, numbered creator-guide steps with timing, rules, avoid list and checklist, video upload, review, revision and approval-linked earnings. Business Create retains reference-paste drafting and editing of title, steps, must keep, can change, required elements, pay, spots and deadline. Reference links remain usable when an inline preview is unavailable.",
+      "Instagram Story ad — Preserve a finished 9:16 image or video, follower minimum, configured live hours with the 24-hour default, Instagram eligibility, posting and the actual API-verification or manual-confirmation path, followed by approval and earnings. Business Create retains creative upload, pay, spots, follower minimum and live hours. Automated Story creative generation remains later.",
+      "Car campaigns, offers and bookings — Preserve a vehicle requirement; zones; duration in days; color and body-type preferences; artwork; optional campaign visual; monthly pay; campaign applications with a selected vehicle; and direct offers. car_offers retain sent, countered, accepted, declined, cancelled and expired. Accepted offers become bookings with creative_pending, installation_pending, active, proof_required, completed, cancelled and disputed. Installation, periodic and odometer proofs stay on booking detail; monthly earnings follow approved proofs.",
+      "Direct requests — Preserve campaign_invites with sent, accepted, declined, cancelled and expired states for one named recipient and either Reel or Story work. Personal Activity → To do and Business Campaigns expose them; request detail retains Accept / Decline and its automatically opened conversation. No generic new invitation category is introduced.",
+      "Personal Activity — /activity remains the complete work index, including accepted and in-progress work, submitted work, revisions, completed work, unanswered direct requests and offers, and saved opportunities. To do / In review / History / Saved are views of existing records, not replacement backend statuses.",
+      "Personal money — /earnings retains available, pending and lifetime balances; earnings states pending, available, requested, paid and rejected; fee disclosure; linked transactions; payout minimum from admin settings; and payout-request states requested, approved, paid and rejected. Profile payout summaries and Settings → Payouts deep-link here instead of creating another money surface.",
+      "Personal profile and public identity — /me keeps photo, name, username, city, bio, verified mark, earned/completed/rating statistics, Instagram state, vehicles, recent campaigns and payout state. Edit profile, verification, portfolio, public profile and reviews remain accessible. /u/[username] retains public work, portfolio and reviews. No absent rating, follower count or earnings number is replaced with a decorative default.",
+      "Creator verification — Keep unverified, pending, verified and rejected. Verification lives in Profile, with the mark shown only when verified. Rejection explanations appear only when supplied. Verification is not confused with Instagram connection, and ordinary campaign earning is not newly restricted to verified creators.",
+      "Personal Instagram — /me/instagram keeps disconnected, pending, connected and error; API connection when configured; the supported manual handle/follower path and verified_by provenance; actual handle, follower count and recent media; and disconnect. Manual records are labeled as manual, not API-connected. The server remains authoritative for Story eligibility. Personal Instagram and the business's Instagram account are distinct connections.",
+      "Vehicle records and offered inventory — /me/vehicles, /new and /[id] retain make, model, year, color, body type, city, photos, offered zones and asking price per zone. Preserve all nine zones: driver door, passenger door, rear doors, rear window, rear panel, hood, full side, partial wrap and full wrap. Vehicle detail separates the vehicle's asking prices from a particular campaign or negotiated booking price.",
+      "Vehicle capture and reconstruction — /me/vehicles/scan retains guided capture of eight angles, detail photographs and optional video; queued, validating, needs_retake, recognizing, reconstructing, waiting_provider, complete and failed; and confirmation of recognized make, model and year. Show an actual provider-generated 3D model only when present. Waiting for provider and failure are persistent honest states, not endless fake loading. Interactive digital-car profiles, 3D zone selection and realistic applied-artwork previews remain later.",
+      "Assigned creator shoots — Profile → Shoots preserves /me/shoots for verified creators, booked assignments, planned photo/video counts and deliverable upload. A real upcoming assignment can also appear as a contextual Activity item. This is an assigned subscription-service workspace, never a fourth opportunity kind on Home.",
+      "Conversations — /messages and /messages/[id] retain personal/business conversations opened by requests, offers or bookings; text, system messages and real presence. The associated work appears in a compact conversation header. Do not add unsolicited chat buttons that bypass the existing conversation-opening logic.",
+      "Notifications — /alerts retains direct requests, car offers, bookings, submission decisions, payouts and shoot updates, plus per-kind preferences in Settings. Deep links open the actual record in the correct identity. Unread and action counts appear only when supplied by real data.",
+      "Search and public entities — /search preserves people, businesses and campaigns within existing permissions and available data. Cars are discovered through the Business Home Cars filter rather than inventing a new global-search entity. /u/[username] and /b/[slug] remain shareable public pages.",
+      "Business people marketplace — /business and /business/people/[username] retain actual nearby users, photo, name, city, verification, connected Instagram handle/followers, completed work, rating, work and reviews, plus specific Story and Reel request actions. Missing Instagram connections do not produce synthetic reach information.",
+      "Business car marketplace — The Home Cars filter and /business/cars/[id] retain vehicle photos or real 3D, make, model, year, color, city, offered zones, asking prices, zone selection for an offer, duration and monthly pay. Ordinary controls select zones; future interactive digital-car selection is not implied.",
+      "Business Create — /business/create keeps exactly three entries, leading to the existing /create/recreate, /create/story and /create/car flows. Existing draft persistence and wallet-funded publication remain. A setup that has not actually saved never says 'Saved'.",
+      "Campaign management — /business/campaigns and /business/campaigns/[id] retain campaigns, direct requests, applications, invitations, review queues, car bookings and proofs; approve-and-pay, request revision, reject, application acceptance, pause and close; completed records and business reviews of people. All / Review / History reorganizes discovery without removing any original Active, Review or Completed capability.",
+      "Content navigation and honest availability — /business/content becomes the primary service workspace with Overview, Library, Calendar and Shoots as local views. Retain not subscribed, being scheduled, booked/upcoming, shoot completed, processing and delivered/ready experiences. Dates, planned counts, assigned creators and files appear only when real. Brand kit remains directly reachable from Content.",
+      "Shoot service records — Content → Shoots retains the all-shoots list and shoot detail, monthly planned slots, planned/scheduled/done/cancelled shoot states, and none/processing/delivered delivery states. Each shoot retains planned photos/videos, assigned verified creator, date and start time. No new self-service booking or production stage is invented.",
+      "Delivered assets and publishing — Content → Library retains photo/video kind, URL, thumbnail, caption, uploader, shoot date, edit note and new, approved, rejected, scheduled and published states, with Approve, Request edit, Skip and Schedule actions. Calendar retains platform, format, scheduled/published times and idea, draft, needs_approval, approved, scheduled, published and failed. File and post records remain independent. Manual marking of publication stays explicit until real publishing occurs.",
+      "Business profile — /business/profile, labeled Business in navigation, retains cover, logo, name, category, city, description, website, hours, services, actual connected accounts, plan, next shoot, active campaigns, actual scheduled content and public-page link. /business/edit remains the edit destination. Operational facts link to their canonical detail rather than duplicating controls.",
+      "Campaign wallet — /wallet and /wallet/add remain in the active business context, reached from Business → Campaign wallet and campaign funding. Preserve Stripe top-ups, credit balance and ledger rows for campaign payments, refunds, corrections and platform fees. Show recorded refunds, not promised future refunds. A top-up is not a subscription payment.",
+      "Plans and billing — /business/plan and /business/billing remain separate from the wallet. Essential keeps one monthly shoot, 10 photos, 3 videos, brand kit, content calendar, ideas, business health, the three campaign types and campaign dashboard capability. Growth keeps two shoots, 20 photos, 6 videos, category trends, trend briefs and priority support. Prices come from settings; trialing, active, past_due and cancelled remain. Team, multiple locations and deeper analytics are later and are not sold as available features.",
+      "Brand kit — /business/brand is reached from Content and Business. Preserve research sources Instagram, Google, website, logo and uploaded imagery, with used, not connected, missing and failed status. Preserve logo, palette, display/body typography, tone, photo style, content style, guidelines, image examples and proposals with up to three improvements. Drafts and proposals stay visibly unapproved; approval is required before changing the business's kit.",
+      "Business connections and health — Business → Connections retains /business/settings/connections and /google, actual Instagram-business and Google Business Profile OAuth, disconnected/pending/connected/error states and honest unavailable integration states. /business/health retains stored Google health runs, completeness, hours, photos, posts and reviews checks, with the existing fixes. Do not treat a personal Instagram connection as a business publishing connection.",
+      "Ideas, trends and overview routes — Content → Ideas retains existing recommendations and templates with source labels. Growth-only /business/trends retains category Reels, generated briefs and conversion into Recreate campaigns. /business/calendar opens the same Calendar view used within Content. /business/social remains an account-and-post overview reached from Connections. /business/health remains the canonical health detail. Existing URLs are retained or redirected to these same views without duplicating records.",
+      "Business settings — Business → Settings retains account, notifications, security, business details, connections, brand kit, plan and billing, public page, identity switching and Log out. Existing membership and permission checks apply. Team has no functioning or disabled navigation entry until it exists.",
+      "Public website and legal — tapmart.live retains a public homepage, /earn, business acquisition, sign up, sign in, reset and confirmation flows, plus Terms, Privacy, Creator terms and Rules. Add the public /for-business page so that the public business pitch never collides with authenticated /business. Existing public profile URLs remain valid.",
+      "Provider and assistance truthfulness — Preserve optional Instagram, Google, Stripe, recognition, catalog and reconstruction integration behavior. Label brief, guide, brand-kit and recommendation assistance by its actual source; use 'Template draft' when that is what generated it. No synthetic people, followers, connected accounts, testimonials, earnings, analytics or delivered content appear as live product data."
+    ],
+    "removed_complexity": [
+      "No extra permanent tabs for messages, notifications, search, saved items, vehicles, shoots, trends, wallet or calendar.",
+      "No mandatory all-purpose profile-completion funnel before someone can understand or accept eligible work.",
+      "No separate application, invitation, revision and proof applications: they are contextual records reached through Activity or Campaigns.",
+      "No duplicate content libraries, calendars, connection managers or payout screens; preserve legacy access through links or route aliases.",
+      "No mixed personal/business inbox context, combined cross-business balance, or ambiguous switch that leaves the previous business's data on screen.",
+      "No subscription-versus-wallet ambiguity, invented escrow language, assumed 30-day car billing arithmetic or optimistic payment confirmation.",
+      "No fabricated universal lifecycle, completion percentage, production ETA or successful-publication state.",
+      "No mandatory scan, 3D reconstruction or creator verification for work that does not require it.",
+      "No follower leaderboard, map-first discovery, charts without a real decision, completion-score gamification or engagement features borrowed from social networks.",
+      "No nonfunctional later-feature tabs, synthetic empty-state inventory or campaign categories beyond the three existing kinds."
+    ]
+  },
+  "alternatives_explored": [
+    {
+      "strengths": [
+        "Media quality and emotional impact: reference videos and finished creative become immediately legible as the product's material, not attachments.",
+        "Brand recognition: near-black, warm white, large condensed type and a single orange action color produce a strong public presence.",
+        "Interaction quality: an immersive detail view works well for watching a reference or inspecting a video submission."
+      ],
+      "outcome": "Rejected as the master direction. Merged its controlled media inspection and public cinematic introduction into The Local Edit.",
+      "name": "The Night Stage",
+      "summary": "A predominantly dark experience using #151714, #F5F1E8 and #D75A32, Barlow Condensed display type and Inter utility text. Large media occupies most of each view; density is low-to-medium, with short caption bands. Phone navigation is a labeled bottom bar; desktop uses a horizontal masthead and wide media stages. Transitions are deliberate, 300–450ms, with an entertainment-like, confident personality.",
+      "weaknesses": [
+        "Clarity and usability: evidence, eligibility and payment conditions compete with the media; first-time users could mistake watching for the main activity.",
+        "Information hierarchy: a ready-to-post Story, a car photograph and a financial decision cannot all justify a cinematic stage.",
+        "Responsiveness: tall portrait video dominates a small phone, while wide desktop stages create empty side areas.",
+        "Consistency and brand meaning: dark immersion pulls toward a social-video product or automotive launch rather than approachable local work.",
+        "Implementability: the concept depends too heavily on excellent footage, loaded video and motion to make ordinary empty and pending states feel intentional."
+      ]
+    },
+    {
+      "strengths": [
+        "Clarity and information hierarchy: commitments, due dates, review queues and real money are easy to compare.",
+        "Usability and implementability: familiar rows, restrained controls and little motion work well on slow devices and with keyboard navigation.",
+        "Consistency: different backend state machines can be exposed precisely without disguising them as a single progress widget."
+      ],
+      "outcome": "Rejected as the master direction. Merged its compact attention queues, transaction precision and literal status labels.",
+      "name": "The Civic Ledger",
+      "summary": "A light, high-density utility system using #FFFFFF, #193F31 and #E7ECE7, Public Sans headings/body and IBM Plex Mono for amounts. Media appears mostly as small thumbnails next to records. Phone navigation is a text-only bottom strip; desktop uses a directory-like left spine and tightly aligned lists. Motion is limited to 120ms feedback. The personality is civic, dependable and deliberately unshowy.",
+      "weaknesses": [
+        "Visual quality and media quality: shrinking the work into thumbnails makes a Reel harder to understand and a business's delivered photography feel administratively filed away.",
+        "Uniqueness and recognition: the visual system is competent but too interchangeable with booking software, public-service forms and financial tools.",
+        "Emotional fit: it makes small marketing work feel like clerical piecework and subscription shoots feel like file fulfillment.",
+        "Responsiveness: comparison rows that are efficient on desktop wrap into verbose stacks on phones.",
+        "Interaction quality: it helps with review after launch but is less effective at helping someone imagine the work before committing."
+      ]
+    },
+    {
+      "strengths": [
+        "Clarity and usability: each opportunity identifies the work, its payment basis and the next decision without requiring a tutorial or video playback.",
+        "Uniqueness and brand recognition: the red return, condensed public typography and real local photography form a repeatable identity without decorative gradients or generic tiles.",
+        "Media quality and visual quality: different aspect ratios and compositions respect video, finished graphic creative and physical vehicles.",
+        "Information hierarchy and consistency: expressive discovery hands off to precise task pages, queues and ledgers within the same typographic and color system.",
+        "Interaction quality: the person stays with one piece of work from discovery to evidence and decision; businesses move directly from a real asset or person to the relevant action.",
+        "Responsiveness and implementability: phone compositions and desktop workbenches share tokens and data but not rigid layouts; core screens remain useful with a poster, plain text and ordinary browser controls."
+      ],
+      "outcome": "Chosen as the master direction.",
+      "name": "The Local Edit",
+      "summary": "A warm-light working environment using #F6F2E9 paper, #232722 ink and #BB3B27 vermilion. Barlow Condensed supplies expressive public headlines; Instrument Sans handles the application. Density changes deliberately: media-led discovery, compact work queues and spacious enough evidence review. Reels are playable references, Stories are intact posters and cars are photographed objects. Phones use labeled native-style bottom navigation; desktop uses a quiet text rail and contextual work areas. Motion is short and directional, with a more expressive but non-blocking public introduction. The personality is capable, local and fair.",
+      "weaknesses": [
+        "Media dependency remains: poor user uploads cannot be made good through styling. The system must preserve originals and offer useful textual context rather than applying a cinematic filter.",
+        "Editorial composition can become wasteful. Application section gaps, preview heights and reading widths therefore have explicit limits; large display type is reserved for the public site.",
+        "Two font families and several media compositions require discipline. Application body text stays in one family, and the three earning compositions are specified rather than improvised screen by screen.",
+        "The return mark can become decorative noise. It is used at selected media-to-action junctions and section leads, never beside every row, icon or status.",
+        "Its recognition is a design hypothesis, not measured performance. The defensible advantage is a coherent and buildable system, not an invented claim that it will convert better."
+      ]
+    }
+  ],
+  "thesis": {
+    "emotional_association": "Useful work around the corner, with a clear agreement and an accountable next step. Associate TapMart with real local businesses, work you can understand, and money whose status you can check.",
+    "not_a_creator_marketplace": "The people directory is a means to commission specific work, not a status contest among influencers. Lead with relevant work, city and real proof; show followers where they actually affect Story eligibility. A person without a large audience can still recreate a Reel or offer a real vehicle.",
+    "not_a_social_network": "There is no follow graph, like chase or feed designed to keep people watching. Media answers 'What is the work?' or 'Is this usable?' Every discovery surface leads to an explicit task, and every task has an end.",
+    "not_an_ad_platform": "Businesses buy defined participation and deliverables, not a pretend reach forecast. Show the work, people, vehicles, funding and review decisions. Do not substitute impressions charts or projected returns for evidence of what is actually running.",
+    "business_feel": "Like having a capable local production counter: find someone suitable, hand over a clear brief, see what is happening, review what comes back. A business new to marketing should never need to understand advertising jargon to commission its first piece of work.",
+    "feel": "A place where local marketing becomes concrete. You see the thing, understand the agreement, and know the next move. The public site opens the imagination; the application gets out of the way.",
+    "earning_feel": "Straightforward rather than breathless: this is the task, this is the payment basis, these are the conditions, and this is where the work stands. No income fantasy, streaks, bidding race or instant-payout promise. Approval, available earnings and an actually paid payout are distinct moments.",
+    "recognizable_idea": "The red return: a short vermilion right-angle rule where real media meets the useful line beneath it—pay, the next action or the asset's state. It visually says 'this is not just something to look at; here is what happens with it'. Combined with unboxed media and condensed public headlines, it is the single recurring brand idea.",
+    "not_a_gig_app": "TapMart contains paid tasks, but it must not feel like an endless labor queue. Each piece of work has a named business, visible requirements, an honest payment basis, a bounded commitment and a review trail. Car counteroffers stay because they exist; invented auctions, surge pricing and worker rankings do not.",
+    "not_a_saas_dashboard": "The default screen is not a wall of metrics. Personal Home shows work; Business Home shows people and cars; Content shows actual service progress and usable assets. Operational complexity appears only at the moment someone needs to act on it."
+  },
+  "navigation": {
+    "mobile_business": "Below 1024px, use a fixed bottom bar with Home, Content, Create, Campaigns, Business in that order. Icons are 20px with 14px labels; bar height is 64px plus the device safe area. At 320px, minimum track widths are 48/64/56/80/72px; distribute additional width equally, so Campaigns never needs tiny type or truncation. Create is a normal third destination with a plus icon, not a floating orb. Root headers are 64px plus the top safe area: active-business identity on the left, Search, Messages and Notifications as three 44px targets on the right. Business is the public business profile and operational links, not an unlabeled settings screen. Its ordered links are Edit business, Public page, Connections, Business health, Brand kit, Campaign wallet, Plan and billing, Settings. Content's Overview / Library / Calendar / Shoots and Campaigns' All / Review / History are local navigation, not more bottom tabs. Focused setup, review, upload and booking detail replace the bottom bar with their relevant task action area and a Back control.",
+    "desktop_business": "At 1024px and above, use a 224px left rail: wordmark; active-business selector; Home, Content, Create, Campaigns, Business; then Search, Messages and Notifications. Settings stays inside Business. The rail is a quiet layered-paper surface with text and 20px icons, not a stack of navigation cards. From 1280px, Home uses the main field for people and cars and a 288–360px contextual column for actual attention items and a restrained Create shortcut; no statistics dashboard replaces the marketplace. Content pairs a media library or calendar with the selected item's inspection panel. Campaigns pairs a compact queue with evidence and review controls. Between 1024px and 1279px, context moves into the main flow rather than crushing columns. Create routes keep the rail but remove unrelated right-side content; the form and live brief summary receive the space.",
+    "principle": "Permanent navigation names the five or four places people need to remember; local views organize the records inside them; utilities stay visibly accessible without becoming destinations of equal weight. Selected navigation uses ink text, a 24px-wide 3px vermilion indicator and an accessible current-page state—not color alone. All targets are at least 44×44px; primary task controls are at least 48px high. No hover-only action, icon-only unfamiliar command or hidden swipe requirement. DOM and keyboard order match visual reading order. Use semantic navigation, headings, lists, forms and dialogs; reserve tab semantics for actual same-page panels. Provide a skip-to-content link, visible 3px focus outlines, Escape to close overlays, focus containment and return, descriptive media alternatives and restrained live announcements for genuine state changes. Sticky bars and the onscreen keyboard must never obscure focused controls or the last item.",
+    "mobile_user": "Below 1024px, use a fixed bottom bar: Home, Activity, Earnings, Profile. Four equal targets, 20px icons, 14px labels, 64px height plus safe area. The active destination is identified by text weight and the vermilion indicator, not a filled tile. Root header: 64px plus top safe area, with the Personal identity trigger on the left and Search, Messages, Notifications on the right, each 44px. Do not also place a logo and greeting in this header. Page title begins below it. At 320px, the identity area is 144px, the utility group 132px and the separating gap 12px within 16px side gutters. Detail headers use Back, a flexible compact identity trigger and More; More contains utilities and contextual secondary actions. Work details use a sticky task action area instead of the root bottom bar; Back restores the previous list position and filters. Activity's To do / In review / History / Saved remain local views. Profile leads to Instagram, Vehicles, Verification, Portfolio, Public profile and reviews, assigned Shoots when relevant, and Settings.",
+    "mode_switching": "Keep the identity trigger available in every app context, including detail. It shows a 28px round personal photo or 28px square business logo, a 14px mode label ('Personal' or 'Business'), a 16px name and a chevron. Long names truncate visually but have a full accessible label. On phone it opens a bottom sheet; on desktop a 320px-wide anchored menu. Order: Personal, a Businesses heading, actual businesses in alphabetical order, Add business; the current identity has a check and text. Rows are at least 56px high, with the list scrolling after five business rows. Choosing Personal goes to /home; choosing a business sets the existing active-business session and goes to /business. Clear the old identity's rendered data while loading; retain filter preferences only within their own identity. Do not cross-populate earnings, wallet, followers, notifications or connected accounts. Unsaved edits prompt 'Keep editing' or 'Discard and switch'; existing saved drafts stay associated with their original business. Settings retains the same Use TapMart as entry. A deep link requiring another identity explicitly asks to switch to that named identity before opening it; it never silently performs a financial-context switch. Add business uses the existing setup flow without creating another personal account.",
+    "public_site": "Public routes: /, /earn and /for-business, plus existing legal and authentication routes. Desktop header is 80px high with the wordmark, Earn, For businesses, How it works linking to the homepage section, Sign in and Get started. On /earn the primary CTA is Start earning; on /for-business it is Set up my business. Phone header is 64px with wordmark, Sign in and a labeled Menu control; Menu opens a sheet containing Earn, For businesses, How it works and Get started. Do not squeeze all links into a horizontal scroller. Homepage order: 'Local marketing. Real people.' hero with equally visible earn/business choices; the three earning types in Reel, Story, Car order; the business proposition showing campaign work versus monthly content service; the choose → do → review-and-pay explanation with honest conditions; any consented real examples that exist; final two-audience CTA; legal footer. /earn expands tasks, eligibility, approval, fees and payout conditions. /for-business expands people/cars, campaign launch, real shoots, content review and the two plans, explicitly excluding campaign spend. Pass the chosen intent into onboarding as a preselection, not a second account type. Public /u/[username] and /b/[slug] use a reduced header with the wordmark, Sign in and the relevant entry CTA. No app sidebar or bottom navigation appears on public pages.",
+    "desktop_user": "At 1024px and above, use the same 224px rail: wordmark; Personal identity selector; Home, Activity, Earnings, Profile; then Search, Messages and Notifications. Keep Settings under Profile. Main content starts 32px from the rail boundary. At 1280px and above, Home pairs a media-led opportunity column with a 288–360px contextual area for filters and the person's actual next task; it does not introduce a second feed or fabricated earnings projection. Activity uses a list-and-detail workbench when width permits, with a direct route still available for every item. Earnings uses readable balance and transaction sections, not a stretched phone or finance-chart dashboard. Opportunity detail places the media and guide beside a sticky commitment/action summary. At 1024–1279px use one main column and inline summaries. Preserve browser Back, shareable URLs, keyboard navigation and list position."
+  },
+  "art_direction": {
+    "borders": "Use 1px #D7D4CB separators only where neighboring records need separation; they are decorative, not the sole boundary of an interactive control. Inputs use 1px #757E72 boundaries. Do not outline every media item, section or navigation row. Focus is a 3px solid #232722 outline with 3px offset; use #F6F2E9 on dark media stages. Validation combines an explicit message, an icon where useful and the problem color; a red outline alone is insufficient.",
+    "photography": "Commission real local businesses and participants with consent: an owner at work, a person filming an achievable Reel, products and services in their actual setting, and real parked vehicles. Prefer window light or open shade, neutral white balance and natural skin tones. Use a 35mm-equivalent lens for environmental scenes and 50mm-equivalent for portraits; vehicle capture guidance uses the phone's 1× camera, not an ultra-wide lens. Preserve the business's real colors. Avoid influencer poses, stock handshake scenes, exaggerated luxury, teal-orange grading and heavily blurred backgrounds that remove useful context. Directory portraits use square crops; public environmental photographs favor 3:2; vehicle heroes favor 3:2; delivered subscription files retain their native ratios. Cropping may create a discovery thumbnail, but evidence and instruction views always offer the uncropped original.",
+    "grid": "Support 320px and wider. Phone below 768px: four columns, 12px gaps, 16px gutters. Tablet 768–1023px: eight columns, 20px gaps, 24px gutters and a 704px maximum reading field. Desktop from 1024px: 224px app rail, 32px main gutters, 12 columns with 24px gaps, maximum main field 1280px centered within the remaining space. Use a single main column until 1280px; then use approximately eight columns for work and four for context, keeping context 288–360px wide. Text reading width is 640px maximum; media can exceed it. Public pages have no app rail: 16/24/48px gutters at phone/tablet/desktop and a 1440px maximum editorial grid, interrupted by full-bleed media. Root pages remain in a meaningful single reading order when columns collapse; no horizontal page scrolling at 320px or enlarged text.",
+    "three_d": "3D is a truthful vehicle-inspection option, not the identity of TapMart. Show 'View 3D' only when an actual reconstruction model is available; load it on request in a matte neutral stage with orbit, reset and keyboard-accessible controls. Provide the original photo gallery as an equal alternative. Use no neon wireframe, fake scanning particles or simulated reconstruction progress. waiting_provider says 'Waiting for provider' and explains that the photographs are saved; failed and needs_retake show the real next action. Current offered zones and prices remain ordinary accessible controls outside the model. Interactive profile cars, picking zones on the model and realistic artwork application remain later. Do not add public-site decorative 3D merely to advertise an optional capability.",
+    "type_hierarchy": [
+      {
+        "weight": "600, Barlow Condensed",
+        "line_height": "0.96",
+        "role": "Public hero",
+        "size_px": "56 phone / 112 desktop; 44 at 320–359px, 80 at 768–1023px, 96 at 1024–1279px",
+        "tracking": "-0.02em"
+      },
+      {
+        "weight": "600, Barlow Condensed",
+        "line_height": "1.02",
+        "role": "Public section headline",
+        "size_px": "36 phone / 64 desktop; 48 on tablet",
+        "tracking": "-0.015em"
+      },
+      {
+        "weight": "600, Instrument Sans",
+        "line_height": "34px phone / 40px desktop",
+        "role": "Application page title",
+        "size_px": "28 phone / 32 desktop",
+        "tracking": "-0.02em"
+      },
+      {
+        "weight": "600, Instrument Sans",
+        "line_height": "30px phone / 38px desktop",
+        "role": "Work or asset detail title",
+        "size_px": "24 phone / 32 desktop",
+        "tracking": "-0.015em"
+      },
+      {
+        "weight": "600, Instrument Sans",
+        "line_height": "28px phone / 30px desktop",
+        "role": "Application section heading",
+        "size_px": "22 phone / 24 desktop",
+        "tracking": "-0.01em"
+      },
+      {
+        "weight": "600, Instrument Sans with tabular numerals",
+        "line_height": "32px phone / 36px desktop",
+        "role": "Opportunity pay and principal summary amount",
+        "size_px": "28 phone / 32 desktop",
+        "tracking": "-0.02em"
+      },
+      {
+        "weight": "600, Instrument Sans with tabular numerals",
+        "line_height": "40px phone / 48px desktop",
+        "role": "Earnings balance and detail pay",
+        "size_px": "36 phone / 44 desktop",
+        "tracking": "-0.025em"
+      },
+      {
+        "weight": "500, Instrument Sans",
+        "line_height": "26px",
+        "role": "Task instruction and important list title",
+        "size_px": "18 phone / 18 desktop",
+        "tracking": "0"
+      },
+      {
+        "weight": "400; 500 for emphasized facts, Instrument Sans",
+        "line_height": "24px",
+        "role": "Body and form input",
+        "size_px": "16 phone / 16 desktop",
+        "tracking": "0"
+      },
+      {
+        "weight": "600, Instrument Sans",
+        "line_height": "20px",
+        "role": "Button and primary action",
+        "size_px": "16 phone / 16 desktop",
+        "tracking": "0"
+      },
+      {
+        "weight": "400; 500 for labels, Instrument Sans",
+        "line_height": "20px",
+        "role": "Metadata, field label, status and caption",
+        "size_px": "14 phone / 14 desktop",
+        "tracking": "0"
+      },
+      {
+        "weight": "500 inactive; 600 active, Instrument Sans",
+        "line_height": "18px phone / 20px desktop",
+        "role": "Navigation label",
+        "size_px": "14 phone / 16 desktop",
+        "tracking": "0"
+      }
+    ],
+    "iconography": "Use Lucide, ISC licensed, at 1.75px stroke: 20px in navigation and compact controls, 24px for standalone actions, always within a minimum 44px target. Use icons for familiar actions such as search, messages, notifications, back, upload, play and settings. Use labels for unfamiliar decisions and all money actions. No rounded-square icon containers by default. Verification uses the badge-check icon with accessible text and appears only for genuinely verified creators; connection provenance is a separate label. Earning kinds are recognized chiefly through their media and wording, not three differently colored badges.",
+    "surfaces": "There are four working surfaces: warm paper for the app and most public text sections; unboxed real media; white sheets for editable forms, dialogs and supplied creative when a backing is needed; and a pale layered-paper region for persistent navigation or a contextual work area. Most lists and editorial sections sit directly on the page. Use a bounded object only for an independently selectable item such as a car in a horizontal rail or a resumable draft, not for every fact. Attention is a compact text band with a relevant link, never four KPI cards. Empty states use the same composition as populated states: a precise state heading, one factual sentence and the next available action. No faux thumbnails, fake people or sample analytics fill an empty library.",
+    "device_framing": "Device frames belong only on the public site when showing an interaction is more useful than showing a photograph. Use one phone per explanatory stage: 390×844px logical viewport, 8px side bezel, 16px top and bottom bezel, 32px outer and 24px viewport radius. Use a neutral desktop-browser frame with a 32px title strip and 8px outer radius. No branded hardware chrome, tilted device pile, floating shadow theater or device-within-device in the app. Capture the implemented product with consented real data; redact private details. Until such captures exist, use real photography and truthful text rather than invented balances, connections or reviews.",
+    "theme_strategy": "Use a deliberately light brand and application theme, not automatic light/dark switching. Warm paper is the default on both modes and the public site. Dark #121713 is restricted to full-screen video inspection, light-sensitive media review and the public hero film where the imagery needs it; navigation and money screens stay light. Honor forced-color accessibility modes and user text scaling. Dark media controls require their own high-contrast treatment; do not dim the rest of the product to make a vehicle or video feel more important.",
+    "typography": [
+      {
+        "face": "Barlow Condensed SemiBold 600, Google Fonts, SIL Open Font License: https://fonts.google.com/specimen/Barlow+Condensed",
+        "why": "It has the directness of local signage and editorial headlines without using a luxury fashion serif or a futuristic display face. Its narrower proportions allow expressive public statements without making the application oversized.",
+        "role": "Wordmark and public display headlines only; never financial values, long paragraphs or form labels."
+      },
+      {
+        "face": "Instrument Sans variable 400–700, Google Fonts, SIL Open Font License: https://fonts.google.com/specimen/Instrument+Sans",
+        "why": "It keeps work instructions, amounts and repeated operational labels readable while retaining more character than a default system-only interface. One application family prevents the three earning types from feeling like unrelated products.",
+        "role": "All application UI, public body text, controls, metadata and money. Use tabular numerals for amounts, dates in aligned lists and transaction columns. System sans-serif is the loading fallback."
+      }
+    ],
+    "spacing": "Use a 4px base scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px. Application section gaps are 32px phone and 48px desktop; public section gaps are 64px phone and 96px desktop. Related label/value gaps are 4px; title-to-description 8px; content-to-action 16px. Sheet padding is 16px phone and 24px desktop. Person rows use 64px portraits and 88px minimum height on phone, 80px portraits and 104px minimum height on desktop. Do not use a minimum card height to align unrelated content. Fixed task bars have 12px vertical and 16px horizontal padding plus safe area, with at least 48px-high actions. Reserve the actual bar height in the scroll area so content is not covered.",
+    "motion_principles": "Application feedback: 120ms. Local view transitions: 180ms. Sheet entry: 240ms with at most 24px translation and opacity; exit: 160ms. Entry easing is cubic-bezier(0.2, 0.8, 0.2, 1); exit is cubic-bezier(0.4, 0, 1, 1). Movement follows spatial causality: a detail opens from its selected item, a sheet rises from the task edge, and Back restores place. Do not animate balance counting, fabricate progress percentages or celebrate approval before the server responds. Public section reveals use one 320ms opacity-and-24px-rise entrance; no scroll hijacking, mandatory pinning or loading introduction. With reduced motion, remove translations and reveals, show static content immediately, disable automatic hero playback and keep all controls functional. Upload progress reflects bytes; unknown-duration work uses a short activity indicator plus a literal state, never a looping pretend timeline.",
+    "video": "App video is user-controlled: show a useful poster, a 48px play target, duration when known and a clear reference or submission label. Only one player runs at once; pause when it leaves the active detail. Supply captions for commissioned speech and a textual equivalent for required visual instructions. Recreate discovery uses a playable portrait reference beside a short brief/pay column; full inspection preserves the original ratio. Story uses the finished 9:16 creative as an intact poster, with follower and live-hour requirements outside the artwork; never add fake Instagram controls. Car uses a landscape photographic stage and placement facts. Thus the three types are not reskinned copies. On phone, discovery video or Story previews are capped at 320px high and contained rather than instructionally cropped; detail can expand to full-screen inspection. The public hero is a 12-second, four-shot film: local owner at work, person filming, actual finished creative, real vehicle context, three seconds each. Show an installed ad only when genuinely installed; otherwise show honest vehicle capture. It is muted, inline, pausable and nonessential. Commission 720p mobile and 1080p desktop files, target no more than 4MB per hero rendition and 180KB for the mobile poster. On reduced motion or data-saving connections use the poster. Existing user uploads use existing media capabilities; this direction does not require a new transcoding backend.",
+    "illustration": "Use illustration only to explain a physical or procedural fact that photography cannot: the eight capture positions, a placement-zone diagram, file orientation or a compact state explanation. Draw in 2px ink strokes at a 160px reference size, with one vermilion emphasis and no shaded mascot. A placement diagram is labeled as a diagram, never passed off as the person's reconstructed car. Empty content states use a factual shoot timeline or simple camera outline, not imaginary delivered files, floating 3D objects or smiling money characters.",
+    "generated_imagery": "Do not generate people, vehicles, local-business photographs, campaign evidence, connected-account media or subscription deliverables for presentation as real. Existing brand-kit proposal examples may include generated imagery only with explicit Generated proposal provenance and the existing approval boundary; they never enter Made for you as delivered shoot content. AI-assisted briefs and guides are labeled as drafts with their actual reference or source; provider-free output is labeled Template draft. The chosen public art direction does not need generated backgrounds or synthetic lifestyle imagery. Ready-to-post Story generation remains later.",
+    "secondary_colors": [
+      {
+        "hex": "#FFFFFF",
+        "name": "Sheet",
+        "role": "Forms, dialogs and neutral backing for supplied creative; also high-contrast text on vermilion actions."
+      },
+      {
+        "hex": "#E9E5DB",
+        "name": "Layer",
+        "role": "Desktop navigation, contextual work areas and inactive surface separation without enclosing every item."
+      },
+      {
+        "hex": "#5D635B",
+        "name": "Secondary ink",
+        "role": "Readable supporting text on Paper or Sheet; never replace essential facts with low-opacity gray."
+      },
+      {
+        "hex": "#D7D4CB",
+        "name": "Hairline",
+        "role": "Decorative separators between rows; not an accessible control boundary."
+      },
+      {
+        "hex": "#757E72",
+        "name": "Control line",
+        "role": "Input boundaries and necessary non-text distinctions on light surfaces."
+      },
+      {
+        "hex": "#236146",
+        "name": "Confirmed",
+        "role": "Approved, available and successful states, always accompanied by literal text. Different money states remain different labels."
+      },
+      {
+        "hex": "#785400",
+        "name": "Waiting",
+        "role": "Pending, processing or required attention when warranted, with an explicit state label rather than an amber pill."
+      },
+      {
+        "hex": "#9E2E32",
+        "name": "Problem",
+        "role": "Errors, rejection and destructive confirmation, with text and appropriate iconography; not every overdue item becomes a red alert."
+      },
+      {
+        "hex": "#121713",
+        "name": "Media black",
+        "role": "Full-screen players and controlled media-inspection stages only."
+      }
+    ],
+    "depth": "Use three perceptual levels: page, selected work/context, temporary overlay. A change of background, scale or position establishes hierarchy before a shadow does. Desktop evidence inspection may sit beside a queue; phone inspection opens as a dedicated detail or full-height sheet. Do not create floating islands throughout the page. The red return connects the visible object to its next decision rather than suggesting another layer.",
+    "shapes": "The red return consists of a 24×4px horizontal stroke with a 4×12px downstroke at its left edge, sharing the same top edge. At a media-to-caption junction its horizontal edge aligns with the media's bottom; the caption begins 16px below that edge. Public feature scale is exactly 4×: 96×16px and 16×48px. Use it on opportunity leads, a selected content lead and public section leads—not every thumbnail or status. Radius rules: full-bleed media, rules and editorial sections 0px; ordinary media 2px; inputs and business logos 4px; buttons 6px; desktop dialogs 8px; phone sheet top corners 12px, bottom corners 0px. Personal avatars alone are circular. Filters use underlines, not pills. No giant-radius universal card system.",
+    "shadows": "No shadows on feed items, directory rows, balances, media thumbnails or the desktop rail. Temporary menus and dialogs use one shadow: x 0px, y 12px, blur 32px, spread 0px, #232722 at 16% opacity. Phone modal scrims use #121713 at 32% opacity. Media controls may use a localized opaque dark backing where needed for contrast; do not use a translucent glass panel or glow.",
+    "logo": "Create a new typographic wordmark rather than refining an unseen asset. Set TapMart in Barlow Condensed SemiBold 600 at a 32px reference size, 32px line box and -0.02em tracking. Place the 24×12px red return 8px to its left, aligned to the bottom of the line box. Use Ink on Paper and Paper on Media black; keep the return vermilion. Minimum clear space is 16px at this reference size. The return alone can identify a favicon or loading shell, but the public header uses the full wordmark. The app's mobile header prioritizes current identity rather than repeating the logo.",
+    "primary_colors": [
+      {
+        "hex": "#F6F2E9",
+        "name": "Paper",
+        "role": "Default application canvas and public editorial background. Warm enough to feel human without simulated paper texture."
+      },
+      {
+        "hex": "#232722",
+        "name": "Ink",
+        "role": "Primary text, strong rules, selected navigation and focus on light surfaces."
+      },
+      {
+        "hex": "#BB3B27",
+        "name": "Vermilion",
+        "role": "The red return, primary task actions and selective editorial emphasis. Use white action text; hover or pressed shade is #9E3020. Never assign one accent color to each earning category."
+      }
+    ],
+    "why_it_fits": "TapMart deals in real things—videos, finished creative, vehicles, shoots and money—so its identity should come from how clearly those things are presented. Paper and Ink make terms and evidence readable; Vermilion identifies the point of action; real photography provides locality without decorative maps or city clichés. Condensed public headlines create recognition while the application remains comfortable at 16px. Reels, Stories and cars share the same language but retain different media forms. Compact rows serve decisions and ledgers; editorial sections serve discovery; actual assets serve content. All normal text must meet 4.5:1 contrast, large text and necessary non-text controls 3:1, with manual checks on media-backed controls. No essential text is below 14px, no information depends on color or motion alone, and the whole system remains useful before video, 3D or optional integrations load."
+  }
+}
