@@ -13,7 +13,7 @@
  *   npm run creative -- car-preview --business slug --car-photo url --car "2017 BMW 328i" --goal "..." --zone "Rear window" --zone "Doors"
  *   npm run creative -- recreate-cover --business slug --title "..." --summary "..." [--frame url]
  *   npm run creative -- brand-asset --business slug --ask "..."
- *   npm run creative -- reboot [--skip-mockups] [--mockups 5] [--effort xhigh] [--out docs/reboot]
+ *   npm run creative -- reboot [--resume] [--skip-mockups] [--mockups 5] [--effort xhigh] [--out docs/reboot]
  *       The design reboot: Astra designs TapMart from a blank canvas (sees only
  *       docs/reboot/TAPMART_FUNCTIONAL_INVENTORY.md), writes the master package
  *       to docs/reboot, renders and reviews concept images. Touches no app code.
@@ -198,7 +198,7 @@ async function main() {
       return;
     }
     case "reboot": {
-      const r = await runReboot({ effort, dryRun, skipMockups: on(flags, "skip-mockups"), mockupCount: flags.mockups ? Number(flags.mockups) : undefined, outDir: str(flags, "out") || undefined, onProgress: log });
+      const r = await runReboot({ effort, dryRun, resume: on(flags, "resume"), skipMockups: on(flags, "skip-mockups"), mockupCount: flags.mockups ? Number(flags.mockups) : undefined, outDir: str(flags, "out") || undefined, onProgress: log });
       if (dryRun) { log("Dry run: Part A request built from the functional inventory only; nothing sent."); return; }
       log(`Wrote ${r.files.length} files. Usage ${JSON.stringify(totalUsage(r.usage))}`);
       process.stdout.write(`${r.files[0]}\n`);
