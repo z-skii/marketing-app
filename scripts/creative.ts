@@ -13,6 +13,10 @@
  *   npm run creative -- car-preview --business slug --car-photo url --car "2017 BMW 328i" --goal "..." --zone "Rear window" --zone "Doors"
  *   npm run creative -- recreate-cover --business slug --title "..." --summary "..." [--frame url]
  *   npm run creative -- brand-asset --business slug --ask "..."
+ *   npm run creative -- reboot-visual [--resume]
+ *       Round two: keeps the UX brain of the master package, reopens every
+ *       visual decision, explores three directions, chooses one, and writes
+ *       the five Design Lab prototype specs and asset briefs to docs/reboot/visual.
  *   npm run creative -- reboot [--resume] [--skip-mockups] [--mockups 5] [--effort xhigh] [--out docs/reboot]
  *       The design reboot: Astra designs TapMart from a blank canvas (sees only
  *       docs/reboot/TAPMART_FUNCTIONAL_INVENTORY.md), writes the master package
@@ -37,6 +41,7 @@ import {
   type BusinessBrandInput, type CreativeBrief, type CreativeJobResult, type Effort, type Aspect, type SourceImage,
 } from "@/lib/openai";
 import { runReboot } from "@/lib/openai/reboot";
+import { runVisualReboot } from "@/lib/openai/reboot-visual";
 
 type Flags = Record<string, string | string[] | boolean>;
 
@@ -195,6 +200,12 @@ async function main() {
         { ...common, tier: on(flags, "final") ? "final" : "fast", save: !on(flags, "no-save"), businessId: b.id, outDir: str(flags, "out") || null });
       if (dryRun) { log("Dry run: nothing sent."); return; }
       report(r, { type: "BRAND_ASSET", business: b.brand, objective: "", placement: "" });
+      return;
+    }
+    case "reboot-visual": {
+      const r = await runVisualReboot({ effort, dryRun, resume: on(flags, "resume"), onProgress: log });
+      if (dryRun) { log("Dry run: step 1 request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
       return;
     }
     case "reboot": {
