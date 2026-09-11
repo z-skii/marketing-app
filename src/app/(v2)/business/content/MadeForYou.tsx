@@ -13,9 +13,11 @@ import { dayLabel } from "./dates";
 import { deliverableStatusLabel, deliverableStatusTone } from "./types";
 
 /**
- * The files a verified creator delivered and the business has not put on
- * the calendar yet: a horizontal rail of thumbnails, each opening a sheet
- * where the business approves it, asks for an edit, or schedules it.
+ * Made for you: the files a verified creator delivered that still need a
+ * decision. Each is a card (media, state, headline, one action) that opens
+ * the review sheet, where the business approves, schedules, asks for an
+ * edit, or skips the file. Designed by OpenAI in
+ * docs/design-specs/business-content.md.
  */
 
 const FORMATS: { key: DeliverableFormat; label: string }[] = [
@@ -23,13 +25,20 @@ const FORMATS: { key: DeliverableFormat; label: string }[] = [
 ];
 
 type Result = { ok: boolean; error?: string };
+type Slot = { date: string; time: string };
+
+function headline(d: Deliverable): string {
+  if (d.caption) return d.caption;
+  const kind = d.kind === "video" ? "Video" : "Photo";
+  return d.shoot_date ? `${kind} from the ${dayLabel(d.shoot_date, { weekday: false })} shoot` : `${kind} from your shoot`;
+}
 
 export function MadeForYou({
   items, uploader, defaultSlot, timeZoneLabel,
 }: {
   items: Deliverable[];
   uploader: { name: string; verified: boolean } | null;
-  defaultSlot: { date: string; time: string };
+  defaultSlot: Slot;
   timeZoneLabel: string;
 }) {
   const [openId, setOpenId] = useState<string | null>(null);
@@ -38,37 +47,40 @@ export function MadeForYou({
 
   return (
     <div>
-      <ul className="-mx-4 mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 pb-1 md:-mx-8 md:px-8 [scrollbar-width:none]" aria-label="Delivered files">
-        {items.map((d, i) => (
-          <li key={d.id} className="reveal w-36 shrink-0 snap-start md:w-44" style={{ animationDelay: `${Math.min(i, 6) * 60}ms` }}>
-            <button
-              type="button"
-              onClick={() => setOpenId(d.id)}
-              aria-label={`${d.kind === "video" ? "Video" : "Photo"}, ${deliverableStatusLabel(d.status, d.edit_note)}`}
-              className="relative block aspect-[4/5] w-full overflow-hidden rounded-[10px] bg-surface-2 text-left"
-            >
-              <MediaPreview src={d.url} poster={d.thumbnail_url} alt="" className="h-full w-full object-cover" sizes="176px" />
-              <span className={`glass-tag absolute top-1.5 left-1.5 ${justApproved === d.id ? "pop" : ""}`}>
-                <Chip tone={deliverableStatusTone(d.status, d.edit_note)}>{deliverableStatusLabel(d.status, d.edit_note)}</Chip>
-              </span>
-              {d.kind === "video" && (
-                <span className="glass-tag absolute bottom-1.5 left-1.5 flex h-7 w-7 items-center justify-center rounded-full text-ink" aria-hidden>
-                  <Play size={14} weight="fill" />
-                </span>
-              )}
-            </button>
-          </li>
-        ))}
+      <ul className="flex flex-col gap-3.5 rail:grid rail:grid-cols-2" aria-label="Files to review">
+        {items.map((d, i) => {
+          const isNew = d.status === "new";
+          const state = deliverableStatusLabel(d.status, d.edit_note);
+          const tone = isNew && !d.edit_note ? "is-review" : d.edit_note ? "is-error" : "";
+          return (
+            <li key={d.id} className="reveal" style={{ animationDelay: `${Math.min(i, 4) * 35}ms` }}>
+              <article className={`card overflow-hidden ${justApproved === d.id ? "pop" : ""}`}>
+                <button type="button" onClick={() => setOpenId(d.id)} aria-label={`Open ${d.kind === "video" ? "video" : "photo"}, ${state}`} className="relative block h-[224px] w-full bg-surface-2 text-left rail:h-[243px]">
+                  <MediaPreview src={d.url} poster={d.thumbnail_url} alt="" className="h-full w-full object-cover" sizes="(min-width: 768px) 389px, 100vw" />
+                  <span className="absolute inset-x-0 top-0 h-[72px]" style={{ background: "var(--tm-scrim-top)" }} aria-hidden />
+                  <span className={`status-text absolute top-3.5 left-3.5 h-6 rounded-full bg-black/35 px-2.5 ${tone}`}><span aria-hidden className="status-dot" />{isNew ? "Review" : "Ready"}</span>
+                  {d.kind === "video" && (
+                    <span className="glass absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-ink" aria-hidden>
+                      <Play size={20} weight="fill" />
+                    </span>
+                  )}
+                </button>
+                <div className="p-3.5">
+                  <p className="line-clamp-2 font-display text-[15px] leading-[19px] font-[740] tracking-[-0.15px]">{headline(d)}</p>
+                  <p className="mt-1.5 text-[12px] leading-4 text-ink-soft">{state}{uploader ? ` · ${uploader.name}` : ""}</p>
+                  <button type="button" onClick={() => setOpenId(d.id)} className="btn btn-signal shadow-none mt-3.5 w-full">
+                    {isNew ? "Review file" : "Schedule"}
+                  </button>
+                </div>
+              </article>
+            </li>
+          );
+        })}
       </ul>
-      {uploader && (
-        <p className="mt-2 text-sm text-ink-soft">
-          Uploaded by <span className="font-600 text-ink">{uploader.name}</span>
-          {uploader.verified && (
-            <>
-              {" "}<CheckCircle size={16} weight="fill" className="inline-block align-[-3px] text-signal" aria-hidden />
-              {" "}Verified TapMart Creator
-            </>
-          )}
+      {uploader?.verified && (
+        <p className="mt-2.5 flex items-center gap-1.5 text-[12px] leading-4 text-ink-soft">
+          <CheckCircle size={16} weight="fill" className="text-signal" aria-hidden />
+          {uploader.name} is a verified TapMart creator
         </p>
       )}
 
@@ -85,8 +97,57 @@ export function MadeForYou({
   );
 }
 
+/**
+ * Delivered files from the latest shoot as bare media tiles: the media is
+ * the content, so there is no card chrome. A tile opens the same preview.
+ */
+export function DeliveredGrid({ items, defaultSlot, timeZoneLabel }: { items: Deliverable[]; defaultSlot: Slot; timeZoneLabel: string }) {
+  const [openId, setOpenId] = useState<string | null>(null);
+  const open = items.find((d) => d.id === openId) ?? null;
+  const single = items.length === 1;
+
+  return (
+    <div>
+      <ul className={single ? "grid grid-cols-1 rail:max-w-[520px]" : "grid grid-cols-2 gap-x-3.5 gap-y-4 rail:grid-cols-3 rail:gap-x-[15px] rail:gap-y-[18px]"} aria-label="Delivered files">
+        {items.map((d, i) => {
+          const kind = d.kind === "video" ? "Video" : "Photo";
+          const date = d.shoot_date ? dayLabel(d.shoot_date, { weekday: false }) : null;
+          return (
+            <li key={d.id} className="reveal" style={{ animationDelay: `${Math.min(i, 4) * 35}ms` }}>
+              <button type="button" onClick={() => setOpenId(d.id)} aria-label={`Open ${kind.toLowerCase()}${date ? ` from the ${date} shoot` : ""}`} className="block w-full text-left">
+                <span className={`relative block w-full overflow-hidden bg-surface-2 ${single ? "aspect-[358/224] rounded-[20px]" : "aspect-[172/108] rounded-[16px]"}`}>
+                  <MediaPreview src={d.url} poster={d.thumbnail_url} alt="" className="h-full w-full object-cover" sizes={single ? "(min-width: 768px) 520px, 100vw" : "(min-width: 768px) 254px, 50vw"} />
+                  <span className="glass-tag is-glass absolute top-2 left-2">{kind}</span>
+                  {d.kind === "video" && (
+                    <span className="glass absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-ink" aria-hidden>
+                      <Play size={20} weight="fill" />
+                    </span>
+                  )}
+                  {single && (
+                    <>
+                      <span className="media-scrim absolute inset-0" aria-hidden />
+                      <span className="absolute inset-x-3.5 bottom-3.5 line-clamp-2 font-display text-[15px] leading-[19px] font-[740]">{headline(d)}</span>
+                    </>
+                  )}
+                </span>
+                {!single && (
+                  <>
+                    <span className={`mt-2 line-clamp-2 block text-[13px] leading-[17px] font-600 ${d.caption ? "" : "text-ink-2"}`}>{d.caption ?? `${kind}${date ? ` · ${date} shoot` : ""}`}</span>
+                    {d.caption && date && <span className="mt-1 block text-[11px] leading-[14px] font-[550] text-ink-faint">{date} shoot</span>}
+                  </>
+                )}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      {open && <PreviewSheet item={open} defaultSlot={defaultSlot} timeZoneLabel={timeZoneLabel} onClose={() => setOpenId(null)} onApproved={() => setOpenId(null)} />}
+    </div>
+  );
+}
+
 /** One file, full size, with what the business can do with it. */
-function PreviewSheet({
+export function PreviewSheet({
   item, defaultSlot, timeZoneLabel, onClose, onApproved,
 }: {
   item: Deliverable;

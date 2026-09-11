@@ -1,16 +1,16 @@
-import Link from "next/link";
-import { Camera, CaretRight, HourglassMedium } from "@phosphor-icons/react/dist/ssr";
+import { Camera, Images, Palette, CalendarBlank } from "@phosphor-icons/react/dist/ssr";
 import { requireBusinessContext } from "@/lib/v2/core";
 import { sql, sqlOne } from "@/lib/db";
 import { defaultTimezone } from "@/lib/ai/schedule";
-import { getContentState, atLeast } from "@/lib/business/content-state";
-import { listDeliverables } from "@/lib/business/deliverables";
-import type { ContentShoot } from "@/lib/business/shoots";
-import { ScreenHeader, SurfaceRow } from "@/components/v2/ui";
-import { MediaPreview } from "@/components/v2/MediaPreview";
-import { MadeForYou } from "./MadeForYou";
+import { getContentState } from "@/lib/business/content-state";
+import { listDeliverables, type Deliverable } from "@/lib/business/deliverables";
+import { getBrandKit } from "@/lib/business/brand";
+import { SurfaceRow } from "@/components/v2/ui";
+import { MadeForYou, DeliveredGrid } from "./MadeForYou";
 import { ScheduledItem } from "./ScheduledList";
-import { dayKeyOf, daysBetween, defaultScheduleSlot, groupLabel, longDayLabel, shootTimeLabel, shootWhenLabel, timeOf } from "./dates";
+import { EmptyCard } from "./EmptyCard";
+import { ShootCard } from "./ShootCard";
+import { dayKeyOf, dayLabel, defaultScheduleSlot } from "./dates";
 import type { ScheduledPost } from "./types";
 
 export const metadata = { title: "Content" };
@@ -19,9 +19,10 @@ export const dynamic = "force-dynamic";
 type PostRow = Omit<ScheduledPost, "when"> & { when: Date | string };
 
 /**
- * The Content tab shows only content that exists for this business: the
- * next booked shoot, the files a verified creator delivered, and the posts
- * made from those files. No ideas, no templates, no placeholders.
+ * Business Content, as OpenAI designed it (docs/design-specs/business-content.md):
+ * the files waiting for a decision first, then this month's shoot, then
+ * what exists now (delivered files, scheduled posts) and the brand kit.
+ * Every block is real data or an honest empty card; nothing is staged.
  */
 export default async function ContentPage() {
   const ctx = await requireBusinessContext("/business/content");
@@ -31,197 +32,147 @@ export default async function ContentPage() {
   const todayKey = dayKeyOf(now, timeZone);
 
   const info = await getContentState(business.id, now);
-  const delivered = atLeast(info.state, "CONTENT_DELIVERED");
+  const subscribed = info.state !== "NOT_SUBSCRIBED";
 
-  const [rows, rail, media] = await Promise.all([
-    delivered
-      ? sql<PostRow>(
-          `select p.id, p.deliverable_id, p.platform, p.status::text as status, p.title, p.caption, p.format,
-                  d.kind, d.url, coalesce(p.thumbnail_url, d.thumbnail_url) as thumbnail_url,
-                  coalesce(p.published_at, p.scheduled_for) as "when"
-             from calendar_posts p join content_deliverables d on d.id = p.deliverable_id
-            where p.business_id = $1 and p.status in ('scheduled', 'published')
-              and coalesce(p.published_at, p.scheduled_for) is not null
-            order by coalesce(p.published_at, p.scheduled_for) desc, p.created_at desc
-            limit 60`,
-          [business.id],
-        )
-      : Promise.resolve([] as PostRow[]),
-    delivered ? listDeliverables(business.id, { status: ["new", "approved"] }) : Promise.resolve([]),
-    sqlOne<{ cover_url: string | null; logo_url: string | null }>(`select cover_url, logo_url from businesses where id = $1`, [business.id]),
+  const [rows, queue, files, details, brand] = await Promise.all([
+    sql<PostRow>(
+      `select p.id, p.deliverable_id, p.platform, p.status::text as status, p.title, p.caption, p.format,
+              d.kind, d.url, coalesce(p.thumbnail_url, d.thumbnail_url) as thumbnail_url,
+              coalesce(p.published_at, p.scheduled_for) as "when"
+         from calendar_posts p join content_deliverables d on d.id = p.deliverable_id
+        where p.business_id = $1 and p.status in ('scheduled', 'published')
+          and coalesce(p.published_at, p.scheduled_for) is not null
+        order by (p.status = 'scheduled') desc, coalesce(p.published_at, p.scheduled_for) desc, p.created_at desc
+        limit 40`,
+      [business.id],
+    ),
+    listDeliverables(business.id, { status: ["new", "approved"] }),
+    listDeliverables(business.id, { status: ["new", "approved", "scheduled", "published"], limit: 60 }),
+    sqlOne<{ city: string | null }>(`select city from businesses where id = $1`, [business.id]),
+    getBrandKit(business.id).catch(() => null),
   ]);
 
   const posts: ScheduledPost[] = rows.map((r) => ({ ...r, when: new Date(r.when).toISOString() }));
-  const upcoming = posts.filter((p) => p.status === "scheduled" && dayKeyOf(p.when, timeZone) >= todayKey)
-    .sort((a, b) => a.when.localeCompare(b.when));
-  const past = posts.filter((p) => !upcoming.includes(p));
-  const groups = groupByDay([...upcoming, ...past], timeZone);
-  const uploader = rail.find((d) => d.uploader_name);
+  // The queue: files the business has not decided on (new), or approved but not on the calendar yet.
+  const pending = queue.filter((d) => d.status === "new" || (d.status === "approved" && !d.calendar_post_id));
+  const newCount = pending.filter((d) => d.status === "new").length;
+  // Delivered: the latest shoot's files, whatever the business did with them since.
+  const latestShootId = files[0]?.shoot_id ?? null;
+  const delivered: Deliverable[] = latestShootId ? files.filter((d) => d.shoot_id === latestShootId) : [];
+  const deliveredDate = delivered[0]?.shoot_date ? dayLabel(delivered[0].shoot_date, { weekday: false }) : null;
+  const uploader = pending.find((d) => d.uploader_name) ?? delivered.find((d) => d.uploader_name) ?? null;
   const zoneLabel = new Intl.DateTimeFormat("en-US", { timeZone, timeZoneName: "short" })
     .formatToParts(now).find((p) => p.type === "timeZoneName")?.value ?? timeZone;
+  const slot = defaultScheduleSlot(todayKey);
+  const uploaderInfo = uploader ? { name: uploader.uploader_name ?? "TapMart creator", verified: uploader.uploader_verified } : null;
 
-  return (
-    <main id="main" className="mx-auto w-full max-w-2xl px-4 pt-[18px] pb-6 md:px-8 md:py-8">
-      <ScreenHeader bell={false} kicker={business.name} title="Content" unread={ctx.unreadNotifications} showSearch={false} />
+  const kit = brand?.kit;
+  const hasKit = Boolean(kit && (kit.palette.length > 0 || kit.logo_url || kit.type.display));
+  const kitState = !hasKit ? { sub: "Not set up", text: "Not set", tone: "faint" as const }
+    : brand?.proposed ? { sub: "Needs review", text: "Review", tone: "review" as const }
+    : brand?.status === "approved" ? { sub: "Ready for content", text: "Ready", tone: "signal" as const }
+    : { sub: "Needs review", text: "Pending", tone: "warning" as const };
 
-      {(info.state === "NOT_SUBSCRIBED" || info.state === "SUBSCRIBED_NO_SHOOT") && (
-        <WillAppear subscribed={info.state === "SUBSCRIBED_NO_SHOOT"} />
-      )}
+  const location = [business.name, details?.city].filter(Boolean).join(" · ");
+  const hasQueue = pending.length > 0;
 
-      {info.state === "SHOOT_SCHEDULED" && info.nextShoot && (
-        <NextShoot shoot={info.nextShoot} todayKey={todayKey} picture={media?.cover_url ?? media?.logo_url ?? business.logo_url} />
-      )}
-
-      {(info.state === "SHOOT_COMPLETED" || info.state === "CONTENT_PROCESSING") && (
-        <Preparing shoot={info.deliveringShoot ?? info.lastShoot} />
-      )}
-
-      {delivered && (
-        <>
-          <section className="mt-8" aria-labelledby="scheduled-title">
-            <h2 id="scheduled-title" className="eyebrow">What&apos;s scheduled</h2>
-            {groups.length === 0 ? (
-              <p className="mt-2 text-sm text-ink-soft">Nothing on the calendar yet. Pick a file below and schedule it.</p>
-            ) : (
-              groups.map((g) => (
-                <div key={g.key} className="mt-4">
-                  <p className="font-display text-[1.0625rem] font-700 tracking-[-0.02em] uppercase">{groupLabel(g.key, todayKey)}</p>
-                  <ul className="divide-y divide-rule">
-                    {g.posts.map((p, i) => <ScheduledItem key={p.id} post={p} time={timeOf(p.when, timeZone)} index={i} />)}
-                  </ul>
-                </div>
-              ))
-            )}
-          </section>
-
-          <section className="mt-9" aria-labelledby="made-title">
-            <div className="flex items-baseline justify-between gap-3">
-              <h2 id="made-title" className="eyebrow">Made for you</h2>
-              {rail.length > 0 && <span className="tnum text-sm text-ink-faint">{rail.length}</span>}
-            </div>
-            {rail.length === 0 ? (
-              <p className="mt-2 text-sm text-ink-soft">Everything delivered so far is on the calendar.</p>
-            ) : (
-              <MadeForYou
-                items={rail}
-                uploader={uploader ? { name: uploader.uploader_name ?? "TapMart creator", verified: uploader.uploader_verified } : null}
-                defaultSlot={defaultScheduleSlot(todayKey)}
-                timeZoneLabel={zoneLabel}
-              />
-            )}
-          </section>
-
-          <ShootsRow next={info.nextShoot} last={info.lastShoot} />
-        </>
-      )}
-    </main>
-  );
-}
-
-function groupByDay(posts: ScheduledPost[], timeZone: string): { key: string; posts: ScheduledPost[] }[] {
-  const out: { key: string; posts: ScheduledPost[] }[] = [];
-  for (const p of posts) {
-    const key = dayKeyOf(p.when, timeZone);
-    const last = out[out.length - 1];
-    if (last && last.key === key) last.posts.push(p);
-    else out.push({ key, posts: [p] });
-  }
-  return out;
-}
-
-/** Before any content exists: what will land here, and how. */
-function WillAppear({ subscribed }: { subscribed: boolean }) {
-  return (
-    <section className="mt-10 py-6" aria-labelledby="empty-title">
-      <Camera size={44} weight="duotone" className="text-ink-soft" aria-hidden />
-      <p className="mt-4 eyebrow">Your content will appear here</p>
-      <h2 id="empty-title" className="mt-2 max-w-sm font-display text-[1.5rem] leading-[1.02] font-700 tracking-[-0.02em] md:text-[1.5rem]">
-        {subscribed ? "Your first shoot is being scheduled." : "Real photos and videos, shot for you."}
-      </h2>
-      <p className="mt-3 max-w-md text-sm text-ink-soft">
-        After your TapMart content shoot, your approved photos and videos will appear here and be scheduled for your business.
-      </p>
-      {!subscribed && <Link href="/business/plan" className="btn btn-signal mt-5">View plans</Link>}
+  const queueBlock = hasQueue && (
+    <section aria-labelledby="made-title">
+      <div className="flex h-6 items-center justify-between">
+        <h2 id="made-title" className="eyebrow">Made for you</h2>
+        <span className="tnum inline-flex h-6 items-center rounded-full bg-signal/14 px-2.5 text-[11px] leading-[13px] font-700 text-signal">
+          {newCount > 0 ? `${newCount} pending review` : `${pending.length} ready to schedule`}
+        </span>
+      </div>
+      <div className="mt-2.5">
+        <MadeForYou items={pending} uploader={uploaderInfo} defaultSlot={slot} timeZoneLabel={zoneLabel} />
+      </div>
     </section>
   );
-}
 
-/** A booked shoot: one media object. The date, what is coming and who is coming sit on the picture with the one action. */
-function NextShoot({ shoot, todayKey, picture }: { shoot: ContentShoot; todayKey: string; picture: string | null }) {
-  const days = shoot.scheduled_for ? daysBetween(todayKey, shoot.scheduled_for) : null;
-  const soon = days === 0 ? "Today" : days === 1 ? "Tomorrow" : days != null && days > 1 ? `In ${days} days` : null;
-  const time = shootTimeLabel(shoot.starts_at);
-
-  return (
-    <section aria-labelledby="shoot-title">
-      <h2 id="shoot-title" className="eyebrow mx-0.5 mt-6 mb-2.5">Next shoot</h2>
-      <div className="card relative h-[260px] w-full overflow-hidden lg:h-[320px]">
-        {picture ? (
-          <MediaPreview src={picture} alt="" className="hero-media h-full w-full object-cover" sizes="(min-width: 768px) 672px, 100vw" priority />
+  const deliveredBlock = (
+    <section aria-labelledby="delivered-title">
+      <div className="flex h-6 items-center justify-between">
+        <h2 id="delivered-title" className="eyebrow">Delivered</h2>
+        {deliveredDate && <span className="text-[12px] leading-4 text-ink-faint">From the {deliveredDate} shoot</span>}
+      </div>
+      <div className="mt-2.5">
+        {delivered.length === 0 ? (
+          <EmptyCard icon={<Images size={22} aria-hidden />} title="No delivered files yet" copy="Photos and videos from completed shoots will appear here." />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(ellipse_at_30%_20%,_var(--color-surface-2),_var(--color-surface)_70%)]">
-            <Camera size={48} weight="duotone" className="text-ink-soft" aria-hidden />
-          </div>
+          <DeliveredGrid items={delivered} defaultSlot={slot} timeZoneLabel={zoneLabel} />
         )}
-        <div className="media-scrim absolute inset-0" aria-hidden />
-        <div className="absolute inset-x-4 bottom-[15px] z-[2]">
-          {soon && <span className="glass-tag">{soon}</span>}
-          <p className="mt-[9px] mb-1 font-display text-[20px] leading-[1.15] font-[760] tracking-[-0.6px] text-ink">
-            {shoot.scheduled_for ? longDayLabel(shoot.scheduled_for) : "Date to be set"}
-            {time && <span className="text-meta"> · {time}</span>}
-          </p>
-          <div className="flex items-center justify-between gap-3">
-            <p className="tnum min-w-0 truncate text-[13px] text-meta">{shoot.photos_planned} photos · {shoot.videos_planned} videos</p>
-            <Link href={`/business/content/shoots/${shoot.id}`} className="btn btn-signal btn-sm shrink-0">View shoot</Link>
-          </div>
-        </div>
+      </div>
+    </section>
+  );
+
+  const shootBlock = (
+    <section aria-labelledby="shoot-title">
+      <h2 id="shoot-title" className="eyebrow">Monthly shoot</h2>
+      <div className="mt-2.5">
+        <ShootCard shoot={info.nextShoot} subscribed={subscribed} location={location} primary={!hasQueue} />
       </div>
       <div className="mt-[9px]">
-        <SurfaceRow href="/business/content/shoots" icon={<Camera size={22} aria-hidden />} title="All shoots" sub="Booked and past shoots" />
+        <SurfaceRow href="/business/content/shoots" icon={<Camera size={20} aria-hidden />} title="All shoots" sub="Booked and past shoots" />
       </div>
     </section>
   );
-}
 
-/** The shoot happened; the files are on their way. */
-function Preparing({ shoot }: { shoot: ContentShoot | null }) {
-  return (
-    <section className="mt-10 py-6" aria-labelledby="prep-title">
-      <HourglassMedium size={44} weight="duotone" className="text-ink-soft" aria-hidden />
-      <h2 id="prep-title" className="mt-4 font-display text-[1.5rem] leading-[1.02] font-700 tracking-[-0.02em] md:text-[1.5rem]">Content is being prepared.</h2>
-      <p className="mt-3 text-sm text-ink-soft">
-        {shoot?.scheduled_for ? `From the ${shootWhenLabel(shoot.scheduled_for, shoot.starts_at)} shoot. ` : ""}
-        Your photos and videos appear here as soon as they are delivered.
-      </p>
-      {shoot && <Link href={`/business/content/shoots/${shoot.id}`} className="link-row mt-2">View shoot<CaretRight size={16} aria-hidden /></Link>}
+  const scheduledBlock = (
+    <section aria-labelledby="scheduled-title">
+      <h2 id="scheduled-title" className="eyebrow">Scheduled</h2>
+      <div className="mt-2.5">
+        {posts.length === 0 ? (
+          <EmptyCard icon={<CalendarBlank size={22} aria-hidden />} title="No scheduled posts" copy="Approved content appears here after it is scheduled." />
+        ) : (
+          <ul className="flex flex-col gap-[9px]">
+            {posts.map((p, i) => <ScheduledItem key={p.id} post={p} timeZone={timeZone} index={i} />)}
+          </ul>
+        )}
+      </div>
     </section>
   );
-}
 
-/** One quiet row to the shoots list: the next booked one, or the last one that happened. */
-function ShootsRow({ next, last }: { next: ContentShoot | null; last: ContentShoot | null }) {
-  const booked = next && next.status === "scheduled" && next.scheduled_for ? next : null;
-  const shown = booked ?? last;
-  const label = booked ? `Next shoot · ${shootWhenLabel(booked.scheduled_for, booked.starts_at)}`
-    : last?.scheduled_for ? `Last shoot · ${shootWhenLabel(last.scheduled_for, last.starts_at)}`
-    : "Shoots";
-  return (
-    <section className="mt-9" aria-label="Shoots">
-      <h2 className="eyebrow">Shoots</h2>
-      <ul className="mt-1 divide-y divide-rule">
-        <li>
-          <Link href={shown ? `/business/content/shoots/${shown.id}` : "/business/content/shoots"} className="flex min-h-14 items-center justify-between gap-3 py-3">
-            <span className="font-display text-[1.0625rem] font-600">{label}</span>
-            <CaretRight size={18} className="text-ink-faint" aria-hidden />
-          </Link>
-        </li>
-        <li>
-          <Link href="/business/content/shoots" className="flex min-h-14 items-center justify-between gap-3 py-3">
-            <span className="font-display text-[1.0625rem] font-600 text-ink-soft">All shoots</span>
-            <CaretRight size={18} className="text-ink-faint" aria-hidden />
-          </Link>
-        </li>
-      </ul>
+  const kitBlock = (
+    <section aria-label="Brand kit">
+      <SurfaceRow href="/business/brand" icon={<Palette size={20} aria-hidden />} title="Brand kit" sub={kitState.sub} status={kitState.text} statusTone={kitState.tone} />
     </section>
+  );
+
+  return (
+    <main id="main" className="mx-auto w-full max-w-[390px] px-4 pt-[14px] pb-6 rail:max-w-none rail:px-8 rail:pt-0 rail:pb-10">
+      <header className="reveal rail:flex rail:h-16 rail:items-center">
+        <p className="eyebrow truncate rail:hidden">{business.name}</p>
+        <h1 className="mt-1 font-display text-[23px] leading-[29px] font-[800] tracking-[-0.45px] rail:mt-0 rail:text-[30px] rail:leading-9 rail:font-[820] rail:tracking-[-0.8px]">Content</h1>
+      </header>
+
+      {/* Phone: one feed in the designed order. */}
+      <div className="mt-6 flex flex-col gap-6 rail:hidden">
+        {queueBlock}
+        {shootBlock}
+        {deliveredBlock}
+        {scheduledBlock}
+        {kitBlock}
+      </div>
+
+      {/* Desktop: 792px main column of decisions and files; 360px sticky side column of schedule and setup. */}
+      <div className="hidden rail:mt-6 rail:grid rail:max-w-[1180px] rail:grid-cols-[792px_360px] rail:items-start rail:gap-7">
+        <div className="flex flex-col gap-6">
+          {queueBlock}
+          {!hasQueue && delivered.length === 0 ? (
+            <section aria-label="Delivered">
+              <div className="max-w-[520px]">
+                <EmptyCard icon={<Images size={22} aria-hidden />} title="No content delivered yet" copy="Photos and videos from completed shoots will appear here." />
+              </div>
+            </section>
+          ) : deliveredBlock}
+        </div>
+        <aside className="sticky top-6 flex flex-col gap-6">
+          {shootBlock}
+          {scheduledBlock}
+          {kitBlock}
+        </aside>
+      </div>
+    </main>
   );
 }

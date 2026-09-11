@@ -18,8 +18,8 @@ export function isActivePath(item: { href: string; exact?: boolean }, pathname: 
   return item.exact ? pathname === item.href : pathname === item.href || pathname.startsWith(item.href + "/");
 }
 
-/** Phone top bar: left slot, centred wordmark, up to two right icons. */
-export function TopBar({ homeHref, left, right }: { homeHref: string; left?: React.ReactNode; right?: React.ReactNode }) {
+/** Phone top bar: left slot, centred wordmark (or a detail title), up to two right icons. */
+export function TopBar({ homeHref, left, right, title }: { homeHref: string; left?: React.ReactNode; right?: React.ReactNode; title?: string }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 12);
@@ -30,9 +30,13 @@ export function TopBar({ homeHref, left, right }: { homeHref: string; left?: Rea
   return (
     <header className={`sticky top-0 z-30 grid h-[56px] grid-cols-[44px_1fr_auto] items-center px-4 transition-[background,border-color] duration-200 rail:hidden ${scrolled ? "glass border-b" : "border-b border-transparent"}`}>
       <span className="flex">{left}</span>
-      <Link href={homeHref} className="justify-self-center font-display text-[21px] leading-6 font-[820] tracking-[-0.45px]" aria-label="TapMart home">
-        Tapmart<span className="text-signal">.</span>
-      </Link>
+      {title ? (
+        <span className="justify-self-center truncate font-display text-[16px] leading-5 font-[760] tracking-[-0.1px]">{title}</span>
+      ) : (
+        <Link href={homeHref} className="justify-self-center font-display text-[21px] leading-6 font-[820] tracking-[-0.45px]" aria-label="TapMart home">
+          Tapmart<span className="text-signal">.</span>
+        </Link>
+      )}
       <span className="flex items-center gap-2">{right}</span>
     </header>
   );

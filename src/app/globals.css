@@ -577,6 +577,11 @@
   100% { transform: scale(1); }
 }
 .pop { animation: pop 320ms cubic-bezier(0.22, 1, 0.36, 1); }
+/* Sheets and dialogs: the system's sheet-enter, 260ms, scrim and panel together. */
+@keyframes sheet-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+.sheet-enter { animation: sheet-in 260ms var(--tm-ease) both; }
+@media (prefers-reduced-motion: reduce) { .sheet-enter { animation: none; } }
+
 
 /* Count-up and status changes: a short fade so numbers do not blink. */
 @keyframes settle {

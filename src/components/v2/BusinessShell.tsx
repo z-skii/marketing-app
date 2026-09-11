@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { House, CalendarBlank, Plus, Megaphone, Storefront, Bell, ChatCircle, MagnifyingGlass, Gear } from "@phosphor-icons/react";
 import { BottomNav, Rail, TopBar, TopIcon, type ChromeNavItem } from "./Chrome";
+import { BackButton } from "./BackButton";
 
 /**
  * The Business shell: a marketing operating system for one business.
@@ -38,6 +39,8 @@ const MOBILE_ORDER: ChromeNavItem[] = [NAV[0], NAV[1], CREATE, NAV[2], NAV[3]];
 
 export function BusinessShell({ business, unreadNotifications, unreadMessages, children }: BusinessShellProps) {
   const pathname = usePathname();
+  // Settings is a detail route: back and a title in the top bar, no bottom bar under the utility rows.
+  const detail = pathname === "/business/settings" ? { title: "Settings", back: "/business/profile" } : null;
   return (
     <div className="app-root min-h-dvh bg-paper rail:grid rail:grid-cols-[88px_minmax(0,1fr)]">
       <Rail
@@ -58,15 +61,19 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
       />
 
       <div className="min-w-0">
-        <TopBar
-          homeHref="/business"
-          left={<TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={unreadMessages} />}
-          right={<><TopIcon href="/alerts" label="Notifications" icon={Bell} badge={unreadNotifications} /><TopIcon href="/business/settings" label="Settings" icon={Gear} /></>}
-        />
-        <div className="pb-24 rail:pb-0">{children}</div>
+        {detail ? (
+          <TopBar homeHref="/business" title={detail.title} left={<BackButton fallback={detail.back} />} />
+        ) : (
+          <TopBar
+            homeHref="/business"
+            left={<TopIcon href="/messages" label="Messages" icon={ChatCircle} badge={unreadMessages} />}
+            right={<><TopIcon href="/alerts" label="Notifications" icon={Bell} badge={unreadNotifications} /><TopIcon href="/business/settings" label="Settings" icon={Gear} /></>}
+          />
+        )}
+        <div className={detail ? "" : "pb-24 rail:pb-0"}>{children}</div>
       </div>
 
-      <BottomNav items={MOBILE_ORDER} pathname={pathname} label="Business" />
+      {!detail && <BottomNav items={MOBILE_ORDER} pathname={pathname} label="Business" />}
     </div>
   );
 }

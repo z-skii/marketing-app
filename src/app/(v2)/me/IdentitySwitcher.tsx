@@ -2,47 +2,50 @@
 
 import Link from "next/link";
 import { useTransition } from "react";
+import { CaretRight, Plus } from "@phosphor-icons/react";
 import { switchContext } from "@/app/(v2)/mode/actions";
 import { Avatar } from "@/components/v2/ui";
 
 export type Identity = { id: "personal" | string; name: string; sub: string; logo: string | null; active: boolean };
 
 /**
- * Use TapMart as: yourself, or any business you belong to. One tap switches
- * the whole app into that mode. The current identity is marked, not lime,
- * so the switch itself stays the only accent.
+ * Use TapMart as: yourself, or any business you belong to, as one grouped
+ * list. The current identity sits on the deeper surface with a lime
+ * "Current"; every other row switches the whole app into that mode.
+ * Designed by OpenAI in docs/design-specs/business-settings.md.
  */
-export function IdentitySwitcher({ identities, canAddBusiness, flat = false }: { identities: Identity[]; canAddBusiness: boolean; flat?: boolean }) {
+export function IdentitySwitcher({ identities, canAddBusiness }: { identities: Identity[]; canAddBusiness: boolean; flat?: boolean }) {
   const [pending, start] = useTransition();
   return (
-    <ul className={flat ? "divide-y divide-rule overflow-hidden rounded-[var(--radius-card)] bg-surface" : "row-list"}>
-      {identities.map((i) => (
-        <li key={i.id}>
+    <ul className="overflow-hidden rounded-[20px] bg-surface">
+      {identities.map((i, n) => (
+        <li key={i.id} className={n > 0 ? "relative before:absolute before:top-0 before:right-[13px] before:left-[75px] before:h-px before:bg-rule" : undefined}>
           <button
             type="button"
             disabled={pending || i.active}
             aria-current={i.active ? "true" : undefined}
             onClick={() => start(() => switchContext(i.id))}
-            className={`${flat ? "" : "card"} flex min-h-16 w-full items-center gap-3 px-4 py-3 text-left ${i.active ? "" : "hover:bg-surface-2"}`}
+            className={`flex h-[66px] w-full items-center gap-3.5 px-[13px] text-left transition-[background,transform] duration-100 ${i.active ? "bg-surface-3" : "can-hover:hover:bg-surface-3 active:scale-[0.985] active:bg-[color:var(--tm-pressed)]"}`}
           >
-            <Avatar src={i.logo} name={i.name} size={40} />
+            <Avatar src={i.logo} name={i.name} size={48} />
             <span className="min-w-0 flex-1">
-              <span className="block truncate font-display text-[0.9375rem] font-600">{i.name}</span>
-              <span className="block truncate text-sm text-ink-faint">{i.sub}</span>
+              <span className="block truncate font-display text-[14px] leading-[18px] font-700">{i.name}</span>
+              <span className="mt-0.5 block truncate text-[12px] leading-4 text-ink-soft">{i.sub}</span>
             </span>
             {i.active ? (
-              <span className="font-display text-sm font-600 text-signal">Current</span>
+              <span className="font-display text-[12px] leading-[15px] font-[760] text-signal">Current</span>
             ) : (
-              <span className="font-display text-sm font-600 text-ink-soft">{pending ? "Switching…" : "Switch"}</span>
+              <span className="inline-flex h-11 min-w-[63px] items-center justify-end font-display text-[14px] leading-[17px] font-700 text-ink-2">{pending ? "Switching" : "Switch"}</span>
             )}
           </button>
         </li>
       ))}
       {canAddBusiness && (
-        <li>
-          <Link href="/business/new" className={`${flat ? "" : "card-2"} flex min-h-14 items-center gap-3 px-4 py-3`}>
-            <span aria-hidden className="flex h-10 w-10 items-center justify-center rounded-full bg-surface font-display text-xl font-600">+</span>
-            <span className="font-display text-[0.9375rem] font-600">Add business</span>
+        <li className="relative before:absolute before:top-0 before:right-[13px] before:left-[75px] before:h-px before:bg-rule">
+          <Link href="/business/new" className="flex h-[58px] w-full items-center gap-3.5 px-[13px] transition-[background,transform] duration-100 can-hover:hover:bg-surface-3 active:scale-[0.985] active:bg-[color:var(--tm-pressed)]">
+            <span aria-hidden className="flex h-11 w-11 items-center justify-center rounded-[14px] text-ink"><Plus size={20} weight="bold" /></span>
+            <span className="flex-1 font-display text-[14px] leading-[18px] font-700">Add business</span>
+            <CaretRight size={18} className="text-ink-soft" aria-hidden />
           </Link>
         </li>
       )}
