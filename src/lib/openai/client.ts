@@ -69,6 +69,12 @@ export type RespondOptions = {
   /** Build the request and return it without sending; for tests and dry runs. */
   dryRun?: boolean;
   onProgress?: (status: string) => void;
+  /** How long to keep polling a background response (default 12 minutes; long design jobs pass an hour). */
+  maxWaitMs?: number;
+  /** Re-attach to a background response that is still running instead of submitting again. */
+  resumeId?: string | null;
+  /** Called with the response id as soon as it is accepted, so a caller can persist it for resume. */
+  onSubmitted?: (id: string) => void;
 };
 
 export type RespondResult<T> = { data: T; usage: Usage; responseId: string | null; request?: Record<string, unknown> };
@@ -89,12 +95,21 @@ export async function respond<T>(o: RespondOptions): Promise<RespondResult<T>> {
   if (o.dryRun) return { data: null as T, usage: { model: o.model }, responseId: null, request: body };
 
   const started = Date.now();
-  const submit = await fetch(`${API}/responses`, { method: "POST", headers: headers(), body: JSON.stringify(body), signal: AbortSignal.timeout(120_000) });
-  if (!submit.ok) await fail(submit, "OpenAI responses");
-  let data = await submit.json();
+  const maxWait = o.maxWaitMs ?? MAX_WAIT_MS;
+  let data: { id: string; status: string; error?: { code?: string }; incomplete_details?: unknown; output?: { type: string; content?: { type: string; text?: string }[] }[]; usage?: Record<string, number> & { output_tokens_details?: { reasoning_tokens?: number } } };
+  if (o.resumeId) {
+    const poll = await fetch(`${API}/responses/${o.resumeId}`, { headers: headers(false), signal: AbortSignal.timeout(60_000) });
+    if (!poll.ok) await fail(poll, `Resuming ${o.resumeId}`);
+    data = await poll.json();
+  } else {
+    const submit = await fetch(`${API}/responses`, { method: "POST", headers: headers(), body: JSON.stringify(body), signal: AbortSignal.timeout(120_000) });
+    if (!submit.ok) await fail(submit, "OpenAI responses");
+    data = await submit.json();
+    o.onSubmitted?.(data.id);
+  }
   const id: string = data.id;
   while (["queued", "in_progress"].includes(data.status)) {
-    if (Date.now() - started > MAX_WAIT_MS) throw new OpenAiError(`Response ${id} still ${data.status} after ${MAX_WAIT_MS / 60000} minutes.`, 0);
+    if (Date.now() - started > maxWait) throw new OpenAiError(`Response ${id} still ${data.status} after ${Math.round(maxWait / 60000)} minutes.`, 0, "still_running");
     await new Promise((r) => setTimeout(r, POLL_MS));
     const poll = await fetch(`${API}/responses/${id}`, { headers: headers(false), signal: AbortSignal.timeout(60_000) });
     if (!poll.ok) await fail(poll, `Polling ${id}`);
@@ -102,7 +117,7 @@ export async function respond<T>(o: RespondOptions): Promise<RespondResult<T>> {
     o.onProgress?.(data.status);
   }
   if (data.status !== "completed") {
-    const err = data.error ?? data.incomplete_details ?? {};
+    const err = (data.error ?? data.incomplete_details ?? {}) as { code?: string };
     throw new OpenAiError(`Response ${id} ended as ${data.status}: ${JSON.stringify(err).slice(0, 400)}`, 0, err.code ?? null);
   }
   const message = (data.output ?? []).find((x: { type: string }) => x.type === "message");

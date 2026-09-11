@@ -65,6 +65,21 @@ export async function runReboot(o: RebootOptions = {}): Promise<RebootResult> {
   const inventory = await readFile(INVENTORY_PATH, "utf8");
   const base: InputPart[] = [textPart(`=== TAPMART FUNCTIONAL INVENTORY (what the product does; the only source) ===\n${inventory}\n=== END ===`)];
 
+  const HOUR = 60 * 60_000;
+  const pendingPath = (part: string) => path.join(out, `.pending-${part}.json`);
+  const pending = async (part: string): Promise<string | null> => {
+    if (!o.resume) return null;
+    try { return JSON.parse(await readFile(pendingPath(part), "utf8")).id ?? null; } catch { return null; }
+  };
+  const attach = async (part: string) => {
+    const id = await pending(part);
+    if (id) say(`Part ${part.toUpperCase()}: re-attaching to response ${id}`);
+    await mkdir(out, { recursive: true });
+    return {
+      maxWaitMs: HOUR, resumeId: id,
+      onSubmitted: (rid: string) => { void writeFile(pendingPath(part), JSON.stringify({ id: rid, when: new Date().toISOString() })); },
+    };
+  };
   const saved = async (name: string): Promise<Record<string, unknown> | null> => {
     if (!o.resume) return null;
     try { return JSON.parse(await readFile(path.join(out, name), "utf8")); } catch { return null; }
@@ -73,7 +88,8 @@ export async function runReboot(o: RebootOptions = {}): Promise<RebootResult> {
   if (savedA) say("Part A: reusing the saved answer");
   else say(`Part A (thesis, alternatives, art direction, information architecture, navigation) with ${r.model} (${r.effort})`);
   const a = savedA ? { data: savedA, usage: { model: r.model } as Usage } : await respond<Record<string, unknown>>({
-    model: r.model, effort: r.effort, instructions: REBOOT_INSTRUCTIONS, maxOutputTokens: 60000, dryRun: o.dryRun, onProgress: undefined,
+    ...(await attach("a")),
+    model: r.model, effort: r.effort, instructions: REBOOT_INSTRUCTIONS, maxOutputTokens: 60000, dryRun: o.dryRun,
     content: [textPart("Study the inventory until you understand the product completely. Then produce PART A of the master design package: the product design thesis, the three or more directions you explored with honest critique, the chosen direction, the complete brand and art direction chosen from scratch, the information architecture with the user and business journeys, and the navigation system for mobile User mode, desktop User mode, mobile Business mode, desktop Business mode and the public site, including mode switching."), ...base],
     schema: REBOOT_A_SCHEMA,
   });
@@ -86,6 +102,7 @@ export async function runReboot(o: RebootOptions = {}): Promise<RebootResult> {
   if (savedB) say("Part B: reusing the saved answer");
   else say(`Part B (components, media, motion, four master screens, public homepage, mockup briefs) with ${r.model} (${r.effort})`);
   const b = savedB ? { data: savedB, usage: { model: r.model } as Usage } : await respond<Record<string, unknown>>({
+    ...(await attach("b")),
     model: r.model, effort: r.effort, instructions: REBOOT_INSTRUCTIONS, maxOutputTokens: 60000,
     content: [
       textPart("PART A of the package, which you already produced, follows; PART B must be consistent with it and may refine it only where the detail work reveals a better answer (say so in the relevant field)."),
@@ -101,6 +118,7 @@ export async function runReboot(o: RebootOptions = {}): Promise<RebootResult> {
   if (savedC) say("Part C: reusing the saved answer");
   else say(`Part C (application to the whole product, creative system, self critique, QA) with ${r.model} (${r.effort})`);
   const c = savedC ? { data: savedC, usage: { model: r.model } as Usage } : await respond<Record<string, unknown>>({
+    ...(await attach("c")),
     model: r.model, effort: r.effort, instructions: REBOOT_INSTRUCTIONS, maxOutputTokens: 60000,
     content: [
       textPart("PARTS A and B of the package, which you already produced, follow."),
