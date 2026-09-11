@@ -51,7 +51,7 @@ export type CreativeReview = {
   problems: string[]; verdict: "approve" | "edit" | "regenerate"; edit_instructions: string; revised_prompt: string;
 };
 
-export type CreativeAssetType = "STORY_AD" | "RECREATE_COVER" | "CAR_AD_PREVIEW" | "SOCIAL_POST" | "CAMPAIGN_COVER" | "BRAND_ASSET";
+export type CreativeAssetType = "STORY_AD" | "RECREATE_COVER" | "CAR_AD_PREVIEW" | "SOCIAL_POST" | "CAMPAIGN_COVER" | "BRAND_ASSET" | "UI_CONCEPT" | "CONCEPT_ART";
 
 export type SourceImage = { url: string; role: "logo" | "product" | "photo" | "reference" | "car" | "reel_frame"; note?: string };
 
@@ -244,7 +244,7 @@ export async function writeCopy(i: { business: BusinessBrandInput; purpose: stri
 // ----------------------------------------------------------------- helpers
 
 export function label(t: CreativeAssetType): string {
-  return { STORY_AD: "9:16 Instagram Story advertisement", RECREATE_COVER: "Recreate campaign cover", CAR_AD_PREVIEW: "car advertising placement preview", SOCIAL_POST: "social post creative", CAMPAIGN_COVER: "campaign cover image", BRAND_ASSET: "brand asset" }[t];
+  return { STORY_AD: "9:16 Instagram Story advertisement", RECREATE_COVER: "Recreate campaign cover", CAR_AD_PREVIEW: "car advertising placement preview", SOCIAL_POST: "social post creative", CAMPAIGN_COVER: "campaign cover image", BRAND_ASSET: "brand asset", UI_CONCEPT: "product UI concept mockup", CONCEPT_ART: "concept art for the product and its marketing" }[t];
 }
 
 async function tapmartMaterial(): Promise<InputPart[]> {

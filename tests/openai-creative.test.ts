@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { IMAGE_SIZE, MODELS, imageModel, route, routingTable, supportsReasoning } from "@/lib/openai/models";
 import { CREATIVE_DIRECTION_SCHEMA, CREATIVE_REVIEW_SCHEMA, SCREEN_REVIEW_SCHEMA, SCREEN_SCHEMA } from "@/lib/openai/schemas";
+import { REBOOT_A_SCHEMA, REBOOT_B_SCHEMA, REBOOT_C_SCHEMA } from "@/lib/openai/reboot-schemas";
+import { REBOOT_INSTRUCTIONS } from "@/lib/openai/reboot";
 import { totalUsage } from "@/lib/openai/assets";
 import { creativeMarkdown, type CreativeJobResult } from "@/lib/openai/creative";
 
@@ -46,12 +48,17 @@ describe("model router", () => {
 
 describe("schemas", () => {
   it("are strict objects with every property required", () => {
-    for (const s of [SCREEN_SCHEMA, SCREEN_REVIEW_SCHEMA, CREATIVE_DIRECTION_SCHEMA, CREATIVE_REVIEW_SCHEMA]) {
+    for (const s of [SCREEN_SCHEMA, SCREEN_REVIEW_SCHEMA, CREATIVE_DIRECTION_SCHEMA, CREATIVE_REVIEW_SCHEMA, REBOOT_A_SCHEMA, REBOOT_B_SCHEMA, REBOOT_C_SCHEMA]) {
       const schema = s.schema as { type: string; additionalProperties: boolean; properties: Record<string, unknown>; required: string[] };
       expect(schema.type).toBe("object");
       expect(schema.additionalProperties).toBe(false);
       expect(schema.required.sort()).toEqual(Object.keys(schema.properties).sort());
     }
+  });
+
+  it("the reboot never points the director at old visuals", () => {
+    expect(REBOOT_INSTRUCTIONS).toContain("BLANK CANVAS");
+    expect(REBOOT_INSTRUCTIONS).not.toMatch(/lime|graphite|blueprint|reference image/i);
   });
 
   it("the creative review can only approve, edit or regenerate", () => {
