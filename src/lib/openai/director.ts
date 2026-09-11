@@ -33,7 +33,7 @@ export type ScreenDesign = {
 
 export type ScreenReview = {
   verdict: string; tapmart_match: number; generic_ai_look: number; reference_match: number; premium_feel: number; same_kit: boolean;
-  kit: Record<string, number>; three_second_read: string; scores: Record<string, number>; keep: string[]; animation: string[];
+  kit: Record<string, number | { score: number; why?: string }>; three_second_read: string; scores: Record<string, number | { score: number; note?: string }>; keep: string[]; animation: string[];
   checklist: { priority: number; change: string; where: string; why: string }[];
 };
 
@@ -169,7 +169,7 @@ export async function reviewScreen(i: ScreenReviewInput, o: CommonOptions = {}):
     model: r.model, effort: r.effort, instructions: reviewerInstructions(brain, system, own?.text ?? null, i.lab), content, schema: SCREEN_REVIEW_SCHEMA, dryRun: o.dryRun, onProgress: o.onProgress,
   });
   const when = new Date().toISOString();
-  const markdown = o.dryRun ? "" : screenReviewMarkdown(res.data, { screenName: i.screenName, screenshot: i.screenshot, model: r.model, effort: r.effort, when, instructions: i.instructions ?? null, specPath: own?.path ?? null, hasReference: Boolean(ref) });
+  const markdown = o.dryRun ? "" : screenReviewMarkdown(res.data, { screenName: i.screenName, screenshot: i.screenshot, model: r.model, effort: r.effort, when, instructions: i.instructions ?? null, specPath: own?.path ?? null, hasReference: Boolean(ref), lab: i.lab });
   if (!o.dryRun) {
     const dir = i.outDir ?? path.join(process.cwd(), "design-reviews");
     await mkdir(dir, { recursive: true });

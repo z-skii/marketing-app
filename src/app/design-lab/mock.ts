@@ -38,7 +38,7 @@ export const people: Person[] = [
   { id: "p-eli", name: "Eli Moreno", city: "Austin", portrait: ASSET("portrait-eli-01"), initials: "EM", completed: 4, rating: { value: 4.7, count: 3 }, qualification: "Instagram connected · 2,080 followers", sample: { src: ASSET("work-eli-spurroom-01"), ratio: "4 / 5" } },
   { id: "p-imani", name: "Imani Cole", city: "Austin", portrait: ASSET("portrait-imani-01"), initials: "IC", completed: 12, rating: { value: 4.9, count: 8 }, qualification: "Verified creator", sample: { src: ASSET("content-loopday-counter-01"), ratio: "3 / 2" } },
   { id: "p-jules", name: "Jules Park", city: "Austin", portrait: ASSET("portrait-jules-01"), initials: "JP", completed: 3, rating: null, qualification: "Instagram connected · 1,180 followers", sample: { src: ASSET("work-jules-flowers-01"), ratio: "4 / 5" } },
-  { id: "p-nora", name: "Nora Bell", city: "Round Rock", portrait: ASSET("portrait-nora-01"), initials: "NB", completed: 5, rating: { value: 4.6, count: 4 }, qualification: "5 completed", sample: { src: ASSET("work-nora-lunch-01"), ratio: "4 / 5" } },
+  { id: "p-nora", name: "Nora Bell", city: "Round Rock", portrait: ASSET("portrait-nora-01"), initials: "NB", completed: 5, rating: { value: 4.6, count: 4 }, qualification: "", sample: { src: ASSET("work-nora-lunch-01"), ratio: "4 / 5" } },
   { id: "p-theo", name: "Theo Grant", city: "Austin", portrait: null, initials: "TG", completed: null, rating: null, qualification: "Not verified", sample: null },
 ];
 

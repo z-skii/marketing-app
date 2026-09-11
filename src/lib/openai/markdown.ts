@@ -36,18 +36,21 @@ export function screenDesignMarkdown(name: string, spec: ScreenDesign): string {
 
 const bar = (n: number, max = 5) => "#".repeat(n) + ".".repeat(Math.max(0, max - n));
 
-export function screenReviewMarkdown(review: ScreenReview, ctx: { screenName: string; screenshot: string; model: string; effort: string; when: string; instructions: string | null; specPath: string | null; hasReference: boolean }): string {
+const num = (v: unknown): number => (typeof v === "number" ? v : v && typeof v === "object" && "score" in v ? Number((v as { score: number }).score) : NaN);
+const why = (v: unknown): string => (v && typeof v === "object" && "why" in v ? String((v as { why: string }).why) : v && typeof v === "object" && "note" in v ? String((v as { note: string }).note) : "");
+
+export function screenReviewMarkdown(review: ScreenReview, ctx: { screenName: string; screenshot: string; model: string; effort: string; when: string; instructions: string | null; specPath: string | null; hasReference: boolean; lab?: boolean }): string {
   const lines = [`# Design review: ${ctx.screenName}`, ""];
   lines.push(`Screenshot: \`${path.basename(ctx.screenshot)}\`${ctx.hasReference ? " · Reference: primary" : " · No reference image"}${ctx.specPath ? ` · Against: \`${path.basename(ctx.specPath)}\`` : ""} · Model: ${ctx.model} (${ctx.effort}) · ${ctx.when}`);
   if (ctx.instructions) lines.push(`Instructions: ${ctx.instructions}`);
   lines.push("", `**Verdict.** ${review.verdict}`, "");
   lines.push(`TapMart match ${review.tapmart_match}/10 · Reference match ${review.reference_match}/10 · Premium feel ${review.premium_feel}/10 · Generic AI look ${review.generic_ai_look}/10`, "");
-  lines.push(`**Same application as the reference: ${review.same_kit ? "yes" : "NO"}.**`, "");
-  lines.push("| dimension | 0 to 10 |", "| --- | --- |");
-  for (const [k, v] of Object.entries(review.kit)) lines.push(`| ${k.replace(/_/g, " ")} | ${v} |`);
+  lines.push(`**${ctx.lab ? "Finished, distinctive TapMart screen" : "Same application as the reference"}: ${review.same_kit ? "yes" : "NO"}.**`, "");
+  lines.push("| dimension | 0 to 10 | note |", "| --- | --- | --- |");
+  for (const [k, v] of Object.entries(review.kit)) lines.push(`| ${k.replace(/_/g, " ")} | ${num(v)} | ${why(v)} |`);
   lines.push("", `**Three seconds.** ${review.three_second_read}`, "");
   lines.push("| rule | score |", "| --- | --- |");
-  for (const [k, v] of Object.entries(review.scores)) lines.push(`| ${k.replace(/_/g, " ")} | ${bar(v)} ${v}/5 |`);
+  for (const [k, v] of Object.entries(review.scores)) lines.push(`| ${k.replace(/_/g, " ")} | ${bar(num(v))} ${num(v)}/5 |`);
   lines.push("");
   if (review.keep.length) { lines.push("## Keep", ""); for (const k of review.keep) lines.push(`- ${k}`); lines.push(""); }
   lines.push("## Checklist", "");

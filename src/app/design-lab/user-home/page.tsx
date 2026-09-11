@@ -28,7 +28,7 @@ export default function UserHomeLab() {
         <h1 className="t-page" style={{ margin: "12px 0 0" }}>Find paid work</h1>
 
         <Link href="#submission" className="row-link" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, minHeight: 44, marginTop: 12, padding: "0 4px 0 0" }}>
-          <span className="t-label"><span className="status waiting">{maya.resume.title}</span> <span className="t-meta">· {maya.resume.business}</span></span>
+          <span className="t-label"><span className="status waiting">{maya.resume.title}</span></span>
           <ArrowRight size={20} aria-hidden style={{ color: "var(--tm-accent)", flexShrink: 0 }} />
         </Link>
 
@@ -42,7 +42,7 @@ export default function UserHomeLab() {
         <div style={{ display: "flex", flexDirection: "column", gap: 24, marginTop: 16 }}>
           {/* Recreate: the frame holds the work, the edge holds the decision. */}
           <article aria-labelledby="op-recreate">
-            <div className="on-dark op-recreate" style={{ display: "grid", gridTemplateColumns: "160px minmax(0, 1fr)", background: "var(--tm-graphite)", borderRadius: "var(--tm-radius-media)", overflow: "hidden" }}>
+            <div className="on-dark op-recreate" style={{ display: "grid", background: "var(--tm-graphite)", borderRadius: "6px 6px 0 6px", overflow: "hidden" }}>
               <div style={{ position: "relative", width: 160, height: 284, background: "var(--tm-stage)" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={recreate.reference} alt="Reference still: a barista pouring a latte at the Loopday Coffee counter" width={160} height={284} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
@@ -67,7 +67,7 @@ export default function UserHomeLab() {
 
           {/* Story: the creative is the object; the commitment sits beside it, money on a cobalt rule. */}
           <article aria-labelledby="op-story">
-            <div style={{ display: "grid", gridTemplateColumns: "198px 144px", gap: 16 }}>
+            <div className="op-story" style={{ display: "grid", gap: 16 }}>
               <div style={{ borderLeft: "3px solid var(--tm-accent)", paddingLeft: 12, minHeight: 256, display: "flex", flexDirection: "column" }}>
                 <p className="t-meta" style={{ margin: 0 }}>Instagram Story ad</p>
                 <div style={{ marginTop: 8 }}><Money cents={story.payCents} per={story.basis} /></div>
@@ -100,7 +100,7 @@ export default function UserHomeLab() {
             </div>
             <p className="t-meta" style={{ margin: "12px 0 0" }}>{car.visualLabel}</p>
             <p className="t-meta" style={{ margin: "4px 0 0" }}>{car.zones} · {car.durationDays} days</p>
-            <p className="t-meta" style={{ margin: "4px 0 0" }}>Vehicle required · <span className="status confirmed">Your {car.business === "Spurroom Bikes" ? maya.vehicle.label : ""} fits</span></p>
+            <p className="t-meta" style={{ margin: "4px 0 0" }}>Vehicle required</p>
             <p className="t-meta" style={{ margin: "4px 0 0" }}>{car.spots} spots · Apply by {car.deadline}</p>
             <ActionRow href="#car" />
           </article>

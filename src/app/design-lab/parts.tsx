@@ -24,7 +24,7 @@ export function Mark({ size = 28, className = "" }: { size?: number; className?:
 export function Wordmark({ dark = false, size = 30 }: { dark?: boolean; size?: number }) {
   return (
     <span className="t-display" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: size, lineHeight: `${size + 2}px`, letterSpacing: "-0.04em", color: dark ? "var(--tm-on-dark)" : "var(--tm-ink)" }}>
-      <Mark size={Math.round(size * 0.93)} />
+      <span style={{ display: "inline-flex", color: dark ? "var(--tm-focus-dark)" : "var(--tm-accent)" }}><Mark size={28} /></span>
       <span style={{ color: "inherit" }}>TapMart</span>
     </span>
   );
@@ -88,19 +88,19 @@ export function Avatar({ src, name, size = 40, square = false, initials }: { src
 
 /** Desktop rail: wordmark, identity, destinations, create, utilities. */
 export function Rail({ mode, active, business }: { mode: "Personal" | "Business"; active: string; business?: { name: string; logo: string | null; initials?: string } }) {
-  const tabs = mode === "Business" ? BUSINESS_TABS.filter((t) => !t.create) : USER_TABS;
+  const tabs = mode === "Business" ? BUSINESS_TABS : USER_TABS;
   return (
     <aside className="rail on-dark">
-      <div className="wordmark"><Wordmark dark size={22} /></div>
-      <button type="button" className="identity" aria-label={`Acting as ${business?.name ?? "you"}, ${mode}. Switch.`}>
+      <div className="wordmark"><Wordmark dark size={30} /></div>
+      <button type="button" className="identity" aria-label={`Acting as ${business?.name ?? "you"}, ${mode}, demo. Switch.`}>
         <Avatar src={business?.logo ?? null} name={business?.name ?? "P"} initials={business?.initials} size={28} square={mode === "Business"} />
         <span style={{ textAlign: "left", minWidth: 0 }}>
-          <span className="t-meta" style={{ display: "block", color: "var(--tm-muted-dark)", lineHeight: "16px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{mode} · Demo</span>
+          <span className="t-meta" style={{ display: "block", color: "var(--tm-muted-dark)", lineHeight: "16px" }}>{mode}</span>
           <span style={{ display: "block", fontWeight: 600, fontSize: 14, lineHeight: "18px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{business?.name ?? "Personal"}</span>
         </span>
-        <CaretDown size={16} aria-hidden style={{ marginLeft: "auto", color: "var(--tm-muted-dark)" }} />
+        <CaretDown size={16} aria-hidden style={{ marginLeft: "auto", color: "var(--tm-muted-dark)", flexShrink: 0 }} />
       </button>
-      {mode === "Business" && <Link href="#create" className="btn btn-primary create"><Plus size={18} weight="bold" aria-hidden />Create a campaign</Link>}
+      <span className="demo">Demo</span>
       <nav aria-label="Main">
         {tabs.map((t) => <Link key={t.label} href={t.href} aria-current={t.label === active ? "page" : undefined}><span aria-hidden>{t.icon}</span>{t.label}</Link>)}
       </nav>
@@ -118,7 +118,7 @@ export function Money({ cents, per, className = "money", dark = false }: { cents
   return (
     <span style={{ display: "block" }}>
       <span className={className} style={{ display: "block", color: dark ? "#fff" : "var(--tm-ink)" }}>{amount}</span>
-      {per && <span className="t-meta" style={{ display: "block", color: dark ? "var(--tm-muted-dark)" : undefined }}>{per}</span>}
+      {per && <span className="t-meta" style={{ display: "block", color: dark ? "#FFFFFF" : undefined }}>{per}</span>}
     </span>
   );
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, MagnifyingGlass, ChatCircle, Bell, CaretRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, MagnifyingGlass, ChatCircle, Bell, CaretRight, CaretDown } from "@phosphor-icons/react/dist/ssr";
 import { TabBar, USER_TABS, Avatar } from "../parts";
 import { maya, usd } from "../mock";
 
@@ -22,6 +22,7 @@ export default function UserProfileLab() {
               <span className="t-meta" style={{ display: "block", lineHeight: "16px", color: "var(--tm-muted-dark)" }}>Personal · Demo</span>
               <span style={{ display: "block", fontWeight: 600, fontSize: 16, lineHeight: "20px" }}>{maya.first}</span>
             </span>
+            <CaretDown size={16} aria-hidden style={{ color: "var(--tm-muted-dark)" }} />
           </button>
           <span style={{ display: "flex", gap: 4 }}>
             <button type="button" className="icon-btn" aria-label="Search"><MagnifyingGlass size={20} /></button>
@@ -30,9 +31,9 @@ export default function UserProfileLab() {
           </span>
         </header>
         <div style={{ padding: "12px 16px 16px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 36 }}>
             <h1 className="t-page" style={{ margin: 0 }}>Profile</h1>
-            <Link href="#edit" className="btn btn-quiet" style={{ color: "var(--tm-focus-dark)" }}>Edit profile</Link>
+            <Link href="#edit" className="btn btn-quiet" style={{ color: "var(--tm-focus-dark)", minHeight: 44, margin: "-4px 0" }}>Edit profile</Link>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "96px minmax(0, 1fr)", gap: 16, alignItems: "center", marginTop: 24 }}>
             <Avatar src={maya.portrait} name={maya.name} size={96} />
@@ -47,14 +48,14 @@ export default function UserProfileLab() {
 
       <main className="phone-main" id="main">
         {/* Record strip: three unboxed facts on the canvas. */}
-        <dl style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(96px, 1fr))", gap: 12, margin: "24px 0 0" }}>
+        <dl style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(96px, 1fr))", gap: 12, margin: "24px 0 0", minHeight: 56 }}>
           <Fact value={usd(maya.stats.lifetimeEarnedCents)} label="Earned" />
           <Fact value={String(maya.stats.completed)} label="Completed" />
           <Fact value={maya.stats.rating.toFixed(1)} label={`Rating · ${maya.stats.reviews} reviews`} />
         </dl>
 
         {/* Capability: literal states, no coloured icon containers. */}
-        <section aria-label="Instagram and verification" style={{ marginTop: 24 }}>
+        <section aria-label="Instagram and verification" style={{ marginTop: 16 }}>
           <Link href="#instagram" className="row-link" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 64, gap: 12 }}>
             <span>
               <span className="t-body" style={{ display: "block", fontWeight: 500 }}>Instagram</span>
@@ -70,7 +71,7 @@ export default function UserProfileLab() {
         </section>
 
         {/* Vehicle: one modest, photo-led slot. */}
-        <section aria-labelledby="vehicles-title" style={{ marginTop: 32 }}>
+        <section aria-labelledby="vehicles-title" style={{ marginTop: 24 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 44 }}>
             <h2 id="vehicles-title" className="t-section" style={{ margin: 0 }}>Vehicles</h2>
             <Link href="#add-vehicle" className="btn btn-quiet">Add vehicle</Link>
@@ -115,7 +116,8 @@ export default function UserProfileLab() {
           <h2 id="earn-title" className="t-section" style={{ margin: 0 }}>Earnings</h2>
           <p className="t-task" style={{ margin: "12px 0 0" }}>Available {usd(maya.money.availableCents)}</p>
           <p className="t-meta" style={{ margin: "2px 0 0" }}>From approved work · Demo money</p>
-          <p className="t-meta" style={{ margin: "8px 0 0" }}>Payout requested · {usd(maya.money.payoutRequestedCents)} · {maya.money.payoutRequestedAt}</p>
+          <p className="t-body" style={{ margin: "8px 0 0" }}>Payout requested · {usd(maya.money.payoutRequestedCents)}</p>
+          <p className="t-meta" style={{ margin: 0 }}>{maya.money.payoutRequestedAt}</p>
           <Link href="#earnings" className="btn btn-secondary" style={{ marginTop: 16, width: "100%" }}>Open Earnings</Link>
         </section>
 

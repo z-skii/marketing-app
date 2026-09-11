@@ -13,7 +13,8 @@ import "./public.css";
  * changes with the active chapter; on phone they stack in normal flow.
  * The business section shows real browser captures of the marketplace
  * and Content workspace. Get paid is three plain steps and the read-only
- * Lab money summary. Every generated image is labelled as illustration.
+ * Lab money summary. Every generated image is labelled as illustration,
+ * and every scaled capture has its own standalone Open example control.
  */
 export default function PublicHomeLab() {
   return (
@@ -27,7 +28,10 @@ export default function PublicHomeLab() {
           <Link href="#sign-in" className="pub-signin">Sign in</Link>
           <Link href="#start" className="btn btn-primary">Get started</Link>
         </nav>
-        <button type="button" className="btn btn-secondary pub-menu" aria-haspopup="dialog"><List size={20} aria-hidden />Menu</button>
+        <div className="pub-header-m">
+          <Link href="#sign-in" className="pub-signin-m">Sign in</Link>
+          <button type="button" className="btn btn-secondary pub-menu" aria-haspopup="dialog"><List size={20} aria-hidden />Menu</button>
+        </div>
       </header>
 
       <section className="pub-hero" aria-labelledby="hero-title">
@@ -37,17 +41,22 @@ export default function PublicHomeLab() {
             <Link href="#earn" className="btn btn-secondary pub-audience">Start earning</Link>
             <Link href="#business" className="btn btn-secondary pub-audience">For businesses</Link>
           </div>
-          <p className="t-body pub-conditions">Check the task, eligibility and approval conditions.</p>
+          <p className="pub-conditions">Check the task, eligibility and approval conditions.</p>
         </div>
-        <div className="pub-stage">
-          <div className="pub-plane" aria-hidden />
-          <div className="pub-filming">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={ASSET("public-filming-01")} alt="A person filming a short video at a coffee counter with a phone on a small tripod" />
+        <div className="pub-hero-media">
+          <div className="pub-stage">
+            <div className="pub-plane" aria-hidden />
+            <div className="pub-filming">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={ASSET("public-filming-01")} alt="A person filming a short video at a coffee counter with a phone on a small tripod" />
+            </div>
+            <PhoneFrame src={ASSET("capture-user-home-390", "png")} alt="The implemented TapMart User Home, showing three demo opportunities" width={224} className="pub-hero-phone" />
           </div>
-          <PhoneFrame src={ASSET("capture-user-home-390", "png")} alt="The implemented TapMart User Home, showing three demo opportunities" className="pub-phone" />
+          <div className="pub-stage-foot">
+            <p className="t-meta" style={{ margin: 0 }}>Demo product · Generated filming illustration</p>
+            <Link href="/design-lab/user-home" className="btn btn-secondary pub-open">Open earning example</Link>
+          </div>
         </div>
-        <p className="t-meta pub-caption">Demo product · Generated filming illustration · <Link href="/design-lab/user-home" style={{ color: "var(--tm-accent)" }}>Open earning example</Link></p>
       </section>
 
       <Chapters />
@@ -59,13 +68,15 @@ export default function PublicHomeLab() {
             <h3 className="t-section">Campaigns</h3>
             <p className="t-task" style={{ margin: "4px 0 16px" }}>Choose people or cars. Fund the work.</p>
             <BrowserFrame src={ASSET("capture-business-home-1440", "png")} alt="The implemented Business Home marketplace: six people compared by their work, and a shelf of available cars" />
-            <p className="t-meta" style={{ margin: "8px 0 0" }}>Demo product · <Link href="/design-lab/business-home" style={{ color: "var(--tm-accent)" }}>Open example</Link></p>
+            <p className="t-meta" style={{ margin: "8px 0 0" }}>Demo product</p>
+            <Link href="/design-lab/business-home" className="btn btn-secondary pub-open" style={{ marginTop: 8 }}>Open example</Link>
           </div>
           <div>
             <h3 className="t-section">Monthly content</h3>
             <p className="t-task" style={{ margin: "4px 0 16px" }}>Real shoots. Photos and videos to review and schedule.</p>
             <BrowserFrame src={ASSET("capture-business-content-1440", "png")} alt="The implemented Content workspace: one delivered original under review, a filmstrip of the other files, and the decision inspector" />
-            <p className="t-meta" style={{ margin: "8px 0 0" }}>Demo product · <Link href="/design-lab/business-content" style={{ color: "var(--tm-accent)" }}>Open example</Link></p>
+            <p className="t-meta" style={{ margin: "8px 0 0" }}>Demo product</p>
+            <Link href="/design-lab/business-content" className="btn btn-secondary pub-open" style={{ marginTop: 8 }}>Open example</Link>
             <p className="t-body" style={{ margin: "16px 0 0" }}>Essential: 1 shoot, 10 photos, 3 videos each month.<br />Growth: 2 shoots, 20 photos, 6 videos each month.</p>
           </div>
         </div>
@@ -89,8 +100,9 @@ export default function PublicHomeLab() {
         </ol>
         <div className="pub-earnings" aria-label="Demo earnings summary">
           <p className="t-meta" style={{ margin: 0 }}>Demo money · Not a customer result</p>
-          <p className="t-task" style={{ margin: "8px 0 0" }}>Available earnings {usd(maya.money.availableCents)}</p>
-          <p className="t-body" style={{ margin: "4px 0 0" }}>Payout requested {usd(maya.money.payoutRequestedCents)}</p>
+          <p className="t-meta" style={{ margin: "16px 0 0" }}>Available earnings</p>
+          <p className="money-balance" style={{ margin: "2px 0 0" }}>{usd(maya.money.availableCents)}</p>
+          <p className="t-body" style={{ margin: "8px 0 0" }}>Payout requested {usd(maya.money.payoutRequestedCents)}</p>
           <p className="t-body" style={{ margin: "12px 0 0" }}>Fees and a payout minimum apply. Payout requests are reviewed.</p>
         </div>
       </section>

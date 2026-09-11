@@ -37,7 +37,7 @@ export function ContentWorkspace({ files, shootLabel, uploader }: { files: Conte
       <div>
         <div style={{ position: "relative", width: 816, height: 420, background: "var(--tm-graphite)", borderRadius: "var(--tm-radius-media)", overflow: "hidden", display: "grid", placeItems: "center" }} className="on-dark">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img key={selected.id} src={selected.src} alt={`${selected.title}, the original delivered file`} style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "100%", objectFit: "contain", animation: "lab-xfade 180ms var(--tm-ease-out) both" }} />
+          <img key={selected.id} src={selected.src} alt={`${selected.title}, the original delivered file`} width={816} height={420} style={{ width: 816, height: 420, objectFit: "contain", animation: "lab-xfade 180ms var(--tm-ease-out) both" }} />
         </div>
         <ul style={{ display: "grid", gridTemplateColumns: "repeat(4, 192px)", gap: 16, listStyle: "none", padding: 0, margin: "16px 0 0" }}>
           {others.map((f) => (
@@ -45,7 +45,7 @@ export function ContentWorkspace({ files, shootLabel, uploader }: { files: Conte
               <button type="button" onClick={() => setSelectedId(f.id)} aria-pressed={false} style={{ display: "block", width: 192, textAlign: "left" }}>
                 <span className="media contain" style={{ display: "grid", placeItems: "center", width: 192, height: 144, background: "var(--tm-underlay)" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={f.src} alt="" width={192} height={144} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                  <img src={f.src} alt="" width={192} height={144} style={{ width: 192, height: 144, objectFit: "contain" }} />
                 </span>
                 <span className="t-meta" style={{ display: "block", marginTop: 8, color: "var(--tm-ink)" }}>{f.title}</span>
                 <span className="t-meta" style={{ display: "block" }}>{states[f.id]}{f.post.state !== "Not scheduled" ? ` · Post ${f.post.state.toLowerCase()}` : ""}</span>
@@ -64,7 +64,7 @@ export function ContentWorkspace({ files, shootLabel, uploader }: { files: Conte
         <p className="t-meta" style={{ margin: 0 }}>Demo delivered file</p>
 
         <label className="t-label" style={{ display: "block", marginTop: 16 }}>Caption
-          <textarea value={caption[selected.id]} onChange={(e) => setCaption((c) => ({ ...c, [selected.id]: e.target.value }))} rows={3} style={{ display: "block", width: "100%", minHeight: 72, marginTop: 4, padding: 12, font: "inherit", fontSize: 16, lineHeight: "24px", border: "1px solid var(--tm-control-border)", borderRadius: "var(--tm-radius-control)", background: "#fff", color: "var(--tm-ink)", resize: "vertical" }} />
+          <textarea value={caption[selected.id]} onChange={(e) => setCaption((c) => ({ ...c, [selected.id]: e.target.value }))} rows={2} style={{ display: "block", width: "100%", height: 72, marginTop: 4, padding: 12, font: "inherit", fontSize: 16, lineHeight: "24px", border: "1px solid var(--tm-control-border)", borderRadius: "var(--tm-radius-control)", background: "#fff", color: "var(--tm-ink)", resize: "vertical" }} />
         </label>
         {selected.editNote && <p className="t-meta" style={{ margin: "12px 0 0" }}>Edit note · {selected.editNote}</p>}
         <p className="t-meta" style={{ margin: "12px 0 0" }}>Post · <span className={`status ${selected.post.state === "Failed" ? "problem" : selected.post.state === "Scheduled" ? "waiting" : "neutral"}`}>{selected.post.state}</span>{selected.post.detail ? ` · ${selected.post.detail}` : ""}</p>

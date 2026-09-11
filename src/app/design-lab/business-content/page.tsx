@@ -24,13 +24,13 @@ export default function BusinessContentLab() {
           </div>
           <Link href="#brand" className="btn btn-secondary">Brand kit</Link>
         </div>
-        <div className="filters" role="group" aria-label="Views" style={{ marginTop: 24 }}>
+        <div className="filters" role="group" aria-label="Views" style={{ marginTop: 20 }}>
           {["Overview", "Library", "Calendar", "Shoots"].map((v, i) => <button key={v} type="button" aria-pressed={i === 0} style={{ fontSize: 16 }}>{v}</button>)}
         </div>
 
-        <div style={{ marginTop: 16 }}>
+        <div style={{ marginTop: 16, height: 30, display: "flex", alignItems: "baseline", gap: 16 }}>
           <h2 className="t-section" style={{ margin: 0, fontSize: 24, lineHeight: "30px" }}>Ready to review</h2>
-          <p className="t-meta" style={{ margin: "4px 0 0" }}>{newCount} file needs approval · {contentFiles.length} delivered files</p>
+          <p className="t-meta" style={{ margin: 0 }}>{newCount} file needs approval · {contentFiles.length} delivered files</p>
         </div>
 
         <ContentWorkspace files={contentFiles} shootLabel="Shoot 01 · May 7, 2026" uploader="Imani Cole" />

@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, CaretLeft, CaretRight, MapPin } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, MapPin } from "@phosphor-icons/react/dist/ssr";
 import { Rail } from "../parts";
+import { ShelfButton } from "./ShelfButton";
 import { loopday, people, cars, attention, usd } from "../mock";
 
 /**
@@ -30,7 +31,7 @@ export default function BusinessHomeLab() {
           {["For you", "People", "Cars", "Nearby"].map((v, i) => <button key={v} type="button" aria-pressed={i === 0} style={{ fontSize: 16 }}>{v}</button>)}
         </div>
 
-        <section aria-labelledby="people-title" style={{ marginTop: 36 }}>
+        <section aria-labelledby="people-title" style={{ marginTop: 16 }}>
           <h2 id="people-title" className="sr">People</h2>
           <ul style={{ display: "grid", gridTemplateColumns: "repeat(3, 376px)", columnGap: 24, rowGap: 24, listStyle: "none", padding: 0, margin: 0 }}>
             {people.map((p) => (
@@ -53,14 +54,14 @@ export default function BusinessHomeLab() {
                     <span className="t-meta" style={{ alignSelf: "center" }}>No work samples shared.</span>
                   )}
                 </div>
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, minHeight: 48, marginTop: 8 }}>
-                  <span>
-                    <span className="t-task" style={{ display: "block" }}>{p.name}</span>
-                    <span className="t-meta" style={{ display: "block" }}>{p.city}{p.completed != null ? ` · ${p.completed} completed` : ""}{p.rating ? ` · ${p.rating.value.toFixed(1)} from ${p.rating.count} reviews` : ""}</span>
-                  </span>
-                  <Link href={`#${p.id}`} className="btn btn-quiet" style={{ whiteSpace: "nowrap" }}>View person <ArrowRight size={18} aria-hidden /></Link>
+                <div style={{ height: 48, marginTop: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, height: 24 }}>
+                    <span className="t-task" style={{ display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.name}</span>
+                    <Link href={`#${p.id}`} className="btn btn-quiet" style={{ whiteSpace: "nowrap", minHeight: 44, margin: "-10px -8px -10px 0" }}>View person <ArrowRight size={18} aria-hidden /></Link>
+                  </div>
+                  <span className="t-meta" style={{ display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.city}{p.completed != null ? ` · ${p.completed} completed` : ""}{p.rating ? ` · ${p.rating.value.toFixed(1)} (${p.rating.count} reviews)` : ""}</span>
                 </div>
-                <p className="t-meta" style={{ margin: "4px 0 0" }}>{p.qualification}</p>
+                {p.qualification && <p className="t-meta" style={{ margin: "4px 0 0", height: 20 }}>{p.qualification}</p>}
               </li>
             ))}
           </ul>
@@ -72,11 +73,11 @@ export default function BusinessHomeLab() {
             <h2 id="cars-title" className="t-section" style={{ margin: 0 }}>Available cars</h2>
             <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <Link href="#cars" className="btn btn-quiet">See all cars</Link>
-              <button type="button" className="icon-btn" aria-label="Previous cars" style={{ border: "1px solid var(--tm-control-border)" }}><CaretLeft size={20} /></button>
-              <button type="button" className="icon-btn" aria-label="Next cars" style={{ border: "1px solid var(--tm-control-border)" }}><CaretRight size={20} /></button>
+              <ShelfButton dir={-1} />
+              <ShelfButton dir={1} />
             </span>
           </div>
-          <ul style={{ display: "flex", gap: 24, overflowX: "auto", listStyle: "none", padding: "0 0 8px", margin: "12px 0 0", scrollSnapType: "x proximity" }}>
+          <ul id="car-shelf" style={{ display: "flex", gap: 24, overflowX: "auto", listStyle: "none", padding: "0 0 8px", margin: "12px 0 0", scrollSnapType: "x proximity", scrollBehavior: "smooth" }}>
             {cars.map((c) => (
               <li key={c.id} style={{ flex: "0 0 336px", scrollSnapAlign: "start" }}>
                 <Link href={`#${c.id}`} style={{ display: "block" }}>
@@ -86,7 +87,7 @@ export default function BusinessHomeLab() {
                   </span>
                   <span className="t-task" style={{ display: "block", marginTop: 8 }}>{c.label}</span>
                   <span className="t-meta" style={{ display: "block" }}>{c.city} · {c.zone}</span>
-                  <span className="t-body" style={{ display: "block", fontVariantNumeric: "tabular-nums" }}>Asking price: {c.zone} · {usd(c.askingCents)} per month</span>
+                  <span className="t-body" style={{ display: "block", fontVariantNumeric: "tabular-nums" }}>Asking price · {c.zone} · {usd(c.askingCents)} per month</span>
                 </Link>
               </li>
             ))}

@@ -54,14 +54,18 @@ function Stage({ chapter, phone = false }: { chapter: string; phone?: boolean })
   return (
     <div className="pub-stage-inner" data-active={chapter}>
       <div className={`pub-scene ${chapter === "recreate" ? "is-on" : ""}`} data-scene="recreate">
-        <div className="media contain pub-ref" style={{ background: "var(--tm-underlay)" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={ASSET("reference-loopday-01")} alt="Reference still: a latte being poured at a coffee counter" />
+        <div>
+          <div className="media contain pub-ref" style={{ background: "var(--tm-underlay)" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={ASSET("reference-loopday-01")} alt="Reference still: a latte being poured at a coffee counter" />
+          </div>
           <span className="t-meta pub-label">Reference still · Demo</span>
         </div>
-        <div className="media pub-film">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={ASSET("public-filming-01")} alt="A person filming their own version at a coffee counter" />
+        <div>
+          <div className="media pub-film">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={ASSET("public-filming-01")} alt="A person filming their own version at a coffee counter" />
+          </div>
           <span className="t-meta pub-label">Filming illustration</span>
         </div>
       </div>
@@ -70,14 +74,14 @@ function Stage({ chapter, phone = false }: { chapter: string; phone?: boolean })
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={ASSET("story-loopday-01")} alt="The supplied Story creative: Take a coffee break." />
         </div>
-        <span className="t-meta pub-label pub-label-below">Supplied creative · Demo</span>
+        <span className="t-meta pub-label">Supplied creative · Demo</span>
       </div>
       <div className={`pub-scene ${chapter === "drive" ? "is-on" : ""}`} data-scene="drive">
         <div className="media contain pub-car" style={{ background: "var(--tm-underlay)" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={ASSET("vehicle-maya-01")} alt="A blue hatchback parked on a residential street, no ad installed" />
-          <span className="t-meta pub-label">Demo vehicle · No installed ad</span>
         </div>
+        <span className="t-meta pub-label">Demo vehicle · No installed ad</span>
         {phone && <div style={{ marginTop: 12 }}><PlacementDiagram width={160} /><p className="t-meta" style={{ margin: "4px 0 0" }}>Rear doors: the named placement zone</p></div>}
       </div>
     </div>
