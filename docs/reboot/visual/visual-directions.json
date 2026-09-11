@@ -1,0 +1,588 @@
+{
+  "what_changes_visually": [
+    "Replace the predominantly warm editorial application with cool working surfaces, graphite media stages and a precise cobalt action color. Darkness belongs to specific surfaces, not automatically to an entire mode.",
+    "Replace condensed signage typography with Archivo for identity, headlines and money, supported by IBM Plex Sans for operational text.",
+    "Introduce an offset-frame identity: media and its useful information meet at a physical-looking edge. This replaces the vermilion return without turning every section into a branded card.",
+    "Make Recreate a joined video-and-payment composition, Story an intact supplied creative beside a narrow commitment column, and Car a broad physical scene with a monthly-payment caption.",
+    "Make Profile a recognizable working identity with a contrasting identity masthead, an unboxed record strip and actual recent work—not a decorated settings list.",
+    "Replace Business Home's directory-like person rows with open, work-led comparison spreads. Keep people before cars and retain the existing discovery controls.",
+    "Make Business Content feel like a media review workspace: a large original, a compact filmstrip and one decisive inspector. Empty and processing states remain deliberately empty.",
+    "Allow a bounded muted Recreate preview, selected-media transitions, stronger sheet motion and desktop scroll-linked public storytelling. None can delay a decision or imply backend progress.",
+    "Allow a real vehicle model within Profile and public explanation as a view-only presentation of existing model data. No zone picking, simulated installation or new digital-car product is introduced.",
+    "Build public product demonstrations from implemented HTML and actual screen captures. Image models may supply supporting imagery, never screens, typography, controls or financial records."
+  ],
+  "what_stays_from_the_ux_brain": [
+    "The existing information architecture, routes, identity switching, permissions and personal/business separation remain the foundation.",
+    "Personal navigation remains Home, Activity, Earnings, Profile. Business navigation remains Home, Content, Create, Campaigns, Business.",
+    "Home is for discovering paid work; Activity is where work resumes; Earnings represents real money, not opportunity totals.",
+    "Recreate, Story and Car remain different tasks with different eligibility, media, commitments and evidence—not three skins on a universal campaign card.",
+    "Progressive eligibility remains: no compulsory Instagram, vehicle, verification or payout setup before browsing eligible work.",
+    "Applications, requests, submissions, offers, bookings and proofs retain their actual states and server-authorized actions.",
+    "Opportunity pay, vehicle asking prices, negotiated monthly pay, campaign credit, subscription billing, earnings and payouts remain distinct.",
+    "Business Home remains a people-and-cars marketplace. Create still contains exactly the three existing campaign types.",
+    "Content contains real delivered media. Shoot, delivery, file and post states remain independent; scheduling does not imply automatic publication.",
+    "Approve content, Accept application, non-paying proof approval and Approve and pay remain different decisions.",
+    "Original media, source provenance, honest absence, readable conditions and accessible controls take priority over visual effects.",
+    "No synthetic live inventory, fabricated earnings, invented ratings, fake analytics, unsupported integrations or future-feature controls enter the product."
+  ],
+  "directions": [
+    {
+      "navigation_presentation": "A 216px light desktop rail with 48px navigation rows; labeled 64px-minimum phone bottom navigation. Selected links use a 3px vermilion rule. Public navigation remains an 80px desktop masthead and 64px phone header. Destinations and utility access are unchanged.",
+      "one_line": "An evolved Local Edit with stronger photographic scale, more dimensional creative objects and warmer consumer energy—not merely the previous package with larger headings.",
+      "risks": [
+        "Even with stronger media and motion, the warm paper, red accent and condensed display language still suggest a premium local studio.",
+        "The visual distinction depends heavily on excellent commissioned photography.",
+        "A restrained system is easy to implement but can regress into tasteful, interchangeable software.",
+        "Scores are design forecasts on a 1–10 scale, not measured usability, recall or conversion results."
+      ],
+      "scores": {
+        "desktop_quality": 8,
+        "ease_of_use": 9,
+        "clarity": 9,
+        "media_integration": 8,
+        "mobile_quality": 8,
+        "memorability": 7,
+        "visual_quality": 8,
+        "brand_uniqueness": 7,
+        "motion_potential": 7,
+        "buildability": 9,
+        "product_fit": 8
+      },
+      "palette": [
+        {
+          "hex": "#F5F0E7",
+          "name": "Warm canvas",
+          "role": "Application and public reading surfaces."
+        },
+        {
+          "hex": "#222720",
+          "name": "Working ink",
+          "role": "Text, navigation and dark media stages."
+        },
+        {
+          "hex": "#BA3D29",
+          "name": "Vermilion",
+          "role": "Primary actions and media-to-payment junctions."
+        },
+        {
+          "hex": "#FFFFFF",
+          "name": "Original",
+          "role": "Forms and supplied creative backing."
+        },
+        {
+          "hex": "#E7DFD2",
+          "name": "Underlay",
+          "role": "Rail, object edges and contextual surfaces."
+        }
+      ],
+      "theme": "Warm-light application with occasional dark photographic stages; more contrast than the previous direction, but still predominantly editorial.",
+      "typography": "Barlow Condensed 600 for public headlines at 60/58px phone and 112/108px desktop; Instrument Sans 400, 500 and 600 for UI at 16/24px and money at 30/34px phone, 34/38px desktop.",
+      "user_home_sketch": "Recreate uses a large portrait reference with a vermilion payment edge attached below its right-hand commitment column. Story is a complete 9:16 creative with a slight physical paper shadow and all terms outside the artwork. Car is an unboxed 3:2 scene with a broad monthly-pay caption. The first amount is unmistakable and the feed is more energetic than the original, but its overall emotional register remains warm, local and carefully art-directed.",
+      "outcome": "Merged only its source-faithful photographic color and quiet operational separators. Rejected as the master direction because it does not move far enough beyond the founder's premium-local-studio association.",
+      "name": "The Local Edit — Open Edition",
+      "photography_treatment": "Real environmental photography with directional daylight, 35mm-equivalent working scenes and 50mm-equivalent portraits. Public crops may be more assertive; source files and evidence remain unchanged. No simulated film grain.",
+      "public_home_sketch": "A 5/7 text-and-film split on desktop, followed by alternating oversized media spreads. One actual phone demonstration joins reference, supplied creative and work detail. A genuine vehicle model can replace a still in Drive, while the surrounding page remains warm and typographic. On phone, each chapter becomes a complete vertical composition rather than a cropped desktop spread.",
+      "motion": "160ms control feedback, 260ms selected-media transitions, 300ms sheets and 400ms public object entrances; cubic-bezier(0.22, 1, 0.36, 1). A supplied creative may settle by 8px once to establish it as a downloadable object. No repeated decorative movement.",
+      "depth_and_surfaces": "Flat paper plus one shallow object level: creative shadow 0 6px 18px #22272014; overlays 0 16px 40px #22272026. Media radius 4px, controls 8px, sheets 16px. No raised opportunity-card grid.",
+      "three_d_and_video": "A real vehicle model may appear on request in a 176×112px Profile slot and a 560×350px public Drive stage. Reference previews are bounded and muted; inspection remains user-controlled. Public device frames show implemented UI. Scroll changes the selected public demonstration, not the application state. No 3D behind forms, ledgers or content processing."
+    },
+    {
+      "navigation_presentation": "A 200px graphite desktop spine with permanently visible labels; a white 64px-minimum phone bottom bar. Cobalt edge indicators mark selection without filled navigation cards. Root identity and utilities remain prominent. Public pages use a separate 80px/64px header and no app navigation.",
+      "one_line": "A spatial media product where the frame holds the work and its edge holds the decision.",
+      "risks": [
+        "Cobalt and graphite alone are not distinctive; the joined media/payment geometry and differing compositions must survive implementation.",
+        "The stronger media surfaces can overpower terms unless payment basis and metadata remain outside moving imagery.",
+        "Shared-media transitions require disciplined fallbacks and must never block navigation.",
+        "3D quality and availability depend on real supplied models. The photographed version must remain equally finished.",
+        "It costs more presentation work than the evolved editorial option, although it needs no new backend or media service."
+      ],
+      "scores": {
+        "desktop_quality": 9,
+        "ease_of_use": 8,
+        "clarity": 9,
+        "media_integration": 9,
+        "mobile_quality": 9,
+        "memorability": 9,
+        "visual_quality": 9,
+        "brand_uniqueness": 8,
+        "motion_potential": 9,
+        "buildability": 8,
+        "product_fit": 9
+      },
+      "palette": [
+        {
+          "hex": "#F2F5F7",
+          "name": "Canvas",
+          "role": "Cool application background."
+        },
+        {
+          "hex": "#FFFFFF",
+          "name": "Working surface",
+          "role": "Forms, inspectors and financial reading."
+        },
+        {
+          "hex": "#101820",
+          "name": "Graphite",
+          "role": "Desktop navigation, identity mastheads and media housings."
+        },
+        {
+          "hex": "#2450E8",
+          "name": "Cobalt",
+          "role": "Actions, selected edges and the Recreate payment ledge."
+        },
+        {
+          "hex": "#E6EBF0",
+          "name": "Underlay",
+          "role": "Media letterboxing and neutral physical stages."
+        },
+        {
+          "hex": "#151B23",
+          "name": "Ink",
+          "role": "Primary text and monetary values on light surfaces."
+        }
+      ],
+      "theme": "Surface-driven contrast: cool-light working areas, graphite media and identity surfaces, one saturated cobalt action language. Neither an all-dark entertainment app nor an all-light editorial application.",
+      "typography": "Archivo variable 600–800 for wordmark, display, headings and money; IBM Plex Sans 400, 500 and 600 for operational UI. Public hero 48/48px phone and 96/92px desktop; app title 30/36px phone and 36/40px desktop; body 16/24px.",
+      "user_home_sketch": "At 390px, Recreate is a 358px-wide joined object: a 160×284px portrait reference on the left, concise task information in graphite on the right and a cobalt payment ledge occupying the lower-right edge. Story breaks that silhouette: a complete 144×256px supplied creative on the right, payment and posting commitment directly on the canvas to its left. Car becomes a full-width 3:2 physical scene with a lower monthly-pay strip. The first fold says paid work, not passive watching; the beginning of Story establishes that this is not a repeated video-card feed. Car is encountered naturally below, not miniaturized to force all three above the fold.",
+      "outcome": "Chosen. It produces the strongest combined phone earning experience, visual business marketplace and content-review workspace while supporting meaningful motion and actual 3D.",
+      "name": "Frame Shift",
+      "photography_treatment": "Clear, dimensional, source-faithful photography. Commissioned portraits and working scenes use directional daylight or one large soft key rather than a flat editorial wash. Preserve skin, products and business colors. No global teal-orange grade or synthetic replacement of poor uploads.",
+      "public_home_sketch": "A large three-line Recreate / Post. Drive. / Get paid. headline meets a real filming scene and one upright implemented phone demonstration. A desktop sticky media stage changes its source as the visitor passes the three earning chapters: reference and filming, intact Story, then a real vehicle or view-only model. Get paid resolves into the actual work-to-earnings relationship, not a counting balance. The business section changes scale into a real desktop marketplace and content inspector, with the campaign-versus-subscription distinction visible in one short line. Phone uses stacked, independently understandable chapters.",
+      "motion": "140ms feedback, 180ms selection movement, 280ms selected-media transitions and 320ms sheet entry; cubic-bezier(0.22, 1, 0.36, 1). One eligible Recreate can show a maximum 6-second muted preview once. Public scroll moves only the explanatory media assembly, with at most 24px translation and 8deg device rotation. Reduced motion receives complete static compositions.",
+      "depth_and_surfaces": "Four levels: canvas, inset media stage, a shallow source object such as the supplied Story, and temporary overlays. Most facts and galleries remain unboxed. Media radius 6px, controls 8px, desktop overlays 12px and phone sheet tops 16px. Shadows express actual overlap, not the importance of every item.",
+      "three_d_and_video": "Actual models appear only in an activated Profile vehicle slot, vehicle inspection and the public Drive chapter. They never represent a campaign's promised installation. Public phone/browser frames contain actual HTML captures or recorded implemented interactions. Business Content permits one explicitly played video, not a moving thumbnail wall. No WebGL on money, forms, queues or empty service states."
+    },
+    {
+      "navigation_presentation": "An 80px dark desktop top bar with the existing destination labels and a separate identity/utility group; labeled graphite phone bottom navigation. Focused review expands into a dark stage with an opaque light decision panel. No hidden gesture-based navigation.",
+      "one_line": "A cinematic consumer platform that makes the three earning types feel like different scenes in one energetic local world.",
+      "risks": [
+        "A dark, film-led first impression can still make people expect watching, social participation or entertainment rather than a bounded paid task.",
+        "Business comparison and longer content-review sessions become less comfortable unless substantial light utility surfaces are reintroduced.",
+        "Ordinary low-quality uploads look especially weak beside cinematic launch assets.",
+        "Generated environments need conspicuous illustrative provenance and cannot become fake local-business photography.",
+        "It has the greatest production dependency and the weakest days-scale fallback if excellent footage is unavailable."
+      ],
+      "scores": {
+        "desktop_quality": 7,
+        "ease_of_use": 7,
+        "clarity": 8,
+        "media_integration": 9,
+        "mobile_quality": 8,
+        "memorability": 9,
+        "visual_quality": 9,
+        "brand_uniqueness": 8,
+        "motion_potential": 9,
+        "buildability": 7,
+        "product_fit": 8
+      },
+      "palette": [
+        {
+          "hex": "#101216",
+          "name": "Night",
+          "role": "Dominant application and public canvas."
+        },
+        {
+          "hex": "#20262E",
+          "name": "Stage",
+          "role": "Inset media and operational separation."
+        },
+        {
+          "hex": "#F4F6F8",
+          "name": "Light",
+          "role": "Text and light decision surfaces."
+        },
+        {
+          "hex": "#F3B74B",
+          "name": "Amber",
+          "role": "Primary actions with dark text and selected structural edges."
+        },
+        {
+          "hex": "#B8C3D0",
+          "name": "Secondary light",
+          "role": "Supporting text on dark surfaces."
+        }
+      ],
+      "theme": "Predominantly dark consumer product with light islands reserved for commitments, forms and money.",
+      "typography": "Barlow 600 and 700 for broad, forceful headlines at 56/54px phone and 104/100px desktop; DM Sans 400, 500 and 600 for 16/24px UI and 32/36px tabular amounts.",
+      "user_home_sketch": "Recreate opens as a tall dark stage with the actual portrait reference contained centrally and an opaque amber earning edge below it. Story is a bright intact creative emerging from a dark surround, with its pay outside the artwork. Car is a low, wide physical scene with a strong monthly-pay caption. The work feels exciting and substantial, but the tall first object gives less immediate evidence of variety and risks making the feed feel like a viewing destination.",
+      "outcome": "Merged its bounded cinematic public introduction and dark full-media inspection. Rejected as the application master because earning clarity and desktop working comfort require too many exceptions to the dark-stage premise.",
+      "name": "Night Relay",
+      "photography_treatment": "Commissioned motion with practical lighting, visible environments and deliberate contrast. Real uploads remain ungraded. Public illustrative transitions may use generated empty architectural settings, explicitly labeled Illustration, with no invented businesses, people, signs or installed advertisements.",
+      "public_home_sketch": "A full-width opening film with enormous white type hands off to a single moving phone, then a broad vehicle scene. Scroll-linked chapters connect filming, supplied creative and physical advertising before exposing the business marketplace and content workspace. The product is visually memorable, but more dependent on footage and controlled stage lighting than Frame Shift.",
+      "motion": "160ms feedback, 340ms scene changes and 420ms public device transitions; cubic-bezier(0.16, 1, 0.3, 1). Media pauses at meaningful states rather than looping indefinitely. All chapters remain available in ordinary document flow.",
+      "depth_and_surfaces": "Dark inset planes and opaque light decision shelves. One directional shadow, 0 18px 48px #00000040, on genuinely overlapping public objects only. Media radius 8px, buttons 8px, overlays 16px. No translucent glass or glow.",
+      "three_d_and_video": "A real consented vehicle model receives the largest public stage, up to 720×450px, with controlled studio lighting and on-request orbit. Profile can carry a smaller view-only model. A clearly illustrative generated environment may support the public scene, but not live vehicle listings. Device movement and scroll-linked media are public-only; financial and evidence decisions remain still."
+    }
+  ],
+  "visual_system": {
+    "device_frames": "Public explanation only; never place a device inside the authenticated app. Phone logical viewport: 390×844px; 6px side bezel and 10px top/bottom bezel; outer size 402×864px; outer radius 30px and viewport radius 24px. Use graphite #101820, without a fake manufacturer logo or ornamental camera hardware. Desktop frame: 32px title strip, 1px #788595 boundary, 10px outer radius and a real 1440×1000px product capture. Show at most one phone per explanatory stage. Default phone orientation is frontal; scroll enhancement may rotate it by at most 8deg around Y, returning to 0deg before any demonstration plays. Captures are generated from implemented HTML. A scaled capture is not a tiny interactive application: provide a separate 44px-minimum Play demo or Open example control and an accessible textual explanation.",
+    "imagery_treatment": "Use source-faithful images with deliberate scale rather than a global brand filter. Commission 35mm-equivalent environmental scenes and 50mm-equivalent portraits, using directional daylight or one large soft source at approximately 45 degrees. Discovery portraits may crop to the specified frame; instructional media, creative, evidence and delivered assets remain contained and inspectable in their original ratio. Use actual source focal points when provided; otherwise center without generative extension. Story files are never recolored, watermarked or covered by TapMart money. Campaign visuals, owned vehicles and installed-ad evidence are not interchangeable. Missing portraits use initials; missing factual media uses its literal unavailable state. Generated imagery is permitted for clearly labeled public illustration or approved proposals, not as live people, businesses, vehicles, proof or delivered content. The selected system needs no generated background: its physical stage is built deterministically so lighting, framing and fallbacks stay consistent.",
+    "three_d": "Use an actual available provider-generated vehicle model, with its real vehicle identity and permission to display it. Locations: an on-request 176×112px read-only Profile preview, the existing vehicle viewer, and a public Drive stage up to 640×400px. The small Profile preview never becomes a configurator: View 3D loads it; Rotate left/right buttons change azimuth by 15 degrees; Inspect opens the larger viewer. No hover spin. In the larger viewer, pointer orbit is enabled after Interact; touch users receive an explicit Done interacting control so the canvas cannot trap page scrolling. Provide Rotate left/right, Tilt up/down in 10-degree increments, Reset and Photos controls. Limit elevation to 10–75 degrees above the ground; disable pan. Normalize the longest model dimension to 3.2 scene units, place its lowest point on y=0 and fit with 15% camera margin. Camera FOV 32 degrees, near 0.1, far 50; initial direction proportional to (4.6, 2.2, 5.4), looking at the model center. Use a matte #D9E1E9 ground plane, roughness 1, no mirror floor. White directional key at (4,6,5), intensity 3; hemisphere fill with white sky and #738292 ground, intensity 0.9; white rim at (-4,3,-2), intensity 1.2. Use ACESFilmic tone mapping, exposure 1, sRGB output and one 512px soft shadow map. Preserve source vehicle materials. No wireframes, scan particles, automatic rotation, zone selection or projected artwork. Fallback is the actual photo gallery in the same reserved space, never a substitute car model. Missing or waiting-provider states do not display a View 3D control.",
+    "borders_and_focus": "Decorative separators: 1px #CBD3DD. Inputs and necessary control boundaries: 1px #788595 on light surfaces; 1px #6E8194 on graphite. Focus appears immediately as a 3px #2450E8 outline with 3px offset; on dark surfaces use #AFC8FF. Give cobalt buttons a 2px white separation ring before the focus outline. Selected media uses a 3px outline with 2px offset plus a Selected label or check, not a status-colored border. Inputs are at least 48px high with 12px internal padding and persistent 14/20px labels. Buttons are at least 48px high, 16px horizontal padding, 8px icon gap and 16/20px IBM Plex Sans 600 text. Primary: cobalt/white; hover #193CC4; pressed #1634AD. Secondary: white/ink with the control border. All icon utilities retain 44×44px targets.",
+    "brand_mark": "Replace the red return with two offset frame halves. Build a deterministic SVG with viewBox 0 0 32 32 and two filled paths: 'M3 3H19V9H9V23H3Z' and 'M13 23H23V9H29V29H13Z'. The negative space is the recognizable part; it is neither an upward chart nor a coin. Use the mark at 28px beside TapMart in Archivo 700, 30/32px, tracking -0.04em, with an 8px gap and 12px minimum clear space. Use cobalt on light surfaces and #AFC8FF on graphite. The mobile app header still prioritizes identity rather than repeating the logo. Carry the offset-frame idea into a few media-to-decision junctions, not beside every heading or row. Supply a simplified 16px favicon from the same vector, not an image-model logo.",
+    "iconography": "Lucide icons, 1.75px stroke, 20px in navigation and compact actions, 24px for standalone media controls. Familiar controls may be icon-only with accessible names; money, approval, eligibility and unfamiliar commands require visible text. Do not put every icon in a colored container. Earning kinds are identified by their compositions and literal names, not category colors. Verification uses the genuine verified state only and remains distinct from Instagram connection provenance.",
+    "surfaces": "Canvas is #F2F5F7; working sheets are #FFFFFF; structural underlay is #E6EBF0; media housings and identity mastheads are #101820. Use graphite for the desktop navigation spine, the Recreate housing, the owner identity masthead and full-media inspection. Use white for money reading, forms and the Content inspector. Lists, section headings, profile statistics and marketplace captions sit directly on the canvas. The Story creative is a shallow source object, not a generic raised card. The Recreate payment ledge is opaque cobalt and geometrically joined to the media housing. Car monthly pay sits in an attached white caption band below the image, not over its pixels. Attention remains one compact line on Personal Home and at most two factual summaries on Business Home. Empty states have the same page structure but no reserved fake-media stage.",
+    "depth_and_shadows": "Use four perceptual levels: page at z=0; inset media at z=1; a genuinely overlapping source object at z=2; temporary interface at z=3. The desktop rail, opportunity shell, balances, marketplace items and ordinary thumbnails have no drop shadow. Story/source-object shadow: 0 4px 12px #10182014. Menus and dialogs: 0 16px 40px #10182029. Public device shadow: 0 18px 40px #10182024, used only where the device visibly overlaps its stage. Modal scrim: #101820 at 48% opacity. Do not stack multiple ambient shadows or apply backdrop blur. A public phone can move relative to a scene; a ledger cannot float to suggest financial importance.",
+    "colors": [
+      {
+        "hex": "#F2F5F7",
+        "name": "canvas",
+        "role": "Default application and public light background."
+      },
+      {
+        "hex": "#FFFFFF",
+        "name": "surface",
+        "role": "Forms, inspectors, financial reading and text on cobalt."
+      },
+      {
+        "hex": "#E6EBF0",
+        "name": "underlay",
+        "role": "Letterboxing, static loading geometry and neutral stage backing."
+      },
+      {
+        "hex": "#151B23",
+        "name": "ink",
+        "role": "Primary text and monetary values on light surfaces."
+      },
+      {
+        "hex": "#526171",
+        "name": "muted",
+        "role": "Supporting text on canvas and white."
+      },
+      {
+        "hex": "#CBD3DD",
+        "name": "divider",
+        "role": "Decorative separators only."
+      },
+      {
+        "hex": "#788595",
+        "name": "control-border",
+        "role": "Necessary control boundaries on light surfaces."
+      },
+      {
+        "hex": "#101820",
+        "name": "graphite",
+        "role": "Navigation spine, identity masthead and principal media housing."
+      },
+      {
+        "hex": "#1D2833",
+        "name": "stage",
+        "role": "Secondary dark inspection surfaces."
+      },
+      {
+        "hex": "#F6F8FB",
+        "name": "on-dark",
+        "role": "Primary text and icons on graphite."
+      },
+      {
+        "hex": "#B3C0CE",
+        "name": "muted-dark",
+        "role": "Supporting text on graphite."
+      },
+      {
+        "hex": "#6E8194",
+        "name": "control-border-dark",
+        "role": "Necessary boundaries within dark stages."
+      },
+      {
+        "hex": "#2450E8",
+        "name": "accent",
+        "role": "Primary action, selection edge and Recreate payment ledge; never a success status."
+      },
+      {
+        "hex": "#193CC4",
+        "name": "accent-hover",
+        "role": "Primary-action hover."
+      },
+      {
+        "hex": "#1634AD",
+        "name": "accent-pressed",
+        "role": "Primary-action pressed state."
+      },
+      {
+        "hex": "#E7EDFF",
+        "name": "accent-wash",
+        "role": "Brief selected-row or confirmed-update background on light surfaces."
+      },
+      {
+        "hex": "#AFC8FF",
+        "name": "focus-dark",
+        "role": "Focus outlines and brand mark on graphite."
+      },
+      {
+        "hex": "#176B4B",
+        "name": "confirmed",
+        "role": "Literal confirmed states on light surfaces, always with text."
+      },
+      {
+        "hex": "#845600",
+        "name": "waiting",
+        "role": "Literal waiting or attention states on light surfaces."
+      },
+      {
+        "hex": "#B12B3F",
+        "name": "problem",
+        "role": "Errors, rejection and destructive confirmation on light surfaces."
+      },
+      {
+        "hex": "#D9E1E9",
+        "name": "studio-floor",
+        "role": "Physical ground plane in vehicle inspection."
+      }
+    ],
+    "spacing_and_grid": "Use a 4px base scale: 4, 8, 12, 16, 24, 32, 48, 64, 96 and 128px. Phone gutters 16px; tablet gutters 24px; desktop app gutters 32px after the 200px rail. Phone grid: 4 columns/12px gaps. Tablet: 8 columns/20px gaps. Desktop: 12 columns/24px gaps, maximum main field 1280px. At 1440px the application field is 1176px: 1440−200−64. Public container maximum 1440px including 48px desktop gutters; phone/tablet use 16/24px. Application section gaps 24px on phone and 32px on desktop; related sections may use 16px, major identity/work separations 32px. Public section padding 64px phone and 96px desktop. Reading width maximum 640px. Desktop multi-region layouts require at least 540px primary media width, a 24px gap and the specified inspector width; otherwise use a dedicated detail. Use container fit, not viewport alone. All listed heights are minimums unless explicitly a media ratio. Fixed regions reserve their measured height, including safe areas. At enlarged text, wrap or stack instead of reducing type.",
+    "engineering_notes": [
+      "Implementation authority: preserved product/UX logic and existing money/permission behavior first; this visual system replaces previous palette, typography, geometry, motion and media-presentation restrictions. Do not implement the old photographic UI prompts. Claude Code builds real React/HTML/CSS in the isolated Design Lab; the browser captures it; design review evaluates those captures.",
+      "Token implementation: expose every color as --tm-[name], plus --tm-radius-media:6px, --tm-radius-control:8px, --tm-radius-overlay:12px, --tm-radius-sheet:16px, --tm-rail:200px, --tm-inspector:336px, --tm-ease-out:cubic-bezier(0.22,1,0.36,1), and the specified spacing/duration tokens. Use semantic component variants, not colors inferred from campaign kind or backend enum position.",
+      "Font loading: use next/font/google for Archivo variable and IBM_Plex_Sans 400/500/600 with display:swap and Latin subsets; self-host licensed WOFF2 equivalents if necessary. Bind --font-display and --font-ui. Target combined font transfer at or below 100KB. Use metric-adjusted system fallbacks. Express text sizes in rem equivalents of the specified CSS pixels; do not defeat browser text enlargement.",
+      "Prototype 01 — User Home, first build at 390×844px. Content width is 358px. Root header minimum 64px; then 12px gap, Find paid work at 30/36px, 12px gap, optional 44px-minimum resume line, 8px gap only when it exists, 44px filter row and 16px gap to the feed. Recreate: a 160×284px contained portrait reference, joined to a 198px-wide graphite information region; its lower-right cobalt payment region is at least 96px high with 12px padding. Text and long amounts may increase the object's height. Show reference label, task title and business without playback. Place spots, deadline, View work and Save in the unboxed footer. At a 328px article width use 144×256px media; when the remaining text region is below 9em or the amount cannot fit, stack media before commitment. Do not truncate an amount to retain the split.",
+      "Prototype 01 — remaining compositions. Story at 390px: 198px commitment column, 16px gap and intact 144×256px creative on the right. Its money is ink on canvas, aligned to a 3px cobalt structural rule; live hours, follower requirement and other facts remain outside the artwork. Car: 358×239px 3:2 stage, followed by a white caption band at least 80px high containing monthly pay, title and business; zones and duration follow as plain text. Use the actual campaign visual, or supplied artwork plus a labeled diagram—not the user's vehicle or a fake installed ad. Separate articles by 24px. Show the start of Story in the first fold where content permits; do not squeeze all three kinds above the fold or change source ranking to manufacture the composition.",
+      "Prototype 02 — User Profile, 390×844px. Use a full-width graphite identity masthead rather than a cover-photo card: root header, Profile heading/Edit profile, then 96px circular portrait with name at 26/30px, handle and city. Masthead content padding 16px; no invented background photography. Bio is optional. Return to the light canvas for earned/completed/rating: three unboxed definition-list tracks with 28/32px values and 14/20px labels, wrapping when needed. Then show Instagram and its real provenance, separate creator-verification access, Vehicles, actual Recent work and the private payout/Earnings summary. Portfolio, public profile/reviews, assigned Shoots when relevant and Settings retain their canonical links. Payout management is not duplicated.",
+      "Prototype 02 — vehicle and work details. The root shows at most two owned vehicles. Each entry has a 176×112px source-media slot beside factual identity where space permits; stack below 360px. An available real model can replace the first slot after View 3D is activated; it is read-only and never auto-loads. Keep its labels and controls outside the canvas. Recent work may show up to three actual 104×139px contained media previews across a 358px field with 12px gaps, followed by source/status text and View Activity. If media is absent, use the source-aware work row. No model, no work or no rating must produce a deliberate compact state—not decorative replacement content.",
+      "Prototype 03 — Business Home, 1440×1000px. Keep the 200px graphite rail; use the full 1176px marketplace field instead of a permanent empty right column. Order: Find people and cars and city, at most two compact attention summaries, For you/People/Cars/Nearby, then people and cars. Desktop For you shows six people in a three-column, two-row open comparison gallery: 376px columns with 24px gaps. Each person's media spread is at least 168px high, pairing a 96×144px portrait with a larger actual work sample contained in the remaining 268px width after a 12px gap. Names, city and actual qualifications sit directly below, with no enclosing card, social metrics treatment or hidden request button. If no work sample exists, show the real portrait and factual identity without a fake sample or empty decorative tile.",
+      "Prototype 03 — marketplace continuation. The gallery is a set of media-led person links, not a bento dashboard. Optional video playback is a separate control from View person. Keep all essential facts visible without hover. Follow six people with See all people and a landscape car shelf: 336×224px photographs, 24px gaps, actual vehicle/zone/asking-price captions. Use native horizontal scrolling and visible Previous/Next controls. Cars-only uses a two-column open photo gallery where width permits, not classified-list rows. Below 1280px use two person columns; on phone use up to four vertically stacked media-led entries before cars. Missing results preserve the existing truthful empty states.",
+      "Prototype 04 — Business Content, 1440×1000px. Within the 1176px field, use an 816px media area, 24px gap and 336px white inspector. Header contains Content, actual plan/status and Brand kit; local views remain Overview/Library/Calendar/Shoots. The ready Overview lead is one real original contained in a stage capped at 420px high, then a 144px-high filmstrip of up to four additional actual assets. The inspector has 24px padding and orders file state, shoot/uploader provenance, caption, existing edit note, separate post state and permitted actions. Primary is Approve content, then Schedule when appropriate; Request an edit and Skip stay explicit. Never show campaign payment styling here.",
+      "Prototype 04 — alternate service states. Library uses shoot-grouped CSS grid contact sheets with minimum 176px columns, 16px gaps and 4:3 frames containing originals. One selected item opens the inspector; selection never changes approval state. Overview retains the preserved next-real-step logic and independent shoot slots. With no delivered files, remove the large media stage and render the actual shoot/service state at content height. A failed file query is not an empty library or processing state. Calendar retains an agenda alternative and only uses a month grid when seven columns of at least 96px fit; an accompanying inspector must not violate that minimum.",
+      "Prototype 05 — Public Homepage. Desktop header 80px; phone 64px. At 1200px and above, hero uses a 5/7 text/media split with a 48px gap and content-driven minimum height 600px. Headline: Recreate. / Post. Drive. / Get paid. Use two equally prominent 48px audience actions and a short approval-conditions line. The media stage combines one filming scene and one frontal phone capture, never a pile of devices. At 1440px the right field is 756px wide: filming media up to 510×340px at x=0/y=40px; phone outer width 224px at right=16px/top=64px. Below 1200px stack text and media. On phone, the stage is at most 358×336px, with a 248×165px filming crop and a 152px-wide phone; compose the crop so overlap cannot cover the meaningful action.",
+      "Prototype 05 — explanation sequence. After the hero, show Recreate, Post and Drive in that order, then the business product, then Get paid and the final audience choice. Desktop earning chapters share one sticky media stage beside three ordinary document sections, each min-height:min(70vh,560px); the stage changes from reference/filming to supplied creative to real vehicle/model. Phone chapters are separate stacked scenes with no pinning. Use headings and one short explanatory line per chapter, not paragraphs. The business section presents a real marketplace capture and a real Content capture with Campaigns and Monthly content labels; show the plan output counts and the spending exclusion plainly. Get paid shows the work-decision-to-Earnings relationship and the real payout conditions, never a fabricated paid payout.",
+      "Shell specification: phone bottom navigation minimum 64px plus safe area, white with a 1px divider, 20px icons and 14/18px labels. Keep the existing four or five destinations and the business 48/64/56/80/72px minimum track widths at 320px. Selection uses weight 600 and a 24×3px cobalt indicator. Desktop rail is 200px, graphite, with 48px-minimum rows, 20px icons, 16/20px labels and a 3×20px selected edge. Identity switcher retains the 320px desktop menu and phone sheet. Long text uses the preserved adaptive Navigation sheet fallback. Focused work replaces bottom navigation with the actual task controls.",
+      "Motion implementation: use CSS transitions and the Web Animations API. Use the native View Transition API only as progressive enhancement for one selected media element; unsupported routing/browser combinations receive the specified fade, not a custom animation framework. Public sticky behavior is CSS position:sticky; active chapters use IntersectionObserver. Scroll progress may update one CSS variable through a passive, requestAnimationFrame-throttled listener; never set React state every frame. No GSAP dependency is needed.",
+      "3D implementation: dynamically import three.js, GLTFLoader and OrbitControls only after activation. Do not add react-three-fiber or a scene framework for these five prototypes. Keep one active canvas; render on demand and during interaction only. Cap DPR at 1.5 and interaction rendering at 30fps on phone, 60fps desktop. Target model transfer at or below 2MB, 150k triangles and two 1024px textures; use an existing compatible optimized asset or fall back to photos. Target deferred 3D JavaScript at or below 250KB gzip. No model reconstruction or asset-production pipeline is part of this days-scale build.",
+      "Image/video pipeline: next/image or the existing authorized image pipeline; explicit width/height and sizes; AVIF/WebP for approved marketing derivatives; preserve originals and existing signed-URL permissions. Target first phone poster at or below 140KB, ordinary phone previews at or below 90KB each, public desktop hero poster at or below 260KB. Preload only the actual LCP image. Lazy-load lower images; do not eagerly preload video or models. Existing user uploads need no new transcoding backend.",
+      "Performance targets, not claimed measurements: phone initial transfer at or below 600KB before optional video/3D; route JavaScript at or below 180KB gzip where the existing stack permits; LCP at or below 2.5s, CLS below 0.1, INP below 200ms on representative mobile tests. Every route remains intelligible before optional media loads. Pause and dispose media when hidden or leaving its context.",
+      "Data and demo provenance: use existing queries and actual field semantics in product surfaces. The isolated Lab may use explicitly labeled Demo data fixtures and permissioned supporting media, but fixtures never populate production queries. Public demonstrations must be visibly identified as demonstrations unless they use consented real records. Never present invented lifetime earnings, paid payouts, reviews, reach or delivered customer work as evidence. Keep all UI text readable HTML; image models never render UI.",
+      "Build and review sequence: day 1 tokens, shell and User Home; day 2 Profile and Business Home; day 3 Content and its absence/error states; day 4 public chapters and optional real-model viewer; day 5 screenshot review, responsive repair, accessibility and performance checks. This is a five-prototype presentation sprint with supplied assets and existing bindings, not a promise to rebuild the complete product in five days. Capture 390×844, 320×568, 768px, 1024px, 1280px and 1440×1000px as relevant, plus short recordings of media and scroll behavior. Review the first User Home capture before propagating its components."
+    ],
+    "radius": "Canvas regions, rail, dividers and attached payment ledges: 0px. Ordinary media: 6px. Buttons, inputs and business logos: 8px. Desktop menus/dialogs: 12px. Phone sheets: 16px top corners and 0px bottom corners. Personal avatars: circular. Public device frames use their separate physical radii. Do not apply one large radius to every opportunity, person, balance or section. Never clip focus outlines to a decorative shape.",
+    "typography": [
+      {
+        "face": "Archivo, Google Fonts, load with next/font/google Archivo or licensed self-hosted WOFF2.",
+        "weights": "Variable 600–800; 700 for money and application headings, 800 for public hero, 700 for wordmark.",
+        "role": "Display, identity, headings and monetary amounts. Use lining tabular numerals for money."
+      },
+      {
+        "face": "IBM Plex Sans, Google Fonts, load with next/font/google IBM_Plex_Sans or licensed self-hosted WOFF2.",
+        "weights": "400, 500, 600.",
+        "role": "Body, task instructions, metadata, navigation, forms, controls and financial explanations."
+      }
+    ],
+    "video": "User Home may play one directly available Recreate video muted and inline for at most 6 seconds, once per page visit, after the item has been at least 75% visible for 500ms. This is a finite task preview, not an autoplay feed. Show a persistent 44px Pause/Play control, keep money and conditions outside the video, and stop when visibility drops below 50%, the tab hides or another player starts. External-only references remain links; do not generate replacement previews. Reduced motion, Save-Data, reported 2G/slow-2G and autoplay rejection receive the poster and explicit Play. Story video, submitted evidence, Profile work and Content assets start only on explicit activation; no hover-playing grid. Public hero may play a muted 12-second film once: four 3-second shots showing filming, supplied creative in use, real vehicle context and actual content review. It has Pause and Replay and does not gate text. Target 720p mobile at or below 2.5MB and 1080p desktop at or below 4MB. With unavailable footage, slow connection or reduced motion, retain the useful poster and separately understandable chapters. Native playback controls, captions and full-screen inspection remain available; never autoplay audio.",
+    "theme_strategy": "Use authored surface contrast rather than separate light and dark designs for each mode. The primary working canvas is cool-light; the desktop rail, selected media housings and Profile identity masthead are graphite. Financial reading and forms stay light. Public sections can use both, but theme changes follow a change of material or task, not arbitrary alternating stripes. There is no automatic full-app dark-mode toggle in this five-prototype sprint because a partial dark implementation would be worse than a deliberate system. This is a scope decision, not a permanent ban. Support forced colors and browser text settings now.",
+    "accessibility": "Normal text must meet 4.5:1 contrast; large text and necessary non-text controls 3:1. Validate actual combinations, especially dark controls and media edges, rather than assuming an accent is accessible everywhere. No essential text below 14px; body and form inputs remain 16px. Interactive targets are at least 44×44px and primary task actions at least 48px high. All media has an appropriate source label and useful alternative; captions and written instructions convey required actions. No fact depends on motion, hover, color or a 3D view. Preserve semantic navigation, headings, lists, definition lists, forms and actual tab behavior. Provide skip links, Escape dismissal, focus containment only for modal surfaces and focus return to the originating object. Separate Play, Save and detail links; do not nest controls. At 200% text enlargement and 320px effective width, stack compositions and use the adaptive navigation fallback. When the keyboard is open or a fixed task bar exceeds 25% of the visual viewport, move that bar into normal flow. Model interaction must have keyboard controls and an obvious exit. Reduced motion disables autoplay, translation, scroll choreography, automatic rotation and spinner movement while retaining every state and action.",
+    "money_treatment": "Use Archivo 700 with font-variant-numeric:tabular-nums lining-nums and tracking -0.02em. Home opportunity amounts are 30/34px phone and 34/38px desktop; detail amounts 36/40px and 44/48px; available Earnings balance 44/48px and 56/60px. Currency and amount retain equal weight and use the actual locale/currency formatting. Payment basis sits immediately below at IBM Plex Sans 14/20px, never as an unreadable superscript. Recreate pay is white on its opaque cobalt ledge beside, not over, the reference. Story pay is ink beside the intact creative. Car pay is ink in the attached white caption with per month always visible. Do not force all amounts into blue or green: accent indicates a decision, not available or paid money. Opportunity pay is not labeled take-home unless it really is net. Preserve gross/fee/net disclosure and exact server amount semantics. Never truncate, count up, estimate a car total from days, or substitute zero while fetching.",
+    "backgrounds": "Application backgrounds are solid CSS colors: canvas, white surface, graphite housing and underlay letterboxing. There is no noise texture, atmospheric wallpaper, glass blur or random gradient. Public photography is foreground content, not a background behind essential copy. The public Drive fallback and inactive vehicle stage may use a hard horizon built as linear-gradient(180deg,#E6EBF0 0%,#E6EBF0 62%,#D9E1E9 62%,#D9E1E9 100%); this represents a wall/floor division, not a brand glow. The active 3D stage replaces that illustration with the specified physical plane and real lighting. Do not run a full-page WebGL background. Empty states use flat canvas and, when informative, one deterministic 2px-stroke diagram at a maximum 160px size.",
+    "type_scale": [
+      {
+        "phone": "48/48px; 40/42px at 320–359px",
+        "weight": "Archivo 800",
+        "desktop": "96/92px; 72/72px at 1024–1199px",
+        "tracking": "-0.045em",
+        "role": "Public hero"
+      },
+      {
+        "phone": "36/38px",
+        "weight": "Archivo 700",
+        "desktop": "64/64px",
+        "tracking": "-0.035em",
+        "role": "Public chapter heading"
+      },
+      {
+        "phone": "30/36px",
+        "weight": "Archivo 700",
+        "desktop": "36/40px",
+        "tracking": "-0.03em",
+        "role": "Application page title"
+      },
+      {
+        "phone": "26/30px",
+        "weight": "Archivo 700",
+        "desktop": "32/36px",
+        "tracking": "-0.025em",
+        "role": "Person identity and work detail title"
+      },
+      {
+        "phone": "22/28px",
+        "weight": "Archivo 700",
+        "desktop": "24/30px",
+        "tracking": "-0.02em",
+        "role": "Application section heading"
+      },
+      {
+        "phone": "30/34px",
+        "weight": "Archivo 700, tabular numerals",
+        "desktop": "34/38px",
+        "tracking": "-0.02em",
+        "role": "Opportunity pay"
+      },
+      {
+        "phone": "36/40px",
+        "weight": "Archivo 700, tabular numerals",
+        "desktop": "44/48px",
+        "tracking": "-0.025em",
+        "role": "Detail payment amount"
+      },
+      {
+        "phone": "44/48px",
+        "weight": "Archivo 700, tabular numerals",
+        "desktop": "56/60px",
+        "tracking": "-0.03em",
+        "role": "Available Earnings balance"
+      },
+      {
+        "phone": "28/32px",
+        "weight": "Archivo 700, tabular numerals",
+        "desktop": "32/36px",
+        "tracking": "-0.02em",
+        "role": "Profile record values"
+      },
+      {
+        "phone": "18/24px",
+        "weight": "IBM Plex Sans 500",
+        "desktop": "18/24px",
+        "tracking": "0",
+        "role": "Task title and important instruction"
+      },
+      {
+        "phone": "16/24px",
+        "weight": "IBM Plex Sans 400; 500 for emphasized facts",
+        "desktop": "16/24px",
+        "tracking": "0",
+        "role": "Body and form input"
+      },
+      {
+        "phone": "16/20px",
+        "weight": "IBM Plex Sans 600",
+        "desktop": "16/20px",
+        "tracking": "0",
+        "role": "Button and primary action"
+      },
+      {
+        "phone": "14/20px",
+        "weight": "IBM Plex Sans 400; 500 for labels",
+        "desktop": "14/20px",
+        "tracking": "0",
+        "role": "Metadata, payment basis, field label, provenance and status"
+      },
+      {
+        "phone": "14/18px",
+        "weight": "IBM Plex Sans 500 inactive; 600 active",
+        "desktop": "16/20px",
+        "tracking": "0",
+        "role": "Permanent navigation"
+      }
+    ],
+    "motion": [
+      {
+        "trigger": "Hover, press or keyboard activation of a control.",
+        "reduced_motion": "Color feedback up to 80ms; focus remains immediate; no displacement.",
+        "name": "Direct control feedback",
+        "duration_ms": "140",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_it_explains": "Confirms that a control is actionable. Non-financial buttons may translate down by 1px on press; money controls never move their amount or label."
+      },
+      {
+        "trigger": "A discovery filter or local view changes.",
+        "reduced_motion": "Indicator and results replace immediately, with at most an 80ms opacity change.",
+        "name": "Selection edge",
+        "duration_ms": "180 indicator; 140 results",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_it_explains": "Connects the selected label to its results. Keep previous results clearly identified as updating until the actual response; never animate stale identity data into a new context."
+      },
+      {
+        "trigger": "Opening an opportunity, person, car or selected Content asset where the same source media exists in both states.",
+        "reduced_motion": "No geometry interpolation; at most a 100ms fade.",
+        "name": "Selected-media continuity",
+        "duration_ms": "280; fallback 140",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_it_explains": "The inspected object is the one the person selected. Animate one media rectangle only through progressive enhancement; do not animate money, the whole feed or the navigation shell. Back restores source position and focus."
+      },
+      {
+        "trigger": "Opening or closing a contextual sheet.",
+        "reduced_motion": "Show immediately or use an 80ms opacity change, retaining focus behavior.",
+        "name": "Task-edge sheet",
+        "duration_ms": "320 enter; 200 exit",
+        "easing": "Enter cubic-bezier(0.22, 1, 0.36, 1); exit cubic-bezier(0.4, 0, 1, 1)",
+        "what_it_explains": "A temporary decision comes from the reachable task edge. Translate at most 48px, without spring or overshoot. Close is always available; dragging is never required."
+      },
+      {
+        "trigger": "A directly playable Recreate is sufficiently visible and media/data preferences allow preview.",
+        "reduced_motion": "Static poster with explicit Play.",
+        "name": "Bounded work preview",
+        "duration_ms": "500 visibility dwell; maximum 6000 playback; 120 poster handoff",
+        "easing": "Playback at native speed; handoff linear",
+        "what_it_explains": "Shows what someone would recreate, not how much they could earn. Play once, muted, one player only, with immediate Pause and all task/payment facts visible independently."
+      },
+      {
+        "trigger": "Explicitly selecting another gallery image or Content asset.",
+        "reduced_motion": "Replace after the next source is ready, without movement.",
+        "name": "Source handoff",
+        "duration_ms": "180",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_it_explains": "Changes the selected source while retaining the inspection location. Crossfade imagery only; caption, file state and post state must change with the corresponding record."
+      },
+      {
+        "trigger": "The server confirms save, approval, submission or another actual mutation.",
+        "reduced_motion": "Immediate literal state replacement and a restrained announcement.",
+        "name": "Recorded decision",
+        "duration_ms": "140 state change; 1200 optional row highlight",
+        "easing": "linear",
+        "what_it_explains": "A real record changed. Use an accent-wash highlight and literal message, not confetti or a reward burst. Different approval and payment consequences retain their correct wording."
+      },
+      {
+        "trigger": "Actual upload-byte updates, or a genuinely pending request.",
+        "reduced_motion": "Show actual bytes and static loading text.",
+        "name": "Honest activity",
+        "duration_ms": "80 maximum byte interpolation; 900 spinner revolution while an ordinary request is pending",
+        "easing": "linear",
+        "what_it_explains": "Transfer follows reported bytes and never interpolates beyond them. Unknown-duration processing and waiting-provider states use static labels, not animated production timelines."
+      },
+      {
+        "trigger": "An actual model finishes loading or the person operates its viewer controls.",
+        "reduced_motion": "Immediate model appearance and reset; direct user-controlled rotation remains available.",
+        "name": "Physical inspection",
+        "duration_ms": "180 appearance; 220 reset; direct orbit has no tween",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1) for appearance/reset",
+        "what_it_explains": "Reveals another view of the same actual vehicle. There is no automatic spin, idle animation, inertia after release or simulated reconstruction."
+      },
+      {
+        "trigger": "Native desktop scrolling through the public earning chapters.",
+        "reduced_motion": "Three complete static chapter compositions in ordinary flow; no sticky choreography.",
+        "name": "Public frame progression",
+        "duration_ms": "Scroll-linked with no timed lag; fallback chapter crossfade 220",
+        "easing": "linear scroll progress",
+        "what_it_explains": "The task changes from making a video to posting supplied creative to physical car advertising. Move the explanatory assembly by at most 24px and a device by at most 8deg; never scrub a fake financial state or hijack scroll."
+      },
+      {
+        "trigger": "An eligible public hero becomes visible and its real film is ready.",
+        "reduced_motion": "Poster and explicit Play film.",
+        "name": "Public work film",
+        "duration_ms": "12000 once, four 3000 shots",
+        "easing": "Native-speed edited footage",
+        "what_it_explains": "Connects people doing work with the actual product. Pause responds immediately, playback never blocks the audience actions, and Replay is offered at the end."
+      }
+    ]
+  },
+  "chosen": {
+    "what_was_merged": [
+      "From the evolved Local Edit: source-faithful photographic color, restrained separators and the confidence to leave operational facts unboxed.",
+      "From Night Relay: dark full-media inspection and a bounded cinematic public introduction.",
+      "Neither alternative's dominant theme was inherited. The chosen system establishes its own graphite/cobalt/light-surface relationship and offset-frame identity."
+    ],
+    "name": "Frame Shift",
+    "how_it_avoids_ai_slop": "Its visual energy comes from specific product objects and their relationships: reference beside payment, intact creative beside posting conditions, real vehicle above a monthly commitment, delivered file beside its decision. There are no generic bento metrics, decorative model blobs, neon glows, floating glass, fake reach charts or synthetic local-business scenes. Generated imagery is governed by provenance rather than a blanket aesthetic prohibition. The interface itself is always built and captured, never image-generated.",
+    "why_it_won": "It has the strongest combined forecast across the eleven requested criteria, especially mobile earning clarity, desktop media working quality and purposeful motion. It is not the easiest option: the evolved Local Edit scores better for immediate familiarity and buildability. It is not the most cinematic option either. It wins because its distinctive behavior and geometry continue to work when the footage is paused, a model is absent or a business has no delivered content. These are specification-level judgments to test against real browser captures, not measured results.",
+    "how_it_stays_simple": "Keep the existing destinations, one obvious next action and progressive detail. Most screens use normal document flow, native media and familiar controls. Only the selected object gains depth or movement. One player and one model can be active at a time. Money remains still, terms stay readable without playback, and every optional effect has a complete static fallback."
+  },
+  "reopened_decisions": [
+    "Warm paper and vermilion were preferences, not requirements. They competed again and lost as the master palette; their human photographic discipline survives without their color scheme.",
+    "A nearly all-light application was unnecessarily restrictive. Graphite now gives identity and media a strong physical presence, while light surfaces serve reading and financial decisions.",
+    "Motion does not need to be limited to tiny fades. A selected-media transition, a more substantial sheet and scroll-linked public explanation are justified when they clarify continuity or task differences.",
+    "Blanket avoidance of autoplay was too broad as a visual rule. The chosen system permits one finite, muted Recreate preview and a pausable public film, with strict visibility, data and reduced-motion conditions. Evidence review and content grids do not autoplay.",
+    "Expressive 3D is welcome when it exposes a real physical object. A view-only real vehicle can appear elegantly in Profile and public explanation. This does not reopen future zone picking, wrap simulation or mandatory scanning.",
+    "Generated environments are no longer categorically rejected. They can support explicitly illustrative public or proposal assets. Frame Shift chooses a deterministic studio stage because it explains the object just as well with fewer production dependencies—not because generated environments are forbidden.",
+    "Cinematic and product-driven public treatments are now legitimate candidates. The chosen public site uses implemented screens, moving media and scroll-linked staging rather than relying on an editorial photo-and-headline split alone.",
+    "Device frames, depth and object overlap can be functional explanation tools. They are used where a visitor needs to understand a real product interaction, not as floating decoration or inside the authenticated app.",
+    "The old person rows and persistent desktop context column were visual decisions, not sacred UX. Business Home becomes a work-led comparison gallery, with the same people-first discovery logic and actual attention summaries."
+  ],
+  "founder_feedback_read": "The product reasoning is retained; the visual answer is not. The founder is asking for a recognizable, energetic technology product where paid work and real marketing materials feel tangible—not conservative local-business software dressed in good photography. My earlier prohibitions made one aesthetic seem inevitable. This response reopens palette, theme, typography, depth, media, motion, 3D and public staging, compares three genuinely different approaches and chooses on the whole product rather than on restraint alone. The scores are 1–10 design forecasts, not claims that screenshots, usability, performance or brand recall have already been tested."
+}
