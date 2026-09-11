@@ -1,8 +1,8 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { respond, textPart, type InputPart, type Usage } from "./client";
-import { runCreativeJob, type CreativeJobResult } from "./creative";
-import type { CreativeBrief, CreativeInput } from "./director";
+import { runCreativeJob, type CreativeJobResult, type RenderedRound } from "./creative";
+import type { CreativeBrief, CreativeInput, CreativeReview } from "./director";
 import { MODELS, route, type Effort } from "./models";
 import { REBOOT_A_SCHEMA, REBOOT_B_SCHEMA, REBOOT_C_SCHEMA } from "./reboot-schemas";
 import { totalUsage } from "./assets";
@@ -136,13 +136,21 @@ export async function runReboot(o: RebootOptions = {}): Promise<RebootResult> {
     const briefs = ((b.data.mockup_briefs as MockupBrief[]) ?? []).slice(0, o.mockupCount ?? 5);
     const art = a.data.art_direction as Record<string, unknown>;
     const direction = (a.data.chosen_direction as { name: string }).name;
+    const conceptsDir = path.join(out, "concepts");
     for (const m of briefs) {
+      const stem = `ui_concept-${m.screen.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "concept"}`;
+      const done = o.resume ? await loadConcept(conceptsDir, stem) : null;
+      if (done) { say(`Mockup: ${m.screen}: reusing the rendered concept`); mockups.push(done); continue; }
       say(`Mockup: ${m.screen} (${m.device}, ${m.aspect_ratio}) with ${MODELS.image_final}, reviewed by ${MODELS.director}`);
-      const result = await runCreativeJob(conceptInput(m, direction, art), {
-        tier: "final", maxFixRounds: 1, save: false, outDir: path.join(out, "concepts"), onProgress: say,
-      }, { brief: conceptBrief(m), brandRead: `Direction: ${direction}. ${String(art.why_it_fits ?? "")}`, audienceRead: "The founder approving the direction." });
-      usage.push(...result.usage);
-      mockups.push({ screen: m.screen, result, files: result.files ?? [] });
+      try {
+        const result = await runCreativeJob(conceptInput(m, direction, art), {
+          tier: "final", maxFixRounds: 1, save: false, outDir: conceptsDir, onProgress: say,
+        }, { brief: conceptBrief(m), brandRead: `Direction: ${direction}. ${String(art.why_it_fits ?? "")}`, audienceRead: "The founder approving the direction." });
+        usage.push(...result.usage);
+        mockups.push({ screen: m.screen, result, files: result.files ?? [] });
+      } catch (e) {
+        say(`Mockup: ${m.screen} failed: ${e instanceof Error ? e.message : String(e)}. Continuing with the next concept.`);
+      }
     }
   }
 
@@ -150,6 +158,21 @@ export async function runReboot(o: RebootOptions = {}): Promise<RebootResult> {
   const mdPath = path.join(out, "MASTER_DESIGN_PACKAGE.md");
   await writeFile(mdPath, md);
   return { a: a.data, b: b.data, c: c.data, mockups, usage, files: [mdPath, ...mockups.flatMap((m) => m.files)] };
+}
+
+/** A concept already rendered by an earlier run: its JSON record and image files. */
+async function loadConcept(dir: string, stem: string): Promise<RebootResult["mockups"][number] | null> {
+  try {
+    const rec = JSON.parse(await readFile(path.join(dir, `${stem}.json`), "utf8")) as { brief: CreativeBrief; rounds: { round: number; action: RenderedRound["action"]; imageModel: string; size: string; prompt: string; review: CreativeReview | null; usage: Usage[] }[]; brandRead: string; audienceRead: string; approvedByDirector: boolean };
+    const { readdir } = await import("node:fs/promises");
+    const files = (await readdir(dir)).filter((f) => f.startsWith(`${stem}-round`) || f === `${stem}.json` || f === `${stem}.md`).map((f) => path.join(dir, f));
+    const empty = { bytes: Buffer.alloc(0), contentType: "image/png" as const };
+    const rounds = rec.rounds.map((x) => ({ ...x, image: empty }));
+    const last = rounds[rounds.length - 1];
+    return { screen: rec.brief.title, files, result: { type: "UI_CONCEPT", brandRead: rec.brandRead, audienceRead: rec.audienceRead, brief: rec.brief, rounds, image: empty, finalReview: last?.review ?? null, approvedByDirector: rec.approvedByDirector, usage: [], asset: null, files } };
+  } catch {
+    return null;
+  }
 }
 
 type MockupBrief = { screen: string; device: string; aspect_ratio: CreativeBrief["aspect_ratio"]; what_it_must_communicate: string[]; prompt: string; avoid: string[] };

@@ -153,9 +153,30 @@ export async function imagesGenerate(o: GenerateOptions): Promise<ImageResult> {
   const format = o.format ?? "png";
   const body = { model: o.model, prompt: o.prompt, n: o.n ?? 1, size: o.size, quality: o.quality ?? "auto", output_format: format, moderation: "auto" };
   if (o.dryRun) return { images: [], usage: { model: o.model }, request: body };
-  const res = await fetch(`${API}/images/generations`, { method: "POST", headers: headers(), body: JSON.stringify(body), signal: AbortSignal.timeout(10 * 60_000) });
-  if (!res.ok) await fail(res, "OpenAI images");
+  const res = await withRetry("OpenAI images", () => fetch(`${API}/images/generations`, { method: "POST", headers: headers(), body: JSON.stringify(body), signal: AbortSignal.timeout(10 * 60_000) }));
   return decodeImages(await res.json(), o.model, format);
+}
+
+/**
+ * Image renders take minutes and pass through proxies; a 502, 503, 504 or a
+ * dropped connection is retried up to three times with a pause. Anything
+ * else (400, 401, 429 credit errors) fails at once.
+ */
+async function withRetry(what: string, send: () => Promise<Response>): Promise<Response> {
+  let last: unknown = null;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await send();
+      if (res.ok) return res;
+      if (![502, 503, 504].includes(res.status)) await fail(res, what);
+      last = new OpenAiError(`${what}: ${res.status} ${(await res.text()).slice(0, 200)}`, res.status, "upstream");
+    } catch (e) {
+      if (e instanceof OpenAiError && e.code !== "upstream") throw e;
+      last = e;
+    }
+    if (attempt < 3) await new Promise((r) => setTimeout(r, attempt * 20_000));
+  }
+  throw last instanceof Error ? last : new OpenAiError(`${what}: failed after 3 attempts`, 0, "upstream");
 }
 
 export type EditOptions = {
@@ -187,8 +208,7 @@ export async function imagesEdit(o: EditOptions): Promise<ImageResult> {
   if (o.dryRun) {
     return { images: [], usage: { model: o.model }, request: { model: o.model, prompt: o.prompt, size: o.size, images: o.images.length, mask: Boolean(o.mask) } };
   }
-  const res = await fetch(`${API}/images/edits`, { method: "POST", headers: headers(false), body: form, signal: AbortSignal.timeout(10 * 60_000) });
-  if (!res.ok) await fail(res, "OpenAI image edit");
+  const res = await withRetry("OpenAI image edit", () => fetch(`${API}/images/edits`, { method: "POST", headers: headers(false), body: form, signal: AbortSignal.timeout(10 * 60_000) }));
   return decodeImages(await res.json(), o.model, format);
 }
 
