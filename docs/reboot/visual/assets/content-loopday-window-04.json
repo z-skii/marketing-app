@@ -1,0 +1,31 @@
+{
+  "id": "content-loopday-window-04",
+  "kind": "photo",
+  "aspect": "3:2",
+  "prompt": "Photorealistic 3:2 environmental photograph of a fictional modest neighborhood coffee counter seen from inside toward its large front window. Brushed stainless counter, pale blue square tiles, a few forest-green cups and two ordinary stools; soft street context outside but no legible shop signs or addresses. A small patch of directional morning daylight falls across the counter. Use a 35mm-equivalent lens, straight practical architectural framing, natural materials, neutral color and useful environmental detail. No luxury décor, artificial atmosphere or exaggerated empty space. This is fictional Design Lab shoot imagery, not evidence of an actual business. No text, logos, watermarks, visible screen content or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "",
+        "summary": "A photorealistic 3:2 neighborhood coffee-counter scene looks toward a large street-facing window, with brushed stainless steel, pale blue tiles, forest-green cups and two ordinary stools. It closely meets the fictional shoot brief through practical architectural framing, believable morning daylight and modest furnishings, without readable signage, promotional copy or overlays.",
+        "problems": [],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "approve"
+      }
+    }
+  ],
+  "approvedByDirector": true
+}
