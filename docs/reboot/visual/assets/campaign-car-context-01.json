@@ -1,0 +1,58 @@
+{
+  "id": "campaign-car-context-01",
+  "kind": "car",
+  "aspect": "3:2",
+  "prompt": "Photorealistic broad 3:2 campaign-context illustration for a fictional neighborhood bicycle shop's car-advertising brief. An ordinary graphite-gray compact station wagon is parked beside an open, modest bicycle repair bay, with one practical city bicycle visible in the background. The vehicle has no decal, wrap, lettering or advertising whatsoever. Show a clear full driver-side three-quarter view and all wheels, with the rear-door area unobstructed. Use a 35mm-equivalent lens, directional daylight, natural paint reflections and neutral source-faithful color. The car is not the blue hatchback used elsewhere and must not resemble installation evidence. This is a fictional Design Lab campaign illustration, not a real listing, actual business or promised installation. No readable signs, plates, text, logos, watermark or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Front grille: remove the recognizable manufacturer emblem and replace its mount with continuous, unbranded grille slats matching the existing perspective, material and daylight. Both visible wheel centers: replace branded center caps with plain neutral metallic caps, preserving wheel geometry, spokes and shading. Leave the vehicle silhouette, graphite-gray paint, natural reflections, unobstructed doors, tires, bicycle, repair bay, landscaping, lighting and 3:2 framing untouched. Do not add advertising, lettering, plates, watermarks or an in-image illustration label; fictional-context labeling belongs in the surrounding presentation.",
+        "summary": "A convincing daylight scene shows an unwrapped graphite-gray station wagon outside a modest bicycle repair bay. The composition closely matches the campaign-context brief, but recognizable automotive badges violate the explicit no-logo requirement.",
+        "problems": [
+          "Front grille: a prominent Volkswagen-style emblem introduces a recognizable manufacturer logo despite the explicit prohibition.",
+          "Both visible wheel centers: branded center caps repeat the same prohibited automotive identity."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 8,
+          "professional": 9,
+          "product_correct": 8,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Edit only the center caps of the two visible wheels: remove the emblem-like markings and replace them with plain, unbranded graphite or brushed-metal caps. Preserve the spokes, lug holes, tires, wheel geometry, perspective and lighting. Leave the rest untouched, including the unmarked graphite-gray body, unobstructed rear door, natural reflections, bicycle repair bay, daylight and 3:2 framing. Do not add text, advertising, plates or an illustration label within the image.",
+        "summary": "A convincing daylight campaign-context illustration shows an unmarked graphite-gray station wagon outside a modest bicycle repair bay. The composition closely matches the brief and needs only a small wheel-badge cleanup to meet the explicit no-logo requirement.",
+        "problems": [
+          "Both visible wheel center caps retain emblem-like markings; these should be plain to satisfy the no-logo requirement."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}
