@@ -1,4 +1,4 @@
-import { imagesEdit, imagesGenerate, loadImage, type ImageBytes, type ImageResult } from "./client";
+import { imagesEdit, imagesGenerate, loadImage, OpenAiError, type ImageBytes, type ImageResult } from "./client";
 import { IMAGE_SIZE, imageModel, type Aspect, type ImageTier } from "./models";
 
 /**
@@ -18,11 +18,23 @@ export type GenerateImageInput = {
   dryRun?: boolean;
 };
 
-export async function generateImage(i: GenerateImageInput): Promise<ImageResult & { size: string; model: string }> {
+export async function generateImage(i: GenerateImageInput): Promise<ImageResult & { size: string; model: string; quality: string }> {
   const model = imageModel(i.tier);
   const size = IMAGE_SIZE[i.aspect];
-  const res = await imagesGenerate({ model, prompt: i.prompt, size, quality: i.quality ?? (i.tier === "final" ? "high" : "medium"), dryRun: i.dryRun });
-  return { ...res, size, model };
+  const quality = i.quality ?? (i.tier === "final" ? "high" : "medium");
+  try {
+    const res = await imagesGenerate({ model, prompt: i.prompt, size, quality, dryRun: i.dryRun });
+    return { ...res, size, model, quality };
+  } catch (e) {
+    // The upstream renderer drops some long high quality requests with a 502.
+    // The same request at medium quality renders in seconds; a medium render
+    // beats no render, and the record says which quality was used.
+    if (quality === "high" && e instanceof OpenAiError && e.code === "upstream") {
+      const res = await imagesGenerate({ model, prompt: i.prompt, size, quality: "medium", dryRun: i.dryRun });
+      return { ...res, size, model, quality: "medium (high failed upstream)" };
+    }
+    throw e;
+  }
 }
 
 export type EditImageInput = {
@@ -37,7 +49,7 @@ export type EditImageInput = {
   dryRun?: boolean;
 };
 
-export async function editImage(i: EditImageInput): Promise<ImageResult & { size: string; model: string }> {
+export async function editImage(i: EditImageInput): Promise<ImageResult & { size: string; model: string; quality: string }> {
   const model = imageModel(i.tier);
   const size = IMAGE_SIZE[i.aspect];
   const images: ImageBytes[] = [];
@@ -46,6 +58,15 @@ export async function editImage(i: EditImageInput): Promise<ImageResult & { size
     if (img) images.push(img);
   }
   if (images.length === 0) throw new Error("editImage needs at least one readable image.");
-  const res = await imagesEdit({ model, prompt: i.instructions, images, mask: i.mask ?? null, size, quality: i.quality ?? (i.tier === "final" ? "high" : "medium"), preserveInput: true, dryRun: i.dryRun });
-  return { ...res, size, model };
+  const quality = i.quality ?? (i.tier === "final" ? "high" : "medium");
+  try {
+    const res = await imagesEdit({ model, prompt: i.instructions, images, mask: i.mask ?? null, size, quality, preserveInput: true, dryRun: i.dryRun });
+    return { ...res, size, model, quality };
+  } catch (e) {
+    if (quality === "high" && e instanceof OpenAiError && e.code === "upstream") {
+      const res = await imagesEdit({ model, prompt: i.instructions, images, mask: i.mask ?? null, size, quality: "medium", preserveInput: true, dryRun: i.dryRun });
+      return { ...res, size, model, quality: "medium (high failed upstream)" };
+    }
+    throw e;
+  }
 }

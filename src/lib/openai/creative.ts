@@ -26,6 +26,7 @@ export type RenderedRound = {
   image: ImageBytes;
   imageModel: string;
   size: string;
+  quality?: string;
   prompt: string;
   review: CreativeReview | null;
   usage: Usage[];
@@ -104,7 +105,7 @@ export async function runCreativeJob(input: CreativeInput, o: CreativeJobOptions
     const rv = await reviewCreative({ type: input.type, brief, business: input.business, image, sourceImages: sources, final: o.tier === "final", round }, { effort: o.tier === "final" ? undefined : "medium" });
     stepUsage.push(rv.usage);
     usage.push(...stepUsage);
-    rounds.push({ round, action, image, imageModel: r.model, size: r.size, prompt, review: rv.data, usage: stepUsage });
+    rounds.push({ round, action, image, imageModel: r.model, size: r.size, quality: r.quality, prompt, review: rv.data, usage: stepUsage });
     say(`Round ${round}: ${rv.data.verdict} (purpose ${rv.data.scores.purpose}, brand ${rv.data.scores.brand}, not AI looking ${rv.data.scores.not_ai_looking}, premium ${rv.data.scores.premium})`);
 
     if (rv.data.verdict === "approve" || round > budget) break;
@@ -251,7 +252,7 @@ async function writeRounds(dir: string, input: CreativeInput, r: CreativeJobResu
   const json = path.join(dir, `${stem}.json`);
   await writeFile(json, JSON.stringify({
     type: r.type, business: input.business.name, brandRead: r.brandRead, audienceRead: r.audienceRead, brief: r.brief,
-    rounds: r.rounds.map((x) => ({ round: x.round, action: x.action, imageModel: x.imageModel, size: x.size, prompt: x.prompt, review: x.review, usage: x.usage })),
+    rounds: r.rounds.map((x) => ({ round: x.round, action: x.action, imageModel: x.imageModel, size: x.size, quality: x.quality, prompt: x.prompt, review: x.review, usage: x.usage })),
     approvedByDirector: r.approvedByDirector, usage: totalUsage(r.usage), directorModel: MODELS.director,
   }, null, 2));
   files.push(json);
@@ -268,7 +269,7 @@ export function creativeMarkdown(input: CreativeInput, r: CreativeJobResult): st
   if (r.audienceRead) lines.push(`**Audience.** ${r.audienceRead}`, "");
   lines.push("## Creative brief", "", `**Concept.** ${b.concept}`, "", `- Subject: ${b.subject}`, `- Environment: ${b.environment}`, `- Composition: ${b.composition}`, `- Camera: ${b.camera}`, `- Lighting: ${b.lighting}`, `- Colour: ${b.color_treatment}`, `- Headline: ${b.headline || "(none)"}`, `- CTA: ${b.cta || "(none)"}`, `- Aspect: ${b.aspect_ratio}`, `- Preserve: ${b.preserve.join("; ") || "(nothing; no source images)"}`, `- Avoid: ${b.avoid.join("; ")}`, `- Route: ${b.image_route} · Mode: ${b.generation_mode}`, "", "**Prompt.**", "", b.prompt, "");
   for (const x of r.rounds) {
-    lines.push(`## Round ${x.round}: ${x.action} (${x.imageModel}, ${x.size})`, "");
+    lines.push(`## Round ${x.round}: ${x.action} (${x.imageModel}, ${x.size}${x.quality ? `, ${x.quality}` : ""})`, "");
     if (x.action !== "generate") lines.push("**Instructions.**", "", x.prompt, "");
     if (x.review) {
       const s = x.review.scores;
