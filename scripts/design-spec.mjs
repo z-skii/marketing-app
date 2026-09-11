@@ -13,12 +13,14 @@
 // actions and requirements, plus the saved system, and asks for a from
 // scratch design the engineer can build. Saved to docs/design-specs/<slug>.
 //
-// Responses API in background mode with polling (long reasoning otherwise
-// dies at proxies). Reads OPENAI_API_KEY if set; otherwise the cloud proxy
-// attaches the credential.
+// Model: the DESIGN DIRECTOR in scripts/design-models.mjs (gpt-6-astra, high
+// reasoning, or OPENAI_DESIGN_MODEL / --model). Responses API in background
+// mode with polling (long reasoning otherwise dies at proxies). Reads
+// OPENAI_API_KEY if set; otherwise the cloud proxy attaches the credential.
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { basename, extname, join, resolve } from "node:path";
+import { DIRECTOR_MODEL, DIRECTOR_EFFORT, supportsReasoning } from "./design-models.mjs";
 
 const HERE = resolve(new URL(".", import.meta.url).pathname, "..");
 const BRAIN_PATH = join(HERE, "docs", "TAPMART_PRODUCT_BRAIN.md");
@@ -36,12 +38,12 @@ const MIME = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
 
 function usage(m) {
   if (m) console.error(m);
-  console.error('usage: npm run design-spec -- system | screen "<Screen name>" --purpose "..." --data "..." --actions "..." [--phone png] [--desktop png] [--requirements "..."] [--effort low|medium|high] [--model id]');
+  console.error('usage: npm run design-spec -- system | screen "<Screen name>" --purpose "..." --data "..." --actions "..." [--phone png] [--desktop png] [--requirements "..."] [--effort low|medium|high] [--model id] [--dry-run]');
   process.exit(m ? 1 : 0);
 }
 
 function parseArgs(argv) {
-  const o = { model: process.env.OPENAI_REVIEW_MODEL || "gpt-5.5", effort: "high", phone: null, desktop: null, purpose: "", data: "", actions: "", requirements: "" };
+  const o = { model: DIRECTOR_MODEL, effort: DIRECTOR_EFFORT, dryRun: false, phone: null, desktop: null, purpose: "", data: "", actions: "", requirements: "" };
   const pos = [];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -53,6 +55,7 @@ function parseArgs(argv) {
     else if (a === "--data") o.data = argv[++i];
     else if (a === "--actions") o.actions = argv[++i];
     else if (a === "--requirements") o.requirements = argv[++i];
+    else if (a === "--dry-run") o.dryRun = true;
     else if (a === "--help" || a === "-h") usage();
     else pos.push(a);
   }
@@ -206,11 +209,16 @@ async function main() {
     text: { format: { type: "json_schema", name: schema.name, schema: schema.schema, strict: true } },
     max_output_tokens: 20000,
   };
-  if (/^(gpt-5|o[1-9])/.test(a.model)) body.reasoning = { effort: a.effort };
+  if (supportsReasoning(a.model)) body.reasoning = { effort: a.effort };
   const headers = { "content-type": "application/json" };
   if (process.env.OPENAI_API_KEY) headers.authorization = `Bearer ${process.env.OPENAI_API_KEY}`;
 
   console.error(`Designing ${a.mode === "system" ? "the UI system" : `"${a.screenName}"`} with ${a.model} (${a.effort}).`);
+  if (a.dryRun) {
+    const kb = Math.round(JSON.stringify(body).length / 1024);
+    console.error(`Dry run: model ${body.model}, reasoning ${JSON.stringify(body.reasoning ?? null)}, ${content.length} input parts, request about ${kb} KB. Nothing sent.`);
+    return;
+  }
   const started = Date.now();
   const submit = await fetch(ENDPOINT, { method: "POST", headers, body: JSON.stringify(body), signal: AbortSignal.timeout(120_000) });
   const submitText = await submit.text();

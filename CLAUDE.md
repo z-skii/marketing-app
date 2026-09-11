@@ -1,35 +1,41 @@
 @AGENTS.md
 
-# Design review loop (OpenAI as design director)
+# OpenAI is the product designer; Claude Code is the engineer
 
-Claude Code builds; OpenAI reviews. For a MAJOR UI change (a new screen, a
-rebuilt screen, a new card type, a new navigation shell):
+The models are set in scripts/design-models.mjs: the DESIGN DIRECTOR is
+gpt-6-astra at high reasoning; the QA REVIEWER is gpt-5.5 at medium. Do not
+hardcode a model anywhere else (docs/OPENAI_DESIGN_REVIEW.md explains both).
 
-1. Build the first pass.
-2. Screenshot it with Playwright (phone 390x844 at 2x; desktop 1360 when the
-   screen has a rail layout).
-3. Run `npm run design-review -- <screenshot> "<Screen name>"` and read the
-   checklist (see docs/OPENAI_DESIGN_REVIEW.md). The reviewer sends the
-   screenshot, the product brain and the primary reference image
-   (docs/design-references/tapmart-primary-reference.png). Pass
-   `--blueprint <png>` with the matching screen rendered from the coded
-   blueprint (docs/design-references/tapmart_exact_ui_blueprint.html, the
-   visual source of truth; its CSS is pasted into every review and its
-   values live in docs/TAPMART_UI_SPEC.md and the --tm-* tokens in
-   src/app/globals.css). The reviewer scores twelve design-drift
-   dimensions from 0 to 10 and says whether the screen is built with the
-   same design system. Apply substantial
-   recommendations too (delete, move, enlarge, recompose), not only tweaks.
-4. Apply the checklist top to bottom. Skip an item only for a stated reason
-   (a rule in docs/TAPMART_PRODUCT_BRAIN.md, a product constraint, honesty
-   about data).
-5. Screenshot again.
-6. Run a second review.
-7. Refine from the second checklist, then stop.
+For a MAJOR screen (a new screen, a rebuilt screen, a new card type, a new
+navigation shell), the current frontend has no visual authority:
 
-Do not call the reviewer after small changes (copy, spacing, a token, a bug
-fix, one new row). Two reviews per screen per change is the budget; a third
-only when the second still scores TapMart match below 7. Never send
-production customer data in a screenshot. The reviewer judges against
-docs/TAPMART_PRODUCT_BRAIN.md; keep that file current when the product or
-the design rules change.
+1. Screenshot the current screen with Playwright (phone 390x844 at 2x;
+   desktop 1360). It is a functionality inventory only.
+2. Ask the director to design the screen from scratch:
+   `npm run design-spec -- screen "<Screen name>" --purpose "..." --data "..."
+   --actions "..." --phone <png> --desktop <png>`. It receives the screenshot,
+   docs/TAPMART_PRODUCT_BRAIN.md, the primary reference
+   (docs/design-references/tapmart-primary-reference.png), the three campaign
+   images (public/uploads/seed/tapmart-{recreate,story,car}.jpg) and the
+   UI system it defined (docs/design-specs/system.json, ported to the --tm-*
+   tokens in src/app/globals.css). The design lands in
+   docs/design-specs/<slug>.{json,md}: layout, hierarchy, component
+   structure, order, removals, media, typography, spacing, CTA, navigation,
+   animation, desktop, empty states, implementation steps.
+3. Implement the design. Skip an item only for a stated reason (a rule in
+   the product brain, a product constraint, honesty about data).
+4. Screenshot again and run
+   `npm run design-review -- <png> "<Screen name> (phone), pass 1" --director`.
+   The director compares the build against its own design and the reference,
+   scores twelve drift dimensions and answers the only question that decides:
+   would a professional product designer immediately believe this screen and
+   the reference belong to the same application?
+5. Fix the differences, screenshot, run pass 2, refine, then stop. Two
+   director passes per screen per change; a third only when pass 2 still
+   answers no.
+
+Small changes (copy, spacing, a token, a bug fix, one new row) do not go to
+the director. If a check is wanted at all, run `npm run design-review`
+without `--director`: the QA reviewer at lower cost. Never send production
+customer data in a screenshot. Keep docs/TAPMART_PRODUCT_BRAIN.md current
+when the product or the design rules change.

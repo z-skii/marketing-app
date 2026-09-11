@@ -6,9 +6,17 @@
 //   npm run design-review -- ./screenshots/business-home.png "Business Home" "focus on the people cards"
 //
 // Options (anywhere on the command line):
-//   --model <id>        OpenAI model (default: OPENAI_REVIEW_MODEL or gpt-5.5)
+//   --director          the DESIGN DIRECTOR (gpt-6-astra, high reasoning)
+//                       compares the build against its own saved design for
+//                       this screen (docs/design-specs/<slug>.json) plus the
+//                       reference. Use for major screens. Without it the
+//                       cheaper QA reviewer (gpt-5.5, medium) runs.
+//   --spec <path|slug>  the design spec to compare against (default: derived
+//                       from the screen name, e.g. "Business Content" ->
+//                       docs/design-specs/business-content.json)
+//   --model <id>        override the model (defaults: see scripts/design-models.mjs)
 //   --out <dir>         where to save the review (default: design-reviews/)
-//   --effort <level>    reasoning effort: low | medium | high (default: medium)
+//   --effort <level>    reasoning effort: low | medium | high
 //   --reference <png>   the visual north star to compare against
 //                       (default: docs/design-references/tapmart-primary-reference.png)
 //   --no-reference      review against the product brain only
@@ -27,6 +35,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { basename, extname, join, resolve } from "node:path";
+import { DIRECTOR_MODEL, DIRECTOR_EFFORT, QA_MODEL, QA_EFFORT, supportsReasoning } from "./design-models.mjs";
 
 const HERE = resolve(new URL(".", import.meta.url).pathname, "..");
 const BRAIN_PATH = join(HERE, "docs", "TAPMART_PRODUCT_BRAIN.md");
@@ -41,6 +50,21 @@ const POLL_MS = 3000;
 const MAX_WAIT_MS = 8 * 60_000;
 const MAX_IMAGE_BYTES = 18 * 1024 * 1024;
 
+/** The director's saved design for this screen: the spec JSON, or null. */
+function screenSpec(opt, screenName) {
+  const dir = join(HERE, "docs", "design-specs");
+  let path = null;
+  if (opt) path = existsSync(opt) ? resolve(opt) : join(dir, `${opt.replace(/\.json$/, "")}.json`);
+  else {
+    // "Business Content (phone), designed by OpenAI, pass 1" -> business-content
+    const head = screenName.split(/[(,]/)[0].trim();
+    path = join(dir, `${slug(head)}.json`);
+  }
+  if (!existsSync(path)) return null;
+  const spec = JSON.parse(readFileSync(path, "utf8")).spec;
+  return { path, text: JSON.stringify(spec) };
+}
+
 function usage(message) {
   if (message) console.error(`\n${message}\n`);
   console.error(`usage: npm run design-review -- <screenshot.png> "<Screen name>" [instructions] [--model id] [--out dir] [--effort low|medium|high] [--reference png] [--no-reference] [--dry-run]`);
@@ -48,11 +72,13 @@ function usage(message) {
 }
 
 function parseArgs(argv) {
-  const opts = { model: process.env.OPENAI_REVIEW_MODEL || "gpt-5.5", out: join(HERE, "design-reviews"), effort: "medium", dryRun: false, reference: REFERENCE_PATH, useReference: true, blueprint: null };
+  const opts = { model: null, out: join(HERE, "design-reviews"), effort: null, dryRun: false, reference: REFERENCE_PATH, useReference: true, blueprint: null, director: false, spec: null };
   const positional = [];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--model") opts.model = argv[++i];
+    else if (a === "--director") opts.director = true;
+    else if (a === "--spec") opts.spec = argv[++i];
     else if (a === "--out") opts.out = resolve(argv[++i]);
     else if (a === "--effort") opts.effort = argv[++i];
     else if (a === "--dry-run") opts.dryRun = true;
@@ -64,7 +90,9 @@ function parseArgs(argv) {
   }
   const [screenshot, screenName, ...rest] = positional;
   if (!screenshot || !screenName) usage("Give a screenshot path and a screen name.");
-  return { ...opts, screenshot: resolve(screenshot), screenName, instructions: rest.join(" ").trim() };
+  const model = opts.model ?? (opts.director ? DIRECTOR_MODEL : QA_MODEL);
+  const effort = opts.effort ?? (opts.director ? DIRECTOR_EFFORT : QA_EFFORT);
+  return { ...opts, model, effort, screenshot: resolve(screenshot), screenName, instructions: rest.join(" ").trim() };
 }
 
 const MIME = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp" };
@@ -192,7 +220,7 @@ function blueprintCss() {
   return m ? m[1].replace(/data:[a-zA-Z0-9/+.-]+;base64,[A-Za-z0-9+/=\s]+/g, "data:STRIPPED").trim() : null;
 }
 
-function systemPrompt(brain, hasReference, css, hasBlueprintShot) {
+function systemPrompt(brain, hasReference, css, hasBlueprintShot, spec) {
   return [
     "You are TapMart's visual and product design director. A coding agent (Claude Code) is the engineer: it builds the screens; you review screenshots and hand back exact, prioritized changes. You never write code and never touch files. You may recommend substantial changes: delete a section, move information, make media twice as large, replace cards with rows, use a horizontal media rail, remove copy, change the information hierarchy, simplify navigation, combine controls, turn something into a full-bleed visual, or change the composition entirely. Small padding and radius notes are welcome only after the big moves.",
     "",
@@ -207,6 +235,13 @@ function systemPrompt(brain, hasReference, css, hasBlueprintShot) {
     "=== UI SYSTEM (visual source of truth) ===",
     css ?? "(system spec missing)",
     "=== END UI SYSTEM ===",
+    "",
+    ...(spec ? [
+      "You are comparing this build against the design YOU produced for this exact screen, pasted below. Hold the engineer to it: layout architecture, content order, what was removed or moved deeper, media proportions, typography, spacing, card versus row decisions, CTA placement, navigation, animation and desktop composition. Where the build departs from your design, say what the design called for and the exact change. Where your own design was wrong now that you see it built, say so and give the better instruction; you have authority over the visual design.",
+      "=== YOUR DESIGN FOR THIS SCREEN ===",
+      spec,
+      "=== END DESIGN ===",
+    ] : []),
     "",
     "Judge against the TapMart product brain below. Be specific: name the element, the size, the count, the copy to delete. Prefer 'remove' and 'enlarge' over 'add'. Ten strong items beat thirty weak ones. If something already meets the bar, say so under keep and move on. Never suggest fake data, placeholder media or invented numbers.",
     "",
@@ -303,12 +338,14 @@ async function main() {
   const reference = hasReference ? loadImage(args.reference) : null;
   const blueprintShot = args.blueprint && existsSync(args.blueprint) ? loadImage(args.blueprint) : null;
   const css = blueprintCss();
+  const spec = args.director ? screenSpec(args.spec, args.screenName) : null;
+  if (args.director && !spec) console.error(`No saved design for "${args.screenName}" (pass --spec <slug>); the director will judge against the system and the reference only.`);
 
   const body = {
     model: args.model,
     background: true,
     store: true,
-    instructions: systemPrompt(brain, hasReference, css, Boolean(blueprintShot)),
+    instructions: systemPrompt(brain, hasReference, css, Boolean(blueprintShot), spec?.text ?? null),
     input: [
       {
         role: "user",
@@ -329,11 +366,11 @@ async function main() {
     ],
     text: { format: { type: "json_schema", name: SCHEMA.name, schema: SCHEMA.schema, strict: true } },
   };
-  if (/^(gpt-5|o[1-9])/.test(args.model)) body.reasoning = { effort: args.effort };
+  if (supportsReasoning(args.model)) body.reasoning = { effort: args.effort };
   else body.temperature = 0.2;
 
   const approxTokens = Math.round((brain.length + 2500) / 4);
-  console.error(`Reviewing "${args.screenName}" with ${args.model}. Image ${(image.bytes / 1024).toFixed(0)} KB${size.width ? ` (${size.width}x${size.height})` : ""}${reference ? `, reference ${(reference.bytes / 1024).toFixed(0)} KB` : ""}, brain about ${approxTokens} text tokens.`);
+  console.error(`${args.director ? "Design director" : "QA"} review of "${args.screenName}" with ${args.model} (${args.effort})${spec ? `, against ${basename(spec.path)}` : ""}. Image ${(image.bytes / 1024).toFixed(0)} KB${size.width ? ` (${size.width}x${size.height})` : ""}${reference ? `, reference ${(reference.bytes / 1024).toFixed(0)} KB` : ""}, brain about ${approxTokens} text tokens.`);
   if (args.dryRun) {
     console.error("Dry run: nothing sent.");
     return;

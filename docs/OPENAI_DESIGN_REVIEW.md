@@ -37,15 +37,37 @@ concrete change. The tool prints
 the review as Markdown and saves `.md` and `.json` copies under
 `design-reviews/` (ignored by git).
 
-Default model: `gpt-5.5` (override with `--model` or `OPENAI_REVIEW_MODEL`).
-Reasoning effort defaults to `medium` (`--effort low|medium|high`).
+## Two roles, two models (scripts/design-models.mjs)
+
+- DESIGN DIRECTOR: `gpt-6-astra`, reasoning `high`. Override with
+  `OPENAI_DESIGN_MODEL` / `OPENAI_DESIGN_EFFORT` or `--model` / `--effort`.
+  It designs each major screen from scratch (`npm run design-spec`) from the
+  current screenshot (functionality inventory only), the product brain, the
+  primary reference image, the three campaign images and the screen's
+  purpose, data and actions; it returns layout, hierarchy, component
+  structure, typography, spacing, media, CTA, navigation, animation,
+  responsive behaviour, removals and implementation steps, saved to
+  `docs/design-specs/<slug>.{json,md}`. Claude Code implements. After the
+  build, `npm run design-review -- <png> "<Screen>" --director` sends the
+  same director its own saved design for that screen plus the reference and
+  asks it to compare the implementation against both. The director has
+  authority over the visual design; Claude owns the code.
+- QA REVIEWER: `gpt-5.5`, reasoning `medium` (override with
+  `OPENAI_REVIEW_MODEL` / `OPENAI_REVIEW_EFFORT`). `npm run design-review`
+  without `--director` is the cheap screenshot check for small changes.
+  Use `--effort low` or `--model gpt-5.4-mini` to batch it cheaper still.
+
+Never use the director only to score screenshots; that is what the QA
+reviewer is for.
 
 ## Run it by hand
 
 ```
 npm run design-review -- ./screenshots/business-home.png "Business Home"
 npm run design-review -- ./screenshots/business-home.png "Business Home" "focus on the people cards, ignore the cars rail"
-npm run design-review -- ./screenshots/content.png "Content" --effort high
+npm run design-review -- ./screenshots/content.png "Business Content (phone), pass 1" --director
+npm run design-review -- ./screenshots/content.png "Content" --director --spec business-content
+npm run design-spec -- screen "Business Content" --purpose "..." --data "..." --actions "..." --phone ./screenshots/m-content.png --desktop ./screenshots/d-content.png
 npm run design-review -- ./screenshots/content.png "Content" --dry-run
 npm run design-review -- ./screenshots/content.png "Content" --reference docs/design-references/other.png
 npm run design-review -- ./screenshots/content.png "Content" --no-reference
