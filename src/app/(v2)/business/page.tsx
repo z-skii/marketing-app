@@ -62,25 +62,34 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
   const carsLabel = tab === "nearby" ? `Cars in ${city}` : "Cars available";
 
   return (
-    <main id="main" className="mx-auto w-full max-w-6xl px-4 pt-[18px] pb-6 md:px-8 md:pt-6 md:pb-10">
-      <div className="flex items-center gap-2">
+    <main id="main" className="mx-auto w-full max-w-[1272px] px-4 pt-[14px] pb-6 rail:px-8 rail:pt-0">
+      <div className="hidden rail:flex rail:h-16 rail:items-center rail:justify-between">
+        <h1 className="font-display text-[30px] leading-9 font-[820] tracking-[-0.8px]">Marketplace</h1>
+        <Link href="/business/search" className="btn"><MagnifyingGlass size={18} aria-hidden />Search</Link>
+      </div>
+      <h1 className="sr-only rail:hidden">Marketplace</h1>
+      <div className="flex items-center gap-2 rail:mt-6">
         <div className="min-w-0 flex-1">
           <FilterBar label="Marketplace tabs" active={tab} items={TABS.map((t) => ({ key: t.key, label: t.label, href: href(t.key) }))} />
         </div>
-        <Link href="/business/search" aria-label="Search people and cars" className="iconbtn shrink-0 rail:hidden">
-          <MagnifyingGlass size={18} aria-hidden />
+        <Link href="/business/search" aria-label="Search people and cars" className="iconbtn is-surface shrink-0 rail:hidden">
+          <MagnifyingGlass size={22} aria-hidden />
         </Link>
       </div>
 
       {empty ? (
-        <p className="mt-8 text-sm text-ink-soft">{offset > 0 ? "That is everyone." : emptyLine}</p>
+        <div className="card mt-6 max-w-[420px] p-[18px]">
+          <p className="font-display text-[18px] leading-[22px] font-[780] tracking-[-0.25px]">{tab === "cars" ? "No cars available yet" : "No creators here yet"}</p>
+          <p className="mt-1.5 text-[13px] leading-[18px] text-ink-soft">{offset > 0 ? "That is everyone." : tab === "cars" ? "Check back later or search another city." : emptyLine}</p>
+          <Link href="/business/search" className="btn mt-[18px]">Search</Link>
+        </div>
       ) : (
         <>
           {tab !== "cars" && firstPeople.length > 0 && (
             <section aria-label={peopleLabel}>
-              <div className="mx-0.5 mt-6 mb-2.5 flex items-baseline justify-between gap-3">
+              <div className="mt-[18px] mb-2.5 flex h-11 items-center justify-between gap-3">
                 <h2 className="eyebrow">{peopleLabel}</h2>
-                {preview && <Link href={href("people")} className="link-row text-sm">All people<CaretRight size={16} aria-hidden /></Link>}
+                {preview && <Link href={href("people")} className="btn btn-ghost -mr-3 text-[14px] !text-ink-2">All people<CaretRight size={16} aria-hidden /></Link>}
               </div>
               <PeopleGrid people={firstPeople} />
             </section>
@@ -88,36 +97,36 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
 
           {tab === "for_you" && shownCars.length > 0 && (
             <section aria-label={carsLabel}>
-              <div className="mx-0.5 mt-6 mb-2.5 flex items-baseline justify-between gap-3">
+              <div className="mt-6 mb-2.5 flex h-11 items-center justify-between gap-3">
                 <h2 className="eyebrow">{carsLabel}</h2>
-                <Link href={href("cars")} className="link-row text-sm">All cars<CaretRight size={16} aria-hidden /></Link>
+                <Link href={href("cars")} className="btn btn-ghost -mr-3 text-[14px] !text-ink-2">All cars<CaretRight size={16} aria-hidden /></Link>
               </div>
-              <ul className="grid gap-[14px] lg:grid-cols-2">
-                {shownCars.slice(0, 2).map((car, i) => <li key={car.id}><CarCard car={car} index={i} /></li>)}
+              <ul className="grid gap-[14px] rail:grid-cols-[repeat(auto-fill,360px)] rail:gap-[18px]">
+                {shownCars.slice(0, 3).map((car, i) => <li key={car.id}><CarCard car={car} index={i} /></li>)}
               </ul>
             </section>
           )}
 
           {morePeople.length > 0 && (
             <section aria-label="More people">
-              <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">More people</h2>
+              <h2 className="eyebrow mt-6 mb-2.5">More people</h2>
               <PeopleGrid people={morePeople} startIndex={2} />
             </section>
           )}
 
           {(tab === "cars" || tab === "nearby") && shownCars.length > 0 && (
             <section aria-label={carsLabel}>
-              <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">{carsLabel}</h2>
-              <ul className="grid gap-[14px] sm:grid-cols-2 lg:grid-cols-3">
+              <h2 className="eyebrow mt-6 mb-2.5">{carsLabel}</h2>
+              <ul className="grid gap-[14px] rail:grid-cols-[repeat(auto-fill,360px)] rail:gap-[18px]">
                 {shownCars.map((car, i) => <li key={car.id}><CarCard car={car} index={i} /></li>)}
               </ul>
             </section>
           )}
 
           {(hasMore || offset > 0) && (tab === "cars" || tab === "people") && (
-            <div className="mt-8 flex items-center justify-between">
-              {offset > 0 ? <Link href={href(tab, Math.max(offset - pageSize, 0))} className="btn">Newer</Link> : <span />}
-              {hasMore && <Link href={href(tab, offset + pageSize)} className="btn">More</Link>}
+            <div className="mt-4 flex items-center justify-between gap-3">
+              {offset > 0 ? <Link href={href(tab, Math.max(offset - pageSize, 0))} className="btn flex-1">Newer</Link> : <span />}
+              {hasMore && <Link href={href(tab, offset + pageSize)} className="btn flex-1">More</Link>}
             </div>
           )}
         </>
@@ -128,7 +137,7 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
 
 function PeopleGrid({ people, startIndex = 0 }: { people: Person[]; startIndex?: number }) {
   return (
-    <ul className="grid grid-cols-2 gap-[10px] lg:grid-cols-3">
+    <ul className="grid grid-cols-2 gap-[14px] rail:grid-cols-[repeat(auto-fill,260px)] rail:gap-[18px]">
       {people.map((p, i) => (
         <li key={p.id}>
           <PersonCard person={p} index={startIndex + i} priority={startIndex + i < 4} />

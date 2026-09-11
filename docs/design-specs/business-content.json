@@ -1,0 +1,268 @@
+{
+  "screen": "Business Content",
+  "model": "gpt-5.5",
+  "when": "2026-09-11T06:11:20.798Z",
+  "usage": {
+    "input_tokens": 26937,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 18863,
+    "output_tokens_details": {
+      "reasoning_tokens": 18863
+    },
+    "total_tokens": 45800
+  },
+  "spec": {
+    "concept": "Business Content becomes a subscription content workspace: real assets to approve, the next monthly shoot, delivered files, scheduled posts, and brand kit state in one calm graphite feed. The screen is not a dashboard or calendar: it shows only booked shoots, real media, real assets, and honest empty states.",
+    "moved_deeper": [
+      "Downloading a delivered file moves into the full-screen file preview; root tiles only open the preview.",
+      "Approve, reject, optional approval/rejection note, and schedule date selection live in the Made for you review sheet opened from an asset card.",
+      "Past shoot detail, full delivered file sets, crew/location notes, and shoot history live behind All shoots.",
+      "Scheduled post edit details, platform posting state, and caption editing live behind the scheduled post detail view.",
+      "Brand kit editing, source connections, colors, typography, voice, and approvals live behind Brand kit.",
+      "Booking date/time/location selection lives behind the Book shoot flow."
+    ],
+    "visual_hierarchy": [
+      "First: any Made for you asset needing review, because it is the business's most urgent content decision.",
+      "Second: the next monthly shoot or the Book shoot action if no shoot is booked.",
+      "Third: delivered media thumbnails and scheduled posts, because they prove what content exists now."
+    ],
+    "content_order": [
+      {
+        "height": "56px",
+        "name": "Phone root top bar",
+        "composition": "Full width 390px, height 56px, transparent over #090c0e. Center text 'Tapmart' at x center, y 18px, Inter 21px/24px 820, #f5f7f2 with lime dot #c9ff38 if wordmark supports it. No search field. Left slot empty 44x44. Right slot empty unless global shell requires notifications; do not add screen-specific icons here."
+      },
+      {
+        "height": "62px",
+        "name": "Page title",
+        "composition": "Content container x16 width 358. Top padding 14px below top bar. Uppercase business name from the authenticated business, max 1 line, 12px/15px 760, letter spacing 1.4px, #9ca4a7. Title 'Content' below with 4px gap, 23px/29px 800, letter spacing -0.45px, #f5f7f2. If business name is unavailable, omit the label and keep the title at the same y."
+      },
+      {
+        "height": "conditional 0px or 388px plus cards",
+        "name": "Made for you review queue",
+        "composition": "Render only when made-for-you assets exist with status proposed, or approved with no scheduled date. Section starts 24px after title. Header row height 24px: left label 'MADE FOR YOU' 12px/15px 760 uppercase #9ca4a7; right derived count chip height 24px radius 999px fill rgba(201,255,56,0.14), text '# pending review' or '# ready to schedule' 11px/13px 700 #c9ff38. Cards stack vertically with 14px gap. Each card width 358px, radius 20px, fill #121719, shadow 0 12px 32px rgba(0,0,0,0.28), overflow hidden. Media area 358x224px, object-fit cover from asset.image, no placeholder. Top-left status chip at x14 y14: proposed = 'Review' with dot #c9ff38 and fill rgba(201,255,56,0.14); approved unscheduled = 'Ready' with dot #9ded62 and fill rgba(157,237,98,0.12). If scheduledDate exists, show a top-right metadata badge with the real date. Footer height 122px padding 14px. Headline max 2 lines, 15px/19px 740 #f5f7f2. Metadata line below 6px: proposed shows 'Proposed'; approved unscheduled shows 'Approved'; 12px/16px 500 #9ca4a7. Action button at bottom y footer bottom -52: proposed uses primary-button label 'Review asset'; approved unscheduled uses primary-button label 'Schedule'. Entire card press opens the asset preview; button opens the action sheet."
+      },
+      {
+        "height": "conditional 188px next shoot, 176px book state, or 132px unavailable state",
+        "name": "Monthly shoot module",
+        "composition": "Section starts 24px after previous visible block. Header label 'MONTHLY SHOOT' 12px/15px 760 uppercase, letter spacing 1.4px, #9ca4a7, margin-bottom 10px. If next shoot exists: card width 358px, min-height 188px, radius 22px, fill linear-gradient(180deg,rgba(255,255,255,0.055) 0%,rgba(255,255,255,0.018) 100%), #121719; shadow card-soft; padding 16px. Top row height 34px: left metadata badge 'Booked' height 24px fill rgba(157,237,98,0.12), text #9ded62 with 6px dot; right metadata badge 'Monthly shoot' height 24px fill rgba(255,255,255,0.07), text #9ca4a7. Main row y54: left date stack width 218px with date formatted from real data, 34px/38px 850 #f5f7f2, letter spacing -0.8px; time below 4px, 18px/22px 780 #c8cecf. Right calendar tile 82x92px radius 18px fill #171d20: month 12px/14px 760 uppercase #9ca4a7 at y14 centered, day 34px/36px 850 #f5f7f2 centered. Metadata line y116 uses MapPin icon 16px #9ca4a7 and location max 1 line 12px/16px #9ca4a7. Count line y140 uses Camera icon and Video icon 15px #c8cecf with '{plannedPhotosCount} photos · {plannedVideosCount} videos' 13px/17px 600 #c8cecf. Bottom button y card bottom -52: if no asset review queue is visible, primary-button full width label 'Open shoot'; if review queue is visible, secondary-button full width label 'Open shoot'. If no next shoot and plan allows booking: empty-state-card width 358px min-height 176px radius 20px padding 18px, title 'Book this month’s shoot' 18px/22px 780 #f5f7f2, copy 'Your plan includes one monthly shoot.' 13px/18px #9ca4a7, primary-button full width label 'Book shoot' at bottom. If no next shoot and booking is not allowed: same card min-height 132px with title 'No shoot booked' and one sentence explaining there is no available booking action; no button."
+      },
+      {
+        "height": "72px",
+        "name": "All shoots row",
+        "composition": "Always visible below the Monthly shoot module with 9px top gap. Standard row width 358px, min-height 72px, radius 16px, fill #121719, padding 12px 13px. Leading tile 48x48px radius 13px fill rgba(255,255,255,0.06) with Camera icon 20px #c8cecf. Text stack x73: title 'All shoots' 14px/18px 700 #f5f7f2; subtitle 'Booked and past shoots' 12px/16px 500 #9ca4a7. Trailing chevron 18px #9ca4a7. Entire row is a 44px-min tap target and opens all shoots."
+      },
+      {
+        "height": "conditional by file count",
+        "name": "Delivered files",
+        "composition": "Section starts 24px below All shoots. Header row height 24px: left label 'DELIVERED' 12px/15px 760 uppercase #9ca4a7; if delivered files exist, right text from latest shoot date, 12px/16px 500 #6f777a. If delivered files exist: render latest delivered files in a 2-column bare media grid, column width 172px, gap 14px horizontal, 16px vertical. Each tile has media 172x108px radius 16px, object-fit cover from real photo/video URL. Video files show a 44x44 glass-control play button centered, icon 20px #f5f7f2. Top-left media-chip height 30px at x8 y8 reads 'Photo' or 'Video'. Caption below media with 8px gap, max 2 lines, 13px/17px 600 #f5f7f2; if no caption, show file type and shoot date as 13px/17px 600 #c8cecf. Small metadata line below 4px: shoot date 11px/14px 550 #6f777a. Entire tile opens delivered file preview. If exactly one delivered file exists, use one full-width tile: media 358x224px radius 20px, caption over bottom scrim with 14px padding, caption 15px/19px 740 #f5f7f2. If no delivered files exist: render empty-state-card width 358px min-height 128px padding 18px with icon tile 48px, title 'No delivered files yet', copy 'Photos and videos from completed shoots will appear here.', no button."
+      },
+      {
+        "height": "conditional by scheduled post count",
+        "name": "Scheduled posts",
+        "composition": "Section starts 24px below Delivered files. Header label 'SCHEDULED' 12px/15px 760 uppercase #9ca4a7 with 10px gap to content. If scheduled posts exist: stack rows with 9px gap. Each row min-height 84px, width 358px, radius 16px, fill #121719, padding 12px. Leading media 56x56px radius 13px for square/horizontal media or 48x64px radius 12px for 9:16 media, object-fit cover from post.media. Text x80: caption max 1 line, 14px/18px 700 #f5f7f2; subline '{platform} · {real formatted date}' 12px/16px 500 #9ca4a7. Trailing top status chip height 24px: scheduled/pending = Pending #ffcc66; published/done = Done #9ca4a7; failed = Error #ff6b6b; active/posting = Active #9ded62. Chevron 18px #9ca4a7 at far right lower center. Row opens scheduled post. If no scheduled posts exist: empty-state-card width 358px min-height 118px padding 18px with title 'No scheduled posts', copy 'Approved content appears here after it is scheduled.', no button."
+      },
+      {
+        "height": "72px",
+        "name": "Brand kit row",
+        "composition": "Section starts 24px below Scheduled posts. Standard row width 358px, min-height 72px, radius 16px, fill #121719, padding 12px 13px. Leading tile 48x48px radius 13px fill rgba(255,255,255,0.06), Palette icon 20px #c8cecf. Text stack x73: title 'Brand kit' 14px/18px 700 #f5f7f2. Subtitle is based only on brand kit state: ready = 'Ready for content'; pending/review = 'Needs review'; not set = 'Not set up'. Trailing status uses ready, pending, review, or not-connected status anatomy exactly; chevron 18px #9ca4a7. Entire row opens Brand kit."
+      },
+      {
+        "height": "68px",
+        "name": "Business bottom navigation",
+        "composition": "Fixed overlay width calc(100% - 20px), max-width 370px, height 68px, left 10px, bottom calc(10px + safe-area-bottom), radius 28px. Fill rgba(9,12,14,0.74), backdrop blur 18px saturate(140%), border 1px rgba(255,255,255,0.10), shadow navigation-shadow. Five items: Home, Content, Create, Campaigns, Business. Active Content icon and label #c9ff38. Inactive items #9ca4a7. Center Create uses 44x40px lime business-create-nav-button with plus icon #071004 and label below #9ca4a7 because Content is active."
+      }
+    ],
+    "media": [
+      "Made-for-you asset media: use the real asset.image only. Phone card crop 358x224px, desktop card crop 373x233px, object-fit cover, radius 20px top corners on card, no filters except a top scrim only when chips need contrast.",
+      "Delivered photo: use real photo URL. Phone grid 172x108px or single 358x224px; desktop grid 238x149px or larger 373x233px in the main column; object-fit cover; no stretching.",
+      "Delivered video: same crop as photo but with centered 44x44 glass play control. The thumbnail must come from the real video URL or server-provided poster frame.",
+      "Scheduled post media: compact row thumbnail 56x56px for square/horizontal media or 48x64px for vertical story/reel media, radius 12px to 13px, object-fit cover.",
+      "Next shoot has no fake image because available shoot data has no media URL. It uses a premium schedule card built from real date, time, planned counts, and location.",
+      "Do not use the Recreate, Story, or Car opportunity demo images on this screen unless one of those exact files is returned as a real delivered or scheduled media asset."
+    ],
+    "navigation": "Phone uses a transparent 56px root top bar and the Business mode 5-item glass bottom navigation with Content active. Desktop removes the phone bottom bar and uses the fixed 88px collapsed left rail; Content is the active rail item and the lime Create campaign rail button remains available.",
+    "layout_architecture": "Phone 390px: root background #090c0e with top radial wash. Top bar 56px fixed. Scroll content x16 width 358px with 14px top padding below bar and 96px bottom padding above bottom nav. Dynamic feed order is title, urgent Made for you queue if present, Monthly shoot, All shoots row, Delivered files, Scheduled posts, Brand kit. Major sections use 24px gaps and 10px label-to-content gaps. Bottom navigation is fixed 68px glass at the bottom.",
+    "animation": [
+      "Route entry uses page-reveal: content opacity 0 to 1 and translateY 6px to 0 over 180ms cubic-bezier(0.22,1,0.36,1), stagger title, first card, rows, and sections by 35ms, max 5 items.",
+      "Buttons, media tiles, rows, and cards use tap-press: scale 1 to 0.985 over 100ms ease-out, return over 140ms ease-out.",
+      "Bottom navigation active state uses nav-active-change: icon and label color transition over 160ms cubic-bezier(0.22,1,0.36,1).",
+      "Asset review sheet opens with sheet-enter: scrim opacity 0 to 1 and sheet translateY 18px to 0 over 260ms cubic-bezier(0.22,1,0.36,1).",
+      "Approve or schedule success uses success-pop on the confirmation check: 420ms cubic-bezier(0.22,1,0.36,1), optional haptic.",
+      "Loading media tiles use loading-skeleton shimmer for max 2s; after that, show honest loading text or the empty state, not indefinite skeletons."
+    ],
+    "typography": [
+      "Business name label: 12px/15px, weight 760, uppercase, letter spacing 1.4px, #9ca4a7.",
+      "Mobile screen title: 23px/29px, weight 800, letter spacing -0.45px, #f5f7f2.",
+      "Desktop page title: 30px/36px, weight 820, letter spacing -0.8px, #f5f7f2.",
+      "Section labels: 12px/15px, weight 760, uppercase, letter spacing 1.4px, #9ca4a7.",
+      "Shoot date primary: 34px/38px, weight 850, letter spacing -0.8px, #f5f7f2.",
+      "Shoot time: 18px/22px, weight 780, letter spacing -0.25px, #c8cecf.",
+      "Card headline: 15px/19px, weight 740, letter spacing -0.15px, #f5f7f2.",
+      "Row title: 14px/18px, weight 700, letter spacing -0.1px, #f5f7f2.",
+      "Row subtitle and metadata: 12px/16px, weight 500, #9ca4a7.",
+      "Media caption: 13px/17px, weight 600, #f5f7f2.",
+      "Chip text: 12px/14px, weight 700, #c8cecf or state color.",
+      "Button label: 15px/18px, weight 800, #071004 on primary and #f5f7f2 on secondary."
+    ],
+    "three_second_read": "The business immediately sees what needs approval, when the next monthly shoot is, and whether delivered or scheduled content exists.",
+    "desktop": [
+      "Canvas 1360px wide. Left rail fixed x0 y0 w88 h100%, fill #0d1113, border-right 1px rgba(255,255,255,0.08), padding 18px 12px. Logo 44x44 at top. Rail items stacked with 10px gap: Home, Content active, Create lime button, Campaigns, Business. Bottom account/mode switcher stays in rail if the product shell already provides it.",
+      "Workspace begins x88. Page header x88 y0 w1272 h64, padding 0 32px, transparent. Title 'Content' at x120 y16, 30px/36px 820 #f5f7f2. Optional business name appears above the title only if the desktop shell does not already show it in the rail.",
+      "Desktop content max width 1180px at x120 y88. Use two columns: main column 792px, side column 360px, gap 28px. Do not stretch phone cards beyond these column rules.",
+      "Main column order: Made for you queue if present, then Delivered files. Made for you renders as a 2-column grid with card width 389px, media 389x243px, gap 14px. Delivered files render as a 3-column grid inside the 792px column: tile width 254px, media 254x159px, horizontal gap 15px, vertical gap 18px. If only one delivered file exists, render it as a 520x325px feature tile, not full column width.",
+      "Side column is sticky at top 88px. Order: Monthly shoot card width 360px, All shoots row width 360px with 9px gap, Scheduled posts section, Brand kit row. The next shoot card uses the same data but desktop height 204px, calendar tile 88x98px, and a full-width button at the bottom.",
+      "Scheduled posts on desktop remain compact rows width 360px. Media thumbnails stay 56x56px or 48x64px; do not make scheduled posts into large cards.",
+      "If Made for you is empty, the main column starts with Delivered. If both Made for you and Delivered are empty, show one main-column empty-state-card width 520px titled 'No content delivered yet' and keep the shoot/brand kit side column visible."
+    ],
+    "empty_states": [
+      "No proposed or approved-unscheduled made-for-you assets: omit the urgent Made for you review queue. Do not show a fake approval card.",
+      "No next shoot and plan allows booking: show the Monthly shoot empty-state-card with title 'Book this month’s shoot', copy 'Your plan includes one monthly shoot.', and primary button 'Book shoot'.",
+      "No next shoot and booking not allowed: show 'No shoot booked' with one honest sentence and no disabled fake CTA.",
+      "No delivered files: show empty-state-card 'No delivered files yet' with copy 'Photos and videos from completed shoots will appear here.' No placeholder imagery.",
+      "No scheduled posts: show empty-state-card 'No scheduled posts' with copy 'Approved content appears here after it is scheduled.' No fake calendar rows.",
+      "Brand kit not set: Brand kit row subtitle 'Not set up' and not-connected status; opening the row is the only action.",
+      "Loading next shoot: skeleton for the date line, count line, and button area inside the shoot card for max 2s, then honest loading or empty state.",
+      "Loading media: #151b1e media blocks with subtle shimmer; never show stock placeholders or generic illustrations."
+    ],
+    "cards_and_rows": [
+      "Made-for-you assets are cards because each one is a decision object with media, headline, status, and a primary next action.",
+      "Delivered files are bare media tiles because the media is the content; extra card chrome would make the library feel heavy.",
+      "Next shoot is a premium schedule card because available data has no media URL and the booking needs to read as one upcoming appointment.",
+      "All shoots is a standard row because it is navigation into a list, not content to consume on the root screen.",
+      "Scheduled posts are compact rows because they are status items with media thumbnails, not hero content.",
+      "Brand kit is a standard row because it is setup/state navigation, not subscription content.",
+      "Empty states are cards because they need to be visually contained without pretending content exists."
+    ],
+    "implementation": [
+      {
+        "priority": 1,
+        "change": "Replace the current Content page layout with a graphite root using #090c0e and the top radial wash; set phone content width to 358px with x16 padding and 96px bottom padding.",
+        "where": "Business Content root"
+      },
+      {
+        "priority": 2,
+        "change": "Use the 56px root top bar with centered Tapmart wordmark and no search field; keep screen-specific actions out of the top bar.",
+        "where": "Phone top chrome"
+      },
+      {
+        "priority": 3,
+        "change": "Render the page title block with authenticated business name when available and the title 'Content'.",
+        "where": "Top of scroll content"
+      },
+      {
+        "priority": 4,
+        "change": "Query made-for-you assets and split them into urgent assets: status proposed, plus approved assets without scheduledDate. If this list is empty, omit the urgent Made for you section.",
+        "where": "Made for you data adapter"
+      },
+      {
+        "priority": 5,
+        "change": "Build the Made for you asset card exactly as specified: 358px wide, 224px media, status chip, headline, metadata, and one primary button whose label is 'Review asset' for proposed or 'Schedule' for approved unscheduled.",
+        "where": "Made for you section"
+      },
+      {
+        "priority": 6,
+        "change": "Wire asset card press to asset preview and the primary button to the review/schedule sheet; keep approve, reject, optional note, and date picker inside that sheet.",
+        "where": "Made for you interactions"
+      },
+      {
+        "priority": 7,
+        "change": "Build the Monthly shoot module using only next shoot date, time, plannedPhotosCount, plannedVideosCount, and location; do not use a fake shoot photo.",
+        "where": "Monthly shoot section"
+      },
+      {
+        "priority": 8,
+        "change": "If next shoot exists, wire the shoot card button and card press to Open next shoot. If no next shoot and plan allows booking, show the Book shoot empty-state-card and wire the button to the booking flow.",
+        "where": "Monthly shoot interactions"
+      },
+      {
+        "priority": 9,
+        "change": "Add the All shoots standard row directly below the shoot module and wire it to the all shoots route.",
+        "where": "Shoots navigation"
+      },
+      {
+        "priority": 10,
+        "change": "Render delivered files from the latest past shoot as bare media tiles using real file URLs, with Photo/Video chips and captions; wire tile press to file preview.",
+        "where": "Delivered section"
+      },
+      {
+        "priority": 11,
+        "change": "Put Download only inside the delivered file preview overlay, not as a permanent root-screen button.",
+        "where": "Delivered file preview"
+      },
+      {
+        "priority": 12,
+        "change": "Render scheduled posts only from real scheduledPosts data as compact rows with media, caption, platform, date, status chip, and chevron.",
+        "where": "Scheduled section"
+      },
+      {
+        "priority": 13,
+        "change": "Render honest empty-state cards for delivered files and scheduled posts when those lists are empty.",
+        "where": "Empty states"
+      },
+      {
+        "priority": 14,
+        "change": "Render Brand kit as a standard row with state-derived subtitle and status, and wire row press to Brand kit.",
+        "where": "Brand kit row"
+      },
+      {
+        "priority": 15,
+        "change": "Implement the Business bottom navigation exactly: Home, Content active, Create lime plus, Campaigns, Business.",
+        "where": "Phone bottom navigation"
+      },
+      {
+        "priority": 16,
+        "change": "Create the desktop 1360px layout with fixed 88px rail, 64px page header, 792px main column, 360px sticky side column, and 28px column gap.",
+        "where": "Desktop breakpoint >=1024px"
+      },
+      {
+        "priority": 17,
+        "change": "Add loading skeletons for media and schedule data with a 2s maximum before showing honest loading or empty states.",
+        "where": "Loading states"
+      },
+      {
+        "priority": 18,
+        "change": "Apply tap-press, page-reveal, sheet-enter, and success-pop animations with the durations and easings specified.",
+        "where": "Interaction layer"
+      }
+    ],
+    "removed": [
+      "Remove the large fake-looking cafe photo from the next shoot card unless the backend provides a real shoot or business media URL for that specific shoot.",
+      "Remove any fake calendar items, fake scheduled posts, fake metrics, fake counts, or placeholder content.",
+      "Remove oversized page chrome and heavy borders from the current screen.",
+      "Remove permanent download buttons from the root feed; download belongs in file preview.",
+      "Remove duplicate navigation actions that do not belong to this screen’s purpose.",
+      "Remove empty black vertical space by letting real sections and honest empty states define the scroll height."
+    ],
+    "cta": [
+      "Primary: 'Review asset' on each proposed made-for-you asset card, full-width 52px at the bottom of the card footer.",
+      "Primary: 'Schedule' on each approved made-for-you asset card without a scheduled date, full-width 52px at the bottom of the card footer.",
+      "Primary or secondary: 'Open shoot' on the next shoot card. It is primary only when there are no urgent made-for-you assets above it; otherwise it is secondary to preserve one dominant action above the fold.",
+      "Primary: 'Book shoot' in the Monthly shoot empty state only when the plan allows booking and no next shoot exists.",
+      "Tertiary row action: 'All shoots' row opens booked and past shoots; no visible button, entire row is tappable.",
+      "Tertiary media action: delivered file tile opens preview; no visible button on root.",
+      "Tertiary row action: scheduled post row opens scheduled post detail; no visible button.",
+      "Tertiary row action: Brand kit row opens Brand kit; no visible button.",
+      "In asset review sheet: primary 'Approve', secondary 'Schedule', tertiary destructive-text 'Reject' with optional note field before submission."
+    ],
+    "spacing": [
+      "Phone side padding: 16px; content width 358px.",
+      "Top bar to content: 14px below the 56px top bar.",
+      "Major section gap: 24px.",
+      "Section label to content gap: 10px.",
+      "Stacked cards gap: 14px.",
+      "Rows gap: 9px.",
+      "Delivered grid gap: 14px horizontal and 16px vertical.",
+      "Card internal padding: 14px for asset cards, 16px for shoot card, 18px for empty states.",
+      "Media overlay padding: 14px.",
+      "Bottom content padding on phone: 96px so content clears the glass bottom nav.",
+      "Desktop workspace padding: 32px from the rail/header edges.",
+      "Desktop column gap: 28px.",
+      "Desktop grid gap: 14px to 18px depending section.",
+      "All tap targets: minimum 44x44px."
+    ]
+  }
+}

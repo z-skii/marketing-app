@@ -5,8 +5,7 @@ import { sql, sqlOne } from "@/lib/db";
 import { getSettings } from "@/lib/settings";
 import { formatCredit } from "@/lib/money";
 import { fmtDate } from "@/lib/v2/opportunities";
-import { Wallet, Car, InstagramLogo, FilmStrip } from "@phosphor-icons/react/dist/ssr";
-import { Chip, Money, ScreenHeader } from "@/components/v2/ui";
+import { Wallet, Car, DeviceMobile, VideoCamera, CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { PayoutButton } from "./PayoutButton";
 
 export const metadata = { title: "Earnings" };
@@ -23,6 +22,7 @@ type EarningRow = {
   source: string;
   status: string;
   created_at: string;
+  campaign_id: string | null;
   campaign_title: string | null;
   campaign_kind: string | null;
   booking_business: string | null;
@@ -35,12 +35,15 @@ const KIND_NAME: Record<string, string> = {
 };
 
 const EARNING_STATUS: Record<string, { label: string; tone: "ink" | "signal" | "faint" | "rise" }> = {
-  available: { label: "Ready", tone: "rise" },
+  available: { label: "Available", tone: "rise" },
   requested: { label: "Processing", tone: "ink" },
   paid: { label: "Paid", tone: "rise" },
   pending: { label: "Pending", tone: "faint" },
   rejected: { label: "Failed", tone: "signal" },
 };
+
+const TX_TONE: Record<string, string> = { available: "is-review", requested: "is-info", paid: "is-review", pending: "is-warning", rejected: "is-error" };
+const PAYOUT_TONE: Record<string, string> = { requested: "is-info", approved: "", paid: "is-review", rejected: "is-error" };
 
 const PAYOUT_STATUS: Record<string, { label: string; tone: "ink" | "signal" | "faint" | "rise" }> = {
   requested: { label: "Requested", tone: "ink" },
@@ -65,7 +68,7 @@ export default async function EarningsPage() {
     ),
     sql<EarningRow>(
       `select e.id, e.amount_cents::int as amount_cents, e.source, e.status::text as status, e.created_at,
-              c.title as campaign_title, c.kind::text as campaign_kind, bb.name as booking_business
+              c.id as campaign_id, c.title as campaign_title, c.kind::text as campaign_kind, bb.name as booking_business
          from earnings e
          left join submissions s on e.source = 'submission' and s.id = e.source_id
          left join campaigns c on c.id = s.campaign_id
@@ -90,95 +93,121 @@ export default async function EarningsPage() {
   const feePct = Number(settings.platform_fee_pct ?? "15");
   const canRequest = available >= minPayout;
 
-  return (
-    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8 rail:max-w-4xl">
-      <ScreenHeader bell={false} title="Earnings" showSearch={false} unread={ctx.unreadNotifications} />
-      <div className="rail:grid rail:grid-cols-[18rem_minmax(0,1fr)] rail:gap-x-10">
+  const remaining = Math.max(minPayout - available, 0);
+  const progress = minPayout > 0 ? Math.min(available / minPayout, 1) : 0;
 
-      <section className="px-0.5 pt-[14px] pb-6" aria-label="Your money">
-        <p className="text-[13px] text-ink-soft">Available</p>
-        <p className="tnum font-display text-[46px] leading-none font-[850] tracking-[-2px]">{formatCredit(available)}</p>
-        <div className="mt-[14px] flex gap-7">
-          <div>
-            <p className="tnum font-display text-[18px] leading-none font-[780]">{formatCredit(pending)}</p>
-            <p className="mt-0.5 text-[10px] text-ink-soft">Pending</p>
+  type Tx = { id: string; kind: "earning" | "payout"; when: string; title: string; source: string; status: { label: string; tone: string }; amount: number; icon: string | null; href: string | null };
+  const tx: Tx[] = [
+    ...rows.map((e) => {
+      const { line, sub } = describe(e);
+      const st = EARNING_STATUS[e.status] ?? { label: e.status, tone: "ink" as const };
+      return { id: `e-${e.id}`, kind: "earning" as const, when: e.created_at, title: line, source: sub, status: { label: st.label, tone: TX_TONE[e.status] ?? "is-done" }, amount: e.amount_cents, icon: e.campaign_kind ?? (e.source === "booking" ? "car_ads" : null), href: e.campaign_id ? `/o/${e.campaign_id}` : null };
+    }),
+    ...payouts.map((p) => {
+      const st = PAYOUT_STATUS[p.status] ?? { label: p.status, tone: "ink" as const };
+      return { id: `p-${p.id}`, kind: "payout" as const, when: p.created_at, title: "Payout request", source: "To your account", status: { label: st.label, tone: PAYOUT_TONE[p.status] ?? "is-done" }, amount: p.amount_cents, icon: "payout", href: null };
+    }),
+  ].sort((a, b) => new Date(b.when).getTime() - new Date(a.when).getTime());
+
+  const summary = (
+    <section aria-label="Your money">
+      <p className="eyebrow">Available</p>
+      <p className="tnum mt-[5px] font-display text-[46px] leading-[48px] font-[850] tracking-[-1.2px] text-signal">{formatCredit(available)}</p>
+      <div className="mt-[18px] grid max-w-[358px] grid-cols-3 gap-[11px]">
+        <Stat value={formatCredit(pending)} label="Pending" tone={pending > 0 ? "warning" : "ink"} />
+        <Stat value={formatCredit(lifetime)} label="Lifetime" />
+        <Stat value={formatCredit(minPayout)} label="Minimum" />
+      </div>
+    </section>
+  );
+
+  const payout = (
+    <div>
+      <PayoutButton availableCents={available} minCents={minPayout} feePct={feePct} />
+      {canRequest ? (
+        <p className="mt-2.5 text-[12px] leading-4 text-ink-soft">TapMart pays within a few days. {feePct}% fee already deducted.</p>
+      ) : (
+        <>
+          <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-surface-2" role="progressbar" aria-valuemin={0} aria-valuemax={minPayout} aria-valuenow={available} aria-label="Progress to the minimum payout">
+            <div className="h-full rounded-full bg-signal/45" style={{ width: `${progress * 100}%` }} />
           </div>
-          <div>
-            <p className="tnum font-display text-[18px] leading-none font-[780]">{formatCredit(lifetime)}</p>
-            <p className="mt-0.5 text-[10px] text-ink-soft">Lifetime</p>
+          <p className="mt-2.5 text-[12px] leading-4 text-ink-soft">Minimum payout is {formatCredit(minPayout)}. {formatCredit(remaining)} more needed. {feePct}% fee already deducted.</p>
+        </>
+      )}
+    </div>
+  );
+
+  return (
+    <main id="main" className="mx-auto w-full max-w-[1136px] px-4 pt-[14px] pb-6 rail:px-8 rail:pt-0">
+      <div className="hidden rail:flex rail:h-16 rail:items-center">
+        <h1 className="font-display text-[30px] leading-9 font-[820] tracking-[-0.8px]">Earnings</h1>
+      </div>
+      <h1 className="sr-only rail:hidden">Earnings</h1>
+
+      <div className="rail:mt-6 rail:max-w-[860px]">
+        {/* Phone: summary then the button. Desktop: summary left, a payout panel right. */}
+        <div className="rail:grid rail:grid-cols-[404px_420px] rail:gap-9">
+          {summary}
+          <div className="mt-[18px] rail:mt-0">
+            <div className="rail:rounded-[22px] rail:bg-[image:var(--tm-card-fill)] rail:p-[18px] rail:shadow-[var(--tm-shadow-card)]">
+              <p className="hidden font-display text-[18px] leading-[22px] font-[780] rail:mb-3 rail:block">Payout</p>
+              {payout}
+            </div>
           </div>
         </div>
-      </section>
-      <div>
-        {canRequest ? (
-          <PayoutButton availableCents={available} minCents={minPayout} />
-        ) : (
-          <p className="text-[13px] text-ink-soft">Payouts start at {formatCredit(minPayout)}.{available > 0 ? ` ${formatCredit(available)} so far.` : ""}</p>
-        )}
-        <p className="mt-2 text-[12px] text-ink-faint">Arrives in a few days. {feePct}% fee deducted.</p>
-      </div>
 
-      <div className="rail:mt-5">
-      <section className="rail:mt-0">
-        <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">Recent</h2>
-        {rows.length === 0 && (
-          <p className="mt-3 text-sm text-ink-soft">
-            Approved versions, stories and car ad payments land here.{" "}
-            <Link href="/home" className="font-display font-600 text-ink underline decoration-ink-faint underline-offset-4">Find something that pays</Link>
-          </p>
-        )}
-        <ul className="flex flex-col gap-[9px]">
-          {rows.map((e) => {
-            const { line, sub } = describe(e);
-            const st = EARNING_STATUS[e.status] ?? { label: e.status, tone: "ink" as const };
-            return (
-              <li key={e.id} className="row flex items-center gap-3 px-[13px] py-3">
-                <span className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-[13px] bg-[#202729] text-ink"><KindIcon kind={e.campaign_kind ?? (e.source === "booking" ? "car_ads" : null)} /></span>
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{line}</span>
-                  <span className="mt-[3px] block truncate text-[12px] leading-[1.3] text-ink-soft">{sub}{st.label !== "Paid" ? ` · ${st.label}` : ""}</span>
-                </span>
-                <span className="tnum font-display text-[17px] font-[800] text-signal">+{formatCredit(e.amount_cents)}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-
-      {payouts.length > 0 && (
-        <section className="mt-8">
-          <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">Payouts</h2>
-          <ul className="flex flex-col gap-[9px]">
-            {payouts.map((p) => {
-              const st = PAYOUT_STATUS[p.status] ?? { label: p.status, tone: "ink" as const };
-              return (
-                <li key={p.id} className="row flex items-center gap-3 px-[13px] py-3">
-                  <span className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-[13px] bg-[#202729] text-rise"><Wallet size={22} aria-hidden /></span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-display text-[14px] leading-[1.3] font-700">Payout request</span>
-                    <span className="mt-[3px] block text-[12px] leading-[1.3] text-ink-soft">
-                      {new Date(p.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+        <section className="mt-6 rail:mt-8" aria-labelledby="tx-title">
+          <h2 id="tx-title" className="eyebrow mb-2.5">Transactions</h2>
+          {tx.length === 0 ? (
+            <div className="card max-w-[420px] p-[18px]">
+              <span className="flex h-12 w-12 items-center justify-center rounded-[16px] bg-surface-2 text-ink-2"><Wallet size={22} aria-hidden /></span>
+              <p className="mt-4 font-display text-[18px] leading-[22px] font-[780] tracking-[-0.25px]">No earnings yet</p>
+              <p className="mt-1.5 text-[14px] leading-5 text-ink-soft">Find a Recreate, Story, or Car opportunity to start earning.</p>
+              <Link href="/home" className="btn btn-signal mt-[18px] w-full">Open Home</Link>
+            </div>
+          ) : (
+            <ul className="overflow-hidden rounded-[16px] bg-surface py-1.5 rail:rounded-[20px]">
+              {tx.map((t) => {
+                const inner = (
+                  <>
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-surface-2 text-ink-2 rail:h-11 rail:w-11"><KindIcon kind={t.icon} /></span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-display text-[14px] leading-[18px] font-700">{t.title}</span>
+                      <span className={`status-text ${t.status.tone} max-w-full !font-500 !text-ink-soft`}><span aria-hidden className="status-dot" /><span className="truncate">{t.status.label} · {fmtDate(t.when)} · {t.source}</span></span>
                     </span>
-                  </span>
-                  <Chip tone={st.tone}>{st.label}</Chip>
-                  <Money cents={p.amount_cents} size="sm" tone="ink" />
-                </li>
-              );
-            })}
-          </ul>
+                    <span className={`tnum font-display text-[17px] leading-5 font-[800] tracking-[-0.2px] ${t.kind === "payout" ? "text-ink" : t.status.tone === "is-warning" ? "text-warn" : t.status.tone === "is-error" ? "text-alert" : t.status.tone === "is-info" ? "text-info" : "text-signal"}`}>{t.kind === "payout" ? "" : "+"}{formatCredit(t.amount)}</span>
+                    {t.href && <CaretRight size={18} className="shrink-0 text-ink-soft" aria-hidden />}
+                  </>
+                );
+                const cls = "flex min-h-[70px] items-center gap-3 px-[13px] py-2.5 rail:min-h-[72px] rail:px-4";
+                return (
+                  <li key={t.id} className="border-t border-rule first:border-t-0 [&>*]:ml-0">
+                    {t.href ? <Link href={t.href} className={`${cls} transition-[background] active:bg-[color:var(--tm-pressed)] can-hover:hover:bg-surface-3`}>{inner}</Link> : <div className={cls}>{inner}</div>}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </section>
-      )}
-      </div>
       </div>
     </main>
   );
 }
 
+function Stat({ value, label, tone = "ink" }: { value: string; label: string; tone?: "ink" | "warning" }) {
+  return (
+    <div className="min-w-0">
+      <p className={`tnum truncate font-display text-[18px] leading-5 font-[780] tracking-[-0.25px] ${tone === "warning" ? "text-warn" : "text-ink"}`}>{value}</p>
+      <p className="mt-0.5 text-[10px] leading-3 font-[550] tracking-[0.1px] uppercase text-ink-soft">{label}</p>
+    </div>
+  );
+}
+
 function KindIcon({ kind }: { kind: string | null }) {
-  if (kind === "car_ads") return <Car size={22} aria-hidden />;
-  if (kind === "instagram_story") return <InstagramLogo size={22} aria-hidden />;
-  if (kind === "recreate_reel") return <FilmStrip size={22} aria-hidden />;
-  return <Wallet size={22} aria-hidden />;
+  if (kind === "car_ads") return <Car size={18} aria-hidden />;
+  if (kind === "instagram_story") return <DeviceMobile size={18} aria-hidden />;
+  if (kind === "recreate_reel") return <VideoCamera size={18} aria-hidden />;
+  return <Wallet size={18} aria-hidden />;
 }
 
 /** One human line per earning: what it was for, and where it came from. */

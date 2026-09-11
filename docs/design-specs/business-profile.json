@@ -1,0 +1,230 @@
+{
+  "screen": "Business Profile",
+  "model": "gpt-5.5",
+  "when": "2026-09-11T06:07:26.210Z",
+  "usage": {
+    "input_tokens": 27114,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 20845,
+    "output_tokens_details": {
+      "reasoning_tokens": 20845
+    },
+    "total_tokens": 47959
+  },
+  "spec": {
+    "concept": "This screen is a premium business identity page, not a dashboard: the cover, logo and name lead, with service proof and useful counts kept quiet. Below it, one visual brand kit card and compact status rows show plan, shoot, campaigns, connections and public page without exposing management complexity.",
+    "moved_deeper": [
+      "Edit business details moves exclusively to Settings > Business details, opened from the gear.",
+      "Full connection management, OAuth reconnect flows and provider setup move to Connections.",
+      "Plan comparison, invoices, payment method and cancellation move to Plan and billing.",
+      "Campaign creation, campaign settings, submissions and audience rules move to Campaigns or Create.",
+      "Brand kit research sources, colours, typography, voice and approval controls move to Brand kit detail.",
+      "Shoot notes, deliverables, scheduling changes and approval workflow move to Content or the shoot detail."
+    ],
+    "visual_hierarchy": [
+      "Business cover, logo, name and verified mark.",
+      "Three quiet profile stats: Active, Scheduled, Delivered.",
+      "Brand kit visual and state, especially Review when proposed.",
+      "Operational rows: plan, next shoot or content, campaigns, connections, public page.",
+      "Settings gear and active Business navigation."
+    ],
+    "content_order": [
+      {
+        "height": "56px",
+        "name": "Phone top bar",
+        "composition": "Full width 390px, height 56px, transparent at top. Center wordmark text 'Tapmart' at x centered, y 16px, 21px/24px, weight 820, colour #f5f7f2 with the Tapmart lime brand accent only if the existing wordmark asset supports it. Right slot at x 330px contains one 44x44 icon-button-transparent with Settings icon 22px #f5f7f2. Left slot is empty 44x44 to preserve visual centering. After scrollY > 12px, apply glass-top-bar-scrolled fill rgba(18,23,25,0.82), blur 20px, border-bottom 1px rgba(255,255,255,0.10)."
+      },
+      {
+        "height": "260px to 334px depending on website and connected service pills",
+        "name": "Business identity card",
+        "composition": "Position x 16px, y 70px, width 358px, radius 20px, fill linear-gradient(180deg,rgba(255,255,255,0.055) 0%,rgba(255,255,255,0.018) 100%), #121719, shadow 0 12px 32px rgba(0,0,0,0.28), overflow hidden. Cover area 358x156px at top, object-fit cover, radius 20px 20px 0 0. If cover photo is missing, use #151b1e with radial-gradient(circle at 50% 0%,rgba(43,55,58,0.38),rgba(21,27,30,0) 220px) and a bottom-left muted label 'No cover photo' 12px/16px #6f777a. Logo overlaps cover by 28px: 72x72px circle at x 14px, y 112px, radius 999px, image object-fit cover, border 2px rgba(255,255,255,0.10), shadow 0 8px 20px rgba(0,0,0,0.24). If logo is missing, show initials from business name, 28px/34px weight 760 #f5f7f2 on #171d20. Body starts at y 198px with 14px horizontal padding and 16px bottom padding. Name row: business name max 2 lines, 23px/29px weight 800 colour #f5f7f2; verified mark 16x16px inline 7px after name only when verified flag is true. Metadata line below with 6px top gap: category and city joined by ' · ', 13px/17px weight 600 #9ca4a7; omit missing parts without leaving punctuation. Website line appears only when website exists: 8px top gap, Globe icon 14px #9ca4a7 then website hostname, 13px/17px weight 600 #c8cecf, one line truncation. Connected service pills appear only for real connected services: 12px top gap, horizontal gap 8px, each pill height 30px, radius 999px, padding 0 10px, fill rgba(255,255,255,0.08), icon 14px #c8cecf, label 12px/14px weight 700 #c8cecf. Show 'Instagram' only when Instagram state is connected; show 'Google' only when Google Business Profile state is connected. No not-connected pill in the identity card."
+      },
+      {
+        "height": "46px",
+        "name": "Bare stat strip",
+        "composition": "Position x 16px, width 358px, margin-top 18px below identity card. No enclosing card. Three equal columns, each min tap disabled/non-interactive. Values use actual active campaigns count, scheduled posts count and delivered content count. Value text 18px/20px weight 780 #f5f7f2, centered in each column. Labels uppercase 10px/12px weight 550 letter-spacing 0.1px #6f777a: 'ACTIVE', 'SCHEDULED', 'DELIVERED'. If a value is zero, show '0' in the same style, never hide the column."
+      },
+      {
+        "height": "188px with cover; 132px when no brand kit cover or state is not built",
+        "name": "Brand kit card",
+        "composition": "Position x 16px, width 358px, margin-top 24px. Entire card is one 44px-min tap target and opens Brand kit. Cover state: radius 20px, overflow hidden, fill premium-card-fill, shadow card-soft; brand kit cover fills 358x188px object-fit cover with bottom scrim linear-gradient(180deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.22) 42%,rgba(0,0,0,0.74) 100%). Top-left status chip at x 14px y 14px, height 30px, radius 999px, padding 0 10px, fill by state: approved rgba(157,237,98,0.12), proposed rgba(201,255,56,0.14), not built rgba(255,255,255,0.07). Status dot 6px with matching text: approved #9ded62 label 'Approved', proposed #c9ff38 label 'Review', not built #9ca4a7 label 'Not built'. Bottom-left at x 14px y 130px: title 'Brand kit' 18px/22px weight 780 #f5f7f2; subtitle below 4px, 12px/16px #c8cecf: approved 'Ready for campaigns', proposed 'Tap to review', not built 'No approved kit yet'. Bottom-right 44x44 transparent tap area with ChevronRight 18px #c8cecf at x 300px y 130px. No-cover or not-built state: 358x132px, radius 20px, fill premium-card-fill, padding 14px; leading 48x48 icon tile #171d20 radius 14px with Palette icon 20px #c8cecf; title/status at x 74px y 17px; subtitle one line; chevron at x 326px centered."
+      },
+      {
+        "height": "15px label + rows variable, typically 429px for 5 rows",
+        "name": "Overview section",
+        "composition": "Position x 16px, width 358px, margin-top 24px. Section label 'OVERVIEW' uses 12px/15px weight 760, letter-spacing 1.4px, uppercase, colour #6f777a. Content begins 10px below label. Five separate rows, no enclosing group, gap 9px. Each row fill #121719, radius 16px, padding 12px 13px, shadow none, pressed fill #20282c, chevron 18px #9ca4a7 at right. Row 1 Plan: min-height 72px, leading 44x44 tile rgba(255,255,255,0.06) radius 14px with CreditCard icon 20px #c8cecf. Title is plan name when plan exists, otherwise 'No plan', 14px/18px weight 700 #f5f7f2. Subtitle is 'Renews {renewal date}' when plan exists, otherwise 'Subscription content is off', 12px/16px #9ca4a7. Trailing status uses success dot/text 'Active' only when plan exists. Row 2 Next shoot or Content: min-height 72px, leading Camera icon when next shoot exists, otherwise Images icon. If shoot exists, title 'Next shoot' and subtitle '{date} · {time}'. If none, title 'Content' and subtitle uses real counts: '{scheduled posts count} scheduled · {delivered content count} delivered'; when both are zero use 'No shoot booked'. Opens the booked shoot when present, otherwise opens Content. Row 3 Campaigns: min-height 72px, leading Megaphone icon. Title 'Campaigns'. Subtitle '{campaigns running count} running' when count > 0, otherwise 'No campaigns running'. Trailing status success 'Active' only when campaigns running count > 0; no lime. Opens Campaigns. Row 4 Connections: min-height 82px, leading Link icon. Title 'Connections'. Subtitle is a one-line computed summary from real provider states: 'Instagram and Google connected', '{Provider} connected', '{Provider} needs reconnect', 'Connection issue', or 'No services connected'. Trailing status priority: Error #ff6b6b label 'Error' if any provider is error; Needs reconnect #ffcc66 if any provider needs reconnect; Ready #9ded62 label 'Connected' if at least one provider connected and none needs attention; Not connected #9ca4a7 if none connected. Opens Connections. Row 5 Public page: min-height 72px, leading Globe icon. Title 'Public page'. Subtitle is public page URL, 12px/16px #9ca4a7, one line middle truncation. Trailing uses ExternalLink icon 18px #9ca4a7 instead of chevron if it opens a public route/new tab; otherwise ChevronRight. Opens the public page."
+      },
+      {
+        "height": "68px plus safe area",
+        "name": "Phone bottom navigation",
+        "composition": "Fixed bottom: width calc(100% - 20px), max 370px, height 68px, left 10px, bottom calc(10px + safe-area-bottom), radius 28px, fill rgba(9,12,14,0.74), backdrop blur 18px saturate 140%, border 1px rgba(255,255,255,0.10), shadow navigation-shadow, padding 6px 8px. Five Business items: Home, Content, Create, Campaigns, Business. Each normal item min 58x56px, icon 22px, label 10px/12px weight 650. Active Business icon and label #c9ff38; inactive #9ca4a7. Center Create uses business-create-nav-button 44x40px lime gradient with Plus icon 22px #071004 and label below inactive #9ca4a7 unless Create route is active."
+      }
+    ],
+    "media": [
+      "Business cover: phone 358x156px 16:9 crop, desktop 720x320px, object-fit cover, object-position center, no filters. Apply no decorative overlay except optional top/bottom scrim only when text sits over the image; on this screen cover text does not sit over it.",
+      "Business logo/avatar: phone 72x72px circle, desktop 96x96px circle, object-fit cover, 2px rgba(255,255,255,0.10) border. Missing logo uses initials on graphite, not an illustration.",
+      "Brand kit cover: phone 358x188px full-card crop when present, desktop 720x248px full-card crop, object-fit cover with media-bottom-scrim because title and state sit over media. Use only the real brand kit cover from data.",
+      "Missing media: use #151b1e and the page wash as a material placeholder with honest text such as 'No cover photo'; do not use stock art, icons as fake photography, or the Recreate, Story, or Car campaign demo images unless that exact asset is present in the business data.",
+      "Connected service marks: use real Instagram and Google service icons only as 14px monochrome or restrained native glyphs inside graphite pills; do not show provider media when the provider is not connected."
+    ],
+    "navigation": "Phone uses a 56px transparent root top bar with centered Tapmart wordmark and a single settings gear on the right; no search, message, notification, edit, or share icons on this screen. Phone uses the Business mode bottom nav exactly: Home, Content, Create, Campaigns, Business, with Business active in #c9ff38 and Create as the center lime plus. Desktop removes the bottom nav and uses the fixed 88px left rail with Business active, a rail Create campaign action, and a 64px page header containing title 'Business' plus the settings gear aligned to the content grid.",
+    "layout_architecture": "Phone 390px: root background #090c0e with radial page wash at top; top bar 56px; scroll content starts y 70px with 16px side padding and 96px bottom padding; vertical order is identity card, 18px gap, stat strip, 24px gap, brand kit card, 24px gap, overview label and rows, then bottom nav overlay. Desktop 1360px: fixed rail x 0-88px; workspace x 88-1360px with 32px padding; page header y 0-64px; content grid starts at x 120px y 88px, max width 1108px, two columns 720px and 360px with 28px gap; main column holds identity panel then brand kit; side column holds overview rows sticky only by natural page position, not fixed.",
+    "animation": [
+      "On route entry, use page-reveal: opacity 0 to 1 and translateY 6px to 0 over 180ms cubic-bezier(0.22,1,0.36,1), staggering identity card, stats, brand kit and first five rows by 35ms.",
+      "On tapping rows, brand kit card, gear or public page, use tap-press: scale 1 to 0.985 for 100ms ease-out, then return over 140ms ease-out.",
+      "Top bar transitions to glass-top-bar-scrolled over 160ms cubic-bezier(0.22,1,0.36,1) when scrollY passes 12px; reverse when back at top.",
+      "Status dot for an actual live or running campaign may use live-dot-pulse 1200ms only while that process is live; normal connected, active, approved and not-connected dots are static.",
+      "Loading media uses skeleton shimmer for max 2s, then shows the honest missing/loading state if the image is still absent; never loop shimmer indefinitely."
+    ],
+    "typography": [
+      "Wordmark: 21px/24px, weight 820, colour #f5f7f2.",
+      "Business name: 23px/29px, weight 800, letter-spacing -0.45px, colour #f5f7f2, max 2 lines.",
+      "Desktop business name: 30px/36px, weight 820, letter-spacing -0.8px, colour #f5f7f2, max 2 lines.",
+      "Metadata under business name: 13px/17px, weight 600, colour #9ca4a7; website uses #c8cecf.",
+      "Connected service pill label: 12px/14px, weight 700, colour #c8cecf.",
+      "Stat values: 18px/20px, weight 780, colour #f5f7f2. Stat labels: 10px/12px, weight 550, uppercase, colour #6f777a.",
+      "Brand kit title: 18px/22px, weight 780, colour #f5f7f2. Brand kit subtitle: 12px/16px, weight 500, colour #c8cecf.",
+      "Section label: 12px/15px, weight 760, letter-spacing 1.4px, uppercase, colour #6f777a.",
+      "Row title: 14px/18px, weight 700, colour #f5f7f2. Row subtitle: 12px/16px, weight 500, colour #9ca4a7.",
+      "Status text: 12px/15px, weight 650, colour follows status token. Dot is 6px with 0 0 0 3px same-colour at 14% opacity.",
+      "Bottom nav label: 10px/12px, weight 650; active #c9ff38, inactive #9ca4a7."
+    ],
+    "three_second_read": "This is the business’s public TapMart identity, the brand kit status is visible, and the owner can quickly open plan, shoot/content, campaigns, connections, public page or settings.",
+    "desktop": [
+      "Canvas 1360px wide. Left rail is fixed 88px, fill #0d1113, border-right 1px rgba(255,255,255,0.08), padding 18px 12px; Business rail item active with fill rgba(201,255,56,0.12), icon/label #c9ff38. Include the Business mode rail items Home, Content, Create, Campaigns, Business; Create uses the rail lime create action, not a bottom nav.",
+      "Desktop header: x 88px, y 0, width 1272px, height 64px, transparent. Title 'Business' at x 120px y 17px, 23px/29px weight 800 #f5f7f2. Settings gear icon-button-transparent 44x44 at x 1184px y 10px aligned to the grid right edge.",
+      "Desktop grid: x 120px, y 88px, width 1108px, columns 720px and 360px, gap 28px. Do not stretch phone cards beyond these widths.",
+      "Desktop identity panel: width 720px, radius 24px, fill premium-card-fill, overflow hidden, shadow card-soft. Cover 720x320px. Logo 96x96px at x 22px, y 272px, overlapping by 48px. Body padding 22px, top content starts 62px below cover. Name 30px/36px, metadata 14px/18px, website 13px/17px, connected service pills 30px. Stat strip sits inside the body bottom as three columns aligned left, width 430px, margin-top 22px; same values and labels as phone.",
+      "Desktop brand kit: below identity with 28px gap. Section label 'BRAND KIT', then 10px gap. If cover exists, card 720x248px, radius 22px, media full bleed with bottom scrim, title/status over media and 44px chevron area. If not built or no cover, use 720x142px empty-state card with the same content as phone but larger horizontal breathing room.",
+      "Desktop overview side column: width 360px, starts y 88px. Section label 'OVERVIEW' then rows. Rows are width 360px, min-height 76px for Plan, Next shoot/Content, Campaigns, Public page and 88px for Connections. Same order, states and actions as phone. Hover-capable devices use desktop-row-hover: translateX 0 to 2px and fill #1b2225 over 140ms.",
+      "Desktop keeps content max 1108px and leaves the rest of the workspace empty graphite. No charts, dashboard panels or duplicated stats are added."
+    ],
+    "empty_states": [
+      "Cover photo missing: show graphite media well #151b1e with radial page wash and text 'No cover photo' in 12px/16px #6f777a; keep logo/name layout unchanged.",
+      "Logo missing: show initials from business name in a 72px phone or 96px desktop circle, fill #171d20, text #f5f7f2; do not show a generic building illustration.",
+      "Website missing: omit the website line entirely and reduce the identity card height; do not show 'No website'.",
+      "No connected Instagram or Google: identity card shows no service pills. Connections row subtitle says 'No services connected' and trailing status uses neutral not-connected dot/text #9ca4a7.",
+      "Instagram or Google needs reconnect: Connections row subtitle names the provider needing reconnect when one provider is affected; trailing status uses #ffcc66 'Needs reconnect'. If either provider is in error, trailing status uses #ff6b6b 'Error'.",
+      "Brand kit not built: use the 132px phone or 142px desktop non-media brand kit state with title 'Brand kit', neutral status 'Not built' and subtitle 'No approved kit yet'.",
+      "Brand kit proposed: show its real cover if present, lime review chip 'Review' and subtitle 'Tap to review'. If no cover exists, use non-media state but keep Review chip.",
+      "Brand kit approved with no cover: show non-media state with success status 'Approved' and subtitle 'Ready for campaigns'.",
+      "No plan: Plan row title 'No plan', subtitle 'Subscription content is off', no active status chip, opens Plan.",
+      "No next shoot: Row becomes 'Content' with subtitle '{scheduled posts count} scheduled · {delivered content count} delivered'; if both are zero, subtitle 'No shoot booked'.",
+      "No campaigns running: Campaigns row subtitle 'No campaigns running', no active chip. Stat strip still shows the true active campaigns count, including 0.",
+      "Public page URL missing or not yet generated: row title 'Public page', subtitle 'Public page not available', trailing chevron disabled colour #4e5659, row tap disabled until a real URL exists.",
+      "Loading: show skeleton blocks matching the final geometry for cover, logo, name, stat values, brand kit media and rows; shimmer lasts no more than 2s before showing honest empty text if data is absent."
+    ],
+    "cards_and_rows": [
+      "Business identity is a card because cover, logo, name and verified state form one brand object; it uses media and depth, not a dashboard header.",
+      "Stats are bare numbers directly on the page because they are supporting facts, not separate metric cards.",
+      "Brand kit is a media card when a real cover exists because it is visual brand material; it becomes an empty-state card only when no media or no kit exists.",
+      "Plan, next shoot/content, campaigns, connections and public page are rows because they are compact navigation/status items and should not compete with the identity card.",
+      "Connected service pills in the hero are not actions; they are proof only and appear only when the connection is real.",
+      "Bottom nav and desktop rail are navigation surfaces, not content cards."
+    ],
+    "implementation": [
+      {
+        "priority": 1,
+        "change": "Replace the existing Business tab layout with a phone-first scroll view using #090c0e page background, optional radial page wash, 16px side padding and 96px bottom padding.",
+        "where": "Business profile route root for phone widths 0-767px."
+      },
+      {
+        "priority": 2,
+        "change": "Install the 56px root top bar with centered Tapmart wordmark, one settings gear action, transparent-to-glass scrolled state at scrollY > 12px, and no other top-bar actions.",
+        "where": "Business profile phone top chrome."
+      },
+      {
+        "priority": 3,
+        "change": "Build the Business identity card data mapping: cover photo, logo or initials, business name, verified flag, category, city, website, and connected-service pills only for connected Instagram and connected Google states.",
+        "where": "First content block on phone and main column first block on desktop."
+      },
+      {
+        "priority": 4,
+        "change": "Build the bare stat strip with exactly three columns using active campaigns count, scheduled posts count and delivered content count; keep it non-interactive and show zero values honestly.",
+        "where": "Directly below identity card on phone; inside the desktop identity panel body bottom."
+      },
+      {
+        "priority": 5,
+        "change": "Build the Brand kit card with three state renderers: approved, proposed and not built; use the real brand kit cover when present, otherwise the non-media empty-state card. Wire the whole card to Open brand kit.",
+        "where": "Below stats on phone; below identity panel in desktop main column."
+      },
+      {
+        "priority": 6,
+        "change": "Build the Overview rows in fixed order: Plan, Next shoot or Content, Campaigns, Connections, Public page. Use the row specs, leading icons, computed subtitles, status priority and chevron/external-link rules defined here.",
+        "where": "Below brand kit on phone; right desktop column."
+      },
+      {
+        "priority": 7,
+        "change": "Wire row actions without adding extra buttons: Plan opens plan, Next shoot opens the shoot when present otherwise Content, Campaigns opens campaigns, Connections opens connections, Public page opens the public page when URL exists.",
+        "where": "Overview row tap handlers."
+      },
+      {
+        "priority": 8,
+        "change": "Keep Edit business details accessible only through the settings gear destination. Do not add inline edit buttons to cover, logo, name, website or metadata on this page.",
+        "where": "Business profile and Settings route boundary."
+      },
+      {
+        "priority": 9,
+        "change": "Implement the Business mode phone bottom navigation exactly with Home, Content, Create, Campaigns, Business; Business is active and Create uses the 44x40 lime center button.",
+        "where": "Phone bottom navigation."
+      },
+      {
+        "priority": 10,
+        "change": "Create the 1360px desktop composition with fixed 88px left rail, 64px desktop page header, and a 720px + 360px content grid with 28px gap starting at x 120px y 88px.",
+        "where": "Desktop breakpoint 1024px and up."
+      },
+      {
+        "priority": 11,
+        "change": "Add all honest empty and loading states for missing cover, missing logo, missing website, disconnected providers, no plan, no shoot, no campaigns and missing public URL exactly as specified.",
+        "where": "All Business profile components."
+      },
+      {
+        "priority": 12,
+        "change": "Apply motion: page-reveal stagger on entry, tap-press on interactive cards/rows/buttons, top bar glass transition on scroll, desktop row hover only for pointer devices, and no decorative looping animations.",
+        "where": "Business profile interaction layer."
+      },
+      {
+        "priority": 13,
+        "change": "Verify accessibility: every row, gear, rail item and nav item has a minimum 44px target; focus ring is 2px #c9ff38 offset 2px; all image text alternatives use the business name or state, never fake descriptions.",
+        "where": "Interactive and media elements across phone and desktop."
+      }
+    ],
+    "removed": [
+      "Message and notification icons are removed from this screen’s top bar because they do not support the Business profile decision and are not part of the available actions for this screen.",
+      "Inline edit affordances on the cover, logo and business name are removed; editing lives behind Settings.",
+      "Large boxed metric cards are removed; the three counts become a bare stat strip.",
+      "Repeated campaign count surfaces are reduced: the stat strip shows active campaigns, while the Campaigns row shows running state and opens Campaigns.",
+      "Provider rows for Instagram and Google as separate management items are removed from the profile; a single Connections row summarizes real state and opens the full connection manager.",
+      "Any fake brand imagery, placeholder illustrations, fake provider badges, fake follower counts, fake analytics and generic dashboard panels are removed.",
+      "Heavy borders around every card and row are removed; separation comes from graphite surfaces, spacing and subtle shadow."
+    ],
+    "cta": [
+      "Settings gear: icon-button-transparent, 44x44px, top bar right on phone and desktop header right; label for accessibility 'Open settings'.",
+      "Brand kit card: tertiary whole-card navigation, full card tap target, chevron at right; label for accessibility 'Open brand kit'. Proposed state uses lime Review status but no separate lime button.",
+      "Plan row: tertiary row navigation, full row tap target; opens Plan. No primary styling.",
+      "Next shoot or Content row: tertiary row navigation, full row tap target; opens next shoot if present, otherwise Content.",
+      "Campaigns row: tertiary row navigation, full row tap target; opens Campaigns.",
+      "Connections row: tertiary row navigation, full row tap target; opens Connections.",
+      "Public page row: tertiary row navigation, full row tap target; opens public page when URL exists; disabled when no URL exists.",
+      "Bottom nav Home, Content, Create, Campaigns, Business: navigation actions only. Business active uses lime; Create uses the dedicated lime create nav button but is not this screen’s primary CTA."
+    ],
+    "spacing": [
+      "Phone side gutters: 16px; content width 358px.",
+      "Phone top content offset: 14px below the 56px top bar, so first card y 70px.",
+      "Major section gaps: 24px between stat strip and Brand kit, and between Brand kit and Overview.",
+      "Identity card internal padding: 14px horizontal, 16px bottom; cover-to-logo overlap 28px; name starts 14px below logo bottom.",
+      "Metadata gaps: 6px between name and category/city; 8px to website; 12px to connected service pills.",
+      "Stat strip gap from identity card: 18px; stat columns are equal width, no card padding.",
+      "Section label gap: 10px from label to first row.",
+      "Overview row gap: 9px between separate rounded rows.",
+      "Row padding: 13px horizontal and 12px vertical; leading icon tile to text gap 12px; text to trailing status gap at least 8px.",
+      "Bottom nav safe spacing: content bottom padding 96px; nav bottom calc(10px + safe-area-bottom).",
+      "Desktop workspace padding: 32px around content after the 88px rail.",
+      "Desktop grid gap: 28px between 720px main column and 360px side column.",
+      "Desktop vertical gaps: 28px between identity and Brand kit; 10px between section label and content; 9px between overview rows."
+    ]
+  }
+}

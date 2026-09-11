@@ -1,0 +1,137 @@
+# Design: Business Create
+
+**Concept.** Business Create becomes a calm visual chooser: three large media tiles, one for each campaign type, with only the information needed to pick a guided flow. The screen removes dashboard chrome and generic cards so the business understands instantly: Recreate, Story, or Car.
+
+**Three seconds.** This is where a business starts a campaign, and there are only three choices: have creators recreate a Reel, have creators post a finished Story, or advertise on local cars.
+
+**Layout.** Phone 390: page background #090c0e with radial wash at top. Fixed top bar 56px. Scroll content starts at y70 with 16px side gutters and width 358px. Intro block 55px, then 16px gap, then three 358x184 media tiles separated by 14px. Bottom scroll padding 96px plus safe-area-bottom. On common 844px-high phones, all three choices are visible above the floating bottom nav; on shorter devices, only vertical scroll is used.
+
+## moved deeper
+
+- Budget, audience, creator targeting, reference Reel upload, Story creative upload, car ad zones, billing, review settings and legal/payment terms move into the selected guided flow.
+- Any explanation behind the optional marketing recommendation moves into the first step of that guided flow; this chooser only shows a compact “Recommended” badge on the matching type.
+- Messages, notifications and settings are not exposed from this screen because the only product action here is choosing a campaign type.
+
+## visual hierarchy
+
+- The three campaign images: creator filming, finished Story ad on a phone, wrapped car.
+- The campaign type title and one-line purpose over each image.
+- The optional “Recommended” badge if the marketing recommendation exists, then the active Create navigation item.
+
+## content order
+
+- **Phone top bar**: Fixed top bar at x0 y0 w390 h56. Background transparent at top; after 12px scroll becomes glass-top-bar-scrolled. Center wordmark at y16: “Tap” #c9ff38 and “mart” #f5f7f2, 21px/24px weight 820, letter spacing -0.45px. No left action, no right actions, no unread dots.  [56px]
+- **Intro**: At x16 y70 w358. Title “Create campaign” at y0, 23px/29px weight 800, #f5f7f2, letter spacing -0.45px. Subtitle “Pick a format to start a short setup.” at y35, 14px/20px weight 500, #9ca4a7. No chips, stats or secondary controls.  [55px]
+- **Recreate Reel type tile**: At x16, width 358, height 184, radius 20px, overflow hidden, fill premium-card-fill, shadow 0 12px 32px rgba(0,0,0,0.28), border 1px rgba(255,255,255,0.08). Entire tile is the tap target. Full-bleed Recreate Reel image 358x184, object-fit cover, object-position 50% 42%. Add media-top-scrim over top 72px and media-bottom-scrim over full media. Top-left badge at x14 y14 h26, type-badge-neutral, text “RECREATE”. If recommendedType is Recreate, top-right badge at x auto right14 y14 h26, type-badge-active, text “Recommended”; otherwise nothing occupies this space. Bottom text at x14 y119 w286: title “Recreate a Reel” 20px/25px weight 760 #f5f7f2, then 5px gap, description “Creators film their own version of your reference video.” 13px/17px weight 600 #c8cecf, max 2 lines. Bottom-right chevron sits in a 44x44 transparent tap-area at x300 y126; icon ChevronRight 18px #f5f7f2.  [184px]
+- **Instagram Story ads type tile**: 14px below previous tile. At x16, width 358, height 184, radius 20px, overflow hidden, fill premium-card-fill, shadow card-soft, border 1px rgba(255,255,255,0.08). Entire tile is the tap target. Full-bleed Instagram Story image 358x184, object-fit cover, object-position 48% 46%; crop must preserve the phone with the finished Story creative as the visual anchor. Add media-top-scrim over top 72px and media-bottom-scrim over full media. Top-left badge x14 y14 h26 type-badge-neutral text “STORY”. Optional top-right Recommended badge only when recommendedType is Story. Bottom text x14 y119 w286: title “Instagram Story ads” 20px/25px weight 760 #f5f7f2; description “Creators post your finished Story creative for 24 hours.” 13px/17px weight 600 #c8cecf, max 2 lines. Bottom-right 44x44 transparent chevron target x300 y126, ChevronRight 18px #f5f7f2.  [184px]
+- **Car advertising type tile**: 14px below previous tile. At x16, width 358, height 184, radius 20px, overflow hidden, fill premium-card-fill, shadow card-soft, border 1px rgba(255,255,255,0.08). Entire tile is the tap target. Full-bleed Car Advertising image 358x184, object-fit cover, object-position 54% 50%; wrapped vehicle must remain visible. Add media-top-scrim over top 72px and media-bottom-scrim over full media. Top-left badge x14 y14 h26 type-badge-neutral text “CAR”. Optional top-right Recommended badge only when recommendedType is Car. Bottom text x14 y119 w286: title “Car advertising” 20px/25px weight 760 #f5f7f2; description “Your ad on local drivers’ cars, paid monthly.” 13px/17px weight 600 #c8cecf, max 2 lines. Bottom-right 44x44 transparent chevron target x300 y126, ChevronRight 18px #f5f7f2.  [184px]
+- **Bottom safe spacer**: Empty scroll padding below the third tile so the fixed glass bottom navigation never covers the last tile. Height 96px plus safe-area-bottom.  [96px]
+
+## media
+
+- Recreate Reel image: phone tile 358x184, desktop tile 376x560, object-fit cover. Phone object-position 50% 42% to keep the creator, product and filming phone visible; desktop object-position 50% 44%. Apply media-top-scrim and media-bottom-scrim only for text contrast, no blur and no colour filter.
+- Instagram Story image: phone tile 358x184, desktop tile 376x560, object-fit cover. Phone object-position 48% 46%; desktop object-position 50% 48%. The phone displaying the finished Story creative must remain the anchor, not a generic coffee or social icon.
+- Car Advertising image: phone tile 358x184, desktop tile 376x560, object-fit cover. Phone object-position 54% 50%; desktop object-position 53% 50%. Keep the wrapped car readable; do not add 3D vehicles on this screen.
+- All three tiles use full-bleed real media, radius 20px, media-bottom-scrim for overlaid title/description and media-top-scrim only for badges. No placeholder illustrations, decorative gradients, fake metrics or invented campaign examples.
+
+## navigation
+
+Phone: root Business mode top bar is minimal with centered Tapmart wordmark only. Fixed bottom navigation uses business-bottom-nav: width calc(100% - 20px), max 370px, height 68px, left/right 10px, bottom calc(10px + safe-area-bottom), radius 28px, glass-navigation fill. Items are Home, Content, Create, Campaigns, Business; Create is active with the 44x40 lime business-create-nav-button plus and #c9ff38 label, all other icons/text #9ca4a7. Desktop: no bottom nav; use the fixed 88px collapsed business rail with active Create item and no search, messages, notifications or settings shortcuts on this screen.
+
+## animation
+
+- Route enter: page-reveal, 180ms cubic-bezier(0.22,1,0.36,1), opacity 0 to 1 and translateY 6px to 0. Stagger intro, Recreate, Story, Car by 35ms.
+- Tile press: tap-press on the whole media tile, 100ms ease-out scale 1 to 0.985, 140ms return. The image, text and chevron scale as one object.
+- Tile navigation: on release, open the selected guided flow immediately; no confirmation sheet and no intermediate menu.
+- Loading media: loading-skeleton shimmer 220ms linear on each fixed-size tile, max 2s before showing the title/description over #151b1e if image loading is still unavailable.
+- Bottom nav active state: nav-active-change 160ms cubic-bezier(0.22,1,0.36,1) when entering or leaving Create.
+
+## typography
+
+- Wordmark: 21px/24px, weight 820, letter spacing -0.45px; “Tap” #c9ff38, “mart” #f5f7f2.
+- Phone screen title: 23px/29px, weight 800, letter spacing -0.45px, #f5f7f2.
+- Intro subtitle: 14px/20px, weight 500, #9ca4a7.
+- Tile type badge: 11px/13px, weight 760, letter spacing 0.1px, #f5f7f2 on rgba(255,255,255,0.09).
+- Recommended badge: 11px/13px, weight 780, letter spacing 0.1px, #c9ff38 on rgba(201,255,56,0.14).
+- Tile title: 20px/25px, weight 760, letter spacing -0.35px, #f5f7f2.
+- Tile description: 13px/17px, weight 600, letter spacing -0.05px, #c8cecf.
+- Bottom nav label: 10px/12px, weight 650; active #c9ff38, inactive #9ca4a7.
+- Desktop page title: 30px/36px, weight 820, letter spacing -0.8px, #f5f7f2.
+- Desktop page subtitle: 14px/20px, weight 500, #9ca4a7.
+- Desktop tile title: 24px/29px, weight 800, letter spacing -0.55px, #f5f7f2.
+- Desktop tile description: 14px/20px, weight 600, #c8cecf.
+
+## desktop
+
+- Canvas 1360x900. Background #090c0e with radial-gradient(circle at 50% 0%, rgba(43,55,58,0.42) 0%, rgba(9,12,14,0) 340px). Fixed rail x0 y0 w88 h900, fill #0d1113, border-right 1px rgba(255,255,255,0.08), padding 18px 12px.
+- Desktop rail: logo mark 44x44 at x22 y18. Nav stack begins y96 with 10px gaps. Home, Content, Campaigns and Business use 64x56 rail items, icon 22px #9ca4a7 and optional 10px label. Create uses desktop-create-campaign-button at 64x52, lime gradient, plus icon 22px #071004; it is the active/current item. Do not render Search, Messages, Notifications, Switch account, unread badges or settings in this rail for this screen.
+- Main workspace starts x120 y0 w1208. Header at x120 y32 w1180 h58: title “Create campaign” 30px/36px #f5f7f2; subtitle “Pick a format to start a short setup.” y40, 14px/20px #9ca4a7. No right-side actions.
+- Desktop choice grid at x120 y122 w1164 h560, display three columns, each 376x560, gap 18px. Cards retain the same tile anatomy as phone: radius 24px, full-bleed image, top-left type badge, optional top-right Recommended badge, bottom scrim, title and description bottom-left, 44x44 transparent chevron target bottom-right.
+- Desktop Recreate card: x120 y122 w376 h560. Image object-position 50% 44%. Bottom text x18 y463 w300: title 24px/29px, description 14px/20px.
+- Desktop Story card: x514 y122 w376 h560. Image object-position 50% 48%. The finished Story phone remains visible and centered. Same badges and bottom text treatment.
+- Desktop Car card: x908 y122 w376 h560. Image object-position 53% 50%. Wrapped vehicle remains the anchor. Same badges and bottom text treatment.
+- Desktop hover for pointer devices: card fill remains media-first; apply desktop-row-hover only as a 2px translateY upward equivalent is not allowed. Instead use border 1px rgba(255,255,255,0.14) and image brightness 1.04 over 140ms ease-out. Press uses the same 0.985 scale as phone.
+- Desktop keyboard focus: the focused tile gets 2px #c9ff38 focus ring offset 3px; do not show lime borders on hover.
+
+## empty states
+
+- Recommendation absent: render no Recommended badge and leave no empty gap; card order stays Recreate, Story, Car.
+- Recommendation value unknown or not one of the three supported types: ignore it on this screen and render no Recommended badge.
+- Image loading: preserve each tile size. Use #151b1e media placeholder with a 220ms skeleton shimmer and keep the type title/description hidden until either the image or 2s timeout resolves.
+- Image unavailable after timeout: keep the tile tappable if its campaign type exists. Show #151b1e background, normal badge, title and description over the same scrim; do not substitute stock art, icons or fake screenshots.
+- Campaign type data loading: render three fixed skeleton tiles in the same positions, with no tappable state until type labels and flow routes are available.
+- If a campaign type definition is truly missing from the backend/config, do not invent it. Show the remaining available type tiles in the same order and show a single empty-state-card below them: title “Campaign type unavailable”, copy “Try again when setup is available.” No action button.
+
+## cards and rows
+
+- The three campaign choices are premium media tiles, not SaaS cards: the image is the surface, text sits on a scrim, and the whole tile opens the flow.
+- No rows are used on phone because the decision is visual and only has three options.
+- No primary lime button appears inside the tiles because there is no single primary campaign type. Lime is reserved for the active Create nav item and the optional Recommended badge.
+- The chevron is an affordance only; it is inside the same tile tap target and is not a separate action.
+- Desktop uses the same three tile objects in a three-column chooser wall, not a stretched phone feed and not a dashboard grid.
+
+## implementation
+
+- 1. Replace the existing Business Create screen layout with a media-first chooser using the page background #090c0e and top radial wash. Remove all old card styling, old images, extra top actions and desktop utility links from this route. (Business Create route root)
+- 2. Create a fixed ordered data mapping for the three allowed types only: Recreate, Story, Car. Map each to its title, description, attached campaign image, badge label and existing guided-flow route/action. Do not add any other type or fallback campaign. (Business Create data adapter)
+- 3. Render the phone root top bar at 390px using the centered Tapmart wordmark and no action icons. Add scrolled glass only after content scroll offset exceeds 12px. (Phone top chrome)
+- 4. Render the intro block at x16 y70 w358 with the exact title and subtitle typography specified above. (Phone scroll content)
+- 5. Render the three phone tiles at width 358 and height 184 with 14px vertical gaps. Use the exact media crops, scrims, badges, text positions, radius, shadow and chevron affordance specified in content_order. (Phone campaign type stack)
+- 6. Bind each whole tile to its guided flow: Recreate opens the Recreate Reel creation flow, Story opens the Instagram Story ads creation flow, Car opens the Car advertising creation flow. No separate buttons, sheets, menus or confirmations are added. (Tile interaction)
+- 7. If recommendedType matches one of Recreate, Story or Car, show only that tile’s Recommended badge using type-badge-active. Do not reorder cards and do not show explanation text on this chooser. (Recommendation rendering)
+- 8. Render the Business bottom nav fixed above the safe area with Create active. Ensure every nav item and every tile has at least a 44px tap target. (Phone bottom navigation)
+- 9. At desktop widths 1024px and above, replace bottom navigation with the 88px collapsed rail and lay out the three 376x560 media tiles in a 3-column grid at x120 y122 with 18px gaps. Keep the same content, badges and actions as phone. (Desktop responsive layout)
+- 10. Apply accessibility labels to the tile actions: “Start Recreate a Reel campaign”, “Start Instagram Story ads campaign”, and “Start Car advertising campaign”. Apply keyboard focus ring 2px #c9ff38 offset 3px only when focused. (Accessibility and focus states)
+- 11. Add the loading and unavailable-media states exactly as specified, preserving tile dimensions so layout never jumps. (Loading and error states)
+- 12. Apply page reveal, tile press and nav active animations from the TapMart Graphite UI System. Do not add looping motion, parallax, auto-playing video or decorative animated effects. (Motion layer)
+
+## removed
+
+- Top-right phone chat, notification and settings icons from this screen, because they are not available actions for Business Create.
+- Desktop Search, Messages, Notifications, unread badges and Switch account shortcuts from this screen’s rail, because they compete with the only decision on the page.
+- Old generic coffee shop and plain car photos. Use the provided Recreate Reel, Instagram Story and Car Advertising campaign images only.
+- Large card paragraphs, dashboards, metrics, campaign counts, fake recommendations, fake performance data and any budget copy.
+- Separate “Start” buttons inside each tile; the whole tile is the action, avoiding three competing lime buttons.
+- Any fourth campaign type, filter, tab or category selector.
+
+## cta
+
+- Recreate tile: navigational media tile, entire 358x184 phone tile and 376x560 desktop tile is clickable. Visible label “Recreate a Reel”; accessible label “Start Recreate a Reel campaign”. Opens the Recreate Reel guided flow.
+- Instagram Story tile: navigational media tile, entire tile clickable. Visible label “Instagram Story ads”; accessible label “Start Instagram Story ads campaign”. Opens the Instagram Story ads guided flow.
+- Car Advertising tile: navigational media tile, entire tile clickable. Visible label “Car advertising”; accessible label “Start Car advertising campaign”. Opens the Car advertising guided flow.
+
+## spacing
+
+- Phone side gutters: 16px; content width 358px.
+- Phone top bar to intro: content begins 14px below the 56px top bar, at y70.
+- Intro title to subtitle gap: 6px.
+- Intro to first tile gap: 16px.
+- Tile gap: 14px vertical between all campaign type tiles.
+- Tile internal overlay padding: 14px on phone, 18px on desktop.
+- Badge top/side inset: 14px on phone, 18px on desktop.
+- Chevron tap target: 44x44px minimum, aligned 14px from right and 14px from bottom on phone.
+- Bottom content padding: 96px plus safe-area-bottom so the glass nav never covers the final tile.
+- Desktop workspace padding: 32px from the rail; main content x starts at 120px.
+- Desktop grid gap: 18px; card width 376px; max content width 1180px.
+- Desktop header to grid gap: 32px.
+
