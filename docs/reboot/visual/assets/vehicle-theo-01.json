@@ -1,0 +1,56 @@
+{
+  "id": "vehicle-theo-01",
+  "kind": "car",
+  "aspect": "3:2",
+  "prompt": "Create a realistic 3:2 photograph of a fictional owner's plain white 2021 Ford Transit Connect compact panel van, ordinary stock vehicle with no lettering, livery, advertising or modifications. Park it outside a modest light-industrial workshop on a clear overcast day. Show a full three-quarter front view from the driver side at normal camera height, with all wheels visible and enough margin for a contained gallery. Use a 35mm-equivalent lens, natural perspective, soft directional illumination and realistic paint, tires and window reflections. Plates and model badges are not readable. This is fictional Design Lab vehicle imagery, not an actual marketplace listing. No text, logos, watermark or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Front fascia: revise the grille, bumper, headlamp detailing and adjoining hood contours to accurately match a stock 2021 Ford Transit Connect facelift, using model-year reference photography. Keep the same three-quarter angle, white paint, dark stock trim, natural reflections and soft lighting; leave the grille badge blank and the plate unreadable. Both visible wheel centers: remove the small script-like emblem marks, retaining plain factory-style center caps and the existing wheel geometry. Preserve the workshop, pavement, vehicle placement, body panels, windows, shadows, generous margins and 3:2 framing. Add no copy, livery, watermark or UI.",
+        "summary": "This is a convincing, clean photograph-style illustration of a plain white compact panel van outside a modest industrial workshop. The setting, framing and restrained treatment fit the brief well, but the front-end styling needs model-year correction before approval.",
+        "problems": [
+          "Front grille and bumper: the fascia resembles the earlier, pre-facelift Transit Connect rather than the specified stock 2021 model.",
+          "Visible wheel centers: small script-like badge marks remain despite the instruction to exclude logos."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 9,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 7,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "",
+        "summary": "A realistic 3:2 photograph shows a plain white Transit Connect-style panel van outside a modest industrial workshop, fully contained in a front three-quarter view. It closely matches the brief, with natural overcast lighting, convincing vehicle details, generous gallery margins and no readable branding or plates.",
+        "problems": [],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "approve"
+      }
+    }
+  ],
+  "approvedByDirector": true
+}
