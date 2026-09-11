@@ -31,8 +31,6 @@ loadEnv({ path: ".env", quiet: true });
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { sqlOne } from "@/lib/db";
-import { getBrandKit } from "@/lib/business/brand";
 import {
   brandAsset, carAdPreview, designScreen, designSystem, finalizeStoryAd, photoCreative, recreateCover, reviewScreen, routingTable, storyAdConcepts,
   creativeMarkdown, totalUsage, MODELS, isOpenAiConfigured, OpenAiError,
@@ -67,7 +65,13 @@ const list = (f: Flags, k: string): string[] => (Array.isArray(f[k]) ? (f[k] as 
 const on = (f: Flags, k: string): boolean => f[k] === true;
 const log = (m: string) => process.stderr.write(`${m}\n`);
 
+/**
+ * Only the business commands read the database and the brand kit. Those
+ * modules are loaded here, on demand, so design and reboot commands never
+ * pull in the database or the Anthropic SDK behind the brand kit.
+ */
 async function business(slugOrId: string): Promise<{ id: string; brand: BusinessBrandInput }> {
+  const [{ sqlOne }, { getBrandKit }] = await Promise.all([import("@/lib/db"), import("@/lib/business/brand")]);
   const row = await sqlOne<{ id: string; name: string; category: string | null; city: string | null; description: string | null; website: string | null; logo_url: string | null; socials: Record<string, string> }>(
     `select id, name, category, city, description, website, logo_url, socials from businesses where slug = $1 or id::text = $1`, [slugOrId],
   );
