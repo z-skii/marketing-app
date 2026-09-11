@@ -12,8 +12,7 @@
     "test:watch": "vitest",
     "db:reset": "bash scripts/db-reset.sh",
     "seed": "tsx scripts/seed.ts",
-    "design-review": "NODE_USE_ENV_PROXY=1 node scripts/design-review.mjs",
-    "design-spec": "NODE_USE_ENV_PROXY=1 node scripts/design-spec.mjs"
+    "creative": "NODE_USE_ENV_PROXY=1 tsx --tsconfig scripts/tsconfig.cli.json scripts/creative.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",

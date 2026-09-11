@@ -23,7 +23,9 @@ const ALLOWED: Record<string, string> = {
 };
 
 export type MediaFolder =
-  | "avatars" | "business" | "vehicles" | "campaigns" | "submissions" | "portfolio" | "proofs";
+  | "avatars" | "business" | "vehicles" | "campaigns" | "submissions" | "portfolio" | "proofs"
+  /** Images the OpenAI creative system made for a business (see lib/openai/assets.ts). */
+  | "creative";
 
 export async function storeMedia(
   folder: MediaFolder,
