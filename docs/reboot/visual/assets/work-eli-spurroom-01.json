@@ -1,0 +1,60 @@
+{
+  "id": "work-eli-spurroom-01",
+  "kind": "photo",
+  "aspect": "4:5",
+  "prompt": "Create a photorealistic 4:5 work sample showing a simple bicycle repair in a fictional local workshop. A Latino adult with short dark curly hair and an olive work shirt adjusts a city bicycle's rear brake with a small hand tool. Show face in partial profile, hands, brake and enough of the bicycle to understand the service. Ordinary tools and a practical repair stand sit in the background. Use a 35mm-equivalent lens, directional daylight from one side, realistic anatomy, mechanically plausible parts and neutral source-faithful colors. The frame should read as useful local marketing work rather than a posed portrait or luxury bicycle campaign. Fictional Design Lab media only. No text, brand marks, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Preserve the mechanic’s face, hair, olive shirt, natural skin texture, workshop, directional daylight and neutral colors. At the rear brake, immediately beneath the luggage rack, replace the ambiguous silver linkage with one mechanically coherent city-bike rim brake: correctly mounted arms, visible cable routing and anchor, and pads aligned with the rim’s braking track rather than the tire or fender. Make the small hand tool visibly engage a real adjustment fastener; modify only the adjacent fingertips if necessary, preserving natural anatomy and the working pose. Keep the rack, fender and wheel distinct from the brake hardware. Deliver a true 4:5 crop without stretching or generative extension; from the supplied 1024×1536 image, retain approximately y=40–1320, preserving the face, both hands and complete repair area. Add no text, logos, watermark or UI; identify this as fictional Design Lab media in the surrounding placement, not on the photograph.",
+        "summary": "The image is a convincing daylight workshop scene with an olive-shirted mechanic working on a city bicycle, well suited to fictional local-service marketing. The composition and photographic treatment closely match the brief, but the central brake mechanism needs clarification and the supplied image is 2:3 rather than the requested 4:5.",
+        "problems": [
+          "Rear brake beneath the luggage rack: the silver arms, mounting points and cable connection do not resolve into a clearly plausible brake assembly, undermining the repair activity that is the image’s focal point.",
+          "Tool-to-brake contact beside the upper hand: the tool approaches a protruding fitting without clearly showing engagement with an identifiable adjustment fastener.",
+          "Overall frame: the supplied 2:3 aspect ratio does not match the specified 4:5 delivery."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 8,
+          "product_correct": 6,
+          "not_ai_looking": 7,
+          "premium": 8
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "First repair the rear-brake assembly in the center-right, immediately beneath the rack and between the mechanic's hands. Replace the ambiguous overlapping hardware with one mechanically coherent, unbranded rear V-brake: two arms mounted to the seat-stay bosses, pads aligned with the rim braking tracks rather than the tire, and a correctly connected cable, noodle and boot. Make the small blue-handled tool visibly engage a real adjustment fastener; adjust fingertips only where needed for credible contact, preserving natural anatomy. Preserve the mechanic's face, hair, olive shirt, pose, bicycle color, saddle, rack, workshop, daylight and neutral rendering. Then crop to an exact 4:5 frame without stretching or generative extension; for this 1024×1536 image, retain the full width and the upper 1280 pixels, keeping the face, hands, brake and sufficient bicycle context. Add no text, logos, watermarks or UI.",
+        "summary": "This is a convincing daylight workshop photograph of a mechanic servicing a city bicycle, with the natural, practical character requested for the fictional work sample. The composition and styling are close to the brief, but the focal brake hardware needs mechanical clarification and the delivered frame is 2:3 rather than 4:5.",
+        "problems": [
+          "Center-right rear brake: overlapping arms and fasteners do not resolve into a clearly coherent mechanism, and the cable connection and tool engagement are unclear at the exact point the image is meant to demonstrate.",
+          "Overall frame: the image is 2:3 rather than the requested 4:5, leaving unnecessary lower-body and drivetrain space beneath the service action."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 8,
+          "product_correct": 6,
+          "not_ai_looking": 7,
+          "premium": 8
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}
