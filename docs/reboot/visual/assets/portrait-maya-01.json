@@ -1,0 +1,57 @@
+{
+  "id": "portrait-maya-01",
+  "kind": "portrait",
+  "aspect": "4:5",
+  "prompt": "Create a photorealistic portrait of a clearly fictional adult named Maya Chen, age approximately 29, an East Asian woman with a straight dark jaw-length bob, warm brown eyes and a few natural freckles. She wears a plain slate-blue overshirt over an off-white T-shirt. Relaxed direct gaze and a small natural smile, shoulders and upper torso visible, ordinary urban courtyard softly recognizable behind her. Use a 50mm-equivalent lens and directional daylight from camera left at approximately 45 degrees, neutral white balance, realistic skin texture and dimensional shadows. Center the face with generous headroom so the source supports a circular avatar and a narrow portrait crop. This is fictional Design Lab supporting photography, not a real member. No text, logos, badges, screens, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Canvas only: crop the current 1024 × 1536 image to 1024 × 1280 (4:5), keeping the full width and top edge and removing 256 pixels from the bottom. Preserve the existing headroom, complete hairstyle, face, shoulders and upper torso. Do not regenerate or retouch the subject, skin, freckles, clothing, lighting or courtyard; do not add text, logos or UI.",
+        "summary": "A convincing fictional-owner portrait with natural skin texture, understated clothing and a softly recognizable urban courtyard. It closely matches the creative brief and is business-ready visually, but the delivered 2:3 canvas needs the requested 4:5 crop.",
+        "problems": [
+          "Full canvas: the image is 2:3 rather than the specified 4:5, leaving unnecessary lower-torso coverage."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Canvas only: crop the current 1024×1536 image to 1024×1280 (4:5), retaining the full width and removing 256 pixels from the bottom. Keep the existing top edge to preserve generous headroom. Leave the face, hair, freckles, expression, clothing, courtyard, lighting and color completely untouched; do not retouch skin or generate additional content.",
+        "summary": "A convincing environmental portrait of fictional Maya, with natural skin texture, a relaxed expression and the requested wardrobe and courtyard setting. It meets the visual quality bar for Design Lab mock imagery, but the delivered 2:3 canvas needs a simple crop to the specified 4:5 format.",
+        "problems": [
+          "Canvas: the image is 2:3 rather than the requested 4:5, with excess lower-torso coverage that can be removed without compromising the portrait."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}

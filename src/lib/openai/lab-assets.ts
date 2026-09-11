@@ -19,7 +19,7 @@ const RECORD_DIR = path.join(VISUAL_DIR, "assets");
 
 type AssetBrief = { id: string; purpose: string; used_by: string[]; kind: string; aspect_ratio: CreativeBrief["aspect_ratio"]; prompt: string; avoid: string[] };
 
-export async function renderLabAssets(o: { only?: string[]; onProgress?: (m: string) => void; dryRun?: boolean } = {}): Promise<{ rendered: string[]; skipped: string[]; failed: string[]; usage: Usage[] }> {
+export async function renderLabAssets(o: { only?: string[]; tier?: "fast" | "final"; fixRounds?: number; onProgress?: (m: string) => void; dryRun?: boolean } = {}): Promise<{ rendered: string[]; skipped: string[]; failed: string[]; usage: Usage[] }> {
   const say = o.onProgress ?? (() => {});
   const screens = JSON.parse(await readFile(path.join(VISUAL_DIR, "lab-screens.json"), "utf8"));
   const directions = JSON.parse(await readFile(path.join(VISUAL_DIR, "visual-directions.json"), "utf8"));
@@ -38,9 +38,9 @@ export async function renderLabAssets(o: { only?: string[]; onProgress?: (m: str
       type, business: { name: "TapMart Design Lab", category: "mock imagery", description: a.purpose, tone: treatment },
       objective: a.purpose, placement: `Design Lab prototype media, ${a.aspect_ratio}. ${treatment}`, constraints: ["No UI, no watermark, no logos of real companies", ...a.avoid], aspect: a.aspect_ratio,
     };
-    const brief: CreativeBrief = { title: a.id, concept: a.purpose, subject: a.kind, environment: "", composition: "", camera: "", lighting: "", color_treatment: treatment, headline: "", cta: "", aspect_ratio: a.aspect_ratio, preserve: [], avoid: a.avoid, image_route: "final", generation_mode: "generate", prompt: a.prompt, source_image_use: "" };
+    const brief: CreativeBrief = { title: a.id, concept: a.purpose, subject: a.kind, environment: "", composition: "", camera: "", lighting: "", color_treatment: treatment, headline: "", cta: "", aspect_ratio: a.aspect_ratio, preserve: [], avoid: a.avoid, image_route: o.tier ?? "final", generation_mode: "generate", prompt: a.prompt, source_image_use: "" };
     try {
-      const r: CreativeJobResult = await runCreativeJob(input, { tier: "final", maxFixRounds: 1, save: false, format: "jpeg", onProgress: say }, { brief, brandRead: treatment, audienceRead: "TapMart Design Lab" });
+      const r: CreativeJobResult = await runCreativeJob(input, { tier: o.tier ?? "final", maxFixRounds: o.fixRounds ?? 1, save: false, format: "jpeg", onProgress: say }, { brief, brandRead: treatment, audienceRead: "TapMart Design Lab" });
       usage.push(...r.usage);
       await writeFile(file, r.image.bytes);
       await writeFile(path.join(RECORD_DIR, `${a.id}.json`), JSON.stringify({ id: a.id, kind: a.kind, aspect: a.aspect_ratio, prompt: a.prompt, rounds: r.rounds.map((x) => ({ round: x.round, action: x.action, imageModel: x.imageModel, quality: x.quality, review: x.review })), approvedByDirector: r.approvedByDirector }, null, 2));

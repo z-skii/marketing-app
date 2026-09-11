@@ -1,0 +1,58 @@
+{
+  "id": "reference-loopday-01",
+  "kind": "photo",
+  "aspect": "9:16",
+  "prompt": "Create a photorealistic vertical instructional still of a simple coffee-making action at a fictional neighborhood coffee counter. A barista's natural hands tilt a small stainless pitcher to pour milk into a dark forest-green ceramic cup on a brushed steel counter. Include enough of the barista's plain charcoal apron and the pale blue square-tile wall to establish context. The cup and pouring stream are clearly visible near the middle of the portrait frame; no dramatic splash or impossible latte art. Directional window light comes from camera left at approximately 45 degrees, with clear texture, neutral white balance and no global color grade. Compose deliberately for 9:16, not as an extended landscape image. This is a fictional Design Lab reference photograph, not a frame claimed from an existing video. No lettering, logos, controls, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Keep the existing photograph and make two targeted changes. First, in the lower-middle cup/counter region, raise the brushed-steel countertop and its rear edge so the green cup rests physically on the surface rather than being held above it; add a subtle contact shadow and restrained reflection directly beneath its base. Preserve the cup shape, handle, supporting hand, pitcher, pouring hand, milk stream and coffee surface; adjust only the countertop and the lower apron area it occludes. Second, crop horizontally to an exact 9:16 portrait, keeping the pitcher, both hands and entire cup visible; do not stretch or generate extensions. Leave the pale blue tiles, charcoal clothing, natural textures, neutral colors and camera-left daylight unchanged. Add no text, logos, labels, controls or watermarks.",
+        "summary": "A convincing coffee-making photograph shows a stainless pitcher pouring milk into a forest-green cup against a charcoal apron and pale blue tiles. It closely matches the intended visual treatment, but the cup is held above the counter and the image is 2:3 rather than the requested 9:16.",
+        "problems": [
+          "Lower-middle action region: the cup is suspended above the steel counter, whereas the brief explicitly calls for the cup to sit on it.",
+          "Whole-image framing: the delivered portrait is 2:3, not the specified 9:16."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 8,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Change only the framing: crop the current 1024 × 1536 image to a centered 864 × 1536 frame, removing 80 pixels from each side to achieve exact 9:16. Preserve the pitcher, pouring stream, complete cup, and both hand grips; let the forearms continue naturally beyond the edges. Leave the existing anatomy, milk flow, coffee surface, ceramic finish, steel reflections, apron, tiles, lighting, and colors untouched. Do not generate extensions or add text, logos, controls, or overlays.",
+        "summary": "A convincing coffee-making still shows a barista pouring milk into a forest-green cup against pale blue tiles, with natural daylight and credible material detail. It closely satisfies the visual brief, but the delivered 2:3 frame needs a straightforward crop to the required 9:16.",
+        "problems": [
+          "Whole image: the delivered aspect ratio is 2:3 rather than the explicitly requested 9:16 portrait format."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}

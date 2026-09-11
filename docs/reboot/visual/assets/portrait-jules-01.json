@@ -1,0 +1,57 @@
+{
+  "id": "portrait-jules-01",
+  "kind": "portrait",
+  "aspect": "4:5",
+  "prompt": "Photorealistic portrait of a fictional adult named Jules Park, approximately 27, an androgynous Korean adult with cropped black hair and thin round clear-lens glasses. Plain dark brown cotton shirt, relaxed expression, head and upper torso visible. Place them in a practical flower-workroom doorway with green stems and a neutral wall softly visible, not a luxury florist set. Use a 50mm-equivalent lens and a large soft key from camera left at 45 degrees; preserve realistic skin, fabric texture and neutral colors. Center the face for circular and narrow portrait crops. Clearly fictional Design Lab photography, not a real member. No text, logos, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Crop the current 1024×1536 image to 1024×1280 (4:5), retaining the full width and top edge and removing 256 pixels from the bottom. This removes excess lower torso while preserving the hair, face, shoulders, flower stems and doorway. Leave all remaining pixels untouched: no face regeneration, skin smoothing, wardrobe changes, background replacement, recoloring or added text. Identify the portrait as fictional in the surrounding gallery, not on the image.",
+        "summary": "A convincing, natural portrait of the fictional Jules in a practical flower-workroom doorway, with realistic glasses, skin and cotton texture. It closely matches the requested art direction and is business-ready after correcting the aspect ratio.",
+        "problems": [
+          "Overall frame: the image is 2:3 rather than the requested 4:5, leaving unnecessary lower-torso space for a discovery portrait."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Framing only: change the current 1024×1536 image from 2:3 to the required 4:5 by retaining the full width and cropping the bottom 256 pixels, producing 1024×1280. Preserve the existing top edge and headroom. Keep the face as the focal point for subsequent circular and narrow portrait crops. Leave the person, glasses, hair, skin texture, shirt, workroom, lighting and colors untouched; do not regenerate or retouch them. Add no text, logos or overlays.",
+        "summary": "A convincing, natural portrait of the fictional Jules in a practical flower-workroom doorway, with the requested glasses, cropped hair and brown cotton shirt. The image meets the visual brief and premium bar, but its 2:3 canvas needs a simple crop to the specified 4:5 format.",
+        "problems": [
+          "Overall canvas: the delivered image is 2:3 rather than the required 4:5, leaving excess lower-torso coverage."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}

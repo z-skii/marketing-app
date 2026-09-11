@@ -1,0 +1,57 @@
+{
+  "id": "work-maya-loopday-01",
+  "kind": "photo",
+  "aspect": "9:16",
+  "prompt": "Photorealistic portrait-oriented work sample made by a fictional participant at a small coffee counter. Show a natural hand in the sleeve of a slate-blue overshirt sliding a dark forest-green coffee cup onto a brushed stainless-steel counter beside a small pastry. This is a different action and camera position from a milk-pouring reference: low close perspective, cup in foreground, pale blue tiles and ordinary café equipment recognizable behind it. Use a 35mm-equivalent camera, directional daylight, realistic skin and materials, clean dimensional contrast and neutral colors. Compose as a complete 9:16 original photograph with the hand and cup intact. Fictional Design Lab work sample, not real approved customer work. No text, logos, badges, watermarks, device screens or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Full frame: crop the current 1024×1536 image to 864×1536 for an exact 9:16 composition, removing 80 pixels from each side. Keep the entire hand, green cup, handle and cup base intact; retain the pastry as a secondary detail at the right edge. Do not extend or regenerate the scene. Leave the skin, sleeve, latte art, ceramic finish, stainless-steel reflections, café equipment, daylight and neutral color treatment unchanged. Add no text, logos or overlays.",
+        "summary": "A convincing café photograph shows a slate-blue-sleeved hand presenting a forest-green coffee cup beside a pastry, with realistic daylight and materials. It closely matches the requested fictional work sample, but the delivered frame is 2:3 rather than the required 9:16.",
+        "problems": [
+          "Full frame: the image is 1024×1536, a 2:3 aspect ratio, instead of the explicitly requested complete 9:16 photograph."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Correct the canvas to 9:16 with a crop only; do not regenerate or extend the photograph. On the supplied 1024×1536 image, crop to x=128–992 and retain the full height, producing 864×1536. Keep the entire hand, cup body and handle intact, with the pastry still recognizable at the right edge. Preserve the existing skin, sleeve, ceramic glaze, reflections, café equipment, daylight and neutral colors. Add no text, logos, labels or UI; identify this as fictional mock work in its surrounding presentation, not on the photograph.",
+        "summary": "A convincing café work sample shows a slate-blue-sleeved hand presenting a forest-green coffee cup beside a pastry on brushed steel. The scene closely matches the requested action, materials and photographic treatment, but its 2:3 canvas does not meet the required 9:16 format.",
+        "problems": [
+          "Full canvas: the supplied image is 1024×1536, a 2:3 portrait rather than the explicitly requested complete 9:16 asset."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}

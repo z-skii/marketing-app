@@ -1,0 +1,57 @@
+{
+  "id": "portrait-imani-01",
+  "kind": "portrait",
+  "aspect": "4:5",
+  "prompt": "Create a realistic portrait of a fictional adult named Imani Cole, approximately 32, a Black woman with short natural twists, deep brown skin and a composed, friendly expression. She wears a plain charcoal crew-neck shirt. Photograph head and upper torso beside a large café window with subtle steel and pale blue tile materials in the background; no camera held as a prop. Use a 50mm-equivalent lens, soft directional window light at 45 degrees, accurate skin tone, natural texture and enough contextual focus to feel like a working place. Center the face with generous crop margins. Fictional Design Lab supporting photography only. No text, badges, logos, watermarks, devices displaying screens or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Canvas only: change the current 1024×1536 portrait to 1024×1280 (4:5) by removing 256 pixels from the bottom. Keep the full width and existing top edge, preserving the hair margin and centered face. Leave the subject, skin texture, complexion, twists, expression, clothing, lighting and café background untouched; do not regenerate, retouch, recolor or add graphics.",
+        "summary": "A convincing fictional creator portrait with natural twists, a charcoal crew-neck shirt and softly lit café surroundings. It closely fulfills the photographic brief and premium standard, but the delivered 2:3 canvas needs the requested 4:5 crop.",
+        "problems": [
+          "Canvas: the image is 2:3 rather than the specified 4:5, leaving unnecessary lower-torso space."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Reframe only: crop the current 1024 × 1536 image to 1024 × 1280 (4:5), retaining the full width and removing 256 pixels from the bottom. Keep the existing headroom, complete hairstyle, face position and café context. Leave the subject’s features, skin texture and tone, hair, clothing, lighting and background untouched; do not regenerate, retouch, recolor or add graphics.",
+        "summary": "A convincing, natural portrait of the fictional Imani Cole beside a café window, with the requested twists, charcoal shirt and composed, friendly expression. The photography meets the mock Design Lab brief, but the delivered 2:3 frame needs a simple crop to the specified 4:5 ratio.",
+        "problems": [
+          "Full frame: the image is 2:3 rather than the requested 4:5; excess lower-torso coverage can be removed without compromising the portrait."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}

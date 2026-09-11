@@ -1,0 +1,57 @@
+{
+  "id": "story-loopday-01",
+  "kind": "story_creative",
+  "aspect": "9:16",
+  "prompt": "Create a finished, text-free photographic advertising composition for a fictional coffee counter, portrait 9:16. Use a deep forest-green matte backdrop, approximately #1F493C. In the lower two-thirds, place one dark forest-green ceramic cup filled with coffee on a pale butter-yellow saucer, with a small real-looking flaky pastry beside it. Strong soft side light from upper left produces tangible product depth and a restrained shadow, without glossy luxury styling. Keep the upper quarter calm and dark with no objects, ready for one short line of typography to be composited later. Use realistic ceramic, coffee and pastry textures and source-faithful colors; the finished creative should feel bold, simple and commercially useful at a 144px-wide preview. This is a fictional demonstration creative, not a live merchant offer. Absolutely no text, letters, logos, prices, discounts, watermarks, social chrome or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Correct the canvas only: deliver an exact 1080×1920, 9:16 image. Scale the existing 1024×1536 image proportionally to 1080×1620, then add 160px above and 140px below using seamless continuations of the adjacent forest-green background and tabletop, matching their subtle texture and lighting. Do not stretch or crop the image. Preserve the cup, handle, coffee, pastry, saucer, highlights and contact shadows unchanged. Keep the upper quarter empty; add no typography, logos, watermarks or UI.",
+        "summary": "A convincing photographic coffee-and-pastry composition pairs dark green ceramic with a butter-yellow saucer and generous headline space. It closely meets the visual brief, but the supplied image is 2:3 rather than the required 9:16 Story format.",
+        "problems": [
+          "Full canvas: the 1024×1536 image has a 2:3 aspect ratio, not 9:16; an automatic fill crop could clip the saucer and cup handle."
+        ],
+        "scores": {
+          "purpose": 7,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Correct the canvas to exactly 1080×1920 (9:16). Scale the entire existing image proportionally to 1080×1620, then add 150 pixels of forest-green background above and below, matching the adjacent color and subtle surface texture without visible seams. Do not stretch the photograph or crop the saucer, pastry, or cup handle. Leave the cup, coffee, pastry, saucer, lighting, shadows, and existing colors untouched. Preserve the clear upper area for typography to be composited later; add no text, logos, or other objects.",
+        "summary": "A convincing, text-free coffee-and-pastry photograph delivers the requested forest-green and butter-yellow palette, realistic textures, and clear headline space. The creative is commercially strong, but the supplied canvas is 2:3 rather than the required 9:16 Story format.",
+        "problems": [
+          "Full canvas: the image is 1024×1536, not 9:16; automatic Story cropping would threaten the saucer edge and cup handle."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}

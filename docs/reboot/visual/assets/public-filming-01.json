@@ -1,0 +1,55 @@
+{
+  "id": "public-filming-01",
+  "kind": "photo",
+  "aspect": "3:2",
+  "prompt": "Photorealistic scene inside a fictional modest neighborhood coffee counter called Loopday, without any visible sign. Maya, an East Asian woman around 29 with a straight dark jaw-length bob and plain slate-blue overshirt, films a barista pouring milk into a ceramic coffee cup. Show Maya's phone from its back or an oblique angle with no readable screen. The meaningful action, Maya's hands, the cup and the barista's pouring hand must stay within the left 60 percent of the image so the right edge can be overlapped in a public composition. The setting has brushed stainless-steel counters, pale blue square tiles, dark forest-green ceramic cups and a large side window. Ordinary achievable filming, not influencer performance. Use a 35mm-equivalent lens, dimensional daylight at 45 degrees, natural skin and coffee colors, realistic hands and useful environmental focus. Fictional public illustration, not a real business or customer shoot. No text, signs, logos, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Edit only the phone and Maya’s immediately adjoining fingers in the center-left. Reorient the handset into a natural three-quarter filming position: its rear camera must aim toward the barista’s cup, while its screen faces Maya. Show predominantly the handset’s edge and an oblique portion of its back, with no readable screen or UI. Adjust her grip accordingly, keeping anatomically credible fingers wrapped around the edges rather than operating the rear panel. Keep the phone and both hands entirely within the left 60 percent. Preserve the framing, Maya’s appearance and slate-blue overshirt, barista, pouring action, cup, café fixtures, daylight, colors, and all other regions unchanged.",
+        "summary": "A convincing daylight café scene shows Maya filming a barista’s milk pour amid pale-blue tiles, stainless steel, and forest-green cups. It closely matches the brief and protects the key action within the left 60 percent, but the phone’s orientation undermines the filming premise.",
+        "problems": [
+          "Center-left phone and grip: the rear camera panel is presented toward the viewer behind Maya, with her fingers resting across the back, making the screen appear directed away from her rather than positioned for monitoring the pour."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 8,
+          "product_correct": 7,
+          "not_ai_looking": 8,
+          "premium": 8
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "",
+        "summary": "A convincing environmental photograph-style illustration of Maya filming a barista pouring milk in a modest neighborhood coffee counter. It closely follows the brief, keeping the phone, hands and pouring action within the left 60 percent while preserving natural daylight and the specified materials and colors.",
+        "problems": [],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "approve"
+      }
+    }
+  ],
+  "approvedByDirector": true
+}

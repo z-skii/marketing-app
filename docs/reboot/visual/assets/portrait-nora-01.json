@@ -1,0 +1,57 @@
+{
+  "id": "portrait-nora-01",
+  "kind": "portrait",
+  "aspect": "4:5",
+  "prompt": "Create a realistic portrait of a fictional adult named Nora Bell, approximately 41, a white woman with shoulder-length auburn hair tied loosely back, faint freckles and an open, calm expression. She wears a plain navy cotton top. Head and upper torso are photographed outside an ordinary neighborhood lunch counter in open shade; background context is modest and contains no readable signs. Use a 50mm-equivalent lens, directional daylight, neutral white balance and natural skin detail. Center the face and leave useful headroom for alternate crops. This person is fictional mock data for a Design Lab. No logos, lettering, watermarks, screens or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Frame only: crop the 1024×1536 image to 1024×1280 (4:5), retaining the full width and removing 256 pixels from the bottom. Preserve the existing headroom, centered face, hair, natural skin texture, navy top, daylight color and lunch-counter background. Do not regenerate, retouch, extend the background or add text; keep fictional-mock labeling outside the image in its presentation.",
+        "summary": "This is a convincing, natural portrait of the fictional Nora Bell, with the requested auburn hair, freckles, navy top and understated neighborhood lunch-counter setting. It meets the visual brief and premium standard, but the delivered 2:3 frame needs a simple crop to the required 4:5.",
+        "problems": [
+          "Overall frame: the image is 2:3 rather than the specified 4:5, leaving unnecessary lower-torso coverage."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Crop the existing 1024×1536 image to 1024×1280 (4:5), retaining the full width and top edge and removing 256 pixels from the bottom. Preserve the face, hair, existing headroom, navy shirt, lunch-counter background, skin texture, lighting and color exactly; do not regenerate, retouch, extend or add text.",
+        "summary": "A convincing, natural portrait of fictional Nora outside a modest neighborhood lunch counter, with the requested auburn hair, freckles, calm expression and navy top. It meets the visual brief and premium mock-portrait standard, but the delivered 2:3 frame needs a simple crop to the specified 4:5.",
+        "problems": [
+          "Overall frame: the image is 2:3 rather than the requested 4:5, retaining unnecessary lower torso."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}

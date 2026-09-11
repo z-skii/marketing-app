@@ -211,7 +211,7 @@ async function main() {
       return;
     }
     case "lab-assets": {
-      const r = await renderLabAssets({ only: list(flags, "only"), dryRun, onProgress: log });
+      const r = await renderLabAssets({ only: list(flags, "only"), tier: (str(flags, "tier") || undefined) as "fast" | "final" | undefined, fixRounds: flags["fix-rounds"] ? Number(flags["fix-rounds"]) : undefined, dryRun, onProgress: log });
       log(`Rendered ${r.rendered.length}, skipped ${r.skipped.length} (already present), failed ${r.failed.length}${r.failed.length ? `: ${r.failed.join(", ")}` : ""}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
       return;
     }

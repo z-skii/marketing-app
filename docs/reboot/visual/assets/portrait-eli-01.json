@@ -1,0 +1,57 @@
+{
+  "id": "portrait-eli-01",
+  "kind": "portrait",
+  "aspect": "4:5",
+  "prompt": "Photorealistic environmental portrait of a fictional adult named Eli Moreno, approximately 34, a Latino man with short dark curly hair, light stubble and an easy neutral expression. Plain olive work shirt, no jewelry or branded clothing. Frame head and upper torso in the open doorway of a modest bicycle workshop, with practical tools softly visible and no readable signage. Use a 50mm-equivalent lens, one large soft daylight source 45 degrees from camera right, neutral color, natural skin detail and restrained background separation. Center the face with room for a 2:3 discovery crop and a circular avatar. This is a fictional Design Lab person, not a real account. No text, logos, watermark, screen content or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Framing only: deliver a 4:5 version by cropping the 1024×1536 image to 1024×1280, retaining the full width and removing 256 pixels from the bottom. Keep the existing headroom, face, shoulders, doorway and visible workshop context untouched. Preserve the original 2:3 image for discovery use; derive any circular avatar around the face rather than the canvas center. Do not regenerate, retouch skin, recolor, add branding or place text on the image.",
+        "summary": "A convincing environmental portrait of the fictional participant, with natural skin detail, an olive work shirt and softly visible bicycle-workshop context. It closely satisfies the visual brief, but the delivered 2:3 canvas needs a framing-only correction to the requested 4:5 format.",
+        "problems": [
+          "Full canvas: the image is 2:3 rather than the specified 4:5, leaving more lower torso than the requested head-and-upper-torso framing needs."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Canvas only: crop the 1024×1536 image to 1024×1280 (4:5), retaining the full width and original top edge and removing 256 pixels from the bottom. Preserve the face, hair, skin texture, olive shirt, workshop, lighting and colors exactly; do not regenerate or retouch them. Use the face as the focal point for subsequent discovery and circular-avatar crops. Add no text, branding or overlays.",
+        "summary": "A convincing environmental portrait of the fictional Eli in an understated bicycle workshop, with natural detail, appropriate clothing and a relaxed expression. It meets the visual brief and mock-imagery quality bar, but the delivered canvas is 2:3 rather than the requested 4:5.",
+        "problems": [
+          "Full canvas: the 2:3 aspect ratio does not match the specified 4:5 delivery format; excess lower-shirt area can be cropped without compromising the portrait."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}
