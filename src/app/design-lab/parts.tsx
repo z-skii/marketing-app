@@ -95,7 +95,7 @@ export function Rail({ mode, active, business }: { mode: "Personal" | "Business"
       <button type="button" className="identity" aria-label={`Acting as ${business?.name ?? "you"}, ${mode}. Switch.`}>
         <Avatar src={business?.logo ?? null} name={business?.name ?? "P"} initials={business?.initials} size={28} square={mode === "Business"} />
         <span style={{ textAlign: "left", minWidth: 0 }}>
-          <span className="t-meta" style={{ display: "block", color: "var(--tm-muted-dark)", lineHeight: "16px" }}>{mode} · Demo</span>
+          <span className="t-meta" style={{ display: "block", color: "var(--tm-muted-dark)", lineHeight: "16px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{mode} · Demo</span>
           <span style={{ display: "block", fontWeight: 600, fontSize: 14, lineHeight: "18px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{business?.name ?? "Personal"}</span>
         </span>
         <CaretDown size={16} aria-hidden style={{ marginLeft: "auto", color: "var(--tm-muted-dark)" }} />
