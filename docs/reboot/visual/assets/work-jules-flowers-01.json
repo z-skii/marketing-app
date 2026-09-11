@@ -1,0 +1,60 @@
+{
+  "id": "work-jules-flowers-01",
+  "kind": "product",
+  "aspect": "4:5",
+  "prompt": "Photorealistic 4:5 product photograph of a small everyday flower arrangement being tied with plain paper twine in a fictional neighborhood flower workshop. Natural hands, green stems, cream and rust-colored seasonal flowers, a simple metal worktable and useful offcut context. Keep the arrangement complete and readable, not an abstract extreme close-up. Use one large soft directional daylight source from camera left, a 50mm-equivalent lens, accurate plant detail and natural colors. The image should feel like practical marketing work produced for a small shop. Fictional Design Lab portfolio illustration only. No typography, signs, logos, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Preserve the workshop, florist, natural hand anatomy, metal table, camera-left daylight and realistic cream/rust palette. Reframe to 4:5 by cropping approximately 90 pixels from the top and 166 pixels from the bottom of the current 1024×1536 image; retain the complete bouquet, stem ends, hands, twine spool and scissors without generative extension. In the bouquet region, modestly reduce the peripheral filler and secondary blooms so it reads as a small everyday shop arrangement rather than a generous specialty bouquet; preserve the central cream and rust flowers and botanically coherent stems. At the stem binding and lower-left spool, replace the fuzzy jute-like cord with plain twisted kraft-paper twine, using fewer wraps and a physically credible tie between the fingers. Leave all other regions untouched; add no text, branding or overlays.",
+        "summary": "A convincing workshop photograph shows a florist tying a complete cream-and-rust bouquet over a metal worktable. It closely matches the lighting, realism and practical setting, but the portrait ratio, oversized arrangement and cord material need adjustment.",
+        "problems": [
+          "Full frame: the image is 2:3 rather than the required 4:5, with excess foreground below the working area.",
+          "Central bouquet: the numerous flower varieties and abundant filler read as a generous specialty arrangement rather than the requested small everyday bunch.",
+          "Stem binding and lower-left spool: the visibly fibrous cord reads as jute twine, not the specified plain paper twine."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 8,
+          "professional": 9,
+          "product_correct": 8,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Reframe the existing image to 4:5 by retaining the full width and cropping only the bottom: for the displayed 1024×1536 image, keep approximately x=0–1024, y=0–1280. Preserve all flower heads, stem ends, both hands, the twine spool and the scissors; remove the excess foreground worktable and offcuts. At the binding directly below the holding hand, replace the thick, fibrous multi-wrap band with two or three modest wraps of plain kraft-paper twine. Preserve the hands and their anatomy, making the free strand connect naturally to the strand being pulled. Leave the flowers, foliage, person, workshop, natural colors and camera-left daylight untouched. Add no text, logos or illustration label within the image.",
+        "summary": "A convincing neighborhood-florist photograph shows a complete cream-and-rust bouquet being tied over a practical metal worktable. It closely matches the intended fictional portfolio illustration, but the delivered aspect ratio and overly substantial twine binding need small corrections.",
+        "problems": [
+          "Overall frame: the image is 2:3 rather than the requested 4:5, leaving unnecessary foreground below the product.",
+          "Bouquet binding: the thick band of fibrous cord reads more like decorative jute wrapping than the requested simple paper-twine tie."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 8,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}
