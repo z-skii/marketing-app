@@ -140,6 +140,8 @@ export type ScreenReviewInput = {
   /** Mechanical QA after a tiny change: the cheap reviewer, low effort. */
   minor?: boolean;
   outDir?: string | null;
+  /** Design Lab review: judge against the round two visual system and lab screen spec, with no old reference image. */
+  lab?: boolean;
 };
 
 export async function reviewScreen(i: ScreenReviewInput, o: CommonOptions = {}): Promise<RespondResult<ScreenReview> & { markdown: string; specPath: string | null }> {
@@ -148,9 +150,10 @@ export async function reviewScreen(i: ScreenReviewInput, o: CommonOptions = {}):
   const shot = await loadImage(i.screenshot);
   if (!shot) throw new Error(`Screenshot not readable: ${i.screenshot}`);
   const size = imageSize(shot);
-  const ref = await referenceImage();
-  const own = i.minor ? null : await loadSpecText(i.spec ?? null, i.screenName);
-  const brain = await productBrain();
+  const ref = i.lab ? null : await referenceImage();
+  const own = i.minor ? null : i.lab ? await loadLabSpecText(i.spec ?? null, i.screenName) : await loadSpecText(i.spec ?? null, i.screenName);
+  const brain = i.lab ? await labFoundationText() : await productBrain();
+  const system = i.lab ? await labSystemText() : await uiSystemText();
   const content: InputPart[] = [
     textPart([
       `Screen: ${i.screenName}.`,
@@ -163,7 +166,7 @@ export async function reviewScreen(i: ScreenReviewInput, o: CommonOptions = {}):
   ];
   if (ref) content.push(textPart("REFERENCE IMAGE (the saved PNG):"), imagePart(ref));
   const res = await respond<ScreenReview>({
-    model: r.model, effort: r.effort, instructions: reviewerInstructions(brain, await uiSystemText(), own?.text ?? null), content, schema: SCREEN_REVIEW_SCHEMA, dryRun: o.dryRun, onProgress: o.onProgress,
+    model: r.model, effort: r.effort, instructions: reviewerInstructions(brain, system, own?.text ?? null, i.lab), content, schema: SCREEN_REVIEW_SCHEMA, dryRun: o.dryRun, onProgress: o.onProgress,
   });
   const when = new Date().toISOString();
   const markdown = o.dryRun ? "" : screenReviewMarkdown(res.data, { screenName: i.screenName, screenshot: i.screenshot, model: r.model, effort: r.effort, when, instructions: i.instructions ?? null, specPath: own?.path ?? null, hasReference: Boolean(ref) });
@@ -265,6 +268,29 @@ async function saveSpec(name: string, json: unknown, markdown: string) {
   await mkdir(SPEC_DIR, { recursive: true });
   await writeFile(path.join(SPEC_DIR, `${name}.json`), JSON.stringify(json, null, 2));
   await writeFile(path.join(SPEC_DIR, `${name}.md`), markdown);
+}
+
+/** Design Lab: the round two visual system as compact text. */
+async function labSystemText(): Promise<string | null> {
+  try {
+    const d = JSON.parse(await readFile(path.join(process.cwd(), "docs", "reboot", "visual", "visual-directions.json"), "utf8"));
+    return JSON.stringify({ chosen: d.chosen, visual_system: d.visual_system });
+  } catch { return null; }
+}
+
+/** Design Lab: the UX foundation the prototypes must honour (the master package's screen and navigation decisions). */
+async function labFoundationText(): Promise<string> {
+  try {
+    const b = JSON.parse(await readFile(path.join(process.cwd(), "docs", "reboot", "master-package-b.json"), "utf8"));
+    const a = JSON.parse(await readFile(path.join(process.cwd(), "docs", "reboot", "master-package-a.json"), "utf8"));
+    return `UX FOUNDATION (preserved from the master package): navigation ${JSON.stringify(a.navigation)}; master screens ${JSON.stringify(b.master_screens.map((s: { name: string; three_second_read: string; information_hierarchy: string[]; removed: string[]; hidden_deeper: string[] }) => ({ name: s.name, three_second_read: s.three_second_read, hierarchy: s.information_hierarchy, removed: s.removed, hidden_deeper: s.hidden_deeper })))}`;
+  } catch { return "(foundation missing)"; }
+}
+
+async function loadLabSpecText(spec: string | null, screenName: string): Promise<{ path: string; text: string } | null> {
+  const dir = path.join(process.cwd(), "docs", "reboot", "visual", "screens");
+  const file = spec ? (/\.json$/.test(spec) ? path.resolve(spec) : path.join(dir, `${spec}.json`)) : path.join(dir, `${slug(screenName.split(/[(,]/)[0].trim())}.json`);
+  try { return { path: file, text: JSON.stringify(JSON.parse(await readFile(file, "utf8")).spec) }; } catch { return null; }
 }
 
 /** The director's saved design for a screen, as compact JSON text. */

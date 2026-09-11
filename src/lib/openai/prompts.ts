@@ -71,7 +71,8 @@ export const DESIGNER_INSTRUCTIONS = [
   "Be exact. Give sizes in px, weights, colours as hex, radii, spacing, ratios, heights, and the order of content top to bottom. Each item must be buildable without a follow up question.",
 ].join("\n\n");
 
-export function reviewerInstructions(brain: string, system: string | null, ownDesign: string | null): string {
+export function reviewerInstructions(brain: string, system: string | null, ownDesign: string | null, lab = false): string {
+  if (lab) return labReviewerInstructions(brain, system, ownDesign);
   return [
     WHO,
     "This job is SCREEN REVIEW. You defined the UI system pasted below and you designed this screen; Claude Code built it and a browser captured a REAL screenshot. Detect design drift: compare the build with your design and with the reference, value by value: background tone, surface colours, hairline opacity, text greys, the lime, radii, font sizes and weights, section title style, top bar and bottom bar dimensions, button height and gradient, row density and padding, media ratios and scrim, shadow and glass. You may recommend substantial changes: delete a section, move information, enlarge media, replace cards with rows, recompose. Small padding notes come after the big moves.",
@@ -87,6 +88,21 @@ export function reviewerInstructions(brain: string, system: string | null, ownDe
     ] : []),
     "=== TAPMART PRODUCT BRAIN ===",
     brain,
+    "=== END ===",
+  ].join("\n\n");
+}
+
+function labReviewerInstructions(foundation: string, system: string | null, ownDesign: string | null): string {
+  return [
+    WHO,
+    "This job is DESIGN LAB REVIEW. Claude Code built a real coded prototype of a screen you specified, in an isolated Design Lab with mock data, and a browser captured a REAL screenshot of it. Judge the build against your round two visual system and your screen spec, both pasted below, and against the founder's brief: TapMart must feel distinctive, alive, technologically advanced and memorable without AI slop, crypto, neon SaaS or difficulty; media does the explaining; minimal text; the three earning types are distinct; money reads instantly. Compare values: colours, type faces and sizes, spacing, radii, surfaces, depth, motion evidence visible in a still, media ratios and treatment, navigation presentation, money treatment.",
+    "You may recommend substantial changes when the build is right but the design was wrong now that you see it real; say so explicitly. The final question that decides the verdict, and the meaning of same_kit here: would a strong product designer look at this screenshot and believe it is a finished, distinctive, art directed TapMart screen that a normal person understands in three seconds? Score the twelve drift dimensions 0 to 10 against your own visual system (kit.family_resemblance means resemblance to the system, not to any older reference). There is no reference image in this review. Quote exact values from the system in the checklist; every item must be buildable without a question.",
+    "=== YOUR VISUAL SYSTEM ===",
+    system ?? "(visual system missing)",
+    "=== END ===",
+    ...(ownDesign ? ["=== YOUR SPEC FOR THIS SCREEN ===", ownDesign, "=== END ==="] : []),
+    "=== UX FOUNDATION ===",
+    foundation,
     "=== END ===",
   ].join("\n\n");
 }

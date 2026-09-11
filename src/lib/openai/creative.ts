@@ -63,6 +63,8 @@ export type CreativeJobOptions = {
   effort?: Effort;
   dryRun?: boolean;
   onProgress?: (message: string) => void;
+  /** Output format for renders; jpeg keeps photography small. */
+  format?: "png" | "jpeg" | "webp";
 };
 
 /** Run one concept from brief to reviewed image. The brief may be supplied (a chosen concept) or directed now. */
@@ -99,8 +101,8 @@ export async function runCreativeJob(input: CreativeInput, o: CreativeJobOptions
     let r: Awaited<ReturnType<typeof generateImage>>;
     try {
       r = action === "generate" || action === "regenerate"
-        ? await generateImage({ prompt, aspect: brief.aspect_ratio, tier: o.tier })
-        : await editImage({ instructions: prompt, images: base ? [base, ...sourceUrls] : sourceUrls, aspect: brief.aspect_ratio, tier: o.tier });
+        ? await generateImage({ prompt, aspect: brief.aspect_ratio, tier: o.tier, format: o.format })
+        : await editImage({ instructions: prompt, images: base ? [base, ...sourceUrls] : sourceUrls, aspect: brief.aspect_ratio, tier: o.tier, format: o.format });
     } catch (e) {
       // A failed fix round must not throw away the image already reviewed.
       if (rounds.length === 0) throw e;
