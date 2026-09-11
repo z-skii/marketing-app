@@ -77,25 +77,25 @@ export function PhoneHeader({ name, avatar, mode, right }: { name: string; avata
   );
 }
 
-export function Avatar({ src, name, size = 40, square = false }: { src: string | null; name: string; size?: number; square?: boolean }) {
+export function Avatar({ src, name, size = 40, square = false, initials }: { src: string | null; name: string; size?: number; square?: boolean; initials?: string }) {
   const radius = square ? 8 : "50%";
   if (src) {
     // eslint-disable-next-line @next/next/no-img-element
     return <img src={src} alt="" width={size} height={size} style={{ width: size, height: size, borderRadius: radius, objectFit: "cover", flexShrink: 0 }} />;
   }
-  return <span aria-hidden style={{ display: "inline-grid", placeItems: "center", width: size, height: size, borderRadius: radius, background: "var(--tm-underlay)", color: "var(--tm-ink)", fontWeight: 600, fontSize: Math.round(size * 0.4), flexShrink: 0 }}>{name.trim()[0]?.toUpperCase()}</span>;
+  return <span aria-hidden style={{ display: "inline-grid", placeItems: "center", width: size, height: size, borderRadius: radius, background: "var(--tm-underlay)", color: "var(--tm-ink)", fontWeight: 600, fontSize: Math.round(size * (initials && initials.length > 1 ? 0.34 : 0.4)), flexShrink: 0 }}>{initials ?? name.trim()[0]?.toUpperCase()}</span>;
 }
 
 /** Desktop rail: wordmark, identity, destinations, create, utilities. */
-export function Rail({ mode, active, business }: { mode: "Personal" | "Business"; active: string; business?: { name: string; logo: string | null } }) {
+export function Rail({ mode, active, business }: { mode: "Personal" | "Business"; active: string; business?: { name: string; logo: string | null; initials?: string } }) {
   const tabs = mode === "Business" ? BUSINESS_TABS.filter((t) => !t.create) : USER_TABS;
   return (
     <aside className="rail on-dark">
       <div className="wordmark"><Wordmark dark size={22} /></div>
       <button type="button" className="identity" aria-label={`Acting as ${business?.name ?? "you"}, ${mode}. Switch.`}>
-        <Avatar src={business?.logo ?? null} name={business?.name ?? "P"} size={28} square={mode === "Business"} />
+        <Avatar src={business?.logo ?? null} name={business?.name ?? "P"} initials={business?.initials} size={28} square={mode === "Business"} />
         <span style={{ textAlign: "left", minWidth: 0 }}>
-          <span className="t-meta" style={{ display: "block", color: "var(--tm-muted-dark)", lineHeight: "16px" }}>{mode}</span>
+          <span className="t-meta" style={{ display: "block", color: "var(--tm-muted-dark)", lineHeight: "16px" }}>{mode} · Demo</span>
           <span style={{ display: "block", fontWeight: 600, fontSize: 14, lineHeight: "18px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{business?.name ?? "Personal"}</span>
         </span>
         <CaretDown size={16} aria-hidden style={{ marginLeft: "auto", color: "var(--tm-muted-dark)" }} />

@@ -15,7 +15,7 @@ export default function BusinessContentLab() {
   const newCount = contentFiles.filter((f) => f.state === "New").length;
   return (
     <div className="desk">
-      <Rail mode="Business" active="Content" business={{ name: loopday.name, logo: loopday.logo }} />
+      <Rail mode="Business" active="Content" business={{ name: loopday.name, logo: loopday.logo, initials: loopday.initials }} />
       <main className="desk-main" id="main" style={{ paddingTop: 32 }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24 }}>
           <div>

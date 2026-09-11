@@ -13,7 +13,7 @@ import { loopday, people, cars, attention, usd } from "../mock";
 export default function BusinessHomeLab() {
   return (
     <div className="desk">
-      <Rail mode="Business" active="Home" business={{ name: `${loopday.name}`, logo: loopday.logo }} />
+      <Rail mode="Business" active="Home" business={{ name: loopday.name, logo: loopday.logo, initials: loopday.initials }} />
       <main className="desk-main" id="main" style={{ paddingTop: 32 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 48 }}>
           <h1 className="t-page" style={{ margin: 0 }}>Find people and cars</h1>
