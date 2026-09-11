@@ -1,0 +1,31 @@
+{
+  "id": "content-loopday-cups-05",
+  "kind": "product",
+  "aspect": "1:1",
+  "prompt": "Photorealistic square product photograph from a fictional neighborhood coffee-counter shoot. Three ordinary dark forest-green ceramic cups sit in a purposeful loose arrangement on a brushed stainless-steel counter, one with black coffee and two empty. Pale blue square tiles appear at the top edge. Directional window light at 45 degrees produces tangible ceramic edges and restrained real shadows. Use a 50mm-equivalent lens, accurate ceramic texture, neutral color balance and clean but not sterile commercial photography. This is fictional Design Lab delivered-media illustration only. No lettering, brand marks, graphic overlays, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "",
+        "summary": "A square commercial-style photograph shows three forest-green ceramic mugs on brushed stainless steel, one containing black coffee and two empty, with pale blue tiles behind them. It closely fulfills the fictional Design Lab brief through a purposeful arrangement, believable materials, directional daylight and clean, unbranded presentation.",
+        "problems": [],
+        "scores": {
+          "purpose": 10,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 10,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "approve"
+      }
+    }
+  ],
+  "approvedByDirector": true
+}
