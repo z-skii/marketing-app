@@ -114,7 +114,7 @@ export function Rail({ mode, active, business }: { mode: "Personal" | "Business"
 }
 
 export function Money({ cents, per, className = "money", dark = false }: { cents: number; per?: string; className?: string; dark?: boolean }) {
-  const amount = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: cents % 100 === 0 ? 0 : 2 }).format(cents / 100);
+  const amount = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(cents / 100);
   return (
     <span style={{ display: "block" }}>
       <span className={className} style={{ display: "block", color: dark ? "#fff" : "var(--tm-ink)" }}>{amount}</span>
