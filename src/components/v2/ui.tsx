@@ -192,33 +192,31 @@ export function ScreenHeader({
 }
 
 /**
- * A row, verbatim from the blueprint's .row-card: a plain glyph, a 14px
- * bold title, a 12px muted line, an optional 10px success status with a
- * glowing dot, a muted chevron. Stack with 9px gaps.
+ * Standard row from the UI system: 72px min, 16px radius, surface-1,
+ * padding 12px 13px, a 48px leading tile, a 14px/700 title, a 12px muted
+ * sub, an optional status (dot + 12px/650) and an 18px chevron. Rows sit
+ * 9px apart with no borders.
  */
 export function SurfaceRow({
   href, icon, title, sub, status, statusTone = "faint", external = false, trailing,
 }: {
   href: string; icon: React.ReactNode; title: React.ReactNode; sub?: React.ReactNode;
-  status?: React.ReactNode; statusTone?: "signal" | "faint"; external?: boolean; trailing?: React.ReactNode;
+  status?: React.ReactNode; statusTone?: "signal" | "faint" | "warning" | "review" | "done" | "error" | "info"; external?: boolean; trailing?: React.ReactNode;
 }) {
+  const tone = statusTone === "signal" ? "" : statusTone === "faint" ? "is-done" : `is-${statusTone}`;
   const inner = (
     <>
       <span className="icon-square">{icon}</span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate font-display text-[14px] leading-[1.3] font-700">{title}</span>
-        {sub && <span className="mt-[3px] block truncate text-[12px] leading-[1.3] text-ink-soft">{sub}</span>}
+        <span className="block truncate font-display text-[14px] leading-[18px] font-700">{title}</span>
+        {sub && <span className="block truncate text-[12px] leading-4 text-ink-soft">{sub}</span>}
       </span>
-      {status && (
-        statusTone === "signal"
-          ? <span className="status-text"><span aria-hidden className="status-dot" />{status}</span>
-          : <span className="shrink-0 text-[10px] text-ink-soft">{status}</span>
-      )}
+      {status && <span className={`status-text ${tone}`}><span aria-hidden className="status-dot" />{status}</span>}
       {trailing}
-      <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
+      <CaretRight size={18} className="shrink-0 text-ink-soft" aria-hidden />
     </>
   );
-  const cls = "row flex min-h-[64px] items-center gap-3 px-[13px] py-3";
+  const cls = "row flex min-h-[72px] items-center gap-3 px-[13px] py-3 transition-[background,transform] duration-100 active:scale-[0.985] active:bg-[color:var(--tm-pressed)]";
   return external
     ? <a href={href} target="_blank" rel="noreferrer" className={cls}>{inner}</a>
     : <Link href={href} className={cls}>{inner}</Link>;

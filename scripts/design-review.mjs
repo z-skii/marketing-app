@@ -31,6 +31,7 @@ import { basename, extname, join, resolve } from "node:path";
 const HERE = resolve(new URL(".", import.meta.url).pathname, "..");
 const BRAIN_PATH = join(HERE, "docs", "TAPMART_PRODUCT_BRAIN.md");
 const BLUEPRINT_PATH = join(HERE, "docs", "design-references", "tapmart_exact_ui_blueprint.html");
+const SYSTEM_SPEC_PATH = join(HERE, "docs", "design-specs", "system.json");
 const REFERENCE_PATH = join(HERE, "docs", "design-references", "tapmart-primary-reference.png");
 // The Responses API in background mode: submit, then poll. A long reasoning
 // pass keeps the HTTP connection silent for a minute or more, which proxies
@@ -90,7 +91,7 @@ const SCHEMA = {
       generic_ai_look: { type: "integer", minimum: 1, maximum: 10, description: "10 = looks like a template or AI dashboard." },
       reference_match: { type: "integer", minimum: 1, maximum: 10, description: "10 = same visual confidence, hierarchy, polish and restraint as the reference image. Null-equivalent 1 when no reference was given." },
       premium_feel: { type: "integer", minimum: 1, maximum: 10, description: "10 = feels like a real high-end consumer product." },
-      same_kit: { type: "boolean", description: "True only if the current screen clearly looks built with the same CSS and design system as the blueprint." },
+      same_kit: { type: "boolean", description: "True only if a professional product designer would immediately believe this screen and the reference belong to the same application." },
       kit: {
         type: "object",
         additionalProperties: false,
@@ -173,8 +174,18 @@ const SCHEMA = {
   },
 };
 
-/** The blueprint's CSS rules, with the embedded demo images stripped out. */
+/** The UI system OpenAI designed (docs/design-specs/system.json), compacted; falls back to the blueprint CSS. */
 function blueprintCss() {
+  if (existsSync(SYSTEM_SPEC_PATH)) {
+    const spec = JSON.parse(readFileSync(SYSTEM_SPEC_PATH, "utf8")).spec;
+    const lines = [`UI SYSTEM: ${spec.name}`, ...spec.principles.map((p) => `- ${p}`)];
+    for (const [k, v] of Object.entries(spec)) {
+      if (!Array.isArray(v) || k === "principles") continue;
+      lines.push(`## ${k}`);
+      for (const t of v) lines.push(`${t.name}: ${t.value} (${t.use})`);
+    }
+    return lines.join("\n");
+  }
   if (!existsSync(BLUEPRINT_PATH)) return null;
   const html = readFileSync(BLUEPRINT_PATH, "utf8");
   const m = html.match(/<style[^>]*>([\s\S]*?)<\/style>/);
@@ -185,17 +196,17 @@ function systemPrompt(brain, hasReference, css, hasBlueprintShot) {
   return [
     "You are TapMart's visual and product design director. A coding agent (Claude Code) is the engineer: it builds the screens; you review screenshots and hand back exact, prioritized changes. You never write code and never touch files. You may recommend substantial changes: delete a section, move information, make media twice as large, replace cards with rows, use a horizontal media rail, remove copy, change the information hierarchy, simplify navigation, combine controls, turn something into a full-bleed visual, or change the composition entirely. Small padding and radius notes are welcome only after the big moves.",
     "",
-    "Your job in this phase is to detect DESIGN DRIFT. TapMart has a coded design blueprint (tapmart_exact_ui_blueprint.html). Its CSS is pasted below and is the visual source of truth: colours, surfaces, hairlines, typography sizes and weights, spacing, radii, shadows, glass blur, the floating bottom navigation, the primary button, the row and hero card compositions. The saved reference PNG is the second source; the product brain is the third. The real app must look like it was built with the SAME CSS as the blueprint. The blueprint's demo content (names, cars, photos, balances, businesses) is not a target; only real data appears in the app.",
+    "Your job in this phase is to detect DESIGN DRIFT. You are TapMart's product designer: you defined the UI system pasted below (docs/design-specs/system.json) and you designed each screen from scratch; Claude Code built it. The saved reference PNG (the TapMart Profile + Smart Vehicle concept) is the aesthetic source of truth the system was derived from; the product brain is the third source. The real app must look like it was built from that system. Demo content in references is never a target; only real data appears in the app. Judge the build against the system and the reference, not against your memory of the current screenshot.",
     "",
     hasReference
       ? `Images: CURRENT SCREEN (the real app)${hasBlueprintShot ? ", BLUEPRINT SCREEN (the coded blueprint rendered for the same screen)" : ""}, REFERENCE IMAGE (the saved PNG). Ask one question first: does the current screen look like it was built using the same CSS and design system as the blueprint? Compare the values, not the mood: background tone, surface colours, hairline opacity, text greys, the lime, radii, font sizes and weights, section title style, top bar and bottom bar dimensions, button height and gradient, row density and padding, media ratios and scrim, shadow and glass.`
       : "One image arrives: CURRENT SCREEN = what exists today. Judge it against the blueprint CSS and the product brain.",
     "",
-    "Score twelve drift dimensions from 0 to 10 each, independently: typography, colors, surfaces, spacing, radii, navigation, buttons, rows, media, density, lime restraint, family resemblance. 10 means indistinguishable from the blueprint's CSS. Do not accept 'it looks clean', 'it looks premium' or a generic 8 unless it actually resembles the blueprint. The question is: do these look like the same TapMart product? Say yes only when a viewer would believe both screens come from one codebase. In the checklist, quote the blueprint value to use (for example 'row padding 12px 13px', 'section title 12px uppercase 0.16em muted').",
+    "The final question, and the only one that decides the verdict: if the primary TapMart reference and this screenshot were shown side by side, would a professional product designer immediately believe they belong to the SAME application? Score twelve dimensions from 0 to 10 each, independently: typography, colors, surfaces, spacing, radii, navigation, buttons, rows, cards and media (score under media), accent usage (score under lime restraint), density, family resemblance. Do not accept 'it looks clean', 'it looks premium' or a generic 8 unless it actually belongs beside the reference. Say yes only when a designer would believe both screens come from one team and one codebase. In the checklist, quote exact values from the UI system.",
     "",
-    "=== BLUEPRINT CSS (visual source of truth) ===",
-    css ?? "(blueprint file missing)",
-    "=== END BLUEPRINT CSS ===",
+    "=== UI SYSTEM (visual source of truth) ===",
+    css ?? "(system spec missing)",
+    "=== END UI SYSTEM ===",
     "",
     "Judge against the TapMart product brain below. Be specific: name the element, the size, the count, the copy to delete. Prefer 'remove' and 'enlarge' over 'add'. Ten strong items beat thirty weak ones. If something already meets the bar, say so under keep and move on. Never suggest fake data, placeholder media or invented numbers.",
     "",
@@ -245,9 +256,9 @@ function toMarkdown(review, ctx) {
   lines.push(`TapMart match ${review.tapmart_match}/10 · Reference match ${review.reference_match}/10 · Premium feel ${review.premium_feel}/10 · Generic AI look ${review.generic_ai_look}/10`);
   lines.push("");
   if (review.kit) {
-    lines.push(`**Same design system as the blueprint: ${review.same_kit ? "yes" : "NO"}.**`);
+    lines.push(`**Same application as the reference: ${review.same_kit ? "yes" : "NO"}.**`);
     lines.push("");
-    lines.push("| Drift dimension | 0 to 10 | Difference from the blueprint |");
+    lines.push("| Dimension | 0 to 10 | Difference from the reference and the system |");
     lines.push("| --- | --- | --- |");
     for (const [key, v] of Object.entries(review.kit)) lines.push(`| ${key.replace(/_/g, " ")} | ${v.score} | ${v.note} |`);
     lines.push("");

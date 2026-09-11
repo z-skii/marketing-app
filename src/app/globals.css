@@ -19,6 +19,8 @@
   the Tailwind theme below only maps utility names onto it. Nothing else in
   the app may define its own colour, radius, shadow or blur.
 */
+/* Values from docs/design-specs/system.json, the UI system OpenAI designed
+   (TapMart Graphite UI System v1). --tm-* is the single source of truth. */
 :root {
   /* colour */
   --tm-bg:            #090c0e;
@@ -26,72 +28,112 @@
   --tm-surface:       #121719;
   --tm-surface2:      #171d20;
   --tm-surface3:      #1b2225;
+  --tm-pressed:       #20282c;
   --tm-line:          rgba(255, 255, 255, 0.08);
-  --tm-line2:         rgba(255, 255, 255, 0.12);
+  --tm-line2:         rgba(255, 255, 255, 0.14);
   --tm-text:          #f5f7f2;
-  --tm-muted:         #9ca4a7;
-  --tm-muted2:        #6f787c;
+  --tm-text2:         #c8cecf;   /* secondary, still matters */
+  --tm-muted:         #9ca4a7;   /* quiet metadata */
+  --tm-muted2:        #6f777a;   /* timestamps, placeholders */
+  --tm-disabled:      #4e5659;
   --tm-lime:          #c9ff38;
-  --tm-lime-deep:     #bfff2c;
-  --tm-lime-light:    #d6ff59;
-  --tm-lime-ink:      #0a0d0e;
+  --tm-lime-light:    #d8ff5f;
+  --tm-lime-deep:     #aef927;
+  --tm-lime-ink:      #071004;
+  --tm-lime-tint:     rgba(201, 255, 56, 0.14);
   --tm-success:       #9ded62;
-  --tm-alert:         #ff7a70;
-  --tm-meta:          #c3c9c6;
-  --tm-nav-inactive:  #8f989c;
+  --tm-success-tint:  rgba(157, 237, 98, 0.12);
+  --tm-warning:       #ffcc66;
+  --tm-warning-tint:  rgba(255, 204, 102, 0.12);
+  --tm-alert:         #ff6b6b;
+  --tm-alert-tint:    rgba(255, 107, 107, 0.12);
+  --tm-info:          #7cc8ff;
+  --tm-neutral:       #8b9497;
+  --tm-meta:          #c8cecf;
+  --tm-nav-inactive:  #9ca4a7;
+  --tm-media-placeholder: #151b1e;
   /* radius */
-  --tm-radius:         18px;   /* vehicle card, generic */
-  --tm-radius-card:    20px;   /* hero media cards */
-  --tm-radius-row:     16px;   /* rows */
-  --tm-radius-button:  16px;   /* primary button */
-  --tm-radius-control: 12px;   /* icon buttons, inputs */
-  --tm-radius-thumb:   13px;   /* row thumbnails */
-  --tm-radius-nav:     22px;   /* floating bottom nav */
-  --tm-radius-sheet:   34px;
+  --tm-radius-xs:      6px;
+  --tm-radius-sm:      10px;
+  --tm-radius-md:      12px;   /* thumbnails, ad zone tiles */
+  --tm-radius-control: 14px;   /* icon buttons, 44px controls */
+  --tm-radius-row:     16px;   /* rows, secondary buttons */
+  --tm-radius-button:  18px;   /* 52px primary buttons */
+  --tm-radius-card:    20px;   /* hero, media and marketplace cards */
+  --tm-radius-sheet:   22px;
+  --tm-radius-xl:      24px;
+  --tm-radius-nav:     28px;
+  --tm-radius:         18px;   /* vehicle card */
+  --tm-radius-thumb:   12px;
   /* spacing */
-  --tm-gutter:         16px;   /* phone content sides */
-  --tm-content-top:    18px;
-  --tm-content-bottom: 96px;   /* clears the floating nav */
-  --tm-section-gap:    24px;   /* above a section title */
-  --tm-section-below:  10px;   /* between a section title and its content */
-  --tm-card-gap:       14px;   /* between hero cards */
-  --tm-row-gap:        9px;    /* between rows */
+  --tm-gutter:         16px;
+  --tm-content-top:    14px;
+  --tm-content-bottom: 96px;
+  --tm-section-gap:    24px;
+  --tm-section-below:  10px;
+  --tm-card-gap:       14px;
+  --tm-row-gap:        9px;
   --tm-row-pad:        12px 13px;
-  --tm-hero-inset:     16px;   /* hero copy from the card edge */
+  --tm-card-pad:       14px;
+  --tm-hero-inset:     14px;
+  --tm-desktop-pad:    32px;
+  --tm-grid-gap:       18px;
   /* dimensions */
-  --tm-topbar:         58px;
+  --tm-topbar:         56px;
   --tm-nav-height:     68px;
   --tm-nav-inset:      10px;
+  --tm-nav-max:        370px;
   --tm-button-height:  52px;
-  --tm-iconbtn:        38px;
+  --tm-button-secondary: 48px;
+  --tm-iconbtn:        44px;
+  --tm-chip:           34px;
   --tm-media-hero:     260px;
-  --tm-media-small:    215px;
-  --tm-stage:          160px;
-  --tm-thumb:          54px;
-  --tm-avatar:         92px;
-  /* type scale (px, from the blueprint) */
+  --tm-media-car:      236px;
+  --tm-story-w:        140px;
+  --tm-story-h:        249px;
+  --tm-stage:          128px;
+  --tm-thumb:          48px;
+  --tm-avatar:         96px;
+  --tm-rail:           88px;
+  /* type scale (px) */
   --tm-fs-nav:         10px;
   --tm-fs-label:       10px;
+  --tm-fs-caption:     11px;
   --tm-fs-section:     12px;
   --tm-fs-sub:         12px;
   --tm-fs-meta:        13px;
   --tm-fs-row:         14px;
   --tm-fs-body:        14px;
+  --tm-fs-card:        15px;
+  --tm-fs-button:      15px;
   --tm-fs-title:       16px;
   --tm-fs-stat:        18px;
-  --tm-fs-card:        20px;
+  --tm-fs-section-heading: 18px;
+  --tm-fs-hero-title:  20px;
+  --tm-fs-wordmark:    21px;
   --tm-fs-name:        23px;
-  --tm-fs-brand:       24px;
+  --tm-fs-detail-money: 24px;
   --tm-fs-money:       27px;
+  --tm-fs-desktop-title: 30px;
   --tm-fs-balance:     46px;
   /* effects */
-  --tm-shadow:         0 18px 60px rgba(0, 0, 0, 0.38);
-  --tm-shadow-nav:     0 10px 40px rgba(0, 0, 0, 0.35);
-  --tm-shadow-primary: 0 10px 28px rgba(201, 255, 56, 0.16);
-  --tm-glass-blur:     22px;
-  --tm-pill-blur:      14px;
-  --tm-scrim:          linear-gradient(180deg, transparent 42%, rgba(5, 7, 8, 0.12) 56%, rgba(5, 7, 8, 0.92) 100%);
-  --tm-media-filter:   saturate(0.92) contrast(1.02) brightness(0.9);
+  --tm-card-fill:      linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.018) 100%), #121719;
+  --tm-shadow-card:    0 12px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.045);
+  --tm-shadow-elevated: 0 18px 44px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --tm-shadow-nav:     0 18px 44px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --tm-shadow-primary: 0 10px 24px rgba(201, 255, 56, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  --tm-shadow-control: 0 8px 20px rgba(0, 0, 0, 0.24);
+  --tm-focus-ring:     0 0 0 3px rgba(201, 255, 56, 0.18);
+  --tm-glass-fill:     rgba(9, 12, 14, 0.74);
+  --tm-glass-control:  rgba(13, 18, 20, 0.70);
+  --tm-glass-scrolled: rgba(18, 23, 25, 0.82);
+  --tm-glass-blur:     18px;
+  --tm-pill-blur:      12px;
+  --tm-scrim:          linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.22) 42%, rgba(0, 0, 0, 0.74) 100%);
+  --tm-scrim-top:      linear-gradient(180deg, rgba(0, 0, 0, 0.64) 0%, rgba(0, 0, 0, 0) 100%);
+  --tm-media-filter:   none;
+  --tm-page-wash:      radial-gradient(circle at 50% 0%, rgba(43, 55, 58, 0.42) 0%, rgba(9, 12, 14, 0) 340px);
+  --tm-ease:           cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme {
@@ -102,6 +144,7 @@
   --color-surface-3:    var(--tm-surface3);
   --color-ink:          var(--tm-text);
   --color-ink-soft:     var(--tm-muted);
+  --color-ink-2:        var(--tm-text2);
   --color-ink-faint:    var(--tm-muted2);
   --color-meta:         var(--tm-meta);
   --color-alert:        var(--tm-alert);
@@ -112,7 +155,8 @@
   --color-signal-deep:  var(--tm-lime-deep);
   --color-signal-ink:   var(--tm-lime-ink);
   --color-rise:         var(--tm-success);
-  --color-warn:         var(--tm-text);
+  --color-warn:         var(--tm-warning);
+  --color-info:         var(--tm-info);
 
   --text-xs: 0.75rem;
   --text-xs--line-height: 1.35;
@@ -146,9 +190,7 @@
   }
 
   body {
-    background:
-      radial-gradient(900px 500px at 50% -10%, rgba(201, 255, 56, 0.08), transparent 55%),
-      linear-gradient(180deg, #0a0d0f 0%, #080b0d 100%);
+    background: var(--tm-page-wash) no-repeat, var(--tm-bg);
     background-color: var(--tm-bg);
     color: var(--color-ink);
     font-family: var(--font-display);
@@ -166,9 +208,9 @@
   ::selection { background: var(--color-signal); color: var(--color-signal-ink); }
 
   :focus-visible {
-    outline: 2px solid var(--color-signal);
+    outline: 2px solid var(--tm-lime);
     outline-offset: 2px;
-    border-radius: 1px;
+    border-radius: 4px;
   }
 
   h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }
@@ -190,10 +232,10 @@
   .eyebrow {
     font-family: var(--font-display);
     font-size: var(--tm-fs-section);
-    font-weight: 500;
-    letter-spacing: 0.16em;
+    font-weight: 760;
+    letter-spacing: 1.4px;
     text-transform: uppercase;
-    line-height: 1.2;
+    line-height: 15px;
     color: var(--tm-muted);
   }
 
@@ -219,39 +261,44 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 10px;
     font-family: var(--font-display);
-    font-size: 0.9375rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    padding: 0.75rem 1.25rem;
-    border: 1px solid var(--tm-line);
-    background: rgba(255, 255, 255, 0.035);
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 760;
+    padding: 0 16px;
+    border: 1px solid transparent;
+    background: var(--tm-surface2);
     color: var(--tm-text);
-    border-radius: var(--tm-radius-button);
-    transition: background 120ms ease, color 120ms ease, transform 120ms ease;
+    border-radius: var(--tm-radius-row);
+    transition: background 120ms ease, color 120ms ease, transform 100ms ease-out;
     cursor: pointer;
-    min-height: var(--tm-button-height);
+    min-height: var(--tm-button-secondary);
     white-space: nowrap;
   }
-  @media (hover: hover) { .btn:hover { background: rgba(255, 255, 255, 0.07); } }
-  .btn:active { transform: translateY(1px) scale(0.99); }
-  .btn[disabled] { background: rgba(255, 255, 255, 0.035); color: var(--tm-muted2); cursor: not-allowed; box-shadow: none; }
+  @media (hover: hover) { .btn:hover { background: var(--tm-pressed); } }
+  .btn:active { transform: scale(0.985); background: var(--tm-pressed); }
+  .btn[disabled] { background: var(--tm-surface); color: var(--tm-disabled); cursor: not-allowed; box-shadow: none; }
 
-  .btn-ghost { background: transparent; color: var(--color-ink-soft); }
-  @media (hover: hover) { .btn-ghost:hover { color: var(--color-ink); background: var(--color-surface-2); } }
 
   .btn-signal {
     border: 0;
-    background: linear-gradient(180deg, var(--tm-lime-light), var(--tm-lime-deep));
+    min-height: var(--tm-button-height);
+    padding: 0 18px;
+    border-radius: var(--tm-radius-button);
+    background: linear-gradient(180deg, var(--tm-lime-light) 0%, var(--tm-lime) 48%, var(--tm-lime-deep) 100%);
     color: var(--tm-lime-ink);
+    font-size: var(--tm-fs-button);
+    line-height: 18px;
     font-weight: 800;
     box-shadow: var(--tm-shadow-primary);
   }
+  .btn-signal[disabled] { background: #2a3328; color: #6e785f; box-shadow: none; }
   @media (hover: hover) { .btn-signal:hover { background: var(--color-signal-deep); color: var(--color-signal-ink); } }
 
-  .btn-lg { font-size: 1rem; padding: 0.9375rem 1.5rem; min-height: var(--tm-button-height); }
-  .btn-sm { font-size: 0.8125rem; padding: 0.5rem 0.875rem; min-height: 40px; border-radius: var(--tm-radius-control); }
+  .btn-lg { min-height: var(--tm-button-height); padding: 0 18px; border-radius: var(--tm-radius-button); font-size: var(--tm-fs-button); }
+  .btn-sm { font-size: 13px; padding: 0 12px; min-height: 40px; border-radius: var(--tm-radius-control); }
+  .btn-ghost { background: transparent; color: var(--tm-text2); min-height: 44px; border-radius: var(--tm-radius-control); padding: 0 12px; font-weight: 700; }
   /* Everything tappable is at least 44px under a finger. */
   @media (pointer: coarse) {
     .btn-sm, .pill { min-height: 44px; }
@@ -279,35 +326,34 @@
 
   /* .card = the blueprint's .hero-card material: surface, 1px hairline, 20px radius. */
   .card {
-    background: var(--tm-surface);
-    border: 1px solid var(--tm-line);
+    background: var(--tm-card-fill);
     border-radius: var(--tm-radius-card);
+    box-shadow: var(--tm-shadow-card);
   }
   /* .row = the blueprint's .row-card: a surface2 to surface gradient, hairline, 16px radius. */
   .row {
-    background: linear-gradient(180deg, var(--tm-surface2), var(--tm-surface));
-    border: 1px solid var(--tm-line);
+    background: var(--tm-surface);
     border-radius: var(--tm-radius-row);
   }
   /* A quieter secondary tile inside a card. */
   .card-2 {
     background: var(--tm-surface2);
-    border: 1px solid var(--tm-line);
     border-radius: var(--tm-radius-row);
   }
   /* The one card that must read as "act on this": a lime hairline. */
   .card-signal { border-color: color-mix(in srgb, var(--tm-lime) 45%, transparent); }
   a.card, a.card-2, a.row { transition: background 140ms ease, transform 140ms ease, border-color 140ms ease; }
   @media (hover: hover) {
-    a.card:hover, a.row:hover, a.card-2:hover { border-color: var(--tm-line2); }
+    a.row:hover, a.card-2:hover { background: var(--tm-surface3); }
+    a.card:hover { box-shadow: var(--tm-shadow-elevated); }
   }
-  a.card:active, a.card-2:active, a.row:active { transform: scale(0.995); }
+  a.card:active, a.card-2:active, a.row:active { transform: scale(0.985); }
 
   /* The blueprint's .vehicle-card material. */
   .vehicle-card {
-    background: linear-gradient(180deg, #151b1e, #101517);
-    border: 1px solid var(--tm-line2);
+    background: var(--tm-card-fill);
     border-radius: var(--tm-radius);
+    box-shadow: var(--tm-shadow-card);
     overflow: hidden;
   }
   .car-stage {
@@ -320,13 +366,15 @@
     bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 10px;
-    color: #c7cdca;
-    background: rgba(6, 8, 9, 0.5);
-    padding: 5px 9px;
+    font-size: var(--tm-fs-caption);
+    font-weight: 550;
+    color: var(--tm-text);
+    background: var(--tm-glass-control);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    padding: 5px 10px;
     border-radius: 9999px;
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(var(--tm-pill-blur));
+    backdrop-filter: blur(var(--tm-pill-blur));
     white-space: nowrap;
   }
 
@@ -335,38 +383,45 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 28px; height: 28px;
+    width: 48px; height: 48px;
     flex-shrink: 0;
-    color: var(--tm-text);
+    border-radius: 13px;
+    background: var(--tm-surface2);
+    color: var(--tm-text2);
   }
 
   /* Status: 10px success text with a 6px glowing dot (blueprint .status). */
-  .status-text { display: inline-flex; align-items: center; gap: 6px; font-size: var(--tm-fs-label); color: var(--tm-success); white-space: nowrap; }
-  .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 9999px; background: var(--tm-success); box-shadow: 0 0 10px rgba(157, 237, 98, 0.5); flex-shrink: 0; }
+  .status-text { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; line-height: 15px; font-weight: 650; color: var(--tm-success); white-space: nowrap; }
+  .status-text.is-warning { color: var(--tm-warning); } .status-text.is-warning .status-dot { background: var(--tm-warning); box-shadow: 0 0 0 3px var(--tm-warning-tint); }
+  .status-text.is-review { color: var(--tm-lime); } .status-text.is-review .status-dot { background: var(--tm-lime); box-shadow: 0 0 0 3px var(--tm-lime-tint); }
+  .status-text.is-done { color: var(--tm-muted); } .status-text.is-done .status-dot { background: var(--tm-neutral); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.07); }
+  .status-text.is-error { color: var(--tm-alert); } .status-text.is-error .status-dot { background: var(--tm-alert); box-shadow: 0 0 0 3px var(--tm-alert-tint); }
+  .status-text.is-info { color: var(--tm-info); } .status-text.is-info .status-dot { background: var(--tm-info); box-shadow: 0 0 0 3px rgba(124, 200, 255, 0.10); }
+  .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 9999px; background: var(--tm-success); box-shadow: 0 0 0 3px var(--tm-success-tint); flex-shrink: 0; }
 
   /* Avatar ring on a profile (blueprint .avatar). */
-  .avatar-ring { border: 2px solid rgba(201, 255, 56, 0.45); box-shadow: 0 0 0 5px rgba(201, 255, 56, 0.04); }
+  .avatar-ring { border: 2px solid rgba(255, 255, 255, 0.10); }
 
   /* Chips (blueprint .chip): hairline, faint fill, muted text; the active one is solid lime. */
   .pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
+    gap: 6px;
     flex-shrink: 0;
-    min-height: 2.25rem;
-    padding: 8px 12px;
+    min-height: var(--tm-chip);
+    padding: 0 12px;
     border-radius: 9999px;
-    border: 1px solid var(--tm-line);
-    background: rgba(255, 255, 255, 0.035);
-    color: var(--tm-muted);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--tm-text2);
     font-family: var(--font-display);
-    font-size: var(--tm-fs-sub);
-    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 700;
     white-space: nowrap;
-    transition: background 120ms ease, color 120ms ease;
+    transition: background 160ms var(--tm-ease), color 160ms var(--tm-ease);
   }
   @media (hover: hover) { .pill:hover { color: var(--tm-text); } }
-  .pill[aria-current="page"], .pill[aria-pressed="true"] { background: var(--tm-lime); border-color: var(--tm-lime); color: #0b0f10; font-weight: 750; }
+  .pill[aria-current="page"], .pill[aria-pressed="true"] { background: var(--tm-lime-tint); color: var(--tm-lime); }
   .pill-row {
     display: flex;
     gap: 0.5rem;
@@ -387,42 +442,51 @@
 
   /* Top bar chrome (blueprint .topbar / .phone-top). */
   .glass {
-    background: linear-gradient(180deg, rgba(9, 12, 14, 0.92), rgba(9, 12, 14, 0.72));
-    -webkit-backdrop-filter: blur(var(--tm-glass-blur));
-    backdrop-filter: blur(var(--tm-glass-blur));
-    border-color: rgba(255, 255, 255, 0.05);
+    background: var(--tm-glass-scrolled);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    backdrop-filter: blur(20px) saturate(140%);
+    border-color: rgba(255, 255, 255, 0.10);
   }
   /* Type pill on media (blueprint .type-pill). */
   .glass-tag {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 9px;
+    height: 26px;
+    padding: 0 9px;
     border-radius: 9999px;
-    background: rgba(8, 10, 11, 0.62);
+    background: rgba(255, 255, 255, 0.09);
     -webkit-backdrop-filter: blur(var(--tm-pill-blur));
     backdrop-filter: blur(var(--tm-pill-blur));
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    font-size: 10px;
-    letter-spacing: 0.11em;
-    text-transform: uppercase;
-    color: #e8eee4;
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: 760;
+    letter-spacing: 0.1px;
+    color: var(--tm-text);
+  }
+  .glass-tag.is-glass { background: var(--tm-glass-fill); border: 1px solid rgba(255, 255, 255, 0.10); }
+  .money-badge {
+    display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 9999px;
+    background: rgba(9, 12, 14, 0.66); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    color: var(--tm-lime); font-size: 14px; line-height: 16px; font-weight: 850;
   }
   /* Floating bottom navigation (blueprint .bottomnav). */
   .tm-bottomnav {
     position: fixed;
-    left: var(--tm-nav-inset);
-    right: var(--tm-nav-inset);
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 2 * var(--tm-nav-inset));
+    max-width: var(--tm-nav-max);
     bottom: calc(var(--tm-nav-inset) + env(safe-area-inset-bottom, 0px));
     height: var(--tm-nav-height);
     border-radius: var(--tm-radius-nav);
-    background: rgba(20, 26, 28, 0.82);
-    -webkit-backdrop-filter: blur(var(--tm-glass-blur));
-    backdrop-filter: blur(var(--tm-glass-blur));
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: var(--tm-glass-fill);
+    -webkit-backdrop-filter: blur(var(--tm-glass-blur)) saturate(140%);
+    backdrop-filter: blur(var(--tm-glass-blur)) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     display: grid;
     align-items: center;
-    padding: 0 7px;
+    padding: 6px 8px;
     box-shadow: var(--tm-shadow-nav);
     z-index: 40;
   }
@@ -436,25 +500,35 @@
     color: var(--tm-nav-inactive);
     font-family: var(--font-display);
     font-size: var(--tm-fs-nav);
-    font-weight: 500;
-    transition: color 120ms ease;
+    line-height: 12px;
+    font-weight: 650;
+    border-radius: var(--tm-radius-row);
+    transition: color 160ms var(--tm-ease);
   }
   .tm-bottomnav a[aria-current="page"] { color: var(--tm-lime); }
+  /* Business mode: the centre Create item is the one filled control in the bar. */
+  .tm-bottomnav a.is-create > span:first-child {
+    display: inline-grid; place-items: center; width: 44px; height: 40px; border-radius: 15px;
+    background: linear-gradient(180deg, var(--tm-lime-light), var(--tm-lime)); color: var(--tm-lime-ink);
+    box-shadow: 0 8px 20px rgba(201, 255, 56, 0.16);
+  }
   /* Icon button in the chrome (blueprint .iconbtn). */
   .iconbtn {
     width: var(--tm-iconbtn); height: var(--tm-iconbtn);
     border-radius: var(--tm-radius-control);
-    border: 1px solid var(--tm-line);
-    background: rgba(255, 255, 255, 0.035);
+    background: transparent;
     color: var(--tm-text);
     display: inline-grid;
     place-items: center;
     position: relative;
+    transition: background 120ms ease;
   }
+  .iconbtn:active { background: rgba(255, 255, 255, 0.08); }
+  .iconbtn.is-surface { background: var(--tm-surface2); border: 1px solid var(--tm-line); }
   @media (prefers-reduced-transparency: reduce) {
     .glass { background: var(--tm-bg2); }
     .glass-tag { background: var(--tm-bg2); }
-    .tm-bottomnav { background: #141a1c; }
+    .tm-bottomnav { background: #121719; }
   }
 
   /* Live indicator: a single pulsing signal dot. */
@@ -494,7 +568,7 @@
   from { opacity: 0; transform: translate3d(0, 6px, 0); }
   to   { opacity: 1; transform: translate3d(0, 0, 0); }
 }
-.reveal { animation: rise-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.reveal { animation: rise-in 180ms var(--tm-ease) both; }
 
 /* Save: one small pop, then rest. */
 @keyframes pop {

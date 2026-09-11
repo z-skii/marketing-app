@@ -13,6 +13,7 @@ const FILTERS = [
   { key: "cars", label: "Car ads" },
 ] as const;
 import { EmptyState } from "@/components/v2/ui";
+import { MapPin } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata = { title: "Home" };
 export const dynamic = "force-dynamic";
@@ -50,24 +51,37 @@ export default async function HomePage({
   const listedVehicle = vehicles.find((v) => v.status === "listed");
 
   return (
-    <main id="main" className="mx-auto w-full max-w-3xl px-4 pt-[18px] pb-6 md:px-8 md:pt-8 md:pb-10">
-      <FilterBar label="Feed" active={f} items={FILTERS.map((x) => ({ key: x.key, label: x.label, href: href(0, x.key) }))} />
-      <h2 className="eyebrow mx-0.5 mt-6 mb-2.5">{f === "nearby" ? (ctx.city ? `Near ${ctx.city}` : "Nearby") : "Earn now"}</h2>
-      {f === "nearby" && !ctx.city && (
-        <p className="mb-3 text-[13px] text-ink-soft"><Link href="/me/edit" className="underline decoration-ink-faint underline-offset-4">Add your city</Link> to see what is near you.</p>
+    <main id="main" className="mx-auto w-full max-w-[1136px] px-4 pt-[14px] pb-6 rail:px-8 rail:pt-0">
+      {/* Desktop page header: title left, global actions in the rail */}
+      <div className="hidden rail:flex rail:h-16 rail:items-center">
+        <h1 className="font-display text-[30px] leading-9 font-[820] tracking-[-0.8px]">Earn now</h1>
+      </div>
+      <h1 className="sr-only rail:hidden">Earn now</h1>
+      <div className="-mx-4 px-4 rail:mx-0 rail:mt-[18px] rail:px-0">
+        <FilterBar label="Feed" active={f} items={FILTERS.map((x) => ({ key: x.key, label: x.label, href: x.key === "nearby" && !ctx.city ? "/me/edit" : href(0, x.key) }))} />
+      </div>
+      {!ctx.city && (
+        <div className="row mt-[14px] flex items-center gap-3 p-3">
+          <span className="icon-square"><MapPin size={20} aria-hidden /></span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-display text-[14px] leading-[18px] font-700">Add your city</span>
+            <span className="block text-[12px] leading-4 text-ink-soft">Nearby uses your city.</span>
+          </span>
+          <Link href="/me/edit" className="btn shrink-0">Add city</Link>
+        </div>
       )}
 
       {page.length === 0 ? (
-        <div className="mt-5">
+        <div className="mt-[14px] rail:max-w-[720px]">
           <EmptyState
-            title={offset > 0 ? "That's everything" : "Nothing here yet"}
-            body={!listedVehicle ? "Add your car so you can apply the moment a campaign posts." : "New campaigns post every week."}
-            actionHref={!listedVehicle ? "/me/vehicles/new" : "/home"}
-            actionLabel={!listedVehicle ? "Add my car" : "Refresh"}
+            title="No opportunities right now"
+            body="Check another filter or come back later."
+            actionHref={f !== "for_you" ? "/home" : !listedVehicle ? "/me/vehicles/new" : undefined}
+            actionLabel={f !== "for_you" ? "Show For you" : !listedVehicle ? "Add my car" : undefined}
           />
         </div>
       ) : (
-        <div className="grid grid-cols-1 items-start gap-[14px] lg:grid-cols-2"><div className="contents">
+        <div className="mt-[14px] grid grid-cols-1 items-start gap-[14px] rail:grid-cols-[348px_348px_360px] rail:gap-6"><div className="contents">
           {page.map((card, i) => (
             <EarnCard key={card.id} card={card} vehicles={vehicles} priority={i < 3} index={i} />
           ))}
@@ -75,11 +89,11 @@ export default async function HomePage({
       )}
 
       {(hasMore || offset > 0) && (
-        <div className="mt-8 flex items-center justify-between">
+        <div className="mt-4 flex items-center justify-between gap-3 rail:max-w-[720px]">
           {offset > 0 ? (
-            <Link href={href(Math.max(offset - pageSize, 0))} className="btn">Newer</Link>
+            <Link href={href(Math.max(offset - pageSize, 0))} className="btn flex-1">Newer</Link>
           ) : <span />}
-          {hasMore && <Link href={href(offset + pageSize)} className="btn">More</Link>}
+          {hasMore && <Link href={href(offset + pageSize)} className="btn flex-1">More opportunities</Link>}
         </div>
       )}
     </main>

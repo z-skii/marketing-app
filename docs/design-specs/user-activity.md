@@ -1,0 +1,148 @@
+# Design: User Activity
+
+**Concept.** User Activity becomes a compact graphite status ledger for the work the user has already touched: active work, submitted work, completed work and saved opportunities. It is not a discovery feed, so every item is a media-led row with status, money and one clear tap into the existing campaign detail flow.
+
+**Three seconds.** This is my TapMart work queue: Active is selected, each row shows the campaign media, who it is for, the current status, and exactly how much it pays.
+
+**Layout.** Phone 390px: fixed 56px top bar; scroll content width 358px with 16px side padding; title at y 70px; tab chips at y 115px; current tab content begins y 173px; rows stack downward with 9px gaps; bottom content padding 96px; floating bottom nav 68px at bottom calc(10px + safe-area-bottom). The page is vertically simple: title, tabs, status list, navigation.
+
+## moved deeper
+
+- Accept and Decline for direct requests stay on the item detail page, not inline on Activity.
+- Uploads, proof submission, revision uploads and business review detail stay on the campaign detail page.
+- Campaign briefs, rules, requirements, full date history and payment terms move behind the row tap.
+- Saved opportunity Apply, Post Story, Recreate, or car booking actions stay on the opportunity detail page.
+- Settings stays in Profile or the account/settings route; Activity only shows status and utility notifications.
+
+## visual hierarchy
+
+- Active tab chip and the first status row: the user immediately knows which work bucket they are viewing.
+- Money on the right edge of each row in lime, with the unit beneath it.
+- Status dot line under the title, showing whether the next wait is on the user, the business, or completion.
+
+## content order
+
+- **Page background**: Root fill #090c0e with optional page wash radial-gradient(circle at 50% 0%, rgba(43,55,58,0.42) 0%, rgba(9,12,14,0) 340px). Scroll container is 390px wide on phone, min-height 100vh, no decorative imagery.  [full viewport]
+- **Phone top bar**: Use phone-top-bar-root. Background transparent at scrollTop 0, changes to glass-top-bar-scrolled after 12px vertical scroll. Center wordmark at x 147px y 16px, width about 96px, text fallback Inter 21px/24px weight 820: 'Tapmart' in #f5f7f2 with a 4px #c9ff38 brand dot. Right slot has two icon-button-transparent controls: Messages at x 286px and Notifications at x 338px, each 44x44px, Lucide Rounded 22px #f5f7f2. If real unread state exists, show one 8px #c9ff38 dot at top-right inside that icon button; otherwise no dot. No settings gear on this screen.  [56px fixed at top]
+- **Screen title**: Position below top bar with x 16px y 70px. Text 'Activity' in screen-title: 23px/29px weight 800, letter-spacing -0.45px, color #f5f7f2. No subtitle; the tabs explain the next decision.  [41px]
+- **Status tabs**: Horizontal chip row at x 16px y 115px, width 358px, height 34px, gap 8px. Chips use filter-chip: height 34px, radius 999px, padding 0 12px, label 12px/14px weight 700. Labels in order: Active, Submitted, Completed, Saved. Active chip fill rgba(201,255,56,0.16), text #c9ff38. Inactive chips fill rgba(255,255,255,0.08), text #c8cecf. Entire chip is the 44px minimum tap target by giving the chip row a 5px vertical hit inset above and below.  [58px]
+- **Current tab section**: Starts at x 16px y 173px. Section label is 12px/15px weight 760, letter-spacing 1.4px, uppercase, color #9ca4a7. Label text by tab: Active = 'IN PROGRESS', Submitted = 'WAITING ON BUSINESS', Completed = 'COMPLETED', Saved = 'SAVED'. Gap from label to first row is 10px. Non-empty content renders a vertical stack of Activity rows, each 358px wide, min-height 84px, radius 18px, fill #121719; use #171d20 for rows whose status requires user action such as Revision requested, Proof needed, or Request sent and waiting for your answer. Row padding is 10px top/bottom and 12px left/right. Grid columns: 56px media slot, 12px gap, flexible text, 8px gap, 62px money stack, 8px gap, 18px chevron. Leading media slot is 56x64px. Recreate and Story thumbnails render 48x64px radius 12px aligned left; Car and business-cover fallback render 56x48px radius 12px vertically centered. Business logo overlays bottom-right of the media as 20x20px circle, radius 999px, border 2px #090c0e. Text stack begins at x 80px, centered vertically. Line 1: '{Kind} · {Business name}', max 1 line, row-title 14px/18px weight 700 #f5f7f2, where kind labels are Recreate, Story, Car, Application, Submission, Booking, or Request based on record type and campaign kind. Line 2: campaign title, max 1 line, row-subtitle 12px/16px weight 500 #9ca4a7. Line 3: inline status anatomy with 6px dot plus status label 12px/15px weight 650; append optional sub line or relevant date after ' · ' in #6f777a, one line ellipsized. Money stack aligns right: amount from pay_cents formatted as currency in row-money 17px/20px weight 800 #c9ff38; unit below in 10px/12px weight 650 #6f777a using 'version' for recreate_reel, 'post' for instagram_story, and 'mo' for car_ads. ChevronRight is 18px #9ca4a7 centered vertically. Row gap is 9px. Entire row is one tap target and opens the existing item detail route.  [dynamic: 25px label area plus rows]
+- **Empty tab state**: Replaces the section label and list when the selected tab has no real items. Card x 16px y 173px, width 358px, min-height 206px, radius 20px, fill #121719, padding 18px, no decorative illustration. Top icon tile 48x48px radius 16px fill #171d20 with Lucide icon 22px #c8cecf: Activity for Active, Send for Submitted, CheckCircle for Completed, Bookmark for Saved. Title at y +64px in section-heading 18px/22px weight 780 #f5f7f2. Copy one sentence in body 14px/20px weight 500 #9ca4a7, max 2 lines. Bottom button is primary-button, height 52px, radius 18px, full card inner width 322px, label 'Open Home', placed 18px below copy.  [0px when list has items; 206px when selected tab is empty]
+- **Bottom safe spacer**: Transparent spacer after the last row or empty card so content never sits behind the floating bottom navigation. Height is 96px plus safe-area-bottom when needed.  [96px minimum]
+- **User bottom navigation**: Use phone-bottom-nav-container: fixed left 10px, right 10px, bottom calc(10px + safe-area-bottom), max-width 370px, height 68px, radius 28px, glass-navigation fill rgba(9,12,14,0.74), blur 18px, border 1px rgba(255,255,255,0.10), padding 6px 8px. Four equal items: Home, Activity, Earnings, Profile. Each item min 58x56px. Activity icon and label are #c9ff38; inactive icon and label are #9ca4a7. Icons are 22px Lucide Rounded, labels 10px/12px weight 650.  [68px fixed]
+
+## media
+
+- Activity rows use real campaign media first: Reel poster for recreate_reel, Story creative for instagram_story, car campaign image for car_ads, otherwise the real business cover. Never use a generic icon as campaign media if a media URL or cover exists.
+- Recreate thumbnails: source 9:16 or poster frame, cropped to 48x64px radius 12px, object-fit cover, object-position center. Demo recreate rows use the attached creator filming in a coffee shop image, cropped around the creator and phone.
+- Story thumbnails: source 9:16 Story creative, cropped to 48x64px radius 12px. Demo Story rows use the attached Instagram Story phone image, centered on the phone screen.
+- Car thumbnails: source 4:3 car campaign image, rendered 56x48px radius 12px, object-fit cover, object-position center. Demo car rows use the attached wrapped car image.
+- Business cover fallback: render 56x48px radius 12px, object-fit cover. If both campaign media and cover are absent, show #151b1e media well with the real business logo centered at 32x32px; do not show placeholder illustrations.
+- Business logo overlay on every row when available: 20x20px, circular, 2px #090c0e border, placed bottom-right of the thumbnail. If logo is unavailable, omit the overlay without reserving space.
+
+## navigation
+
+Phone uses the User mode root chrome: centered Tapmart wordmark, Messages and Notifications utility icons on the right, and the four-item glass bottom navigation with Activity active. Desktop removes the phone bottom nav and uses the fixed 88px left rail with Home, Activity, Earnings and Profile; Messages and Notifications move to the desktop page header as utility icon buttons so the rail stays focused on the four User mode destinations.
+
+## animation
+
+- Page reveal: on initial route load, title, tabs and the first five rows fade opacity 0 to 1 and translateY 6px to 0 over 180ms cubic-bezier(0.22,1,0.36,1), staggered 35ms.
+- Tab switch: active chip fill/text and section label change over 160ms cubic-bezier(0.22,1,0.36,1); list fades 0 to 1 and translateY 4px to 0 over 140ms. No sliding carousel motion.
+- Row press: tap-press scale 1 to 0.985 over 100ms ease-out, returning over 140ms; row fill changes to #20282c while pressed.
+- Top bar scroll: after 12px scroll, top bar background transitions to glass-top-bar-scrolled over 160ms; when scrolled back to top it returns transparent.
+- Loading skeleton: show up to three row skeletons with media block, two text bars and money bar; shimmer 220ms linear using rgba(255,255,255,0.03) to rgba(255,255,255,0.07), max 2s before showing honest loading or empty text.
+
+## typography
+
+- Screen title: 23px/29px, weight 800, letter-spacing -0.45px, color #f5f7f2.
+- Desktop page title: 30px/36px, weight 820, letter-spacing -0.8px, color #f5f7f2.
+- Tab chip label: 12px/14px, weight 700, active #c9ff38, inactive #c8cecf.
+- Section label: 12px/15px, weight 760, letter-spacing 1.4px, uppercase, color #9ca4a7.
+- Activity row title: 14px/18px, weight 700, letter-spacing -0.1px, color #f5f7f2.
+- Activity row campaign title: 12px/16px, weight 500, color #9ca4a7.
+- Status label: 12px/15px, weight 650, color mapped by status; optional sub line/date 12px/15px weight 500 #6f777a.
+- Row money: 17px/20px, weight 800, letter-spacing -0.2px, color #c9ff38.
+- Money unit: 10px/12px, weight 650, color #6f777a.
+- Empty state title: 18px/22px, weight 780, color #f5f7f2.
+- Empty state copy: 14px/20px, weight 500, color #9ca4a7.
+- Bottom nav label: 10px/12px, weight 650, active #c9ff38, inactive #9ca4a7.
+
+## desktop
+
+- Canvas 1360px wide. Root background #090c0e with the same top radial wash. Fixed left rail x 0 y 0 width 88px height 100vh, fill #0d1113, border-right 1px rgba(255,255,255,0.08), padding 18px 12px. Logo button 44x44px at top. Nav stack starts y 96px, gap 10px, with rail items 64x56px radius 16px: Home, Activity active, Earnings, Profile. Activity rail item fill rgba(201,255,56,0.12), icon/text #c9ff38. Bottom account/mode switcher remains in the rail if the shell already has it; no campaign counts are invented.
+- Desktop page header sits in workspace x 88px width 1272px, height 64px, padding 0 32px. Title 'Activity' at x 120px y 32px in desktop-page-title. Right utility actions at x 1236px and x 1288px: Messages and Notifications icon-button-surface 44x44px; real unread dots only when provided.
+- Desktop content max-width 1040px, aligned left at x 120px, starts y 112px, display grid columns 248px and 768px with 24px gap. This is the real desktop composition; the phone list is not stretched full width.
+- Left desktop tab panel width 248px, radius 22px, fill #121719, padding 10px, height 248px. Four vertical tab rows, each 228x52px, radius 16px, gap 6px. Active tab fill #1b2225, label #c9ff38, 6px lime dot. Inactive label #c8cecf. If counts are derived from the real loaded arrays, show the count in a 28px pill at the right; if not loaded, omit counts rather than showing zero.
+- Main desktop list column width 768px. Section label at top uses the same text mapping as phone. Rows are 768px wide, min-height 88px, radius 18px, fill #121719, padding 12px. Grid columns: 64px media slot, 14px gap, 1fr text, 18px gap, 156px status/date column, 18px gap, 82px money stack, 18px chevron. Recreate and Story media render 54x72px radius 12px; Car and cover media render 64x54px radius 12px vertically centered. Status/date column shows status dot label on line 1 and optional sub line or date on line 2. Money remains right aligned in #c9ff38. Row hover on pointer devices: translateX 2px and fill #1b2225 over 140ms ease-out.
+- Desktop empty state appears inside the main column, width 420px, min-height 214px, radius 20px, fill #121719, padding 18px, with the same icon/title/copy/button as phone. It aligns to the left of the main column, not centered across the whole canvas.
+
+## empty states
+
+- Active empty: title 'No active work'; copy 'Accepted work and requests that need your answer will appear here.'; primary button 'Open Home'.
+- Submitted empty: title 'Nothing submitted'; copy 'Work waiting on a business will appear here after you upload it.'; primary button 'Open Home'.
+- Completed empty: title 'No completed work yet'; copy 'Approved, paid and finished work will land here.'; primary button 'Open Home'.
+- Saved empty: title 'No saved opportunities'; copy 'Save opportunities from Home to keep them here.'; primary button 'Open Home'.
+- Loading state: keep the title and tabs visible, then show up to three skeleton rows matching the final row layout. Do not show fake campaign titles, fake businesses, fake pay, or fake counts.
+- Missing media state: use campaign media, then business cover, then a dark media well with the real business logo. If no logo exists, show only the dark well; no illustration.
+
+## cards and rows
+
+- Activity items are rows, not cards, because this screen is a status queue and the next action is always to open the item detail.
+- Rows still lead with media so the user recognizes the campaign quickly, but the media is thumbnail scale to preserve density.
+- Money is a dedicated trailing stack on every row, always #c9ff38, because pay must remain obvious even in a compact status list.
+- Status is inline with a 6px dot and concise label, not a large badge, so the row stays readable without becoming noisy.
+- Saved opportunities use the same activity row shell and the same Home opportunity objects, but no Apply or Post button appears here; the row opens the existing opportunity detail page.
+- The only card on the screen is the empty-state card, because empty tabs need one contained explanation and one clear route back to Home.
+- Bottom navigation is glass. Tabs are chips. The list itself avoids dividers and nested cards; separation comes from 9px gaps and graphite surface tone.
+
+## implementation
+
+- 1. Replace the existing Activity page background with #090c0e plus the top radial wash and remove all legacy borders, divider-heavy header styling and oversized empty black spacing. (User Activity root view)
+- 2. Build the phone top bar with centered Tapmart wordmark, Messages and Notifications icon buttons, real unread dots only, and glass-on-scroll behavior after 12px. (Shared User root top chrome on Activity)
+- 3. Render the screen title block with only 'Activity' at 23px/29px weight 800 and no subtitle. (Phone Activity content above tabs)
+- 4. Replace the old pill tabs with four filter chips in this exact order: Active, Submitted, Completed, Saved; keep selected tab in URL or existing state model and switch the rendered list without changing routes. (Activity tab control)
+- 5. Create one reusable Activity row component with width 358px on phone, min-height 84px, 18px radius, media slot, text stack, status dot line, money stack and chevron exactly as specified. (Activity list rows)
+- 6. Map campaign_kind to kind labels and money units: recreate_reel to Recreate and version, instagram_story to Story and post, car_ads to Car and mo. Record types application, submission, car booking and direct request may override the kind label to Application, Submission, Booking or Request when that is clearer. (Activity row data formatting)
+- 7. Map statuses to colors: Accepted, Approved and Active use #9ded62; Under review uses #7cc8ff; Pending and Installation next use #ffcc66; Revision requested, Proof needed and Request sent and waiting for your answer use #c9ff38 and row fill #171d20; Paid uses #c9ff38; Completed, Done and archived states use #9ca4a7; failed or blocked states use #ff6b6b. (Activity row status renderer)
+- 8. Format status line as status label plus optional sub_line; if sub_line is absent, show the most relevant real date for the current tab. Truncate to one line with ellipsis. (Activity row third line)
+- 9. On row tap, navigate to the existing campaign detail or opportunity detail route for that item. Do not add inline Accept, Decline, Upload, Proof, Apply, or Post actions on Activity. (Activity row interaction)
+- 10. Implement empty states per tab with one empty-state-card and one primary button labeled 'Open Home' that routes to User Home. (Activity selected-tab empty renderer)
+- 11. Implement desktop at 1024px and above with the 88px fixed left rail, desktop page header, 248px vertical tab panel and 768px main list column; remove the phone bottom nav on desktop. (Activity responsive layout)
+- 12. Add page reveal, tab switch, row press, desktop hover and loading skeleton animations using the UI system timings. Respect reduced-motion by disabling translate/scale while keeping opacity changes under 100ms. (Activity motion and accessibility)
+- 13. Verify every interactive target is at least 44x44px, row focus uses 0 0 0 3px rgba(201,255,56,0.18), and all image elements have accessible labels based on campaign title and business name. (Activity accessibility pass)
+
+## removed
+
+- The settings gear is removed from the Activity top bar; settings belongs in Profile or the settings route, not in a status queue.
+- Inline action buttons such as Accept, Decline, Upload, Apply or Post are not shown in the list; they belong on detail pages where the full context exists.
+- The old large outlined tab pills are replaced with compact graphite filter chips.
+- The old heavy row outline and oversized empty page space are replaced by compact graphite rows and honest empty states.
+- Messages and Notifications are not desktop rail destinations on this screen; they are utility icons in the desktop header so the rail preserves the User mode structure.
+- No fake counts, fake statuses, fake media placeholders, descriptions, campaign metrics, or discovery copy are added.
+
+## cta
+
+- Active tab chip: filter-chip, selected state, switches to the Active list.
+- Submitted tab chip: filter-chip, inactive or selected state, switches to the Submitted list.
+- Completed tab chip: filter-chip, inactive or selected state, switches to the Completed list.
+- Saved tab chip: filter-chip, inactive or selected state, switches to the Saved list.
+- Activity row: whole row is a tertiary navigational action with pressed fill #20282c and chevron; label is implicit from the row content; opens item detail.
+- Empty state button: primary-button, full empty-card inner width, label 'Open Home', routes to User Home.
+- Messages icon: icon-button-transparent on phone and icon-button-surface on desktop, opens Messages if the route exists in the current shell.
+- Notifications icon: icon-button-transparent on phone and icon-button-surface on desktop, opens Notifications if the route exists in the current shell.
+- Bottom nav Home, Activity, Earnings, Profile: standard User bottom navigation; Activity is active in lime.
+
+## spacing
+
+- Phone side gutters: 16px; content width 358px.
+- Top bar height: 56px; title starts 14px below the top bar at y 70px.
+- Title to tabs: 16px from title baseline block to chip row.
+- Tab chip gap: 8px; chip visual height 34px with 44px minimum hit target.
+- Tabs to section label: 24px from chip row top to section label top, leaving calm breathing room without making the page feel empty.
+- Section label to first row: 10px.
+- Activity row padding: 12px horizontal, 10px vertical; media-to-text gap 12px; text-to-money gap 8px; money-to-chevron gap 8px.
+- Row gap: 9px between separate rounded rows.
+- Empty-state card padding: 18px; icon to title 16px; title to copy 6px; copy to button 18px.
+- Bottom content padding: 96px plus safe-area-bottom so the last row clears the 68px floating nav.
+- Desktop workspace padding: 32px after the 88px rail; content grid gap 24px; desktop row gap 9px; desktop columns 248px and 768px.
+

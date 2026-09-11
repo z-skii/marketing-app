@@ -1,0 +1,275 @@
+{
+  "screen": "User Home",
+  "model": "gpt-5.5",
+  "when": "2026-09-11T05:52:39.547Z",
+  "usage": {
+    "input_tokens": 26962,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 28142,
+    "output_tokens_details": {
+      "reasoning_tokens": 28142
+    },
+    "total_tokens": 55104
+  },
+  "spec": {
+    "concept": "User Home becomes a premium media feed of paid opportunities, with the card media and payout doing the selling instead of explanatory copy. It shows only the three earning paths TapMart supports, Recreate a Reel, Instagram Story and Car advertising, and every card opens the detail page for the actual explanation and action.",
+    "moved_deeper": [
+      "Save, unsave and saved-state management stay on the opportunity detail screen; User Home has no bookmark control.",
+      "Full Recreate instructions, reference-video controls, upload requirements and approval rules move to the Recreate detail screen.",
+      "Full Story posting steps, Instagram connection checks, proof requirements and 24-hour tracking explanation move to the Story detail screen.",
+      "Car placement specs, full placement list, vehicle preferences, eligibility explanation, wrap duration rules and preview controls move to the Car Ad detail screen.",
+      "Business profile pages, extended business photos, campaign terms and payment policy details move to the detail screen.",
+      "Any follower, reach, rating or performance metric that is not in the real opportunity payload is not shown on Home."
+    ],
+    "visual_hierarchy": [
+      "First: the first visible opportunity media with the lime payout sitting over it or beside it.",
+      "Second: the short opportunity title and type label, so the user knows the earning action at a glance.",
+      "Third: business identity, city, spots, deadline and vehicle-fit metadata.",
+      "Fourth: the filter chips and global chrome, available but visually quieter than the money feed."
+    ],
+    "content_order": [
+      {
+        "height": "56px fixed top bar",
+        "name": "Phone top bar",
+        "composition": "Width 390px. Transparent at scroll top, switches to glass-top-bar-scrolled after content scrolls 12px. Left slot x16 y6 is a 44x44 icon-button-transparent with MessageCircle 22px #f5f7f2; show a 7px #c9ff38 unread dot at x48 y9 only when real unread messages exist. Center wordmark is 94x25 at x148 y16, using the real Tapmart wordmark asset; fallback text uses Inter 21px/24px 820 with the brand mark in #c9ff38 and text #f5f7f2. Right icons are Bell at x286 y6 and Settings at x338 y6, both 44x44 icon-button-transparent; Bell gets the same unread dot only when real notifications exist."
+      },
+      {
+        "height": "29px",
+        "name": "Screen title",
+        "composition": "Inside scroll content at x16 y70, width 358px. Text: Earn now, Inter 23px/29px 800, letter-spacing -0.45px, color #f5f7f2. No welcome copy, no stats, no search field."
+      },
+      {
+        "height": "34px",
+        "name": "Filter chip carousel",
+        "composition": "At x0 y111, horizontal scroll area width 390px height 34px with 16px leading and trailing padding, no visible scrollbar, 8px gap. Chips in this exact order: For you, Nearby, Recreate, Stories, Car ads. Each chip uses filter-chip: height 34px, radius 999px, padding 0 12px, label 12px/14px 700. Active chip fill rgba(201,255,56,0.16), active text #c9ff38. Inactive chips fill rgba(255,255,255,0.08), text #c8cecf. Tapping Nearby with no user city opens the Add city action and does not change the selected filter."
+      },
+      {
+        "height": "72px conditional",
+        "name": "Missing city prompt",
+        "composition": "Shown only when the user's city is missing. Position directly below filters with 14px top gap, x16 width 358px, height 72px, radius 16px, fill #121719, no decorative border, padding 12px. Leading tile 44x44 radius 14px fill #171d20 with MapPin 20px #c8cecf. Text block x68 y13: Add your city in 14px/18px 700 #f5f7f2; Nearby uses your city. in 12px/16px 500 #9ca4a7. Trailing secondary-button x248 y12 width 98px height 48px label Add city."
+      },
+      {
+        "height": "Dynamic; cards plus 14px gaps",
+        "name": "Opportunity feed",
+        "composition": "Starts 14px below the filter row, or 14px below the missing city prompt when present. Feed uses the backend order for the selected filter and never injects fake opportunities. Each item is full-width x16 width 358px and maps by kind to one of the three type-specific cards below. The entire card is tappable with tap-press and opens the opportunity detail page; the visible primary button performs the same navigation."
+      },
+      {
+        "height": "352px per recreate_reel item",
+        "name": "Recreate opportunity card",
+        "composition": "Width 358px, height 352px, radius 20px, overflow hidden, fill linear-gradient(180deg,rgba(255,255,255,0.055) 0%,rgba(255,255,255,0.018) 100%), #121719, shadow 0 12px 32px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.045). Media area 358x260px full bleed at top, using the opportunity reference video poster or the Recreate demo image only for demo data. Media crop is 4:5-ish cover centered on the creator and phone. Add top scrim only behind the type badge and bottom scrim over the lower 154px. Type badge at x14 y14: RECREATE, type-badge-neutral. Bottom overlay at x14 y169 width 330px: payout line with amount formatted from pay_cents as dollars in 27px/30px 850 #c9ff38, followed by unit per version in 12px/14px 700 #c8cecf with 6px gap; title below in 20px/25px 760 #f5f7f2, max 2 lines; metadata row below in 13px/17px 600 #c8cecf showing city, spots left and deadline only when each real value exists, separated by 6px dot separators. Footer y260 height 92px fill #121719. Footer content: business logo 32x32 radius 999px at x14 y14, or generated dark initials circle from the real business name if logo is absent; business name at x54 y14 max 150px, 14px/18px 700 #f5f7f2, verified-mark 16px inline only when verified is true; subline at x54 y33, 12px/16px 500 #9ca4a7 using business city or deadline when available. Primary-button at x218 y20 width 126px height 52px label View Reel."
+      },
+      {
+        "height": "342px per instagram_story item",
+        "name": "Story opportunity card",
+        "composition": "Width 358px, height 342px, radius 20px, fill premium-card-fill, shadow card-soft, padding 14px, overflow hidden. Left media preview x14 y14 width 140px height 249px, radius 16px, source is the Story creative image or the Instagram Story demo image only for demo data. Preview is 9:16 and shows the finished creative as an object; if the source is not 9:16, use object-fit contain on #090c0e rather than stretching. Type badge STORY sits over preview at x24 y24. Under the preview, chips at x14 y275 height 24px wrap within 140px: metadata-badge 24 hours, plus spots left when real. Right column x168 width 176px. Payout at y18: amount in 27px/30px 850 #c9ff38 with unit per post in 12px/14px 700 #c8cecf below. Title y66 in 20px/25px 760 #f5f7f2, max 2 lines. Business row y126: logo 32px, name 14px/18px 700, verified mark if true. Metadata stack y170 uses 24px metadata-badges for city and deadline only when real values exist. Primary-button x168 y276 width 176px height 52px label View Story."
+      },
+      {
+        "height": "332px per car_ads item",
+        "name": "Car advertising opportunity card",
+        "composition": "Width 358px, height 332px, radius 20px, overflow hidden, fill premium-card-fill, shadow card-soft. Media area 358x236px full bleed, source is campaign image or the Car Advertising demo image only for demo data, 4:3 cover centered on the wrapped vehicle. Add top scrim for the CAR AD type badge at x14 y14 and bottom scrim over the lower 144px. Bottom overlay x14 y143 width 330px: payout formatted as $amount/mo in 27px/30px 850 #c9ff38; title below in 20px/25px 760 #f5f7f2, max 2 lines; metadata row below in 13px/17px 600 #c8cecf showing city and duration in days when real. Footer y236 height 96px fill #121719. Left footer x14 y14 width 188px: placement line 13px/17px 600 #c8cecf showing up to two real placements, then +N if more exist; vehicle-fit line y34 uses status anatomy, 6px dot #9ded62 and text Your vehicle qualifies in #9ded62 when vehicle_qualifies is true, or attention-badge text Check vehicle fit when false. Primary-button x218 y22 width 126px height 52px label View Ad."
+      },
+      {
+        "height": "64px conditional",
+        "name": "Paging control",
+        "composition": "Shown only when the backend has another page. x16 width 358px, padding-top 16px. Button is secondary-button width 358px height 48px label More opportunities. While loading, keep the button width and height, disable it, show label Loading and an 18px spinner #c8cecf."
+      },
+      {
+        "height": "96px",
+        "name": "Bottom scroll spacer",
+        "composition": "Invisible spacer after the last feed item so the final card and More button clear the floating bottom navigation and safe area."
+      }
+    ],
+    "media": [
+      "Recreate Reel media: phone card 358x260px, cover crop from the real reference video poster or inline muted video; subject safe area 14px from overlay text. If a video exists, autoplay muted only while at least 70% of the card is visible, pause offscreen, no controls on Home, respect reduced motion by using the poster frame.",
+      "Instagram Story media: phone card preview 140x249px, exact 9:16 object, radius 16px. It should look like a ready-to-post Story creative, not a generic cover image; use contain on #090c0e for non-9:16 assets, never stretch.",
+      "Car advertising media: phone card 358x236px, 4:3 cover, object-position center on the wrapped vehicle or campaign visual. Use the car advertising demo image only for demo campaign data, not as a universal placeholder.",
+      "Business logos: 32x32px inside feed card footers and story business rows, radius 999px, 2px rgba(255,255,255,0.10) border only when the logo sits on media; otherwise no border.",
+      "Media overlays: use media-top-scrim only where badges sit on bright media and media-bottom-scrim only where money, title or metadata sits on the image. No blur filters, no artificial gradients outside scrims, no placeholder illustrations.",
+      "Absent media: keep the media well size, fill #151b1e, show one caption Media unavailable in 12px/16px #9ca4a7 centered; still show real money, title and business data below or over the well with no fake image."
+    ],
+    "navigation": "Phone uses a fixed transparent-to-glass top bar and the User mode bottom navigation only: Home, Activity, Earnings, Profile. Bottom nav is width calc(100% - 20px), max 370px, height 68px, left 10px, bottom calc(10px + safe-area-bottom), radius 28px, glass-navigation fill, padding 6px 8px; Home is active with icon and label #c9ff38, other items #9ca4a7, no active background. Messages, notifications and settings live in the top bar as global chrome and are not bottom navigation items. Desktop removes the bottom nav and uses the 88px collapsed left rail with Home active, plus message, notification and settings icon buttons in the desktop page header.",
+    "layout_architecture": "Phone 390px: root background #090c0e with radial page wash at the top. Fixed top chrome 56px. Scroll content starts at y56 with 16px side padding: title at y70, filter carousel at y111, optional city prompt, then the media feed. Feed cards are full-width 358px with 14px vertical gaps. Fixed glass bottom nav overlays the viewport at the bottom; scroll content has 96px bottom padding. No search field, no dashboard stats and no explanatory hero panel.",
+    "animation": [
+      "Route enter: apply page-reveal to title, chip row and the first five feed cards with 35ms stagger, 180ms cubic-bezier(0.22,1,0.36,1).",
+      "Card press: full card and card primary button use tap-press, scale 1 to 0.985 over 100ms ease-out, return over 140ms.",
+      "Filter change: active chip text and fill transition with nav-active-change, 160ms cubic-bezier(0.22,1,0.36,1); feed crossfades opacity 0 to 1 and translateY 6px to 0 over 180ms.",
+      "More loading: appended cards reveal with the same page-reveal, staggered 35ms, maximum five new cards staggered.",
+      "Recreate inline video: fade poster to video over 160ms when playback starts; pause immediately when offscreen. No looping UI animation beyond real video playback.",
+      "Top bar scroll state: transparent to glass-top-bar-scrolled over 160ms as soon as scrollY exceeds 12px.",
+      "City prompt sheet, if the existing add-city flow uses a sheet: sheet-enter 260ms and sheet-exit 220ms with modal scrim rgba(0,0,0,0.58).",
+      "Desktop hover: cards and rows use desktop-row-hover only on pointer devices, translateX 0 to 2px and fill #1b2225 over 140ms."
+    ],
+    "typography": [
+      "Wordmark fallback: Inter 21px/24px 820, letter-spacing -0.45px, #f5f7f2 with Tapmart brand mark in #c9ff38.",
+      "Screen title: 23px/29px 800, letter-spacing -0.45px, #f5f7f2.",
+      "Filter chip label: 12px/14px 700, active #c9ff38, inactive #c8cecf.",
+      "Type badge label: 11px/13px 760, letter-spacing 0.1px, #f5f7f2 on rgba(255,255,255,0.09).",
+      "Hero money: 27px/30px 850, letter-spacing -0.7px, #c9ff38. Money is the only lime text inside cards.",
+      "Money unit: 12px/14px 700, #c8cecf, aligned to the payout line or directly below it on Story cards.",
+      "Opportunity title: 20px/25px 760, letter-spacing -0.35px, #f5f7f2, max 2 lines.",
+      "Media metadata: 13px/17px 600, #c8cecf, one line with dot separators; truncate at card edge.",
+      "Business name in card rows: 14px/18px 700, #f5f7f2, single line with verified-mark inline only when real.",
+      "Business subline and small metadata: 12px/16px 500, #9ca4a7.",
+      "Prompt row title: 14px/18px 700 #f5f7f2; prompt subline 12px/16px 500 #9ca4a7.",
+      "Primary button label: 15px/18px 800, #071004.",
+      "Bottom nav label: 10px/12px 650, active #c9ff38, inactive #9ca4a7."
+    ],
+    "three_second_read": "A first-time viewer understands that TapMart has paid brand opportunities available now, can filter by type or location, and can tap a card to view a Reel, Story or Car Ad opportunity with the payout clearly shown.",
+    "desktop": [
+      "At 1360px wide, use body #090c0e and a fixed left rail x0 y0 width 88px height 100vh, fill #0d1113, border-right 1px rgba(255,255,255,0.08), padding 18px 12px. Rail contains logo 44x44 at top, then Home, Activity, Earnings, Profile rail items 64x56 with 10px gap; Home active fill rgba(201,255,56,0.12), icon/text #c9ff38. No bottom nav on desktop.",
+      "Desktop page header sits at x120 y0 width 1104px height 64px. Left title Earn now at y17 in 30px/36px 820 #f5f7f2. Right global actions are MessageCircle, Bell and Settings, each 44x44 icon-button-transparent with 8px gap, aligned to the 1104px content right edge. Unread dots appear only from real unread data.",
+      "Filter chips sit at x120 y82 height 34px, same order and styles as phone, no stretch. The row may wrap only if the viewport is narrower than 1180px; at 1360px it remains one line.",
+      "Desktop feed starts at x120 y132 and uses three visual columns that still respect the specified User Home architecture: main region width 720px split into two 348px columns with 24px gap, plus side column x864 width 360px with 24px gap from main. Feed cards flow by backend order into the shortest column; no card stretches wider than 360px.",
+      "Desktop card adaptations: Recreate width 348px, media 348x252px, footer 92px, total 344px; Story width 360px height 342px with the same 140x249px preview; Car width 360px, media 360x238px, footer 96px, total 334px. Typography sizes stay the same as phone so cards feel native, not dashboard-sized.",
+      "Desktop missing-city prompt appears at the top of the side column if user city is missing: width 360px height 72px, same row composition as phone with the Add city secondary button. If there is no city prompt, the side column begins with the next feed card.",
+      "Desktop More opportunities button spans the two-column main region width 720px at the bottom of the feed, height 48px, secondary-button style. The side column simply ends with content, no fake recommendations.",
+      "Desktop empty state uses a 720px-wide empty-state-card in the main region at x120, with no illustration and one secondary action when appropriate. The right column remains empty unless the city prompt is relevant."
+    ],
+    "empty_states": [
+      "Initial loading: show one Recreate skeleton 358x352, one Story skeleton 358x342 and one Car skeleton 358x332 in the feed order area. Skeleton surfaces use #121719 and #171d20 blocks with shimmer rgba(255,255,255,0.03) to rgba(255,255,255,0.07), maximum 2 seconds before showing loaded data or an honest empty state.",
+      "No opportunities for selected filter: show empty-state-card x16 width 358px min-height 148px, radius 20px, fill #121719, padding 18px. Title No opportunities right now in 18px/22px 780 #f5f7f2. Copy Check another filter or come back later. in 13px/18px #9ca4a7. If selected filter is not For you, include secondary-button Show For you width 132px height 48px; otherwise no button.",
+      "No city: show the Missing city prompt below the filter chips. Nearby chip remains visible, and tapping it opens the same Add city action instead of showing an empty Nearby feed.",
+      "Media missing on an otherwise valid opportunity: retain the exact card size and media well, fill the media area #151b1e, show Media unavailable centered in 12px/16px #9ca4a7, and continue showing the real payout, title, business and CTA.",
+      "No more pages: remove the More opportunities block entirely. Do not show an end-of-feed slogan.",
+      "More page loading error: keep the secondary-button position, change label to Try again, and show a toast above bottom nav: Could not load more opportunities. No inline red card.",
+      "Business logo missing: render a 32px circular #171d20 avatar using the first character of the real business name in 12px/14px 760 #c8cecf; do not use generic brand illustrations."
+    ],
+    "cards_and_rows": [
+      "Opportunity items are media cards because the next decision depends on seeing the Reel reference, the Story creative or the car advertising visual before reading details.",
+      "Recreate and Car cards place money and title on the media with scrims because their visuals are wide and atmospheric; Story uses a split card because the 9:16 creative should remain intact and readable.",
+      "The Missing city component is a standalone row, not a promotional card, because it is setup utility for one filter.",
+      "Filter chips are page controls, not tabs in the bottom navigation. Only the selected chip uses lime text and lime-tint fill.",
+      "The More opportunities control is a single secondary button row, not a card, because it is pagination rather than content.",
+      "No nested cards are used inside opportunity cards; footers are tonal regions within the same card object.",
+      "No save icon appears on feed cards. The card and its primary button are the only opportunity actions on Home."
+    ],
+    "implementation": [
+      {
+        "priority": 1,
+        "change": "Replace the existing User Home root with a #090c0e page background and the top radial page wash. Keep the route, data fetching, auth and paging logic unchanged.",
+        "where": "User Home root container"
+      },
+      {
+        "priority": 2,
+        "change": "Build the phone top bar exactly as specified: message icon left, centered Tapmart wordmark, notification and settings icons right, transparent at top and glass after 12px scroll. Connect each icon to the existing global destinations.",
+        "where": "User Home top chrome"
+      },
+      {
+        "priority": 3,
+        "change": "Remove the old large header treatment and render only the 23px Earn now title at x16 below the top bar.",
+        "where": "Top of scroll content"
+      },
+      {
+        "priority": 4,
+        "change": "Create the horizontal filter chip carousel with the five allowed filters in this exact order: For you, Nearby, Recreate, Stories, Car ads. Keep the selected filter in existing state and map Recreate to recreate_reel, Stories to instagram_story, Car ads to car_ads.",
+        "where": "Filter area"
+      },
+      {
+        "priority": 5,
+        "change": "Implement the missing-city branch: when user.city is null or empty, show the 72px Add your city row; tapping Add city or the Nearby chip invokes the existing add-city flow and does not apply the Nearby filter until a city exists.",
+        "where": "Below filters"
+      },
+      {
+        "priority": 6,
+        "change": "Add a shared money formatter: pay_cents becomes whole-dollar display when divisible by 100, otherwise standard currency; recreate unit is per version, story unit is per post, car unit is /mo.",
+        "where": "Opportunity card data mapping"
+      },
+      {
+        "priority": 7,
+        "change": "Build the Recreate card component with width 358px, height 352px, 358x260px media, overlay type badge, lime payout, title, metadata row, business footer and View Reel primary button. Use reference video poster or inline muted playback when available.",
+        "where": "Feed item renderer for kind recreate_reel"
+      },
+      {
+        "priority": 8,
+        "change": "Build the Story card component with width 358px, height 342px, 140x249px 9:16 creative preview on the left, payout and details on the right, metadata badges and View Story primary button.",
+        "where": "Feed item renderer for kind instagram_story"
+      },
+      {
+        "priority": 9,
+        "change": "Build the Car Ad card component with width 358px, height 332px, 358x236px car campaign media, lime monthly payout, title, city/duration metadata, placement summary, vehicle-fit status and View Ad primary button.",
+        "where": "Feed item renderer for kind car_ads"
+      },
+      {
+        "priority": 10,
+        "change": "Wire full-card tap and each card primary button to the existing opportunity detail route. Do not add save, apply, post or accept actions to Home.",
+        "where": "Opportunity card interactions"
+      },
+      {
+        "priority": 11,
+        "change": "Render feed items strictly from backend order for the selected filter. Omit empty metadata fields instead of showing placeholders, and never fabricate follower counts, distances, ratings or metrics.",
+        "where": "Feed list mapping"
+      },
+      {
+        "priority": 12,
+        "change": "Add the More opportunities secondary button only when the existing paging state reports another page. Append new results below existing cards with the page reveal animation.",
+        "where": "Feed footer"
+      },
+      {
+        "priority": 13,
+        "change": "Implement loading, empty, no-more, media-missing, logo-missing and pagination-error states exactly as specified.",
+        "where": "User Home state handling"
+      },
+      {
+        "priority": 14,
+        "change": "Apply the fixed glass User bottom navigation with exactly Home, Activity, Earnings and Profile. Mark Home active and keep all existing route destinations.",
+        "where": "Phone bottom navigation"
+      },
+      {
+        "priority": 15,
+        "change": "Create the desktop layout at 1024px and above: 88px left rail, 64px page header, chips at y82 and three-column content region x120 y132 with columns 348, 348 and 360. Remove phone bottom nav on desktop.",
+        "where": "Desktop responsive layout"
+      },
+      {
+        "priority": 16,
+        "change": "Apply interaction accessibility: every clickable element has at least a 44px target, keyboard focus ring 0 0 0 3px rgba(201,255,56,0.18), aria labels for icon buttons and reduced-motion fallbacks for reveal and video autoplay.",
+        "where": "All User Home interactions"
+      }
+    ],
+    "removed": [
+      "The old bright filled lime For you pill is replaced with a restrained lime-tint active chip so money and primary buttons remain the strongest lime elements.",
+      "The all-purpose identical image card template is removed; Recreate, Story and Car Ad now have distinct compositions that match the real media format.",
+      "The Earn now uppercase section label is removed because the screen title already says Earn now and the feed should start higher.",
+      "Home feed save/bookmark controls are removed because saving happens on the detail screen.",
+      "Fake or unavailable follower counts are removed from Story cards unless the backend explicitly provides a real requirement in the opportunity payload.",
+      "Long explanatory card copy is removed; the detail screen explains how the opportunity works.",
+      "Extra borders around every card are removed; separation comes from graphite surface tone, scrims and soft shadow.",
+      "Any generic placeholder illustration or icon replacing missing media is removed; missing media is shown honestly as a dark media well with one caption.",
+      "Messages and notifications are not treated as bottom navigation items; they remain global top-bar actions.",
+      "No search field, dashboard metrics, welcome panel, charts or promotional banners are added to this discovery screen."
+    ],
+    "cta": [
+      "Message icon: icon-button-transparent, x16 y6 in phone top bar; opens existing Messages. Badge dot only with real unread messages.",
+      "Notifications icon: icon-button-transparent, x286 y6 in phone top bar; opens existing Notifications. Badge dot only with real unread notifications.",
+      "Settings icon: icon-button-transparent, x338 y6 in phone top bar; opens existing Settings.",
+      "Filter chips: filter-chip style, 34px height, horizontal row below title; labels For you, Nearby, Recreate, Stories, Car ads; selecting changes the feed filter except Nearby without a city, which opens Add city.",
+      "Add city: secondary-button 98x48 in the missing-city row, label Add city; opens the existing city add or edit flow.",
+      "Opportunity card tap: entire card uses tap-press and opens the existing opportunity detail page.",
+      "Recreate primary: primary-button 126x52 in card footer, label View Reel; opens Recreate detail.",
+      "Story primary: primary-button 176x52 in right column, label View Story; opens Story detail.",
+      "Car Ad primary: primary-button 126x52 in card footer, label View Ad; opens Car Ad detail.",
+      "More opportunities: secondary-button 358x48 after feed when hasMore is true; loads the next page.",
+      "Bottom nav Home: active nav item, already selected. Activity, Earnings and Profile are inactive nav actions with existing route destinations."
+    ],
+    "spacing": [
+      "Phone root content width is 358px with 16px left and right padding.",
+      "Top bar height 56px; scroll content begins 14px below it at y70.",
+      "Title to filter chips gap is 12px.",
+      "Filter chip horizontal gap is 8px; chip row has 16px leading and trailing scroll padding.",
+      "Filter chips to feed gap is 14px when no city prompt is present.",
+      "Filter chips to missing-city prompt gap is 14px; missing-city prompt to feed gap is 14px.",
+      "Opportunity card vertical gap is 14px.",
+      "Media overlay padding is 14px from card edges for badges, money, title and metadata.",
+      "Card footer internal padding is 14px unless a button is vertically centered in the footer, in which case the button y is fixed as specified.",
+      "Story card internal padding is 14px; gap between preview and right column is 14px.",
+      "Business logo to business text gap is 8px inside card rows.",
+      "Metadata dot separator gap is 6px on each side.",
+      "More opportunities block has 16px top padding above the 48px button.",
+      "Phone scroll bottom padding is 96px to clear the 68px floating nav plus safe area.",
+      "Desktop workspace starts after the 88px rail; content x is 120px at 1360px, with total content width 1104px.",
+      "Desktop grid gaps are 24px between 348px, 348px and 360px columns."
+    ]
+  }
+}

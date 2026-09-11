@@ -25,7 +25,7 @@ export function FilterBar({ items, active, label = "Filter" }: { items: FilterIt
     <nav className="pill-row relative" aria-label={label} ref={row}>
       <span
         aria-hidden
-        className="pointer-events-none absolute top-0 h-full rounded-full bg-signal transition-[left,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        className="pointer-events-none absolute top-0 h-full rounded-full bg-signal/16 transition-[left,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
         style={box ? { left: box.left, width: box.width, opacity: 1 } : { opacity: 0 }}
       />
       {items.map((item) => {
@@ -36,7 +36,7 @@ export function FilterBar({ items, active, label = "Filter" }: { items: FilterIt
             href={item.href}
             data-key={item.key}
             aria-current={on ? "page" : undefined}
-            className={`pill relative z-10 !bg-transparent transition-colors ${on ? "!border-transparent !text-[#0b0f10] !font-[750]" : ""}`}
+            className={`pill relative z-10 !bg-transparent transition-colors ${on ? "!text-signal" : ""}`}
           >
             {item.label}
           </Link>
