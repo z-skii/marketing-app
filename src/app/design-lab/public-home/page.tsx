@@ -37,6 +37,7 @@ export default function PublicHomeLab() {
       <section className="pub-hero" aria-labelledby="hero-title">
         <div className="pub-hero-text">
           <h1 id="hero-title" className="pub-h1">Recreate.<br />Post. Drive.<br />Get paid.</h1>
+          <p className="pub-sub">Film a Reel. Share a supplied Story. Advertise on your car.</p>
           <div className="pub-actions">
             <Link href="#earn" className="btn btn-secondary pub-audience">Start earning</Link>
             <Link href="#business" className="btn btn-secondary pub-audience">For businesses</Link>
@@ -77,7 +78,7 @@ export default function PublicHomeLab() {
             <BrowserFrame src={ASSET("capture-business-content-1440", "png")} alt="The implemented Content workspace: one delivered original under review, a filmstrip of the other files, and the decision inspector" />
             <p className="t-meta" style={{ margin: "8px 0 0" }}>Demo product</p>
             <Link href="/design-lab/business-content" className="btn btn-secondary pub-open" style={{ marginTop: 8 }}>Open example</Link>
-            <p className="t-body" style={{ margin: "16px 0 0" }}>Essential: 1 shoot, 10 photos, 3 videos each month.<br />Growth: 2 shoots, 20 photos, 6 videos each month.</p>
+            <dl className="pub-plans"><div><dt>Essential</dt><dd>1 shoot, 10 photos, 3 videos each month.</dd></div><div><dt>Growth</dt><dd>2 shoots, 20 photos, 6 videos each month.</dd></div></dl>
           </div>
         </div>
         <p className="t-task" style={{ marginTop: 32 }}>Campaign spending is separate from your content subscription.</p>
@@ -116,7 +117,7 @@ export default function PublicHomeLab() {
       </section>
 
       <footer className="pub-footer">
-        <Wordmark size={24} />
+        <Wordmark size={30} />
         <nav aria-label="Footer" className="pub-footer-links">
           {["Earn", "For businesses", "Sign in", "Terms", "Privacy", "Creator terms", "Rules"].map((l) => <Link key={l} href={`#${l.toLowerCase().replace(/ /g, "-")}`}>{l}</Link>)}
         </nav>

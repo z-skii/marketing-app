@@ -137,8 +137,8 @@
 .lab .desk { display: grid; grid-template-columns: var(--tm-rail) minmax(0, 1fr); min-height: 100dvh; }
 .lab .rail { position: sticky; top: 0; height: 100dvh; display: flex; flex-direction: column; padding: 16px 12px; background: var(--tm-graphite); color: var(--tm-on-dark); }
 .lab .rail .wordmark { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 8px; margin-bottom: 8px; }
-.lab .rail .identity { display: flex; align-items: center; gap: 8px; width: 168px; min-height: 56px; padding: 6px 8px; margin: 0 auto 4px; border-radius: var(--tm-radius-control); border: 1px solid var(--tm-control-border-dark); }
-.lab .rail .demo { display: block; width: 168px; margin: 0 auto 16px; padding: 0 8px; font-size: 14px; line-height: 20px; color: var(--tm-muted-dark); }
+.lab .rail .identity { display: block; width: 168px; height: 80px; padding: 8px; margin: 0 0 16px 4px; box-sizing: border-box; border-radius: var(--tm-radius-control); border: 1px solid var(--tm-control-border-dark); text-align: left; }
+.lab .link-ink { color: var(--tm-ink); font-weight: 600; }
 .lab .rail nav { display: flex; flex-direction: column; gap: 2px; }
 .lab .rail nav a { position: relative; display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 12px; border-radius: var(--tm-radius-control); font-size: 16px; line-height: 20px; font-weight: 500; color: var(--tm-muted-dark); }
 .lab .rail nav a:hover { background: var(--tm-stage); color: var(--tm-on-dark); }

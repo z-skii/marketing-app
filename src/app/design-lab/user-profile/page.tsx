@@ -85,7 +85,7 @@ export default function UserProfileLab() {
               <p className="t-task" style={{ margin: 0 }}>{maya.vehicle.label}</p>
               <p className="t-meta" style={{ margin: "4px 0 0" }}>{maya.vehicle.year} · {maya.vehicle.body}</p>
               <p className="t-meta" style={{ margin: "2px 0 0" }}>{maya.vehicle.color} · {maya.vehicle.city}</p>
-              <Link href="#vehicle" className="btn btn-quiet" style={{ paddingLeft: 0, marginLeft: -4, marginTop: 4, minHeight: 44 }}>View vehicle <ArrowRight size={18} aria-hidden /></Link>
+              <Link href="#vehicle" className="btn btn-quiet" style={{ paddingLeft: 0, marginTop: 4, minHeight: 44 }}>View vehicle <ArrowRight size={18} aria-hidden /></Link>
               <p className="t-meta" style={{ margin: 0 }}>Photos available</p>
             </div>
           </div>
@@ -108,7 +108,7 @@ export default function UserProfileLab() {
               </li>
             ))}
           </ul>
-          <Link href="#activity" className="btn btn-quiet" style={{ paddingLeft: 0, marginLeft: -4, marginTop: 8 }}>View Activity <ArrowRight size={18} aria-hidden /></Link>
+          <Link href="#activity" className="btn btn-quiet" style={{ paddingLeft: 0, marginTop: 8 }}>View Activity <ArrowRight size={18} aria-hidden /></Link>
         </section>
 
         {/* Private earnings: ordinary ink, a route to Earnings, no duplicated payout form. */}

@@ -33,9 +33,9 @@ export default function UserHomeLab() {
         </Link>
 
         <div className="filters" role="radiogroup" aria-label="Ordering" style={{ marginTop: 8 }}>
-          <button type="button" role="radio" aria-checked="true" aria-pressed="true">For you</button>
-          <button type="button" role="radio" aria-checked="false" aria-pressed="false">Nearby</button>
-          <button type="button" role="radio" aria-checked="false" aria-pressed="false">Top pay</button>
+          <button type="button" role="radio" aria-checked="true">For you</button>
+          <button type="button" role="radio" aria-checked="false">Nearby</button>
+          <button type="button" role="radio" aria-checked="false">Top pay</button>
           <button type="button" className="kind" aria-haspopup="dialog">Kind <CaretDown size={14} aria-hidden /></button>
         </div>
 
@@ -46,8 +46,8 @@ export default function UserHomeLab() {
               <div style={{ position: "relative", width: 160, height: 284, background: "var(--tm-stage)" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={recreate.reference} alt="Reference still: a barista pouring a latte at the Loopday Coffee counter" width={160} height={284} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-                <span className="t-meta" style={{ position: "absolute", top: 8, left: 8, color: "var(--tm-on-dark)", background: "rgba(16,24,32,0.78)", padding: "0 6px", borderRadius: 4 }}>{recreate.referenceLabel}</span>
-                <button type="button" className="icon-btn" aria-label="Inspect reference" style={{ position: "absolute", right: 4, bottom: 4, background: "rgba(16,24,32,0.78)" }}><ArrowsOutSimple size={20} /></button>
+                <span className="t-meta" style={{ position: "absolute", top: 8, left: 8, color: "var(--tm-on-dark)", background: "#101820", padding: "0 6px", borderRadius: 4 }}>{recreate.referenceLabel}</span>
+                <button type="button" className="icon-btn" aria-label="Inspect reference" style={{ position: "absolute", right: 4, bottom: 4, background: "#101820", color: "#F6F8FB", borderRadius: 8 }}><ArrowsOutSimple size={24} /></button>
               </div>
               <div style={{ display: "flex", flexDirection: "column", minHeight: 284 }}>
                 <div style={{ padding: 12, flex: 1 }}>
@@ -114,7 +114,7 @@ export default function UserHomeLab() {
 function ActionRow({ href }: { href: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 4 }}>
-      <Link href={href} className="btn btn-quiet" style={{ paddingLeft: 0, marginLeft: -4 }}>View work <ArrowRight size={18} aria-hidden /></Link>
+      <Link href={href} className="btn btn-quiet" style={{ paddingLeft: 0 }}>View work <ArrowRight size={18} aria-hidden /></Link>
       <SaveToggle />
     </div>
   );

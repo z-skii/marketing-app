@@ -48,7 +48,7 @@ export function ContentWorkspace({ files, shootLabel, uploader }: { files: Conte
                   <img src={f.src} alt="" width={192} height={144} style={{ width: 192, height: 144, objectFit: "contain" }} />
                 </span>
                 <span className="t-meta" style={{ display: "block", marginTop: 8, color: "var(--tm-ink)" }}>{f.title}</span>
-                <span className="t-meta" style={{ display: "block" }}>{states[f.id]}{f.post.state !== "Not scheduled" ? ` · Post ${f.post.state.toLowerCase()}` : ""}</span>
+                <span className="t-meta" style={{ display: "block" }}>{states[f.id]}{f.post.state !== "Not scheduled" && <> · <span className={f.post.state === "Failed" ? "status problem" : undefined}>Post {f.post.state.toLowerCase()}</span></>}</span>
               </button>
             </li>
           ))}
@@ -56,7 +56,7 @@ export function ContentWorkspace({ files, shootLabel, uploader }: { files: Conte
         <style>{`@keyframes lab-xfade { from { opacity: 0 } to { opacity: 1 } }`}</style>
       </div>
 
-      <aside aria-label="Selected file" style={{ background: "var(--tm-surface)", padding: 24, minHeight: 584, borderRadius: "var(--tm-radius-media)", transition: "background-color 140ms var(--tm-ease-out)", ...(flash ? { background: "var(--tm-accent-wash)" } : {}) }}>
+      <aside aria-label="Selected file" style={{ background: "var(--tm-surface)", padding: 24, minHeight: 584, borderRadius: 0, transition: "background-color 140ms var(--tm-ease-out)", ...(flash ? { background: "var(--tm-accent-wash)" } : {}) }}>
         <p className="t-meta" style={{ margin: 0 }}>File state · <span className={`status ${state === "Approved" ? "confirmed" : state === "Skipped" ? "neutral" : "waiting"}`}>{state}</span></p>
         <h3 className="t-section" style={{ margin: "4px 0 0" }}>{selected.title}</h3>
         <p className="t-meta" style={{ margin: "8px 0 0" }}>{shootLabel}</p>
@@ -76,8 +76,8 @@ export function ContentWorkspace({ files, shootLabel, uploader }: { files: Conte
             <button type="button" className="btn btn-primary" disabled={pending}>Schedule</button>
           )}
           <button type="button" className="btn btn-secondary" disabled={pending}>Request an edit</button>
-          <button type="button" className="btn btn-quiet" style={{ minHeight: 44 }} disabled={pending} onClick={() => act("Skipped")}>Skip</button>
-          <button type="button" className="btn btn-quiet" style={{ minHeight: 44 }}>Open original</button>
+          <button type="button" className="btn btn-quiet" style={{ minHeight: 44, color: "var(--tm-ink)" }} disabled={pending} onClick={() => act("Skipped")}>Skip</button>
+          <button type="button" className="btn btn-quiet" style={{ minHeight: 44, color: "var(--tm-ink)" }}>Open original</button>
         </div>
       </aside>
     </div>

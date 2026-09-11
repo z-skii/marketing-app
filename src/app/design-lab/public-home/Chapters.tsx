@@ -82,7 +82,7 @@ function Stage({ chapter, phone = false }: { chapter: string; phone?: boolean })
           <img src={ASSET("vehicle-maya-01")} alt="A blue hatchback parked on a residential street, no ad installed" />
         </div>
         <span className="t-meta pub-label">Demo vehicle · No installed ad</span>
-        {phone && <div style={{ marginTop: 12 }}><PlacementDiagram width={160} /><p className="t-meta" style={{ margin: "4px 0 0" }}>Rear doors: the named placement zone</p></div>}
+        {phone && <div style={{ marginTop: 12 }}><PlacementDiagram width={160} /><p className="t-meta" style={{ margin: "4px 0 0" }}>Example placement: rear doors.</p></div>}
       </div>
     </div>
   );

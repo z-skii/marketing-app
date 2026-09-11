@@ -1,6 +1,6 @@
 /**
  * The deterministic car placement diagram: a side elevation in 2px ink
- * strokes with the rear-door zone filled in cobalt wash and labelled.
+ * strokes with the rear-door zone filled in cobalt wash; the caption is HTML.
  * Built in code, never projected onto a photograph.
  */
 export function PlacementDiagram({ width = 160, zone = "Rear doors" }: { width?: number; zone?: string }) {
@@ -19,7 +19,6 @@ export function PlacementDiagram({ width = 160, zone = "Rear doors" }: { width?:
       <line x1="860" y1="320" x2="860" y2="560" stroke="#151B23" strokeWidth="6" />
       {/* rear door zone */}
       <rect x="615" y="345" width="235" height="200" fill="#E7EDFF" stroke="#2450E8" strokeWidth="8" />
-      <text x="732" y="455" textAnchor="middle" fontFamily="IBM Plex Sans, system-ui, sans-serif" fontSize="42" fontWeight="600" fill="#2450E8">{zone}</text>
       {/* wheels */}
       <circle cx="330" cy="580" r="70" fill="#FFFFFF" stroke="#151B23" strokeWidth="8" />
       <circle cx="880" cy="580" r="70" fill="#FFFFFF" stroke="#151B23" strokeWidth="8" />

@@ -37,12 +37,12 @@ export default function BusinessHomeLab() {
             {people.map((p) => (
               <li key={p.id}>
                 <div style={{ display: "grid", gridTemplateColumns: "96px 268px", gap: 12, height: 168, alignItems: "center" }}>
-                  <span className="media" style={{ width: 96, height: 144, background: "var(--tm-underlay)", display: "grid", placeItems: "center" }}>
+                  <span className="media" style={{ width: 72, height: 108, margin: "0 auto", background: "var(--tm-underlay)", display: "grid", placeItems: "center" }}>
                     {p.portrait ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={p.portrait} alt={`${p.name}`} width={96} height={144} />
+                      <img src={p.portrait} alt={`${p.name}`} width={72} height={108} />
                     ) : (
-                      <span aria-hidden className="t-display" style={{ fontWeight: 700, fontSize: 28, color: "var(--tm-ink)" }}>{p.initials}</span>
+                      <span aria-hidden className="t-display" style={{ fontWeight: 700, fontSize: 24, color: "var(--tm-ink)" }}>{p.initials}</span>
                     )}
                   </span>
                   {p.sample ? (
@@ -57,7 +57,7 @@ export default function BusinessHomeLab() {
                 <div style={{ height: 48, marginTop: 8 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, height: 24 }}>
                     <span className="t-task" style={{ display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.name}</span>
-                    <Link href={`#${p.id}`} className="btn btn-quiet" style={{ whiteSpace: "nowrap", minHeight: 44, margin: "-10px -8px -10px 0" }}>View person <ArrowRight size={18} aria-hidden /></Link>
+                    <Link href={`#${p.id}`} className="btn btn-quiet link-ink" style={{ whiteSpace: "nowrap", minHeight: 44, margin: "-10px -8px -10px 0", textDecoration: "underline", textUnderlineOffset: 3 }}>View person <ArrowRight size={18} aria-hidden /></Link>
                   </div>
                   <span className="t-meta" style={{ display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.city}{p.completed != null ? ` · ${p.completed} completed` : ""}{p.rating ? ` · ${p.rating.value.toFixed(1)} (${p.rating.count} reviews)` : ""}</span>
                 </div>
@@ -65,14 +65,14 @@ export default function BusinessHomeLab() {
               </li>
             ))}
           </ul>
-          <Link href="#people" className="btn btn-quiet" style={{ paddingLeft: 0, marginTop: 16 }}>See all people <ArrowRight size={18} aria-hidden /></Link>
+          <Link href="#people" className="btn btn-quiet link-ink" style={{ paddingLeft: 0, marginTop: 8, minHeight: 44 }}>See all people <ArrowRight size={18} aria-hidden /></Link>
         </section>
 
-        <section aria-labelledby="cars-title" style={{ marginTop: 32 }}>
+        <section aria-labelledby="cars-title" style={{ marginTop: 16 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 44 }}>
             <h2 id="cars-title" className="t-section" style={{ margin: 0 }}>Available cars</h2>
             <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <Link href="#cars" className="btn btn-quiet">See all cars</Link>
+              <Link href="#cars" className="btn btn-quiet link-ink">See all cars</Link>
               <ShelfButton dir={-1} />
               <ShelfButton dir={1} />
             </span>

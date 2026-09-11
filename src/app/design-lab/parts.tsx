@@ -93,14 +93,13 @@ export function Rail({ mode, active, business }: { mode: "Personal" | "Business"
     <aside className="rail on-dark">
       <div className="wordmark"><Wordmark dark size={30} /></div>
       <button type="button" className="identity" aria-label={`Acting as ${business?.name ?? "you"}, ${mode}, demo. Switch.`}>
-        <Avatar src={business?.logo ?? null} name={business?.name ?? "P"} initials={business?.initials} size={28} square={mode === "Business"} />
-        <span style={{ textAlign: "left", minWidth: 0 }}>
-          <span className="t-meta" style={{ display: "block", color: "var(--tm-muted-dark)", lineHeight: "16px" }}>{mode}</span>
-          <span style={{ display: "block", fontWeight: 600, fontSize: 14, lineHeight: "18px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{business?.name ?? "Personal"}</span>
+        <span className="t-meta" style={{ display: "block", color: "var(--tm-muted-dark)", textAlign: "left" }}>{mode} · Demo</span>
+        <span style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
+          <Avatar src={business?.logo ?? null} name={business?.name ?? "P"} initials={business?.initials} size={28} square={mode === "Business"} />
+          <span style={{ width: 88, textAlign: "left", fontWeight: 600, fontSize: 16, lineHeight: "20px", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" } as React.CSSProperties}>{business?.name ?? "Personal"}</span>
+          <CaretDown size={20} aria-hidden style={{ color: "var(--tm-muted-dark)", flexShrink: 0 }} />
         </span>
-        <CaretDown size={16} aria-hidden style={{ marginLeft: "auto", color: "var(--tm-muted-dark)", flexShrink: 0 }} />
       </button>
-      <span className="demo">Demo</span>
       <nav aria-label="Main">
         {tabs.map((t) => <Link key={t.label} href={t.href} aria-current={t.label === active ? "page" : undefined}><span aria-hidden>{t.icon}</span>{t.label}</Link>)}
       </nav>
