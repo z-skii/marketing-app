@@ -1,0 +1,55 @@
+{
+  "id": "content-loopday-counter-01",
+  "kind": "photo",
+  "aspect": "3:2",
+  "prompt": "Photorealistic landscape photograph from a fictional commissioned shoot at a modest coffee counter. A barista in a plain charcoal apron arranges a small tray of pastries and two dark forest-green ceramic cups on a brushed stainless-steel counter. The environment has pale blue square tiles, practical coffee equipment and a large side window, matching a real-feeling everyday shop rather than a luxury bakery. Keep the barista's hands, tray and cups fully visible, with a strong diagonal of daylight from camera left at 45 degrees. Use a 35mm-equivalent lens, natural skin, truthful food textures, neutral white balance and controlled contrast. Compose a complete 3:2 original with no crop-dependent instructions. This is fictional Design Lab delivered-media illustration, not an actual customer deliverable. No text, menus, logos, watermarks, phone screens or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "On the espresso machine at the right of the image, remove the small lettering-like marks on the upper front panel and the dark rectangular branding badge on the lower front panel. Replace these details with matching unbranded brushed stainless steel, preserving the panel geometry, reflections and lighting. Leave the composition, barista, hands, tray, pastries, green cups, tiles, window and all other equipment untouched. Do not add any text, logos or illustration labels inside the photograph.",
+        "summary": "The image is a convincing everyday coffee-counter photograph with natural side daylight, a charcoal-aproned barista and a fully visible pastry tray with two forest-green cups. It closely fulfills the brief and needs only a small equipment-branding cleanup before approval as fictional Design Lab imagery.",
+        "problems": [
+          "Right background, espresso-machine front panels: small indistinct branding-like marks and a dark badge conflict with the explicit no-text, no-logos requirement."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 8,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "",
+        "summary": "A convincing 3:2 coffee-counter photograph shows a barista arranging three modest pastries and two forest-green cups in a practical, daylight-lit shop. It closely matches the brief, with fully visible hands and tray, believable materials, pale blue tiles, and no unwanted branding or copy.",
+        "problems": [],
+        "scores": {
+          "purpose": 10,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 10,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "approve"
+      }
+    }
+  ],
+  "approvedByDirector": true
+}
