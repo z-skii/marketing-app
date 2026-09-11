@@ -57,12 +57,12 @@ begin
        7500, 8, 'Raleigh, NC', 'open', now() - interval '1 day', now() + interval '4 days',
        '{"15 to 25 seconds","Show the drink being poured","Say Demo Coffee once","Vertical 9:16"}',
        'https://www.instagram.com/reel/demo',
-       '{"reference_media_url":"/uploads/seed/demo-latte.webp","duration_seconds":[15,25]}'::jsonb);
+       '{"reference_media_url":"/uploads/seed/tapmart-recreate.jpg","duration_seconds":[15,25]}'::jsonb);
   else
     update campaigns set kind = 'recreate_reel', pay_cents = 7500, slots = 8,
            brief = 'Film your own version of our slow-pour latte clip. Casual phone footage, vertical, mention Demo Coffee once. Seeded demo data.',
            requirements = '{"15 to 25 seconds","Show the drink being poured","Say Demo Coffee once","Vertical 9:16"}',
-           details = '{"reference_media_url":"/uploads/seed/demo-latte.webp","duration_seconds":[15,25]}'::jsonb,
+           details = '{"reference_media_url":"/uploads/seed/tapmart-recreate.jpg","duration_seconds":[15,25]}'::jsonb,
            deadline = coalesce(deadline, now() + interval '4 days')
      where business_id = demo_business and title = '[demo] Recreate our latte pour video';
   end if;
@@ -76,7 +76,7 @@ begin
        'Share this ready-made story with your followers and keep it live for a full day. We pay per verified story. Seeded demo data.',
        2500, 20, 'Raleigh, NC', 'open', now() - interval '2 days', now() + interval '12 days',
        '{"Keep it live 24 hours","Tag @demoroastery","Do not crop the creative"}',
-       '{"creative_url":"/uploads/seed/demo-story.jpg","min_followers":1000,"live_hours":24}'::jsonb);
+       '{"creative_url":"/uploads/seed/tapmart-story.jpg","min_followers":1000,"live_hours":24}'::jsonb);
   end if;
   -- The old content campaign with the previous title becomes the story campaign.
   update campaigns set status = 'closed'
@@ -91,7 +91,7 @@ begin
        'A rear-window decal for 30 days. We handle printing and installation, you drive like normal. Paid monthly. Seeded demo data.',
        30000, 3, 'Raleigh, NC', 'open', now() - interval '3 days', current_date + 6,
        '{"Drive at least 800 miles a month","Park where people can see it","One photo of the decal each week"}',
-       '{"placements":["rear_window"],"duration_days":30,"vehicle_prefs":{"colors":["Black","White"],"body_types":[]},"artwork_url":"/uploads/seed/demo-car-artwork.png"}'::jsonb);
+       '{"placements":["rear_window"],"duration_days":30,"vehicle_prefs":{"colors":["Black","White"],"body_types":[]},"artwork_url":"/uploads/seed/demo-car-artwork.png","media_url":"/uploads/seed/tapmart-car.jpg"}'::jsonb);
   end if;
 
   -- One demo vehicle with zones and a real-looking photo.

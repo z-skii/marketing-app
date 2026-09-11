@@ -46,6 +46,8 @@ export type CarDetails = {
   duration_days?: number | null;
   vehicle_prefs?: { colors?: string[]; body_types?: string[] } | null;
   artwork_url?: string | null;
+  /** Campaign level visual for a car campaign (the wrap, the placement mock). */
+  media_url?: string | null;
 };
 export type CampaignDetails = RecreateDetails & StoryDetails & CarDetails;
 
@@ -269,7 +271,7 @@ export async function getActivity(viewerId: string): Promise<ActivityItem[]> {
   return sql<ActivityItem>(
     `select * from (
        select a.id, c.kind::text as kind, c.id as campaign_id, c.title, b.name as business_name,
-              b.logo_url as business_logo, coalesce(c.details->>'artwork_url', b.cover_url) as cover,
+              b.logo_url as business_logo, coalesce(c.details->>'media_url', c.details->>'artwork_url', b.cover_url) as cover,
               c.pay_cents::int as pay_cents, 'application' as record, a.status::text as status,
               a.created_at, null::date as ends_on, null::text as review_note,
               null::int as live_hours, null::text as posted_at

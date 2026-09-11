@@ -140,7 +140,7 @@ function StoryCard({ card, priority, index }: EarnCardProps) {
 // -------------------------------------------------------------------- Car ad
 
 function CarCard({ card, vehicles = [], priority, index }: EarnCardProps) {
-  const photo = card.business_cover;
+  const photo = card.details.media_url ?? card.business_cover;
   const duration = card.details.duration_days ?? 30;
   const match = vehicles.map((v) => ({ v, q: vehicleQualifies(v, card) })).find((m) => m.q.ok);
 
