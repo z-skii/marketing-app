@@ -1,0 +1,57 @@
+{
+  "id": "work-nora-lunch-01",
+  "kind": "product",
+  "aspect": "4:5",
+  "prompt": "Create a photorealistic 4:5 marketing photograph for a fictional ordinary neighborhood lunch counter. A modest ceramic plate holds a freshly made vegetable sandwich cut in half and a small side salad, on a clean brushed-metal table beside a folded plain navy napkin. Show truthful food portions, natural bread and vegetable textures, and enough background to feel like a working lunch counter. Use a 50mm-equivalent lens with directional window light at 45 degrees and neutral color balance. Avoid dramatic steam, excessive garnish and luxury restaurant styling. This is fictional Design Lab portfolio media, not a real offer or delivered customer file. No text, menus, packaging logos, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Correct the canvas from 2:3 to 4:5 with a crop only. For the displayed 1024×1536 image, retain the full width and crop vertically to approximately y=96–1376, producing 1024×1280. Keep the entire plate, both sandwich halves, salad, and enough of the navy napkin and lunch-counter background to establish the setting. Leave food textures, portions, lighting, colors, reflections, and background objects untouched; do not regenerate, extend, retouch, or add text.",
+        "summary": "A convincing daylight photograph shows a vegetable sandwich and side salad in an ordinary neighborhood lunch counter. It closely satisfies the food, setting, lighting, and no-copy brief, but the delivered portrait canvas is 2:3 rather than the required 4:5.",
+        "problems": [
+          "Full canvas: the 2:3 aspect ratio misses the specified 4:5 delivery format and leaves unnecessary foreground table space."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Reframe only: crop the current 2:3 image to the required 4:5 ratio without stretching or generative extension. At the displayed 1024×1536 resolution, retain the full width and crop vertically from y=64 to y=1344, producing 1024×1280. This removes mostly excess foreground while retaining the entire plate, recognizable lunch-counter surroundings and a visible portion of the navy napkin. Leave the food, ceramic plate, metal surface, background objects, lighting, textures and colors untouched. Add no text, logos or overlays.",
+        "summary": "This is a convincing neighborhood lunch-counter photograph with an appetizing vegetable sandwich, side salad and appropriately modest styling. It closely meets the visual brief, but its 2:3 framing must be cropped to the requested 4:5 format.",
+        "problems": [
+          "Overall frame: the image is 2:3 rather than the required 4:5, with excess metal tabletop below the meal."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}
