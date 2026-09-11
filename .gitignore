@@ -52,4 +52,5 @@ __pycache__/
 # OpenAI design reviews and the screenshots sent to them (local working files)
 design-reviews/
 screenshots/
+docs/reboot/**/.pending-*.json
 docs/reboot/.pending-*.json
