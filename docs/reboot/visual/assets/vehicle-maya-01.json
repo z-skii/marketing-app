@@ -1,0 +1,31 @@
+{
+  "id": "vehicle-maya-01",
+  "kind": "car",
+  "aspect": "3:2",
+  "prompt": "Photorealistic 3:2 photograph of a fictional owner's ordinary blue 2020 Toyota Corolla hatchback, five doors, stock wheels, clean but used condition, completely unmodified and with no advertising. Park it on a quiet practical urban side street in Austin-like daylight, with low buildings and restrained greenery but no recognizable address. Three-quarter front view from the driver side at normal standing camera height, full vehicle and all wheels visible with 12 percent framing margin. Use a 35mm-equivalent lens without wide-angle distortion, soft directional daylight, realistic paint and glass, neutral colors. Plates must be blank or naturally unreadable and badges not legible. This is a fictional Design Lab vehicle image, not live inventory or installation evidence. No lettering, wrap, watermark or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "",
+        "summary": "A convincing blue Corolla hatchback photographed from the requested front driver-side angle on a quiet urban street. It closely meets the brief with natural daylight, stock-looking details, realistic materials and no advertising or readable text; approve for clearly labeled Design Lab mock use, not live inventory or evidence.",
+        "problems": [],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "approve"
+      }
+    }
+  ],
+  "approvedByDirector": true
+}
