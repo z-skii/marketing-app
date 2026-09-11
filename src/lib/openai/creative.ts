@@ -96,9 +96,17 @@ export async function runCreativeJob(input: CreativeInput, o: CreativeJobOptions
 
   while (true) {
     say(`Round ${round}: ${action} with ${imageModel(o.tier)}`);
-    const r: Awaited<ReturnType<typeof generateImage>> = action === "generate" || action === "regenerate"
-      ? await generateImage({ prompt, aspect: brief.aspect_ratio, tier: o.tier })
-      : await editImage({ instructions: prompt, images: base ? [base, ...sourceUrls] : sourceUrls, aspect: brief.aspect_ratio, tier: o.tier });
+    let r: Awaited<ReturnType<typeof generateImage>>;
+    try {
+      r = action === "generate" || action === "regenerate"
+        ? await generateImage({ prompt, aspect: brief.aspect_ratio, tier: o.tier })
+        : await editImage({ instructions: prompt, images: base ? [base, ...sourceUrls] : sourceUrls, aspect: brief.aspect_ratio, tier: o.tier });
+    } catch (e) {
+      // A failed fix round must not throw away the image already reviewed.
+      if (rounds.length === 0) throw e;
+      say(`Round ${round}: ${action} failed (${e instanceof Error ? e.message.slice(0, 160) : String(e)}); keeping round ${rounds.length}.`);
+      break;
+    }
     const image: ImageBytes = r.images[0];
     const stepUsage: Usage[] = [r.usage];
     say(`Round ${round}: reviewing the image with ${MODELS.director}`);

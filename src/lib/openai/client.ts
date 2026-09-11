@@ -202,13 +202,26 @@ export async function imagesEdit(o: EditOptions): Promise<ImageResult> {
   form.set("size", o.size);
   form.set("quality", o.quality ?? "auto");
   form.set("output_format", format);
-  if (o.preserveInput !== false) form.set("input_fidelity", "high");
   o.images.forEach((img, i) => form.append("image[]", new Blob([new Uint8Array(img.bytes)], { type: img.contentType }), `image-${i}.${ext(img.contentType)}`));
   if (o.mask) form.set("mask", new Blob([new Uint8Array(o.mask.bytes)], { type: "image/png" }), "mask.png");
   if (o.dryRun) {
     return { images: [], usage: { model: o.model }, request: { model: o.model, prompt: o.prompt, size: o.size, images: o.images.length, mask: Boolean(o.mask) } };
   }
-  const res = await withRetry("OpenAI image edit", () => fetch(`${API}/images/edits`, { method: "POST", headers: headers(false), body: form, signal: AbortSignal.timeout(10 * 60_000) }));
+  // input_fidelity keeps faces, logos and product detail on the models that
+  // accept it; a model that rejects the parameter gets the same edit without it.
+  const send = (fidelity: boolean) => {
+    const f = new FormData();
+    for (const [k, v] of form.entries()) f.append(k, v);
+    if (fidelity) f.set("input_fidelity", "high");
+    return fetch(`${API}/images/edits`, { method: "POST", headers: headers(false), body: f, signal: AbortSignal.timeout(10 * 60_000) });
+  };
+  let res: Response;
+  try {
+    res = await withRetry("OpenAI image edit", () => send(o.preserveInput !== false));
+  } catch (e) {
+    if (!(e instanceof OpenAiError && e.status === 400 && /input_fidelity/.test(e.message))) throw e;
+    res = await withRetry("OpenAI image edit", () => send(false));
+  }
   return decodeImages(await res.json(), o.model, format);
 }
 
