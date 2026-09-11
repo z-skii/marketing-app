@@ -1,0 +1,59 @@
+{
+  "id": "vehicle-nora-01",
+  "kind": "car",
+  "aspect": "3:2",
+  "prompt": "Photorealistic 3:2 photograph of a fictional owner's ordinary white 2019 Mazda CX-5, stock specification, five doors, no advertising or modifications. Park it in a small practical neighborhood parking area with low buildings and trees, not a showroom or wilderness scene. Show the full vehicle in a driver-side three-quarter rear view so the body and rear doors are clear. Use a 35mm-equivalent lens, neutral daylight with a soft directional key, accurate proportions and believable white paint and glass. Keep all wheels and the entire roof visible with comfortable margin. Plates and badges are unreadable. Fictional Design Lab supporting imagery only. No lettering, logos, watermark or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "On the visible front and rear wheel center caps, remove the recognizable emblem shapes and replace them with plain metallic caps, preserving the spokes, wheel geometry, shading and reflections. On the lower-left tailgate, remove the faint badge-like glyphs and restore continuous white paint with matching surface shading. Leave the blank license plate untouched. Preserve the vehicle proportions, doors, lights, glass, tires, framing, neighborhood setting and neutral daylight; do not add text, branding or a global color treatment.",
+        "summary": "The image shows an ordinary white CX-5 in a convincing neighborhood parking area, fully framed from the requested driver-side rear three-quarter angle. It closely meets the brief, with only small residual branding details requiring cleanup.",
+        "problems": [
+          "Visible wheel center caps retain recognizable emblem shapes despite the explicit no-logo requirement.",
+          "Lower-left tailgate contains faint badge-like marks that resemble generated lettering rather than a clean, unbranded surface."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 8,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "At the extreme right end of the rear bumper, replace the overlapping, doubled exhaust openings with one clean circular metal outlet, correctly seated beneath the bumper and consistent with the single outlet on the opposite side. In the foreground asphalt, remove the conspicuous swirling, embossed-looking microtexture and use irregular photographic aggregate while preserving the parking lines, pavement color, tire contact shadows and existing perspective. Leave the vehicle silhouette, wheels, doors, lights, glass, blank plate, framing, buildings, trees and neutral daylight unchanged. Do not add badges, lettering or branding.",
+        "summary": "The image shows an unbranded white CX-5-style vehicle in the requested driver-side rear three-quarter view within a believable neighborhood parking area. It closely matches the brief, with two localized rendering defects to fix before approval as fictional Design Lab imagery.",
+        "problems": [
+          "Far-right rear bumper: the exhaust termination appears doubled into overlapping openings rather than one coherent stock outlet.",
+          "Foreground pavement: the uniformly swirled, embossed microtexture looks synthesized rather than like natural asphalt."
+        ],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 8,
+          "product_correct": 8,
+          "not_ai_looking": 8,
+          "premium": 8
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}
