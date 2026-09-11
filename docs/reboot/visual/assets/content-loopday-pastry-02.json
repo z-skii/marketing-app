@@ -1,0 +1,58 @@
+{
+  "id": "content-loopday-pastry-02",
+  "kind": "product",
+  "aspect": "4:5",
+  "prompt": "Photorealistic 4:5 photograph from the same fictional Loopday coffee-counter shoot: two modest flaky pastries on a simple brushed-steel tray, a dark forest-green ceramic cup partly visible behind them, and pale blue square tiles softly recognizable in the background. Photograph at table height with a 50mm-equivalent lens, directional daylight from camera left, neutral white balance, real crumbs and honest pastry texture. Preserve a complete useful product composition without artificial steam or excessive food styling. Fictional Design Lab delivered-media illustration only. No text, prices, labels, logos, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Reframe to 4:5 by removing approximately 96 pixels from the top and 160 pixels from the bottom of the current 1024×1536 image, producing 1024×1280 without stretching. In the rear-left pastry region, locally reposition the pastry slightly right and restore its clipped left tip so the entire pastry has a small visible margin inside the frame; maintain believable contact shadows and its placement behind the foreground pastry. Preserve the foreground pain au chocolat, natural crumbs, brushed-steel tray, partially visible forest-green cup, pale blue tiles, daylight direction and neutral color treatment. Do not smooth the pastry texture, add steam, introduce copy or add branding.",
+        "summary": "A convincing daylight coffee-counter photograph shows two flaky pastries on brushed steel, with a forest-green cup and pale blue tiles behind them. It closely matches the fictional Loopday brief, but the delivered aspect ratio and clipped rear pastry need correction before approval.",
+        "problems": [
+          "Overall canvas: the image is 2:3 rather than the requested 4:5.",
+          "Left edge, rear pastry: the pastry tip is clipped, weakening the requested complete, inspectable product composition."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 8,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Correct the canvas ratio with a crop only. On the supplied 1024×1536 image, retain the full width and crop 128 pixels from both the top and bottom to produce 1024×1280 (4:5). Preserve both pastries, the tray’s front edge, the partially visible forest-green cup, and the recognizable blue tiles. Leave all food textures, crumbs, lighting, colors, reflections, and focus unchanged. Do not extend the scene or add text, branding, watermarks, or UI.",
+        "summary": "A convincing café product photograph shows two flaky pastries on brushed steel, with a forest-green cup and pale blue tiles behind them. The styling and lighting closely match the brief, but the delivered canvas is 2:3 rather than the required 4:5.",
+        "problems": [
+          "Full canvas: the image is 1024×1536 (2:3), not the requested 4:5; crop the excess background and lower counter without changing the product scene."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}
