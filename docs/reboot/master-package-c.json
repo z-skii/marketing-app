@@ -1,0 +1,586 @@
+{
+  "open_questions_for_the_founder": [
+    "Will you authorize a consented local photo-and-film commission for the public launch? This affects production spending, not the application design. Without approval, launch with permissioned existing photography, static media and the specified typographic explanations; omit the film and any unsupported examples."
+  ],
+  "creative_system": [
+    {
+      "asset": "Instagram Story ads — director-produced assets now; in-product generation remains later",
+      "direction": "Master artwork is 1080×1920px, 9:16. Keep essential copy and logos within x=72–1008px and y=250–1580px; decorative imagery may bleed. Use one subject, one proposition and one call to action. For a photographic ad, the subject must be the actual product, service or business supplied or photographed with permission. Use the business's approved palette and typography, not TapMart's application colors. Starting sizes at export resolution: headline 88/92px, supporting copy 48/58px, CTA 52/60px, mandatory terms at least 36/44px. A headline should normally contain no more than eight words; remove secondary persuasion before reducing type. Do not omit required terms to meet that target. No invented discount, address, availability, testimonial or performance claim.",
+      "production": "The director first approves a source packet containing the real offer, exact copy, logo, approved brand kit, image rights and intended CTA. Build layout and lettering in a deterministic design tool, never inside an image model. Edit approved source photography through cropping, exposure and neutral color correction before considering generation. An image model may supply a clearly illustrative, non-photorealistic background for a separately approved concept; it must not fabricate the merchant's premises, people or products. The director composites the real logo and exact copy after image production. The business approves the finished export, which can enter today's existing creative-upload flow. No Generate Story button ships. If product generation is approved later, it must retain this preview-and-approval boundary rather than publishing directly.",
+      "quality_bar": [
+        "Inspect the export at 1080×1920 and at a 180×320 preview; the proposition remains identifiable in the smaller view.",
+        "Keep mandatory information inside the safe area and verify contrast independently of the background photograph.",
+        "No model-generated lettering, distorted packaging, invented people or unapproved claims.",
+        "Export in a format accepted by the existing upload validator; preserve the approved original file for download.",
+        "For video, use the campaign's actual requirements and supplied duration; do not invent a platform duration limit.",
+        "TapMart never recolors, watermarks or adds interface controls to the finished creative."
+      ]
+    },
+    {
+      "asset": "Recreate reference covers and campaign covers",
+      "direction": "A cover helps identify the actual reference; it does not substitute for it. For newly commissioned portrait references, prepare a 1080×1920 cover using a real frame that shows the action someone must recreate. Favor visible hands, subject and useful environment over a posed face. Preserve natural skin and product colors. Keep cover copy optional: one factual action title, at most six words, 72/80px, inside 72px side margins and the central 1280px vertical region. Pay, deadlines and TapMart task labels remain outside the media.",
+      "production": "The director selects three genuine frames from the approved reference and chooses the one that best communicates the required action at 144×256px. Use ordinary editing for exposure, crop and cover typography. Do not generate a more impressive result than the reference actually contains, replace a participant or synthesize a scene. Image models may assist with an offline abstract layout study but do not produce the factual reference cover. Existing external references retain their actual poster, if available; otherwise use Open reference. A new cover is used only through an existing supported media field or as part of a newly supplied source asset, not through a new cover-management subsystem.",
+      "quality_bar": [
+        "The cover corresponds to a visible moment in the actual reference.",
+        "The action remains recognizable without reading the title.",
+        "Landscape sources are contained, not artificially rebuilt as portrait scenes.",
+        "No fake play count, creator identity, brand endorsement or before-and-after result.",
+        "A frame that communicates less than the original poster is rejected, even if it is more visually dramatic."
+      ]
+    },
+    {
+      "asset": "Vehicle advertising diagrams and future applied-artwork previews",
+      "direction": "Today's application uses actual vehicle photographs, actual artwork and a separate labeled placement diagram. Diagram master: 1200×800px, 3:2, Paper background, 2px Ink strokes at a 160px reference size, one Vermilion zone emphasis. Show only the selected named placement; list its price and duration outside the diagram. Future realistic previews must use the person's actual vehicle geometry and artwork, preferably at 1600×1067px, with a persistent 'Placement preview — not an installed ad' caption. Neither version is installation evidence.",
+      "production": "Draw today's diagrams as deterministic vectors; image models are not appropriate for zone boundaries or dimensions. Do not show a working realistic-preview or 3D zone-picking control. If that later capability is authorized, the director must approve artwork scale, physical placement constraints and the model/photo source. A deterministic texture projection or controlled photo composite establishes placement; an image model must not guess body panels, manufacture vehicle details or hallucinate a wrap. Any model-assisted background study stays outside the factual preview. Real installation photographs remain an entirely separate source and are never cosmetically reconstructed.",
+      "quality_bar": [
+        "All nine existing zones retain their exact names and ordinary accessible selection controls.",
+        "A diagram cannot be mistaken for the person's reconstructed car.",
+        "A preview cannot be mistaken for an installed advertisement or an installation instruction certified by TapMart.",
+        "Asking price, campaign monthly pay and negotiated booking pay remain distinct.",
+        "No artwork obscures windows, plates or required visibility in a proposed concept without an explicit physical and legal review.",
+        "No generative editing of proof photographs."
+      ]
+    },
+    {
+      "asset": "Business promotional content",
+      "direction": "Build a small editorial family rather than an interchangeable template library: a product-led composition, a service-in-action composition and a factual offer composition. These are production layouts, not additional campaign categories. Prepare 1080×1350px, 4:5, and 1080×1920px, 9:16, only when the destination requires them. At 4:5 use 64px margins, 76/84px headline, 44/54px support and 40/48px factual footer. One actual product or service supplies the focal point; one proposition supplies the reading order. Preserve each business's approved visual identity.",
+      "production": "The director chooses the layout from the communication task, checks source rights and approves exact copy before production. Start with actual shoot media or approved business uploads. Crop and color-correct rather than regenerate a real product or person. When the business requests an illustrative campaign concept, an image model may generate clearly non-documentary artwork from the approved palette and subject restrictions; it remains a proposal until approved. Add logos, prices and text deterministically afterward. Promotional derivatives do not replace original shoot files or appear as new subscription deliverables unless the existing real delivery workflow actually supplies them.",
+      "quality_bar": [
+        "The business, offer and next step are identifiable without explanatory UI.",
+        "No fabricated food portion, product feature, treatment outcome, premises or customer.",
+        "All displayed prices and dates come from approved copy, not image-model output.",
+        "The composition survives a 270×338px preview.",
+        "Source, approval and export rights are recorded in the production manifest."
+      ]
+    },
+    {
+      "asset": "Marketing photography and subscription shoot photography",
+      "direction": "Photograph real owners, participants, products and services in the actual business. Use 35mm-equivalent environmental coverage and 50mm-equivalent portraits; vehicle capture remains the phone's 1× lens. Prefer window light or open shade, neutral white balance and contextual depth. For commissioned marketing coverage, capture an environmental 3:2 frame, a usable 4:5 crop and a genuinely composed portrait frame where needed; do not assume one photograph can support every crop. For subscription shoots, the assigned slot's actual planned photo/video counts define the deliverables, not an invented shot entitlement.",
+      "production": "The director supplies a location-specific shot list, consent requirements, examples of useful context and a no-fabrication checklist. The photographer produces the factual assets. Editing corrects exposure, white balance, lens distortion and agreed crops; retain originals. Do not reshape bodies, fabricate product qualities, remove evidence-relevant objects or create a location that was not photographed. Image models may help the director explore an explicitly labeled offline mood board, but synthetic scenes never become location evidence, portfolio work or shoot deliverables. If the available photograph is inadequate, select another real frame or request a reshoot through the existing operational process.",
+      "quality_bar": [
+        "Natural skin tones, readable product detail and truthful context take precedence over a cinematic grade.",
+        "Required releases cover the actual intended publication, not merely the photo session.",
+        "No generative faces, extra fingers, reconstructed signage or invented inventory.",
+        "Original orientation, uploader and shoot provenance remain attached to delivered files.",
+        "A poor source is not secretly replaced with a synthetic equivalent.",
+        "Approved marketing crops never overwrite campaign or proof evidence."
+      ]
+    },
+    {
+      "asset": "Social graphics",
+      "direction": "Business graphics follow the business's approved kit; TapMart-owned graphics follow Paper #F6F2E9, Ink #232722 and Vermilion #BB3B27. TapMart master formats: 1080×1350px and 1080×1920px. Use Barlow Condensed 600 for an 88/90px headline and Instrument Sans for 44/56px body text. On 4:5 use 64px margins; on Stories use the specified Story safe area. Use one red return at 3× application scale: 72×12px horizontal and 12×36px vertical. Limit a graphic to one message, one meaningful visual and one CTA. Educational sequences may have up to five deliberately different frames, not repeated text cards.",
+      "production": "The director approves the message, visual hierarchy and exact factual claims. Compose text, return mark and vector diagrams in a design tool. Use real permissioned photographs when explaining real work. An image model is optional for an unmistakably illustrative concept, never for synthetic customer proof, earnings, reviews or screenshots. Edit an existing approved graphic when only copy, crop or format changes; do not regenerate a whole asset and risk identity drift. Social graphic production is an external creative workflow, not a new permanent application destination or campaign kind.",
+      "quality_bar": [
+        "Headline remains readable at a 270px-wide preview.",
+        "Meaning survives without motion and without a color distinction alone.",
+        "No screenshot contains invented live balances, people or account connections.",
+        "No unsupported income promise, publishing promise or claim that subscription fees include campaign spending.",
+        "Business-owned graphics do not acquire TapMart branding by default."
+      ]
+    },
+    {
+      "asset": "Content thumbnails and library posters",
+      "direction": "A thumbnail is a faithful index of an existing file, not a new advertisement. Library frames remain 4:3 with the native original contained; unused space is Layer #E9E5DB. Video posters use an actual supplied poster or real frame. No baked-in status, caption, play control or TapMart return. Interface labels and controls remain separate, accessible elements. Request an existing rendition at approximately 2× displayed dimensions when available; do not upscale beyond useful source detail.",
+      "production": "The director sets poster-selection guidance: show the principal subject or action, avoid transition frames and preserve meaningful context. Use the existing poster/thumbnail capability. Ordinary frame extraction and crop selection are preferred; image models are prohibited for factual thumbnails. If a source is missing, retain the truthful file record and media-unavailable state rather than generating a replacement. For public marketing thumbnails, use the same source discipline and a separately approved derivative without overwriting the original.",
+      "quality_bar": [
+        "Opening the file reveals the same subject and composition promised by the thumbnail.",
+        "Photo and video are distinguished by real controls and metadata, not fabricated graphics.",
+        "The library remains useful with original ratios, including portrait and landscape files side by side.",
+        "Private thumbnails obey the original asset's access rules.",
+        "No processing state contains blurred pretend deliverables."
+      ]
+    },
+    {
+      "asset": "Public film, brand-kit examples and approval-only design visualizations",
+      "direction": "The public film retains the four real 3-second shots and the 12-second total specified in Part B. Brand-kit examples demonstrate the proposed palette, typography and visual treatment without implying that content has been delivered. Approval-only interface visualizations may show composition, but their unresolved lettering and synthetic scenes are not production specifications or public evidence.",
+      "production": "The director owns four separate production lanes: real source media; approved marketing derivatives; generated proposals; approval-only design concepts. Record the lane, sources, rights, intended use and approval in an external production manifest without requiring a new application database. Image-model prompts must include subject restrictions, source references, aspect ratio, light, color and explicit exclusions. Select and edit a strong result rather than repeatedly generating until an accidental style emerges. Generated brand-kit examples retain 'Generated proposal' provenance and the existing approval boundary. Public film is filmed and edited, not synthesized. Replace concept-device renders with consented captures of the implemented product when those captures exist.",
+      "quality_bar": [
+        "No asset crosses from a proposal or concept lane into live evidence without the required real source and approval.",
+        "The public film has a useful static poster, captions where needed, Pause and Replay.",
+        "Target at most 4MB per hero rendition and 180KB for the mobile poster.",
+        "Generated brand examples are never placed in Made for you or the subscription library.",
+        "The engineer uses resolved specifications, not image-model typography, geometry or invented controls."
+      ]
+    }
+  ],
+  "fixes_applied": [
+    "These amendments override conflicting details in Parts A and B. They refine The Local Edit; they do not introduce another visual direction, navigation architecture or backend model.",
+    "Fixed enlarged-text navigation. The 64px mobile bar and 224px desktop rail are default-size compositions, not immutable containers. If labels cannot fit their allocated tracks without truncation, use the same destinations in a Navigation sheet reached through a full-width bottom control. The control also names the current destination on a separate line. If desktop rail labels cannot fit, use the corresponding header-and-sheet shell instead. No destination is removed or renamed.",
+    "Fixed fixed-height assumptions. Headers, rows, local navigation and action areas now have minimum heights and grow with text. A narrow root header places identity above utilities when their intrinsic minimum widths cannot coexist. Reserve the measured height of fixed regions. When the keyboard is open, or a task bar exceeds 25% of the visual viewport height, place that bar in normal document flow rather than obscuring the form.",
+    "Fixed narrow opportunity spreads and long amounts. Recreate and Story stack media before commitment whenever the remaining text column is narrower than 9em of body text or the complete formatted amount cannot fit. They keep their different media forms and wide-screen alignments. No essential amount, deadline or status is truncated.",
+    "Fixed ambiguous approval language. 'Approve and pay' is used only when the existing approval action has an actual earnings effect. A non-paying installation or proof approval says 'Approve installation' or 'Approve proof' and states its real consequence. Never imply that approval pays future car months or that it sends money to a bank.",
+    "Fixed work-index duplication. Activity and Review group related existing records into one resumable work entry where their relationships are known, retaining each source record, state and action inside detail. Independent applications, requests, offers and bookings are never merged merely because their titles match.",
+    "Fixed campaign setup overload. Each kind now has three short local stages: its media or placements, its task and terms, then review and funding. Drafting is not mandatory: a failed reference-drafting request leaves a usable editable brief and external reference. Direct requests retain their own send and funding behavior rather than borrowing open-campaign publication semantics.",
+    "Fixed action ambiguity on opportunity detail. A new public application uses 'Apply' where the existing handler creates an applied record; 'Accept request' is reserved for a direct invitation. Server-authorized accepted work exposes submission controls. A pending application never presents an upload action as if work were secured.",
+    "Fixed inconsistent empty-service cases. A failed asset fetch, a successfully loaded empty file list and a genuinely processing delivery are three different presentations. A subscribed business with unavailable shoot-slot data sees a local data error or 'Shoot information unavailable', not invented slots, a false scheduling state or a self-booking CTA.",
+    "Fixed public-media dependency and provenance. The film and real-example section are conditional production assets. Missing footage does not delay the homepage or justify synthetic customer scenes. Future Story generation and realistic vehicle previews remain production specifications, not working release-one controls.",
+    "Fixed implementation authority. Photographic mockup prompts are mood and composition studies only. The numeric specifications, final amendments, source-state rules and responsive acceptance tests are the engineer's authority. QA scores below describe the specification, not measured product performance or tested brand recognition."
+  ],
+  "implementation_readiness": {
+    "engineering_notes": [
+      "Build this as a presentation reset over the existing functional model. Before each vertical slice, bind the current route, query, mutation, permission guard, enum and monetary field to its specified presentation. Do not create a universal work table, replacement status machine or new payment service.",
+      "Authority order: functional inventory and existing financial/permission behavior; Part C corrections; resolved specifications in Parts A and B; approval-only visualization prompts. If a render conflicts with a value or creates a control absent from the inventory, ignore the render.",
+      "Use the complete color tokens: Paper #F6F2E9, Ink #232722, Vermilion #BB3B27, pressed Vermilion #9E3020, Sheet #FFFFFF, Layer #E9E5DB, Secondary ink #5D635B, Hairline #D7D4CB, Control line #757E72, Confirmed #236146, Waiting #785400, Problem #9E2E32 and Media black #121713. Do not add category accent colors.",
+      "Self-host licensed WOFF2 files for Instrument Sans variable 400–700 and Barlow Condensed 600 from their Google Fonts sources. Instrument Sans handles all app text and tabular money; Barlow Condensed is limited to wordmark and public display. Use system sans-serif fallback and non-blocking font loading. Include the license files.",
+      "All specified pixel sizes are CSS-pixel design values at default settings. Text must use scalable units or equivalent browser-respecting behavior. Do not defeat text zoom with fixed line boxes or clipping. Keep body at the 16/24px equivalent and essential metadata at 14/20px or larger.",
+      "Use the 4px spacing system and specified radii: media 2px, fields/logos 4px, buttons 6px, dialogs 8px, phone-sheet top corners 12px. Only personal avatars are circular. The red return is a deterministic vector, 24×12px application size, not a font glyph or model-generated logo.",
+      "Use Lucide under its ISC license, 1.75px stroke, 20px or 24px. All controls have at least 44×44px targets; primary task actions are at least 48px high. Unknown commands require text labels. Never nest buttons inside an item-wide link.",
+      "Default responsive composition: phone below 768px; tablet 768–1023px; desktop rail from 1024px; multi-region workspaces from 1280px when content fits. Use actual available width after rail, gutters and text enlargement, not viewport width alone. A 344px inspector requires at least 480px remaining primary media width plus a 24px gap.",
+      "The Calendar month grid requires seven columns each at least 6em wide, with 96px as the default-size minimum. Otherwise show the agenda. A simultaneous Calendar inspector remains unavailable below the Part B 1440px threshold and disappears at any width where the minimum grid no longer fits.",
+      "Implement the enlarged-text Navigation sheet fallback specified in fixes_applied. Its destinations remain the same four or five entries, each at least 56px high and allowed to wrap. Provide the current destination in the trigger's visible and accessible label. Detect fit using rendered content, not a guessed device type.",
+      "Maintain separate identity-scoped queries, drafts, navigation state and private media access. Clear old rendered identity data during switching. Cross-identity links name the target identity and ask before switching; unsaved edits require the explicit discard decision. Do not silently switch money context.",
+      "Bind application, invitation, submission, car offer, booking, proof, shoot, delivery, deliverable, calendar post, earnings and payout states independently. Human-readable labels do not replace stored enums. Read-only grouping is permitted; merging records or inferring completion is not.",
+      "Money formatting must use the actual currency and documented cents/amount semantics. Keep the existing server calculations for fees, net, funding, shortfall and payout eligibility. If a required amount cannot be loaded, state that it is unavailable and prevent the financial mutation; never show zero or derive a car total from duration divided by 30.",
+      "Financial and destructive mutations remain in their current confirmation context while pending. Prevent duplicate local activation and use existing server transaction/idempotency protections. A stale decision must refresh the record and explain the current state, not report the attempted action as successful.",
+      "Preserve original file permissions, orientation and provenance. Use existing thumbnail and media derivatives; do not require a new transcoding backend. No app video autoplay, video preload or eager 3D load. Retain external-reference fallback and image-based vehicle inspection.",
+      "Public commissioned assets may use AVIF/WebP with an ordinary fallback. Prioritize the first poster, lazy-load lower media and preserve intrinsic dimensions. Target phone initial transfer below 600KB before optional film, LCP at or below 2.5 seconds, CLS below 0.1 and INP below 200ms. These remain test targets until measured.",
+      "Motion primitives: feedback 120ms; local transition 180ms; sheet entry 240ms and exit 160ms; public reveal 320ms. Entry easing cubic-bezier(0.2, 0.8, 0.2, 1); exit cubic-bezier(0.4, 0, 1, 1). No balance counting, artificial production progress or celebratory financial animation.",
+      "Reduced motion removes translation, autoplay, reveal choreography, animated scrolling and spinner rotation. Retain static loading text and actual byte progress. Forced colors must preserve focus, control boundaries and selection without reliance on background color.",
+      "Use semantic headings, lists, definition lists, tables only for truly tabular ledgers, and correctly labeled forms. Route navigation is links; same-page panels may use tabs. Provide skip links, a 3px focus outline with 3px offset, modal focus containment and return, Escape dismissal, descriptive media alternatives and restrained live announcements.",
+      "Make every screen's error, empty and loading states independently renderable. Query failure is not an empty list; missing connection data is not disconnection; unknown money is not zero. Persistent waiting_provider has static text, not an endless loading spinner. Ordinary requests show Still loading after 8 seconds without inventing an ETA.",
+      "Retain existing URLs and deep links, using aliases where Part A consolidates surfaces. Unknown invitation, offer, proof and asset route shapes must retain the existing route resolver; do not coerce their IDs into /o/[id] or invent a parallel record namespace.",
+      "Test controlled, visibly labeled sandbox records for every enum and permission boundary. Never seed production with sample campaigns, generated people, fabricated earnings or pretend deliverables. Capture approved visual-regression references from the implemented sandbox, not from photographic concept renders.",
+      "Accessibility acceptance widths: 320, 390, 768, 1024, 1280 and 1440px; include a 320×568px phone, 200% text enlargement, browser zoom to a 320px effective viewport, keyboard-only operation, VoiceOver, TalkBack and one desktop screen reader. Test long names, localized dates, large currency values, keyboard-open forms and missing media.",
+      "Before release, verify three complete money paths against server records: approved Reel to earnings to paid payout; verified/manual Story decision to earnings; accepted car offer through one payable proof period. Separately verify campaign top-up versus subscription billing, with no shared total or misleading receipt."
+    ],
+    "first_screen_to_build": "User Home at /home, first at 390×844px and then 320×568px, using the real identity shell and all three opportunity compositions. Complete its empty, error, missing-reference, long-amount and enlarged-text states before building more polished screens. Its first vertical slice continues into one Recreate detail and application, proving that recognizable discovery leads to an honest task state.",
+    "risks": [
+      "Existing routes may encode relationships or funding behavior not visible in the inventory. Resolve this through code binding before the affected screen; do not simplify the backend to match a visual grouping.",
+      "A non-paying car proof action could be mislabeled as a payment if the engineer reuses the campaign review component indiscriminately. Bind the exact mutation consequence before rendering its label.",
+      "Poor user media and unavailable external Reel previews will occur. The fallback must preserve the task and payment decision rather than replacing the source with attractive fiction.",
+      "Plan state, monthly shoot slots, delivery state and returned files can disagree temporarily. Show each fact with its own provenance and local failure treatment; do not repair data inconsistencies by inventing UI states.",
+      "Manual Instagram provenance and optional publishing integrations are easy to overstate. Account connection is not proof of automatic publishing, and manual confirmation is not API verification.",
+      "Fixed phone navigation, sticky controls and desktop inspectors are the highest layout risks under enlarged text. Their adaptive variants are release requirements, not later accessibility improvements.",
+      "The visual identity relies on disciplined typography and source media. Overusing the return mark, adding generic tiles or forcing every asset into one ratio would erase the intended distinction.",
+      "Public film production and media rights may not be ready at launch. The specified static fallback must ship without a fabricated case study or a blocked hero.",
+      "No score below establishes measured usability, conversion, performance or brand recognition. Those require implementation testing and real participant feedback."
+    ],
+    "build_order": [
+      "01 — Bind routes, permissions, source records, money semantics and integration availability. Establish a screen/state acceptance matrix without changing backend architecture.",
+      "02 — Build tokens, fonts, wordmark, action controls, identity switching, default shells and enlarged-text navigation fallback.",
+      "03 — Build User Home and the first Recreate detail/application slice, including all absence and failure states.",
+      "04 — Complete Story and Car opportunity details, direct invitations, offers, booking detail, upload and verification paths.",
+      "05 — Build Activity, source-aware grouping, Earnings and payout request/history; verify real financial-state boundaries.",
+      "06 — Build Profile satellites: editing, Instagram, verification, portfolio, vehicles, capture/reconstruction and assigned shoots.",
+      "07 — Build Business marketplace details and the three Create flows, including draft recovery, review, wallet funding and publication.",
+      "08 — Build Campaigns, applications, evidence review, non-paying proof decisions, payable approvals and completed-work reviews.",
+      "09 — Build Content service states, shoot detail, real library inspection, scheduling, Calendar, Ideas and Growth trends.",
+      "10 — Build Business profile, Brand Kit, Connections, Health, Social, Settings, campaign wallet, Plan and Billing.",
+      "11 — Complete shared Search, Messages, Notifications, authentication, confirmation and onboarding; test deep links across identities.",
+      "12 — Build the public routes with approved static assets first, then add the optional film and real examples. Run accessibility, performance, visual regression and end-to-end financial acceptance before release."
+    ]
+  },
+  "application": [
+    {
+      "treatment": "At /activity, order content: title; To do / In review / History / Saved; any filter correction; source-aware work list. To do orders unanswered requests/offers, revisions/proofs, then other accepted work. Within each priority, use the actual due date first when present, then latest recorded update. Each row shows title, business, source, exact state, amount basis and the next action or waiting party. Group genuinely related records into one work entry without hiding their separate states. From 1280px use a 320px list, 24px gap and selected detail; otherwise open the existing detail route. Back restores view and position.",
+      "distinct_from_master_screens": "This is a resumption queue, not another discovery feed. Media is optional at 48px, there is no opportunity hero, and History retains rejected, declined, withdrawn, cancelled and expired work explicitly.",
+      "screen": "Activity"
+    },
+    {
+      "treatment": "At /earnings, order: Available earnings at 36/40px phone or 44/48px desktop; Request payout with the configured eligibility explanation; Pending and Lifetime as unboxed facts; Transactions; Payout requests. The two histories remain separate. Use 72px-minimum phone rows and aligned desktop ledger columns for source, date, state and amount. A row opens amount, fee, net and linked work where supplied. At desktop width the balance occupies the top reading field rather than a full-width colored banner. Missing balances remain unavailable, not zero.",
+      "distinct_from_master_screens": "This is a readable ledger with one money action. It contains no media rail, income projection, animated balance or chart, and never includes the active business's wallet.",
+      "screen": "Earnings"
+    },
+    {
+      "treatment": "Open a focused form or confirmation using the existing payout request fields. Order: available amount; configured minimum; request amount only if the existing flow permits choosing it; exact request consequence; Request payout. Below threshold, show the real reason and no misleading active submission control. After confirmation, open the persistent request record with its actual requested, approved, paid or rejected state and recorded dates. A paid record alone says Payout paid. Preserve rejection text when supplied; never infer an arrival date.",
+      "distinct_from_master_screens": "A short accountable financial decision, not a withdrawal dashboard or new payout-method setup flow.",
+      "screen": "Payout request and payout detail"
+    },
+    {
+      "treatment": "At /o/[id] for Recreate, order: direct-request block if applicable; actual reference contained within a phone stage capped at 320px or 40dvh, whichever is smaller; pay and basis; title/business; What you do; eligibility; spots/deadline; application action. The sticky pre-commitment area repeats a compact amount and its basis above Apply when that handler creates an applied application. Accepted work replaces the commitment emphasis with numbered timed steps, Must keep, Can change, Avoid, final checklist and Submit video. From 1280px put media/guide beside a 320px commitment region with a 24px gap.",
+      "distinct_from_master_screens": "The video becomes an instruction source, not feed entertainment. Full-screen inspection is optional; playback never gates reading or application.",
+      "screen": "Recreate opportunity and accepted-work detail"
+    },
+    {
+      "treatment": "For a Story opportunity, show the complete supplied 9:16 creative, contained within the same phone detail height cap, then pay/basis, title/business, required live hours, follower minimum, actual Instagram eligibility, spots and deadline. The action resolves only the missing relevant eligibility or invokes the existing application behavior. Accepted work expands Download creative, posting instructions, required live period and the real API/manual verification path. On desktop place an intact poster up to 270×480px beside a maximum 640px instruction field. All TapMart text remains outside the artwork.",
+      "distinct_from_master_screens": "This is a finished poster and posting agreement, not a filming guide. There is no fake Instagram chrome, reach forecast or instruction to recreate the supplied ad.",
+      "screen": "Instagram Story opportunity and accepted-work detail"
+    },
+    {
+      "treatment": "For a Car opportunity, order: campaign visual or actual artwork plus labeled placement diagram; monthly pay; title/business; zones; duration in days; body/color requirements; vehicle eligibility; spots/deadline; selected-vehicle application. Use a 3:2 landscape stage, capped at 240px on phone. Vehicle selection is a labeled list of the person's actual vehicles with Add vehicle and a return path. Show asking prices only inside vehicle detail, never as the campaign's pay. An applied record says Waiting for acceptance. Do not make scan or reconstruction mandatory.",
+      "distinct_from_master_screens": "The decision is physical fit and an explicit monthly commitment. It uses landscape media and vehicle selection rather than a portrait player or Story poster.",
+      "screen": "Car campaign opportunity and vehicle application"
+    },
+    {
+      "treatment": "A direct Reel or Story request begins with the named business, requested task, actual pay basis and Accept request / Decline. Media and complete requirements follow immediately; no reply deadline is invented if none is supplied. The request's conversation is linked below its terms. Confirm acceptance only after the existing invitation action succeeds, then expose the normal supported work flow. Decline names the request and returns to its literal declined state. Cancelled or expired requests retain terms and history but not response controls.",
+      "distinct_from_master_screens": "A request addresses one person; it is not an open opportunity application and is never relabeled as a fourth category.",
+      "screen": "Direct Reel and Story request detail"
+    },
+    {
+      "treatment": "Car offer detail orders: business and selected vehicle; actual offer state; zones; duration; monthly offer; conversation; server-permitted response controls. A counteroffer form uses only the existing negotiable fields and shows current versus proposed terms in two plain labeled sections, not a bidding chart. Its confirmation names the recipient and complete commitment. A sent counteroffer remains Waiting for response. Only confirmed acceptance opens the existing booking. Retain declined, cancelled and expired offers in history.",
+      "distinct_from_master_screens": "Negotiated terms, asking prices and booking state are separated. There is no auction language, bid ranking or automatic acceptance on sending a counteroffer.",
+      "screen": "Car offers and counteroffers"
+    },
+    {
+      "treatment": "Booking detail leads with the actual creative_pending, installation_pending, active, proof_required, completed, cancelled or disputed state and the next supported action. Then show vehicle, zones, duration, monthly commitment, artwork and conversation. Proof history is a dated list grouped by actual proof type and period. Installation, periodic and odometer uploads each name their required evidence before opening the picker. A proof's approval effect is explicit; do not project future earnings. Disputed bookings display the real status and existing supported actions, not an invented dispute-resolution wizard.",
+      "distinct_from_master_screens": "A physical-work record replaces the promotional car composition. The timeline contains recorded events and proof periods, never a universal completion percentage.",
+      "screen": "Car booking, installation and periodic proof detail"
+    },
+    {
+      "treatment": "Recreate submission orders: work title and accepted state; reference shortcut; final requirements including the configured file limits; picker; selected file with actual byte progress; reviewable file; Submit video. Keep primary form width at 640px maximum. Submission becomes Submitted or In review only after the corresponding server record confirms it. Revision opens the previous evidence and the business's note before a replacement picker; retain the existing revision history and supported resubmission behavior. Upload completion is not approval. On desktop, the brief may sit beside the transfer area without introducing a second unrelated panel.",
+      "distinct_from_master_screens": "The upload is a focused task with visible evidence, not a drop zone embedded in every opportunity or a fake background production process.",
+      "screen": "Recreate submission and revision"
+    },
+    {
+      "treatment": "Story submission begins with the unaltered download and actual live-hour requirement, then the configured verification route. API verification shows only returned verification facts and errors. The manual path is labeled Manual confirmation and requests only the existing evidence or confirmation fields. Do not add a screenshot requirement unless the current flow requires one. A timer appears only if the stored start time and required interval establish it; it never asserts that the Story is still live or verified. Final review and earnings remain separate states.",
+      "distinct_from_master_screens": "This is posting and verification, not video production. There is no generic file-upload requirement added to make the three earning types uniform.",
+      "screen": "Story posting and verification submission"
+    },
+    {
+      "treatment": "Profile editing uses a 640px maximum Sheet form: photo; display name; username; city; bio; existing account fields in their supported editable or read-only form; Save changes. Use 24px field gaps and persistent labels. Photo selection offers the existing crop behavior, not face generation or beauty filters. Keep optional fields optional. Save confirmation is inline after the response; errors preserve entered data. Leaving dirty edits uses Keep editing or Discard changes.",
+      "distinct_from_master_screens": "Editing removes statistics, work history and media decoration. It is a short form, not a profile-completion campaign.",
+      "screen": "Edit personal profile"
+    },
+    {
+      "treatment": "Verification begins with the actual unverified, pending, verified or rejected state and the sentence 'For assigned content shoots.' Below it show only the existing requirements and submission fields. Pending names the waiting state without a review ETA. Rejected shows a reason only when supplied and the permitted correction path. Verified displays the real mark and access to assigned Shoots. Do not imply that verification establishes Instagram followers or unlocks ordinary Recreate work.",
+      "distinct_from_master_screens": "This is a specific qualification with a small state lead, not a trust score, profile percentage or celebration screen.",
+      "screen": "Creator verification"
+    },
+    {
+      "treatment": "Portfolio management leads with actual work, then the existing add/edit controls. Preserve original media ratios in a contact sheet; selected work opens full inspection and its available metadata. Public /u/[username] orders identity, city/bio, genuinely public qualifications and statistics, portfolio, completed public work and reviews. Private earnings, payout records and owner controls do not leak through shared components. Reviews show the supplied rating, business and text without default stars. Missing history collapses to a factual line.",
+      "distinct_from_master_screens": "Portfolio work is the visual proof, while public identity is intentionally stripped of private operational details and influencer-style follow controls.",
+      "screen": "Portfolio, public person profile and reviews"
+    },
+    {
+      "treatment": "At /me/instagram, order: current state and provenance; actual handle/followers; Connect or supported correction; real recent media when available; Disconnect. An available API connection and a supported manual path are clearly named alternatives, not identical success states. Manual handle/follower fields remain editable only as the current flow permits, and eligibility is server-authoritative. Disconnect uses a consequence-specific confirmation and returns to the actual disconnected state. Returning from an opportunity restores that opportunity.",
+      "distinct_from_master_screens": "A connection record, not a social feed. Recent media is corroborating context and never creates a separate engagement destination.",
+      "screen": "Personal Instagram"
+    },
+    {
+      "treatment": "The vehicle list uses 112×75px photographs and 112px-minimum owned-vehicle rows, followed by Add vehicle. Detail orders real photo gallery, make/model/year, color/body type/city, offered zones and asking prices, edit controls, then scan/model availability. All nine zones remain available. Asking prices use the source's actual time basis; omit a monthly suffix when none exists. A real 3D model is an optional inspection action below the photographic facts, not the page's default hero.",
+      "distinct_from_master_screens": "This is practical owned inventory, not the business marketplace or a showroom. It does not occupy the entire personal identity with automotive media.",
+      "screen": "Owned vehicle list and detail"
+    },
+    {
+      "treatment": "Vehicle registration order: make, model, year, color, body type, city; photos; offered zones with their individual asking-price inputs; review; existing save action. Each zone is a plain labeled selection row; selecting it reveals its price field directly beneath. Use Driver door, Passenger door, Rear doors, Rear window, Rear panel, Hood, Full side, Partial wrap and Full wrap. Scan is an optional secondary entry, with a clear return to ordinary registration. Recognized values remain suggestions until confirmed.",
+      "distinct_from_master_screens": "A vehicle can be registered through ordinary fields and photos. There is no mandatory configurator, interactive zone painting or unsupported digital-car creation flow.",
+      "screen": "Add or edit vehicle and offered zones"
+    },
+    {
+      "treatment": "Guided capture uses a single active angle at a time: Front, Front passenger-side three-quarter, Passenger side, Rear passenger-side three-quarter, Rear, Rear driver-side three-quarter, Driver side, Front driver-side three-quarter. Match these labels to the existing capture slots without renaming stored identifiers. Show a 160px line diagram, the current angle name, brief framing instruction and 48px Take photo action. A compact eight-item review list allows revisiting captures. Detail photos and optional video follow separately. Use the phone's 1× camera; do not add compulsory location access.",
+      "distinct_from_master_screens": "This is a guided camera task, not a scanning spectacle. The completed-photo count describes captured files, not reconstruction progress.",
+      "screen": "Eight-angle vehicle capture"
+    },
+    {
+      "treatment": "Scan status shows the exact queued, validating, needs_retake, recognizing, reconstructing, waiting_provider, complete or failed state. Below it: saved captures; actual retake reasons or recognition suggestions; permitted next action. Waiting for provider states that photographs are saved and remains static. Recognition confirmation presents suggested make/model/year as editable fields before confirmation. View 3D appears only with a real model. Its matte Layer stage has orbit, zoom if supported, reset and equivalent keyboard controls; photographs remain an equal alternative.",
+      "distinct_from_master_screens": "Impressive inspection is earned by a real returned model. No particles, fake scan percentage, auto-spin or applied-wrap preview conceal provider absence.",
+      "screen": "Vehicle recognition, reconstruction and actual 3D"
+    },
+    {
+      "treatment": "At /me/shoots, verified creators see assigned shoots as dated rows: business, location, recorded date/time, planned photo/video counts and assignment state. Detail places the actual brief and counts above deliverable upload. Upload rows preserve file, kind, caption and existing provenance fields; report each actual transfer and validation result. Do not provide an invented Complete shoot control if that action is not in the current creator flow. Empty means No assigned shoots, not a marketplace of shoot opportunities.",
+      "distinct_from_master_screens": "This is an assigned subscription-service workspace. It is never added to Home as a fourth earning kind.",
+      "screen": "Assigned creator shoots and deliverable upload"
+    },
+    {
+      "treatment": "At /business/people/[username], order portrait and name/city, real verification and connected Instagram facts, actual completed-work/rating facts, work samples, reviews, then Request a Reel and Request a Story. On phone place the two named request actions in a reachable action area, stacking when needed; on desktop use a 320px commission summary beside the portfolio. Each request opens the appropriate kind-specific brief with the named recipient retained. No generic Message action bypasses the existing conversation-opening behavior.",
+      "distinct_from_master_screens": "An evidence-led commission decision replaces directory comparison. Followers are relevant facts, not the visual hero or a promise of reach.",
+      "screen": "Business person detail and direct-request entry"
+    },
+    {
+      "treatment": "At /business/cars/[id], order real gallery, confirmed vehicle facts/city, offered zones and asking prices, optional View 3D, then Send offer. Selecting zones uses ordinary rows outside any model. Offer setup collects the existing duration and monthly pay, shows the recipient vehicle and full terms, then sends through the current offer flow. Asking prices remain visibly separate from the proposed monthly commitment. An absent photograph produces factual vehicle detail and a labeled diagram, not a generated replacement car.",
+      "distinct_from_master_screens": "This is selection and negotiation of one real vehicle, not an open campaign detail, booking record or future wrap configurator.",
+      "screen": "Business car detail and offer setup"
+    },
+    {
+      "treatment": "At /business/create, show exactly three sequential choices: Recreate a Reel, Instagram Story ad, Car advertising. Recreate uses a portrait reference/filming relationship; Story uses one intact poster; Car uses actual artwork with a labeled placement diagram or permissioned vehicle context. Where no appropriate media exists, use the type-specific factual diagram rather than invented inventory. Each choice has one explanatory sentence and one 48px entry action. Desktop may alternate media alignment but preserves the same reading order.",
+      "distinct_from_master_screens": "A choice of three materially different tasks, not three identical pricing cards or an expandable catalog of campaign categories.",
+      "screen": "Business Create entry"
+    },
+    {
+      "treatment": "Recreate setup has Reference, Brief and pay, Review and fund as three local stages. Reference accepts the existing URL/media fields and displays the actual reference or external link. Brief and pay orders title, common brief, numbered timed steps, must keep, can change, required elements, avoid/checklist where supported, duration range, common requirements, pay, spots and deadline. Label drafted material by its actual source, including Template draft. Drafting failure leaves manual editing usable. Desktop pairs the 640px-maximum form with the reference only where space permits.",
+      "distinct_from_master_screens": "This is a reference-to-instruction editor. The media remains available while editing, but no automatic analysis or generated-brief accuracy is implied.",
+      "screen": "Business Create — Recreate Reel"
+    },
+    {
+      "treatment": "Story setup has Creative, Posting terms, Review and fund. Creative shows configured upload limits before selection and an intact 9:16 preview afterward. Posting terms orders title, common brief/requirements, pay, spots, follower minimum, required live hours using the real 24-hour default, and deadline. Confirm that the supplied artwork is the exact file people will download. Keep all editable terms outside the preview. No generation, fake social preview or reach calculation appears.",
+      "distinct_from_master_screens": "A finished-artwork handoff replaces the Recreate editor. There are no timed filming steps and no prompt-to-Story feature in release one.",
+      "screen": "Business Create — Instagram Story ad"
+    },
+    {
+      "treatment": "Car setup has Placements, Campaign terms, Review and fund. Placements uses the nine ordinary zone controls and a labeled diagram. Campaign terms orders duration in days, body-type/color preferences, actual artwork, optional campaign visual, title, common brief/requirements, monthly pay, spots and deadline. Keep artwork and campaign visual separately labeled because one is applied material and the other is promotional explanation. The review uses server funding semantics without computing a total from days divided by 30.",
+      "distinct_from_master_screens": "A physical placement agreement, not a vehicle configurator or another portrait-media form. Monthly pay remains explicit in every summary.",
+      "screen": "Business Create — Car advertising"
+    },
+    {
+      "treatment": "Review orders source media/artwork, task, eligibility, timing, spots, participant payment facts, platform fee, server total funding, current campaign-wallet credit and shortfall. Show 'Campaign funding is separate from your content subscription.' Edit links return to the relevant stage without losing setup. Top up uses the current Stripe flow and returns to the retained setup; neither checkout return nor upload completion confirms funding or publication. Publish succeeds only after the campaign response. Saved appears only after draft persistence confirms. A direct request retains its own send and funding semantics, never an invented open-campaign debit.",
+      "distinct_from_master_screens": "A final agreement and funding decision, not a dashboard summary. It contains no forecast, assumed escrow or subscription upsell.",
+      "screen": "Campaign review, drafts, funding and publication"
+    },
+    {
+      "treatment": "At /business/campaigns, order title and Create campaign action; All / Review / History; status filter; distinct Drafts section in All; compact source-aware records. Campaign rows retain kind and campaign state. Direct requests retain named recipient and invitation state; offers/bookings retain their source. Review groups applications, submissions, Story decisions and car proofs under labeled sections, with counts only from real data. Closed campaigns with pending decisions stay actionable. From 1280px use a 320px queue plus selected detail; do not add a third permanent inspector inside it.",
+      "distinct_from_master_screens": "A management index prioritizing decisions, not a performance dashboard or an opportunity feed with different titles.",
+      "screen": "Campaigns index and Review queue"
+    },
+    {
+      "treatment": "Campaign detail orders kind/state, actual media and concise brief, funding facts, applications/invitations, work awaiting review, remaining participant work and management actions. Use 32px phone or 48px desktop section gaps, compact rows within sections and no status-card grid. Pause and Close open consequence-specific confirmations only where permitted. Closing does not imply all work is completed or a refund is due. Actual recorded refunds remain in the wallet ledger. Direct requests display their recipient and state rather than campaign publication controls.",
+      "distinct_from_master_screens": "One campaign becomes a working production record. Funding, participant status and evidence decisions are related but never collapsed into a progress bar.",
+      "screen": "Campaign and direct-request management detail"
+    },
+    {
+      "treatment": "Application review orders applicant identity, relevant actual qualifications, selected vehicle when applicable, work samples or application information, campaign requirements and Accept application / Decline. Use the person's or vehicle's factual media, not submission evidence that does not yet exist. Acceptance confirms the application state only; it does not say Approved and does not trigger a payment message. A stale or withdrawn application refreshes to its current state before another decision is possible.",
+      "distinct_from_master_screens": "Selecting someone for work is visibly and verbally different from approving completed work.",
+      "screen": "Business application review"
+    },
+    {
+      "treatment": "Evidence review orders original evidence, source/type and relevant period, requirements, revision/conversation history, then decision. Standalone desktop review uses the main media field and a 320–360px decision column; phone uses a dedicated detail with one primary action and secondary note/rejection actions in normal flow. Paying approval says Approve and pay with the actual earnings amount and effect. Non-paying installation/proof approval uses the corrected literal label. Revision opens the required note field. Rejection names the evidence and preserves the current record until confirmation.",
+      "distinct_from_master_screens": "Evidence is the main surface. There is no thumbnail-only approval, generic Approve everywhere or assumption that a monthly booking is paid in full.",
+      "screen": "Reel, Story and Car evidence review"
+    },
+    {
+      "treatment": "After completed work, show the existing Review this person action in the completed record. The form contains the current rating scale and supported review text fields, the person's name and linked work, then Submit review. Use the source scale rather than inventing a new one. Publish or update the review only through the existing behavior and after confirmation. Public appearance follows the current review permissions and data.",
+      "distinct_from_master_screens": "A bounded record of completed work, not a gamified reputation ceremony, endorsement generator or fabricated default rating.",
+      "screen": "Completed-work business review"
+    },
+    {
+      "treatment": "Content → Shoots lists each actual slot independently, including cancelled history. Shoot detail orders shoot state, delivery state, recorded date/time/timezone and location, planned counts, assigned verified creator when assigned, then actual delivered files. A planned slot without a date says Your shoot is being scheduled. Done with delivery none says Shoot completed; processing is a separate fact. If slot data fails, show a local error rather than constructing the plan's expected slots. No self-booking or delivery ETA is introduced.",
+      "distinct_from_master_screens": "This is the factual service record underneath Content's editorial overview, not a scheduling application or universal production tracker.",
+      "screen": "Business shoot list and shoot detail"
+    },
+    {
+      "treatment": "Asset inspection orders original file, content state, shoot/uploader provenance, caption, edit note, separate linked post states and permitted actions. New content prioritizes Approve content; usable content may prioritize Schedule. Request an edit opens the existing note form without inventing a production status. Scheduling orders date, time, actual scheduling timezone, Instagram platform and Reel/photo/Story format. Post detail shows its own state and recorded times. Mark published is explicitly manual unless actual publishing occurred; failed posts retain the real error. A successfully loaded empty delivery says no files are available, not Files could not be loaded.",
+      "distinct_from_master_screens": "Creative approval has no money treatment. File approval, post scheduling and publication are three separate facts, not one status badge.",
+      "screen": "Content asset review, scheduling and post detail"
+    },
+    {
+      "treatment": "Ideas is a compact editorial list grouped by actual source, with the idea title, short useful recommendation and supported next action. A source-supplied asset can be previewed; an abstract idea does not receive a fabricated deliverable thumbnail. Growth Trends uses actual category Reel references and their generated/template briefs. Selecting a trend opens its reference and editable brief, then the existing Create Recreate entry. Without entitlement, explain Growth access and link to plans; do not display functioning trend controls or invented trend inventory.",
+      "distinct_from_master_screens": "This is a source-aware starting point for the next post or campaign, not another content library, trend analytics dashboard or fourth campaign category.",
+      "screen": "Content Ideas and Growth Trends"
+    },
+    {
+      "treatment": "At /business/profile, order real cover when present, logo below it, name/category/city, description, website, hours and services. Then show concise real operational facts linked to their canonical records: connection state, plan, next shoot, active campaigns and scheduled content. Follow with Edit business, Public page, Connections, Business health, Brand kit, Campaign wallet, Plan and billing, Settings. Public /b/[slug] retains only publishable identity and business information under the reduced public header. Missing cover collapses completely.",
+      "distinct_from_master_screens": "The business remains recognizable as a real place or service. Operational links do not become a wall of KPI cards, and public identity never inherits private wallet or billing details.",
+      "screen": "Business profile and public business page"
+    },
+    {
+      "treatment": "At /business/edit, use a 640px maximum form ordered cover, logo, name, category, city, description, website, hours and services, then Save changes. Hours are editable structured rows using the existing fields and validation, not an invented scheduling engine. Preserve optional fields and current permissions. Show actual selected images with ordinary crop/replace behavior. Identity switching or Back from unsaved changes uses the shared discard decision.",
+      "distinct_from_master_screens": "A factual identity editor, not a brand-strategy questionnaire or compulsory business-completion score.",
+      "screen": "Edit business"
+    },
+    {
+      "treatment": "At /business/brand, order approved-kit state and current kit; logo; palette with names/hex values; display/body typography; tone; photo/content style; guidelines; actual examples; Research sources; pending proposal. On desktop use a 640px editorial specimen field beside a 320px source/proposal region when space permits. Source rows retain used, not connected, missing or failed. A proposal shows at most three improvements, with Current and Proposed clearly labeled and approval at the end. Generated imagery says Generated proposal beside the image. Unapproved fonts are specimens only and never restyle application navigation.",
+      "distinct_from_master_screens": "A brand specimen and explicit approval boundary, not a settings-card grid, automatic rebrand or fake research report.",
+      "screen": "Brand Kit"
+    },
+    {
+      "treatment": "Business Connections orders Instagram business account, Google Business Profile, then Social overview. Each integration is a 96px-minimum plain section with actual account identity, state/provenance, available Connect or correction action and Disconnect where supported. OAuth pending, connected and error remain distinct. An unconfigured provider has a factual availability explanation and no fake authorization control. /google opens the same Google connection context and existing health access. A personal Instagram connection is never substituted for the business account.",
+      "distinct_from_master_screens": "Connections are operational capabilities, not decorative logo tiles or proof that automatic publishing is available.",
+      "screen": "Business Connections and Google connection"
+    },
+    {
+      "treatment": "At /business/health, lead with the latest stored run's date and source, then checks for completeness, hours, photos, posts and reviews. Each plain row shows the recorded finding and the existing applicable fix. Only show an overall score if the backend actually supplies it; never derive a decorative ring. Stored history is a dated list below. At /business/social, order actual connected account facts and the same calendar post records grouped by actionable state. Links return to canonical connection or post detail.",
+      "distinct_from_master_screens": "Health is a factual fix list and Social is an account/post overview. Neither introduces analytics, duplicate publishing records or a new permanent destination.",
+      "screen": "Business Health and Social"
+    },
+    {
+      "treatment": "Personal Settings groups Account; earning capabilities; Use TapMart as; Log out; Admin only for admins. Existing Profile, Verification, Portfolio, Public profile/reviews, Saved, Instagram, Vehicles and Payouts entries deep-link to their canonical screens. Business Settings groups account/security/notifications, business details/connections/brand kit, plan/billing/public page, identity switching and Log out. Use 64px-minimum rows, 32px section gaps and no icon containers by default. Security exposes existing capabilities only; no invented two-factor, session-management or account-deletion flow.",
+      "distinct_from_master_screens": "A quiet directory of infrequent controls. No completion score, promotional content or disabled Team entry is added.",
+      "screen": "Personal and Business Settings"
+    },
+    {
+      "treatment": "At /alerts, order title, existing read/filter controls if supported, then chronological event rows with the actual timestamp and identity/source. Actual unread state uses a 4px dot plus stronger text; a count appears only when supplied. Each event opens the canonical request, offer, booking, decision, payout or shoot record. Cross-identity targets require the named switch confirmation. Preferences are per-kind labeled controls in Settings. Do not invent Mark all read or bulk deletion if the current flow lacks them.",
+      "distinct_from_master_screens": "An event inbox that points to work, not a competing task state machine or marketing notification feed.",
+      "screen": "Notifications and notification preferences"
+    },
+    {
+      "treatment": "The messages index uses 80px-minimum rows showing participant, linked work source, latest actual message and timestamp. Desktop from 1280px uses a 320px conversation list plus thread; phone opens a dedicated route. The thread begins with a 56px-minimum linked work summary, then readable message groups, plain system events and a 48px-minimum composer with Send. Preserve real sending/error and presence behavior. Keyboard-open layout keeps the composer reachable without covering the last message. Do not add media attachments, read receipts or unsolicited chat initiation unless already supported.",
+      "distinct_from_master_screens": "Conversation remains attached to an existing request, offer or booking. It is not a standalone social network or general business messaging tool.",
+      "screen": "Messages and conversation detail"
+    },
+    {
+      "treatment": "At /search, order labeled search field, People / Businesses / Campaigns scope controls, then source-specific results. Person results use person rows; businesses use logo/name/category/city rows; campaigns use compact kind/pay-basis summaries with real media only when available. Preserve existing permissions and search behavior. Do not add cars as a new global entity; Business Home Cars remains their discovery path. Empty results show the actual query and an edit/clear action, not suggested synthetic accounts.",
+      "distinct_from_master_screens": "One query surface respects three entity types instead of forcing every result into a generic marketplace card.",
+      "screen": "Search"
+    },
+    {
+      "treatment": "At /wallet, name the active business before Campaign wallet, show real credit balance and Add credit, then the ledger. Rows distinguish top-ups, campaign payments, refunds, corrections and platform fees using literal labels and actual debit/credit direction. /wallet/add orders business identity, existing amount control, payment summary and Stripe continuation. Return shows confirmation pending until the server ledger/balance confirms the result. Preserve an originating campaign draft and return action. A refund appears only as a real recorded transaction.",
+      "distinct_from_master_screens": "Business campaign credit is not personal earnings, subscription billing or an invented combined balance.",
+      "screen": "Campaign wallet and Stripe top-up"
+    },
+    {
+      "treatment": "Plan selection uses two editorial columns on desktop and stacked sections on phone. Essential states 1 monthly shoot, 10 photos and 3 videos; Growth states 2, 20 and 6 plus its existing trends/briefs/support benefits. List shared capabilities once and state Campaign spending is separate. Prices come from settings. Billing leads with actual trialing, active, past_due or cancelled status, current plan and recorded billing facts, then existing management actions and any records the billing flow exposes. Do not fabricate invoice history, a trial duration, cancellation date or future features.",
+      "distinct_from_master_screens": "A separate service purchase with honest billing state, not wallet funding, a campaign spend allowance or raised SaaS pricing cards.",
+      "screen": "Plan selection and subscription billing"
+    },
+    {
+      "treatment": "Sign in and Sign up use the public wordmark and a 448px maximum form. Order title, existing credential fields, the primary action, relevant recovery link and the alternative account-entry link. Use persistent 16px input text, password visibility control with a label and support password managers/paste. Do not invent social login, require a plan purchase or split personal/business accounts. Preserve a supported intended destination and audience preselection through authentication. No background film, testimonial or fabricated earnings figure sits beside the form.",
+      "distinct_from_master_screens": "The brand is expressed through type, paper and a precise form, not acquisition spectacle at the point of credential entry.",
+      "screen": "Sign in and Sign up"
+    },
+    {
+      "treatment": "Password reset presents email, Send reset link and the server's privacy-preserving response. Reset completion shows only the current password fields and actual validation. Email confirmation has explicit confirming, confirmed, invalid and expired states according to the existing handler, with resend only when supported. Do not claim an email was delivered merely because a request was accepted. Confirmed authentication resumes the existing onboarding or intended destination.",
+      "distinct_from_master_screens": "Small state-specific forms and messages, not giant success illustrations or guessed recovery capabilities.",
+      "screen": "Password reset and email confirmation"
+    },
+    {
+      "treatment": "Preserve onboarding order: name; How do you want to use TapMart?; profile basics. Intent uses two large plain choice rows, Earn as a person and Set up a business, with one explanatory sentence each. A public-route intent is preselected but editable. Progress labels describe these real form stages only. Business setup then collects name, category and city first, with remaining existing fields available in Business. Keep optional fields optional and use existing validation. Instagram, vehicle, verification and payout setup never become universal gates.",
+      "distinct_from_master_screens": "One account learns its immediate purpose without a marketing questionnaire, subscription wall or artificial profile-completion funnel.",
+      "screen": "Onboarding, business setup and Add business"
+    },
+    {
+      "treatment": "/earn expands Recreate, Post and Drive with their different media, then exact eligibility, approval, fee and payout conditions and Start earning. /for-business orders find people/cars, three campaign tasks, separate real monthly content service, the two plan sections, funding exclusion and Set up my business. Use the public headline scale, 64px phone/96px desktop section spacing and conditional permissioned media. Legal pages use a 720px maximum article, 16/26px body, clear headings, actual document content and effective date only when supplied. Existing public legal routes remain valid.",
+      "distinct_from_master_screens": "Acquisition pages have greater editorial intensity than the app; legal reading has almost none. Neither relies on invented case studies or changes the shared account model.",
+      "screen": "Public Earn, For businesses and legal pages"
+    }
+  ],
+  "qa": [
+    {
+      "evidence": "Specification-level score, not a usability result. Opportunity detail exposes task, payment basis and the correct Apply or Accept request action; Activity names the waiting party; Earnings separates approval, available balance and paid payout. The remaining risk is understanding these distinctions in actual first-use testing.",
+      "criterion": "Clarity",
+      "score": 9
+    },
+    {
+      "evidence": "The system has three materially different opportunity compositions, a restrained red return and public condensed typography. Queues and ledgers intentionally remain familiar. Its distinction comes from the relationship between media and action, not an unusual control on every screen.",
+      "criterion": "Uniqueness",
+      "score": 8
+    },
+    {
+      "evidence": "Four personal and five business destinations remain stable; task pages preserve return position; eligibility is progressive; complicated forms are split by real decisions. Enlarged-text navigation and application-versus-acceptance corrections remove concrete usability failures, but no participant sessions have yet validated the flows.",
+      "criterion": "Usability",
+      "score": 8
+    },
+    {
+      "evidence": "Warm working surfaces, precise type roles, unboxed media and alternating density create an intentional rhythm. Vehicles, portrait references and finished Stories retain their own proportions. The final quality still depends on real source media and faithful implementation, not the approval-only renders.",
+      "criterion": "Visual quality",
+      "score": 8
+    },
+    {
+      "evidence": "Colors, type, actions, focus, spacing and identity behavior are shared. Approval semantics are explicitly split between content, applications, paying evidence and non-paying proofs. Record-specific presentations prevent consistency from becoming misleading component reuse.",
+      "criterion": "Consistency",
+      "score": 9
+    },
+    {
+      "evidence": "Every mutation has a pending state, confirmed result and failure path; Back restores context; media is user-controlled; financial values do not animate. The design specifies keyboard and reduced-motion equivalents. Network concurrency and provider failures still require executable testing.",
+      "criterion": "Interaction quality",
+      "score": 8
+    },
+    {
+      "evidence": "Original ratios, real thumbnails, explicit provenance and the prohibition on synthetic evidence establish a strong integrity bar. However, no real launch media set has been inspected or commissioned here, and external references can be poor or unavailable. This criterion cannot honestly score as if production were complete.",
+      "criterion": "Media quality",
+      "score": 7
+    },
+    {
+      "evidence": "Personal screens answer work, next action and money; Business Home remains people/cars, while Content begins with the next real service or review step. Campaign review leads with evidence, Brand Kit with the approved specimen, and billing with its separate service commitment. Secondary detail is moved out of discovery rather than deleted.",
+      "criterion": "Information hierarchy",
+      "score": 9
+    },
+    {
+      "evidence": "Phone detail, desktop workbenches and public layouts are separately composed. Explicit field-width thresholds, the 9em opportunity fallback, adaptive navigation, measured sticky heights and Calendar minimums resolve known geometry problems. Browser, keyboard and assistive-technology testing is still outstanding.",
+      "criterion": "Responsiveness",
+      "score": 8
+    },
+    {
+      "evidence": "The design uses ordinary layouts, forms, media viewers and existing records; it requires neither a new renderer nor a new transcoding or payment backend. Route/state binding and optional-provider behavior remain engineering integration risks. Future generation and vehicle preview controls are explicitly excluded from release one.",
+      "criterion": "Implementability",
+      "score": 8
+    },
+    {
+      "evidence": "The return mark, Paper/Ink/Vermilion relationship, condensed public headlines and media-to-action compositions form a repeatable recognition system. It remains a plausible design hypothesis, not measured recall, distinctiveness in-market or a claim of conversion advantage.",
+      "criterion": "Brand recognition",
+      "score": 8
+    }
+  ],
+  "self_critique": [
+    {
+      "honest_answer": "Initially, not everywhere. The campaign editors and work indexes risked exposing too much underlying structure at once. The revised system keeps one main decision per local stage and groups related work for resumption while preserving its source records. This passes as a design specification, not as a claim of tested ease.",
+      "passes": true,
+      "question": "Is it genuinely simple?",
+      "fix": "Split each Create flow into three task-specific stages and group genuinely related Activity/Review records without creating a universal lifecycle."
+    },
+    {
+      "honest_answer": "Yes, through a small number of repeated decisions rather than constant novelty: the return mark, condensed public type, unboxed real media and the three opportunity compositions. Quiet settings and financial screens intentionally use familiar patterns. Making those screens strange would weaken the product.",
+      "passes": true,
+      "question": "Is it distinctive?",
+      "fix": ""
+    },
+    {
+      "honest_answer": "The earlier acceptance wording was too easy to misread. A normal person could believe an application had secured work. Apply, Accept request, Waiting for acceptance and accepted-work actions now have distinct uses, and eligibility setup returns to the original task.",
+      "passes": true,
+      "question": "Is it easy for a normal person?",
+      "fix": "Replace generic acceptance wording with action labels tied to the existing application or invitation mutation; never expose submission actions for an unaccepted application."
+    },
+    {
+      "honest_answer": "Yes. Home shows concrete work and a payment basis without playback; Activity says what to do or who is reviewing it; Earnings makes available money and payout state directly accessible. The experience avoids income promises and does not confuse watching references with earning.",
+      "passes": true,
+      "question": "Is User mode obviously about earning?",
+      "fix": ""
+    },
+    {
+      "honest_answer": "Yes. Business Home finds people and cars, Create launches the three actual campaign tasks, Campaigns resolves participation and review, and Content supplies usable real media. Growth is expressed as concrete marketing work and content, not fabricated reach charts.",
+      "passes": true,
+      "question": "Is Business mode obviously about growing a business?",
+      "fix": ""
+    },
+    {
+      "honest_answer": "The design originally generalized approval and funding too aggressively. Installation approval is not necessarily a payment, and a direct request must not inherit an invented open-campaign funding step. Those paths now use the existing action's real consequences and have explicit pending, error and confirmed outcomes.",
+      "passes": true,
+      "question": "Does every main action have a complete path?",
+      "fix": "Separate paying and non-paying approval labels; retain direct-request funding semantics; keep financial confirmations open through the server response and preserve setup through top-up."
+    },
+    {
+      "honest_answer": "The package is necessarily detailed for the engineer; the screens must not reproduce that documentation. Discovery contains only the next decision's facts. Full guides, fee details, provenance and history belong in detail, and accepted work expands the relevant next step rather than every secondary section.",
+      "passes": true,
+      "question": "Is there too much text?",
+      "fix": "Move campaign editing into short local stages and use progressive disclosure for secondary guidance while keeping eligibility, payment basis and the next required step visible."
+    },
+    {
+      "honest_answer": "No. Most screens use lists, direct typography, media stages, contact sheets or ledgers. Bounded objects remain appropriate for selectable vehicle inventory, resumable drafts and temporary forms. They do not become the universal section container.",
+      "passes": true,
+      "question": "Are there too many cards?",
+      "fix": ""
+    },
+    {
+      "honest_answer": "Yes when it identifies the reference, supplied creative, actual vehicle, evidence or delivered file. The earlier public concept could have encouraged teams to fill missing production with attractive synthetic scenes. That dependency is removed: absent real media produces the specified factual fallback or an omitted public section.",
+      "passes": true,
+      "question": "Is the media meaningful?",
+      "fix": "Make public film and examples conditional, formalize separate provenance lanes and prohibit proposal/concept imagery from becoming live inventory or delivered content."
+    },
+    {
+      "honest_answer": "The system does not repeat one dashboard structure with different headings. Recreate is instructional, Story is a poster agreement, Car is a physical placement record, Earnings is a ledger and Brand Kit is a specimen. Shared controls remain consistent without making all objects identical.",
+      "passes": true,
+      "question": "Does it feel templated?",
+      "fix": ""
+    },
+    {
+      "honest_answer": "The chosen direction does not depend on generated lifestyle scenes, gradients, floating tiles or decorative 3D. The approval-only mockups themselves can still contain image-model artifacts, so they cannot be implementation authority. Future image-model production has explicit source, editing and approval boundaries.",
+      "passes": true,
+      "question": "Does it have an AI-generated product feel?",
+      "fix": "Declare resolved specifications authoritative over generated visualizations and keep all generated proposals visibly separate from factual product media."
+    },
+    {
+      "honest_answer": "No. Application motion communicates navigation, transfer or a confirmed state; the public film is optional and pausable; 3D exists only to inspect an actual model. There is no motion-based claim of progress, income or completion.",
+      "passes": true,
+      "question": "Are any effects present for their own sake?",
+      "fix": ""
+    },
+    {
+      "honest_answer": "The principal decisions can be understood without a tour. Less obvious distinctions still need brief literal language: Manual confirmation, Campaign spending is separate, and Approve content versus Approve and pay. Removing those lines for visual minimalism would make the product less understandable.",
+      "passes": true,
+      "question": "Is it understandable with no explanation?",
+      "fix": "Correct ambiguous action labels and preserve short explanations at financial, verification and publication boundaries rather than hiding them in tooltips."
+    },
+    {
+      "honest_answer": "The default-size phone compositions were credible, but the fixed five-label bar and action areas did not fully pass enlarged-text scrutiny. They now have explicit adaptive layouts, and narrow opportunity text no longer has to squeeze around media. Actual mobile excellence remains subject to the defined device and accessibility tests.",
+      "passes": true,
+      "question": "Is mobile excellent?",
+      "fix": "Add the Navigation sheet fallback, growing headers, measured fixed-region spacing, keyboard-aware task bars and the 9em/long-amount stacking rule."
+    },
+    {
+      "honest_answer": "Yes. Desktop uses comparison rows, a restrained context region and evidence or asset inspection beside the relevant work. It does not stretch a phone feed across the viewport. Extra panels disappear when their minimum working widths do not fit, including under enlarged text.",
+      "passes": true,
+      "question": "Is desktop intentional?",
+      "fix": "Make inspector and Calendar eligibility depend on available content width as well as breakpoint, and prohibit a cramped third permanent panel inside list-and-detail workbenches."
+    },
+    {
+      "honest_answer": "Yes, as a buildable presentation specification with explicit tokens, geometry, actions, source rules and fallbacks. The remaining unknowns are existing implementation bindings, not invitations to invent behavior. Photographic mockups cannot resolve those bindings and must not be treated as pixel-accurate screens.",
+      "passes": true,
+      "question": "Can Claude Code build it?",
+      "fix": "Establish authority order, a route/state/permission binding pass, concrete responsive acceptance cases and a vertical-slice build sequence before broad screen construction."
+    },
+    {
+      "honest_answer": "Yes for the stated scale: tens of opportunities and people, a handful of cars and multiple business memberships. Source-aware lists, local views and existing pagination can handle that without new navigation. This is not a claim that the same composition serves millions of inventory items or future team/multi-location workflows.",
+      "passes": true,
+      "question": "Does it scale?",
+      "fix": ""
+    }
+  ]
+}
