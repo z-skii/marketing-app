@@ -1,0 +1,57 @@
+{
+  "id": "content-loopday-pour-03",
+  "kind": "photo",
+  "aspect": "9:16",
+  "prompt": "Create a photorealistic 9:16 still photograph from a fictional coffee-counter shoot. A barista's natural hands lift a plain stainless-steel kettle and pour water into a small ceramic filter brewer beside a dark forest-green mug. Pale blue square tiles, a brushed steel counter and ordinary coffee tools establish the same compact neighborhood setting. Keep kettle, stream, brewer and hands visible in the vertical composition. Use a 35mm-equivalent lens, soft but directional window light, realistic liquid behavior and neutral source-faithful colors. This is a still photograph for fictional Design Lab delivered media, not a claimed video poster. No lettering, logos, controls, watermarks or UI.",
+  "rounds": [
+    {
+      "round": 1,
+      "action": "generate",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Reframe the existing 1024×1536 image to 9:16 using a crop approximately from x=96 to x=960, retaining the full height for an 864×1536 output. Keep both hands, the entire kettle and spout, the uninterrupted water stream, ceramic brewer, and green mug including its handle visible. Trim only peripheral background and counter accessories; do not stretch or generatively extend the image. Preserve the existing daylight, neutral colors, skin texture, steel reflections, coffee surface, and unbranded objects. Add no text, logos, overlays, or UI.",
+        "summary": "A convincing coffee-counter still shows a barista pouring from a stainless-steel kettle into a ceramic brewer over a forest-green mug. The setting, lighting, materials, and restrained styling closely match the brief, but the supplied frame is 2:3 rather than the required 9:16.",
+        "problems": [
+          "Whole frame: the image is 1024×1536, a 2:3 portrait rather than the requested 9:16 delivery format."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    },
+    {
+      "round": 2,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-flare",
+      "quality": "medium",
+      "review": {
+        "edit_instructions": "Reframe only: crop the 1024×1536 image to 864×1536 (9:16), removing approximately 80 pixels from each side and nothing from the top or bottom. Keep both hands, the entire kettle and spout, the uninterrupted water stream, the ceramic brewer and the complete green mug visible. Preserve all existing textures, colors, lighting, reflections and background details; do not regenerate, extend or retouch the scene. Add no text, branding, play icons or UI.",
+        "summary": "A convincing coffee-counter still shows a barista pouring from a stainless-steel kettle into a ceramic brewer over a forest-green mug. The natural lighting, believable materials and clean presentation meet the fictional Design Lab brief, but the delivered frame is 2:3 rather than the required 9:16.",
+        "problems": [
+          "Full frame: the image has a 2:3 aspect ratio instead of the requested 9:16; a horizontal crop can correct this without sacrificing the essential action."
+        ],
+        "scores": {
+          "purpose": 8,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "edit"
+      }
+    }
+  ],
+  "approvedByDirector": false
+}
