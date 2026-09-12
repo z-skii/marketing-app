@@ -4,9 +4,9 @@ import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CaretRight, X } from "@phosphor-icons/react";
 import { MediaPreview } from "@/components/v2/MediaPreview";
-import { markPublishedAction } from "./schedule-actions";
-import { dayLabel, dayKeyOf, timeOf } from "./dates";
-import { postKindLabel, type ScheduledPost } from "./types";
+import { markPublishedAction } from "@/app/(v2)/business/content/schedule-actions";
+import { dayLabel, dayKeyOf, timeOf } from "@/app/(v2)/business/content/dates";
+import { postKindLabel, type ScheduledPost } from "@/app/(v2)/business/content/types";
 
 /**
  * One scheduled or published post as a compact row: thumbnail, one line of

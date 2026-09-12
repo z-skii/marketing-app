@@ -4,8 +4,8 @@ import { requireBusinessContext } from "@/lib/v2/core";
 import { sqlOne } from "@/lib/db";
 import { listCarsForBusiness, listPeople, type Car, type Person } from "@/lib/v2/marketplace";
 import { FilterBar } from "@/components/v2/FilterBar";
-import { PersonCard } from "./people/PersonCard";
-import { CarCard } from "./cars/CarCard";
+import { PersonCard } from "@/app/(v2)/business/people/PersonCard";
+import { CarCard } from "@/app/(v2)/business/cars/CarCard";
 
 export const metadata = { title: "Home" };
 export const dynamic = "force-dynamic";

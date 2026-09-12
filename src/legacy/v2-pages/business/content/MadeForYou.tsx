@@ -8,9 +8,9 @@ import { MediaPreview } from "@/components/v2/MediaPreview";
 import type { Deliverable, DeliverableFormat } from "@/lib/business/deliverables";
 import {
   approveDeliverableAction, rejectDeliverableAction, requestEditAction, scheduleDeliverableAction,
-} from "./schedule-actions";
-import { dayLabel } from "./dates";
-import { deliverableStatusLabel, deliverableStatusTone } from "./types";
+} from "@/app/(v2)/business/content/schedule-actions";
+import { dayLabel } from "@/app/(v2)/business/content/dates";
+import { deliverableStatusLabel, deliverableStatusTone } from "@/app/(v2)/business/content/types";
 
 /**
  * Made for you: the files a verified creator delivered that still need a
@@ -257,7 +257,7 @@ export function PreviewSheet({
               <p className="mt-1.5 text-xs text-ink-faint">Instagram · {timeZoneLabel}</p>
               <div className="pill-row mt-3" role="radiogroup" aria-label="Format">
                 {FORMATS.map((f) => (
-                  <button key={f.key} type="button" role="radio" aria-checked={format === f.key} aria-pressed={format === f.key} className="pill" onClick={() => setFormat(f.key)}>
+                  <button key={f.key} type="button" role="radio" aria-checked={format === f.key} className="pill" onClick={() => setFormat(f.key)}>
                     {f.label}
                   </button>
                 ))}

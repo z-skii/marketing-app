@@ -10,8 +10,8 @@ import { MadeForYou, DeliveredGrid } from "./MadeForYou";
 import { ScheduledItem } from "./ScheduledList";
 import { EmptyCard } from "./EmptyCard";
 import { ShootCard } from "./ShootCard";
-import { dayKeyOf, dayLabel, defaultScheduleSlot } from "./dates";
-import type { ScheduledPost } from "./types";
+import { dayKeyOf, dayLabel, defaultScheduleSlot } from "@/app/(v2)/business/content/dates";
+import type { ScheduledPost } from "@/app/(v2)/business/content/types";
 
 export const metadata = { title: "Content" };
 export const dynamic = "force-dynamic";

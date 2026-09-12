@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Camera, MapPin, VideoCamera } from "@phosphor-icons/react/dist/ssr";
 import type { ContentShoot } from "@/lib/business/shoots";
 import { EmptyCard } from "./EmptyCard";
-import { longDayLabel, shootTimeLabel } from "./dates";
+import { longDayLabel, shootTimeLabel } from "@/app/(v2)/business/content/dates";
 
 /**
  * This month's shoot as one appointment: the date big, the time, a calendar
