@@ -365,7 +365,8 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
   .fs .fs-op-story.is-detail .fs-story-sheet { width: 198px !important; height: 352px !important; }
   .fs .fs-narrow { max-width: 760px; }
   .fs .fs-filters.is-work > a { font-size: 16px; line-height: 20px; }
-  .fs .fs-work-row { grid-template-columns: 56px minmax(0, 1fr) auto; }
+  .fs .fs-work-row { grid-template-columns: 56px minmax(0, 1fr) auto; row-gap: 0; }
+  .fs .fs-work-row .fs-work-media { grid-row: 1 / span 3; }
   .fs .fs-work-row .fs-work-money-line { grid-column: 3; grid-row: 1; margin-top: var(--fs-shift-phone); text-align: right; display: grid; }
   .fs .fs-work-info { display: contents; }
   .fs .fs-work-info > :first-child { padding-top: var(--fs-shift-phone); }
