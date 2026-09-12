@@ -1,0 +1,52 @@
+{
+  "screen": "Production Recreate detail, revision requested (desktop 1440), stage 2 pass 1",
+  "screenshot": "d-o_f28f4d7d_117e_45b6_bf83_fc067318e101.png",
+  "reference": "m-design_lab_user_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T16:40:18.009Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 12102,
+    "output_tokens": 3684,
+    "total_tokens": 15786,
+    "reasoning_tokens": 2989
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "The D initial and demo-creator identity replace Maya’s fixture portrait and name; retain the bound account data.",
+      "Demo Coffee Co., Raleigh, the employee-POV brief, $75.00 commitment, eight spots and September 20, 2026 deadline belong to the production record.",
+      "Revision feedback, the previous submission, its sent date and Upload a new version correctly replace discovery-screen actions.",
+      "The previous submission is a video with no inline preview. Its explicit fallback and Open file action are appropriate, distinct from the still reference.",
+      "Numbered brief-step fallbacks are appropriate where supplied thumbnails are absent.",
+      "The desktop navigation rail and two-column revision workspace are valid translations, not departures that should be forced into the Lab’s phone feed layout."
+    ],
+    "keep": [
+      "Mineral canvas, graphite navigation and source planes, restrained dividers and unboxed working content; no generic elevated-card dashboard.",
+      "The desktop source-to-commitment joint: the source begins at y=100 and the adjoining commitment at y=124, producing the required 24px offset.",
+      "Square graphite/cobalt commitment regions, strong $75.00 hierarchy and the visible per approved version basis.",
+      "Contained reference photography, an explicit Reference · still label and fully opaque Inspect control; no fabricated playback treatment.",
+      "Literal Revision requested status, specific business feedback and the statement that the previous version stays on record until replacement.",
+      "A dominant upload decision followed by duration and aspect-ratio requirements, with the filming brief immediately below.",
+      "Visible Home, Save, business, original-source and submitted-file destinations alongside the permanent application navigation."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off at 1440×900. The capture exposes the revision workflow without apparent loss of functionality. Sticky scrolling, Save persistence, file/source opening, upload responses and payment calculations still require interaction and backend QA; a static capture cannot verify those behaviors.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 8,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The screen translates the approved language rather than copying an unrelated layout. The left source assembly has a genuine 24px handoff into graphite and cobalt, while the right column prioritizes the actual revision request and next action. Money remains prominent and stationary: $75.00 carries its approval basis, and the separate $63.75 earnings statement is explicitly conditional on approval rather than presented as an existing balance. Reference media and submitted work remain clearly separate. The honest video fallback, readable feedback, visible upload requirements and restrained brief rows preserve operational clarity without invented proof or decorative dashboard furniture.",
+    "verdict": "Yes—Frame Shift is faithfully translated to this desktop revision workflow, with the real source, payment conditions, submission state and next action visibly intact."
+  }
+}

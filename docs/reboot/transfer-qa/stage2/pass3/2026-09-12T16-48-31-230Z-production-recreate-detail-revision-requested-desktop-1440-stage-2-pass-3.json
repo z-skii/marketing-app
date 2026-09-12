@@ -1,0 +1,50 @@
+{
+  "screen": "Production Recreate detail, revision requested (desktop 1440), stage 2 pass 3",
+  "screenshot": "d-o_f28f4d7d_117e_45b6_bf83_fc067318e101.png",
+  "reference": "m-design_lab_user_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T16:48:31.230Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 12113,
+    "output_tokens": 1763,
+    "total_tokens": 13876,
+    "reasoning_tokens": 1034
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "The real account uses a D initial and its actual account name instead of Maya’s fixture portrait and identity.",
+      "The reference photograph, task title, business, location, eight available spots and September 20, 2026 deadline correctly replace the Lab’s fixture content.",
+      "The commitment is $75.00 per approved version, not the fixture’s $65.00. The displayed $11.25 fee and $63.75 net reconcile correctly with that gross amount.",
+      "The actual Revision requested state exposes business feedback, the previous submission, a resubmission deadline and Upload a new version rather than discovery or application controls.",
+      "The previous submission honestly states No preview available and offers Open file; it is not replaced with invented media or confused with the still reference."
+    ],
+    "keep": [
+      "Mineral canvas, graphite navigation and reference housing, flat structural planes and restrained dividers; there is no generic elevated-card dashboard.",
+      "The corrected desktop joint: source housing at x=232, y=100 measures 224×398px; commitment at x=456, y=124 also measures 224×398px. Its cobalt ledge ends at y=522, exactly 24px below the source.",
+      "The contained reference photograph, opaque Reference · still label and graphite Inspect control, with Open the original remaining a separate ink action.",
+      "Strong white-on-cobalt $75.00 hierarchy with its approval basis immediately beneath; conditional net earnings and explicit gross/fee breakdown remain separately readable.",
+      "Literal revision status, restrained amber feedback edge, preserved previous-version information and a prominent upload decision.",
+      "Archivo heading and money hierarchy with legible operational text; desktop rail navigation, Home return, Save and communication utilities remain exposed."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off for 1440×900. The capture shows the correct revision workflow and its controls, but does not establish successful Save, file opening, upload persistence, navigation or failure handling; those remain runtime QA checks.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 9,
+      "clarity": 9,
+      "premium_feel": 9,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "Pass 3 resolves the joint geometry: both source and commitment are 398px tall, with the commitment starting and ending 24px lower. The cobalt payment ledge is attached rather than floating or enclosed in a rounded card. The desktop composition appropriately translates the Lab language instead of copying its phone feed: source and gross commitment occupy the left, while the revision task, conditional net amount and upload action occupy the right. Reference media and submitted evidence remain distinct, unavailable preview information is explicit, and inspection actions stay ink. Money, payment conditions, deadline and status are readable without clipping. The visible screen preserves navigation and the relevant production actions without introducing fabricated progress, acceptance or earnings.",
+    "verdict": "Yes—pass 3 faithfully transfers Frame Shift to this desktop revision screen, including the corrected 24px joint, with the visible production functionality intact."
+  }
+}

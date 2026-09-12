@@ -1,0 +1,74 @@
+{
+  "screen": "Production Activity (phone 390), stage 2 pass 1",
+  "screenshot": "m-activity-full.png",
+  "reference": "m-design_lab_user_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T16:38:27.232Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 12198,
+    "output_tokens": 4346,
+    "total_tokens": 16544,
+    "reasoning_tokens": 3106
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Personal / demo-creator and the D initial correctly replace the Lab’s fixture identity and portrait.",
+      "The message and notification badges expose real unread counts; they need not match the Lab.",
+      "Activity correctly replaces discovery filters with To do, In review, History and Saved. The four visible To do records agree with the displayed count.",
+      "The real direct request, revision, accepted Story and pending installation replace the Lab’s open opportunities. Preserve their actual business names and record titles, including any stored demo text.",
+      "$30.00, $75.00, $25.00 and $300.00 correctly use the real records’ conditional or monthly payment bases rather than the Lab’s amounts.",
+      "The supplied Story artwork, café reference and car-campaign artwork are legitimate source differences. Do not substitute the Lab’s coffee reference or vehicle photograph.",
+      "The bottom navigation is at the document end by capture instruction; this is not evidence of a positioning regression."
+    ],
+    "keep": [
+      "Mineral canvas, ink typography, muted operational text, restrained dividers and shadow-free records.",
+      "The 16px phone gutters, strong Activity heading and existing identity utilities.",
+      "White bottom navigation with the original destination order, visible labels and a restrained cobalt selected edge.",
+      "Literal status words with waiting and confirmed colors; status is not communicated through color alone.",
+      "Readable, untruncated amounts with their payment bases, especially per month on the car booking.",
+      "Contained real thumbnails without fake playback controls, fabricated vehicle imagery or replacement media."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The capture exposes the real records, views, states, payment terms and navigation, with no visible loss of functionality. Release sign-off should wait for the hierarchy and joint fixes, followed by verification of tab filtering, record navigation and the existing request, revision, proof and installation flows; a screenshot cannot establish that those handlers work.",
+    "scores": {
+      "viewport_quality": 7,
+      "media_quality": 7,
+      "uniqueness": 5,
+      "clarity": 6,
+      "premium_feel": 6,
+      "fidelity": 6,
+      "usability": 6,
+      "brand_recognition": 7,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Make the existing next action the first text line of each record: Accept or decline; Upload a new version; Post the Story and send proof; and Installation next for the booking. Use IBM Plex Sans 500 at 18/24px. Put the literal status immediately below at 14/20px with a 4px gap, followed by kind, business and subordinate record context. For the booking, expose the actual Awaiting installation state without inventing a scheduling action. Preserve existing detail destinations and backend transitions.",
+        "kind": "usability",
+        "why": "Every row currently leads with kind/business and a campaign title. The required action arrives last, after the status. In the accepted Story row, Accepted is more immediately discoverable than the proof still owed, weakening Activity’s distinction between work needing attention and work that is done.",
+        "where": "All four To do records, particularly the revision and accepted Story"
+      },
+      {
+        "priority": 2,
+        "change": "At the existing thumbnail-to-action boundary, top-align the source and give its adjacent action/commitment block exactly 12px of block-start offset. Keep the 16px page gutters and 12px source-to-text gap. Use auto-height, shadow-free rows with no enclosing rounded card; do not add notches to tabs, dividers or navigation.",
+        "kind": "drift",
+        "why": "The thumbnails and adjacent information are effectively top-aligned. The horizontal gutter alone does not reproduce Frame Shift’s stepped source-to-decision relationship. This can be expressed in the compact Activity rows without copying Home’s opportunity assemblies or repainting ordinary records graphite.",
+        "where": "Source and commitment alignment within the Activity rows"
+      },
+      {
+        "priority": 2,
+        "change": "Use a 56px source track, a 12px gap and minmax(0, 1fr) for the information track, yielding 290px of information width at this viewport. Place the amount and basis together in a subsequent information row rather than reserving a right-hand column through the title and action area. Preserve the current amount styling and exact values. Set record titles, actions and bases to white-space: normal, remove line clamps and text-overflow: ellipsis, and let row heights grow.",
+        "kind": "responsive",
+        "why": "The $75.00 payment column and long per approved version basis squeeze the revision’s identifying title into Recreate: / Employee POV:…. Other records also wrap around the reserved money column. Money remains readable, but record recognition and action scanning suffer unnecessarily at 390px.",
+        "where": "Activity row information layout, most visibly the Recreate revision"
+      }
+    ],
+    "why": "The shell is a convincing transfer: warm mineral surfaces, strong heading, restrained cobalt selection, real media and clearly qualified money all survive. The list also avoids a raised-card dashboard. However, its main hierarchy remains campaign-first rather than action-first, the revision title is truncated by the money column, and the source/action pairs lack the approved 12px step. These are Activity-specific transfer issues, not a request to reproduce the Lab Home layout.",
+    "verdict": "Frame Shift’s shell and real-state visibility transferred well, but Activity needs an action-first hierarchy and a clear source-to-commitment joint before release sign-off."
+  }
+}

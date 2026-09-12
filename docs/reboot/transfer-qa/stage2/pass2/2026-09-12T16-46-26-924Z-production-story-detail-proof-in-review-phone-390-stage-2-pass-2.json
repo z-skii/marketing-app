@@ -1,0 +1,50 @@
+{
+  "screen": "Production Story detail, proof in review (phone 390), stage 2 pass 2",
+  "screenshot": "m-o_e1c374d2_5148_4c05_96ec_6ac25470c126-full.png",
+  "reference": "m-design_lab_user_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T16:46:26.924Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 13317,
+    "output_tokens": 3143,
+    "total_tokens": 16460,
+    "reasoning_tokens": 2490
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "The D initial and demo-creator identity replace Maya’s fixture portrait and name; message and notification badges expose actual unread counts.",
+      "The bound campaign supplies its own title, Demo Roastery identity, Raleigh location, artwork, 20 spots and September 21, 2026 deadline. Its existing demo wording should not be rewritten to match the Lab.",
+      "The Story commitment is $25.00 rather than the Lab’s $35.00. The proof region correctly distinguishes $21.25 conditional net from $25.00 gross and the $3.75 fee.",
+      "Submitted proof, In review and Sent Sep 9 are appropriate additions for this existing participation state, rather than another application action.",
+      "Eligibility shows the actual manual confirmation and 1,850 followers against the 1,000-follower requirement.",
+      "Home/Save, creative inspection, proof inspection, Open Activity and task instructions appropriately replace the reference Home screen’s discovery controls and opportunity list."
+    ],
+    "keep": [
+      "The intact, square-edged 9:16 supplied creative beside ink commitment terms, with the commitment beginning 12px lower.",
+      "The short cobalt payment edge, strong amount hierarchy and explicit after-24h-live-and-approval condition; do not impose Recreate’s graphite split on Story.",
+      "The separate, contained proof thumbnail and Inspect proof action, preserving the distinction between supplied creative and submitted evidence.",
+      "The square, shadowless white proof/payment region with literal amber In review status and conditional net earnings.",
+      "The mineral canvas, restrained dividers, operational typography, ink inspection links and unchanged four-destination bottom navigation."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off for this captured 390px review state. The capture exposes the relevant data, states and actions, but cannot verify Save persistence, inspection destinations, navigation behavior or backend review transitions.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 8,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "This is a faithful purpose-specific translation, not a misplaced copy of the Home layout. The offset Story sheet, compact cobalt amount edge, mineral background and unboxed terms retain the approved silhouette. Longer real content wraps without visible truncation, and both supplied creative and proof remain separately inspectable. The financial arithmetic is consistent, approval remains explicitly conditional, manual eligibility confirmation is named, and no control implies that proof has already been approved or earnings credited.",
+    "verdict": "Yes—Frame Shift is faithfully transferred to this 390px Story review detail, with the real functionality visibly preserved and no release-blocking visual drift."
+  }
+}
