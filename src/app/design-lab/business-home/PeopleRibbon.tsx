@@ -85,7 +85,7 @@ export function PersonSpread({ s, onView }: { s: Spread; onView?: (id: string) =
 export function PersonAssembly({ person: p, onView, width = 376, compact = false }: { person: Person; onView?: (id: string) => void; width?: number; compact?: boolean }) {
   const ratio = p.sample ? RATIO[p.sample.ratio] ?? 0.8 : 0;
   const first = p.name.split(" ")[0];
-  const inspect = p.sample ? <InspectButton src={p.sample.src} alt={`${p.sample.title}, ${p.sample.kind} by ${p.name}`} label={`View work · ${p.sample.title}`} className="link-ink link-ul" icon={false} style={{ fontWeight: 500, fontSize: 14, lineHeight: "20px", minHeight: 44 }} /> : "No work samples shared";
+  const inspect = p.sample ? <InspectButton src={p.sample.src} alt={`${p.sample.title}, ${p.sample.kind} by ${p.name}`} label={`View work · ${p.sample.title}`} className="link-ink link-ul" icon={false} style={{ fontWeight: 500, fontSize: 14, lineHeight: "20px", minHeight: 44, textAlign: "left", whiteSpace: "normal" }} /> : "No work samples shared";
   const actions = (
     <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, minHeight: 44 }}>
       {onView ? (

@@ -183,7 +183,7 @@ export default function PublicHomeLab() {
                 <img src={recreate.reference} alt="Reference still" width={112} height={199} />
               </div>
               <span className="t-meta pub-label" style={{ color: "var(--tm-muted-dark)" }}>Reference still</span>
-              <InspectButton src={recreate.reference} alt="Reference still at its original ratio" label="Inspect" className="btn btn-quiet pub-inspect" style={{ color: "var(--tm-on-dark)", paddingLeft: 0, minHeight: 44 }} />
+              <InspectButton src={recreate.reference} alt="Reference still at its original ratio" label="Inspect reference" className="btn btn-quiet pub-inspect" style={{ color: "var(--tm-on-dark)", paddingLeft: 0, minHeight: 44, whiteSpace: "normal", textAlign: "left", width: 112 }} />
             </div>
             <div>
               <div className="media" style={{ width: 230, height: 153 }}>
