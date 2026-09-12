@@ -9,7 +9,7 @@ import { MediaPreview } from "@/components/v2/MediaPreview";
 import { Avatar, Chip } from "@/components/v2/ui";
 import { placementLabel } from "@/components/v2/EarnCards";
 import { VehicleStage } from "@/components/v2/vehicle/VehicleStage";
-import { RequestSheets, type RequestKind } from "./RequestSheets";
+import { RequestSheets, type RequestKind } from "@/legacy/v2-pages/business/people/[username]/RequestSheets";
 
 export const dynamic = "force-dynamic";
 

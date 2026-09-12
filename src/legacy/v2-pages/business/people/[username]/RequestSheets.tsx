@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { CaretRight, CheckCircle, X } from "@phosphor-icons/react";
 import { Uploader } from "@/components/v2/Uploader";
 import { MediaPreview } from "@/components/v2/MediaPreview";
-import { draftReelBrief, sendReelRequest, sendStoryRequest } from "../actions";
+import { draftReelBrief, sendReelRequest, sendStoryRequest } from "@/app/(v2)/business/people/actions";
 
 /**
  * The two direct requests a business can send to one person. Buttons on the
