@@ -6,7 +6,11 @@
  *   npm run creative -- models
  *   npm run creative -- design-system [--effort xhigh]
  *   npm run creative -- design-screen "Business Content" --purpose "..." --data "..." --actions "..." [--phone png] [--desktop png] [--media url]
- *   npm run creative -- review-screen shot.png "Business Content (phone), pass 1" ["instructions"] [--final] [--minor] [--spec slug] [--lab]
+ *   npm run creative -- review-screen shot.png "Business Content (phone), pass 1" ["instructions"] [--final] [--minor] [--spec slug] [--lab] [--standard]
+ *       --standard: the founder's final Design Lab standard (ten scores, unmistakably TapMart, production readiness) against docs/reboot/refine
+ *   npm run creative -- refine --shot png [--shot png ...] --review json [--review json ...] [--resume]
+ *       The final art direction refinement: Astra sees the real prototype screenshots and its
+ *       own verdicts, refines the system and four screens, writes docs/reboot/refine.
  *   npm run creative -- story-concepts --business demo-coffee-co --objective "..." [--offer "..."] [--product "..."] [--audience "..."] [--count 3] [--source url] [--out dir] [--no-save]
  *   npm run creative -- story-final --business demo-coffee-co --brief concept.json [--out dir] [--no-save]
  *   npm run creative -- photo-creative --business slug --photo url --objective "..." [--type STORY_AD|SOCIAL_POST|CAMPAIGN_COVER] [--aspect 9:16]
@@ -17,7 +21,7 @@
  *       Round two: keeps the UX brain of the master package, reopens every
  *       visual decision, explores three directions, chooses one, and writes
  *       the five Design Lab prototype specs and asset briefs to docs/reboot/visual.
- *   npm run creative -- lab-assets [--only id]   render the Design Lab imagery briefed in lab-screens.json into public/design-lab
+ *   npm run creative -- lab-assets [--only id] [--from refine]   render the Design Lab imagery briefed in lab-screens.json (or refinement.json) into public/design-lab
  *   npm run creative -- reboot [--resume] [--skip-mockups] [--mockups 5] [--effort xhigh] [--out docs/reboot]
  *       The design reboot: Astra designs TapMart from a blank canvas (sees only
  *       docs/reboot/TAPMART_FUNCTIONAL_INVENTORY.md), writes the master package
@@ -44,6 +48,7 @@ import {
 import { runReboot } from "@/lib/openai/reboot";
 import { runVisualReboot } from "@/lib/openai/reboot-visual";
 import { renderLabAssets } from "@/lib/openai/lab-assets";
+import { runRefine } from "@/lib/openai/reboot-refine";
 
 type Flags = Record<string, string | string[] | boolean>;
 
@@ -51,7 +56,7 @@ function parse(argv: string[]): { cmd: string; pos: string[]; flags: Flags } {
   const [cmd = "help", ...rest] = argv;
   const pos: string[] = [];
   const flags: Flags = {};
-  const multi = new Set(["source", "media", "zone", "frame", "only"]);
+  const multi = new Set(["source", "media", "zone", "frame", "only", "shot", "review"]);
   for (let i = 0; i < rest.length; i++) {
     const a = rest[i];
     if (!a.startsWith("--")) { pos.push(a); continue; }
@@ -137,7 +142,7 @@ async function main() {
     case "review-screen": {
       const [screenshot, screenName, ...rest] = pos;
       if (!screenshot || !screenName) throw new Error('review-screen needs <screenshot.png> "<Screen name>" [instructions]');
-      const r = await reviewScreen({ screenName, screenshot, instructions: rest.join(" ") || null, spec: str(flags, "spec") || null, final: on(flags, "final"), minor: on(flags, "minor"), lab: on(flags, "lab"), outDir: str(flags, "out") || null }, common);
+      const r = await reviewScreen({ screenName, screenshot, instructions: rest.join(" ") || null, spec: str(flags, "spec") || null, final: on(flags, "final"), minor: on(flags, "minor"), lab: on(flags, "lab"), standard: on(flags, "standard"), outDir: str(flags, "out") || null }, common);
       if (dryRun) { log(`Dry run: ${JSON.stringify(r.request).length} bytes, nothing sent.`); return; }
       process.stdout.write(r.markdown);
       log(`Usage ${JSON.stringify(r.usage)}`);
@@ -210,8 +215,14 @@ async function main() {
       log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
       return;
     }
+    case "refine": {
+      const r = await runRefine({ effort, dryRun, resume: on(flags, "resume"), screenshots: list(flags, "shot"), reviews: list(flags, "review"), onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
     case "lab-assets": {
-      const r = await renderLabAssets({ only: list(flags, "only"), tier: (str(flags, "tier") || undefined) as "fast" | "final" | undefined, fixRounds: flags["fix-rounds"] ? Number(flags["fix-rounds"]) : undefined, dryRun, onProgress: log });
+      const r = await renderLabAssets({ source: str(flags, "from") === "refine" ? "refine" : "lab", only: list(flags, "only"), tier: (str(flags, "tier") || undefined) as "fast" | "final" | undefined, fixRounds: flags["fix-rounds"] ? Number(flags["fix-rounds"]) : undefined, dryRun, onProgress: log });
       log(`Rendered ${r.rendered.length}, skipped ${r.skipped.length} (already present), failed ${r.failed.length}${r.failed.length ? `: ${r.failed.join(", ")}` : ""}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
       return;
     }

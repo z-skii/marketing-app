@@ -5,6 +5,7 @@ import { runCreativeJob, type CreativeJobResult } from "./creative";
 import type { CreativeBrief, CreativeInput, CreativeAssetType } from "./director";
 import type { Usage } from "./client";
 import { VISUAL_DIR } from "./reboot-visual";
+import { REFINE_DIR } from "./reboot-refine";
 
 /**
  * The supporting imagery for the Design Lab: photography, Story creatives,
@@ -19,9 +20,9 @@ const RECORD_DIR = path.join(VISUAL_DIR, "assets");
 
 type AssetBrief = { id: string; purpose: string; used_by: string[]; kind: string; aspect_ratio: CreativeBrief["aspect_ratio"]; prompt: string; avoid: string[] };
 
-export async function renderLabAssets(o: { only?: string[]; tier?: "fast" | "final"; fixRounds?: number; onProgress?: (m: string) => void; dryRun?: boolean } = {}): Promise<{ rendered: string[]; skipped: string[]; failed: string[]; usage: Usage[] }> {
+export async function renderLabAssets(o: { only?: string[]; tier?: "fast" | "final"; fixRounds?: number; onProgress?: (m: string) => void; dryRun?: boolean; source?: "lab" | "refine" } = {}): Promise<{ rendered: string[]; skipped: string[]; failed: string[]; usage: Usage[] }> {
   const say = o.onProgress ?? (() => {});
-  const screens = JSON.parse(await readFile(path.join(VISUAL_DIR, "lab-screens.json"), "utf8"));
+  const screens = JSON.parse(await readFile(o.source === "refine" ? path.join(REFINE_DIR, "refinement.json") : path.join(VISUAL_DIR, "lab-screens.json"), "utf8"));
   const directions = JSON.parse(await readFile(path.join(VISUAL_DIR, "visual-directions.json"), "utf8"));
   const treatment = String(directions.visual_system?.imagery_treatment ?? "");
   const assets = ((screens.assets as AssetBrief[]) ?? []).filter((a) => !o.only?.length || o.only.includes(a.id));

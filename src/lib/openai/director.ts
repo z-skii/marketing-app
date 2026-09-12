@@ -10,6 +10,7 @@ import {
   COPY_SCHEMA, CREATIVE_DIRECTION_SCHEMA, CREATIVE_REVIEW_SCHEMA, SCREEN_REVIEW_SCHEMA, SCREEN_SCHEMA, SYSTEM_SCHEMA,
 } from "./schemas";
 import { screenDesignMarkdown, screenReviewMarkdown, systemMarkdown } from "./markdown";
+import { LAB_FINAL_REVIEW_SCHEMA, finalReviewMarkdown, finalReviewerInstructions, loadRefinedSpecText, refinedSystemText, type LabFinalReview } from "./reboot-refine";
 
 /**
  * The design director's jobs. Each takes plain inputs, assembles the
@@ -142,9 +143,12 @@ export type ScreenReviewInput = {
   outDir?: string | null;
   /** Design Lab review: judge against the round two visual system and lab screen spec, with no old reference image. */
   lab?: boolean;
+  /** Final standard: the founder's ten scores and the production readiness question, against the refined spec. */
+  standard?: boolean;
 };
 
 export async function reviewScreen(i: ScreenReviewInput, o: CommonOptions = {}): Promise<RespondResult<ScreenReview> & { markdown: string; specPath: string | null }> {
+  if (i.standard) return reviewScreenStandard(i, o) as unknown as RespondResult<ScreenReview> & { markdown: string; specPath: string | null };
   const kind: JobKind = i.minor ? "minor_qa" : i.final ? "screen_review_final" : "screen_review";
   const r = route(kind, o.effort);
   const shot = await loadImage(i.screenshot);
@@ -170,6 +174,37 @@ export async function reviewScreen(i: ScreenReviewInput, o: CommonOptions = {}):
   });
   const when = new Date().toISOString();
   const markdown = o.dryRun ? "" : screenReviewMarkdown(res.data, { screenName: i.screenName, screenshot: i.screenshot, model: r.model, effort: r.effort, when, instructions: i.instructions ?? null, specPath: own?.path ?? null, hasReference: Boolean(ref), lab: i.lab });
+  if (!o.dryRun) {
+    const dir = i.outDir ?? path.join(process.cwd(), "design-reviews");
+    await mkdir(dir, { recursive: true });
+    const base = path.join(dir, `${when.replace(/[:.]/g, "-")}-${slug(i.screenName)}`);
+    await writeFile(`${base}.md`, markdown);
+    await writeFile(`${base}.json`, JSON.stringify({ screen: i.screenName, screenshot: path.basename(i.screenshot), model: r.model, effort: r.effort, when, usage: res.usage, review: res.data }, null, 2));
+  }
+  return { ...res, markdown, specPath: own?.path ?? null };
+}
+
+/** The final Design Lab review against the founder's standard: ten scores, unmistakably TapMart, ready for production. */
+export async function reviewScreenStandard(i: ScreenReviewInput, o: CommonOptions = {}): Promise<RespondResult<LabFinalReview> & { markdown: string; specPath: string | null }> {
+  const r = route(i.final ? "screen_review_final" : "screen_review", o.effort);
+  const shot = await loadImage(i.screenshot);
+  if (!shot) throw new Error(`Screenshot not readable: ${i.screenshot}`);
+  const size = imageSize(shot);
+  const own = await loadRefinedSpecText(i.spec ?? null, i.screenName);
+  const content: InputPart[] = [
+    textPart([
+      `Screen: ${i.screenName}. One image: CURRENT SCREEN, a real browser capture of the coded prototype.`,
+      `Screenshot: ${size ? `${size.width}x${size.height}px, ` : ""}${size && size.width <= 900 ? "phone capture" : "desktop capture"}.`,
+      i.instructions ? `Extra instructions from the team: ${i.instructions}` : "",
+      "Answer with the JSON only.",
+    ].filter(Boolean).join("\n")),
+    textPart("CURRENT SCREEN:"), imagePart(shot),
+  ];
+  const res = await respond<LabFinalReview>({
+    model: r.model, effort: r.effort, instructions: finalReviewerInstructions(await labFoundationText(), await refinedSystemText(), own?.text ?? null), content, schema: LAB_FINAL_REVIEW_SCHEMA, dryRun: o.dryRun, onProgress: o.onProgress,
+  });
+  const when = new Date().toISOString();
+  const markdown = o.dryRun ? "" : finalReviewMarkdown(res.data, { screenName: i.screenName, screenshot: i.screenshot, model: r.model, effort: r.effort, when, instructions: i.instructions ?? null, specPath: own?.path ?? null });
   if (!o.dryRun) {
     const dir = i.outDir ?? path.join(process.cwd(), "design-reviews");
     await mkdir(dir, { recursive: true });
