@@ -436,3 +436,82 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
   .fs .fs-people-grid.fs-desk-only { display: flex !important; }
   .fs span.fs-desk-only { display: flex !important; }
 }
+
+/* ---------- Stage 4: business workflows ---------- */
+/* Create: three compositions, each drawn from what drives the campaign. The whole composition is the link. */
+.fs .fs-create-choices { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 32px; }
+.fs .fs-create-choice { display: grid; grid-template-columns: 176px minmax(0, 1fr); gap: 12px; align-items: start; color: inherit; text-decoration: none; }
+.fs .fs-create-choice:focus-visible { outline: 3px solid var(--fs-accent); outline-offset: 4px; }
+.fs .fs-create-choice:active .fs-create-visual { transform: scale(0.985); }
+.fs .fs-create-visual { position: relative; display: block; width: 176px; transition: transform var(--fs-t-control) var(--fs-ease-out); }
+.fs .fs-create-words { display: grid; gap: 4px; padding-top: var(--fs-shift-phone); min-width: 0; }
+.fs .fs-create-title { font-family: var(--fs-display); font-weight: 700; font-size: 22px; line-height: 28px; letter-spacing: -0.03em; }
+.fs .fs-create-frame { width: 120px; aspect-ratio: 9 / 16; background: var(--fs-underlay); }
+.fs .fs-create-frame img { width: 100%; height: 100%; object-fit: cover; }
+.fs .fs-create-arrow { position: absolute; left: 128px; top: 96px; color: var(--fs-accent); display: grid; place-items: center; width: 24px; height: 24px; }
+.fs .fs-create-echo { position: absolute; left: 152px; top: 24px; width: 24px; height: 165px; border: 2px solid var(--fs-accent); border-left: 0; border-radius: 0 4px 4px 0; }
+.fs .fs-create-phone { display: block; width: 132px; aspect-ratio: 9 / 18; padding: 8px; background: var(--fs-graphite); border-radius: 18px; }
+.fs .fs-create-phone img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+.fs .fs-create-car { width: 176px; aspect-ratio: 3 / 2; background: var(--fs-underlay); }
+.fs .fs-create-car img { width: 100%; height: 100%; object-fit: cover; }
+.fs .fs-create-diagram { display: block; margin-top: 8px; width: 132px; border: 1px solid var(--fs-divider); }
+@media (min-width: 1024px) {
+  .fs .fs-create-choices { grid-template-columns: repeat(3, minmax(0, 376px)); gap: 24px; margin-top: 32px; }
+  .fs .fs-create-choice { grid-template-columns: 1fr; gap: 0; }
+  .fs .fs-create-visual { width: 100%; height: 300px; }
+  .fs .fs-create-words { padding-top: var(--fs-shift-desktop); }
+  .fs .fs-create-frame { width: 160px; }
+  .fs .fs-create-arrow { left: 172px; top: 128px; }
+  .fs .fs-create-echo { left: 200px; top: 24px; width: 32px; height: 236px; }
+  .fs .fs-create-phone { width: 156px; }
+  .fs .fs-create-car { width: 100%; max-width: 376px; }
+  .fs .fs-create-diagram { position: absolute; right: 0; bottom: 0; width: 132px; margin: 0; background: #fff; }
+}
+/* Guided flows: the source stays in view, decided steps sit under it as a ledger, one question at a time. */
+.fs .fs-flow-title { margin-top: 8px; }
+.fs .fs-flow-source { margin-top: 12px; }
+.fs .fs-flow-ref-media { display: block; width: 176px; aspect-ratio: 9 / 16; object-fit: cover; background: var(--fs-underlay); }
+.fs .fs-flow-story { display: block; width: 176px; aspect-ratio: 9 / 16; object-fit: cover; background: var(--fs-underlay); }
+.fs .fs-flow-empty { display: grid; place-items: center; border: 1px dashed var(--fs-divider); }
+.fs .fs-flow-ledger { list-style: none; padding: 0; margin: 16px 0 0; border-top: 1px solid var(--fs-divider); }
+.fs .fs-flow-ledger-row { display: grid; grid-template-columns: minmax(96px, max-content) minmax(0, 1fr); gap: 4px 16px; width: 100%; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid var(--fs-divider); background: transparent; text-align: left; color: inherit; font: inherit; cursor: pointer; align-items: baseline; }
+.fs .fs-flow-ledger-row:hover { background: var(--fs-underlay); }
+.fs .fs-flow-ledger-row:focus-visible { outline: 3px solid var(--fs-accent); outline-offset: 2px; }
+.fs .fs-flow-step { margin-top: var(--fs-shift); }
+.fs .fs-flow-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+.fs .fs-flow-steps { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 8px; }
+.fs .fs-flow-steps li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 8px; align-items: center; }
+.fs .fs-choice-rows { display: grid; gap: 0; margin-top: 8px; border-top: 1px solid var(--fs-divider); }
+.fs .fs-choice-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; min-height: 48px; padding: 8px 0; border-bottom: 1px solid var(--fs-divider); cursor: pointer; }
+.fs .fs-choice-row > span:last-child { grid-column: -2; }
+.fs .fs-choice-row:has(> .fs-choice-media) { grid-template-columns: auto minmax(0, 1fr); }
+.fs .fs-choice-row:not(:has(> .fs-choice-media)) { grid-template-columns: minmax(0, 1fr); padding-left: 16px; border-left: 3px solid transparent; }
+.fs .fs-choice-row.is-selected { border-left: 3px solid var(--fs-accent); padding-left: 13px; }
+.fs .fs-choice-row:has(> .fs-choice-media).is-selected { padding-left: 13px; }
+.fs .fs-choice-row:has(> .fs-choice-media) { padding-left: 16px; border-left: 3px solid transparent; }
+.fs .fs-choice-row:has(input:focus-visible) { outline: 3px solid var(--fs-accent); outline-offset: 2px; }
+.fs .fs-choice-media { display: block; flex: none; border: 1px solid var(--fs-divider); background: #fff; }
+.fs .fs-choice-story { display: block; width: 40px; height: 71px; }
+.fs .fs-choice-story img { width: 100%; height: 100%; object-fit: cover; }
+.fs .fs-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.fs .fs-preset { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--fs-control-border, #788595); border-radius: var(--fs-radius-control); font-weight: 600; cursor: pointer; }
+.fs .fs-preset.is-on { background: var(--fs-accent); color: #fff; border-color: var(--fs-accent); }
+.fs .fs-preset:has(input:focus-visible) { outline: 3px solid var(--fs-accent); outline-offset: 2px; }
+.fs .fs-dollar { display: inline-flex; align-items: center; gap: 8px; }
+.fs .fs-dollar > span:first-child { font-weight: 600; }
+.fs .fs-dollar .fs-input { width: 120px; }
+.fs .fs-chips { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.fs .fs-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1px solid var(--fs-divider); border-radius: var(--fs-radius-control); background: transparent; font: inherit; font-size: 14px; color: inherit; cursor: pointer; }
+.fs .fs-chip.is-on { background: var(--fs-surface); border-color: var(--fs-ink); }
+.fs .fs-chip button { display: inline-grid; place-items: center; width: 24px; height: 24px; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.fs .fs-chip:focus-visible, .fs .fs-chip button:focus-visible { outline: 3px solid var(--fs-accent); outline-offset: 2px; }
+.fs .fs-funding-rows { margin: 0; display: grid; gap: 8px; }
+.fs .fs-funding-rows > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: baseline; }
+.fs .fs-funding-rows dt { color: var(--fs-muted); font-size: 14px; line-height: 20px; }
+.fs .fs-funding-rows dd { margin: 0; text-align: right; font-size: 16px; line-height: 24px; }
+.fs .fs-funding-rows dd b { font-family: var(--fs-display); font-weight: 600; font-size: 18px; }
+.fs .fs-funding-rows .fs-funding-divider { border-top: 1px solid var(--fs-divider); padding-top: 8px; margin-top: 4px; }
+@media (min-width: 1024px) {
+  .fs .fs-flow-ref-media, .fs .fs-flow-story { width: 240px; }
+  .fs .fs-flow-step { margin-top: 0; padding-top: 56px; }
+}

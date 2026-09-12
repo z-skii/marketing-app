@@ -3,9 +3,9 @@
 import { useState, useTransition } from "react";
 import { Uploader } from "@/components/v2/Uploader";
 import { Money } from "@/components/v2/ui";
-import { createEarnCampaign } from "../actions";
-import { markIdeaUsed } from "../ideas-actions";
-import type { Prefill, WizardBusiness } from "../prefill";
+import { createEarnCampaign } from "@/app/(v2)/business/create/actions";
+import { markIdeaUsed } from "@/app/(v2)/business/create/ideas-actions";
+import type { Prefill, WizardBusiness } from "@/app/(v2)/business/create/prefill";
 import { PreviewCard, placementLabel } from "../PreviewCards";
 import {
   ChipToggles, CountField, DollarField, LABEL, MoneyPreview, Presets, SummaryList, WizardFrame, fmtDay, todayPlus,

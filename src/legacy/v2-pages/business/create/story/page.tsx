@@ -1,5 +1,5 @@
 import { requireBusinessContext } from "@/lib/v2/core";
-import { loadPrefill, loadWizardBusiness } from "../prefill";
+import { loadPrefill, loadWizardBusiness } from "@/app/(v2)/business/create/prefill";
 import { StoryWizard } from "./StoryWizard";
 
 export const metadata = { title: "Story ads" };
