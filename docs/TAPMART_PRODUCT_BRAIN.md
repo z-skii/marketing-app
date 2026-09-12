@@ -172,3 +172,14 @@ lands first, real content instead of any placeholder, one clear next tap.
    design QA director suggested graphite (#1D2833) so cobalt stays reserved
    for decisions. The rail is part of approved Stage 1; revisit with the
    shell, not per screen.
+
+## Backlog (non-blocking, recorded 2026-09-12 at Stage 2 approval)
+
+4. Activity on desktop may later use the empty right side for real
+   contextual detail when useful. Never filler or invented summaries.
+5. Recreate accepted and revision detail may later consider progressive
+   disclosure for secondary instructions, only after the next required
+   action and the critical shot requirements stay immediately visible.
+6. Payout timing, payout minimum and fee language must keep coming from
+   real current configuration and settings wherever technically possible.
+   No operational promise is hardcoded.
