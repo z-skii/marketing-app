@@ -1,0 +1,43 @@
+# Transfer QA: Production User Home (desktop 1440), stage 1 pass 2
+
+Production: `d-home.png` · Approved Lab: `m-design_lab_user_home-full.png` · Reviewer: Astra, design QA director · 2026-09-12T16:09:59.559Z
+Instructions: Pass 2 after the pass 1 corrections. Real production capture at 1440x900 with the 200px graphite rail. The approved Lab defined the phone composition only; desktop lays the same three objects in a 358px column grid with the 36/40 title. Judge whether that translation keeps the approved compositions and is usable, not whether it matches the phone capture pixel for pixel.
+
+**Verdict.** Yes—Frame Shift was faithfully transferred at this desktop viewport, with real production content and functionality visibly preserved.
+
+**Faithful transfer: YES. Functionality intact: YES. Ready to ship: YES.** Sign off the visual transfer at 1440×900. The capture confirms that production records, states and action entry points remain exposed; it does not verify routing, Save persistence or failure handling, filter responses, or application mutations.
+
+The desktop layout preserves the approved relationships rather than stretching the phone into generic cards. Recreate starts at x=232/y=152, with its graphite commitment at y=176; Story's terms likewise begin below its supplied sheet, and Car's caption steps inward from x=996 to x=1020. Those are correct 24px desktop joints. Longer production titles wrap without colliding with amounts or conditions. All three first-row payments, payment bases, metadata and action rows are readable, while the next record begins below the tallest object. The rail retains Home, Activity, Earnings and Profile plus identity switching and the three utilities. No blocking visual drift, clipped financial text, obscured control or invented success state is visible.
+
+| score | 0 to 10 |
+| --- | --- |
+| viewport quality | 9 |
+| media quality | 8 |
+| uniqueness | 9 |
+| clarity | 9 |
+| premium feel | 8 |
+| fidelity | 9 |
+| usability | 9 |
+| brand recognition | 9 |
+| ai slop risk | 2 |
+
+## Keep
+
+- The 200px graphite rail, 32px main gutter, 36/40px page title and three 358px columns separated by 24px are a sound desktop translation.
+- Recreate retains the 160×284px source and 198×284px commitment, with the commitment starting 24px lower. Its square cobalt payment ledge remains 112px high, without an enclosing card or shadow.
+- Story retains the 198px commitment, 16px gap and intact 144×256px square-cornered creative. The 24px desktop handoff and short 3×64px payment edge preserve its distinct silhouette.
+- Car retains the 358×239px landscape source and attached white monthly caption, inset 24px on desktop with its right edge flush.
+- Mineral canvas, graphite identity and inspection planes, cobalt Recreate pay, ink Story/Car amounts and restrained source-only shadow match the approved hierarchy.
+- Opaque reference labeling and inspection controls, explicit payment bases, provenance, separate View work and Save actions, and visible production navigation remain intact.
+
+## Expected differences (real data)
+
+- The D initial and demo-creator account replace Maya's portrait and fixture identity. Preserve the actual account presentation.
+- The real opportunities show $75.00 per approved version, $25.00 after 24h live and approval, and $300.00 per month. Their titles, businesses, availability and dates should not match the Lab fixtures.
+- The barista reference, iced-latte Story and branded-car campaign visual are different supplied sources, not visual-system drift.
+- Rear window · 30 days and Your 2019 BMW 330i qualifies replace the fixture's rear-door terms and generic vehicle requirement.
+- The additional Recreate record is legitimate production content; do not limit results to the Lab's three examples.
+- The fixture revision prompt and car deadline should appear only when supported by production state; neither should be synthesized to match the Lab.
+
+## Drift and usability
+

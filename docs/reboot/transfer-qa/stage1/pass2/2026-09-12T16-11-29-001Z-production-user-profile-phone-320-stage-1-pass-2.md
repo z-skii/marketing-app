@@ -1,0 +1,46 @@
+# Transfer QA: Production User Profile (phone 320), stage 1 pass 2
+
+Production: `s-me-full.png` · Approved Lab: `m-design_lab_user_profile-full.png` · Reviewer: Astra, design QA director · 2026-09-12T16:11:29.001Z
+Instructions: Pass 2 after the pass 1 corrections. Real production capture at 320 wide, full page; the tab bar is fixed in the app and pinned to the document end only for this capture. At 320 the identity plate and the vehicle assembly stack by design; judge the stacking rules rather than pixel positions against the 390 Lab capture.
+
+**Verdict.** Yes—Frame Shift is faithfully transferred at 320px, with no visible release-blocking drift and TapMart's real states and functional entry points preserved.
+
+**Faithful transfer: YES. Functionality intact: YES. Ready to ship: YES.** Sign off this captured 320px presentation. The visible data, states and entry points are preserved; playback, mutations, destination behavior and backend bindings still require interaction tests. The tab bar's document-end position is the documented capture treatment, not a fixed-navigation defect.
+
+The production screen retains the approved surface hierarchy, Archivo-led identity and monetary emphasis, operational text treatment and restrained controls. At 320px, the identity and vehicle assemblies deliberately stack without shrinking the main name, clipping currency or squeezing vehicle facts into an unusable column. The vehicle remains a compact capability rather than a hero. Recent-work sources remain identifiable, including the video fallback, and financial and verification states remain independently readable. Navigation labels and secondary destinations fit without visible horizontal clipping. The taller composition follows the permitted narrow-screen stacking and real content, not an evident spacing regression.
+
+| score | 0 to 10 |
+| --- | --- |
+| viewport quality | 9 |
+| media quality | 8 |
+| uniqueness | 8 |
+| clarity | 9 |
+| premium feel | 8 |
+| fidelity | 9 |
+| usability | 9 |
+| brand recognition | 8 |
+| ai slop risk | 0 |
+
+## Keep
+
+- The graphite identity plane, mineral canvas, square white vehicle facts, restrained dividers and shadow-free operational regions.
+- The 104×130px identity fallback and full-size, untruncated main name. The compact shell name may truncate because the complete identity remains immediately available below.
+- The intentional 320px identity and vehicle stacking, 16px page gutters and readable unboxed record values; do not force the 390px Lab coordinates onto this viewport.
+- The compact, contained 184px-wide vehicle photograph, separate factual backing, ink View vehicle action and Smart Vehicle · Photos only caption.
+- Source-aware recent-work framing, honest letterboxing, explicit unavailable-preview treatment and separate provenance and status labels.
+- The separation of lifetime earned, available funds and payout-request state, with private money remaining below recent work.
+- The existing destination order, conditional shoots access, outlined Open Earnings control and clearly selected Profile navigation tab.
+
+## Expected differences (real data)
+
+- The real account uses a D initial, demo-creator, @democreator and Raleigh, NC instead of Maya's portrait and fixture identity. No replacement portrait or production Demo label is needed.
+- The record strip correctly shows $34.00 earned, 1 completed and New for rating rather than inventing reviews or retaining fixture statistics.
+- Instagram shows Confirmed manually and 1,850 followers. Creator verification independently shows Verified in green; manual Instagram provenance has not been turned into an Instagram verification badge.
+- The vehicle is the actual 2019 BMW 330i, Sedan · Black, Listed for ads. Photos only remains explicit, without a fabricated model or unavailable 3D control.
+- All vehicles preserves a production vehicle-management destination rather than copying the fixture's Add vehicle shortcut.
+- Recent work contains different sources and literal In review, In review and Paid states. The video has an explicit View video / No preview available fallback, and Your version versus Posted proof distinguishes source roles.
+- Available $34.00 and No payout requested correctly replace the fixture balance, requested payout and date. Production appropriately omits Demo money.
+- Your shoots · 1 assigned is appropriate additional functionality for this verified account. Message and notification counts also reflect production state.
+
+## Drift and usability
+
