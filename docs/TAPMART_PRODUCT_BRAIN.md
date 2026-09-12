@@ -183,3 +183,17 @@ lands first, real content instead of any placeholder, one clear next tap.
 6. Payout timing, payout minimum and fee language must keep coming from
    real current configuration and settings wherever technically possible.
    No operational promise is hardcoded.
+
+## Backlog (non-blocking, recorded 2026-09-12 at Stage 3 approval)
+
+7. Business Home on phones: if real creator metadata ever becomes too
+   tall, consider progressive disclosure for lower-priority stats while
+   the decision information (work, name, provenance, request) stays
+   visible.
+8. Desktop People and Cars shelves should ultimately support natural
+   mouse and touchpad dragging, or an equally polished interaction, in
+   addition to Next and Previous, when the architecture supports it
+   cleanly.
+9. Repeated seed vehicle and media images are acceptable for demo data.
+   Never invent visual diversity in production; real records determine
+   variety.
