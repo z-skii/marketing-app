@@ -118,9 +118,8 @@ function nextAction(it: ActivityItem): { text: string; mine: boolean } {
   }
   if (it.record === "booking") {
     if (it.status === "proof_required") return { text: "Upload a photo of the car", mine: true };
-    if (it.status === "creative_pending") return { text: "Artwork is being prepared", mine: false };
-    if (it.status === "installation_pending") return { text: "Installation next", mine: false };
-    if (it.status === "active") return { text: it.ends_on ? `Running until ${fmtDate(it.ends_on)}` : "Running", mine: false };
+    // Waiting on the business: the row opens the booking; the literal state sits beneath.
+    if (["creative_pending", "installation_pending", "active", "disputed"].includes(it.status)) return { text: "View booking", mine: false };
   }
   const { sub } = activityLabel(it);
   return { text: sub, mine: false };
@@ -137,8 +136,11 @@ function tone(it: ActivityItem): "confirmed" | "waiting" | "problem" | "neutral"
   return "waiting";
 }
 
+/** Literal booking states for the row's status line; the lib's labels stay for the rest. */
+const BOOKING_STATE: Record<string, string> = { creative_pending: "Accepted · artwork being prepared", installation_pending: "Awaiting installation", active: "Running · paid monthly", disputed: "Under review by TapMart" };
+
 function WorkRow({ item }: { item: ActivityItem }) {
-  const { label } = activityLabel(item);
+  const label = item.record === "booking" && BOOKING_STATE[item.status] ? BOOKING_STATE[item.status] : activityLabel(item).label;
   const action = nextAction(item);
   const t = tone(item);
   const first = action.text || label;
@@ -148,7 +150,7 @@ function WorkRow({ item }: { item: ActivityItem }) {
         {item.cover ? <MediaPreview src={item.cover} alt="" className="fs-ref-media" sizes="56px" /> : null}
       </span>
       <span className="fs-work-info">
-        <span className="fs-work-title" style={{ fontWeight: action.mine ? 500 : 400 }}>{first}</span>
+        <span className="fs-work-title">{first}</span>
         {first !== label && <span className={`fs-status is-${t}`} style={{ display: "block", marginTop: 4 }}>{label}</span>}
         <span className="fs-t-meta" style={{ display: "block", marginTop: 4 }}>{KIND[item.kind]} · {item.business_name} · {item.title}</span>
         <span className="fs-work-money-line"><span className="fs-work-money">{formatMoney(item.pay_cents)}</span> <span className="fs-t-meta">{BASIS[item.kind]}</span></span>

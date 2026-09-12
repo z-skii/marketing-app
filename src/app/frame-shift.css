@@ -308,7 +308,7 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-work-row .fs-work-media { width: 56px; height: 75px; background: var(--fs-underlay); }
 .fs .fs-work-row .fs-work-media img, .fs .fs-work-row .fs-work-media video { object-fit: contain; }
 /* The record's information starts 12px below the top of its source: the joint, in a compact row. */
-.fs .fs-work-info { display: block; min-width: 0; padding-top: var(--fs-shift-phone); }
+.fs .fs-work-info { display: block; min-width: 0; padding-top: var(--fs-shift); }
 .fs .fs-work-title { display: block; font-weight: 500; font-size: 18px; line-height: 24px; overflow-wrap: anywhere; }
 .fs .fs-work-money-line { display: block; margin-top: 8px; }
 .fs .fs-work-money { font-family: var(--fs-display); font-weight: 600; font-size: 18px; line-height: 24px; font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
@@ -361,15 +361,16 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
   .fs .fs-detail-source { position: sticky; top: 32px; }
   .fs .fs-op-recreate.is-detail { grid-template-columns: 224px minmax(0, 1fr); }
   .fs .fs-op-recreate.is-detail > :first-child { width: 224px !important; height: 398px !important; }
+  .fs .fs-op-recreate.is-detail > :last-child > div { min-height: 398px !important; }
   .fs .fs-op-story.is-detail { grid-template-columns: minmax(0, 1fr) 198px; }
   .fs .fs-op-story.is-detail .fs-story-sheet { width: 198px !important; height: 352px !important; }
   .fs .fs-narrow { max-width: 760px; }
   .fs .fs-filters.is-work > a { font-size: 16px; line-height: 20px; }
   .fs .fs-work-row { grid-template-columns: 56px minmax(0, 1fr) auto; row-gap: 0; }
   .fs .fs-work-row .fs-work-media { grid-row: 1 / span 3; }
-  .fs .fs-work-row .fs-work-money-line { grid-column: 3; grid-row: 1; margin-top: var(--fs-shift-phone); text-align: right; display: grid; }
+  .fs .fs-work-row .fs-work-money-line { grid-column: 3; grid-row: 1; margin-top: var(--fs-shift); text-align: right; display: grid; }
   .fs .fs-work-info { display: contents; }
-  .fs .fs-work-info > :first-child { padding-top: var(--fs-shift-phone); }
+  .fs .fs-work-info > :first-child { padding-top: var(--fs-shift); }
   .fs .fs-work-info > .fs-work-title, .fs .fs-work-info > .fs-status, .fs .fs-work-info > .fs-t-meta { grid-column: 2; }
   .fs .fs-earnings-grid { display: grid; grid-template-columns: minmax(0, 448px) minmax(0, 640px); gap: 48px; align-items: start; }
 }
