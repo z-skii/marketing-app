@@ -1,0 +1,108 @@
+{
+  "screen": "Business Home",
+  "model": "gpt-6-astra",
+  "when": "2026-09-12T09:02:15.767Z",
+  "spec": {
+    "what_makes_it_only_tapmart": "An open, source-ratio contact ribbon presents a person and the kind of work a business could request, followed immediately by physical monthly advertising inventory. The useful choice is a named request or a vehicle placement, not following a popular profile.",
+    "acceptance": [
+      "At 1440×900 the 200px rail and 1176px main field remain unchanged. The active business and Demo provenance occupy one coherent selector.",
+      "For you opens on three generously sized, differently proportioned person/work spreads. No work sample is trapped inside the current oversized landscape letterbox.",
+      "The six existing people remain in their original order in the native ribbon. Visible controls make the remaining people accessible; People still opens the complete gallery.",
+      "Maya, Eli and Imani show recognizable portraits, intact actual work samples, concise source-based fit information, View person and a visible Request action.",
+      "Root discovery does not resemble a follower leaderboard. Counts and review summaries remain available in person detail; Instagram manual/connected and genuine creator verification remain literal.",
+      "The car heading begins near y=544, photographs near y=600 and the first monthly asking-price captions are visible by y=900.",
+      "Cars remain actual offered inventory. Named zones and asking prices are visible; no installed artwork or 3D control appears for model_url=null.",
+      "People-query failure does not erase usable cars. Missing portraits and work remain honest rather than receiving generated filler."
+    ],
+    "choreography": [],
+    "composition": [
+      {
+        "technology": "Existing fixed React business rail",
+        "height_or_size": "200px wide; full viewport height",
+        "content": "Keep the current navigation destinations and utility positions. Use the refined lockup, selected cobalt edge and existing graphite. Business selector is one 168×80px control at x=16,y=72: Business · Demo on the first row, then LC initials, Loopday Coffee on two lines and the chevron. Preserve 1px dark control boundary and 8px control radius.",
+        "region": "Business navigation",
+        "state_shown": "Loopday Coffee · Demo; Home selected."
+      },
+      {
+        "technology": "Plain HTML heading, city control and independent attention links",
+        "height_or_size": "x=232,y=32,width=1176; title row 48px; attention y=88,height=44px",
+        "content": "Find people and cars remains 36/40px. Austin, Texas stays right aligned. Keep exactly 2 campaign decisions and 1 file to approve as unboxed source-specific links. No introductory paragraph or metric cards.",
+        "region": "Purpose and attention",
+        "state_shown": "The same two attention-query results; not counts derived from gallery items."
+      },
+      {
+        "technology": "Existing view controls plus native ribbon controls",
+        "height_or_size": "y=140,height=44px",
+        "content": "For you, People, Cars, Nearby stay left aligned. On the right, put See all people and separate 44px Previous people/Next people controls. These replace the lower See all people row rather than adding another header. Selection remains the 24×3px cobalt edge.",
+        "region": "Discovery navigation",
+        "state_shown": "For you selected; ribbon starts at its true beginning."
+      },
+      {
+        "technology": "Native overflow-x:auto; source-ratio figures; shared request destinations",
+        "height_or_size": "Begins y=200. Media height 232px; caption/action region 96px. First widths 320px, 360px and 448px, with 24px gaps, exactly filling 1176px.",
+        "content": "Maya: 160×200px portrait at local x=0,y=32; 130.5×232px work image at x=189.5,y=0. Eli: 160×200px portrait at x=0,y=32; 185.6×232px work image at x=174.4,y=0. Imani: 144×180px portrait at x=0,y=52; 288×192px work image at x=160,y=0. No enclosing fill or media letterbox is drawn. At y=440, place name at 18/24px and city at 14/20px in the same caption row where they fit. At y=464, use one 14/20px source-and-fit line. At y=484, provide 44px View person and Request controls. Request opens the existing allowed Reel/Story request choices for the named recipient. Jules and Nora use 360px spreads; Theo uses a compact 240px absence spread.",
+        "region": "People opportunity ribbon",
+        "state_shown": "Six fictional people in the preserved ranking. Work is inspectable, not autoplaying. No request has been sent."
+      },
+      {
+        "technology": "Native horizontal shelf; contained inventory photography; ordinary captions",
+        "height_or_size": "Heading y=544,height=44px; photographs y=600 at 336×224px; 24px gaps",
+        "content": "Available cars, See all cars and the existing 44px Previous/Next controls. Below each photo: vehicle name at 18/24px beginning y=832, city and named zone at 14/20px, then Asking price at 16/24px beginning approximately y=876. Photos have 4px media corners; captions sit on canvas, with a 12px lower-right alignment step rather than a listing card. The photo link opens the existing detail where the named placement diagram and Send offer action live.",
+        "region": "Physical advertising inventory",
+        "state_shown": "Four offered vehicles with recorded monthly asking prices; all lack models."
+      }
+    ],
+    "removed_or_hidden": [
+      "Remove the second vertical people row from For you only. Its people remain in the same ordered native ribbon; the People destination retains the full six-person gallery.",
+      "Remove landscape underlay tiles around portrait-format work. Originals use their own aspect ratios and deliberate positions.",
+      "Move completed counts, review summaries and follower totals out of the root caption and into the existing person detail. Retain literal provenance and useful work fit at the root.",
+      "Do not show request forms, offer negotiation, full portfolios or full placement diagrams in the gallery.",
+      "No followers-first treatment, hover-only actions, promotional availability claims, reach estimates or decorative maps."
+    ],
+    "implementation_steps": [
+      "Keep the existing shell, heading, attention and local-view logic. Replace only the For you people layout and its captions.",
+      "Implement source-ratio spread variants driven by the actual source ratio, not by invented creator categories. Reserve image dimensions before loading.",
+      "Use native overflow and proximity snap. Previous/Next move to the next item's offsetLeft, not a hard-coded equal-width step.",
+      "Place the existing Request choice at the root as an entry to the same named-recipient flow. Reuse backend permission checks; never bypass request detail or confirmation.",
+      "Render People as the existing complete gallery with the new source framing and captions. Render Cars as the existing two-column open gallery, not list rows.",
+      "Move the car shelf up by removing the second vertical people row and redundant continuation row; do not use negative positioning.",
+      "Verify all six people, independent query failures, missing city, empty inventory, request failure and asking-price versus offer-price separation."
+    ],
+    "media": [
+      "portrait-maya-01 and portrait-eli-01: existing 4:5 sources at 160×200px, source-faithful portrait crops.",
+      "portrait-imani-01: existing 4:5 source at 144×180px.",
+      "portrait-jules-01 and portrait-nora-01: existing 4:5 sources at 160×200px in their 360px spreads.",
+      "work-maya-loopday-01: intact 9:16 source at 130.5×232px.",
+      "work-eli-spurroom-01, work-jules-flowers-01 and work-nora-lunch-01: intact 4:5 sources at 185.6×232px.",
+      "content-loopday-counter-01: intact 3:2 work sample at 288×192px; retains its existing relationship to Imani and Content.",
+      "Theo uses TG initials and No work samples shared. No replacement media.",
+      "vehicle-maya-01, vehicle-eli-01, vehicle-nora-01 and vehicle-theo-01: existing 3:2 inventory photos at 336×224px. No projected artwork."
+    ],
+    "motion_and_interaction": [
+      "Native ribbon and car-shelf scrolling remain under pointer, trackpad and keyboard control. Button-driven movement is 220ms, cubic-bezier(0.22,1,0.36,1); reduced motion jumps to the next item.",
+      "View changes use the existing 180ms selection edge and 140ms confirmed-results handoff. Do not crossfade two business identities.",
+      "View person or vehicle may use a 280ms single-source transition. Money, names and qualifications do not interpolate between records.",
+      "Request opens the existing short choice or destination with the recipient visible. Menu entrance is 180ms opacity plus at most 8px translation; reduced motion is immediate.",
+      "Portraits and work do not lift, zoom or play on hover. Links underline and controls change color over 140ms.",
+      "Any later real model loads only inside vehicle inspection after activation, never on this root."
+    ],
+    "three_second_read": "These are people whose work I could request, and cars whose advertising space I could book monthly.",
+    "route": "/design-lab/business-home",
+    "name": "Business Home",
+    "what_changes_from_current": [
+      "Replace six small, equally boxed media pairs with an open horizontal contact ribbon on For you. Larger sources and variable spread widths make browsing about work rather than scanning records.",
+      "Restore strong portraits instead of reducing faces further. Work now escapes the wide grey boxes that made its portrait format feel small.",
+      "Replace the popularity-heavy caption stack with one source-based fit line and a visible request entry. Detailed reputation and Instagram counts remain in person detail.",
+      "Bring complete car photographs and asking-price captions into the first desktop viewport rather than revealing only the shelf heading.",
+      "Keep all six people, all four vehicles, the same discovery views and the same request/offer flows."
+    ],
+    "phone": [],
+    "money": "People have no unsolicited price or reach figure. Vehicle captions retain recorded asking prices: Maya rear doors $180.00 per month; Eli driver door $120.00 per month; Nora rear panel $160.00 per month; Theo full side $260.00 per month. Use 16/24px tabular ink. These are not campaign pay, agreed offers or earnings. Proposed amounts remain separate in Send offer.",
+    "mock_data": [
+      "No new people, vehicles or work samples.",
+      "Use the existing source titles as concise fit labels: Maya Coffee handoff; Eli the existing bicycle-work title; Imani Counter reset; Jules the existing flower-work title; Nora the existing lunch-work title. Do not infer professional skills from an image.",
+      "Maya retains Instagram manual; Eli and Jules retain Instagram connected; Imani retains genuine fixture creator verification. Omit unavailable Instagram facts rather than filling the line."
+    ],
+    "viewport": "desktop 1440x900"
+  }
+}

@@ -2,19 +2,20 @@ import Link from "next/link";
 import { ArrowRight, MagnifyingGlass, ChatCircle, Bell, CaretRight, CaretDown } from "@phosphor-icons/react/dist/ssr";
 import { TabBar, USER_TABS, Avatar } from "../parts";
 import { maya, usd } from "../mock";
+import { VehiclePreview } from "../VehiclePreview";
 
 /**
- * Prototype 02: User Profile on a phone. A full-width graphite working
- * identity masthead, an unboxed record strip on the light canvas,
- * Instagram and verification as literal states, one modest photo-led
- * vehicle slot, real recent work, the private money route to Earnings,
- * then the secondary destinations. Fixture data only.
+ * Prototype 02: User Profile on a phone, refined into an identity plate.
+ * A 4:5 identity photograph crosses the graphite masthead by exactly
+ * 12px while the record stays still below it; Instagram and verification
+ * remain literal states; one small photo-to-fact vehicle assembly is the
+ * Smart Vehicle moment (photos only for this fixture, honestly); real
+ * recent work; the private route to Earnings; then the destinations.
  */
 export function UserProfileScreen({ embed = false }: { embed?: boolean } = {}) {
   return (
     <div className="phone">
-      {/* Masthead: the root header and identity share one graphite plane. */}
-      <div className="on-dark" style={{ background: "var(--tm-graphite)", color: "var(--tm-on-dark)", margin: "0 -0px" }}>
+      <div className="on-dark" style={{ position: "relative", height: 246, background: "var(--tm-graphite)", color: "var(--tm-on-dark)" }}>
         <header className="phone-header" style={{ minHeight: 64 }}>
           <button type="button" aria-label={`Acting as ${maya.first}, Personal, demo. Switch.`} style={{ display: "flex", alignItems: "center", gap: 10, minHeight: 44 }}>
             <Avatar src={maya.portrait} name={maya.name} size={28} />
@@ -30,14 +31,18 @@ export function UserProfileScreen({ embed = false }: { embed?: boolean } = {}) {
             <button type="button" className="icon-btn" aria-label="Notifications"><Bell size={20} /></button>
           </span>
         </header>
-        <div style={{ padding: "12px 16px 16px" }}>
+        <div style={{ padding: "12px 16px 0" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 36 }}>
             <h1 className="t-page" style={{ margin: 0 }}>Profile</h1>
             <Link href="#edit" className="btn btn-quiet" style={{ color: "var(--tm-focus-dark)", minHeight: 44, margin: "-4px 0" }}>Edit profile</Link>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "96px minmax(0, 1fr)", gap: 16, alignItems: "center", marginTop: 24 }}>
-            <Avatar src={maya.portrait} name={maya.name} size={96} />
-            <div>
+          {/* The identity plate: the portrait crosses the plane by 12px; the name is the subject. */}
+          <div className="identity-plate" style={{ display: "grid", gridTemplateColumns: "104px minmax(0, 1fr)", gap: 16, alignItems: "start", marginTop: 16 }}>
+            <div className="media" style={{ width: 104, height: 130, borderRadius: 4, background: "var(--tm-stage)" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={maya.portrait} alt={`${maya.name}, identity photograph`} width={104} height={130} />
+            </div>
+            <div style={{ paddingTop: 16 }}>
               <p className="t-identity" style={{ margin: 0 }}>{maya.name}</p>
               <p style={{ margin: "4px 0 0", fontSize: 16, lineHeight: "24px", color: "var(--tm-muted-dark)" }}>@{maya.handle}</p>
               <p className="t-meta" style={{ margin: "2px 0 0", color: "var(--tm-muted-dark)" }}>{maya.city}</p>
@@ -46,16 +51,15 @@ export function UserProfileScreen({ embed = false }: { embed?: boolean } = {}) {
         </div>
       </div>
 
-      <main className="phone-main" id={embed ? undefined : "main"}>
-        {/* Record strip: three unboxed facts on the canvas. */}
-        <dl style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(96px, 1fr))", gap: 12, margin: "24px 0 0", minHeight: 56 }}>
+      <main className="phone-main" id={embed ? undefined : "main"} style={{ paddingTop: 34 }}>
+        {/* Record strip: three content-aware tracks on the canvas. */}
+        <dl style={{ display: "grid", gridTemplateColumns: "auto auto auto", justifyContent: "start", gap: 12, columnGap: 24, margin: 0, minHeight: 64 }}>
           <Fact value={usd(maya.stats.lifetimeEarnedCents)} label="Earned" />
           <Fact value={String(maya.stats.completed)} label="Completed" />
           <Fact value={maya.stats.rating.toFixed(1)} label={`Rating · ${maya.stats.reviews} reviews`} />
         </dl>
 
-        {/* Capability: literal states, no coloured icon containers. */}
-        <section aria-label="Instagram and verification" style={{ marginTop: 16 }}>
+        <section aria-label="Instagram and verification" style={{ marginTop: 12 }}>
           <Link href="#instagram" className="row-link" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 64, gap: 12 }}>
             <span>
               <span className="t-body" style={{ display: "block", fontWeight: 500 }}>Instagram</span>
@@ -70,29 +74,16 @@ export function UserProfileScreen({ embed = false }: { embed?: boolean } = {}) {
           </Link>
         </section>
 
-        {/* Vehicle: one modest, photo-led slot. */}
-        <section aria-labelledby="vehicles-title" style={{ marginTop: 24 }}>
+        {/* One Smart Vehicle moment: source photo, then facts 12px lower on a square white plane. */}
+        <section aria-labelledby="vehicles-title" style={{ marginTop: 16 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 44 }}>
             <h2 id="vehicles-title" className="t-section" style={{ margin: 0 }}>Vehicles</h2>
             <Link href="#add-vehicle" className="btn btn-quiet">Add vehicle</Link>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "176px minmax(0, 1fr)", gap: 16, marginTop: 8, alignItems: "start" }}>
-            <div className="media contain" style={{ width: 168, height: 112, background: "var(--tm-underlay)" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={maya.vehicle.photo} alt="Maya's blue 2020 Toyota Corolla hatchback, photographed on her street" width={168} height={112} />
-            </div>
-            <div>
-              <p className="t-task" style={{ margin: 0 }}>{maya.vehicle.label}</p>
-              <p className="t-meta" style={{ margin: "4px 0 0" }}>{maya.vehicle.year} · {maya.vehicle.body}</p>
-              <p className="t-meta" style={{ margin: "2px 0 0" }}>{maya.vehicle.color} · {maya.vehicle.city}</p>
-              <Link href="#vehicle" className="btn btn-quiet" style={{ paddingLeft: 0, marginTop: 4, minHeight: 44 }}>View vehicle <ArrowRight size={18} aria-hidden /></Link>
-              <p className="t-meta" style={{ margin: 0 }}>Photos available</p>
-            </div>
-          </div>
+          <VehiclePreview vehicle={maya.vehicle} style={{ marginTop: 12 }} />
         </section>
 
-        {/* Recent work: real fixture media with source and state. */}
-        <section aria-labelledby="work-title" style={{ marginTop: 32 }}>
+        <section aria-labelledby="work-title" style={{ marginTop: 24 }}>
           <h2 id="work-title" className="t-section" style={{ margin: 0 }}>Recent work</h2>
           <ul style={{ display: "grid", gridTemplateColumns: "repeat(3, 104px)", gap: 12, listStyle: "none", padding: 0, margin: "12px 0 0" }}>
             {maya.recentWork.map((w) => (
@@ -111,7 +102,6 @@ export function UserProfileScreen({ embed = false }: { embed?: boolean } = {}) {
           <Link href="#activity" className="btn btn-quiet" style={{ paddingLeft: 0, marginTop: 8 }}>View Activity <ArrowRight size={18} aria-hidden /></Link>
         </section>
 
-        {/* Private earnings: ordinary ink, a route to Earnings, no duplicated payout form. */}
         <section aria-labelledby="earn-title" style={{ marginTop: 24 }}>
           <h2 id="earn-title" className="t-section" style={{ margin: 0 }}>Earnings</h2>
           <p className="t-task" style={{ margin: "12px 0 0" }}>Available {usd(maya.money.availableCents)}</p>
@@ -141,8 +131,8 @@ export function UserProfileScreen({ embed = false }: { embed?: boolean } = {}) {
 function Fact({ value, label }: { value: string; label: string }) {
   return (
     <div>
-      <dd className="money-record" style={{ margin: 0 }}>{value}</dd>
-      <dt className="t-meta" style={{ marginTop: 2 }}>{label}</dt>
+      <dd className="money-record" style={{ margin: 0, whiteSpace: "nowrap" }}>{value}</dd>
+      <dt className="t-meta" style={{ marginTop: 2, whiteSpace: "nowrap" }}>{label}</dt>
     </div>
   );
 }

@@ -23,7 +23,7 @@ export function SaveToggle() {
   return (
     <button type="button" onClick={toggle} aria-pressed={saved} className="btn btn-quiet" style={{ color: saved ? "var(--tm-accent)" : "var(--tm-ink)", transition: "color var(--tm-t-control) var(--tm-ease-out)" }}>
       <BookmarkSimple size={20} weight={saved ? "fill" : "regular"} aria-hidden />
-      {failed ? "Retry" : saved ? "Saved" : "Save"}
+      {pending ? "Saving" : failed ? "Retry" : saved ? "Saved" : "Save"}
     </button>
   );
 }

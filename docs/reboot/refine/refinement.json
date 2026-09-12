@@ -1,0 +1,972 @@
+{
+  "engineering_notes": [
+    "This is a refinement of the existing Lab, not a new product architecture. Preserve destinations, permissions, queries, ranking, money semantics, independent service states and mutation behavior. Public demonstrations reuse those components and fixture adapters; they do not introduce a parallel product.",
+    "Build order: shared tokens and the source-to-decision joint; Public static compositions; Business Home; Profile and User Home; Public scroll enhancement and interactive business demonstration; browser review. Business Content receives only the consistency changes listed below.",
+    "Use CSS Grid, native overflow, position:sticky, IntersectionObserver and one requestAnimationFrame-throttled scroll listener. Update CSS custom properties, not React state per frame. No animation framework or continuous WebGL background.",
+    "All three public chapters must have their own complete media and product composition in the DOM. Do not reuse one absolutely positioned illustration across three otherwise empty sections. Only the visible chapter may have an active player or canvas.",
+    "Extract or reuse SourceFigure, RecreateCommitment, StoryEligibility, CampaignWorkSummary, PersonSpread, VehiclePreview and the existing Content inspector. Public excerpts are real HTML using the same formatters, state labels and permitted actions as the app, not independently redrawn marketing UI.",
+    "Keep public demonstration mutations in an isolated demo-store namespace. Label the demonstration before any amount or action. Selecting a person or scrolling must never submit a request, approve content, accept work or create earnings.",
+    "Retain the supplied fictional records and explicitly freeze the Lab adapter clock to May 14, 2026. Production uses its actual clock and backend statuses. Do not silently extend these example campaign deadlines.",
+    "Load Archivo and IBM Plex Sans through the existing font pipeline. Use rem equivalents, tabular monetary numerals and metric-adjusted fallbacks. No third font.",
+    "No new generated imagery is required. The existing photographs provide a coherent world; spend this pass on their scale, framing and relationship to working UI. Existing generated illustrations remain visibly identified as demonstrations, never real customer evidence.",
+    "Default fixtures contain neither playable reference footage nor vehicle reconstructions. Ship the finished still-image treatment now. Do not add play controls, durations, fake orbit states or substitute models to make the screenshots appear more advanced.",
+    "Retain initial phone transfer target of 600KB or less before optional media, LCP target of 2.5s, CLS below 0.1 and INP below 200ms. These are test targets, not claimed measurements. Preload only the actual LCP image; defer videos and three.js.",
+    "Review actual 1440×900 and 390×844 captures, plus 320×568, 1024px, enlarged text, keyboard focus and reduced motion. Capture each public chapter at its beginning and settled position, a continuous scroll recording, both business-demo modes, the scrolled car shelf and mutation failures. Do not award final scores from a full-page contact sheet alone."
+  ],
+  "screens": [
+    {
+      "what_makes_it_only_tapmart": "A photographic source physically hands off to a fixed, working commitment edge: reference to filming to conditional video pay; intact supplied artwork to Instagram eligibility to a work state; a vehicle to a separate placement concept to monthly campaign terms. The three changes of material are one continuous demonstration, not three marketing illustrations.",
+      "acceptance": [
+        "At 1440×900, the first fold contains the entire three-line headline, literal task explanation, equal audience actions, a large filming photograph, one upright implemented phone and the beginning of the graphite Recreate chapter.",
+        "The hero photograph is 624×416px, not the current 510×340px. Its meaningful filming action remains unobscured by the phone. The enlarged HTML payment excerpt is labeled Demo opportunity before its amount.",
+        "Every earning chapter contains all three explanatory objects in its default screenshot. Post and Drive cannot become empty regions in a full-page capture because another chapter owns the only media stage.",
+        "At a pinned chapter capture, the source assembly occupies 872px and its real product commitment occupies 448px, with a 24px junction. No oversized heading is used as a substitute for missing product demonstration.",
+        "Recreate shows a still reference, a filming illustration and the $65.00 per-approved-video UI. There is no fabricated video playback.",
+        "Post shows the unmodified Story, the explicitly manual Instagram state and the returned eligibility result, then the real open or applied work state. Scrolling never accepts the application.",
+        "Drive shows campaign-car-context-01, a separately labeled placement concept and the $240.00 per-month campaign. It does not imply that Maya's owned car has been booked or that an ad is installed.",
+        "The business section is one working demonstration with selectable Campaigns and Monthly content views. View person opens a named recipient; a demo approval changes only file approval, leaving publication separate.",
+        "On phone, every chapter is a complete vertical explanation with native-size HTML facts. There are no pinned regions, horizontal chapter carousels or miniature desktop inspectors.",
+        "The Get paid region distinguishes conditional work, available earnings and a requested payout. All values remain still. No requested payout is presented as paid.",
+        "Reduced motion and missing optional media produce finished compositions, not blank stages or instructions to enable animation."
+      ],
+      "choreography": [
+        "Desktop enhancement applies only at widths of at least 1200px and viewport heights of at least 800px. At 1440×900, each earning section is 900px high and contains its own 780px sticky panel, top:80px. The pin lasts 120px of native scrolling. Sections touch; there is no additional inter-chapter spacer.",
+        "For each chapter, let S be its document top. Progress p runs from 0 at scrollY=S−320 to 1 at scrollY=S+40, clamped across 360px. The first 240px occur during approach; the final 120px occur while pinned. The composition is complete before enhancement, and progress changes emphasis and source geometry only.",
+        "Recreate, p=0–0.4: the reference image scales from 224×398px to 176×313px around its top-left origin. Its native-size caption follows the image bottom. The filming photograph moves from x=248,y=32 to x=200,y=0 within the 872px source field. Both originals remain fully visible.",
+        "Recreate, p=0.4–0.8: the 24px structural joint behind the fixed work panel resolves from an exposed graphite edge to the cobalt payment edge. This is a background treatment, not a loading bar. From p=0.8–1, the assembly rests. The amount, conditions and action never translate or change state.",
+        "Post, p=0–0.4: the intact 288×512px Story moves horizontally from x=112 to x=32 within the source field. The eligibility block remains at x=448. From p=0.4–0.75, its white backing settles by 24px behind stationary text. From p=0.75–1, the fixed work panel remains the destination of the composition; no application or publication state advances.",
+        "Drive, p=0–0.45: the 640×427px vehicle photograph moves vertically from y=24 to y=0. From p=0.45–0.75, the separate placement diagram moves 24px into its reserved 208px field. From p=0.75–1, the monthly work panel rests. Artwork never moves onto the photographed vehicle.",
+        "No chapter exit fades its content away. The next chapter enters naturally as the previous local sticky panel releases. Background changes happen at these real section boundaries: graphite for making, mineral canvas for supplied creative, underlay for physical inventory.",
+        "The business demonstration is not scroll-controlled. Its two explicit mode buttons replace the selected workspace over 180ms, preserving selection within each mode. A focused or edited form cannot be replaced by scroll position.",
+        "Below the enhancement breakpoint, with reduced motion, or without JavaScript, use ordinary content-height sections containing the settled compositions. No pinning, translation, source scaling or reserved scroll runway."
+      ],
+      "composition": [
+        {
+          "technology": "Semantic React header; CSS sticky positioning",
+          "height_or_size": "1440×80px desktop; 48px horizontal gutters",
+          "content": "Keep the existing public destinations: Earn, For businesses, How it works, Sign in and Get started. Use the unchanged 28px mark and 30/32px wordmark. Header is mineral canvas with a 1px divider only after scrolling. Get started remains cobalt; all targets are at least 44px.",
+          "region": "Desktop public navigation",
+          "state_shown": "Signed-out Design Lab demonstration; no app rail or identity selector."
+        },
+        {
+          "technology": "CSS grid; foreground photograph; browser-produced phone capture; shared read-only money component",
+          "height_or_size": "Hero occupies y=80–800. Inner field 1344px: 520px text, 40px gap, 784px media.",
+          "content": "Text begins x=48,y=144. Headline is Recreate. / Post. Drive. / Get paid. at Archivo 800, 104/96px, tracking −0.05em. At y=456 place Film a Reel. Share a supplied Story. Advertise on your car. at 16/24px. Equal 254px audience actions begin y=520, with a 12px gap and 48px height. Conditions sit 12px below. Media field begins x=608,y=112 and is 784×656px. public-filming-01 is at local x=0,y=24, 624×416px. The single phone is at x=520,y=64, outer width 252px and height 542px. An attached 496×96px cobalt excerpt starts x=24,y=440: left, Demo opportunity and Your coffee pour; right, $65.00 and per approved video. It is built from the real fixture formatter. Generated filming illustration and Open earning example occupy the remaining lower-left space, outside the photograph.",
+          "region": "Desktop hero — the first source-to-commitment joint",
+          "state_shown": "Fictional open Recreate opportunity and an actual User Home capture. The photograph is an illustration, not evidence of completed work."
+        },
+        {
+          "technology": "Local CSS sticky panel; real shared work-summary HTML; contained images",
+          "height_or_size": "900px chapter with 780px panel. 1344px inner width: 872px source assembly, 24px gap, 448px commitment.",
+          "content": "Graphite panel. Recreate. is 88/84px at x=48, local y=24; Film your version of a business's Reel. is an 18/24px line beside it. Body begins local y=136. In the left field, the 224×398px reference starts x=0,y=0 and the 624×416px filming scene starts x=248,y=32. Native 14/20px source labels remain outside their pixels. The right field starts x=944 in the page and y=160 within the panel: a real Recreate commitment excerpt, 448px wide, with kind, task, business, conditional amount, spots, deadline and permitted detail action. Its square cobalt payment ledge is attached at the lower-right edge. A 44px example action and demo provenance finish the panel near y=728.",
+          "region": "Desktop Recreate chapter",
+          "state_shown": "Open demo work. Reference is explicitly a still. No generated filming scene is treated as a submission."
+        },
+        {
+          "technology": "CSS source-object depth; shared Instagram eligibility and Story work components",
+          "height_or_size": "Same 900/780px chapter geometry; 288×512px Story; 400px eligibility field; 448px work field",
+          "content": "Mineral canvas replaces graphite because the supplied creative is now the source object. Post. and Share the supplied Story. use the same heading and instruction roles. The intact Story starts at source-field x=112,y=0. At x=448,y=80, show the actual eligibility excerpt: Instagram · Manual, @maya.frame_demo, 1,420 followers, 1,000 required, and the returned demo eligibility result. Use ordinary 16/24px and 14/20px HTML, no Instagram imitation. The fixed right work panel shows Coffee break, $35.00, after 24h live and approval, the deadline and the existing application action. Story art remains unaltered and its shadow belongs only to the source sheet.",
+          "region": "Desktop Post chapter",
+          "state_shown": "Manual Instagram provenance and an explicit eligible demo permission, not API verification. Work is open until the application adapter returns a different state."
+        },
+        {
+          "technology": "Real source photo; deterministic SVG placement concept; shared monthly-campaign work component",
+          "height_or_size": "Same 900/780px chapter geometry; 640×427px photograph; separate 208×139px diagram; 448px work panel",
+          "content": "Underlay background. Drive. is paired with Carry an ad on your car. The left field contains campaign-car-context-01 at x=0,y=24. The rear-door concept occupies x=664,y=144 and is clearly separate from the photograph. Its caption is Placement concept: rear doors. Supplied artwork can be inspected within that diagram's destination; it is not composited onto the car. The right panel is the actual Bike-shop car ad summary: Spurroom Bikes, $240.00, per month, Rear doors · 60 days, Vehicle required, spots, deadline and work action. Caption the photograph Campaign visual · Demo · No installed ad.",
+          "region": "Desktop Drive chapter",
+          "state_shown": "An open campaign illustration, not owned inventory, a booking, installation evidence or a reconstructed vehicle."
+        },
+        {
+          "technology": "Shared React product components and demo adapter; explicit view transition",
+          "height_or_size": "64px section padding. Heading 64/64px. Demonstration width 1344px; 48px mode toolbar; 1176px centered working field with up to 620px content height and 24px vertical padding.",
+          "content": "Put your business out there. sits above one working stage, not two browser thumbnails. A 48px toolbar contains Campaigns, Monthly content and Demo product · Changes reset. Campaigns opens on the actual people gallery; View person replaces it with that person's existing portfolio-led detail and named request controls. Cars opens the actual offered-vehicle inspection. Monthly content mounts the existing media field and 336px inspector: Counter reset is New, the original is contained at 630×420px, and actual filmstrip sources remain below. The same approval, edit and schedule callbacks run against the isolated demo adapter. Keep a separate 48px Open full example link. Below the stage, retain the two unboxed inclusion rows and the campaign-spending exclusion.",
+          "region": "Business product demonstration",
+          "state_shown": "Campaign discovery and actual request entry, or one new delivered file with Post · Not scheduled. No request is sent or file approved until explicit activation."
+        },
+        {
+          "technology": "Semantic ordered explanation and existing read-only EarningsSummary",
+          "height_or_size": "64px vertical padding; desktop split 704px explanation, 48px gap, 592px earnings field",
+          "content": "Get paid. uses 64/64px. Keep the existing three steps and their short copy, arranged as an unboxed vertical sequence with 24px gaps rather than three remote columns. The white financial region begins 24px lower than the explanation, with square corners, 24px padding and no shadow. It reads Demo money · Not a customer result, Available earnings $78.40, Payout requested $50.00, then the existing fees, minimum and review conditions. The offset comes from the region's alignment, not floating money.",
+          "region": "Work decision to Earnings",
+          "state_shown": "Existing available-balance and requested-payout fixtures. No causal claim that the displayed $65.00 opportunity created this balance."
+        },
+        {
+          "technology": "Plain HTML and CSS",
+          "height_or_size": "Final choice: content height with 64px padding. Footer: 48px padding.",
+          "content": "Your next move. sits on graphite at 64/64px, followed by equal white secondary audience actions. Footer returns to mineral canvas, retaining the matching lockup, existing legal destinations, current year and Design Lab notice. No testimonial, partner or fabricated results section.",
+          "region": "Audience choice and footer",
+          "state_shown": "Intent-preserving links into existing earning or business onboarding."
+        },
+        {
+          "technology": "Normal document flow; responsive shared component excerpts",
+          "height_or_size": "Phone 390×844; 16px gutters; 358px content field; 48px chapter padding",
+          "content": "Header is 64px. Hero headline begins y=88 at 48/48px. Task explanation follows after 16px, equal 171px actions after another 16px, and conditions after 12px. Media begins after 24px: 260×173px filming image at x=0, one 152×327px phone at x=206, and a 194×88px read-only cobalt excerpt attached below the photo at x=12. Keep the filming action left of the overlap. Demo labeling and Open earning example follow in normal flow. Each chapter then renders its heading, source assembly, eligibility or placement when relevant, and a native 358px work excerpt. The business section presents Campaigns and Monthly content vertically, using responsive source/detail excerpts rather than shrunken desktop captures.",
+          "region": "Phone composition overrides",
+          "state_shown": "All explanations remain visible without scroll choreography or interaction. Only the hero uses a scaled phone capture."
+        }
+      ],
+      "removed_or_hidden": [
+        "Remove the long shared sticky column that leaves later chapter regions visually unoccupied in the supplied desktop full-page capture.",
+        "Remove the hero's large neutral backing slab. The enlarged photograph, attached real commitment excerpt and phone now supply the depth.",
+        "Remove the paired static business screenshots as the primary business explanation. Keep browser captures only as optional unavailable-JavaScript fallbacks, with native-size explanatory HTML.",
+        "No auto-clicking demo, simulated acceptance, generated reference video, installed-ad mockup, fake reconstruction, fabricated customer proof or payout celebration.",
+        "Do not add explanatory paragraphs to fill space. Use the existing task copy and the actual short product fields."
+      ],
+      "implementation_steps": [
+        "Build the hero and all three complete chapter assemblies without animation. Verify the still screenshots before adding pinning.",
+        "Regenerate capture-user-home-390 from the refined implemented route at 390×844. Use the existing deterministic phone frame; do not synthesize screen pixels.",
+        "Reuse real work-summary and eligibility components at native desktop sizes. Keep labels and controls outside images, with a visible demo scope.",
+        "Create one local sticky panel per chapter and implement the stated 360px progress mapping. Keep every panel mounted; limit the active media context with IntersectionObserver.",
+        "Bind Post to the existing manual Instagram record and explicit fixture permission. Application responses must use the existing applied/waiting state, never a presentation-only accepted state.",
+        "Use the campaign context vehicle in public Drive so its $240.00 monthly terms are not confused with Maya's $180.00 inventory asking price.",
+        "Mount the real business components in the isolated public-demo store. Mode changes are explicit. Preserve dirty forms, mutation failures and independent file/post statuses.",
+        "Build phone-specific native excerpts before testing tablet. Do not solve small screens by scaling an entire working inspector.",
+        "Test ordinary scrolling, reverse scrolling, keyboard navigation, reduced motion and no JavaScript. Record the business request and content-approval interactions as well as the visual choreography."
+      ],
+      "media": [
+        "public-filming-01: existing 3:2 illustration, 624×416px in desktop hero and Recreate; 260×173px in phone hero; source-faithful color and protected filming focal point.",
+        "capture-user-home-390: regenerated browser capture, 390:844 viewport inside the existing 402×864 logical device. Outer display widths 252px desktop and 152px phone.",
+        "reference-loopday-01: existing 9:16 still, 224×398px to 176×313px in the enhanced desktop chapter; 112×199px on phone. Original remains inspectable.",
+        "story-loopday-01: existing finished 9:16 master, 288×512px desktop and 180×320px phone; no cropping, recoloring or TapMart overlays.",
+        "campaign-car-context-01: existing 3:2 campaign illustration, 640×427px desktop and 358×239px phone; explicitly no installed ad.",
+        "Existing rear-door SVG diagram: 208×139px desktop and 160×107px phone; 2px strokes, external native-size caption. Existing demo-car-artwork.svg stays in the placement inspection.",
+        "Business demo media reuses the refined Business Home and existing Content sources directly. No extra people, work files or vehicle records are introduced.",
+        "Optional capture-business-home-1440 and capture-business-content-1440 fallbacks must be regenerated from the actual refined routes. They are not the enhanced demonstration."
+      ],
+      "motion_and_interaction": [
+        "Hero is immediately readable. No entrance choreography on the headline, audience actions or amount. The source photograph stays still.",
+        "Chapter motion follows native scroll progress without easing lag. All text, amounts and operational states remain available independently. Reduced motion removes pinning and geometry changes.",
+        "Open earning example and chapter example actions open the existing destination with the correct fixture selected. Control feedback is 140ms, cubic-bezier(0.22,1,0.36,1).",
+        "Campaigns/Monthly content changes use a 180ms source handoff. Do not animate recipient identities or file states across records. Reduced motion replaces immediately.",
+        "Public demo mutations wait for the actual demo-adapter response. Successful file approval may use a 1200ms accent-wash highlight; it never advances publication or money.",
+        "Phone menu retains the 320ms sheet entrance, 200ms exit, Escape, visible Close and focus return. Reduced motion uses an immediate appearance or 80ms fade.",
+        "If authorized footage is supplied later, use explicit Play or the existing bounded preview rules. The present build exposes no film control because it has no footage."
+      ],
+      "three_second_read": "Film your version, share a supplied Story or carry a car ad. TapMart puts the real task beside its conditions and pay, with a separate working product for businesses.",
+      "route": "/design-lab/public-home",
+      "name": "Public Homepage",
+      "what_changes_from_current": [
+        "Increase the hero photograph and phone, and replace the passive underlay with an attached real commitment excerpt. The public promise becomes legible without deciphering a tiny screen.",
+        "Replace the three sparse side-text chapters with three full-width, locally pinned workbenches. Each owns its sources and real product UI, so later chapters cannot be visually empty.",
+        "Make Recreate, Post and Drive changes of material and task, not interchangeable picture slots. Their fixed commitment edge is the common TapMart signature.",
+        "Replace the business screenshot pair with one usable product demonstration. Discovery, recipient selection and content review now explain the business proposition through actual behavior.",
+        "Bring Get paid's steps and financial reading region into one connected composition. Keep every financial distinction and the existing copy.",
+        "Reduce phone chapter padding from 64px to 48px and replace miniature desktop business screens with native responsive excerpts. This tightens the story without hiding conditions."
+      ],
+      "phone": [
+        "No sticky stages, horizontal chapter scrolling, scroll-linked scaling or source reveals. All sources and conditions are in normal reading order.",
+        "Recreate uses a 112×199px intact reference beside a 230×153px filming crop with a 16px gap; source labels sit below. The native work excerpt follows after 16px.",
+        "Post uses a centered 180×320px intact Story, then the compact eligibility excerpt and work state. It does not imitate Instagram's interface.",
+        "Drive uses the 358×239px campaign photograph, then the separate 160px placement diagram and native monthly work excerpt.",
+        "Campaigns shows the existing responsive person/work preview and named request action. Monthly content shows the 358×239px contained counter original and the existing responsive inspector below it. Both are visible sections, not a hidden two-tab explanation.",
+        "Essential and Growth remain two unboxed rows with 12px between them, followed by the separate spending exclusion.",
+        "At 320px, allow audience actions and media/commitment splits to stack. Do not reduce body text, amount size or controls to retain the montage."
+      ],
+      "money": "Public amounts come only from existing labeled demo components. Hero and Recreate: $65.00 per approved video. Post: $35.00 after 24h live and approval. Drive: $240.00 per month. Get paid: $78.40 available and a separate $50.00 requested payout. None is a guaranteed result, paid payout or new marketing balance. Amounts never move or count up. Subscription output counts remain visible; missing configured prices are not invented.",
+      "mock_data": [
+        "Reuse demo-maya, demo-loopday, demo-recreate-01, demo-story-01, demo-car-campaign-01, demo-payout-01 and the five existing Content records.",
+        "Make the existing Story permission explicit in the Lab adapter: eligible=true, based on the manual demo Instagram record; this is not API verification or an inferred production permission.",
+        "Public demo store starts from the same fixtures but isolates mutations from authenticated Lab previews. It adds no customer, performance, proof or payment records."
+      ],
+      "viewport": "both: desktop 1440x900 and phone 390x844"
+    },
+    {
+      "what_makes_it_only_tapmart": "An open, source-ratio contact ribbon presents a person and the kind of work a business could request, followed immediately by physical monthly advertising inventory. The useful choice is a named request or a vehicle placement, not following a popular profile.",
+      "acceptance": [
+        "At 1440×900 the 200px rail and 1176px main field remain unchanged. The active business and Demo provenance occupy one coherent selector.",
+        "For you opens on three generously sized, differently proportioned person/work spreads. No work sample is trapped inside the current oversized landscape letterbox.",
+        "The six existing people remain in their original order in the native ribbon. Visible controls make the remaining people accessible; People still opens the complete gallery.",
+        "Maya, Eli and Imani show recognizable portraits, intact actual work samples, concise source-based fit information, View person and a visible Request action.",
+        "Root discovery does not resemble a follower leaderboard. Counts and review summaries remain available in person detail; Instagram manual/connected and genuine creator verification remain literal.",
+        "The car heading begins near y=544, photographs near y=600 and the first monthly asking-price captions are visible by y=900.",
+        "Cars remain actual offered inventory. Named zones and asking prices are visible; no installed artwork or 3D control appears for model_url=null.",
+        "People-query failure does not erase usable cars. Missing portraits and work remain honest rather than receiving generated filler."
+      ],
+      "choreography": [],
+      "composition": [
+        {
+          "technology": "Existing fixed React business rail",
+          "height_or_size": "200px wide; full viewport height",
+          "content": "Keep the current navigation destinations and utility positions. Use the refined lockup, selected cobalt edge and existing graphite. Business selector is one 168×80px control at x=16,y=72: Business · Demo on the first row, then LC initials, Loopday Coffee on two lines and the chevron. Preserve 1px dark control boundary and 8px control radius.",
+          "region": "Business navigation",
+          "state_shown": "Loopday Coffee · Demo; Home selected."
+        },
+        {
+          "technology": "Plain HTML heading, city control and independent attention links",
+          "height_or_size": "x=232,y=32,width=1176; title row 48px; attention y=88,height=44px",
+          "content": "Find people and cars remains 36/40px. Austin, Texas stays right aligned. Keep exactly 2 campaign decisions and 1 file to approve as unboxed source-specific links. No introductory paragraph or metric cards.",
+          "region": "Purpose and attention",
+          "state_shown": "The same two attention-query results; not counts derived from gallery items."
+        },
+        {
+          "technology": "Existing view controls plus native ribbon controls",
+          "height_or_size": "y=140,height=44px",
+          "content": "For you, People, Cars, Nearby stay left aligned. On the right, put See all people and separate 44px Previous people/Next people controls. These replace the lower See all people row rather than adding another header. Selection remains the 24×3px cobalt edge.",
+          "region": "Discovery navigation",
+          "state_shown": "For you selected; ribbon starts at its true beginning."
+        },
+        {
+          "technology": "Native overflow-x:auto; source-ratio figures; shared request destinations",
+          "height_or_size": "Begins y=200. Media height 232px; caption/action region 96px. First widths 320px, 360px and 448px, with 24px gaps, exactly filling 1176px.",
+          "content": "Maya: 160×200px portrait at local x=0,y=32; 130.5×232px work image at x=189.5,y=0. Eli: 160×200px portrait at x=0,y=32; 185.6×232px work image at x=174.4,y=0. Imani: 144×180px portrait at x=0,y=52; 288×192px work image at x=160,y=0. No enclosing fill or media letterbox is drawn. At y=440, place name at 18/24px and city at 14/20px in the same caption row where they fit. At y=464, use one 14/20px source-and-fit line. At y=484, provide 44px View person and Request controls. Request opens the existing allowed Reel/Story request choices for the named recipient. Jules and Nora use 360px spreads; Theo uses a compact 240px absence spread.",
+          "region": "People opportunity ribbon",
+          "state_shown": "Six fictional people in the preserved ranking. Work is inspectable, not autoplaying. No request has been sent."
+        },
+        {
+          "technology": "Native horizontal shelf; contained inventory photography; ordinary captions",
+          "height_or_size": "Heading y=544,height=44px; photographs y=600 at 336×224px; 24px gaps",
+          "content": "Available cars, See all cars and the existing 44px Previous/Next controls. Below each photo: vehicle name at 18/24px beginning y=832, city and named zone at 14/20px, then Asking price at 16/24px beginning approximately y=876. Photos have 4px media corners; captions sit on canvas, with a 12px lower-right alignment step rather than a listing card. The photo link opens the existing detail where the named placement diagram and Send offer action live.",
+          "region": "Physical advertising inventory",
+          "state_shown": "Four offered vehicles with recorded monthly asking prices; all lack models."
+        }
+      ],
+      "removed_or_hidden": [
+        "Remove the second vertical people row from For you only. Its people remain in the same ordered native ribbon; the People destination retains the full six-person gallery.",
+        "Remove landscape underlay tiles around portrait-format work. Originals use their own aspect ratios and deliberate positions.",
+        "Move completed counts, review summaries and follower totals out of the root caption and into the existing person detail. Retain literal provenance and useful work fit at the root.",
+        "Do not show request forms, offer negotiation, full portfolios or full placement diagrams in the gallery.",
+        "No followers-first treatment, hover-only actions, promotional availability claims, reach estimates or decorative maps."
+      ],
+      "implementation_steps": [
+        "Keep the existing shell, heading, attention and local-view logic. Replace only the For you people layout and its captions.",
+        "Implement source-ratio spread variants driven by the actual source ratio, not by invented creator categories. Reserve image dimensions before loading.",
+        "Use native overflow and proximity snap. Previous/Next move to the next item's offsetLeft, not a hard-coded equal-width step.",
+        "Place the existing Request choice at the root as an entry to the same named-recipient flow. Reuse backend permission checks; never bypass request detail or confirmation.",
+        "Render People as the existing complete gallery with the new source framing and captions. Render Cars as the existing two-column open gallery, not list rows.",
+        "Move the car shelf up by removing the second vertical people row and redundant continuation row; do not use negative positioning.",
+        "Verify all six people, independent query failures, missing city, empty inventory, request failure and asking-price versus offer-price separation."
+      ],
+      "media": [
+        "portrait-maya-01 and portrait-eli-01: existing 4:5 sources at 160×200px, source-faithful portrait crops.",
+        "portrait-imani-01: existing 4:5 source at 144×180px.",
+        "portrait-jules-01 and portrait-nora-01: existing 4:5 sources at 160×200px in their 360px spreads.",
+        "work-maya-loopday-01: intact 9:16 source at 130.5×232px.",
+        "work-eli-spurroom-01, work-jules-flowers-01 and work-nora-lunch-01: intact 4:5 sources at 185.6×232px.",
+        "content-loopday-counter-01: intact 3:2 work sample at 288×192px; retains its existing relationship to Imani and Content.",
+        "Theo uses TG initials and No work samples shared. No replacement media.",
+        "vehicle-maya-01, vehicle-eli-01, vehicle-nora-01 and vehicle-theo-01: existing 3:2 inventory photos at 336×224px. No projected artwork."
+      ],
+      "motion_and_interaction": [
+        "Native ribbon and car-shelf scrolling remain under pointer, trackpad and keyboard control. Button-driven movement is 220ms, cubic-bezier(0.22,1,0.36,1); reduced motion jumps to the next item.",
+        "View changes use the existing 180ms selection edge and 140ms confirmed-results handoff. Do not crossfade two business identities.",
+        "View person or vehicle may use a 280ms single-source transition. Money, names and qualifications do not interpolate between records.",
+        "Request opens the existing short choice or destination with the recipient visible. Menu entrance is 180ms opacity plus at most 8px translation; reduced motion is immediate.",
+        "Portraits and work do not lift, zoom or play on hover. Links underline and controls change color over 140ms.",
+        "Any later real model loads only inside vehicle inspection after activation, never on this root."
+      ],
+      "three_second_read": "These are people whose work I could request, and cars whose advertising space I could book monthly.",
+      "route": "/design-lab/business-home",
+      "name": "Business Home",
+      "what_changes_from_current": [
+        "Replace six small, equally boxed media pairs with an open horizontal contact ribbon on For you. Larger sources and variable spread widths make browsing about work rather than scanning records.",
+        "Restore strong portraits instead of reducing faces further. Work now escapes the wide grey boxes that made its portrait format feel small.",
+        "Replace the popularity-heavy caption stack with one source-based fit line and a visible request entry. Detailed reputation and Instagram counts remain in person detail.",
+        "Bring complete car photographs and asking-price captions into the first desktop viewport rather than revealing only the shelf heading.",
+        "Keep all six people, all four vehicles, the same discovery views and the same request/offer flows."
+      ],
+      "phone": [],
+      "money": "People have no unsolicited price or reach figure. Vehicle captions retain recorded asking prices: Maya rear doors $180.00 per month; Eli driver door $120.00 per month; Nora rear panel $160.00 per month; Theo full side $260.00 per month. Use 16/24px tabular ink. These are not campaign pay, agreed offers or earnings. Proposed amounts remain separate in Send offer.",
+      "mock_data": [
+        "No new people, vehicles or work samples.",
+        "Use the existing source titles as concise fit labels: Maya Coffee handoff; Eli the existing bicycle-work title; Imani Counter reset; Jules the existing flower-work title; Nora the existing lunch-work title. Do not infer professional skills from an image.",
+        "Maya retains Instagram manual; Eli and Jules retain Instagram connected; Imani retains genuine fixture creator verification. Omit unavailable Instagram facts rather than filling the line."
+      ],
+      "viewport": "desktop 1440x900"
+    },
+    {
+      "what_makes_it_only_tapmart": "The person's portrait crosses the identity plane by one precise 12px step, while their record remains still below. A small photo-to-model vehicle capability uses the same source-to-fact joint without turning the profile into a showroom.",
+      "acceptance": [
+        "At 390×844, Maya is the first visual subject: a 104×130px portrait and 30/32px name, not a larger car or settings block.",
+        "The portrait extends exactly 12px below the graphite masthead; no border, shadow or decorative cover photo is added.",
+        "The required order remains person, earned/completed/rating, Instagram, verification, vehicle, recent work, earnings, portfolio/public profile and settings.",
+        "The three record values stay unboxed, readable and explicitly within the Demo identity context.",
+        "Instagram remains Manual and creator verification remains Not verified. Neither receives a verification badge.",
+        "The default vehicle moment shows the existing owned-car photograph and Smart Vehicle · Photos only. There is no View 3D button, canvas, fake turntable or reconstruction progress.",
+        "Recent work retains source and state labels. The supplied Story is not treated as proof of an actual publication.",
+        "Private available money and the requested payout remain below recent work and outside public-profile data."
+      ],
+      "choreography": [],
+      "composition": [
+        {
+          "technology": "Shared phone shell; CSS identity plane and portrait overlap",
+          "height_or_size": "390×246px graphite masthead; root header 64px; portrait 104×130px at x=16,y=128",
+          "content": "Keep Profile and Edit profile at y=76. Use portrait-maya-01 as a 4:5 identity photograph with 4px corners, not a circular enlarged avatar. It ends at y=258, 12px beyond the graphite plane. Name begins x=136,y=144 at Archivo 700 30/32px. Handle is 16/24px, city 14/20px. The small shell avatar remains circular. No bio is invented.",
+          "region": "Working identity",
+          "state_shown": "Maya Chen · Personal · Demo; unverified creator."
+        },
+        {
+          "technology": "Semantic definition list",
+          "height_or_size": "x=16,y=280,width=358; minimum 64px",
+          "content": "$312.40 / Earned, 7 / Completed, 4.8 / Rating · 5 reviews. Keep 28/32px Archivo values and 14/20px labels. Use three content-aware tracks with 12px gaps, not equal narrow boxes that truncate currency. Mineral canvas, no border or shadow.",
+          "region": "Earned record",
+          "state_shown": "Existing private fictional statistics, not a payout total."
+        },
+        {
+          "technology": "Existing capability links",
+          "height_or_size": "Instagram begins y=356, minimum 64px; verification follows at minimum 48px",
+          "content": "Instagram at 16/24px; @maya.frame_demo · Manual · 1,420 followers at 14/20px. Separate Creator verification · Not verified beneath it. Use one restrained divider between these capabilities. Chevrons stay at the right with 44px targets.",
+          "region": "Instagram and creator qualification",
+          "state_shown": "Manual Instagram provenance and a separate unverified creator record."
+        },
+        {
+          "technology": "Shared VehiclePreview; contained photo; optional deferred three.js only for a real model",
+          "height_or_size": "Vehicles heading near y=484, 44px row. Assembly begins y=540: 184×136px source field, 12px gap, 162px facts.",
+          "content": "Keep Vehicles and Add vehicle. The source slot contains the complete 3:2 photo at 184×123px, centered vertically without a synthetic studio background. Facts begin 12px lower at x=212,y=552: Toyota Corolla at 18/24px, 2020 · Hatchback and Blue · Austin at 14/20px, then the 44px View vehicle action. The fact backing is square white and ends at the lower-right of the assembly; it does not surround the photo. At y=684 place Smart Vehicle · Photos only at 14/20px. This replaces the old loose Photos available caption.",
+          "region": "One Smart Vehicle moment",
+          "state_shown": "Owned demo vehicle with photos and model_url=null. Full vehicle detail explains that no 3D model is available."
+        },
+        {
+          "technology": "Source-aware image strip and Activity links",
+          "height_or_size": "Recent work heading near y=728; three 104×139px frames with 12px gaps below",
+          "content": "Retain the three existing previews, contained in their source-aware frames. Remove unnecessary rounded tile backing when the source itself fills the frame; keep underlay only for actual letterboxing. Labels remain Recreate / Approved, Story / Approved, Recreate / In review. View Activity remains a separate 44px link.",
+          "region": "Recent work",
+          "state_shown": "Two approved fixture records and one in review; the Story detail identifies supplied creative."
+        },
+        {
+          "technology": "Existing private summary and destination rows",
+          "height_or_size": "24px after recent-work actions; content-driven rows; fixed bottom navigation 64px plus safe area",
+          "content": "Earnings remains a plain heading followed by Available $78.40, From approved work · Demo money, Payout requested · $50.00 and May 10, 2026. Retain Open Earnings. Portfolio, Public profile and reviews, then Settings follow. Profile is selected in the unchanged bottom navigation.",
+          "region": "Private money and secondary destinations",
+          "state_shown": "Requested payout, not paid; no assigned Shoots shortcut for this unverified fixture."
+        }
+      ],
+      "removed_or_hidden": [
+        "Remove the oversized circular portrait treatment, not the small shell avatar.",
+        "Remove the vehicle row's loose classified-list appearance by joining its photo and facts at one offset edge.",
+        "No vehicle hero, automatic model loading, Scan now promotion, unavailable 3D button or invented processing timeline.",
+        "Keep verification submission, Instagram editing, all vehicle zones, asking prices, payouts and settings in their existing destinations."
+      ],
+      "implementation_steps": [
+        "Keep the existing order and bindings. Replace the main portrait layout with the 104×130px identity photograph and 12px masthead overlap.",
+        "Preserve the record strip and independently loaded Instagram/verification sections. Test long names, absent rating and section errors.",
+        "Build VehiclePreview in the new 184×136px reservation. The default branch is the actual photo with Photos only.",
+        "Implement the model-ready branch behind the existing real model URL and permission checks; it must not run for Maya or the current other vehicle fixtures.",
+        "Reuse the existing recent-work and private-money destinations without changing their meanings.",
+        "Capture the first fold, recent work/private money, no vehicle, waiting provider, missing rating and enlarged text."
+      ],
+      "media": [
+        "portrait-maya-01: existing 4:5 source at 104×130px in the masthead, 4px corners; also the unchanged 28px circular shell avatar.",
+        "vehicle-maya-01: existing 3:2 source contained at 184×123px in a 184×136px slot; no extension, relighting or substitute vehicle.",
+        "work-maya-loopday-01: existing 9:16 original contained in a 104×139px recent-work frame.",
+        "story-loopday-01: same finished 9:16 creative, contained in 104×139px.",
+        "work-maya-spurroom-02: existing 4:5 source, contained in 104×139px.",
+        "No default GLB, background asset or replacement portrait."
+      ],
+      "motion_and_interaction": [
+        "Identity and record values appear immediately, without counting, entrance translation or portrait parallax.",
+        "View vehicle and recent work retain one-source continuity over 280ms, with a 140ms fade fallback. Back restores focus and scroll.",
+        "Edit profile uses the existing 320ms sheet entrance and response-confirmed 140ms feedback. No optimistic identity replacement across accounts.",
+        "For a real model-ready record only, View 3D loads the actual model. Appearance is 180ms; Reset is 220ms; direct rotation has no inertia. Reduced motion removes appearance/reset tweening but keeps explicit rotation controls.",
+        "Default photos never orbit, tilt on hover or crossfade between invented angles."
+      ],
+      "three_second_read": "This is Maya's working identity and record, with a compact vehicle capability and a clear route to her actual earnings.",
+      "route": "/design-lab/user-profile",
+      "name": "User Profile",
+      "what_changes_from_current": [
+        "Turn the masthead from a conventional account profile into an identity plate: a source-ratio portrait crosses its edge, while the name becomes more prominent.",
+        "Keep the record strip and capability order that already work. Do not decorate the statistics or add more profile facts.",
+        "Replace the vehicle's photo-plus-list row with a small offset source/fact assembly and an honest Smart Vehicle state.",
+        "Sharpen recent-work framing and apply the warmer neutral canvas, without changing work sources or statuses."
+      ],
+      "phone": [
+        "Default first-fold landmarks are masthead 246px, records y=280, Instagram y=356, vehicle source y=540 and Recent work heading near y=728.",
+        "At 320px or enlarged text, let identity, record tracks and vehicle facts stack. Preserve amount size and the full name; do not squeeze the vehicle facts into a narrower column.",
+        "The vehicle's default image area is only 184×136px. It must remain subordinate to identity.",
+        "Keep the measured bottom-navigation spacer and safe-area padding so the final Settings action can scroll fully above navigation."
+      ],
+      "money": "Keep $312.40 Earned at 28/32px in the private record strip. Later, show Available $78.40 and Payout requested · $50.00 in ordinary ink on light surfaces. Pending 3600 cents remains in Earnings detail. Do not combine lifetime earned, available balance and payout requests or expose them in public-profile data.",
+      "mock_data": [
+        "No new records. Maya's owned vehicle still has model_url=null.",
+        "The Smart Vehicle label is a presentation name for the existing photo/model capability, not a new backend status or an assertion that a reconstruction exists.",
+        "Retain the existing separate manual Instagram, unverified creator, recent-work and requested-payout fixtures."
+      ],
+      "viewport": "phone 390x844"
+    },
+    {
+      "what_makes_it_only_tapmart": "Three earning kinds share a precise 12px handoff but never share a card template: a reference and graphite commitment step down into cobalt pay; a supplied poster stands beside ink terms; a broad vehicle photograph ends in an inset monthly caption.",
+      "acceptance": [
+        "At 390×844, the unchanged purpose, resume item and discovery controls lead to a Recreate object beginning near y=236.",
+        "The still reference remains 160×284px. The right commitment starts 12px lower, producing a 358×296px stepped assembly rather than a rounded enclosing card.",
+        "$65.00, per approved video, task, business, deadline, View work and Save remain visible before the Story begins near y=644.",
+        "The beginning of Story and its $35.00 commitment remain visible above the bottom navigation without changing source ranking.",
+        "Reference labels and inspection controls are fully opaque graphite. There is no play triangle or fake duration on the still source.",
+        "Story remains intact, with conditions outside the artwork. Car pay remains below the photograph with per month visible.",
+        "The default screen contains no additional explanatory sentences, statistics, balance banner or onboarding prompt.",
+        "Save feedback reflects the adapter response; failure preserves the previous state. Application detail still returns Waiting for acceptance, not accepted-work controls."
+      ],
+      "choreography": [],
+      "composition": [
+        {
+          "technology": "Existing React phone shell",
+          "height_or_size": "64px root header; 16px gutters",
+          "content": "Keep Personal · Demo, Maya, the 28px avatar, identity chevron and three 44px utilities. Use mineral canvas. No logo repetition or greeting.",
+          "region": "Identity header",
+          "state_shown": "Existing Personal demo identity."
+        },
+        {
+          "technology": "Existing heading, resume link and filter controls",
+          "height_or_size": "Title y=76; resume y=124,height=44px; filters y=176,height=44px",
+          "content": "Find paid work stays 30/36px. Keep Reel revision ready as the single attention line. For you, Nearby, Top pay and Kind remain unchanged, with the cobalt selected edge and no count pills.",
+          "region": "Purpose and discovery",
+          "state_shown": "One revision to resume; For you selected."
+        },
+        {
+          "technology": "CSS stepped grid; contained source; shared conditional-payment component",
+          "height_or_size": "x=16,y=236,width=358,height=296. Left 160×284px at y=0; right 198×284px at y=12.",
+          "content": "Reference uses the existing still, with 4px source corners. Right graphite begins 12px lower, leaving a real open corner above it. Keep Recreate Reel, Your coffee pour, Loopday Coffee and Film your version. with existing 14/20px and 18/24px roles. The lower 198×112px cobalt ledge ends 12px below the reference and retains $65.00 at 30/34px with per approved video beneath. There is no enclosing shell radius or shadow. Source label and 44px Inspect reference control are opaque graphite.",
+          "region": "Recreate — reference to fixed commitment",
+          "state_shown": "Open still-reference opportunity. Not a video player, balance or guaranteed earning."
+        },
+        {
+          "technology": "Unboxed metadata and existing action row",
+          "height_or_size": "Metadata begins y=544; actions y=572,height=48px",
+          "content": "4 spots · Apply by May 22, 2026 at 14/20px. View work text begins exactly x=16 and Save stays a separate right-hand target. The footer has no raised surface or extra explanatory copy.",
+          "region": "Recreate decision",
+          "state_shown": "Unsaved initially; save state changes only after response."
+        },
+        {
+          "technology": "CSS asymmetric columns and shallow source shadow",
+          "height_or_size": "Begins near y=644; 198px commitment, 16px gap, 144×256px creative",
+          "content": "Keep the Story on the right at its original ratio, now with square source-sheet corners. The left commitment begins 12px lower than the poster. Keep Instagram Story ad, $35.00, after 24h live and approval, Coffee break, Loopday Coffee and 1,000+ followers. Replace the full-height cobalt rule with a 3×64px edge beside the amount/basis group only. Existing provenance, spots, deadline and actions follow below the media row.",
+          "region": "Story — supplied object and conditions",
+          "state_shown": "Open supplied-creative campaign; no implied post or verified Instagram connection."
+        },
+        {
+          "technology": "Contained campaign photograph and attached white caption",
+          "height_or_size": "358×239px photograph; white caption 346px wide, inset 12px from the left, minimum 96px high",
+          "content": "Use campaign-car-context-01 unchanged. The photo spans the field; the caption begins immediately below with its left edge 12px in and right edge flush. Inner padding is 12px, with a 128px amount track, 12px gap and 182px title/business track. Keep $240.00 and per month in ink, then the existing provenance, rear doors, 60 days, vehicle requirement, spots, deadline and actions.",
+          "region": "Car — physical scene and monthly commitment",
+          "state_shown": "Campaign illustration with no installed ad; not Maya's vehicle or an inventory asking price."
+        },
+        {
+          "technology": "Existing fixed navigation and measured spacer",
+          "height_or_size": "64px plus safe area",
+          "content": "Home, Activity, Earnings and Profile retain their current order. White surface, 1px divider, 20px icons, 14/18px labels and a 24×3px selected edge. No floating action or translucent navigation.",
+          "region": "Personal navigation",
+          "state_shown": "Home selected."
+        }
+      ],
+      "removed_or_hidden": [
+        "Remove the single enclosing Recreate shape; its source and commitment become two joined, offset planes.",
+        "Remove the Story's full-height rule and rounded poster treatment. Keep the creative itself unchanged.",
+        "No new visible copy, reference-video invention, balance banner, popularity signal or extra earning category.",
+        "Guides, eligibility editing, application, gross/fee/net details and proof requirements stay in existing detail destinations."
+      ],
+      "implementation_steps": [
+        "Preserve the shell, ranking and first-fold controls. Implement the 12px stepped Recreate geometry before changing any other feed dimensions.",
+        "Separate source and commitment DOM regions so one selected image can transition without moving money or the entire article.",
+        "Apply the Story and Car offset rules without creating a shared generic card wrapper.",
+        "Retain the actual still-reference branch. Only render video behavior when the bound source is genuinely playable.",
+        "Connect Save, Activity Saved and detail application to the shared existing store and failure scenarios.",
+        "Capture first fold, full Story, full Car, saved feedback, save failure, external reference, large amount and enlarged text."
+      ],
+      "media": [
+        "portrait-maya-01: unchanged 28px circular shell avatar.",
+        "reference-loopday-01: existing 9:16 still contained at 160×284px, original available through Inspect reference.",
+        "story-loopday-01: identical finished 9:16 creative at 144×256px, square source-sheet edge and restrained source shadow.",
+        "campaign-car-context-01: existing 3:2 source at 358×239px, source-faithful color.",
+        "Existing supplied car artwork and rear-door SVG remain detail-only. No new video, vehicle model or background."
+      ],
+      "motion_and_interaction": [
+        "Opening work may use a 280ms transition of its one source image into the detail. The stepped commitment, amount and shell remain still. Unsupported browsers use a 140ms fade.",
+        "Save displays Saving… within the existing action target while pending. After the adapter response, Saved replaces Save over 140ms and the bookmark gains the accent. Failure retains the prior state and exposes the existing retry feedback.",
+        "Filter changes retain the 180ms edge and 140ms confirmed-results transition. Do not visually relabel stale results as a new filter.",
+        "The current still does not autoplay. A future directly playable reference may preview once, muted, after 75% visibility for 500ms, for at most 6 seconds; stop below 50% visibility or on tab hide.",
+        "Story and Car do not tilt, bob or zoom during scrolling. Their depth is compositional. Original inspection and source handoffs provide the activity.",
+        "Reduced motion removes source geometry transitions and autoplay while preserving all status and action feedback."
+      ],
+      "three_second_read": "Film this reference for $65 per approved video; the supplied Story is next, with a different commitment. The work and pay belong together.",
+      "route": "/design-lab/user-home",
+      "name": "User Home",
+      "what_changes_from_current": [
+        "Make the already successful Recreate split an actual offset joint rather than one rounded rectangle containing two colors.",
+        "Give Story a credible supplied-sheet treatment and a shorter payment edge instead of a tall generic accent rule.",
+        "Inset the Car caption by 12px so the monthly commitment shares the signature without borrowing Recreate's composition.",
+        "Improve selected-source continuity and response-confirmed Save feedback, rather than adding ambient animation to still media.",
+        "Keep the same amount prominence, copy, controls, ranking and progressive disclosure."
+      ],
+      "phone": [
+        "The refined Recreate ends at y=532, its actions at y=620 and Story begins near y=644. Do not compress conditions to recover the old 12px.",
+        "At 320px, retain the existing Kind wrapping behavior. Stack source and commitment when the remaining text width or actual formatted amount no longer fits.",
+        "At enlarged text, all stated heights become minimums. Amounts, basis labels and deadlines may never clip or ellipsize.",
+        "Keep the fixed-navigation spacer so every final action remains reachable above the 64px bar and safe area."
+      ],
+      "money": "Keep $65.00 white on the cobalt Recreate ledge, $35.00 ink beside the intact Story and $240.00 ink in the attached Car caption with per month. Preserve the exact gross/fee/net detail values of 6500/650/5850 cents for Recreate; do not infer a universal percentage. No amount is animated, truncated, converted to take-home or replaced with zero while fetching.",
+      "mock_data": [
+        "No new fixture records. Preserve demo-recreate-01, demo-story-01, demo-car-campaign-01 and demo-submission-09 in their existing explicit ranking.",
+        "Save and application mutations retain their existing adapter behavior, including failure and Waiting for acceptance.",
+        "The current reference media type remains still."
+      ],
+      "viewport": "phone 390x844"
+    }
+  ],
+  "tokens": {
+    "radius": "Structural planes, payment ledges, financial regions and inspectors: 0px. Ordinary source media: 4px. Supplied Story sheets: 0px. Controls and business initials: keep 8px. Menus/dialogs: keep 12px. Phone sheets: keep 16px top corners. Small avatars remain circular; the Profile identity photograph is the explicit 4:5, 4px-radius exception. Public device radii remain 30px outer and 24px viewport.",
+    "mark": "Keep the exact SVG viewBox 0 0 32 32 and paths M3 3H19V9H9V23H3Z and M13 23H23V9H29V29H13Z. Keep 28px mark, 8px gap, TapMart in Archivo 700 at 30/32px, tracking −0.04em, and 12px clear space. Use #2450E8 on light and #AFC8FF on graphite. Header and footer match. No tile, rotation, outline redraw or animated logo. The new 12/24px source-to-decision offset gives the existing mark a product-level counterpart.",
+    "typography": [
+      {
+        "face": "Archivo",
+        "weights": "Variable 600–800; 800 hero, 780 public chapters, 700 identity/headings/money/wordmark",
+        "google_fonts": true,
+        "role": "Display, identity, headings and monetary values"
+      },
+      {
+        "face": "IBM Plex Sans",
+        "weights": "400, 500, 600",
+        "google_fonts": true,
+        "role": "Operational copy, navigation, captions, provenance, forms and controls"
+      }
+    ],
+    "motion": [
+      {
+        "trigger": "Control hover, press or activation",
+        "reduced_motion": "Color feedback up to 80ms; no displacement",
+        "name": "Direct feedback",
+        "duration_ms": "140",
+        "easing": "cubic-bezier(0.22,1,0.36,1)",
+        "what_it_explains": "The actual control is actionable; focus appears immediately."
+      },
+      {
+        "trigger": "A confirmed local-view or filter change",
+        "reduced_motion": "Immediate edge and results replacement",
+        "name": "Selection edge",
+        "duration_ms": "180 edge; 140 results",
+        "easing": "cubic-bezier(0.22,1,0.36,1)",
+        "what_it_explains": "Connects the chosen view to its returned content without mixing records."
+      },
+      {
+        "trigger": "Opening the same selected source in detail",
+        "reduced_motion": "100ms maximum fade; no geometry interpolation",
+        "name": "Source-to-decision continuity",
+        "duration_ms": "280; 140 fallback",
+        "easing": "cubic-bezier(0.22,1,0.36,1)",
+        "what_it_explains": "The inspected source is the one selected. Money and the navigation shell remain still."
+      },
+      {
+        "trigger": "Explicit gallery or public business-demo mode selection",
+        "reduced_motion": "Replace once the next source is ready",
+        "name": "Source handoff",
+        "duration_ms": "180",
+        "easing": "cubic-bezier(0.22,1,0.36,1)",
+        "what_it_explains": "Changes the source in a stable inspection location; metadata changes with its record."
+      },
+      {
+        "trigger": "Actual mutation response",
+        "reduced_motion": "Immediate literal state and accessible announcement",
+        "name": "Recorded decision",
+        "duration_ms": "140; optional 1200 highlight",
+        "easing": "linear",
+        "what_it_explains": "A real demo or backend record changed, not a visual prediction."
+      },
+      {
+        "trigger": "Opening or closing an existing task sheet",
+        "reduced_motion": "Immediate appearance or 80ms opacity",
+        "name": "Task-edge sheet",
+        "duration_ms": "320 enter; 200 exit",
+        "easing": "cubic-bezier(0.22,1,0.36,1) enter; cubic-bezier(0.4,0,1,1) exit",
+        "what_it_explains": "A temporary decision enters from the task edge, translating no more than 48px."
+      },
+      {
+        "trigger": "Native desktop public-chapter scrolling",
+        "reduced_motion": "Complete content-height chapters; no pinning or translation",
+        "name": "Frame handoff",
+        "duration_ms": "Scroll-linked over 360px; 120px local pin at the target viewport",
+        "easing": "linear; no timed lag",
+        "what_it_explains": "A source becomes understandable work while its commitment stays fixed. It never represents backend progress."
+      },
+      {
+        "trigger": "Ribbon or shelf Previous/Next",
+        "reduced_motion": "Immediate native scroll position change",
+        "name": "Browse another opportunity",
+        "duration_ms": "220",
+        "easing": "cubic-bezier(0.22,1,0.36,1)",
+        "what_it_explains": "Reveals the next actual item without re-ranking or a social-feed entrance."
+      },
+      {
+        "trigger": "Eligible genuine reference video reaches visibility threshold",
+        "reduced_motion": "Poster and explicit Play",
+        "name": "Bounded work preview",
+        "duration_ms": "500 dwell; maximum 6000 playback",
+        "easing": "Native playback",
+        "what_it_explains": "Shows the supplied reference, not an earnings promise. Inactive for the present still fixture."
+      },
+      {
+        "trigger": "An actual model loads or its controls are operated",
+        "reduced_motion": "Immediate appearance/reset; explicit rotation still works",
+        "name": "Physical inspection",
+        "duration_ms": "180 appearance; 220 reset",
+        "easing": "cubic-bezier(0.22,1,0.36,1); direct orbit has no tween",
+        "what_it_explains": "Another view of the same real vehicle, with no automatic spin or simulated reconstruction."
+      }
+    ],
+    "shadows": "Ordinary app regions, discovery spreads, money and rail: none. Source Story only: 0 6px 16px #10182018. Public phone: 0 18px 40px #10182024. Menus/dialogs: 0 16px 40px #10182029. Modal scrim: #101820 at 48%. No stacked ambient shadows, glass blur or moving shadows.",
+    "colors": [
+      {
+        "css_var": "--tm-canvas",
+        "hex": "#F4F3EF",
+        "name": "mineral canvas",
+        "role": "Neutral, slightly warmer working canvas; distinguishes source paper from cool graphite without a beige lifestyle theme."
+      },
+      {
+        "css_var": "--tm-surface",
+        "hex": "#FFFFFF",
+        "name": "surface",
+        "role": "Forms, inspectors and financial reading."
+      },
+      {
+        "css_var": "--tm-underlay",
+        "hex": "#E7E7E2",
+        "name": "underlay",
+        "role": "Actual letterboxing and physical-inventory backing."
+      },
+      {
+        "css_var": "--tm-ink",
+        "hex": "#151B23",
+        "name": "ink",
+        "role": "Primary text and light-surface amounts."
+      },
+      {
+        "css_var": "--tm-muted",
+        "hex": "#526171",
+        "name": "muted",
+        "role": "Supporting light-surface text."
+      },
+      {
+        "css_var": "--tm-divider",
+        "hex": "#CFD3D1",
+        "name": "divider",
+        "role": "Decorative separators, never necessary control boundaries."
+      },
+      {
+        "css_var": "--tm-control-border",
+        "hex": "#788595",
+        "name": "control border",
+        "role": "Necessary boundaries on light surfaces."
+      },
+      {
+        "css_var": "--tm-graphite",
+        "hex": "#101820",
+        "name": "graphite",
+        "role": "Identity, navigation and making/inspection planes."
+      },
+      {
+        "css_var": "--tm-stage",
+        "hex": "#1D2833",
+        "name": "stage",
+        "role": "Secondary dark inspection surfaces."
+      },
+      {
+        "css_var": "--tm-on-dark",
+        "hex": "#F6F8FB",
+        "name": "on dark",
+        "role": "Primary dark-surface text."
+      },
+      {
+        "css_var": "--tm-muted-dark",
+        "hex": "#B3C0CE",
+        "name": "muted dark",
+        "role": "Supporting dark-surface text."
+      },
+      {
+        "css_var": "--tm-control-border-dark",
+        "hex": "#6E8194",
+        "name": "dark control border",
+        "role": "Necessary boundaries on graphite."
+      },
+      {
+        "css_var": "--tm-accent",
+        "hex": "#2450E8",
+        "name": "cobalt",
+        "role": "Primary decision, selection and Recreate commitment edge; not a success color."
+      },
+      {
+        "css_var": "--tm-accent-hover",
+        "hex": "#193CC4",
+        "name": "accent hover",
+        "role": "Primary-action hover."
+      },
+      {
+        "css_var": "--tm-accent-pressed",
+        "hex": "#1634AD",
+        "name": "accent pressed",
+        "role": "Primary-action press."
+      },
+      {
+        "css_var": "--tm-accent-wash",
+        "hex": "#E7EDFF",
+        "name": "accent wash",
+        "role": "Brief confirmed-update highlight."
+      },
+      {
+        "css_var": "--tm-focus-dark",
+        "hex": "#AFC8FF",
+        "name": "dark focus",
+        "role": "Dark-surface focus and the existing reversed mark."
+      },
+      {
+        "css_var": "--tm-confirmed",
+        "hex": "#176B4B",
+        "name": "confirmed",
+        "role": "Literal confirmed status with text."
+      },
+      {
+        "css_var": "--tm-waiting",
+        "hex": "#845600",
+        "name": "waiting",
+        "role": "Literal waiting or attention status."
+      },
+      {
+        "css_var": "--tm-problem",
+        "hex": "#B12B3F",
+        "name": "problem",
+        "role": "Errors, failed publication and destructive confirmation."
+      },
+      {
+        "css_var": "--tm-studio-floor",
+        "hex": "#D9E1E9",
+        "name": "studio floor",
+        "role": "Real-model ground plane only; not a fake photographic backdrop."
+      }
+    ],
+    "type_scale": [
+      {
+        "phone": "48/48px; 40/42px at 320–359px",
+        "weight": "Archivo 800",
+        "desktop": "104/96px; 72/72px below 1200px",
+        "tracking": "-0.05em",
+        "role": "Public hero"
+      },
+      {
+        "phone": "36/38px",
+        "weight": "Archivo 780",
+        "desktop": "88/84px earning chapters; 64/64px other public sections",
+        "tracking": "-0.04em",
+        "role": "Public chapter heading"
+      },
+      {
+        "phone": "30/36px",
+        "weight": "Archivo 700",
+        "desktop": "36/40px",
+        "tracking": "-0.03em",
+        "role": "Application page title"
+      },
+      {
+        "phone": "30/32px Profile identity; 26/30px detail",
+        "weight": "Archivo 700",
+        "desktop": "32/36px",
+        "tracking": "-0.03em",
+        "role": "Person identity"
+      },
+      {
+        "phone": "22/28px",
+        "weight": "Archivo 700",
+        "desktop": "24/30px",
+        "tracking": "-0.02em",
+        "role": "Application section heading"
+      },
+      {
+        "phone": "30/34px",
+        "weight": "Archivo 700, tabular lining numerals",
+        "desktop": "34/38px",
+        "tracking": "-0.02em",
+        "role": "Opportunity pay"
+      },
+      {
+        "phone": "36/40px",
+        "weight": "Archivo 700, tabular lining numerals",
+        "desktop": "44/48px",
+        "tracking": "-0.025em",
+        "role": "Detail payment"
+      },
+      {
+        "phone": "44/48px",
+        "weight": "Archivo 700, tabular lining numerals",
+        "desktop": "56/60px",
+        "tracking": "-0.03em",
+        "role": "Available Earnings balance"
+      },
+      {
+        "phone": "28/32px",
+        "weight": "Archivo 700, tabular lining numerals",
+        "desktop": "32/36px",
+        "tracking": "-0.02em",
+        "role": "Profile record"
+      },
+      {
+        "phone": "18/24px",
+        "weight": "IBM Plex Sans 500",
+        "desktop": "18/24px",
+        "tracking": "0",
+        "role": "Task title and important instruction"
+      },
+      {
+        "phone": "16/24px",
+        "weight": "IBM Plex Sans 400; 500 emphasis",
+        "desktop": "16/24px",
+        "tracking": "0",
+        "role": "Body and form input"
+      },
+      {
+        "phone": "16/20px",
+        "weight": "IBM Plex Sans 600",
+        "desktop": "16/20px",
+        "tracking": "0",
+        "role": "Button and action"
+      },
+      {
+        "phone": "14/20px",
+        "weight": "IBM Plex Sans 400; 500 labels",
+        "desktop": "14/20px",
+        "tracking": "0",
+        "role": "Metadata, status, payment basis and provenance"
+      },
+      {
+        "phone": "14/18px",
+        "weight": "IBM Plex Sans 500; 600 selected",
+        "desktop": "16/20px",
+        "tracking": "0",
+        "role": "Permanent navigation"
+      }
+    ]
+  },
+  "founder_read": "Frame Shift's product logic is approved; its recognizability is not. I will keep the destinations, work types, money meanings, content service, real statuses and progressive disclosure. I will change the scale and relationship of sources, turn the offset mark into a repeatable product joint, replace the public page's sparse explanations with complete working demonstrations, make business discovery desirable rather than record-like, and give identity and the small vehicle capability a stronger presence. I will not buy distinctiveness with more copy, fake activity, invented proof, arbitrary new colors or a car-showroom interface.",
+  "assets": [],
+  "system_refinements": [
+    {
+      "area": "accent",
+      "current": "Cobalt #2450E8 with hover #193CC4 and pressed #1634AD.",
+      "refined": "Keep those exact values. Concentrate cobalt on primary decisions, selected edges and the Recreate commitment. Repeated secondary inspection links remain ink.",
+      "keep": true,
+      "why": "The existing cobalt is already recognizable. More disciplined placement builds recognition better than substituting another fashionable accent."
+    },
+    {
+      "area": "background_temperature",
+      "current": "Canvas #F2F5F7, underlay #E6EBF0 and divider #CBD3DD produce a uniformly cool grey field.",
+      "refined": "Canvas #F4F3EF, underlay #E7E7E2, divider #CFD3D1. White working surfaces remain #FFFFFF. No texture or gradient wallpaper.",
+      "keep": false,
+      "why": "A restrained mineral neutral separates supplied paper, photography and white working UI. It removes the directory-like grey cast without turning TapMart into a warm lifestyle brand."
+    },
+    {
+      "area": "graphite",
+      "current": "#101820 identity/navigation/media housings and #1D2833 secondary stages.",
+      "refined": "Keep exact colors. Extend graphite to the complete public Recreate workbench, not arbitrary alternating marketing sections.",
+      "keep": true,
+      "why": "Darkness continues to mean identity, making or inspection. Its stronger public use connects the campaign object to the brand rather than creating a separate marketing theme."
+    },
+    {
+      "area": "typography",
+      "current": "Archivo and IBM Plex Sans; hero 96/92px, public chapters 64/64px, Profile name 26/30px.",
+      "refined": "Keep both families. Hero 104/96px Archivo 800, −0.05em; earning chapters 88/84px Archivo 780, −0.04em; Profile name 30/32px Archivo 700. Operational sizes and money weights remain unchanged.",
+      "keep": false,
+      "why": "Larger, tighter public verbs and a stronger person name add personality without introducing an unrelated editorial font or sacrificing working legibility."
+    },
+    {
+      "area": "shape",
+      "current": "6px media, 8px controls, mostly rectangular joins and a circular Profile portrait.",
+      "refined": "Media 4px; supplied Story 0px; controls remain 8px. Structural offset is 12px phone and 24px desktop/public. Profile identity photograph is 104×130px with 4px corners and a 12px masthead crossing.",
+      "keep": false,
+      "why": "The open corner becomes actual composition, not a decorative logo stamp. Different work materials retain different silhouettes."
+    },
+    {
+      "area": "spacing",
+      "current": "4px base scale; 16px phone, 32px desktop-app and 48px public gutters; broad public section gaps.",
+      "refined": "Keep gutters, rail and base scale. Add semantic --tm-shift-phone:12px and --tm-shift-desktop:24px. Public phone section padding becomes 48px; desktop chapter spacing is replaced by the specified local 900/780px composition.",
+      "keep": false,
+      "why": "Useful overlap and occupied stages replace empty minimalism. The working app grid does not need reinvention."
+    },
+    {
+      "area": "media_framing",
+      "current": "Business portrait-format samples sit inside wide landscape underlays; public media is small relative to its sections.",
+      "refined": "Use source-ratio open spreads in Business Home, enlarged source assemblies in public chapters, intact creatives and evidence, and attached rather than overlaid financial captions.",
+      "keep": false,
+      "why": "The specific source becomes the visual identity. Grey containers no longer dominate the person or their work."
+    },
+    {
+      "area": "mark",
+      "current": "Two offset frame halves, 28px mark with Archivo wordmark.",
+      "refined": "Keep the exact paths, proportions, colors and 8px gap. Match header/footer. Do not add logo animation or repeat the mark beside headings.",
+      "keep": true,
+      "why": "The mark was not the problem; it lacked a consistent spatial counterpart in the product. The new joint supplies that counterpart."
+    },
+    {
+      "area": "motion",
+      "current": "Mostly static public scenes; a shared stage changes source, with at most 24px travel.",
+      "refined": "Locally pinned complete chapters, 360px progress distance and 120px pin at 1440×900. Source motion may reach 80px horizontally and the reference may scale between specified sizes. Money and backend states never animate with scroll.",
+      "keep": false,
+      "why": "Motion now explains reference, work and commitment instead of merely fading illustrations. It is bounded, reversible and unnecessary for comprehension."
+    },
+    {
+      "area": "depth",
+      "current": "Shallow Story shadow and phone shadow; a large passive hero underlay.",
+      "refined": "Remove passive underlay. Use real 12/24px source-to-fact offsets, Story shadow 0 6px 16px #10182018, and the existing public-phone shadow. No app card shadows.",
+      "keep": false,
+      "why": "Depth belongs to the supplied object or a real overlap, not a collection of elevated containers."
+    },
+    {
+      "area": "iconography",
+      "current": "Lucide, 1.75px stroke, 20px navigation and 24px media controls.",
+      "refined": "Keep exact sizes and stroke. Maintain 44px targets, visible labels for money/status/unfamiliar commands and fully opaque reference controls.",
+      "keep": true,
+      "why": "Familiar controls protect usability while composition carries the distinctive behavior."
+    },
+    {
+      "area": "other",
+      "current": "Explicit provenance, independent backend states, fixed financial semantics and accessible fallbacks.",
+      "refined": "Keep all semantics. Focus remains 3px cobalt with 3px offset, #AFC8FF on graphite, and white separation around cobalt controls. Validate text contrast on the new neutral surfaces. All new motion has a complete static composition.",
+      "keep": true,
+      "why": "Honesty is part of the product's premium character. Distinctiveness must survive missing media, absent models and failed requests."
+    }
+  ],
+  "vehicle_moment": {
+    "when_it_does_not": "Build the photo version now. Maya's model_url remains null. Profile uses vehicle-maya-01 contained at 184×123px inside the 184×136px source reservation, with source-faithful color, a 12px-lower factual plane, View vehicle and Smart Vehicle · Photos only. Vehicle detail states No 3D model available. A waiting_provider fixture retains the saved photo and its literal status in detail. No canvas, View 3D control, synthetic alternate angle, fake scan or substitute Corolla model is rendered.",
+    "why_it_is_not_a_car_app": "It is one modest capability after identity, record, Instagram and verification. The root shows one small source and factual vehicle identity, not a configurator or earning forecast. There is no default orbit, color choice, zone painting, fullscreen showroom or car-specific navigation. Models improve inspection of existing advertising inventory; they are not the product's organizing idea.",
+    "when_a_real_model_exists": "Only an identity-matched, permitted provider model unlocks View 3D. Reuse the 184×136px Profile reservation; load on activation and keep labels outside the canvas. Provide 44px Rotate left/right controls in 15-degree steps, Reset, Photos and the existing larger viewer. Root preview has no free pointer orbit. In the larger viewer, explicit Interact enables orbit, with Done interacting on touch, elevation 10–75 degrees and no pan. Normalize longest dimension to 3.2 scene units, ground at y=0, camera FOV 32, near 0.1, far 50, 15% fitting margin, initial direction proportional to (4.6,2.2,5.4). Preserve source materials. Use matte #D9E1E9 ground, white key at (4,6,5) intensity 3, hemisphere fill 0.9 and white rim at (−4,3,−2) intensity 1.2; ACESFilmic, exposure 1, sRGB and one 512px shadow map. No automatic spin, inertia, artwork projection or simulated reconstruction. Dynamically import three.js/GLTFLoader only after activation, one canvas at a time, DPR capped at 1.5, render on demand, 30fps phone interaction cap. Target 2MB model, 150k triangles and two 1024px textures; otherwise keep photos. A public model may appear only when the public example has the same actual vehicle identity and permission, never as a substitute for the campaign illustration."
+  },
+  "self_critique": [
+    "My previous high scores rewarded fidelity to Frame Shift more than final ownability. These specifications are a stronger direction, not proof that recognition, premium feel and usability now score nine. The next judgment must use real stills and interaction recordings.",
+    "The offset joint could become another decorative motif. I limited it to source-to-decision relationships and one identity boundary; it must not appear on ordinary settings rows, every heading or every button.",
+    "Horizontal people browsing could hide inventory. The full People view remains, controls are visible, order is unchanged and the first three spreads exactly fill the desktop field. If native scrolling or keyboard discovery is weak, fix that before adding animation.",
+    "The public choreography could still feel like a presentation trick. Every chapter therefore begins complete, remains complete at rest and contains real product UI. Scroll changes composition, never acceptance, approval or money.",
+    "There is no real video or vehicle model in these fixtures. Rather than promise a cinematic state the engineer cannot honestly build, the baseline depends on strong existing photographs and working HTML. Optional media is genuinely optional.",
+    "The warmer neutral could drift into a generic editorial marketplace. Cobalt and graphite stay unchanged, copy stays operational, and recognition must come from the three distinct work compositions and fixed commitment edge."
+  ],
+  "signature": {
+    "what_it_is_not": [
+      "Not a logo pasted onto generic cards or corner brackets decorating every section.",
+      "Not an Instagram or TikTok feed: no popularity hierarchy, endless autoplay, reactions or swipe-to-next work.",
+      "Not a car app: no dominant vehicle hero in Profile, default model, configurator or fake scan.",
+      "Not a directory: people are encountered through specific work and a named request, not a stack of identity metadata.",
+      "Not AI spectacle: no neon, blobs, decorative 3D, invented proof, fake installed ads or progress theatre.",
+      "Not motion-dependent: a paused or reduced-motion screenshot must still show source, conditions and next action."
+    ],
+    "idea": "Frame Shift becomes a source-to-commitment joint. A real source begins on one plane; the useful decision starts 12px later on phone or 24px later on desktop, leaving the open corner already present in the TapMart mark. The source may change scale or move into inspection, but the commitment stays still. Recreate joins a reference to graphite and cobalt conditional pay, Story treats supplied creative as an intact sheet beside eligibility and ink terms, and Car ends a physical scene in a monthly caption. Public storytelling enlarges this same relationship until reference, human work and working UI occupy the page together. The signature is the relationship between objects, not a new decorative layer.",
+    "rules": [
+      "Use one offset at a meaningful source-to-fact boundary: 12px phone, 24px desktop. Do not add a branded notch where no source is changing into a decision.",
+      "Keep the source identifiable and inspectable. Creative, evidence, delivered files and actual vehicle identity are never interchangeable.",
+      "Money is the anchor: no count-up, parallax, scale transition, animated total or scroll-driven status change.",
+      "Preserve three silhouettes: Recreate joined split; Story free supplied sheet and narrow commitment; Car landscape and attached monthly caption.",
+      "On public desktop, every chapter owns a complete source assembly and a native-size product edge. No shared floating stage may leave later chapters empty.",
+      "People discovery uses actual work at its own ratio, strong identity and a clear named request. Reputation is detail, not the visual subject.",
+      "The mark stays exact and restrained. Recognition comes from encountering its spatial logic throughout the product.",
+      "Use depth only for a source object, a purposeful overlap or temporary UI. Ordinary records, balances and navigation do not float.",
+      "When a source, model or permission is absent, show its honest compact state. The design must remain finished without replacement theatre."
+    ]
+  },
+  "business_content_consistency": [
+    "Keep the entire layout, 816px media field, 24px gap, 336px inspector, 420px stage, filmstrip and all service-state logic.",
+    "Apply the refined canvas, underlay and divider tokens. Preserve source-faithful originals, graphite stage and white inspector.",
+    "Set ordinary media corners to 4px and inspector corners to 0px. Keep controls at 8px; do not introduce the public offset into the review layout.",
+    "Verify Approved remains muted and the separate Post failed uses #B12B3F at 14/20px, wrapping within the existing thumbnail caption.",
+    "Keep Skip and Open original in ink, Approve content as the cobalt primary action and all existing action targets.",
+    "Use the same confirmed-state and selected-source transitions as the refined system. Approval never becomes publication or payment.",
+    "Update only the shared rail lockup/selector consistency and regenerate public fallbacks after these changes. No structural Content redesign."
+  ],
+  "diagnosis": [
+    "Public desktop: the hero communicates the promise, but the photograph and phone remain an illustration beside a headline rather than a strong working junction. The supplied full-page capture shows Recreate media followed by large unoccupied Post and Drive regions. A full-page image alone cannot establish whether sticky switching works during scrolling, but the composition plainly does not survive as a continuous visual story. The two small business screenshots then return the page to conventional SaaS explanation.",
+    "Public phone: the order and task language are clear. However, the chapters mostly show a source followed by See an example; eligibility, earning UI and monthly work are elsewhere. The business screenshots become tiny contact sheets. It is an attractive explanation of a product rather than a visible demonstration of TapMart's specific decisions.",
+    "Business Home: repeated portrait/work pairs, grey landscape letterboxes and three metadata lines still read as directory records. Portrait-format work occupies too little of its allotted field, direct requests are hidden, and cars arrive as a heading and a thin photo strip in the first viewport. My earlier proposal to shrink portraits treated the symptom, not this composition.",
+    "User Profile: the graphite masthead and record strip are successful, but the circular avatar plus chevron rows remain familiar account-profile grammar. The vehicle is a photo beside specifications, not yet a distinctive capability. The screen needs a stronger identity boundary and a modest source-to-model presentation, not more sections.",
+    "User Home: this is the strongest foundation after Content. The three earning kinds already differ and payment is clear. The remaining generic quality is the enclosing Recreate rectangle, the full-height Story rule and the passive transitions—not missing information or a need for more media claims.",
+    "Business Content: the actual source, stable inspector and separate approval/publication states already make the task specific. A new composition here would weaken the strongest screen. Only shared tokens and the small finishing checks should change."
+  ]
+}

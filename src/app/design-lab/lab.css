@@ -5,12 +5,12 @@
   specified; radii, rail, inspector, easing and durations are tokens too.
 */
 .lab {
-  --tm-canvas: #F2F5F7;
+  --tm-canvas: #F4F3EF;
   --tm-surface: #FFFFFF;
-  --tm-underlay: #E6EBF0;
+  --tm-underlay: #E7E7E2;
   --tm-ink: #151B23;
   --tm-muted: #526171;
-  --tm-divider: #CBD3DD;
+  --tm-divider: #CFD3D1;
   --tm-control-border: #788595;
   --tm-graphite: #101820;
   --tm-stage: #1D2833;
@@ -27,7 +27,9 @@
   --tm-problem: #B12B3F;
   --tm-studio-floor: #D9E1E9;
 
-  --tm-radius-media: 6px;
+  --tm-radius-media: 4px;
+  --tm-shift-phone: 12px;
+  --tm-shift-desktop: 24px;
   --tm-radius-control: 8px;
   --tm-radius-overlay: 12px;
   --tm-radius-sheet: 16px;
@@ -40,7 +42,7 @@
   --tm-t-continuity: 280ms;
   --tm-t-sheet: 320ms;
 
-  --tm-shadow-source: 0 4px 12px #10182014;
+  --tm-shadow-source: 0 6px 16px #10182018;
   --tm-shadow-overlay: 0 16px 40px #10182029;
   --tm-shadow-device: 0 18px 40px #10182024;
 
@@ -65,7 +67,7 @@
 .lab .t-display { font-family: var(--font-display), Archivo, system-ui, sans-serif; }
 .lab .t-page { font-family: var(--font-display), Archivo, sans-serif; font-weight: 700; font-size: 30px; line-height: 36px; letter-spacing: -0.03em; }
 .lab .t-section { font-family: var(--font-display), Archivo, sans-serif; font-weight: 700; font-size: 22px; line-height: 28px; letter-spacing: -0.02em; }
-.lab .t-identity { font-family: var(--font-display), Archivo, sans-serif; font-weight: 700; font-size: 26px; line-height: 30px; letter-spacing: -0.025em; }
+.lab .t-identity { font-family: var(--font-display), Archivo, sans-serif; font-weight: 700; font-size: 30px; line-height: 32px; letter-spacing: -0.03em; }
 .lab .t-task { font-weight: 500; font-size: 18px; line-height: 24px; }
 .lab .t-body { font-weight: 400; font-size: 16px; line-height: 24px; }
 .lab .t-meta { font-weight: 400; font-size: 14px; line-height: 20px; color: var(--tm-muted); }
@@ -129,13 +131,6 @@
   background: var(--tm-surface); border-top: 1px solid var(--tm-divider);
   max-width: 480px; margin: 0 auto;
 }
-/* Embedded screens (the public page's live demonstrations): fixed logical size, tab bar and rail contained. */
-.lab .embed .phone { min-height: 0; height: 844px; max-width: none; position: relative; overflow: hidden; }
-.lab .embed .phone-main { overflow: hidden; }
-.lab .embed .tabbar { position: absolute; max-width: none; }
-.lab .embed .desk { display: block; position: relative; min-height: 0; height: 900px; overflow: hidden; }
-.lab .embed .rail { position: absolute; top: 0; left: 0; height: 900px; width: 200px; box-sizing: border-box; }
-.lab .embed .desk-main { margin-left: 200px; overflow: hidden; height: 900px; }
 .lab .tabbar a { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 64px; font-size: 14px; line-height: 18px; font-weight: 500; color: var(--tm-muted); }
 .lab .tabbar a[aria-current="page"] { color: var(--tm-ink); font-weight: 600; }
 .lab .tabbar a[aria-current="page"]::before { content: ""; position: absolute; top: 0; width: 24px; height: 3px; background: var(--tm-accent); }
@@ -161,12 +156,16 @@
 .lab .op-recreate { grid-template-columns: 160px minmax(0, 1fr); }
 .lab .op-story { grid-template-columns: 198px 144px; }
 @media (max-width: 359px) {
+  .lab .identity-plate, .lab .vehicle-assembly { grid-template-columns: 1fr !important; }
+  .lab .vehicle-assembly > div:last-child { margin-top: 0 !important; }
   .lab .filters { flex-wrap: wrap; height: auto; }
   .lab .filters .kind { margin-left: 0; flex-basis: 100%; margin-top: 8px; }
   .lab .op-recreate { grid-template-columns: 1fr; }
   .lab .op-recreate > :first-child { width: 100% !important; height: auto !important; aspect-ratio: 9 / 16; max-height: 320px; }
+  .lab .op-recreate > :last-child > div { width: 100% !important; }
   .lab .op-story { grid-template-columns: 1fr; }
   .lab .op-story .media { margin: 0 auto; }
+  .lab .op-story > :first-child, .lab .op-recreate > :last-child { margin-top: 0 !important; }
 }
 
 /* --------------------------------------------------------------- media */

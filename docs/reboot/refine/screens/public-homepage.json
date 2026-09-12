@@ -1,0 +1,161 @@
+{
+  "screen": "Public Homepage",
+  "model": "gpt-6-astra",
+  "when": "2026-09-12T09:02:15.766Z",
+  "spec": {
+    "what_makes_it_only_tapmart": "A photographic source physically hands off to a fixed, working commitment edge: reference to filming to conditional video pay; intact supplied artwork to Instagram eligibility to a work state; a vehicle to a separate placement concept to monthly campaign terms. The three changes of material are one continuous demonstration, not three marketing illustrations.",
+    "acceptance": [
+      "At 1440×900, the first fold contains the entire three-line headline, literal task explanation, equal audience actions, a large filming photograph, one upright implemented phone and the beginning of the graphite Recreate chapter.",
+      "The hero photograph is 624×416px, not the current 510×340px. Its meaningful filming action remains unobscured by the phone. The enlarged HTML payment excerpt is labeled Demo opportunity before its amount.",
+      "Every earning chapter contains all three explanatory objects in its default screenshot. Post and Drive cannot become empty regions in a full-page capture because another chapter owns the only media stage.",
+      "At a pinned chapter capture, the source assembly occupies 872px and its real product commitment occupies 448px, with a 24px junction. No oversized heading is used as a substitute for missing product demonstration.",
+      "Recreate shows a still reference, a filming illustration and the $65.00 per-approved-video UI. There is no fabricated video playback.",
+      "Post shows the unmodified Story, the explicitly manual Instagram state and the returned eligibility result, then the real open or applied work state. Scrolling never accepts the application.",
+      "Drive shows campaign-car-context-01, a separately labeled placement concept and the $240.00 per-month campaign. It does not imply that Maya's owned car has been booked or that an ad is installed.",
+      "The business section is one working demonstration with selectable Campaigns and Monthly content views. View person opens a named recipient; a demo approval changes only file approval, leaving publication separate.",
+      "On phone, every chapter is a complete vertical explanation with native-size HTML facts. There are no pinned regions, horizontal chapter carousels or miniature desktop inspectors.",
+      "The Get paid region distinguishes conditional work, available earnings and a requested payout. All values remain still. No requested payout is presented as paid.",
+      "Reduced motion and missing optional media produce finished compositions, not blank stages or instructions to enable animation."
+    ],
+    "choreography": [
+      "Desktop enhancement applies only at widths of at least 1200px and viewport heights of at least 800px. At 1440×900, each earning section is 900px high and contains its own 780px sticky panel, top:80px. The pin lasts 120px of native scrolling. Sections touch; there is no additional inter-chapter spacer.",
+      "For each chapter, let S be its document top. Progress p runs from 0 at scrollY=S−320 to 1 at scrollY=S+40, clamped across 360px. The first 240px occur during approach; the final 120px occur while pinned. The composition is complete before enhancement, and progress changes emphasis and source geometry only.",
+      "Recreate, p=0–0.4: the reference image scales from 224×398px to 176×313px around its top-left origin. Its native-size caption follows the image bottom. The filming photograph moves from x=248,y=32 to x=200,y=0 within the 872px source field. Both originals remain fully visible.",
+      "Recreate, p=0.4–0.8: the 24px structural joint behind the fixed work panel resolves from an exposed graphite edge to the cobalt payment edge. This is a background treatment, not a loading bar. From p=0.8–1, the assembly rests. The amount, conditions and action never translate or change state.",
+      "Post, p=0–0.4: the intact 288×512px Story moves horizontally from x=112 to x=32 within the source field. The eligibility block remains at x=448. From p=0.4–0.75, its white backing settles by 24px behind stationary text. From p=0.75–1, the fixed work panel remains the destination of the composition; no application or publication state advances.",
+      "Drive, p=0–0.45: the 640×427px vehicle photograph moves vertically from y=24 to y=0. From p=0.45–0.75, the separate placement diagram moves 24px into its reserved 208px field. From p=0.75–1, the monthly work panel rests. Artwork never moves onto the photographed vehicle.",
+      "No chapter exit fades its content away. The next chapter enters naturally as the previous local sticky panel releases. Background changes happen at these real section boundaries: graphite for making, mineral canvas for supplied creative, underlay for physical inventory.",
+      "The business demonstration is not scroll-controlled. Its two explicit mode buttons replace the selected workspace over 180ms, preserving selection within each mode. A focused or edited form cannot be replaced by scroll position.",
+      "Below the enhancement breakpoint, with reduced motion, or without JavaScript, use ordinary content-height sections containing the settled compositions. No pinning, translation, source scaling or reserved scroll runway."
+    ],
+    "composition": [
+      {
+        "technology": "Semantic React header; CSS sticky positioning",
+        "height_or_size": "1440×80px desktop; 48px horizontal gutters",
+        "content": "Keep the existing public destinations: Earn, For businesses, How it works, Sign in and Get started. Use the unchanged 28px mark and 30/32px wordmark. Header is mineral canvas with a 1px divider only after scrolling. Get started remains cobalt; all targets are at least 44px.",
+        "region": "Desktop public navigation",
+        "state_shown": "Signed-out Design Lab demonstration; no app rail or identity selector."
+      },
+      {
+        "technology": "CSS grid; foreground photograph; browser-produced phone capture; shared read-only money component",
+        "height_or_size": "Hero occupies y=80–800. Inner field 1344px: 520px text, 40px gap, 784px media.",
+        "content": "Text begins x=48,y=144. Headline is Recreate. / Post. Drive. / Get paid. at Archivo 800, 104/96px, tracking −0.05em. At y=456 place Film a Reel. Share a supplied Story. Advertise on your car. at 16/24px. Equal 254px audience actions begin y=520, with a 12px gap and 48px height. Conditions sit 12px below. Media field begins x=608,y=112 and is 784×656px. public-filming-01 is at local x=0,y=24, 624×416px. The single phone is at x=520,y=64, outer width 252px and height 542px. An attached 496×96px cobalt excerpt starts x=24,y=440: left, Demo opportunity and Your coffee pour; right, $65.00 and per approved video. It is built from the real fixture formatter. Generated filming illustration and Open earning example occupy the remaining lower-left space, outside the photograph.",
+        "region": "Desktop hero — the first source-to-commitment joint",
+        "state_shown": "Fictional open Recreate opportunity and an actual User Home capture. The photograph is an illustration, not evidence of completed work."
+      },
+      {
+        "technology": "Local CSS sticky panel; real shared work-summary HTML; contained images",
+        "height_or_size": "900px chapter with 780px panel. 1344px inner width: 872px source assembly, 24px gap, 448px commitment.",
+        "content": "Graphite panel. Recreate. is 88/84px at x=48, local y=24; Film your version of a business's Reel. is an 18/24px line beside it. Body begins local y=136. In the left field, the 224×398px reference starts x=0,y=0 and the 624×416px filming scene starts x=248,y=32. Native 14/20px source labels remain outside their pixels. The right field starts x=944 in the page and y=160 within the panel: a real Recreate commitment excerpt, 448px wide, with kind, task, business, conditional amount, spots, deadline and permitted detail action. Its square cobalt payment ledge is attached at the lower-right edge. A 44px example action and demo provenance finish the panel near y=728.",
+        "region": "Desktop Recreate chapter",
+        "state_shown": "Open demo work. Reference is explicitly a still. No generated filming scene is treated as a submission."
+      },
+      {
+        "technology": "CSS source-object depth; shared Instagram eligibility and Story work components",
+        "height_or_size": "Same 900/780px chapter geometry; 288×512px Story; 400px eligibility field; 448px work field",
+        "content": "Mineral canvas replaces graphite because the supplied creative is now the source object. Post. and Share the supplied Story. use the same heading and instruction roles. The intact Story starts at source-field x=112,y=0. At x=448,y=80, show the actual eligibility excerpt: Instagram · Manual, @maya.frame_demo, 1,420 followers, 1,000 required, and the returned demo eligibility result. Use ordinary 16/24px and 14/20px HTML, no Instagram imitation. The fixed right work panel shows Coffee break, $35.00, after 24h live and approval, the deadline and the existing application action. Story art remains unaltered and its shadow belongs only to the source sheet.",
+        "region": "Desktop Post chapter",
+        "state_shown": "Manual Instagram provenance and an explicit eligible demo permission, not API verification. Work is open until the application adapter returns a different state."
+      },
+      {
+        "technology": "Real source photo; deterministic SVG placement concept; shared monthly-campaign work component",
+        "height_or_size": "Same 900/780px chapter geometry; 640×427px photograph; separate 208×139px diagram; 448px work panel",
+        "content": "Underlay background. Drive. is paired with Carry an ad on your car. The left field contains campaign-car-context-01 at x=0,y=24. The rear-door concept occupies x=664,y=144 and is clearly separate from the photograph. Its caption is Placement concept: rear doors. Supplied artwork can be inspected within that diagram's destination; it is not composited onto the car. The right panel is the actual Bike-shop car ad summary: Spurroom Bikes, $240.00, per month, Rear doors · 60 days, Vehicle required, spots, deadline and work action. Caption the photograph Campaign visual · Demo · No installed ad.",
+        "region": "Desktop Drive chapter",
+        "state_shown": "An open campaign illustration, not owned inventory, a booking, installation evidence or a reconstructed vehicle."
+      },
+      {
+        "technology": "Shared React product components and demo adapter; explicit view transition",
+        "height_or_size": "64px section padding. Heading 64/64px. Demonstration width 1344px; 48px mode toolbar; 1176px centered working field with up to 620px content height and 24px vertical padding.",
+        "content": "Put your business out there. sits above one working stage, not two browser thumbnails. A 48px toolbar contains Campaigns, Monthly content and Demo product · Changes reset. Campaigns opens on the actual people gallery; View person replaces it with that person's existing portfolio-led detail and named request controls. Cars opens the actual offered-vehicle inspection. Monthly content mounts the existing media field and 336px inspector: Counter reset is New, the original is contained at 630×420px, and actual filmstrip sources remain below. The same approval, edit and schedule callbacks run against the isolated demo adapter. Keep a separate 48px Open full example link. Below the stage, retain the two unboxed inclusion rows and the campaign-spending exclusion.",
+        "region": "Business product demonstration",
+        "state_shown": "Campaign discovery and actual request entry, or one new delivered file with Post · Not scheduled. No request is sent or file approved until explicit activation."
+      },
+      {
+        "technology": "Semantic ordered explanation and existing read-only EarningsSummary",
+        "height_or_size": "64px vertical padding; desktop split 704px explanation, 48px gap, 592px earnings field",
+        "content": "Get paid. uses 64/64px. Keep the existing three steps and their short copy, arranged as an unboxed vertical sequence with 24px gaps rather than three remote columns. The white financial region begins 24px lower than the explanation, with square corners, 24px padding and no shadow. It reads Demo money · Not a customer result, Available earnings $78.40, Payout requested $50.00, then the existing fees, minimum and review conditions. The offset comes from the region's alignment, not floating money.",
+        "region": "Work decision to Earnings",
+        "state_shown": "Existing available-balance and requested-payout fixtures. No causal claim that the displayed $65.00 opportunity created this balance."
+      },
+      {
+        "technology": "Plain HTML and CSS",
+        "height_or_size": "Final choice: content height with 64px padding. Footer: 48px padding.",
+        "content": "Your next move. sits on graphite at 64/64px, followed by equal white secondary audience actions. Footer returns to mineral canvas, retaining the matching lockup, existing legal destinations, current year and Design Lab notice. No testimonial, partner or fabricated results section.",
+        "region": "Audience choice and footer",
+        "state_shown": "Intent-preserving links into existing earning or business onboarding."
+      },
+      {
+        "technology": "Normal document flow; responsive shared component excerpts",
+        "height_or_size": "Phone 390×844; 16px gutters; 358px content field; 48px chapter padding",
+        "content": "Header is 64px. Hero headline begins y=88 at 48/48px. Task explanation follows after 16px, equal 171px actions after another 16px, and conditions after 12px. Media begins after 24px: 260×173px filming image at x=0, one 152×327px phone at x=206, and a 194×88px read-only cobalt excerpt attached below the photo at x=12. Keep the filming action left of the overlap. Demo labeling and Open earning example follow in normal flow. Each chapter then renders its heading, source assembly, eligibility or placement when relevant, and a native 358px work excerpt. The business section presents Campaigns and Monthly content vertically, using responsive source/detail excerpts rather than shrunken desktop captures.",
+        "region": "Phone composition overrides",
+        "state_shown": "All explanations remain visible without scroll choreography or interaction. Only the hero uses a scaled phone capture."
+      }
+    ],
+    "removed_or_hidden": [
+      "Remove the long shared sticky column that leaves later chapter regions visually unoccupied in the supplied desktop full-page capture.",
+      "Remove the hero's large neutral backing slab. The enlarged photograph, attached real commitment excerpt and phone now supply the depth.",
+      "Remove the paired static business screenshots as the primary business explanation. Keep browser captures only as optional unavailable-JavaScript fallbacks, with native-size explanatory HTML.",
+      "No auto-clicking demo, simulated acceptance, generated reference video, installed-ad mockup, fake reconstruction, fabricated customer proof or payout celebration.",
+      "Do not add explanatory paragraphs to fill space. Use the existing task copy and the actual short product fields."
+    ],
+    "implementation_steps": [
+      "Build the hero and all three complete chapter assemblies without animation. Verify the still screenshots before adding pinning.",
+      "Regenerate capture-user-home-390 from the refined implemented route at 390×844. Use the existing deterministic phone frame; do not synthesize screen pixels.",
+      "Reuse real work-summary and eligibility components at native desktop sizes. Keep labels and controls outside images, with a visible demo scope.",
+      "Create one local sticky panel per chapter and implement the stated 360px progress mapping. Keep every panel mounted; limit the active media context with IntersectionObserver.",
+      "Bind Post to the existing manual Instagram record and explicit fixture permission. Application responses must use the existing applied/waiting state, never a presentation-only accepted state.",
+      "Use the campaign context vehicle in public Drive so its $240.00 monthly terms are not confused with Maya's $180.00 inventory asking price.",
+      "Mount the real business components in the isolated public-demo store. Mode changes are explicit. Preserve dirty forms, mutation failures and independent file/post statuses.",
+      "Build phone-specific native excerpts before testing tablet. Do not solve small screens by scaling an entire working inspector.",
+      "Test ordinary scrolling, reverse scrolling, keyboard navigation, reduced motion and no JavaScript. Record the business request and content-approval interactions as well as the visual choreography."
+    ],
+    "media": [
+      "public-filming-01: existing 3:2 illustration, 624×416px in desktop hero and Recreate; 260×173px in phone hero; source-faithful color and protected filming focal point.",
+      "capture-user-home-390: regenerated browser capture, 390:844 viewport inside the existing 402×864 logical device. Outer display widths 252px desktop and 152px phone.",
+      "reference-loopday-01: existing 9:16 still, 224×398px to 176×313px in the enhanced desktop chapter; 112×199px on phone. Original remains inspectable.",
+      "story-loopday-01: existing finished 9:16 master, 288×512px desktop and 180×320px phone; no cropping, recoloring or TapMart overlays.",
+      "campaign-car-context-01: existing 3:2 campaign illustration, 640×427px desktop and 358×239px phone; explicitly no installed ad.",
+      "Existing rear-door SVG diagram: 208×139px desktop and 160×107px phone; 2px strokes, external native-size caption. Existing demo-car-artwork.svg stays in the placement inspection.",
+      "Business demo media reuses the refined Business Home and existing Content sources directly. No extra people, work files or vehicle records are introduced.",
+      "Optional capture-business-home-1440 and capture-business-content-1440 fallbacks must be regenerated from the actual refined routes. They are not the enhanced demonstration."
+    ],
+    "motion_and_interaction": [
+      "Hero is immediately readable. No entrance choreography on the headline, audience actions or amount. The source photograph stays still.",
+      "Chapter motion follows native scroll progress without easing lag. All text, amounts and operational states remain available independently. Reduced motion removes pinning and geometry changes.",
+      "Open earning example and chapter example actions open the existing destination with the correct fixture selected. Control feedback is 140ms, cubic-bezier(0.22,1,0.36,1).",
+      "Campaigns/Monthly content changes use a 180ms source handoff. Do not animate recipient identities or file states across records. Reduced motion replaces immediately.",
+      "Public demo mutations wait for the actual demo-adapter response. Successful file approval may use a 1200ms accent-wash highlight; it never advances publication or money.",
+      "Phone menu retains the 320ms sheet entrance, 200ms exit, Escape, visible Close and focus return. Reduced motion uses an immediate appearance or 80ms fade.",
+      "If authorized footage is supplied later, use explicit Play or the existing bounded preview rules. The present build exposes no film control because it has no footage."
+    ],
+    "three_second_read": "Film your version, share a supplied Story or carry a car ad. TapMart puts the real task beside its conditions and pay, with a separate working product for businesses.",
+    "route": "/design-lab/public-home",
+    "name": "Public Homepage",
+    "what_changes_from_current": [
+      "Increase the hero photograph and phone, and replace the passive underlay with an attached real commitment excerpt. The public promise becomes legible without deciphering a tiny screen.",
+      "Replace the three sparse side-text chapters with three full-width, locally pinned workbenches. Each owns its sources and real product UI, so later chapters cannot be visually empty.",
+      "Make Recreate, Post and Drive changes of material and task, not interchangeable picture slots. Their fixed commitment edge is the common TapMart signature.",
+      "Replace the business screenshot pair with one usable product demonstration. Discovery, recipient selection and content review now explain the business proposition through actual behavior.",
+      "Bring Get paid's steps and financial reading region into one connected composition. Keep every financial distinction and the existing copy.",
+      "Reduce phone chapter padding from 64px to 48px and replace miniature desktop business screens with native responsive excerpts. This tightens the story without hiding conditions."
+    ],
+    "phone": [
+      "No sticky stages, horizontal chapter scrolling, scroll-linked scaling or source reveals. All sources and conditions are in normal reading order.",
+      "Recreate uses a 112×199px intact reference beside a 230×153px filming crop with a 16px gap; source labels sit below. The native work excerpt follows after 16px.",
+      "Post uses a centered 180×320px intact Story, then the compact eligibility excerpt and work state. It does not imitate Instagram's interface.",
+      "Drive uses the 358×239px campaign photograph, then the separate 160px placement diagram and native monthly work excerpt.",
+      "Campaigns shows the existing responsive person/work preview and named request action. Monthly content shows the 358×239px contained counter original and the existing responsive inspector below it. Both are visible sections, not a hidden two-tab explanation.",
+      "Essential and Growth remain two unboxed rows with 12px between them, followed by the separate spending exclusion.",
+      "At 320px, allow audience actions and media/commitment splits to stack. Do not reduce body text, amount size or controls to retain the montage."
+    ],
+    "money": "Public amounts come only from existing labeled demo components. Hero and Recreate: $65.00 per approved video. Post: $35.00 after 24h live and approval. Drive: $240.00 per month. Get paid: $78.40 available and a separate $50.00 requested payout. None is a guaranteed result, paid payout or new marketing balance. Amounts never move or count up. Subscription output counts remain visible; missing configured prices are not invented.",
+    "mock_data": [
+      "Reuse demo-maya, demo-loopday, demo-recreate-01, demo-story-01, demo-car-campaign-01, demo-payout-01 and the five existing Content records.",
+      "Make the existing Story permission explicit in the Lab adapter: eligible=true, based on the manual demo Instagram record; this is not API verification or an inferred production permission.",
+      "Public demo store starts from the same fixtures but isolates mutations from authenticated Lab previews. It adds no customer, performance, proof or payment records."
+    ],
+    "viewport": "both: desktop 1440x900 and phone 390x844"
+  }
+}

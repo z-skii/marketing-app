@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { ArrowRight, ArrowsOutSimple, CaretDown, MagnifyingGlass, ChatCircle, Bell } from "@phosphor-icons/react/dist/ssr";
-import { PhoneHeader, TabBar, USER_TABS, Money } from "../parts";
+import { PhoneHeader, TabBar, USER_TABS } from "../parts";
 import { maya, opportunities } from "../mock";
 import { SaveToggle } from "../SaveToggle";
+import { RecreateCommitment, StoryCommitment, CarCommitment } from "../work";
 
 /**
- * Prototype 01: User Home on a phone, to the Frame Shift spec. Three
- * earning objects that are not the same component: the Recreate spread
- * (contained reference still joined to a graphite commitment region with
- * an opaque cobalt payment ledge), the Story poster and commitment (money
- * on a 3px cobalt rule beside the intact supplied creative), and the Car
- * landscape (3:2 campaign visual with an attached white monthly-pay
- * caption). Everything is fixture data; nothing here is the product.
+ * Prototype 01: User Home on a phone, refined to the source-to-commitment
+ * joint. Three earning kinds share one 12px handoff and never a card
+ * template: the still reference steps down into a graphite task block and
+ * a cobalt conditional-pay ledge; the supplied Story stands as an intact
+ * sheet beside ink terms; the campaign scene ends in an inset white monthly
+ * caption. Fixture data only; nothing here is the product.
  */
 export function UserHomeScreen({ embed = false }: { embed?: boolean } = {}) {
   const { recreate, story, car } = opportunities;
@@ -40,69 +40,54 @@ export function UserHomeScreen({ embed = false }: { embed?: boolean } = {}) {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 24, marginTop: 16 }}>
-          {/* Recreate: the frame holds the work, the edge holds the decision. */}
-          <article aria-labelledby="op-recreate">
-            <div className="on-dark op-recreate" style={{ display: "grid", background: "var(--tm-graphite)", borderRadius: "6px 6px 0 6px", overflow: "hidden" }}>
-              <div style={{ position: "relative", width: 160, height: 284, background: "var(--tm-stage)" }}>
+          {/* Recreate: the reference on one plane; the commitment begins 12px lower and ends 12px below it. */}
+          <article aria-labelledby="op-recreate" id="recreate">
+            <div className="op-recreate" style={{ display: "grid", alignItems: "start" }}>
+              <div className="media" style={{ position: "relative", width: 160, height: 284, background: "var(--tm-stage)" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={recreate.reference} alt="Reference still: a barista pouring a latte at the Loopday Coffee counter" width={160} height={284} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                <img src={recreate.reference} alt="Reference still: a barista pouring a latte at the Loopday Coffee counter" width={160} height={284} style={{ objectFit: "contain" }} />
                 <span className="t-meta" style={{ position: "absolute", top: 8, left: 8, color: "var(--tm-on-dark)", background: "#101820", padding: "0 6px", borderRadius: 4 }}>{recreate.referenceLabel}</span>
                 <button type="button" className="icon-btn" aria-label="Inspect reference" style={{ position: "absolute", right: 4, bottom: 4, background: "#101820", color: "#F6F8FB", borderRadius: 8 }}><ArrowsOutSimple size={24} /></button>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", minHeight: 284 }}>
-                <div style={{ padding: 12, flex: 1 }}>
-                  <p className="t-meta" style={{ color: "var(--tm-muted-dark)", margin: 0 }}>Recreate Reel</p>
-                  <h2 id="op-recreate" className="t-task" style={{ color: "var(--tm-on-dark)", margin: "4px 0 0" }}>{recreate.title}</h2>
-                  <p className="t-meta" style={{ color: "var(--tm-muted-dark)", margin: "4px 0 0" }}>{recreate.business}</p>
-                  <p className="t-meta" style={{ color: "var(--tm-on-dark)", margin: "8px 0 0" }}>{recreate.instruction}</p>
-                </div>
-                <div style={{ background: "var(--tm-accent)", padding: 12, minHeight: 112, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-                  <Money cents={recreate.payCents} per={recreate.basis} dark />
-                </div>
+              <div style={{ marginTop: "var(--tm-shift-phone)" }}>
+                <h2 id="op-recreate" className="sr">{recreate.title}</h2>
+                <RecreateCommitment width={198} height={284} ledge={112} />
               </div>
             </div>
             <p className="t-meta" style={{ margin: "12px 0 0" }}>{recreate.spots} spots · Apply by {recreate.deadline}</p>
-            <ActionRow href="#recreate" />
+            <ActionRow href="#recreate-work" />
           </article>
 
-          {/* Story: the creative is the object; the commitment sits beside it, money on a cobalt rule. */}
-          <article aria-labelledby="op-story">
-            <div className="op-story" style={{ display: "grid", gap: 16 }}>
-              <div style={{ borderLeft: "3px solid var(--tm-accent)", paddingLeft: 12, minHeight: 256, display: "flex", flexDirection: "column" }}>
-                <p className="t-meta" style={{ margin: 0 }}>Instagram Story ad</p>
-                <div style={{ marginTop: 8 }}><Money cents={story.payCents} per={story.basis} /></div>
-                <h2 id="op-story" className="t-task" style={{ margin: "12px 0 0" }}>{story.title}</h2>
-                <p className="t-meta" style={{ margin: "4px 0 0" }}>{story.business}</p>
-                <p className="t-meta" style={{ margin: "4px 0 0" }}>{story.minFollowers.toLocaleString()}+ followers</p>
+          {/* Story: the supplied sheet is the source; the commitment starts 12px lower beside it. */}
+          <article aria-labelledby="op-story" id="story">
+            <div className="op-story" style={{ display: "grid", gap: 16, alignItems: "start" }}>
+              <div style={{ marginTop: "var(--tm-shift-phone)" }}>
+                <h2 id="op-story" className="sr">{story.title}</h2>
+                <StoryCommitment width={198} />
               </div>
-              <div className="media" style={{ width: 144, height: 256, boxShadow: "var(--tm-shadow-source)", background: "var(--tm-underlay)" }}>
+              <div className="media" style={{ width: 144, height: 256, borderRadius: 0, boxShadow: "var(--tm-shadow-source)", background: "var(--tm-underlay)" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={story.creative} alt="The supplied Story creative for Loopday Coffee: Take a coffee break." width={144} height={256} />
               </div>
             </div>
             <p className="t-meta" style={{ margin: "12px 0 0" }}>{story.creativeLabel}</p>
             <p className="t-meta" style={{ margin: "4px 0 0" }}>{story.spots} spots · Apply by {story.deadline}</p>
-            <ActionRow href="#story" />
+            <ActionRow href="#story-work" />
           </article>
 
-          {/* Car: a landscape stage with an attached white caption band. */}
-          <article aria-labelledby="op-car">
-            <div className="media" style={{ width: "100%", aspectRatio: "358 / 239", borderRadius: "6px 6px 0 0" }}>
+          {/* Car: the physical scene spans the field; the monthly caption is inset 12px. */}
+          <article aria-labelledby="op-car" id="car">
+            <div className="media" style={{ width: "100%", aspectRatio: "358 / 239" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={car.visual} alt="Campaign visual: a bike shop's delivery car parked outside the shop" />
             </div>
-            <div style={{ background: "var(--tm-surface)", minHeight: 96, padding: 12, display: "grid", gridTemplateColumns: "auto minmax(0, 1fr)", gap: 16, alignItems: "start" }}>
-              <Money cents={car.payCents} per={car.basis} />
-              <div>
-                <h2 id="op-car" className="t-task" style={{ margin: 0 }}>{car.title}</h2>
-                <p className="t-meta" style={{ margin: "4px 0 0" }}>{car.business}</p>
-              </div>
-            </div>
+            <h2 id="op-car" className="sr">{car.title}</h2>
+            <CarCommitment width={358} inset={12} />
             <p className="t-meta" style={{ margin: "12px 0 0" }}>{car.visualLabel}</p>
             <p className="t-meta" style={{ margin: "4px 0 0" }}>{car.zones} · {car.durationDays} days</p>
             <p className="t-meta" style={{ margin: "4px 0 0" }}>Vehicle required</p>
             <p className="t-meta" style={{ margin: "4px 0 0" }}>{car.spots} spots · Apply by {car.deadline}</p>
-            <ActionRow href="#car" />
+            <ActionRow href="#car-work" />
           </article>
         </div>
       </main>

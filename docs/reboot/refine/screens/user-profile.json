@@ -1,0 +1,114 @@
+{
+  "screen": "User Profile",
+  "model": "gpt-6-astra",
+  "when": "2026-09-12T09:02:15.768Z",
+  "spec": {
+    "what_makes_it_only_tapmart": "The person's portrait crosses the identity plane by one precise 12px step, while their record remains still below. A small photo-to-model vehicle capability uses the same source-to-fact joint without turning the profile into a showroom.",
+    "acceptance": [
+      "At 390×844, Maya is the first visual subject: a 104×130px portrait and 30/32px name, not a larger car or settings block.",
+      "The portrait extends exactly 12px below the graphite masthead; no border, shadow or decorative cover photo is added.",
+      "The required order remains person, earned/completed/rating, Instagram, verification, vehicle, recent work, earnings, portfolio/public profile and settings.",
+      "The three record values stay unboxed, readable and explicitly within the Demo identity context.",
+      "Instagram remains Manual and creator verification remains Not verified. Neither receives a verification badge.",
+      "The default vehicle moment shows the existing owned-car photograph and Smart Vehicle · Photos only. There is no View 3D button, canvas, fake turntable or reconstruction progress.",
+      "Recent work retains source and state labels. The supplied Story is not treated as proof of an actual publication.",
+      "Private available money and the requested payout remain below recent work and outside public-profile data."
+    ],
+    "choreography": [],
+    "composition": [
+      {
+        "technology": "Shared phone shell; CSS identity plane and portrait overlap",
+        "height_or_size": "390×246px graphite masthead; root header 64px; portrait 104×130px at x=16,y=128",
+        "content": "Keep Profile and Edit profile at y=76. Use portrait-maya-01 as a 4:5 identity photograph with 4px corners, not a circular enlarged avatar. It ends at y=258, 12px beyond the graphite plane. Name begins x=136,y=144 at Archivo 700 30/32px. Handle is 16/24px, city 14/20px. The small shell avatar remains circular. No bio is invented.",
+        "region": "Working identity",
+        "state_shown": "Maya Chen · Personal · Demo; unverified creator."
+      },
+      {
+        "technology": "Semantic definition list",
+        "height_or_size": "x=16,y=280,width=358; minimum 64px",
+        "content": "$312.40 / Earned, 7 / Completed, 4.8 / Rating · 5 reviews. Keep 28/32px Archivo values and 14/20px labels. Use three content-aware tracks with 12px gaps, not equal narrow boxes that truncate currency. Mineral canvas, no border or shadow.",
+        "region": "Earned record",
+        "state_shown": "Existing private fictional statistics, not a payout total."
+      },
+      {
+        "technology": "Existing capability links",
+        "height_or_size": "Instagram begins y=356, minimum 64px; verification follows at minimum 48px",
+        "content": "Instagram at 16/24px; @maya.frame_demo · Manual · 1,420 followers at 14/20px. Separate Creator verification · Not verified beneath it. Use one restrained divider between these capabilities. Chevrons stay at the right with 44px targets.",
+        "region": "Instagram and creator qualification",
+        "state_shown": "Manual Instagram provenance and a separate unverified creator record."
+      },
+      {
+        "technology": "Shared VehiclePreview; contained photo; optional deferred three.js only for a real model",
+        "height_or_size": "Vehicles heading near y=484, 44px row. Assembly begins y=540: 184×136px source field, 12px gap, 162px facts.",
+        "content": "Keep Vehicles and Add vehicle. The source slot contains the complete 3:2 photo at 184×123px, centered vertically without a synthetic studio background. Facts begin 12px lower at x=212,y=552: Toyota Corolla at 18/24px, 2020 · Hatchback and Blue · Austin at 14/20px, then the 44px View vehicle action. The fact backing is square white and ends at the lower-right of the assembly; it does not surround the photo. At y=684 place Smart Vehicle · Photos only at 14/20px. This replaces the old loose Photos available caption.",
+        "region": "One Smart Vehicle moment",
+        "state_shown": "Owned demo vehicle with photos and model_url=null. Full vehicle detail explains that no 3D model is available."
+      },
+      {
+        "technology": "Source-aware image strip and Activity links",
+        "height_or_size": "Recent work heading near y=728; three 104×139px frames with 12px gaps below",
+        "content": "Retain the three existing previews, contained in their source-aware frames. Remove unnecessary rounded tile backing when the source itself fills the frame; keep underlay only for actual letterboxing. Labels remain Recreate / Approved, Story / Approved, Recreate / In review. View Activity remains a separate 44px link.",
+        "region": "Recent work",
+        "state_shown": "Two approved fixture records and one in review; the Story detail identifies supplied creative."
+      },
+      {
+        "technology": "Existing private summary and destination rows",
+        "height_or_size": "24px after recent-work actions; content-driven rows; fixed bottom navigation 64px plus safe area",
+        "content": "Earnings remains a plain heading followed by Available $78.40, From approved work · Demo money, Payout requested · $50.00 and May 10, 2026. Retain Open Earnings. Portfolio, Public profile and reviews, then Settings follow. Profile is selected in the unchanged bottom navigation.",
+        "region": "Private money and secondary destinations",
+        "state_shown": "Requested payout, not paid; no assigned Shoots shortcut for this unverified fixture."
+      }
+    ],
+    "removed_or_hidden": [
+      "Remove the oversized circular portrait treatment, not the small shell avatar.",
+      "Remove the vehicle row's loose classified-list appearance by joining its photo and facts at one offset edge.",
+      "No vehicle hero, automatic model loading, Scan now promotion, unavailable 3D button or invented processing timeline.",
+      "Keep verification submission, Instagram editing, all vehicle zones, asking prices, payouts and settings in their existing destinations."
+    ],
+    "implementation_steps": [
+      "Keep the existing order and bindings. Replace the main portrait layout with the 104×130px identity photograph and 12px masthead overlap.",
+      "Preserve the record strip and independently loaded Instagram/verification sections. Test long names, absent rating and section errors.",
+      "Build VehiclePreview in the new 184×136px reservation. The default branch is the actual photo with Photos only.",
+      "Implement the model-ready branch behind the existing real model URL and permission checks; it must not run for Maya or the current other vehicle fixtures.",
+      "Reuse the existing recent-work and private-money destinations without changing their meanings.",
+      "Capture the first fold, recent work/private money, no vehicle, waiting provider, missing rating and enlarged text."
+    ],
+    "media": [
+      "portrait-maya-01: existing 4:5 source at 104×130px in the masthead, 4px corners; also the unchanged 28px circular shell avatar.",
+      "vehicle-maya-01: existing 3:2 source contained at 184×123px in a 184×136px slot; no extension, relighting or substitute vehicle.",
+      "work-maya-loopday-01: existing 9:16 original contained in a 104×139px recent-work frame.",
+      "story-loopday-01: same finished 9:16 creative, contained in 104×139px.",
+      "work-maya-spurroom-02: existing 4:5 source, contained in 104×139px.",
+      "No default GLB, background asset or replacement portrait."
+    ],
+    "motion_and_interaction": [
+      "Identity and record values appear immediately, without counting, entrance translation or portrait parallax.",
+      "View vehicle and recent work retain one-source continuity over 280ms, with a 140ms fade fallback. Back restores focus and scroll.",
+      "Edit profile uses the existing 320ms sheet entrance and response-confirmed 140ms feedback. No optimistic identity replacement across accounts.",
+      "For a real model-ready record only, View 3D loads the actual model. Appearance is 180ms; Reset is 220ms; direct rotation has no inertia. Reduced motion removes appearance/reset tweening but keeps explicit rotation controls.",
+      "Default photos never orbit, tilt on hover or crossfade between invented angles."
+    ],
+    "three_second_read": "This is Maya's working identity and record, with a compact vehicle capability and a clear route to her actual earnings.",
+    "route": "/design-lab/user-profile",
+    "name": "User Profile",
+    "what_changes_from_current": [
+      "Turn the masthead from a conventional account profile into an identity plate: a source-ratio portrait crosses its edge, while the name becomes more prominent.",
+      "Keep the record strip and capability order that already work. Do not decorate the statistics or add more profile facts.",
+      "Replace the vehicle's photo-plus-list row with a small offset source/fact assembly and an honest Smart Vehicle state.",
+      "Sharpen recent-work framing and apply the warmer neutral canvas, without changing work sources or statuses."
+    ],
+    "phone": [
+      "Default first-fold landmarks are masthead 246px, records y=280, Instagram y=356, vehicle source y=540 and Recent work heading near y=728.",
+      "At 320px or enlarged text, let identity, record tracks and vehicle facts stack. Preserve amount size and the full name; do not squeeze the vehicle facts into a narrower column.",
+      "The vehicle's default image area is only 184×136px. It must remain subordinate to identity.",
+      "Keep the measured bottom-navigation spacer and safe-area padding so the final Settings action can scroll fully above navigation."
+    ],
+    "money": "Keep $312.40 Earned at 28/32px in the private record strip. Later, show Available $78.40 and Payout requested · $50.00 in ordinary ink on light surfaces. Pending 3600 cents remains in Earnings detail. Do not combine lifetime earned, available balance and payout requests or expose them in public-profile data.",
+    "mock_data": [
+      "No new records. Maya's owned vehicle still has model_url=null.",
+      "The Smart Vehicle label is a presentation name for the existing photo/model capability, not a new backend status or an assertion that a reconstruction exists.",
+      "Retain the existing separate manual Instagram, unverified creator, recent-work and requested-payout fixtures."
+    ],
+    "viewport": "phone 390x844"
+  }
+}

@@ -2,11 +2,11 @@
  * Design Lab fixtures. Every person, business, campaign, file, amount and
  * record here is fictional and exists only to render the prototypes.
  * Nothing reads or writes the database. The demonstration clock is frozen
- * at 2026-05-12T15:00:00Z; dates are absolute; money is USD cents.
+ * at 2026-05-14T15:00:00Z; dates are absolute; money is USD cents.
  */
 export const ASSET = (id: string, ext = "jpg") => `/design-lab/${id}.${ext}`;
 
-export const NOW = new Date("2026-05-12T15:00:00Z");
+export const NOW = new Date("2026-05-14T15:00:00Z");
 
 export const maya = {
   id: "demo-maya", name: "Maya Chen", first: "Maya", handle: "maya.frame_demo", city: "Austin, Texas", portrait: ASSET("portrait-maya-01"),
@@ -31,15 +31,15 @@ export const opportunities = {
 
 export const loopday = { id: "demo-loopday", name: "Loopday Coffee", initials: "LC", category: "coffee counter", city: "Austin, Texas", logo: null as string | null, plan: "Growth", planState: "Active" };
 
-export type Person = { id: string; name: string; city: string; portrait: string | null; initials: string; completed: number | null; rating: { value: number; count: number } | null; qualification: string; sample: { src: string; ratio: string } | null };
+export type Person = { id: string; name: string; city: string; portrait: string | null; initials: string; completed: number | null; rating: { value: number; count: number } | null; qualification: string; fit: string; sample: { src: string; ratio: string } | null };
 
 export const people: Person[] = [
-  { id: "p-maya", name: "Maya Chen", city: "Austin", portrait: ASSET("portrait-maya-01"), initials: "MC", completed: 7, rating: { value: 4.8, count: 5 }, qualification: "Instagram Manual · 1,420 followers", sample: { src: ASSET("work-maya-loopday-01"), ratio: "9 / 16" } },
-  { id: "p-eli", name: "Eli Moreno", city: "Austin", portrait: ASSET("portrait-eli-01"), initials: "EM", completed: 4, rating: { value: 4.7, count: 3 }, qualification: "Instagram connected · 2,080 followers", sample: { src: ASSET("work-eli-spurroom-01"), ratio: "4 / 5" } },
-  { id: "p-imani", name: "Imani Cole", city: "Austin", portrait: ASSET("portrait-imani-01"), initials: "IC", completed: 12, rating: { value: 4.9, count: 8 }, qualification: "Verified creator", sample: { src: ASSET("content-loopday-counter-01"), ratio: "3 / 2" } },
-  { id: "p-jules", name: "Jules Park", city: "Austin", portrait: ASSET("portrait-jules-01"), initials: "JP", completed: 3, rating: null, qualification: "Instagram connected · 1,180 followers", sample: { src: ASSET("work-jules-flowers-01"), ratio: "4 / 5" } },
-  { id: "p-nora", name: "Nora Bell", city: "Round Rock", portrait: ASSET("portrait-nora-01"), initials: "NB", completed: 5, rating: { value: 4.6, count: 4 }, qualification: "", sample: { src: ASSET("work-nora-lunch-01"), ratio: "4 / 5" } },
-  { id: "p-theo", name: "Theo Grant", city: "Austin", portrait: null, initials: "TG", completed: null, rating: null, qualification: "Not verified", sample: null },
+  { id: "p-maya", fit: "Coffee counter Reels · Recreate and Story", name: "Maya Chen", city: "Austin", portrait: ASSET("portrait-maya-01"), initials: "MC", completed: 7, rating: { value: 4.8, count: 5 }, qualification: "Instagram Manual · 1,420 followers", sample: { src: ASSET("work-maya-loopday-01"), ratio: "9 / 16" } },
+  { id: "p-eli", fit: "Workshop and repair Reels · Recreate", name: "Eli Moreno", city: "Austin", portrait: ASSET("portrait-eli-01"), initials: "EM", completed: 4, rating: { value: 4.7, count: 3 }, qualification: "Instagram connected · 2,080 followers", sample: { src: ASSET("work-eli-spurroom-01"), ratio: "4 / 5" } },
+  { id: "p-imani", fit: "Café photography · Shoots and Recreate", name: "Imani Cole", city: "Austin", portrait: ASSET("portrait-imani-01"), initials: "IC", completed: 12, rating: { value: 4.9, count: 8 }, qualification: "Verified creator", sample: { src: ASSET("content-loopday-counter-01"), ratio: "3 / 2" } },
+  { id: "p-jules", fit: "Florist detail Reels · Recreate and Story", name: "Jules Park", city: "Austin", portrait: ASSET("portrait-jules-01"), initials: "JP", completed: 3, rating: null, qualification: "Instagram connected · 1,180 followers", sample: { src: ASSET("work-jules-flowers-01"), ratio: "4 / 5" } },
+  { id: "p-nora", fit: "Lunch and takeaway Reels · Story", name: "Nora Bell", city: "Round Rock", portrait: ASSET("portrait-nora-01"), initials: "NB", completed: 5, rating: { value: 4.6, count: 4 }, qualification: "", sample: { src: ASSET("work-nora-lunch-01"), ratio: "4 / 5" } },
+  { id: "p-theo", fit: "No work samples shared", name: "Theo Grant", city: "Austin", portrait: null, initials: "TG", completed: null, rating: null, qualification: "Not verified", sample: null },
 ];
 
 export type Car = { id: string; owner: string; label: string; city: string; photo: string; zone: string; askingCents: number };

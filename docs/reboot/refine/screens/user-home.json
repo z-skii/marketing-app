@@ -1,0 +1,122 @@
+{
+  "screen": "User Home",
+  "model": "gpt-6-astra",
+  "when": "2026-09-12T09:02:15.769Z",
+  "spec": {
+    "what_makes_it_only_tapmart": "Three earning kinds share a precise 12px handoff but never share a card template: a reference and graphite commitment step down into cobalt pay; a supplied poster stands beside ink terms; a broad vehicle photograph ends in an inset monthly caption.",
+    "acceptance": [
+      "At 390×844, the unchanged purpose, resume item and discovery controls lead to a Recreate object beginning near y=236.",
+      "The still reference remains 160×284px. The right commitment starts 12px lower, producing a 358×296px stepped assembly rather than a rounded enclosing card.",
+      "$65.00, per approved video, task, business, deadline, View work and Save remain visible before the Story begins near y=644.",
+      "The beginning of Story and its $35.00 commitment remain visible above the bottom navigation without changing source ranking.",
+      "Reference labels and inspection controls are fully opaque graphite. There is no play triangle or fake duration on the still source.",
+      "Story remains intact, with conditions outside the artwork. Car pay remains below the photograph with per month visible.",
+      "The default screen contains no additional explanatory sentences, statistics, balance banner or onboarding prompt.",
+      "Save feedback reflects the adapter response; failure preserves the previous state. Application detail still returns Waiting for acceptance, not accepted-work controls."
+    ],
+    "choreography": [],
+    "composition": [
+      {
+        "technology": "Existing React phone shell",
+        "height_or_size": "64px root header; 16px gutters",
+        "content": "Keep Personal · Demo, Maya, the 28px avatar, identity chevron and three 44px utilities. Use mineral canvas. No logo repetition or greeting.",
+        "region": "Identity header",
+        "state_shown": "Existing Personal demo identity."
+      },
+      {
+        "technology": "Existing heading, resume link and filter controls",
+        "height_or_size": "Title y=76; resume y=124,height=44px; filters y=176,height=44px",
+        "content": "Find paid work stays 30/36px. Keep Reel revision ready as the single attention line. For you, Nearby, Top pay and Kind remain unchanged, with the cobalt selected edge and no count pills.",
+        "region": "Purpose and discovery",
+        "state_shown": "One revision to resume; For you selected."
+      },
+      {
+        "technology": "CSS stepped grid; contained source; shared conditional-payment component",
+        "height_or_size": "x=16,y=236,width=358,height=296. Left 160×284px at y=0; right 198×284px at y=12.",
+        "content": "Reference uses the existing still, with 4px source corners. Right graphite begins 12px lower, leaving a real open corner above it. Keep Recreate Reel, Your coffee pour, Loopday Coffee and Film your version. with existing 14/20px and 18/24px roles. The lower 198×112px cobalt ledge ends 12px below the reference and retains $65.00 at 30/34px with per approved video beneath. There is no enclosing shell radius or shadow. Source label and 44px Inspect reference control are opaque graphite.",
+        "region": "Recreate — reference to fixed commitment",
+        "state_shown": "Open still-reference opportunity. Not a video player, balance or guaranteed earning."
+      },
+      {
+        "technology": "Unboxed metadata and existing action row",
+        "height_or_size": "Metadata begins y=544; actions y=572,height=48px",
+        "content": "4 spots · Apply by May 22, 2026 at 14/20px. View work text begins exactly x=16 and Save stays a separate right-hand target. The footer has no raised surface or extra explanatory copy.",
+        "region": "Recreate decision",
+        "state_shown": "Unsaved initially; save state changes only after response."
+      },
+      {
+        "technology": "CSS asymmetric columns and shallow source shadow",
+        "height_or_size": "Begins near y=644; 198px commitment, 16px gap, 144×256px creative",
+        "content": "Keep the Story on the right at its original ratio, now with square source-sheet corners. The left commitment begins 12px lower than the poster. Keep Instagram Story ad, $35.00, after 24h live and approval, Coffee break, Loopday Coffee and 1,000+ followers. Replace the full-height cobalt rule with a 3×64px edge beside the amount/basis group only. Existing provenance, spots, deadline and actions follow below the media row.",
+        "region": "Story — supplied object and conditions",
+        "state_shown": "Open supplied-creative campaign; no implied post or verified Instagram connection."
+      },
+      {
+        "technology": "Contained campaign photograph and attached white caption",
+        "height_or_size": "358×239px photograph; white caption 346px wide, inset 12px from the left, minimum 96px high",
+        "content": "Use campaign-car-context-01 unchanged. The photo spans the field; the caption begins immediately below with its left edge 12px in and right edge flush. Inner padding is 12px, with a 128px amount track, 12px gap and 182px title/business track. Keep $240.00 and per month in ink, then the existing provenance, rear doors, 60 days, vehicle requirement, spots, deadline and actions.",
+        "region": "Car — physical scene and monthly commitment",
+        "state_shown": "Campaign illustration with no installed ad; not Maya's vehicle or an inventory asking price."
+      },
+      {
+        "technology": "Existing fixed navigation and measured spacer",
+        "height_or_size": "64px plus safe area",
+        "content": "Home, Activity, Earnings and Profile retain their current order. White surface, 1px divider, 20px icons, 14/18px labels and a 24×3px selected edge. No floating action or translucent navigation.",
+        "region": "Personal navigation",
+        "state_shown": "Home selected."
+      }
+    ],
+    "removed_or_hidden": [
+      "Remove the single enclosing Recreate shape; its source and commitment become two joined, offset planes.",
+      "Remove the Story's full-height rule and rounded poster treatment. Keep the creative itself unchanged.",
+      "No new visible copy, reference-video invention, balance banner, popularity signal or extra earning category.",
+      "Guides, eligibility editing, application, gross/fee/net details and proof requirements stay in existing detail destinations."
+    ],
+    "implementation_steps": [
+      "Preserve the shell, ranking and first-fold controls. Implement the 12px stepped Recreate geometry before changing any other feed dimensions.",
+      "Separate source and commitment DOM regions so one selected image can transition without moving money or the entire article.",
+      "Apply the Story and Car offset rules without creating a shared generic card wrapper.",
+      "Retain the actual still-reference branch. Only render video behavior when the bound source is genuinely playable.",
+      "Connect Save, Activity Saved and detail application to the shared existing store and failure scenarios.",
+      "Capture first fold, full Story, full Car, saved feedback, save failure, external reference, large amount and enlarged text."
+    ],
+    "media": [
+      "portrait-maya-01: unchanged 28px circular shell avatar.",
+      "reference-loopday-01: existing 9:16 still contained at 160×284px, original available through Inspect reference.",
+      "story-loopday-01: identical finished 9:16 creative at 144×256px, square source-sheet edge and restrained source shadow.",
+      "campaign-car-context-01: existing 3:2 source at 358×239px, source-faithful color.",
+      "Existing supplied car artwork and rear-door SVG remain detail-only. No new video, vehicle model or background."
+    ],
+    "motion_and_interaction": [
+      "Opening work may use a 280ms transition of its one source image into the detail. The stepped commitment, amount and shell remain still. Unsupported browsers use a 140ms fade.",
+      "Save displays Saving… within the existing action target while pending. After the adapter response, Saved replaces Save over 140ms and the bookmark gains the accent. Failure retains the prior state and exposes the existing retry feedback.",
+      "Filter changes retain the 180ms edge and 140ms confirmed-results transition. Do not visually relabel stale results as a new filter.",
+      "The current still does not autoplay. A future directly playable reference may preview once, muted, after 75% visibility for 500ms, for at most 6 seconds; stop below 50% visibility or on tab hide.",
+      "Story and Car do not tilt, bob or zoom during scrolling. Their depth is compositional. Original inspection and source handoffs provide the activity.",
+      "Reduced motion removes source geometry transitions and autoplay while preserving all status and action feedback."
+    ],
+    "three_second_read": "Film this reference for $65 per approved video; the supplied Story is next, with a different commitment. The work and pay belong together.",
+    "route": "/design-lab/user-home",
+    "name": "User Home",
+    "what_changes_from_current": [
+      "Make the already successful Recreate split an actual offset joint rather than one rounded rectangle containing two colors.",
+      "Give Story a credible supplied-sheet treatment and a shorter payment edge instead of a tall generic accent rule.",
+      "Inset the Car caption by 12px so the monthly commitment shares the signature without borrowing Recreate's composition.",
+      "Improve selected-source continuity and response-confirmed Save feedback, rather than adding ambient animation to still media.",
+      "Keep the same amount prominence, copy, controls, ranking and progressive disclosure."
+    ],
+    "phone": [
+      "The refined Recreate ends at y=532, its actions at y=620 and Story begins near y=644. Do not compress conditions to recover the old 12px.",
+      "At 320px, retain the existing Kind wrapping behavior. Stack source and commitment when the remaining text width or actual formatted amount no longer fits.",
+      "At enlarged text, all stated heights become minimums. Amounts, basis labels and deadlines may never clip or ellipsize.",
+      "Keep the fixed-navigation spacer so every final action remains reachable above the 64px bar and safe area."
+    ],
+    "money": "Keep $65.00 white on the cobalt Recreate ledge, $35.00 ink beside the intact Story and $240.00 ink in the attached Car caption with per month. Preserve the exact gross/fee/net detail values of 6500/650/5850 cents for Recreate; do not infer a universal percentage. No amount is animated, truncated, converted to take-home or replaced with zero while fetching.",
+    "mock_data": [
+      "No new fixture records. Preserve demo-recreate-01, demo-story-01, demo-car-campaign-01 and demo-submission-09 in their existing explicit ranking.",
+      "Save and application mutations retain their existing adapter behavior, including failure and Waiting for acceptance.",
+      "The current reference media type remains still."
+    ],
+    "viewport": "phone 390x844"
+  }
+}

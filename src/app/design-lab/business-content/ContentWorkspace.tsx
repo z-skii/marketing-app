@@ -12,7 +12,7 @@ import { demoMutation } from "../adapter";
  * and a 1200ms accent wash. Imagery crossfades over 180ms once the next
  * source is ready.
  */
-export function ContentWorkspace({ files, shootLabel, uploader }: { files: ContentFile[]; shootLabel: string; uploader: string }) {
+export function ContentWorkspace({ files, shootLabel, uploader, compact = false }: { files: ContentFile[]; shootLabel: string; uploader: string; compact?: boolean }) {
   const [selectedId, setSelectedId] = useState(files[0].id);
   const [states, setStates] = useState<Record<string, ContentFile["state"] | "Skipped">>(Object.fromEntries(files.map((f) => [f.id, f.state])));
   const [pending, setPending] = useState(false);
@@ -33,13 +33,13 @@ export function ContentWorkspace({ files, shootLabel, uploader }: { files: Conte
   };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "816px 336px", gap: 24, marginTop: 12, alignItems: "start" }}>
+    <div style={{ display: "grid", gridTemplateColumns: compact ? "1fr" : "816px 336px", gap: compact ? 16 : 24, marginTop: 12, alignItems: "start" }}>
       <div>
-        <div style={{ position: "relative", width: 816, height: 420, background: "var(--tm-graphite)", borderRadius: "var(--tm-radius-media)", overflow: "hidden", display: "grid", placeItems: "center" }} className="on-dark">
+        <div style={{ position: "relative", width: compact ? "100%" : 816, height: compact ? 239 : 420, background: "var(--tm-graphite)", borderRadius: "var(--tm-radius-media)", overflow: "hidden", display: "grid", placeItems: "center" }} className="on-dark">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img key={selected.id} src={selected.src} alt={`${selected.title}, the original delivered file`} width={816} height={420} style={{ width: 816, height: 420, objectFit: "contain", animation: "lab-xfade 180ms var(--tm-ease-out) both" }} />
+          <img key={selected.id} src={selected.src} alt={`${selected.title}, the original delivered file`} width={816} height={420} style={{ width: "100%", height: "100%", objectFit: "contain", animation: "lab-xfade 180ms var(--tm-ease-out) both" }} />
         </div>
-        <ul style={{ display: "grid", gridTemplateColumns: "repeat(4, 192px)", gap: 16, listStyle: "none", padding: 0, margin: "16px 0 0" }}>
+        {!compact && <ul style={{ display: "grid", gridTemplateColumns: "repeat(4, 192px)", gap: 16, listStyle: "none", padding: 0, margin: "16px 0 0" }}>
           {others.map((f) => (
             <li key={f.id}>
               <button type="button" onClick={() => setSelectedId(f.id)} aria-pressed={false} style={{ display: "block", width: 192, textAlign: "left" }}>
@@ -52,11 +52,11 @@ export function ContentWorkspace({ files, shootLabel, uploader }: { files: Conte
               </button>
             </li>
           ))}
-        </ul>
+        </ul>}
         <style>{`@keyframes lab-xfade { from { opacity: 0 } to { opacity: 1 } }`}</style>
       </div>
 
-      <aside aria-label="Selected file" style={{ background: "var(--tm-surface)", padding: 24, minHeight: 584, borderRadius: 0, transition: "background-color 140ms var(--tm-ease-out)", ...(flash ? { background: "var(--tm-accent-wash)" } : {}) }}>
+      <aside aria-label="Selected file" style={{ background: "var(--tm-surface)", padding: compact ? 16 : 24, minHeight: compact ? 0 : 584, borderRadius: 0, transition: "background-color 140ms var(--tm-ease-out)", ...(flash ? { background: "var(--tm-accent-wash)" } : {}) }}>
         <p className="t-meta" style={{ margin: 0 }}>File state · <span className={`status ${state === "Approved" ? "confirmed" : state === "Skipped" ? "neutral" : "waiting"}`}>{state}</span></p>
         <h3 className="t-section" style={{ margin: "4px 0 0" }}>{selected.title}</h3>
         <p className="t-meta" style={{ margin: "8px 0 0" }}>{shootLabel}</p>
