@@ -1,4 +1,3 @@
-import { formatCredit } from "@/lib/money";
 
 /**
  * Frame Shift primitives shared by every migrated production screen: the
@@ -36,11 +35,16 @@ export function Avatar({ src, name, size = 40, square = false }: { src: string |
   return <span aria-hidden style={{ display: "inline-grid", placeItems: "center", width: size, height: size, borderRadius: radius, background: "var(--fs-underlay)", color: "var(--fs-ink)", fontWeight: 600, fontSize: Math.round(size * 0.4), flexShrink: 0 }}>{initial}</span>;
 }
 
+/** Frame Shift money always keeps its cents: $75.00, never $75. */
+export function formatMoney(cents: number): string {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(cents / 100);
+}
+
 /** An amount and its basis. The amount never animates and is always tabular. */
 export function Money({ cents, per, className = "fs-money", dark = false }: { cents: number; per?: string; className?: string; dark?: boolean }) {
   return (
     <span style={{ display: "block" }}>
-      <span className={className} style={{ display: "block", color: dark ? "#fff" : "var(--fs-ink)" }}>{formatCredit(cents)}</span>
+      <span className={className} style={{ display: "block", color: dark ? "#fff" : "var(--fs-ink)" }}>{formatMoney(cents)}</span>
       {per && <span className="fs-t-meta" style={{ display: "block", color: dark ? "#FFFFFF" : undefined }}>{per}</span>}
     </span>
   );

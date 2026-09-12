@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, CaretRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, CaretRight, VideoCamera } from "@phosphor-icons/react/dist/ssr";
 import { getV2Context } from "@/lib/v2/core";
 import { getMyVehicles } from "@/lib/v2/opportunities";
 import { countShootsAssignedTo } from "@/lib/business/shoots";
 import { sql, sqlOne } from "@/lib/db";
-import { formatCredit } from "@/lib/money";
 import { fmtDate, isVideoUrl } from "@/lib/v2/opportunities";
 import { MediaPreview } from "@/components/v2/MediaPreview";
-import { Status } from "@/components/fs/parts";
+import { Status, formatMoney } from "@/components/fs/parts";
 import { VehicleMoment } from "@/components/fs/VehicleMoment";
 
 export const metadata = { title: "Profile" };
@@ -26,6 +25,7 @@ const WORK_STATE: Record<string, { label: string; tone: "confirmed" | "waiting" 
   paid: { label: "Paid", tone: "confirmed" }, rejected: { label: "Not approved", tone: "problem" },
 };
 const KIND_NAME: Record<string, string> = { recreate_reel: "Recreate", instagram_story: "Story", car_ads: "Car ad" };
+const SOURCE_ROLE: Record<string, string> = { recreate_reel: "Your version", instagram_story: "Posted proof", car_ads: "Proof" };
 
 export default async function MePage() {
   const ctx = await getV2Context();
@@ -100,7 +100,7 @@ export default async function MePage() {
         <div className="fs-profile-grid">
         <div>
         <dl className="fs-record-strip">
-          <Fact value={formatCredit(lifetime)} label="Earned" />
+          <Fact value={formatMoney(lifetime)} label="Earned" />
           <Fact value={stats?.completed ?? "0"} label="Completed" />
           <Fact value={stats?.rating ? Number(stats.rating).toFixed(1) : "New"} label={ratingCount > 0 ? `Rating · ${ratingCount} review${ratingCount === 1 ? "" : "s"}` : "Rating"} />
         </dl>
@@ -123,7 +123,7 @@ export default async function MePage() {
         <section aria-labelledby="vehicles-title" style={{ marginTop: 16 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 44 }}>
             <h2 id="vehicles-title" className="fs-t-section">Vehicles</h2>
-            <Link href={car ? "/me/vehicles" : "/me/vehicles/new"} className="fs-btn fs-btn-quiet">{car ? "All vehicles" : "Add vehicle"}</Link>
+            <Link href={car ? "/me/vehicles" : "/me/vehicles/new"} className={car ? "fs-btn fs-btn-quiet fs-link-ink" : "fs-btn fs-btn-quiet"}>{car ? "All vehicles" : "Add vehicle"}</Link>
           </div>
           {car ? (
             <VehicleMoment vehicle={car} style={{ marginTop: 12 }} />
@@ -148,13 +148,15 @@ export default async function MePage() {
                 const st = WORK_STATE[w.status] ?? { label: w.status, tone: "neutral" as const };
                 return (
                   <li key={w.id}>
-                    <Link href="/activity" style={{ display: "block" }} aria-label={`${w.title}: ${KIND_NAME[w.kind] ?? w.kind}, ${st.label}`}>
+                    <Link href="/activity" style={{ display: "block" }} aria-label={`${w.title}: ${KIND_NAME[w.kind] ?? w.kind}, ${st.label}${w.media && isVideoUrl(w.media) ? ". View video" : ""}`}>
                       <span className="fs-media fs-contain fs-work-thumb" style={{ display: "block", background: "var(--fs-underlay)" }}>
-                        {w.media ? <MediaPreview src={w.media} alt="" className="fs-ref-media" sizes="104px" /> : <span style={{ display: "grid", placeItems: "center", height: "100%", color: "var(--fs-muted)", fontSize: 14 }}>No file</span>}
-                        {w.media && isVideoUrl(w.media) && <span className="fs-media-caption">Video</span>}
+                        {w.media && isVideoUrl(w.media) ? (
+                          <span className="fs-video-fallback"><VideoCamera size={24} aria-hidden /><span>View video</span><span className="fs-video-note">No preview available</span></span>
+                        ) : w.media ? <MediaPreview src={w.media} alt="" className="fs-ref-media" sizes="104px" /> : <span style={{ display: "grid", placeItems: "center", height: "100%", color: "var(--fs-muted)", fontSize: 14 }}>No file</span>}
                       </span>
                       <span className="fs-t-meta" style={{ display: "block", marginTop: 8, color: "var(--fs-ink)" }}>{KIND_NAME[w.kind] ?? w.kind}</span>
                       <Status tone={st.tone} className="fs-block">{st.label}</Status>
+                      <span className="fs-t-meta" style={{ display: "block" }}>{SOURCE_ROLE[w.kind] ?? "Submitted file"}</span>
                     </Link>
                   </li>
                 );
@@ -166,11 +168,11 @@ export default async function MePage() {
 
         <section aria-labelledby="earn-title" style={{ marginTop: 24 }}>
           <h2 id="earn-title" className="fs-t-section">Earnings</h2>
-          <p className="fs-t-task" style={{ marginTop: 12 }}>Available {formatCredit(available)}</p>
+          <p className="fs-t-task" style={{ marginTop: 12 }}>Available {formatMoney(available)}</p>
           <p className="fs-t-meta" style={{ marginTop: 2 }}>From approved work</p>
           {requested > 0 ? (
             <>
-              <p className="fs-t-body" style={{ marginTop: 8 }}>Payout requested · {formatCredit(requested)}</p>
+              <p className="fs-t-body" style={{ marginTop: 8 }}>Payout requested · {formatMoney(requested)}</p>
               {payout?.at && <p className="fs-t-meta">{fmtDate(payout.at)}</p>}
             </>
           ) : <p className="fs-t-body" style={{ marginTop: 8 }}>No payout requested</p>}

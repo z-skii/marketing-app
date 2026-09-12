@@ -76,7 +76,7 @@ begin
        'Share this ready-made story with your followers and keep it live for a full day. We pay per verified story. Seeded demo data.',
        2500, 20, 'Raleigh, NC', 'open', now() - interval '2 days', now() + interval '12 days',
        '{"Keep it live 24 hours","Tag @demoroastery","Do not crop the creative"}',
-       '{"creative_url":"/uploads/seed/tapmart-story.jpg","min_followers":1000,"live_hours":24}'::jsonb);
+       '{"creative_url":"/uploads/seed/demo-story.jpg","min_followers":1000,"live_hours":24}'::jsonb);
   end if;
   -- The old content campaign with the previous title becomes the story campaign.
   update campaigns set status = 'closed'

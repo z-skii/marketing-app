@@ -65,14 +65,14 @@ export function FrameShiftUserShell({ identity, unreadNotifications, unreadMessa
         </aside>
 
         <div className="fs-phone">
-          <header className="fs-phone-header">
+          <header className={`fs-phone-header ${pathname === "/me" ? "fs-on-dark is-graphite" : ""}`}>
             <Link href="/me/settings" className="fs-identity-trigger" aria-label={`Acting as ${identity.name}, ${identity.mode}. Settings and switching.`}>
               <Avatar src={identity.avatar} name={identity.name} size={28} />
               <span style={{ minWidth: 0 }}>
                 <span className="fs-t-meta" style={{ display: "block", lineHeight: "16px" }}>{identity.mode}</span>
                 <span style={{ display: "block", fontWeight: 600, fontSize: 16, lineHeight: "20px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: 160 }}>{identity.name}</span>
               </span>
-              <CaretDown size={16} aria-hidden style={{ color: "var(--fs-muted)", flexShrink: 0 }} />
+              <CaretDown size={16} aria-hidden className="fs-header-caret" style={{ flexShrink: 0 }} />
             </Link>
             <span style={{ display: "flex", gap: 4, flexShrink: 0 }}>
               {utilities.map((u) => (

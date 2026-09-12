@@ -68,7 +68,7 @@ function RecreateObject({ card, priority }: { card: Opportunity; priority?: bool
             <InspectButton src={media} alt={`Reference for ${card.title}, at its original ratio`} label="Inspect reference" className="fs-btn" style={{ position: "absolute", left: 4, right: 4, bottom: 4, minHeight: 44, background: "#101820", color: "#F6F8FB", borderRadius: 8, fontSize: 14, padding: "0 8px", justifyContent: "flex-start" }} />
           )}
         </div>
-        <div className="fs-joint-phone">
+        <div className="fs-joint fs-recreate-commitment">
           <div className="fs-on-dark" style={{ minHeight: 284, display: "flex", flexDirection: "column", color: "var(--fs-on-dark)" }}>
             <div style={{ padding: 12, flex: 1, background: "var(--fs-graphite)" }}>
               <p className="fs-t-meta" style={{ color: "var(--fs-muted-dark)" }}>Recreate Reel</p>
@@ -97,7 +97,7 @@ function StoryObject({ card, priority }: { card: Opportunity; priority?: boolean
   return (
     <article aria-labelledby={`op-${card.id}`} className="fs-reveal">
       <div className="fs-op-story">
-        <div className="fs-joint-phone" style={{ display: "flex", flexDirection: "column" }}>
+        <div className="fs-joint fs-story-commitment" style={{ display: "flex", flexDirection: "column" }}>
           <p className="fs-t-meta">Instagram Story ad</p>
           <div style={{ marginTop: 8, borderLeft: "3px solid var(--fs-accent)", paddingLeft: 12, minHeight: 64, display: "flex", alignItems: "center" }}>
             <Money cents={card.pay_cents} per={`after ${liveHours}h live and approval`} />
@@ -106,7 +106,7 @@ function StoryObject({ card, priority }: { card: Opportunity; priority?: boolean
           <p className="fs-t-meta" style={{ marginTop: 4 }}>{card.business_name}</p>
           <p className="fs-t-meta" style={{ marginTop: 4 }}>{minFollowers ? `${minFollowers.toLocaleString()}+ followers · ` : ""}{liveHours}h live</p>
         </div>
-        <div className="fs-media fs-sheet-source" style={{ width: 144, height: 256 }}>
+        <div className="fs-media fs-sheet-source fs-story-sheet" style={{ width: 144, height: 256 }}>
           {creative ? (
             <MediaPreview src={creative} alt={`The supplied Story creative for ${card.business_name}`} className="fs-story-media" priority={priority} sizes="144px" />
           ) : <NoMedia>Creative not uploaded yet</NoMedia>}
@@ -133,10 +133,10 @@ function CarObject({ card, vehicles, priority }: { card: Opportunity; vehicles: 
           <MediaPreview src={photo} alt={`Campaign visual for ${card.title}`} className="fs-car-media" priority={priority} sizes="(min-width: 1024px) 358px, 100vw" />
         ) : <NoMedia>Campaign visual not uploaded yet</NoMedia>}
       </div>
-      <div style={{ width: "calc(100% - 12px)", marginLeft: 12, background: "var(--fs-surface)", minHeight: 96, padding: 12, display: "grid", gridTemplateColumns: "128px minmax(0, 1fr)", gap: 12, alignItems: "start" }}>
+      <div className="fs-car-caption">
         <Money cents={card.pay_cents} per="per month" />
         <div>
-          <h2 id={`op-${card.id}`} className="fs-t-task" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" } as React.CSSProperties}>{card.title}</h2>
+          <h2 id={`op-${card.id}`} className="fs-t-task fs-car-title">{card.title}</h2>
           <p className="fs-t-meta" style={{ marginTop: 4 }}>{card.business_name}</p>
         </div>
       </div>

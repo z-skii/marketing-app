@@ -34,7 +34,7 @@ export function VehicleMoment({ vehicle: v, style }: { vehicle: VehicleSummary; 
             <div style={{ width: 184, height: 123, display: "grid", placeItems: "center", background: "var(--fs-underlay)", borderRadius: 4, color: "var(--fs-muted)", fontSize: 14, lineHeight: "20px", textAlign: "center", padding: 12 }}>No photos yet</div>
           )}
         </div>
-        <div style={{ marginTop: "var(--fs-shift-phone)", background: "var(--fs-surface)", minHeight: 124, padding: "12px 12px 0" }}>
+        <div style={{ marginTop: "var(--fs-shift)", background: "var(--fs-surface)", minHeight: 124, padding: "12px 12px 0" }}>
           <p className="fs-t-task">{v.year} {v.make} {v.model}</p>
           <p className="fs-t-meta" style={{ marginTop: 4 }}>{[v.body_type, v.color].filter(Boolean).join(" · ") || listing}</p>
           <p className="fs-t-meta">{[v.city, v.body_type || v.color ? listing : null].filter(Boolean).join(" · ")}</p>
