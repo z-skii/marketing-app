@@ -24,16 +24,21 @@ const VIDEO = /\.(mp4|webm|mov|m4v)(\?|#|$)/i;
 /** Literal provenance from the recorded fields; nothing inferred. */
 export function provenance(p: Person): string {
   const parts: string[] = [];
-  if (p.instagram?.status === "connected") {
-    parts.push(p.instagram.followers != null ? `Instagram connected · ${compactCount(p.instagram.followers)} followers` : "Instagram connected");
-  } else if (p.instagram?.status === "pending") parts.push("Instagram not yet verified");
+  if (p.instagram?.status === "connected") parts.push("Instagram connected");
+  else if (p.instagram?.status === "pending") parts.push("Instagram not yet verified");
   if (p.verification === "verified") parts.push("Verified creator");
-  else if (parts.length === 0) parts.push("Not verified");
+  else if (parts.length === 0) parts.push("Creator not verified");
   return parts.join(" · ");
 }
 
+/**
+ * One compact row of recorded reputation, only the values the record
+ * holds: followers when Instagram is connected, completed work, a rating
+ * once reviews exist. The product brief keeps these on discovery.
+ */
 function facts(p: Person): string | null {
   const out: string[] = [];
+  if (p.instagram?.status === "connected" && p.instagram.followers != null) out.push(`${compactCount(p.instagram.followers)} followers`);
   if (p.completed_jobs > 0) out.push(`${p.completed_jobs} completed`);
   if (p.rating_count > 0 && p.rating_avg != null) out.push(`${p.rating_avg.toFixed(1)} rating · ${p.rating_count} review${p.rating_count === 1 ? "" : "s"}`);
   return out.length ? out.join(" · ") : null;
@@ -51,7 +56,7 @@ function portraitSrc(p: Person) {
 function geometry(ratio: number | null, hasSample: boolean) {
   if (!hasSample) return { width: 240, portrait: { w: 160, h: 200, y: 32 }, work: null as null | { w: number; h: number } };
   const r = ratio ?? 0.8;
-  if (r > 1.05) { const h = 192; const w = Math.min(Math.round(h * r), 300); return { width: 160 + 16 + w, portrait: { w: 144, h: 180, y: 52 }, work: { w, h } }; }
+  if (r > 1.05) { const w = 288; const h = Math.round(w / r); return { width: 144 + 16 + w, portrait: { w: 144, h: 180, y: 52 }, work: { w, h } }; }
   const h = 232; const w = Math.round(h * r * 10) / 10;
   return { width: Math.max(320, Math.round(160 + 24 + w)), portrait: { w: 160, h: 200, y: 32 }, work: { w, h } };
 }
@@ -68,7 +73,7 @@ function WorkFigure({ p, w, h }: { p: Person; w: number; h: number }) {
     );
   }
   return (
-    <InspectButton src={sample.url} alt={`${sample.title}, ${sample.kind === "approved" ? "approved work" : "portfolio"} by ${name}`} label={`Inspect ${sample.title}`} className="fs-media fs-contain" style={{ width: w, height: h, display: "block", background: "var(--fs-underlay)" }}>
+    <InspectButton src={sample.url} alt={`${sample.title}, ${sample.kind === "approved" ? "approved work" : "portfolio"} by ${name}`} label={`Inspect ${sample.title}`} className="fs-media" style={{ width: w, height: h, display: "block" }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={sample.url} alt="" width={w} height={h} loading="lazy" />
     </InspectButton>
@@ -88,18 +93,24 @@ function Portrait({ p, w, h }: { p: Person; w: number; h: number }) {
   );
 }
 
-function SourceLine({ p }: { p: Person }) {
+/**
+ * The recorded source title with its literal provenance. On the desktop
+ * spread it is one 20px row: only the displayed title may ellipsize, the
+ * full title stays the accessible name, and provenance stays visible.
+ */
+function SourceLine({ p, oneRow = false }: { p: Person; oneRow?: boolean }) {
   const sample = p.samples[0] ?? null;
   const name = personName(p);
+  const rowStyle = oneRow ? { display: "flex", alignItems: "baseline", minWidth: 0, whiteSpace: "nowrap" as const } : { display: "block" };
+  const titleStyle = { fontWeight: 500, fontSize: 14, lineHeight: "20px", minHeight: 20, textAlign: "left" as const, ...(oneRow ? { flex: "0 1 auto", minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" as const, display: "block" } : {}) };
   return (
-    <span className="fs-t-meta" style={{ display: "block" }}>
+    <span className="fs-t-meta" style={rowStyle}>
       {sample ? (
         <>
-          <InspectButton src={sample.url} alt={`${sample.title}, ${sample.kind === "approved" ? "approved work" : "portfolio"} by ${name}`} label={sample.title} className="fs-link-ink fs-link-ul" icon={false} style={{ fontWeight: 500, fontSize: 14, lineHeight: "20px", minHeight: 20, textAlign: "left" }} />
-          {sample.kind === "approved" ? " · Approved work" : " · Portfolio"}
+          <InspectButton src={sample.url} alt={`${sample.title}, ${sample.kind === "approved" ? "approved work" : "portfolio"} by ${name}`} label={sample.title} className="fs-link-ink fs-link-ul" icon={false} style={titleStyle} />
+          <span style={oneRow ? { flex: "none" } : undefined}>{sample.kind === "approved" ? " · Approved work" : " · Portfolio"}{" · "}{provenance(p)}</span>
         </>
-      ) : "No work samples shared"}
-      {" · "}{provenance(p)}
+      ) : <span style={oneRow ? { flex: "none" } : undefined}>No work samples shared{" · "}{provenance(p)}</span>}
     </span>
   );
 }
@@ -130,11 +141,11 @@ export function PersonSpread({ s, canRequest = true }: { s: PersonSpreadData; ca
   const name = personName(p);
   const f = facts(p);
   return (
-    <article aria-label={name} className="fs-person-spread" style={{ width: g.width, flex: `0 0 ${g.width}px` }}>
-      <div style={{ position: "relative", height: 232 }}>
+    <article aria-label={name} className="fs-person-spread" style={{ width: g.width, flex: `0 0 ${g.width}px`, display: "flex", flexDirection: "column" }}>
+      <div style={{ position: "relative", height: 232, flex: "0 0 232px" }}>
         <div style={{ position: "absolute", left: 0, top: g.portrait.y }}><Portrait p={p} w={g.portrait.w} h={g.portrait.h} /></div>
         {g.work ? (
-          <div style={{ position: "absolute", right: 0, top: g.work.h < 232 ? 0 : 0 }}><WorkFigure p={p} w={g.work.w} h={g.work.h} /></div>
+          <div style={{ position: "absolute", right: 0, top: 0 }}><WorkFigure p={p} w={g.work.w} h={g.work.h} /></div>
         ) : (
           <p className="fs-t-meta" style={{ position: "absolute", left: g.portrait.w + 16, top: g.portrait.y + 8, maxWidth: 64 }}>No work samples shared.</p>
         )}
@@ -143,9 +154,9 @@ export function PersonSpread({ s, canRequest = true }: { s: PersonSpreadData; ca
         <span className="fs-t-task" style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{name}</span>
         {p.city && <span className="fs-t-meta" style={{ whiteSpace: "nowrap" }}>{p.city}</span>}
       </div>
-      <SourceLine p={p} />
-      {f && <span className="fs-t-meta" style={{ display: "block" }}>{f}</span>}
-      <Actions p={p} canRequest={canRequest} />
+      <SourceLine p={p} oneRow />
+      <span className="fs-t-meta" style={{ display: "block", minHeight: 20 }}>{f}</span>
+      <div style={{ marginTop: "auto" }}><Actions p={p} canRequest={canRequest} /></div>
     </article>
   );
 }

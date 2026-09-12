@@ -78,7 +78,7 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
   const shootLabels: Record<string, string> = {};
   for (const [id, s] of shootById) {
     const n = shoots.slice().reverse().indexOf(s) + 1;
-    shootLabels[id] = [`Shoot ${String(n).padStart(2, "0")}`, s.scheduled_for ? dayLabel(s.scheduled_for, { weekday: false }) : null].filter(Boolean).join(" · ");
+    shootLabels[id] = [`Shoot ${String(n).padStart(2, "0")}`, s.scheduled_for ? dateWithYear(s.scheduled_for) : null].filter(Boolean).join(" · ");
   }
 
   const newCount = files.filter((f) => f.status === "new").length;
@@ -111,12 +111,12 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
 
   return (
     <main className="fs-phone-main" id="main">
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginTop: 12 }}>
+      <div className="fs-purpose-row" style={{ alignItems: "flex-start", gap: 16 }}>
         <div>
           <h1 className="fs-t-page">Content</h1>
           <p className="fs-t-meta" style={{ marginTop: 4 }}>{planLine} · <Link href="/business/plan" className="fs-link-accent">{sub ? "Manage plan" : "View plans"}</Link></p>
         </div>
-        <Link href="/business/brand" className="fs-btn fs-btn-secondary fs-btn-sm">Brand kit</Link>
+        <Link href="/business/brand" className="fs-btn fs-btn-secondary">Brand kit</Link>
       </div>
       <nav className="fs-filters is-work" aria-label="Views" style={{ marginTop: 20 }}>
         {VIEWS.map((v) => <Link key={v.key} href={href(v.key)} aria-current={view === v.key ? "page" : undefined}>{v.label}</Link>)}
@@ -152,14 +152,14 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
 
       {(view === "overview" || view === "shoots") && (
         <section aria-labelledby="shoots-title" className="fs-content-narrow" style={{ marginTop: 32 }}>
-          <h2 id="shoots-title" className="fs-t-section">{view === "shoots" ? "Shoots" : "This month's shoots"}</h2>
+          <h2 id="shoots-title" className="fs-t-section">{view === "shoots" || !monthShoots.every((s) => (s.scheduled_for ?? "").startsWith(monthKey)) ? "Shoots" : "This month's shoots"}</h2>
           {!shootsR.ok ? (
             <p className="fs-t-body" style={{ marginTop: 12 }}><span className="fs-status is-problem">Shoots could not be loaded.</span> <Link href={href(view)} className="fs-link-ink fs-link-ul">Try again</Link></p>
           ) : (view === "shoots" ? shoots : monthShoots).length === 0 ? (
             <p className="fs-t-body" style={{ marginTop: 8, color: "var(--fs-muted)" }}>{subscribed ? "No shoot booked yet. Your monthly shoot is being scheduled." : "A monthly shoot comes with a TapMart plan."}</p>
           ) : (
             <ul className="fs-content-rows" style={{ marginTop: 4 }}>
-              {(view === "shoots" ? shoots : monthShoots).map((s) => <li key={s.id}><ShootRow s={s} n={shoots.slice().reverse().indexOf(s) + 1} files={files.filter((f) => f.shoot_id === s.id && f.status !== "rejected").length} location={location} /></li>)}
+              {(view === "shoots" ? shoots : monthShoots).map((s) => <li key={s.id}><ShootRow s={s} n={shoots.slice().reverse().indexOf(s) + 1} files={files.filter((f) => f.shoot_id === s.id && f.status !== "rejected").length} location={location} timeZone={timeZone} /></li>)}
             </ul>
           )}
         </section>
@@ -184,10 +184,21 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
   );
 }
 
-function ShootRow({ s, n, files, location }: { s: ContentShoot; n: number; files: number; location: string }) {
+/** "Sep 18, 2026" for a day key: dates in rows carry their year. */
+function dateWithYear(dayKey: string): string {
+  return new Intl.DateTimeFormat("en-US", { timeZone: "UTC", month: "short", day: "numeric", year: "numeric" }).format(new Date(`${dayKey}T00:00:00Z`));
+}
+
+/** The zone's short name on a given instant, so a time never hides which clock it is on. */
+function zoneNameAt(value: string | Date, timeZone: string): string {
+  const d = value instanceof Date ? value : new Date(value);
+  return new Intl.DateTimeFormat("en-US", { timeZone, timeZoneName: "short" }).formatToParts(d).find((p) => p.type === "timeZoneName")?.value ?? timeZone;
+}
+
+function ShootRow({ s, n, files, location, timeZone }: { s: ContentShoot; n: number; files: number; location: string; timeZone: string }) {
   const st = SHOOT_STATE[s.status] ?? { label: s.status, tone: "neutral" as const };
   const time = shootTimeLabel(s.starts_at);
-  const when = s.scheduled_for ? `${dayLabel(s.scheduled_for, { weekday: false })}${time ? ` at ${time}` : ""}` : null;
+  const when = s.scheduled_for ? `${dateWithYear(s.scheduled_for)}${time ? ` at ${time} ${zoneNameAt(`${s.scheduled_for}T12:00:00Z`, timeZone)}` : ""}` : null;
   const delivery = s.delivery_status === "processing" ? "Content on its way" : s.delivery_status === "delivered" ? `Delivery recorded · ${files} file${files === 1 ? "" : "s"} available` : null;
   const planned = `${s.photos_planned} photos · ${s.videos_planned} videos planned`;
   return (
@@ -209,17 +220,19 @@ const FORMAT: Record<string, string> = { reel: "Reel", photo: "photo", story: "S
 
 function PostRowItem({ p, timeZone, todayKey }: { p: PostRow; timeZone: string; todayKey: string }) {
   const kind = `${PLATFORM[p.platform] ?? p.platform} ${FORMAT[p.format ?? ""] ?? p.format ?? "post"}`;
-  const when = p.when ? `${groupLabel(dayKeyOf(p.when, timeZone), todayKey)} at ${timeOf(p.when, timeZone)}` : null;
+  const dayKey = p.when ? dayKeyOf(p.when, timeZone) : null;
+  const day = dayKey ? groupLabel(dayKey, todayKey) : null;
+  const when = p.when && dayKey ? `${day === dayLabel(dayKey, { weekday: false }) ? dateWithYear(dayKey) : day} at ${timeOf(p.when, timeZone)} ${zoneNameAt(p.when, timeZone)}` : null;
   const st = p.status === "published" ? { label: "Published", tone: "confirmed" as const, note: "Marked published" }
     : p.status === "failed" ? { label: "Failed", tone: "problem" as const, note: "The connected account could not post it. Open Connections." }
     : { label: "Scheduled", tone: "waiting" as const, note: "Scheduling does not publish automatically." };
   return (
-    <div className="fs-content-row">
+    <div className={`fs-content-row${p.status === "failed" ? " has-action" : ""}`}>
       <span style={{ minWidth: 0 }}>
         <span className="fs-t-task" style={{ display: "block" }}>{p.title} <span className="fs-t-meta">· {kind}</span></span>
         <span className="fs-t-meta" style={{ display: "block" }}><span className={`fs-status is-${st.tone}`}>{st.label}</span>{when ? ` · ${when}` : ""} · {st.note}</span>
       </span>
-      {p.status === "failed" ? <Link href="/business/connections" className="fs-btn fs-btn-secondary fs-btn-sm">Open Connections</Link> : <span />}
+      {p.status === "failed" ? <Link href="/business/connections" className="fs-btn fs-btn-secondary">Open Connections</Link> : <span />}
     </div>
   );
 }

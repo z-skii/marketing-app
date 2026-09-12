@@ -393,6 +393,14 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-car-assembly .fs-media { aspect-ratio: 3 / 2; }
 .fs .fs-attention { display: flex; flex-wrap: wrap; gap: 0 32px; align-items: center; min-height: 44px; }
 .fs .fs-city-btn { display: inline-flex; align-items: center; gap: 6px; }
+.fs .fs-btn > svg { flex: none; }
+/* On phones a row's recovery action sits under its facts instead of squeezing them. */
+@media (max-width: 599px) { .fs .fs-content-row.has-action { grid-template-columns: minmax(0, 1fr); gap: 12px; } .fs .fs-content-row.has-action > .fs-btn { width: 100%; } }
+/* On the desktop For you view the car shelf follows the people ribbon closely so its prices stay in the first view. */
+@media (min-width: 1024px) { .fs .fs-cars-after-people { margin-top: 4px !important; } }
+/* The purpose row: heading and city control in one 48px row, flush with the desktop top gutter. */
+.fs .fs-purpose-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; margin-top: 12px; }
+@media (min-width: 1024px) { .fs .fs-purpose-row { margin-top: 0; } }
 /* Content workspace: graphite stage, filmstrip, white inspector. */
 .fs .fs-stage { position: relative; width: 100%; aspect-ratio: 358 / 239; background: var(--fs-graphite); border-radius: var(--fs-radius-media); overflow: hidden; display: grid; place-items: center; }
 .fs .fs-stage img, .fs .fs-stage video { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; }
@@ -401,7 +409,7 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-film-thumb { width: 56px; height: 56px; background: var(--fs-underlay); display: grid; place-items: center; }
 .fs .fs-film-thumb img, .fs .fs-film-thumb video { width: 100%; height: 100%; object-fit: contain; }
 .fs .fs-filmstrip button[aria-pressed="true"] .fs-film-thumb { outline: 3px solid var(--fs-accent); outline-offset: 2px; }
-.fs .fs-inspector { background: var(--fs-surface); padding: 16px; margin-top: 16px; transition: background-color var(--fs-t-control) var(--fs-ease-out); }
+.fs .fs-inspector { background: var(--fs-surface); padding: 16px; margin-top: var(--fs-shift, 12px); transition: background-color var(--fs-t-control) var(--fs-ease-out); }
 .fs .fs-inspector.is-flash { animation: fs-wash 1200ms linear both; }
 .fs .fs-content-rows { list-style: none; padding: 0; margin: 0; }
 .fs .fs-content-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; min-height: 72px; padding: 12px 0; border-top: 1px solid var(--fs-divider); }

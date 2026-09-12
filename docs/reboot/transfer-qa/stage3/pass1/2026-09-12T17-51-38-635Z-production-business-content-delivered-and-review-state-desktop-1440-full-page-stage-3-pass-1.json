@@ -1,0 +1,88 @@
+{
+  "screen": "Production Business Content, delivered and review state (desktop 1440, full page), stage 3 pass 1",
+  "screenshot": "d-business_content-full.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T17:51:38.635Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 10183,
+    "output_tokens": 5561,
+    "total_tokens": 15744,
+    "reasoning_tokens": 4122
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co., its D initial, Essential plan and notification counts replace the Lab business and account fixtures. Do not add Lab demo labels.",
+      "Four delivered files and two needing approval correctly replace the Lab's five files and one needing approval.",
+      "The selected file is Edit requested rather than New; its actual edit note, uploader, caption and delivery provenance belong in production.",
+      "The real photo is contained at its source ratio with graphite letterboxing. It should not be cropped to imitate the Lab's wider photograph.",
+      "The video tile identifies a real video without inventing a poster or substituting Lab photography.",
+      "Completed, booked and being-scheduled shoots, including an unassigned creator, correctly expose the real records.",
+      "The approved video's failed post and actual connection-error explanation correctly replace the Lab's scheduled-photo and failed-photo examples. File approval and publication status remain independent."
+    ],
+    "keep": [
+      "The 200px graphite rail, restrained TapMart mark, labeled navigation and selected Content edge.",
+      "Mineral canvas, flat white review plane, restrained dividers and absence of generic elevated dashboard cards.",
+      "The desktop source-to-decision assembly: 816px source region, 24px separation and 336px commitment panel.",
+      "The 420px-high inspection region, source-faithful media, four-column thumbnail strip and cobalt selected-source outline.",
+      "Strong page and section headings, operational metadata, literal status words and cobalt concentrated on the approval decision.",
+      "Approve content, Request an edit, Skip, Open original, content tabs, shoot navigation and Open Connections remain visibly available."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The capture retains the real records, independent states, navigation and principal review/recovery actions; it does not establish that their handlers work. Hold this viewport for the corrections below and verify caption permissions against the existing production implementation. Then exercise file selection, video/original inspection, approval, edit requests, tabs, shoot navigation and connection recovery.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 8,
+      "premium_feel": 8,
+      "fidelity": 8,
+      "usability": 7,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Restore the approved Caption field treatment: width 100%, min-height 72px, 12px padding, 1px solid #788595 border, 8px radius and IBM Plex Sans 16/24px. Preserve the actual edit note separately. Apply existing production permissions: bind the field to the existing caption-update path when editing is allowed; if this state is intentionally read-only, expose that restriction clearly rather than implying an editable action. Do not introduce a Lab-only mutation.",
+        "kind": "usability",
+        "why": "The Lab exposes a caption textarea; production renders unbounded static text. The capture does not establish whether this is a legitimate Edit requested restriction or a lost editing affordance, so complete control parity cannot yet be signed off.",
+        "where": "Right review panel, Caption"
+      },
+      {
+        "priority": 2,
+        "change": "Change the section heading from \"This month's shoots\" to \"Shoots\" for this multi-month result set. Preserve all three records and their existing ordering and actions.",
+        "kind": "data_honesty",
+        "why": "The visible list contains Sep 4, Sep 18 and Oct 18. A single-month heading contradicts the dates now supplied by production.",
+        "where": "Shoot-list heading"
+      },
+      {
+        "priority": 2,
+        "change": "Include the year in dated shoot and post records, and include the actual scheduling time zone wherever a time is shown. Format timestamps using the record's or configured business scheduling zone with year: \"numeric\", month: \"short\", day: \"numeric\", hour: \"numeric\", minute: \"2-digit\" and timeZoneName: \"short\". Do not copy the Lab's Central zone or silently substitute the browser zone; expose an unavailable zone honestly.",
+        "kind": "usability",
+        "why": "Production shows appointments such as \"Sep 18 at 2 PM\" and a failed post at \"Sep 11 at 11:30 AM\" without year or time zone. The Lab supplied both, making operational dates less ambiguous.",
+        "where": "Shoot timestamps and Upcoming posts timestamp"
+      },
+      {
+        "priority": 3,
+        "change": "Set the desktop content wrapper's top padding to 32px and remove the extra 12px top offset. Preserve the 32px horizontal gutter and existing internal gaps. At this viewport, the inspection assembly should begin at y=218px rather than y=230px.",
+        "kind": "drift",
+        "why": "The title, plan line, tabs, review heading, media and commitment panel are consistently 12px lower than the approved capture. This is a shell-spacing difference, not a consequence of real content.",
+        "where": "Main desktop content wrapper"
+      },
+      {
+        "priority": 2,
+        "change": "Restore Brand kit to 48px height with 16/20px IBM Plex Sans 600 text, 16px horizontal padding and an 8px radius. Ensure Open Connections has an actual hit target at least 44px high; its visible border may remain compact if the target expands without overlap.",
+        "kind": "usability",
+        "why": "Brand kit is visibly reduced to approximately 40px high from the Lab's 48px treatment. Open Connections also appears approximately 40px high; its recovery action must satisfy the system's 44px target minimum.",
+        "where": "Top-right Brand kit and failed-post Open Connections controls"
+      }
+    ],
+    "why": "The principal Frame Shift geometry survives: the graphite rail, mineral canvas, contained source, 24px source-to-commitment separation and flat white decision panel closely match the Lab. Real file and publication states remain distinct, and the failed post retains its recovery action. However, the caption control no longer matches, the page starts 12px too low, one control is reduced, and real dates expose misleading range labeling and weaker scheduling context. No monetary values appear on this screen, so money treatment cannot be evaluated here.",
+    "verdict": "The Frame Shift composition and visible production workflow largely survived, but caption-control parity, date honesty and small desktop layout corrections prevent release sign-off."
+  }
+}

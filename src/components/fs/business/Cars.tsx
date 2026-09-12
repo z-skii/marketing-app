@@ -23,6 +23,14 @@ export function askingLine(c: Car): string {
   return `Asking from ${formatMoney(min)} per month · ${priced.length} placements`;
 }
 
+/** The asking line for the screen: the lowest asking price, then the placement count as its own metadata line. */
+function AskingLine({ c }: { c: Car }) {
+  const priced = c.zones.filter((z) => z.asking_cents != null);
+  if (priced.length <= 1) return <>{askingLine(c)}</>;
+  const min = Math.min(...priced.map((z) => z.asking_cents as number));
+  return <>Asking from {formatMoney(min)} per month<span className="fs-t-meta" style={{ display: "block" }}>{priced.length} placements</span></>;
+}
+
 export function zoneLine(c: Car): string {
   const zones = c.zones.map((z) => placementLabel(z.zone));
   if (zones.length === 0) return "No placement offered";
@@ -50,7 +58,7 @@ function Caption({ c }: { c: Car }) {
     <span style={{ display: "block", marginLeft: 12 }}>
       <span className="fs-t-task" style={{ display: "block", marginTop: 8 }}>{carName(c)}{c.color ? <span className="fs-t-meta"> · {c.color}</span> : null}</span>
       <span className="fs-t-meta" style={{ display: "block" }}>{meta}</span>
-      <span className="fs-t-body fs-tnum" style={{ display: "block" }}>{askingLine(c)}</span>
+      <span className="fs-t-body fs-tnum" style={{ display: "block" }}><AskingLine c={c} /></span>
       {c.stage.glbUrl && <span className="fs-t-meta" style={{ display: "block" }}>3D model available in the car&apos;s inspection</span>}
     </span>
   );

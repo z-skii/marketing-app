@@ -75,9 +75,9 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
 
   return (
     <main className="fs-phone-main" id="main">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, minHeight: 48, marginTop: 12 }}>
+      <div className="fs-purpose-row">
         <h1 className="fs-t-page">Find people and cars</h1>
-        <Link href="/business/edit" className="fs-btn fs-btn-secondary fs-city-btn fs-btn-sm" aria-label={city ? `Business city ${city}. Change it` : "Add your business city"}>
+        <Link href="/business/edit" className="fs-btn fs-btn-secondary fs-city-btn" aria-label={city ? `Business city ${city}. Change it` : "Add your business city"}>
           <MapPin size={18} aria-hidden />{city ?? "Add your city"}
         </Link>
       </div>
@@ -145,17 +145,20 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
 
       {/* Cars */}
       {!nearbyNoCity && tab !== "people" && (
-        <section aria-labelledby="cars-title" style={{ marginTop: tab === "cars" ? 16 : 24 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, minHeight: 44 }}>
+        <section aria-labelledby="cars-title" className={tab === "for_you" ? "fs-cars-after-people" : undefined} style={{ marginTop: tab === "cars" ? 16 : 24 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4, minHeight: 44, flexWrap: "wrap" }}>
             <span style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
               <h2 id="cars-title" className="fs-t-section">{carsLabel}</h2>
               <span className="fs-t-body" style={{ color: "var(--fs-muted)" }}>Monthly advertising space</span>
             </span>
             {tab === "for_you" && shownCars.length > 0 && (
-              <span className="fs-desk-only" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <Link href={href("cars")} className="fs-btn fs-btn-quiet fs-link-ink" style={{ minHeight: 44 }}>See all cars</Link>
-                <ShelfControls target="car-shelf" label="cars" />
-              </span>
+              <>
+                <span className="fs-desk-only" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <Link href={href("cars")} className="fs-btn fs-btn-quiet fs-link-ink" style={{ minHeight: 44 }}>See all cars</Link>
+                  <ShelfControls target="car-shelf" label="cars" />
+                </span>
+                <Link href={href("cars")} className="fs-btn fs-btn-quiet fs-link-ink fs-phone-only" style={{ paddingLeft: 0, minHeight: 44 }}>See all cars <ArrowRight size={18} aria-hidden /></Link>
+              </>
             )}
           </div>
           {carsFailed ? (
@@ -173,7 +176,6 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
               <ul className="fs-car-list fs-phone-only">
                 {shownCars.slice(0, 3).map((c, i) => <CarAssembly key={c.id} c={c} priority={i === 0} />)}
               </ul>
-              {shownCars.length > 3 && <Link href={href("cars")} className="fs-btn fs-btn-quiet fs-link-ink fs-phone-only" style={{ paddingLeft: 0, marginTop: 8 }}>See all cars <ArrowRight size={18} aria-hidden /></Link>}
             </>
           ) : (
             <ul className="fs-car-list fs-car-grid">

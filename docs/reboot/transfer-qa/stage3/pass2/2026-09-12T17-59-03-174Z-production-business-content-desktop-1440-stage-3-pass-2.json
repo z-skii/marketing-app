@@ -1,0 +1,53 @@
+{
+  "screen": "Production Business Content (desktop 1440), stage 3 pass 2",
+  "screenshot": "d-business_content.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T17:59:03.174Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9562,
+    "output_tokens": 2687,
+    "total_tokens": 12249,
+    "reasoning_tokens": 1929
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co., its D initial and the Essential plan replace the Lab business and Growth plan. Production correctly omits the Lab-only business demo label.",
+      "Four delivered files and two needing approval replace the fixture's five files and one needing approval.",
+      "The selected real photograph is contained at its approximately 4:3 ratio, leaving graphite sidebars instead of filling the wider stage like the Lab image.",
+      "The actual title, September shoot date, uploader identity, verification text and Delivered photo provenance replace fictional file details.",
+      "Edit requested and its recorded edit note replace the fixture's New state. The additional information legitimately moves the inspector actions downward.",
+      "Caption · Read only and the request-an-edit explanation correctly replace the Lab textarea because production has no caption-editing mutation.",
+      "The real video receives an explicit Video thumbnail rather than an invented still. Actual unread counts and file/post states replace fixture values."
+    ],
+    "keep": [
+      "The mineral canvas, 200px graphite rail, 32px application gutter and flat white inspector closely match the approved shell; there are no generic elevated dashboard cards.",
+      "The source-to-decision composition is preserved: an 816×420px source stage, a 24px horizontal separation and a 336px inspector with 24px internal padding.",
+      "The strong Archivo heading hierarchy and compact operational typography remain consistent with the Lab, including prominent file identity and subordinate provenance/status text.",
+      "Real photographs remain identifiable and source-ratio faithful. Media retains restrained 4px corners, and the filmstrip keeps its 16px spacing and clear cobalt selection edge.",
+      "Approve content remains the cobalt primary decision. Request an edit, Skip and Open original remain secondary, with the approved control hierarchy and generous action targets.",
+      "File state and Post remain explicitly separate. Approved · Post failed correctly communicates that approval is not publication; neither screen introduces a monetary promise.",
+      "The graphite navigation, selected Content edge, four content tabs, business switcher, Manage plan and Brand kit remain exposed."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off for the captured 1440×900 desktop viewport. The capture preserves the visible review workflow, but does not prove action execution. Only the Shoots heading reaches the bottom edge; shoot records, upcoming posts and failure recovery below it cannot be assessed from this production crop.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 9,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The major coordinates and treatments align closely: content begins at x232, the source begins at y218, and the inspector begins at x1072 after the approved 24px separation. Stage height, filmstrip placement, navigation, typography and action hierarchy survive the transfer. The visible differences are predominantly genuine records, media proportions and additional literal state information—not a competing design language. Read-only caption treatment preserves production capability honestly, while separate file and post labels preserve the distinction between review and publication.",
+    "verdict": "Yes—Frame Shift is faithfully transferred at this desktop viewport, with TapMart’s visible real data, states, navigation and review actions preserved."
+  }
+}

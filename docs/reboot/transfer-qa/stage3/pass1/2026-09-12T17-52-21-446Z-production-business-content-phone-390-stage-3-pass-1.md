@@ -1,0 +1,48 @@
+# Transfer QA: Production Business Content (phone 390), stage 3 pass 1
+
+Production: `m-business_content-full.png` · Approved Lab: `d-design_lab_business_content-full.png` · Reviewer: Astra, design QA director · 2026-09-12T17:52:21.446Z
+Instructions: Stage 3 transfers the approved Frame Shift Design Lab to production for the business core. The Lab captures are the approved design: judge whether the real production screen keeps the approved language and composition (mineral canvas, graphite rail and media regions, cobalt only for decisions, the source-to-commitment joint, real media at source ratio, short operational copy, literal status words, restrained borders, strong typography, honest provenance, no generic dashboard cards) and whether real functionality survived. Real data replaces the Lab's fictional people, cars, files and business; treat those as expected differences, not drift. Do not propose a new design system. The same workspace compact on a phone: stage, 56px thumbnails, inspector below, then shoots and posts. The Lab drew desktop only; judge the phone translation. The tab bar is pinned to the document end for this full-page capture only.
+
+**Verdict.** Frame Shift is largely recognizable and the core production workflow remains exposed, but this phone transfer needs targeted corrections before release.
+
+**Faithful transfer: NO. Functionality intact: YES. Ready to ship: NO.** Hold this viewport for the fixes below. Core production data, states, actions and navigation remain exposed, but caption editability needs reconciliation with actual production permissions. After correction, smoke-test file selection, caption handling, review mutations, original-file access, shoot navigation and Open Connections; a capture cannot establish successful execution.
+
+The main visual language transferred well: mineral surfaces, strong type, source-faithful photography, a graphite media stage and a flat operational inspector are all recognizable. The compact thumbnail strip and inspector-below-source arrangement are appropriate phone translations; the missing desktop rail is not drift. Production retains literal, independent file, shoot and publication states, including an actionable failure. Neither capture requires a money region, and none has been invented. Sign-off is withheld for the unexplained caption-control change, contradictory month heading, undersized secondary controls and imprecise source-to-inspector joint—not for differences in real content.
+
+| score | 0 to 10 |
+| --- | --- |
+| viewport quality | 7 |
+| media quality | 8 |
+| uniqueness | 7 |
+| clarity | 7 |
+| premium feel | 7 |
+| fidelity | 7 |
+| usability | 7 |
+| brand recognition | 7 |
+| ai slop risk | 1 |
+
+## Keep
+
+- Mineral canvas, flat white inspector, graphite media housing, restrained dividers and absence of generic elevated cards.
+- Strong Archivo page and section headings, with readable IBM Plex Sans operational copy and literal status words.
+- The 16px phone gutters, contained source image, 4px media corners, 56px thumbnails and sequence of source, inspector, shoots and posts.
+- Cobalt approval and selection treatments, ink secondary inspection actions, amber edit-request status, green booked/completed states and red publication failure.
+- Approve content, Request an edit, Skip, Open original, shoot navigation and connection recovery remain visibly exposed.
+- The mobile account header, utility controls, workspace tabs and selected Content navigation. The tab bar's document-end position is an intentional capture condition, not a defect.
+
+## Expected differences (real data)
+
+- Demo Coffee Co., its D initial, Essential plan and unread counts replace the Lab business and account fixtures. Keep these production values, including the business's actual name.
+- Four delivered files and two needing approval correctly replace the Lab's five files and one needing approval.
+- The supplied coffee photography, captions, creator attribution and shoot dates replace fixture content. The labeled Video tile is an honest media-type fallback; it does not need invented photography.
+- Edit requested and the saved edit note correctly replace the Lab's New file state. File state and Post · Not scheduled remain independent.
+- Three actual shoots expose scheduling, booked and completed states, including an unassigned creator. Their presence is valid; the mixed-month heading is a separate issue.
+- The actual failed Instagram Reel and Open Connections recovery replace the Lab's scheduled and failed photo examples.
+- Delivered photo appropriately replaces Demo delivered file. Production does not need the Lab's fictional-service disclaimer.
+
+## Drift and usability
+
+1. [drift] **Reconcile Caption with the existing production editing capability. For editable records, restore a textarea bound to the selected file and existing update flow: width:100%, min-width:0, min-height:72px, padding:12px, IBM Plex Sans 16/24px, background:#FFFFFF, color:#151B23, border:1px solid #788595 and border-radius:8px. If this record's actual state or permissions prohibit editing, retain the text but label it 'Caption · Read only'; do not introduce an unsupported mutation merely to imitate the Lab.** (Selected-file inspector, Caption). The Lab exposes an editable caption field. Production renders the caption as plain text without explaining whether this is a legitimate state restriction or a lost control. The capture alone cannot establish that caption editing survived.
+2. [data_honesty] **Change 'This month's shoots' to 'Shoots' for this mixed-month collection. Preserve the actual Sep 4, Sep 18 and Oct 18 records and their existing ordering and navigation.** (Shoot-list heading). September and October cannot both belong to the month asserted by the heading. Real records are correct; the collection label is not.
+2. [usability] **Set Brand kit and Open Connections to min-height:44px with at least 44px-high interactive targets. Preserve their 8px corners and existing outlined treatment; keep the approval and edit-request buttons at their current approximately 48px height.** (Page-header Brand kit button and failed-post Open Connections button). The two outlined secondary buttons appear approximately 40px tall at the 390px viewport, below the approved 44px target requirement.
+3. [drift] **Use --tm-shift-phone:12px as the single block-axis gap between the complete source group, including thumbnails and file-position caption, and the white inspector. Remove the current approximately 16px separating margin. Keep both regions within the existing 16px page gutters, with 0px structural radius and no shadow; do not add a decorative notch.** (Source-group to selected-file inspector boundary). The source and decision regions are present, but their boundary uses generic spacing rather than the prescribed 12px phone counterpart to the Lab's 24px desktop joint.

@@ -115,7 +115,7 @@ export function ContentWorkspace({ files, timeZone, timeZoneLabel, defaultSlot, 
                     )}
                   </span>
                   <span className="fs-t-meta fs-desk-only" style={{ display: "block", marginTop: 8, color: "var(--fs-ink)" }}>{fileTitle(f, i)}</span>
-                  <span className="fs-t-meta fs-desk-only" style={{ display: "block" }}>{st.label}{ps.label !== "Not scheduled" && <> · <span className={`fs-status is-${ps.tone}`} style={{ fontWeight: 400 }}>Post {ps.label.toLowerCase().replace("post ", "")}</span></>}</span>
+                  <span className="fs-t-meta fs-desk-only" style={{ display: "block" }}>{st.label}{ps.label !== "Not scheduled" && <>{" · "}<span className={`fs-status is-${ps.tone}`} style={{ fontWeight: 400 }}>Post {ps.label.toLowerCase().replace("post ", "")}</span></>}</span>
                 </button>
               </li>
             );
@@ -133,14 +133,15 @@ export function ContentWorkspace({ files, timeZone, timeZoneLabel, defaultSlot, 
 
         {selected.caption ? (
           <>
-            <p className="fs-t-label" style={{ marginTop: 16 }}>Caption</p>
+            <p className="fs-t-label" style={{ marginTop: 16 }}>Caption · Read only</p>
             <p className="fs-t-body" style={{ whiteSpace: "pre-wrap" }}>{selected.caption}</p>
+            <p className="fs-t-meta">Written by the uploader.{selected.status === "new" || selected.status === "approved" ? " Ask for a change with Request an edit." : ""}</p>
           </>
         ) : <p className="fs-t-meta" style={{ marginTop: 16 }}>No caption supplied.</p>}
         {selected.edit_note && <p className="fs-t-meta fs-note" style={{ marginTop: 12 }}>Edit note · {selected.edit_note}</p>}
         <p className="fs-t-meta" style={{ marginTop: 12 }}>Post · <span className={`fs-status is-${post.tone}`}>{post.label}</span>{post.detail ? ` · ${post.detail}` : ""}</p>
         {post.label === "Scheduled" && <p className="fs-t-meta">Scheduling does not publish automatically. Post it, then mark it published.</p>}
-        {post.label === "Post failed" && <Link href="/business/connections" className="fs-btn fs-btn-secondary fs-btn-sm" style={{ marginTop: 8 }}>Open Connections</Link>}
+        {post.label === "Post failed" && <Link href="/business/connections" className="fs-btn fs-btn-secondary" style={{ marginTop: 8 }}>Open Connections</Link>}
 
         {error && <p role="alert" className="fs-field-error" style={{ marginTop: 12 }}>{error}</p>}
 

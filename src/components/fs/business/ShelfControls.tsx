@@ -23,10 +23,12 @@ export function ShelfControls({ target, label }: { target: string; label: string
   }, [target]);
   const move = (dir: -1 | 1) => {
     const el = document.querySelector(`[data-shelf="${target}"]`) as HTMLElement | null; if (!el) return;
-    const items = Array.from(el.children) as HTMLElement[];
+    const box = el.getBoundingClientRect();
+    // Each item's own offset inside the shelf, whatever its offset parent is.
+    const items = (Array.from(el.children) as HTMLElement[]).map((i) => el.scrollLeft + i.getBoundingClientRect().left - box.left);
     const x = el.scrollLeft;
-    const next = dir > 0 ? items.find((i) => i.offsetLeft > x + 1) : [...items].reverse().find((i) => i.offsetLeft < x - 1);
-    el.scrollTo({ left: next ? next.offsetLeft : dir > 0 ? el.scrollWidth : 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    const next = dir > 0 ? items.find((left) => left > x + 1) : [...items].reverse().find((left) => left < x - 1);
+    el.scrollTo({ left: next ?? (dir > 0 ? el.scrollWidth : 0), behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
   return (
     <span className="fs-shelf-controls">
