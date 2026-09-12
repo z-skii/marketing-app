@@ -129,6 +129,13 @@
   background: var(--tm-surface); border-top: 1px solid var(--tm-divider);
   max-width: 480px; margin: 0 auto;
 }
+/* Embedded screens (the public page's live demonstrations): fixed logical size, tab bar and rail contained. */
+.lab .embed .phone { min-height: 0; height: 844px; max-width: none; position: relative; overflow: hidden; }
+.lab .embed .phone-main { overflow: hidden; }
+.lab .embed .tabbar { position: absolute; max-width: none; }
+.lab .embed .desk { display: block; position: relative; min-height: 0; height: 900px; overflow: hidden; }
+.lab .embed .rail { position: absolute; top: 0; left: 0; height: 900px; width: 200px; box-sizing: border-box; }
+.lab .embed .desk-main { margin-left: 200px; overflow: hidden; height: 900px; }
 .lab .tabbar a { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 64px; font-size: 14px; line-height: 18px; font-weight: 500; color: var(--tm-muted); }
 .lab .tabbar a[aria-current="page"] { color: var(--tm-ink); font-weight: 600; }
 .lab .tabbar a[aria-current="page"]::before { content: ""; position: absolute; top: 0; width: 24px; height: 3px; background: var(--tm-accent); }
