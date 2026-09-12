@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getV2Context } from "@/lib/v2/core";
 import {
-  activityBucket, activityLabel, fmtDate, getActivity, getSavedOpportunities,
+  activityBucket, activityLabel, getActivity, getSavedOpportunities,
   type ActivityItem, type EarnKind, type Opportunity,
 } from "@/lib/v2/opportunities";
 import { MediaPreview } from "@/components/v2/MediaPreview";
