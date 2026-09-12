@@ -157,3 +157,14 @@ content; hero cards 14px apart; rows 9px apart.
 
 Bigger media, fewer words, fewer boxes, one lime action, money where the eye
 lands first, real content instead of any placeholder, one clear next tap.
+
+## Backlog (non-blocking, recorded 2026-09-12 at Stage 1 approval)
+
+1. Desktop User Home: when the number of open opportunities is uneven for
+   the 358px column grid, a single trailing object leaves a visual gap.
+   Handle that gracefully later (for example a different last-row
+   treatment); not a Stage 1 blocker.
+2. Video submissions without a poster: investigate generating a truthful
+   thumbnail from the actual uploaded video when the platform can decode
+   it. Until then the honest "View video · No preview available" state
+   stays. Never fabricate media.
