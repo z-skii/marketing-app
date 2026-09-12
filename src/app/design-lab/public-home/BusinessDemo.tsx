@@ -93,7 +93,7 @@ function PersonDetail({ person, onBack }: { person: Person; onBack: () => void }
         <p className="t-identity" style={{ margin: 0, fontSize: 26, lineHeight: "30px" }}>{person.name}</p>
         <p className="t-meta" style={{ margin: "4px 0 0" }}>{person.city}{person.completed != null ? ` · ${person.completed} completed` : ""}{person.rating ? ` · ${person.rating.value.toFixed(1)} (${person.rating.count} reviews)` : ""}</p>
         <p className="t-meta" style={{ margin: 0 }}>{person.qualification || "Not verified"}</p>
-        <p className="t-body" style={{ margin: "12px 0 0" }}>{person.fit}</p>
+        <p className="t-body" style={{ margin: "12px 0 0" }}>{person.sample ? `${person.sample.title} · ${person.sample.kind}` : "No work samples shared"}</p>
         <p className="t-label" style={{ margin: "24px 0 0" }}>Request work from {person.name.split(" ")[0]}</p>
         <p className="t-meta" style={{ margin: "2px 0 0" }}>Demo only · No real request is sent</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 8, maxWidth: 280 }}>
