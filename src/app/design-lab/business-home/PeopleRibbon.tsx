@@ -84,11 +84,54 @@ export function PersonSpread({ s, onView }: { s: Spread; onView?: (id: string) =
  */
 export function PersonAssembly({ person: p, onView, width = 376, compact = false }: { person: Person; onView?: (id: string) => void; width?: number; compact?: boolean }) {
   const ratio = p.sample ? RATIO[p.sample.ratio] ?? 0.8 : 0;
-  const maxW = width - 104 - 16; const maxH = compact ? 240 : 280;
-  const w = p.sample ? Math.min(maxW, Math.round(maxH * ratio)) : 0; const h = p.sample ? Math.round(w / ratio) : 0;
   const first = p.name.split(" ")[0];
+  const inspect = p.sample ? <InspectButton src={p.sample.src} alt={`${p.sample.title}, ${p.sample.kind} by ${p.name}`} label={`View work · ${p.sample.title}`} className="link-ink link-ul" icon={false} style={{ fontWeight: 500, fontSize: 14, lineHeight: "20px", minHeight: 44 }} /> : "No work samples shared";
+  const actions = (
+    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, minHeight: 44 }}>
+      {onView ? (
+        <button type="button" className="btn btn-quiet link-ink" style={{ paddingLeft: 0, minHeight: 44 }} onClick={() => onView(p.id)}>View person</button>
+      ) : (
+        <Link href="/design-lab/business-home" className="btn btn-quiet link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>View person</Link>
+      )}
+      {p.sample && (onView ? <button type="button" className="btn btn-quiet" style={{ minHeight: 44 }} onClick={() => onView(p.id)}>Request {first} <ArrowRight size={18} aria-hidden /></button> : <Link href="/design-lab/business-home" className="btn btn-quiet" style={{ minHeight: 44 }}>Request {first} <ArrowRight size={18} aria-hidden /></Link>)}
+    </div>
+  );
+  const portrait = (
+    <div className="media" style={{ width: 104, height: 130, background: "var(--tm-underlay)", display: "grid", placeItems: "center" }}>
+      {p.portrait ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={p.portrait} alt={p.name} width={104} height={130} />
+      ) : <span aria-hidden className="t-display" style={{ fontWeight: 700, fontSize: 24 }}>{p.initials}</span>}
+    </div>
+  );
+  if (compact) {
+    /* Phone: a 176px source column, a 12px gap, then identity (portrait, name, provenance) beside it; actions below. */
+    const w = 176; const h = p.sample ? Math.round(w / ratio) : 0;
+    return (
+      <article aria-label={p.name} className="person-compact" style={{ width }}>
+        <div style={{ display: "grid", gridTemplateColumns: "176px minmax(0, 1fr)", gap: 12, alignItems: "start" }}>
+          {p.sample ? (
+            <InspectButton src={p.sample.src} alt={`${p.sample.title}, ${p.sample.kind} by ${p.name}`} label={`Inspect ${p.sample.title}`} className="media" style={{ width: w, height: Math.min(h, 313), display: "block" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.sample.src} alt="" width={w} height={Math.min(h, 313)} style={{ objectFit: "contain", background: "var(--tm-underlay)" }} />
+            </InspectButton>
+          ) : <p className="t-meta" style={{ margin: 0 }}>No work samples shared.</p>}
+          <div style={{ marginTop: "var(--tm-shift-phone)" }}>
+            {portrait}
+            <p className="t-section" style={{ margin: "8px 0 0", fontSize: 22, lineHeight: "28px" }}>{p.name}</p>
+            <p className="t-meta" style={{ margin: "2px 0 0" }}>{p.city} · {provenance(p)}</p>
+            <div className="t-meta" style={{ margin: 0 }}>{inspect}</div>
+          </div>
+        </div>
+        {actions}
+      </article>
+    );
+  }
+  const maxW = width - 104 - 16; const maxH = 280;
+  const w = p.sample ? Math.min(maxW, Math.round(maxH * ratio)) : 0; const h = p.sample ? Math.round(w / ratio) : 0;
   return (
     <article aria-label={p.name} style={{ width }}>
+      {/* The source reservation: work at its ratio on the baseline; the portrait sits on the source-to-identity boundary, 24px below it. */}
       <div style={{ position: "relative", height: maxH }}>
         {p.sample ? (
           <InspectButton src={p.sample.src} alt={`${p.sample.title}, ${p.sample.kind} by ${p.name}`} label={`Inspect ${p.sample.title}`} className="media" style={{ position: "absolute", left: 0, bottom: 0, width: w, height: h, display: "block" }}>
@@ -96,25 +139,13 @@ export function PersonAssembly({ person: p, onView, width = 376, compact = false
             <img src={p.sample.src} alt="" width={w} height={h} />
           </InspectButton>
         ) : <p className="t-meta" style={{ position: "absolute", left: 0, bottom: 8, margin: 0 }}>No work samples shared.</p>}
-        <div className="media" style={{ position: "absolute", right: 0, top: 0, width: 104, height: 130, background: "var(--tm-underlay)", display: "grid", placeItems: "center" }}>
-          {p.portrait ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={p.portrait} alt={p.name} width={104} height={130} />
-          ) : <span aria-hidden className="t-display" style={{ fontWeight: 700, fontSize: 24 }}>{p.initials}</span>}
-        </div>
+        <div style={{ position: "absolute", right: 0, bottom: -24 }}>{portrait}</div>
       </div>
-      <div style={{ marginTop: "var(--pub-shift, 24px)" }}>
-        <p className="t-section" style={{ margin: 0, fontSize: 22, lineHeight: "28px" }}>{p.name}</p>
-        <p className="t-meta" style={{ margin: "2px 0 0" }}>{p.city} · {provenance(p)}</p>
-        <div className="t-meta" style={{ margin: 0 }}>{p.sample ? <InspectButton src={p.sample.src} alt={`${p.sample.title}, ${p.sample.kind} by ${p.name}`} label={`View work · ${p.sample.title}`} className="link-ink link-ul" icon={false} style={{ fontWeight: 500, fontSize: 14, lineHeight: "20px", minHeight: 44 }} /> : "No work samples shared"}</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, minHeight: 44 }}>
-          {onView ? (
-            <button type="button" className="btn btn-quiet link-ink" style={{ paddingLeft: 0, minHeight: 44 }} onClick={() => onView(p.id)}>View person</button>
-          ) : (
-            <Link href="/design-lab/business-home" className="btn btn-quiet link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>View person</Link>
-          )}
-          {p.sample && (onView ? <button type="button" className="btn btn-quiet" style={{ minHeight: 44 }} onClick={() => onView(p.id)}>Request {first} <ArrowRight size={18} aria-hidden /></button> : <Link href="/design-lab/business-home" className="btn btn-quiet" style={{ minHeight: 44 }}>Request {first} <ArrowRight size={18} aria-hidden /></Link>)}
-        </div>
+      <div style={{ marginTop: 24, marginLeft: 24, width: "calc(100% - 24px)" }}>
+        <p className="t-section" style={{ margin: 0, fontSize: 22, lineHeight: "28px", paddingRight: 112 }}>{p.name}</p>
+        <p className="t-meta" style={{ margin: "2px 0 0", paddingRight: 112 }}>{p.city} · {provenance(p)}</p>
+        <div className="t-meta" style={{ margin: 0 }}>{inspect}</div>
+        {actions}
       </div>
     </article>
   );

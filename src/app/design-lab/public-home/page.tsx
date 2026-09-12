@@ -56,6 +56,7 @@ export default function PublicHomeLab() {
           <p className="pub-conditions">Check the task, eligibility and approval conditions.</p>
         </div>
         <div className="pub-hero-media">
+          <p className="t-meta pub-filming-cap">Generated filming illustration</p>
           <div className="pub-filming">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={ASSET("public-filming-01")} alt="A person filming a short video at a coffee counter with a phone on a small tripod" />
@@ -69,7 +70,7 @@ export default function PublicHomeLab() {
             <Money cents={recreate.payCents} per={recreate.basis} dark />
           </div>
           <div className="pub-hero-foot">
-            <div className="t-meta" style={{ margin: 0, display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0 12px" }}>Demo product · Generated filming illustration <InspectButton src={ASSET("public-filming-01")} alt="Filming illustration, generated for the Design Lab" label="View filming illustration" style={{ minHeight: 44, padding: 0, fontSize: 14 }} /></div>
+            <div className="t-meta" style={{ margin: 0, display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0 12px" }}>Demo product <InspectButton src={ASSET("public-filming-01")} alt="Filming illustration, generated for the Design Lab" label="View filming illustration" style={{ minHeight: 44, padding: 0, fontSize: 14 }} /></div>
             <Link href="/design-lab/user-home" className="btn btn-secondary pub-open">Open earning example</Link>
           </div>
         </div>
@@ -97,7 +98,8 @@ export default function PublicHomeLab() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={ASSET("public-filming-01")} alt="A person filming their own version at a coffee counter" width={624} height={416} />
                 </div>
-                <span className="t-meta pub-label" style={{ color: "var(--tm-muted-dark)" }}>Filming illustration · Generated</span>
+                <span className="t-meta pub-label" style={{ color: "var(--tm-muted-dark)" }}>Generated filming illustration · Demo</span>
+                <InspectButton src={ASSET("public-filming-01")} alt="Filming illustration, generated for the Design Lab, at its original ratio" label="Inspect filming illustration" className="btn btn-quiet pub-inspect" style={{ color: "var(--tm-on-dark)", paddingLeft: 0, minHeight: 44 }} />
               </div>
             </div>
             <div className="pub-work pub-work-recreate">
@@ -150,7 +152,8 @@ export default function PublicHomeLab() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={car.visual} alt="Campaign visual: a bike shop's delivery car parked outside the shop, no ad installed" width={640} height={427} />
                 </div>
-                <span className="t-meta pub-label">Campaign visual · Demo · No installed ad</span>
+                <span className="t-meta pub-label">Campaign illustration · Demo · No installed ad</span>
+                <InspectButton src={car.visual} alt="Campaign illustration: the delivery car outside the bike shop, no installed ad, original ratio" label="Inspect vehicle photo" className="btn btn-quiet pub-inspect" style={{ paddingLeft: 0, minHeight: 44 }} />
               </div>
               <div className="pub-src-diagram">
                 <div className="pub-diagram-field"><PlacementDiagram width={208} /></div>
@@ -187,7 +190,8 @@ export default function PublicHomeLab() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={ASSET("public-filming-01")} alt="A person filming their own version" width={230} height={153} />
               </div>
-              <span className="t-meta pub-label" style={{ color: "var(--tm-muted-dark)" }}>Filming illustration</span>
+              <span className="t-meta pub-label" style={{ color: "var(--tm-muted-dark)" }}>Generated filming illustration · Demo</span>
+              <InspectButton src={ASSET("public-filming-01")} alt="Filming illustration, generated for the Design Lab, at its original ratio" label="Inspect filming illustration" className="btn btn-quiet pub-inspect" style={{ color: "var(--tm-on-dark)", paddingLeft: 0, minHeight: 44 }} />
             </div>
           </div>
           <div style={{ marginTop: 16 }}><RecreateCommitment width={358} height={280} ledge={112} ledgeInset={12} detail href="/design-lab/user-home#recreate" /></div>
@@ -213,9 +217,12 @@ export default function PublicHomeLab() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={car.visual} alt="Campaign visual: a bike shop's delivery car, no ad installed" />
           </div>
-          <span className="t-meta pub-label">Campaign visual · Demo · No installed ad</span>
-          <div style={{ marginTop: 16 }}><PlacementDiagram width={160} /><span className="t-meta pub-label">Placement concept: rear doors.</span><InspectButton src="/design-lab/placement-rear-doors.svg" alt="Placement concept: rear doors, the coded diagram at full size" label="Inspect placement" className="btn btn-quiet pub-inspect" style={{ paddingLeft: 0, minHeight: 44 }} /></div>
-          <div style={{ marginTop: 16 }}><CarCommitment width={358} inset={12} detail stacked href="/design-lab/user-home#car" /></div>
+          <span className="t-meta pub-label">Campaign illustration · Demo · No installed ad</span>
+          <InspectButton src={car.visual} alt="Campaign illustration: the delivery car outside the bike shop, no installed ad, original ratio" label="Inspect vehicle photo" className="btn btn-quiet pub-inspect" style={{ paddingLeft: 0, minHeight: 44 }} />
+          <div className="pub-drive-assembly">
+            <div style={{ padding: "16px 16px 0" }}><PlacementDiagram width={160} /><span className="t-meta pub-label">Placement concept: rear doors.</span><InspectButton src="/design-lab/placement-rear-doors.svg" alt="Placement concept: rear doors, the coded diagram at full size" label="Inspect placement" className="btn btn-quiet pub-inspect" style={{ paddingLeft: 0, minHeight: 44 }} /></div>
+            <CarCommitment width={346} inset={0} detail stacked href="/design-lab/user-home#car" />
+          </div>
         </section>
       </div>
 

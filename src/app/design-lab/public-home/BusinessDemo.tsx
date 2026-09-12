@@ -31,6 +31,7 @@ export function BusinessDemo() {
         <button type="button" role="tab" aria-selected={mode === "content"} className={mode === "content" ? "is-on" : ""} onClick={() => setMode("content")}>Monthly content</button>
         <span className="t-meta" style={{ marginLeft: "auto" }}>Demo product · Changes reset · No real request is sent</span>
       </div>
+      <p className="t-body pub-demo-line" style={{ margin: "12px 0 0", color: "var(--tm-muted)" }}>{mode === "campaigns" ? "Request people or car placements." : "Review delivered files and schedule posts."}</p>
       <div className="pub-demo-field" key={mode}>
         {mode === "campaigns" ? (
           view.kind === "people" ? <PeopleView onView={(id) => setView({ kind: "person", id })} onCars={() => setView({ kind: "cars" })} />
@@ -53,10 +54,10 @@ function PeopleView({ onView, onCars }: { onView: (id: string) => void; onCars: 
           <button type="button" role="radio" aria-checked="false" style={{ fontSize: 16 }} onClick={onCars}>Cars</button>
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 376px)", gap: 24, marginTop: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 376px)", gap: 24, marginTop: 12, paddingBottom: 0 }}>
         {people.slice(0, 3).map((p) => <PersonAssembly key={p.id} person={p} onView={onView} />)}
       </div>
-      <p className="t-meta" style={{ margin: "16px 0 0" }}>3 of {people.length} people · <Link href="/design-lab/business-home" style={{ color: "var(--tm-accent)" }}>See all people</Link></p>
+      <p className="t-meta" style={{ margin: "16px 0 0" }}>3 of {people.length} people · <Link href="/design-lab/business-home" className="link-ink link-ul" style={{ fontWeight: 500 }}>See all people</Link></p>
     </div>
   );
 }

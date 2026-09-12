@@ -39,6 +39,21 @@ export function ContentWorkspace({ files, shootLabel, uploader, compact = false,
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img key={selected.id} src={selected.src} alt={`${selected.title}, the original delivered file`} width={816} height={420} style={{ width: "100%", height: "100%", objectFit: "contain", animation: "lab-xfade 180ms var(--tm-ease-out) both" }} />
         </div>
+        {compact && (
+          <div style={{ marginTop: 8 }}>
+            <ul style={{ display: "flex", gap: 8, listStyle: "none", padding: 0, margin: 0 }} aria-label="Delivered files">
+              {files.map((f) => (
+                <li key={f.id}>
+                  <button type="button" aria-pressed={f.id === selected.id} aria-label={f.title} onClick={() => setSelectedId(f.id)} className="media contain" style={{ width: 56, height: 56, background: "var(--tm-underlay)", outline: f.id === selected.id ? "3px solid var(--tm-accent)" : "none", outlineOffset: 2 }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={f.src} alt="" width={56} height={56} />
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p className="t-meta" style={{ margin: "8px 0 0" }}>File {files.findIndex((f) => f.id === selected.id) + 1} of {files.length} · {selected.title}</p>
+          </div>
+        )}
         {!compact && <ul style={{ display: "grid", gridTemplateColumns: "repeat(4, 192px)", gap: 16, listStyle: "none", padding: 0, margin: "16px 0 0" }}>
           {others.map((f) => (
             <li key={f.id}>

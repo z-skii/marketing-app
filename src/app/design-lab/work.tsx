@@ -17,13 +17,13 @@ export function RecreateCommitment({ width = 198, height = 284, ledge = 112, led
   const r = opportunities.recreate;
   return (
     <div className="on-dark" style={{ width, minHeight: height, display: "flex", flexDirection: "column", color: "var(--tm-on-dark)" }}>
-      <div style={{ padding: detail ? "16px 20px" : 12, flex: 1, background: "var(--tm-graphite)" }}>
+      <div style={{ padding: detail ? "16px 20px 24px" : 12, flex: 1, background: "var(--tm-graphite)", display: "flex", flexDirection: "column" }}>
         {detail && <p className="t-meta" style={{ color: "var(--tm-muted-dark)", margin: "0 0 8px" }}>Demo opportunity · <span className="status" style={{ color: "var(--tm-on-dark)" }}>Open</span></p>}
         <p className="t-meta" style={{ color: "var(--tm-muted-dark)", margin: 0 }}>Recreate Reel</p>
         <p className="t-task" style={{ color: "var(--tm-on-dark)", margin: "4px 0 0" }}>{r.title}</p>
         <p className="t-meta" style={{ color: "var(--tm-muted-dark)", margin: "4px 0 0" }}>{r.business}</p>
         <p className="t-meta" style={{ color: "var(--tm-on-dark)", margin: "8px 0 0" }}>{r.instruction}</p>
-        {detail && <p className="t-meta" style={{ color: "var(--tm-muted-dark)", margin: "12px 0 0" }}>{r.spots} spots · Apply by {r.deadline}</p>}
+        {detail && <p className="t-meta" style={{ color: "var(--tm-muted-dark)", margin: "auto 0 0", paddingTop: 12 }}>{r.spots} spots · Apply by {r.deadline}</p>}
       </div>
       <div style={{ background: "var(--tm-accent)", padding: detail ? "16px 20px" : 12, minHeight: ledge, marginLeft: ledgeInset, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
         <Money cents={r.payCents} per={r.basis} dark />

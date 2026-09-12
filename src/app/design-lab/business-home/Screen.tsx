@@ -49,7 +49,7 @@ export function BusinessHomeScreen({ embed = false }: { embed?: boolean } = {}) 
 
         <section aria-labelledby="cars-title" style={{ marginTop: 8 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 44 }}>
-            <h2 id="cars-title" className="t-section" style={{ margin: 0 }}>Available cars</h2>
+            <span style={{ display: "flex", alignItems: "baseline", gap: 12 }}><h2 id="cars-title" className="t-section" style={{ margin: 0 }}>Available cars</h2><span className="t-body" style={{ color: "var(--tm-muted)" }}>Monthly advertising space</span></span>
             <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <Link href="#cars" className="btn btn-quiet link-ink">See all cars</Link>
               <ShelfControls target="car-shelf" label="cars" />
