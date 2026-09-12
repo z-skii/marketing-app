@@ -1,0 +1,73 @@
+{
+  "screen": "Production Campaign detail, car campaign (desktop 1440), stage 4 pass 1",
+  "screenshot": "d-business_campaigns_e4000000_0000_4000_8000_000000000020.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T19:06:31.885Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9586,
+    "output_tokens": 4938,
+    "total_tokens": 14524,
+    "reasoning_tokens": 3605
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "This is campaign detail, not the Lab’s Content overview. Campaigns selection, back navigation, driver applications, installation review and deeper campaign settings are appropriate replacements for the Lab’s tabs and content-review controls.",
+      "Demo Coffee Co., its D initial, and the message and notification counts reflect production records; they should not be replaced with Lab identities or fixture labels.",
+      "The placement diagram, supplied Demo Roastery artwork and actual vehicle photographs correctly replace the Lab’s delivered-content photography. Artwork remains artwork rather than being fabricated onto a car.",
+      "The 2019 BMW application, unverified-car text, and 2017 BMW booking with Ready to install, zero months paid and one driver photo are legitimate operational states.",
+      "The $250.00 monthly rate, zero of three cars on the road, $0.00 paid and 60-day duration are campaign data, not discrepancies against the Lab."
+    ],
+    "keep": [
+      "The 200px graphite navigation rail, restrained reversed mark, mineral canvas, 32px app gutter and white working surface closely carry over the approved shell.",
+      "The strong page title, clear section headings and quieter operational metadata preserve the approved typographic hierarchy outside the main payment anchor.",
+      "Keep placement identification on the diagram and supplied artwork separate from vehicle photography. Do not introduce an installed-ad mockup or substitute model.",
+      "Keep Needs you ahead of applications and booked cars, with Campaign settings progressively disclosed below.",
+      "Keep Accept and Decline, including the explicit explanation that accepting books the car and pays nothing until installation is confirmed.",
+      "Keep campaign Open and vehicle Ready to install as separate literal states, along with months paid and driver-photo count. No car proof-approval action is shown.",
+      "Keep flat records, square structural surfaces, restrained borders and generously sized Accept/Decline controls."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The capture exposes the expected campaign workflow, but desktop visual sign-off should wait for the fixes below. Credit is below the captured area, and navigation, settings expansion and mutations cannot be verified from pixels. Verify that Accept only books, installation confirmation pays the first month, and driver photos remain inspection-only.",
+    "scores": {
+      "viewport_quality": 7,
+      "media_quality": 6,
+      "uniqueness": 6,
+      "clarity": 7,
+      "premium_feel": 7,
+      "fidelity": 7,
+      "usability": 7,
+      "brand_recognition": 8,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Remove the repeated 104×71px vehicle thumbnail and its caption from the campaign-level left summary; retain that vehicle in Cars on this campaign. Join the diagram/artwork assembly to a monthly financial caption with the desktop 24px horizontal offset: margin-inline-start:24px; width:calc(100% - 24px); background:#FFFFFF; padding:16px; border-radius:0; box-shadow:none. Set the main monthly amount to Archivo 700, 44px/48px, tracking:-0.025em with tabular lining numerals. Keep the monthly basis at 14px/20px and existing progress and credit immediately below, with 8px row gaps and unchanged backend values.",
+        "kind": "drift",
+        "why": "The left side currently becomes a long stack of diagram, artwork, repeated vehicle photo and then money. The amount begins around y772, with progress at the bottom edge and credit outside the capture. There is no identifiable 24px source-to-financial joint, and the detail payment reads closer to opportunity-sized type than the approved desktop detail anchor.",
+        "where": "Left source assembly and campaign financial summary, x232–680."
+      },
+      {
+        "priority": 2,
+        "change": "Add a visible ink View artwork action beside or beneath the artwork provenance, using IBM Plex Sans 600 at 16px/20px and a minimum 44px hit target. Open the actual supplied asset through the existing inspection viewer or original-file route. Preserve its intrinsic aspect ratio with object-fit:contain and 4px media corners; do not crop, recreate or enlarge its embedded typography independently.",
+        "kind": "usability",
+        "why": "The artwork is displayed at approximately 200×100px, making most of its supplied copy unreadable. There is no visible inspection affordance. The image may already be clickable, but the capture does not communicate that, unlike the Lab’s explicit Open original action.",
+        "where": "Demo Roastery artwork and Your artwork, shown as artwork caption."
+      },
+      {
+        "priority": 2,
+        "change": "Set the Review 1 driver navigation link to #151B23 and remove the Needs you panel’s 3px cobalt border-left. Use ink for the installation link too if it navigates to booking review, retaining its arrow and 44px target. Reserve #2450E8 for the actual primary commitment controls, including Accept and the payment-confirmation control at its decision point.",
+        "kind": "drift",
+        "why": "The panel combines a decorative cobalt rule with repeated cobalt navigation links. Reviewing a driver is inspection, not commitment, and the rule is neither a selected edge nor a source-to-payment joint. This spreads the accent beyond the approved hierarchy.",
+        "where": "Needs you panel, x728–1368, y192–336."
+      }
+    ],
+    "why": "This is a substantial language transfer, not a generic reskin: the shell, mineral and graphite surfaces, flat records, typography, literal states and business actions largely survive. The Lab did not draw campaign detail, so its Content layout is not a required template. The material shortfall is the campaign-specific source-to-money relationship: a repeated vehicle image interrupts it, the monthly anchor sits too low, and the supplied artwork lacks visible inspection access. Those are transfer and usability corrections, not reasons to redesign the workflow.",
+    "verdict": "The visible business workflow survives, but Frame Shift is not yet faithfully complete enough for desktop release sign-off."
+  }
+}

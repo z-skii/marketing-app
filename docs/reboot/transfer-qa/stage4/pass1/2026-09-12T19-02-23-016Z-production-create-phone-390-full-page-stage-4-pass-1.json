@@ -1,0 +1,77 @@
+{
+  "screen": "Production Create (phone 390, full page), stage 4 pass 1",
+  "screenshot": "m-business_create-full.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T19:02:23.016Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9354,
+    "output_tokens": 3668,
+    "total_tokens": 13022,
+    "reasoning_tokens": 2447
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co. and its D initial correctly replace the Lab’s fictional Loopday Coffee identity; no portrait or additional demo label is needed.",
+      "The message and notification counts are production state, not values that should match the Lab’s fixture summaries.",
+      "Create presents three campaign setup choices rather than marketplace records. Payment-basis text without invented amounts, balances or approval statuses is appropriate before campaign terms exist."
+    ],
+    "keep": [
+      "Mineral canvas, ink headings, muted operational copy and flat, shadow-free sections.",
+      "The 16px phone gutter and legible hierarchy: approximately 30/36px page title, 22/28px option headings, 16/24px descriptions and 14/20px payment basis.",
+      "Three distinct campaign choices stacked vertically, with portrait Recreate imagery and landscape Car imagery.",
+      "Literal payment descriptions: per approved video, per Story posted and per car per month.",
+      "Business switching, search, messages, notifications and all five navigation destinations remain visible.",
+      "The separate placement diagram; it is the correct medium for explaining advertising position."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The capture still exposes the expected choices and navigation, with no visible evidence of removed functionality. It does not establish that campaign entry points or subsequent workflows work. Fix the issues below, then smoke-test each existing creation route. The document-end tab bar is accepted for this capture.",
+    "scores": {
+      "viewport_quality": 7,
+      "media_quality": 5,
+      "uniqueness": 6,
+      "clarity": 7,
+      "premium_feel": 6,
+      "fidelity": 5,
+      "usability": 6,
+      "brand_recognition": 6,
+      "ai_slop_risk": 5
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Replace the wrapped-car promotional image with an authentic, unmodified vehicle photograph. Do not composite advertising onto it. Keep placements in the existing diagram and show any artwork separately as artwork. Preserve the landscape source at its native ratio with 4px corners. Attach 'Pay per car, per month' beneath the source on a 0px-radius caption plane inset 12px from the source’s left edge; do not invent an amount.",
+        "kind": "data_honesty",
+        "why": "The current image depicts a completed TapMart-branded installation on a glossy vehicle. That communicates installed advertising rather than the unmodified vehicle and separate placement/artwork treatment required here. The monthly basis is also detached in the prose column instead of attached to the landscape source.",
+        "where": "Car advertising composition"
+      },
+      {
+        "priority": 1,
+        "change": "Expose a visible action for each existing route: 'Create Reel campaign', 'Create Story campaign' and 'Create car campaign'. Use IBM Plex Sans 600 at 16/20px and targets at least 44px high. Keep ordinary descriptive text ink; reserve #2450E8 for the primary setup actions. Preserve existing whole-row activation if implemented, without nesting interactive elements.",
+        "kind": "usability",
+        "why": "All three choices currently read as promotional image-and-copy sections. There is no visible button or action label establishing how to begin; the lone Recreate arrow does not provide consistent affordance across the choices.",
+        "where": "All three campaign entry points"
+      },
+      {
+        "priority": 2,
+        "change": "Remove the freestanding cobalt arrow and bracket. Make the source and existing setup commitment actual adjoining planes with one 12px phone shift, 0px structural corners and no shadow. Use #101820 for the media housing and #2450E8 for the setup commitment, with #F6F8FB text on cobalt. Preserve the portrait source ratio and literal approval-based payment wording.",
+        "kind": "drift",
+        "why": "The bracket occupies the gap between photograph and prose but does not form a source-to-decision joint. Frame Shift’s signature has become a drawn decoration rather than the relationship between source and commitment.",
+        "where": "Recreate composition, between the reference image and text"
+      },
+      {
+        "priority": 2,
+        "change": "Remove the added graphite device shell, approximately 18px outer corner radius and 8px inset. Display this photographic setup illustration at its natural ratio with 4px media corners. Do not crop out or reconstruct the phone’s screen to fabricate supplied artwork. Actual uploaded Story creative should subsequently use an intact 0px-radius sheet, with only the permitted 0 6px 16px #10182018 source shadow.",
+        "kind": "drift",
+        "why": "A photograph already containing a phone is enclosed in another rounded phone-like housing. This duplicates the device silhouette and introduces an app-media shape outside the approved system.",
+        "where": "Instagram Story ads image"
+      }
+    ],
+    "why": "The Lab is a desktop Business Home reference, not an approved Create layout, so its records and exact arrangement are not the comparison target. Production transfers the mineral palette, typography, restrained section structure and phone navigation reasonably well. It falls short in the defining source-to-commitment relationship: Recreate uses a decorative bracket, Story gains a second device frame, and Car separates its monthly caption while depicting installed advertising. The visible payment language remains appropriate, but campaign-start affordances need to be explicit.",
+    "verdict": "Frame Shift is partially transferred and the visible functional surface survives, but the source treatments and unclear campaign-start controls prevent release sign-off."
+  }
+}

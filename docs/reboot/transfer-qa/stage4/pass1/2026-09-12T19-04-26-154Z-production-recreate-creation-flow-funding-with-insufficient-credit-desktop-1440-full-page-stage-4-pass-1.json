@@ -1,0 +1,72 @@
+{
+  "screen": "Production Recreate creation flow, funding with insufficient credit (desktop 1440, full page), stage 4 pass 1",
+  "screenshot": "d-create_recreate_6_funding.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T19:04:26.154Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9561,
+    "output_tokens": 4317,
+    "total_tokens": 13878,
+    "reasoning_tokens": 3066
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co., its initial avatar and notification counts replace the Lab’s fictional business records.",
+      "The uploaded portrait-format reference, campaign brief, Raleigh location and deadline are real campaign inputs; they should not resemble the Lab’s delivered-content fixtures.",
+      "Create is correctly selected, and Step 6 of 7 exposes funding controls rather than the Lab’s Content tabs and approval actions. The Lab did not specify this workflow’s exact layout.",
+      "The insufficient-credit state correctly shows $10.00 available, a $50.00 publishing threshold and a $40.00 shortfall.",
+      "Ten $50.00 payments total $500.00; $490.00 would cover all remaining exposure. The creator’s $42.50 receipt correctly deducts the 15% fee from the payout rather than adding it to business pay."
+    ],
+    "keep": [
+      "Mineral canvas, graphite navigation rail, restrained mark, flat white financial surface and shadow-free records.",
+      "Archivo heading treatment, IBM Plex operational copy, 32px main left gutter and familiar labelled navigation.",
+      "The intact portrait reference at its source ratio, without a landscape crop or invented video treatment.",
+      "The complete financial breakdown and explicit explanation that publishing holds nothing and credit leaves only when work is approved.",
+      "Visible Add credit, Continue without publishing and Back controls; insufficient credit does not conceal the non-publishing path.",
+      "The square funding plane, cobalt commitment edge and restrained row dividers."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The capture exposes the required records, funding calculation, top-up entry point and non-publishing continuation. No functional regression is visible, but a screenshot cannot verify that Add credit opens the top-up or that continuation preserves the campaign as a draft. Correct the hierarchy and source joint, then test those actions before release sign-off.",
+    "scores": {
+      "viewport_quality": 7,
+      "media_quality": 8,
+      "uniqueness": 6,
+      "clarity": 7,
+      "premium_feel": 7,
+      "fidelity": 6,
+      "usability": 7,
+      "brand_recognition": 8,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Render the $50.00 pay anchor in Archivo 700 at 44/48px with tabular lining numerals and -0.025em tracking; keep its payment basis at 14/20px. Move the shortfall out of the crowded publishing-threshold value into a separate line reading “Insufficient credit · Add $40.00 to publish,” using IBM Plex Sans 600 at 18/24px and #845600 for the attention status. Keep $500.00 and $490.00 secondary at 16/24px, with their existing conditional labels. Preserve every calculation and the no-hold explanation.",
+        "kind": "usability",
+        "why": "The principal payment is currently approximately 18px, scarcely stronger than ordinary row values. The actionable $40.00 shortfall is small red text appended to “$50.00 one payment,” while the optional $500.00 total receives comparable emphasis. This makes the immediate funding decision unnecessarily hard to scan.",
+        "where": "Funding plane: Pay, Needed to publish and shortfall rows."
+      },
+      {
+        "priority": 2,
+        "change": "Set the desktop source-to-funding column gap to 24px rather than the current 48px. Retain the existing 448px source/summary column, but end-align the 240×427px reference within it so its right edge meets the source-column edge; the funding plane should then begin 24px later. Keep the portrait’s source ratio, 4px corners, and the financial plane’s 0px radius and absence of shadow.",
+        "kind": "drift",
+        "why": "The summary ends around x680 and funding starts at x728, while the photograph ends at x472. The resulting 256px image-to-commitment separation reads as two unrelated columns rather than Frame Shift’s source-to-decision relationship. The Lab demonstrates a close 24px source/work-plane relationship, not this detached composition.",
+        "where": "Desktop relationship between the reference column and funding plane."
+      },
+      {
+        "priority": 2,
+        "change": "Expose an ink-labelled “Open reference” control in the existing reference-caption area, using IBM Plex Sans 600 at 16/20px and a minimum 44px target. Open the saved uploaded source at inspectable size. If the image already has that handler, retain it and add the visible labelled affordance rather than introducing a second behavior.",
+        "kind": "usability",
+        "why": "The reference is identifiable, but the capture shows only “Your reference” beneath it and no visible inspection affordance. Users should be able to check the exact supplied source before committing funding without relying on an undisclosed image click.",
+        "where": "Reference image and caption."
+      }
+    ],
+    "why": "The transfer preserves the approved shell, surface temperature, typography families, source honesty and financial semantics. All required funding facts and escape controls remain visible within the captured desktop viewport. However, the payment lacks the approved money hierarchy, the insufficient-credit instruction is compressed into metadata, and the oversized separation weakens the defining source-to-commitment joint. These are language-transfer issues, not differences caused by real records or by this being a creation flow rather than the Lab’s Content screen.",
+    "verdict": "The real funding workflow appears intact, but Frame Shift is only partially transferred; strengthen the money hierarchy, restore the 24px source joint and expose reference inspection before signing off."
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "screen": "Production direct request, Reel to one person, send step (desktop 1440, full page), stage 4 pass 1",
+  "screenshot": "d-request_reel_7_send.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T19:08:00.056Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 11794,
+    "output_tokens": 3765,
+    "total_tokens": 15559,
+    "reasoning_tokens": 2583
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co., its initial and notification counts replace the Lab’s fictional business context.",
+      "Jasmine Reed’s identity, connected Instagram account, verification and supplied coffee imagery are real-record differences; they should not be replaced with Lab portraits or work.",
+      "The $75.00 payment, Sep 19, 2026 deadline, personal note and Covered funding state belong to this request.",
+      "A seven-step request review correctly replaces the Lab’s Content tabs, delivered-file states and approval controls. Those controls do not belong in this workflow."
+    ],
+    "keep": [
+      "The 200px graphite rail, restrained TapMart lockup, mineral canvas and 32px main gutter closely preserve the approved shell.",
+      "The recipient, existing work and decision ledger remain visible beside the final review.",
+      "The work image retains its portrait ratio without an oversized landscape letterbox or invented media.",
+      "Send the request is the clear cobalt primary action; Back and the existing navigation remain exposed.",
+      "Keep the explicit acceptance condition and the statement that credit leaves only when the business approves the work.",
+      "Keep funding separate from acceptance, and preserve the recorded payment without adding a platform fee on top."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visible request functionality appears preserved, but this capture cannot verify handlers, permissions or payment behavior. Resolve the reference inspection and visual hierarchy issues, then recapture and smoke-test reference opening, Back and Send the request.",
+    "scores": {
+      "viewport_quality": 7,
+      "media_quality": 6,
+      "uniqueness": 5,
+      "clarity": 7,
+      "premium_feel": 5,
+      "fidelity": 6,
+      "usability": 7,
+      "brand_recognition": 8,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Replace the review value “Linked” and ledger value “Linked Reel” with the saved reference title or hostname and a visible ink “Open reference” link with a minimum 44px target. Bind it to the actual saved reference URL. Keep the recipient’s existing work separately identified; do not imply that its thumbnail is the chosen reference unless it actually is.",
+        "kind": "usability",
+        "why": "The final review confirms that something is linked but does not identify what will be sent. The only visible work image cannot safely establish the selected reference, and no explicit reference-inspection control is exposed.",
+        "where": "Final review Reference row and left decision ledger"
+      },
+      {
+        "priority": 2,
+        "change": "Keep the existing 448px source/ledger column at x=232. Use a 24px column gap and place the commitment plane at x=704, aligned with the source assembly at y=160. Give it background #FFFFFF, 24px padding, 0px border, 0px radius and no shadow; retain the 32px right gutter. Keep ordinary source media at 4px corners without an enclosing landscape underlay.",
+        "kind": "drift",
+        "why": "The review currently begins as uncontained text at x=728 on the same canvas as everything else. Unlike the Lab’s clearly separated source and white working plane, the source-to-commitment relationship is not legible. The shell transferred, but this defining composition did not.",
+        "where": "Two-column source and final-review assembly"
+      },
+      {
+        "priority": 2,
+        "change": "Render the review’s $75.00 as the monetary anchor using Archivo 700, 44px/48px, tracking -0.025em, tabular lining numerals and #151B23. Put “For the approved video” immediately below at IBM Plex Sans 14px/20px. Retain the compact ledger amount as a secondary repetition and leave the payment semantics unchanged.",
+        "kind": "drift",
+        "why": "The payment currently reads like another small metadata value in the review, while its ledger repetition is only modestly stronger. A final financial decision needs the approved detail-payment hierarchy, not a payment buried among equally weighted rows.",
+        "where": "Final review Pay row"
+      },
+      {
+        "priority": 3,
+        "change": "Change the page title from “Request a Reel” to “Request Reel”, retaining the existing 36px/40px application-title treatment. Keep Jasmine’s name in the recipient identity and review heading, and keep the action exactly “Send the request”.",
+        "kind": "drift",
+        "why": "The supplied product terminology explicitly names these requests Request Reel and Request Story.",
+        "where": "Page title"
+      }
+    ],
+    "why": "The supplied Lab image is Content review, not a direct-request design, so this assessment compares the approved language rather than requiring its screen-specific layout. Production preserves the rail, neutral surfaces, typography families, restrained controls and honest request conditions. At 1440×900, all decisions and the send action fit without clipping. However, the review lacks the Lab’s distinct commitment plane, the $75.00 payment has metadata-level emphasis, and “Reference: Linked” does not let the business identify what they are about to send.",
+    "verdict": "The request’s visible functionality survived, but Frame Shift is only partially transferred and this send step is not ready for sign-off."
+  }
+}
