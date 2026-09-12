@@ -34,11 +34,12 @@ export function PayoutRequest({ availableCents, minCents, feePct }: { availableC
         {pending ? "Requesting" : "Request payout"}
       </button>
       <p className="fs-t-meta" style={{ marginTop: 8 }}>
+        Minimum payout · {formatMoney(minCents)}{!enabled && availableCents > 0 ? ` · ${formatMoney(remaining)} more needed` : ""}
+      </p>
+      <p className="fs-t-meta" style={{ marginTop: 4 }}>
         {enabled
           ? `TapMart sends payouts by hand, usually within a few days. The ${feePct}% fee is already deducted.`
-          : availableCents > 0
-            ? `Payouts start at ${formatMoney(minCents)}. ${formatMoney(remaining)} more needed.`
-            : `Payouts start at ${formatMoney(minCents)}. Approved work adds to this balance.`}
+          : "Approved work adds to this balance. TapMart sends payouts by hand, usually within a few days."}
       </p>
       {message && <p role="alert" className={message.ok ? "fs-status is-confirmed" : "fs-field-error"} style={{ marginTop: 8 }}>{message.text}</p>}
       <dialog ref={dialog} className="fs-dialog" aria-labelledby="fs-payout-title" onClose={close} onClick={(e) => { if (e.target === dialog.current) close(); }}>

@@ -8,7 +8,7 @@ import { Money, formatMoney } from "@/components/fs/parts";
 import { InspectButton } from "@/components/fs/SourceInspector";
 import { ParticipateButton, StoryProofForm } from "./StoryControls";
 import { RequestDecision } from "./RequestDecision";
-import { BusinessLine, DetailTop, GoLink, Plane, PlainList, Section, WorkThumb, fmtLong } from "./DetailParts";
+import { BusinessLine, DetailTop, GoLink, PayBreakdown, Plane, PlainList, Section, WorkThumb, fmtLong } from "./DetailParts";
 import type { Participation } from "./RecreateDetail";
 
 /**
@@ -35,8 +35,10 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
   const eligible = !needsInstagram && !tooFewFollowers;
   const canParticipate = eligible && !participating && !acceptedRequest && open && spotsLeft > 0 && state === "none" && !requestOpen && !declined;
   const proofOpen = (participating || acceptedRequest) && open && (state === "none" || state === "revision_requested");
-  const net = o.pay_cents - Math.floor((o.pay_cents * feePct) / 100);
+  const fee = Math.floor((o.pay_cents * feePct) / 100);
+  const net = o.pay_cents - fee;
   const deadline = fmtLong(o.deadline);
+  const deadlineWord = invite ? "Campaign deadline" : "Apply by";
   const returnTo = encodeURIComponent(`/o/${o.id}`);
   const requirements = [
     `Keep it live ${liveHours} hours`,
@@ -62,7 +64,7 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
               <h1 className="fs-t-task" style={{ marginTop: 12 }}>{o.title}</h1>
               <BusinessLine o={o} />
               <p className="fs-t-meta" style={{ marginTop: 4 }}>{minFollowers ? `${minFollowers.toLocaleString()}+ followers · ` : ""}{liveHours}h live</p>
-              <p className="fs-t-meta" style={{ marginTop: 12 }}>{[spotsLeft > 0 ? `${spotsLeft} spot${spotsLeft === 1 ? "" : "s"}` : "Spots filled", deadline ? `Apply by ${deadline}` : null].filter(Boolean).join(" · ")}</p>
+              <p className="fs-t-meta" style={{ marginTop: 12 }}>{[spotsLeft > 0 ? `${spotsLeft} spot${spotsLeft === 1 ? "" : "s"}` : "Spots filled", deadline ? `${deadlineWord} ${deadline}` : null].filter(Boolean).join(" · ")}</p>
             </div>
             <div>
               <div className="fs-media fs-sheet-source fs-story-sheet" style={{ width: 180, height: 320 }}>
@@ -108,9 +110,11 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
                   <WorkThumb src={latest.media_urls[0] ?? null} alt="Your screenshot of the story" />
                   <div style={{ minWidth: 0 }}>
                     <p className="fs-t-label"><span className="fs-status is-waiting">In review</span> · Sent {fmtDate(latest.created_at)}</p>
-                    <p className="fs-t-meta" style={{ marginTop: 4 }}>{o.business_name} checks it and approves. Then {formatMoney(net)} goes to your earnings ({formatMoney(o.pay_cents)} less the {feePct}% fee).</p>
+                    <p className="fs-t-meta" style={{ marginTop: 4 }}>{o.business_name} is reviewing your proof.</p>
+                    {latest.media_urls[0] && <InspectButton src={latest.media_urls[0]} alt="Your screenshot of the story, at its original ratio" label="Inspect proof" style={{ paddingLeft: 0, minHeight: 44 }} />}
                   </div>
                 </div>
+                <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} />
                 <GoLink href="/activity">Open Activity</GoLink>
               </Plane>
             </Section>
@@ -122,11 +126,13 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
                   <WorkThumb src={latest.media_urls[0] ?? null} alt="Your approved proof" />
                   <div style={{ minWidth: 0 }}>
                     <p className="fs-t-label"><span className="fs-status is-confirmed">{state === "paid" && paid ? "Approved and paid" : "Approved"}</span> · Sent {fmtDate(latest.created_at)}</p>
-                    {state === "paid" && paid ? (
-                      <><p className="fs-money-record" style={{ marginTop: 8 }}>{formatMoney(paid.cents)}</p><p className="fs-t-meta">to your earnings · {formatMoney(paid.cents + paid.fee)} less {formatMoney(paid.fee)} fee</p></>
-                    ) : <p className="fs-t-meta" style={{ marginTop: 4 }}><span className="fs-status is-waiting">Payment pending</span> · {formatMoney(net)} arrives when the business pays.</p>}
+                    {!(state === "paid" && paid) && <p className="fs-t-meta" style={{ marginTop: 4 }}><span className="fs-status is-waiting">Payment pending</span> · arrives when the business pays.</p>}
+                    {latest.media_urls[0] && <InspectButton src={latest.media_urls[0]} alt="Your approved proof, at its original ratio" label="Inspect proof" style={{ paddingLeft: 0, minHeight: 44 }} />}
                   </div>
                 </div>
+                {state === "paid" && paid
+                  ? <PayBreakdown gross={paid.cents + paid.fee} net={paid.cents} fee={paid.fee} feePct={paid.cents + paid.fee > 0 ? Math.round((paid.fee * 100) / (paid.cents + paid.fee)) : feePct} when="Paid to your earnings" basis="Available in Earnings" paid />
+                  : <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} when="When the business pays" basis="Added to earnings when paid" />}
                 <GoLink href="/earnings">Open Earnings</GoLink>
               </Plane>
             </Section>
@@ -147,7 +153,7 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
                   <li><div className="fs-step"><span className="fs-step-frame" aria-hidden>03</span><span className="fs-t-body">Send proof: a screenshot of the story and its link.</span></div></li>
                 </ol>
                 {proofOpen ? <StoryProofForm campaignId={o.id} /> : <p className="fs-t-meta" style={{ marginTop: 12 }}>This campaign is closed.</p>}
-                <p className="fs-t-meta" style={{ marginTop: 12 }}>Approval pays {formatMoney(net)} to your earnings ({formatMoney(o.pay_cents)} less the {feePct}% fee).</p>
+                <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} />
               </Section>
             ) : (
               <Section title="Take this on" id="work">
@@ -165,8 +171,9 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
                   </Plane>
                 ) : canParticipate ? (
                   <>
-                    <p className="fs-t-body">Posting as @{ig.handle}. Taking a spot reserves it; you then download the creative, post it, and send proof. Approval pays {formatMoney(net)} to your earnings.</p>
-                    <div style={{ marginTop: 12 }}><ParticipateButton campaignId={o.id} /></div>
+                    <p className="fs-t-body">Posting as @{ig.handle}. Taking a spot reserves it; you then download the creative, post it, and send proof.</p>
+                    <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} />
+                    <div style={{ marginTop: 16 }}><ParticipateButton campaignId={o.id} /></div>
                   </>
                 ) : (
                   <Plane><p className="fs-t-label">{!open ? "This campaign is closed." : "All spots are taken."}</p><GoLink href="/home">Find other work</GoLink></Plane>
@@ -188,7 +195,7 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
 
           <Section title="What to do" id="requirements">
             <PlainList items={requirements} />
-            <p className="fs-t-meta" style={{ marginTop: 8 }}>{verification.mode === "manual" ? `Verified by ${o.business_name} from your screenshot and story link.` : verification.note}</p>
+            <p className="fs-t-meta" style={{ marginTop: 8 }}>{verification.mode === "manual" ? `${o.business_name} reviews your screenshot and Story link.` : verification.note}</p>
           </Section>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle, VideoCamera } from "@phosphor-icons/react/dist
 import type { Opportunity } from "@/lib/v2/opportunities";
 import type { CreatorStep } from "@/lib/ai/types";
 import { SaveToggle } from "@/components/fs/SaveToggle";
+import { formatMoney } from "@/components/fs/parts";
 import { BackLink } from "./BackLink";
 
 /** Pieces the three opportunity compositions share. Server-renderable. */
@@ -98,6 +99,22 @@ export function WorkThumb({ src, alt, width = 104, height = 139 }: { src: string
         : video ? <div className="fs-video-fallback"><VideoCamera size={22} aria-hidden />Video<span className="fs-video-note">No preview available</span></div>
         // eslint-disable-next-line @next/next/no-img-element
         : <img src={src} alt={alt} loading="lazy" />}
+    </div>
+  );
+}
+
+/**
+ * What approval pays, read as one unboxed financial line: the conditional net
+ * first, then the gross and the fee it comes from. `fee` is the real fee
+ * from an earnings row when one exists; otherwise the current TapMart rate.
+ */
+export function PayBreakdown({ gross, net, fee, feePct, when = "If approved", basis = "Added to earnings after approval", paid = false }: { gross: number; net: number; fee: number; feePct: number; when?: string; basis?: string; paid?: boolean }) {
+  return (
+    <div style={{ marginTop: 12 }}>
+      <p className="fs-t-meta">{when}</p>
+      <p className="fs-money" style={{ marginTop: 2 }}>{formatMoney(net)}<span className="fs-t-meta" style={{ marginLeft: 8, fontWeight: 400, letterSpacing: 0 }}>net</span></p>
+      <p className="fs-t-meta" style={{ marginTop: 2 }}>Gross {formatMoney(gross)} · Fee {formatMoney(fee)} ({feePct}% TapMart fee{paid ? "" : ", current rate"})</p>
+      <p className="fs-t-meta">{basis}</p>
     </div>
   );
 }

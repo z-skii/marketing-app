@@ -84,7 +84,7 @@ export function CarDetail({ o, ctx, open, vehicles, application, booking, invite
             ...(o.city ? [["City", o.city] as [string, React.ReactNode]] : []),
             ...(prefs.colors?.length ? [["Colour wanted", prefs.colors.join(" or ")] as [string, React.ReactNode]] : []),
             ...(prefs.body_types?.length ? [["Body wanted", prefs.body_types.join(" or ")] as [string, React.ReactNode]] : []),
-            [`Spots`, `${Math.max(o.slots - o.approved_count, 0)} of ${o.slots}${deadline ? ` · Apply by ${deadline}` : ""}`],
+            [`Spots`, `${Math.max(o.slots - o.approved_count, 0)} of ${o.slots}${deadline ? ` · ${invite ? "Campaign deadline" : "Apply by"} ${deadline}` : ""}`],
           ]} />
         </div>
 

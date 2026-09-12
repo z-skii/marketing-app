@@ -25,6 +25,7 @@ const USER_NAV = [
 ];
 
 function active(href: string, pathname: string) {
+  if (href === "/home" && pathname.startsWith("/o/")) return true; // an opportunity is opened from Home
   return pathname === href || pathname.startsWith(href + "/");
 }
 

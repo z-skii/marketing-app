@@ -9,7 +9,7 @@ import { Money, formatMoney } from "@/components/fs/parts";
 import { InspectButton } from "@/components/fs/SourceInspector";
 import { RecreateUpload } from "./RecreateUpload";
 import { RequestDecision } from "./RequestDecision";
-import { BusinessLine, DetailTop, Facts, GoLink, Plane, PlainList, Section, Steps, WorkThumb, fmtLong } from "./DetailParts";
+import { BusinessLine, DetailTop, Facts, GoLink, PayBreakdown, Plane, PlainList, Section, Steps, WorkThumb, fmtLong } from "./DetailParts";
 
 /**
  * Recreate a Reel, in Frame Shift: the reference joined to the graphite
@@ -37,8 +37,10 @@ export function RecreateDetail({ o, ctx, open, rightsNote, mine, invite, paid, f
   const declined = invite?.status === "declined";
   const accepted = invite?.status === "accepted" || mine.application?.status === "accepted";
   const canSubmit = open && spotsLeft > 0 && !requestOpen && !declined && (state === "none" || state === "revision_requested");
-  const net = o.pay_cents - Math.floor((o.pay_cents * feePct) / 100);
+  const fee = Math.floor((o.pay_cents * feePct) / 100);
+  const net = o.pay_cents - fee;
   const deadline = fmtLong(o.deadline);
+  const deadlineWord = invite ? "Campaign deadline" : "Apply by";
 
   return (
     <main className="fs-phone-main" id="main">
@@ -72,7 +74,7 @@ export function RecreateDetail({ o, ctx, open, rightsNote, mine, invite, paid, f
             </div>
           </div>
           <p className="fs-t-meta" style={{ marginTop: 12 }}>
-            {[spotsLeft > 0 ? `${spotsLeft} spot${spotsLeft === 1 ? "" : "s"}` : "Spots filled", deadline ? `Apply by ${deadline}` : null].filter(Boolean).join(" · ")}
+            {[spotsLeft > 0 ? `${spotsLeft} spot${spotsLeft === 1 ? "" : "s"}` : "Spots filled", deadline ? `${deadlineWord} ${deadline}` : null].filter(Boolean).join(" · ")}
           </p>
           <BusinessLine o={o} />
           {o.reference_url && (
@@ -95,15 +97,16 @@ export function RecreateDetail({ o, ctx, open, rightsNote, mine, invite, paid, f
           )}
 
           {/* The work region comes first once there is work to do. */}
-          {state !== "none" && <WorkState o={o} latest={latest!} previous={mine.submissions[1] ?? null} canSubmit={canSubmit} guide={guide} rightsNote={rightsNote} paid={paid} net={net} feePct={feePct} deadline={deadline} />}
+          {state !== "none" && <WorkState o={o} latest={latest!} previous={mine.submissions[1] ?? null} canSubmit={canSubmit} guide={guide} rightsNote={rightsNote} paid={paid} net={net} fee={fee} feePct={feePct} deadline={deadline} />}
 
           {state === "none" && !requestOpen && !declined && (
             <Section title={accepted ? "Your version" : "Take this on"} id="work">
               {accepted && <p className="fs-t-meta" style={{ marginBottom: 12 }}><span className="fs-status is-confirmed">Accepted</span> · Film and upload your version{deadline ? ` by ${deadline}` : ""}.</p>}
               {canSubmit ? (
                 <>
-                  <p className="fs-t-body" style={{ marginBottom: 12 }}>Approval pays {formatMoney(net)} to your earnings ({formatMoney(o.pay_cents)} less the {feePct}% TapMart fee). Only approved versions pay.</p>
-                  <RecreateUpload campaignId={o.id} guide={guide} rightsNote={rightsNote} />
+                  <p className="fs-t-body">Only approved versions pay.</p>
+                  <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} />
+                  <div style={{ marginTop: 16 }}><RecreateUpload campaignId={o.id} guide={guide} rightsNote={rightsNote} /></div>
                 </>
               ) : (
                 <Plane>
@@ -137,9 +140,9 @@ export function RecreateDetail({ o, ctx, open, rightsNote, mine, invite, paid, f
   );
 }
 
-function WorkState({ o, latest, previous, canSubmit, guide, rightsNote, paid, net, feePct, deadline }: {
+function WorkState({ o, latest, previous, canSubmit, guide, rightsNote, paid, net, fee, feePct, deadline }: {
   o: Opportunity; latest: Participation["submissions"][number]; previous: Participation["submissions"][number] | null; canSubmit: boolean;
-  guide: ReturnType<typeof guideFromCampaign>; rightsNote: string; paid: { cents: number; fee: number } | null; net: number; feePct: number; deadline: string | null;
+  guide: ReturnType<typeof guideFromCampaign>; rightsNote: string; paid: { cents: number; fee: number } | null; net: number; fee: number; feePct: number; deadline: string | null;
 }) {
   const sent = fmtDate(latest.created_at);
   const file = latest.media_urls[0] ?? null;
@@ -155,10 +158,13 @@ function WorkState({ o, latest, previous, canSubmit, guide, rightsNote, paid, ne
           <div style={{ minWidth: 0 }}>
             <p className="fs-t-label">Your previous version</p>
             <p className="fs-t-meta">Sent {sent} · stays on record until the new one is sent</p>
-            {file && <a href={file} target="_blank" rel="noopener noreferrer" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>Open file</a>}
+            {file && (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(file)
+              ? <a href={file} target="_blank" rel="noopener noreferrer" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>Open file</a>
+              : <InspectButton src={file} alt="Your previous version, at its original ratio" label="Inspect your version" style={{ paddingLeft: 0, minHeight: 44 }} />)}
           </div>
         </div>
-        <p className="fs-t-body" style={{ marginTop: 16 }}>Resubmit a new version{deadline ? ` by ${deadline}` : ""}. Approval pays {formatMoney(net)} to your earnings.</p>
+        <p className="fs-t-body" style={{ marginTop: 16 }}>Resubmit a new version{deadline ? ` by ${deadline}` : ""}.</p>
+        <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} />
         {canSubmit ? <div style={{ marginTop: 12 }}><RecreateUpload campaignId={o.id} guide={guide} rightsNote={rightsNote} label="Upload a new version" /></div>
           : <Plane style={{ marginTop: 12 }}><p className="fs-t-label">This campaign is closed, so a new version cannot be sent.</p></Plane>}
       </Section>
@@ -172,10 +178,12 @@ function WorkState({ o, latest, previous, canSubmit, guide, rightsNote, paid, ne
             <WorkThumb src={file} alt="Your submitted version" />
             <div style={{ minWidth: 0 }}>
               <p className="fs-t-label"><span className="fs-status is-waiting">In review</span> · Sent {sent}</p>
-              <p className="fs-t-meta" style={{ marginTop: 4 }}>{o.business_name} reviews it. Approval pays {formatMoney(net)} to your earnings ({formatMoney(o.pay_cents)} less the {feePct}% fee).</p>
+              <p className="fs-t-meta" style={{ marginTop: 4 }}>{o.business_name} is reviewing your version.</p>
               {previous && <p className="fs-t-meta" style={{ marginTop: 4 }}>Replaces the version sent {fmtDate(previous.created_at)}.</p>}
+              {file && !/\.(mp4|webm|mov|m4v)(\?|$)/i.test(file) && <InspectButton src={file} alt="Your submitted version, at its original ratio" label="Inspect your version" style={{ paddingLeft: 0, minHeight: 44 }} />}
             </div>
           </div>
+          <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} />
           <GoLink href="/activity">Open Activity</GoLink>
         </Plane>
       </Section>
@@ -190,14 +198,12 @@ function WorkState({ o, latest, previous, canSubmit, guide, rightsNote, paid, ne
             <WorkThumb src={file} alt="Your approved version" />
             <div style={{ minWidth: 0 }}>
               <p className="fs-t-label"><span className="fs-status is-confirmed">{isPaid ? "Approved and paid" : "Approved"}</span> · Sent {sent}</p>
-              {isPaid && paid ? (
-                <>
-                  <p className="fs-money-record" style={{ marginTop: 8 }}>{formatMoney(paid.cents)}</p>
-                  <p className="fs-t-meta">to your earnings · {formatMoney(paid.cents + paid.fee)} less {formatMoney(paid.fee)} fee</p>
-                </>
-              ) : <p className="fs-t-meta" style={{ marginTop: 4 }}><span className="fs-status is-waiting">Payment pending</span> · {formatMoney(net)} arrives when the business pays.</p>}
+              {!isPaid && <p className="fs-t-meta" style={{ marginTop: 4 }}><span className="fs-status is-waiting">Payment pending</span> · arrives when the business pays.</p>}
             </div>
           </div>
+          {isPaid && paid
+            ? <PayBreakdown gross={paid.cents + paid.fee} net={paid.cents} fee={paid.fee} feePct={paid.cents + paid.fee > 0 ? Math.round((paid.fee * 100) / (paid.cents + paid.fee)) : feePct} when="Paid to your earnings" basis="Available in Earnings" paid />
+            : <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} when="When the business pays" basis="Added to earnings when paid" />}
           <GoLink href="/earnings">Open Earnings</GoLink>
         </Plane>
       </Section>

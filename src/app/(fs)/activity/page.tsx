@@ -60,7 +60,7 @@ export default async function ActivityPage({ searchParams }: { searchParams: Pro
   return (
     <main className="fs-phone-main fs-narrow" id="main">
       <h1 className="fs-t-page" style={{ marginTop: 12 }}>Activity</h1>
-      <nav className="fs-filters" aria-label="Activity views" style={{ marginTop: 12 }}>
+      <nav className="fs-filters is-work" aria-label="Activity views" style={{ marginTop: 12 }}>
         {TABS.map((t) => (
           <Link key={t.key} href={t.key === "todo" ? "/activity" : `/activity?tab=${t.key}`} aria-current={tab === t.key ? "page" : undefined}>
             {t.label}{counts[t.key] > 0 && <span className="fs-count" aria-label={`${counts[t.key]} items`}>{counts[t.key]}</span>}
@@ -141,22 +141,17 @@ function WorkRow({ item }: { item: ActivityItem }) {
   const { label } = activityLabel(item);
   const action = nextAction(item);
   const t = tone(item);
+  const first = action.text || label;
   return (
-    <Link href={`/o/${item.campaign_id}`} className="fs-work-row" aria-label={`${KIND[item.kind]} for ${item.business_name}: ${item.title}. ${label}. ${action.text}. ${formatMoney(item.pay_cents)} ${BASIS[item.kind]}`}>
+    <Link href={`/o/${item.campaign_id}`} className="fs-work-row" aria-label={`${first}. ${label}. ${KIND[item.kind]} for ${item.business_name}: ${item.title}. ${formatMoney(item.pay_cents)} ${BASIS[item.kind]}`}>
       <span className="fs-media fs-contain fs-work-media">
         {item.cover ? <MediaPreview src={item.cover} alt="" className="fs-ref-media" sizes="56px" /> : null}
       </span>
-      <span style={{ minWidth: 0 }}>
-        <span className="fs-t-meta" style={{ display: "block" }}>{KIND[item.kind]} · {item.business_name}</span>
-        <span className="fs-work-title" style={{ display: "-webkit-box" }}>{item.title}</span>
-        <span className="fs-t-meta" style={{ display: "block", marginTop: 2 }}>
-          <span className={`fs-status is-${t}`}>{label}</span>
-          {action.text && action.text !== label && <> · <span style={{ color: action.mine ? "var(--fs-ink)" : undefined, fontWeight: action.mine ? 500 : 400 }}>{action.text}</span></>}
-        </span>
-      </span>
-      <span className="fs-work-money-cell">
-        <span className="fs-work-money" style={{ display: "block" }}>{formatMoney(item.pay_cents)}</span>
-        <span className="fs-t-meta" style={{ display: "block" }}>{BASIS[item.kind]}</span>
+      <span className="fs-work-info">
+        <span className="fs-work-title" style={{ fontWeight: action.mine ? 500 : 400 }}>{first}</span>
+        {first !== label && <span className={`fs-status is-${t}`} style={{ display: "block", marginTop: 4 }}>{label}</span>}
+        <span className="fs-t-meta" style={{ display: "block", marginTop: 4 }}>{KIND[item.kind]} · {item.business_name} · {item.title}</span>
+        <span className="fs-work-money-line"><span className="fs-work-money">{formatMoney(item.pay_cents)}</span> <span className="fs-t-meta">{BASIS[item.kind]}</span></span>
       </span>
     </Link>
   );
@@ -165,18 +160,15 @@ function WorkRow({ item }: { item: ActivityItem }) {
 function SavedRow({ card }: { card: Opportunity }) {
   const media = card.details.reference_media_url ?? card.details.creative_url ?? card.details.media_url ?? card.business_cover;
   return (
-    <Link href={`/o/${card.id}`} className="fs-work-row" aria-label={`${KIND[card.kind]} for ${card.business_name}: ${card.title}. Saved. ${formatMoney(card.pay_cents)} ${BASIS[card.kind]}`}>
+    <Link href={`/o/${card.id}`} className="fs-work-row" aria-label={`${card.title}. Saved. ${KIND[card.kind]} for ${card.business_name}. ${formatMoney(card.pay_cents)} ${BASIS[card.kind]}`}>
       <span className="fs-media fs-contain fs-work-media">
         {media ? <MediaPreview src={media} alt="" className="fs-ref-media" sizes="56px" /> : null}
       </span>
-      <span style={{ minWidth: 0 }}>
-        <span className="fs-t-meta" style={{ display: "block" }}>{KIND[card.kind]} · {card.business_name}</span>
-        <span className="fs-work-title" style={{ display: "-webkit-box" }}>{card.title}</span>
-        <span className="fs-t-meta" style={{ display: "block", marginTop: 2 }}><span className="fs-status is-neutral">Saved</span>{card.city ? ` · ${card.city}` : ""}</span>
-      </span>
-      <span className="fs-work-money-cell">
-        <span className="fs-work-money" style={{ display: "block" }}>{formatMoney(card.pay_cents)}</span>
-        <span className="fs-t-meta" style={{ display: "block" }}>{BASIS[card.kind]}</span>
+      <span className="fs-work-info">
+        <span className="fs-work-title">{card.title}</span>
+        <span className="fs-status is-neutral" style={{ display: "block", marginTop: 4 }}>Saved{card.city ? ` · ${card.city}` : ""}</span>
+        <span className="fs-t-meta" style={{ display: "block", marginTop: 4 }}>{KIND[card.kind]} · {card.business_name}</span>
+        <span className="fs-work-money-line"><span className="fs-work-money">{formatMoney(card.pay_cents)}</span> <span className="fs-t-meta">{BASIS[card.kind]}</span></span>
       </span>
     </Link>
   );

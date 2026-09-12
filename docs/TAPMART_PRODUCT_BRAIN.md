@@ -168,3 +168,7 @@ lands first, real content instead of any placeholder, one clear next tap.
    thumbnail from the actual uploaded video when the platform can decode
    it. Until then the honest "View video · No preview available" state
    stays. Never fabricate media.
+3. Desktop rail unread badges (Messages, Notifications) are cobalt. The
+   design QA director suggested graphite (#1D2833) so cobalt stays reserved
+   for decisions. The rail is part of approved Stage 1; revisit with the
+   shell, not per screen.
