@@ -10,7 +10,7 @@ import { loadFunding } from "@/lib/fs/funding";
 import { Avatar, formatMoney } from "@/components/fs/parts";
 import { BackLink } from "@/components/fs/work/BackLink";
 import { Facts, Section } from "@/components/fs/work/DetailParts";
-import { KIND_WORD, STATUS_WORD, SUBMISSION_WORD, BOOKING_WORD, payUnit, fmtDay } from "@/components/fs/business/campaign/parts";
+import { KIND_WORD, STATUS_WORD, SUBMISSION_WORD, BOOKING_WORD, fmtDay } from "@/components/fs/business/campaign/parts";
 import { CampaignSource } from "@/components/fs/business/campaign/CampaignSource";
 import { PublishDraft, CloseCampaign, WithdrawRequest, ApplicantDecision, DriverDecision } from "@/components/fs/business/campaign/Controls";
 
@@ -73,11 +73,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
 
       <div className="fs-detail" style={{ marginTop: 12 }}>
         <div className="fs-detail-source">
-          <CampaignSource campaign={campaign} bookings={bookings} />
-          <div style={{ marginTop: 16 }}>
-            <span className="fs-money">{formatMoney(campaign.pay_cents)}</span>
-            <span className="fs-t-meta" style={{ display: "block" }}>{payUnit(campaign.kind)}</span>
-          </div>
+          <CampaignSource campaign={campaign} />
           <div style={{ marginTop: 12 }}>
             <Facts rows={[
               car ? ["Cars", `${bookings.filter((b) => ["active", "completed"].includes(b.status)).length} of ${campaign.slots} on the road`] : ["Approved", `${campaign.approved} of ${campaign.slots}`],
@@ -91,13 +87,13 @@ export default async function CampaignPage({ params, searchParams }: { params: P
         </div>
 
         <div className="fs-joint">
-          <div className={`fs-plane${needs.length ? " is-decision" : ""}`} aria-label="Needs you">
+          <div className="fs-plane" aria-label="Needs you">
             <p className="fs-t-label">Needs you</p>
             {needs.length === 0 ? (
               <p className="fs-t-body" style={{ marginTop: 4 }}>{campaign.audience === "direct" && invite?.status === "sent" ? "Nothing yet. They have not answered." : isOpen ? "Nothing right now. You are told when something arrives." : "Nothing. This campaign is finished."}</p>
             ) : (
               <ul className="fs-plain-list" style={{ marginTop: 4 }}>
-                {needs.map((n) => <li key={n.label}><Link href={n.href} className="fs-btn fs-btn-quiet fs-link-accent" style={{ paddingLeft: 0, minHeight: 44 }}>{n.label} <ArrowRight size={18} aria-hidden /></Link></li>)}
+                {needs.map((n) => <li key={n.label}><Link href={n.href} className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>{n.label} <ArrowRight size={18} aria-hidden /></Link></li>)}
               </ul>
             )}
           </div>
@@ -145,8 +141,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
                           </span>
                           <span className="fs-work-info">
                             <span className="fs-work-title fs-t-task">{s.creator_name ?? s.creator_username}{s.creator_verified && <span className="fs-t-meta"> · Verified creator</span>}</span>
-                            <span className={`fs-status is-${w.tone}`}>{w.label}</span>
-                            <span className="fs-t-meta">{fmtDay(s.created_at)}{pendingReview ? ` · ${story ? "Check the proof" : "Review the video"}` : s.status === "paid" ? ` · ${formatMoney(campaign.pay_cents)} paid` : ""}</span>
+                            <span className="fs-t-meta fs-meta-line"><span className={`fs-status is-${w.tone}`}>{w.label}</span><span>{fmtDay(s.created_at)}</span>{pendingReview ? <span>{story ? "Check the proof" : "Review the video"}</span> : s.status === "paid" ? <span>{formatMoney(campaign.pay_cents)} paid</span> : null}</span>
                           </span>
                         </Link>
                       </li>
@@ -273,8 +268,7 @@ function BookingRow({ b, campaignId, proofs, months }: { b: CarBooking; campaign
         </span>
         <span className="fs-work-info">
           <span className="fs-work-title fs-t-task">{b.year} {b.make} {b.model} <span className="fs-t-meta">@{b.username}</span></span>
-          <span className={`fs-status is-${w.tone}`}>{w.label}</span>
-          <span className="fs-t-meta">{b.zones.map((z) => ZONE_LABELS[z] ?? z).join(", ")} · {months} month{months === 1 ? "" : "s"} paid{proofs ? ` · ${proofs} photo${proofs === 1 ? "" : "s"} from the driver` : ""}{w.next ? ` · ${w.next}` : ""}</span>
+          <span className="fs-t-meta fs-meta-line"><span className={`fs-status is-${w.tone}`}>{w.label}</span><span>{b.zones.map((z) => ZONE_LABELS[z] ?? z).join(", ")}</span><span>{months} month{months === 1 ? "" : "s"} paid</span>{proofs ? <span>{proofs} photo{proofs === 1 ? "" : "s"} from the driver</span> : null}{w.next ? <span>{w.next}</span> : null}</span>
         </span>
         <span className="fs-work-money-line"><span className="fs-work-money">{formatMoney(b.monthly_cents)}</span><span className="fs-t-meta">per month</span></span>
       </Link>

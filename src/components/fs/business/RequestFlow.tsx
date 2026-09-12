@@ -7,8 +7,9 @@ import type { Person } from "@/lib/v2/marketplace";
 import { Avatar, formatMoney } from "@/components/fs/parts";
 import { Img } from "@/components/fs/Img";
 import { Facts } from "@/components/fs/work/DetailParts";
+import { InspectButton } from "@/components/fs/SourceInspector";
 import { FsUploader } from "@/components/fs/work/Uploader";
-import { FlowShell, Field, ChoiceRows, DollarInput, type FlowStep } from "@/components/fs/business/Flow";
+import { FlowShell, Field, ChoiceRows, DollarInput, Commitment, type FlowStep } from "@/components/fs/business/Flow";
 import { FundingPlane, fundingState, type FundingFacts } from "@/components/fs/business/flows/FundingPlane";
 import { todayPlus, dayWord, Presets } from "@/components/fs/business/flows/shared";
 
@@ -52,16 +53,16 @@ export function RequestFlow({ kind, person, sample, creatives, funding, business
         { key: "live", label: "How long it stays live", summary: `${liveHours} hours` },
         { key: "pay", label: "Pay for the Story", summary: payCents >= 500 ? formatMoney(payCents) : null },
         { key: "message", label: "A note for them", summary: message ? "Note added" : "No note" },
-        { key: "funding", label: "Funding", summary: fs.canPublish ? "Covered" : "Needs credit" },
+        { key: "funding", label: "Publishing credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
         { key: "send", label: `Ready to ask ${name}`, summary: null },
       ]
     : [
-        { key: "reference", label: "The reference", summary: mediaUrl ? "Uploaded" : link ? "Linked Reel" : "None" },
+        { key: "reference", label: "The reference", summary: mediaUrl ? "Uploaded" : link ? `Linked Reel · ${host(link)}` : "None" },
         { key: "brief", label: "What they should do", summary: brief.trim().length >= 20 ? "Written" : null },
         { key: "pay", label: "Pay for the approved video", summary: payCents >= 500 ? formatMoney(payCents) : null },
         { key: "deadline", label: "Deadline", summary: dayWord(deadline) },
         { key: "message", label: "A note for them", summary: message ? "Note added" : "No note" },
-        { key: "funding", label: "Funding", summary: fs.canPublish ? "Covered" : "Needs credit" },
+        { key: "funding", label: "Publishing credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
         { key: "send", label: `Ready to ask ${name}`, summary: null },
       ];
   const valid = story
@@ -120,8 +121,9 @@ export function RequestFlow({ kind, person, sample, creatives, funding, business
   const last = index === steps.length - 1;
   return (
     <FlowShell
-      title={story ? "Request a Story" : "Request a Reel"} kind={businessName} back={{ href: `/business/people/${person.username}`, label: name }}
+      title={story ? "Request Story" : "Request Reel"} kind={businessName} back={{ href: `/business/people/${person.username}`, label: name }}
       steps={steps} index={index} onJump={setIndex} error={error} pending={pending} review={last} source={source}
+      commitment={payCents >= 500 ? <Commitment cents={payCents} basis={story ? "for the Story, when you approve the proof" : "for the approved video"} /> : undefined}
       canContinue={valid[index]} continueLabel={last ? `Send the request` : "Continue"}
       onContinue={() => { if (last) send(); else setIndex(index + 1); }} onBack={() => setIndex(index - 1)}
     >
@@ -188,10 +190,14 @@ export function RequestFlow({ kind, person, sample, creatives, funding, business
         <>
           <Facts rows={story
             ? [["To", `${name} · @${person.username}`], ["Creative", creativeUrl ? "Added" : "Missing"], ["Stays live", `${liveHours} hours`], ["Pay", `${formatMoney(payCents)} for the Story`], ["Note", message || "None"]]
-            : [["To", `${name} · @${person.username}`], ["Reference", mediaUrl ? "Uploaded" : link ? "Linked" : "Brief only"], ["Pay", `${formatMoney(payCents)} for the approved video`], ["Last day", dayWord(deadline)], ["Note", message || "None"]]} />
+            : [["To", `${name} · @${person.username}`], ["Reference", mediaUrl ? <span key="r">Uploaded file · <InspectButton src={mediaUrl} alt="Your reference" label="Open reference" className="fs-link-ink fs-link-ul" icon={false} style={{ minHeight: 44 }} /></span> : link ? <span key="r">{host(link)} · <a href={link} target="_blank" rel="noreferrer" className="fs-link-ink fs-link-ul" style={{ display: "inline-flex", minHeight: 44, alignItems: "center" }}>Open reference</a></span> : "Brief only"], ["Pay", `${formatMoney(payCents)} for the approved video`], ["Last day", dayWord(deadline)], ["Note", message || "None"]]} />
           <p className="fs-t-body" style={{ marginTop: 16 }}>{name} can accept or decline. Nothing is agreed until they accept, and credit leaves only when you approve their work.</p>
         </>
       )}
     </FlowShell>
   );
+}
+
+function host(url: string): string {
+  try { return new URL(url).host.replace(/^www\./, "") + new URL(url).pathname.replace(/\/$/, ""); } catch { return "link"; }
 }

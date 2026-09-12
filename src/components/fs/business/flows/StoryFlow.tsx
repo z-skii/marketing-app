@@ -7,7 +7,7 @@ import type { Prefill, WizardBusiness } from "@/app/(v2)/business/create/prefill
 import { FsUploader } from "@/components/fs/work/Uploader";
 import { formatMoney } from "@/components/fs/parts";
 import { Facts } from "@/components/fs/work/DetailParts";
-import { FlowShell, Field, ChoiceRows, DollarInput, type FlowStep } from "@/components/fs/business/Flow";
+import { FlowShell, Field, ChoiceRows, DollarInput, Commitment, type FlowStep } from "@/components/fs/business/Flow";
 import { FundingPlane, fundingState, type FundingFacts } from "./FundingPlane";
 import { StorySource, todayPlus, dayWord, Presets } from "./shared";
 
@@ -49,7 +49,7 @@ export function StoryFlow({ business, defaultCity, prefill, approved, funding }:
     { key: "pay", label: "Pay per Story", summary: payCents >= 500 ? formatMoney(payCents) : null },
     { key: "spots", label: "How many people", summary: nSlots >= 1 ? `${nSlots} spot${nSlots === 1 ? "" : "s"}` : null },
     { key: "deadline", label: "Last day to post", summary: deadline ? dayWord(deadline) : null },
-    { key: "funding", label: "Funding", summary: fs.canPublish ? "Covered for one payment" : "Needs credit" },
+    { key: "funding", label: "Publishing credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
     { key: "publish", label: "Ready to publish", summary: null },
   ];
   const valid = [Boolean(creativeUrl), city.trim().length > 0, true, payCents >= 500 && payCents <= 100_000, nSlots >= 1 && nSlots <= 500, Boolean(deadline), true, title.trim().length >= 4 && finalBrief.trim().length >= 20];
@@ -71,6 +71,7 @@ export function StoryFlow({ business, defaultCity, prefill, approved, funding }:
       title="Instagram Story ads" kind={business.name} back={{ href: "/business/create", label: "Create" }}
       steps={stepDefs} index={index} onJump={setIndex} error={error} pending={pending} review={last}
       source={<StorySource creativeUrl={creativeUrl} businessName={business.name} />}
+      commitment={payCents >= 500 ? <Commitment cents={payCents} basis="per approved Story" total={nSlots >= 1 ? fs.total : undefined} totalLabel={nSlots >= 1 ? `if all ${nSlots} spot${nSlots === 1 ? " is" : "s are"} approved` : undefined} /> : undefined}
       canContinue={valid[index]} continueLabel={last ? "Publish campaign" : index === stepDefs.length - 2 && !fs.canPublish ? "Continue without publishing" : "Continue"}
       onContinue={() => { if (last) submit(true); else setIndex(index + 1); }} onBack={() => setIndex(index - 1)}
     >
@@ -137,7 +138,7 @@ export function StoryFlow({ business, defaultCity, prefill, approved, funding }:
           <div style={{ marginTop: 16 }}>
             <Facts rows={[["Pay", `${formatMoney(payCents)} per Story`], ["Stays live", `${liveHours} hours`], ["Followers", minFollowers === "0" ? "Any" : `${Number(minFollowers).toLocaleString()} or more`], ["Spots", String(nSlots)], ["If every spot is approved", formatMoney(fs.total)], ["Last day to post", dayWord(deadline)], ["City", city]]} />
           </div>
-          <p className="fs-t-body" style={{ marginTop: 16 }}>{fs.canPublish ? `Publishing tells people in ${city}. Credit leaves only when you approve a Story.` : "Your credit does not cover one payment yet. Save it as a draft and publish once credit is added."}</p>
+          <p className="fs-t-body" style={{ marginTop: 16 }}>Publishing needs credit for one {formatMoney(payCents)} payment. Nothing is held when you publish; credit leaves only when you approve a Story. {fs.canPublish ? `Publishing tells people in ${city}.` : "Your credit is not enough for one payment yet. Save it as a draft and publish once credit is added."}</p>
           <button type="button" className="fs-btn fs-btn-secondary" style={{ marginTop: 12 }} disabled={pending} onClick={() => submit(false)}>Save as draft</button>
         </>
       )}

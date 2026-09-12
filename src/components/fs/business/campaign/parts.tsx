@@ -27,10 +27,12 @@ export function STATUS_WORD(r: { status: string; audience?: string; invite_statu
 }
 
 /** The one thing waiting on the business, or the honest reason nothing is. */
-export function nextAction(r: { kind: string; status: string; audience: string; invite_status: string | null; waiting: number; applications: number; artwork: number; approved: number; slots: number }): { label: string; needs: boolean } {
+export function nextAction(r: { kind: string; status: string; audience: string; invite_status: string | null; waiting: number; applications: number; artwork: number; needs_artwork?: number; needs_install?: number; approved: number; slots: number }): { label: string; needs: boolean } {
   if (r.status === "draft") return { label: "Publish when ready", needs: true };
   if (r.waiting > 0) return r.kind === "instagram_story" ? { label: `Check ${r.waiting} proof${r.waiting === 1 ? "" : "s"}`, needs: true } : { label: `Review ${r.waiting} video${r.waiting === 1 ? "" : "s"}`, needs: true };
   if (r.applications > 0) return r.kind === "car_ads" ? { label: `Review ${r.applications} driver${r.applications === 1 ? "" : "s"}`, needs: true } : { label: `Review ${r.applications} applicant${r.applications === 1 ? "" : "s"}`, needs: true };
+  if ((r.needs_install ?? 0) > 0) return { label: `Confirm ${r.needs_install} installation${r.needs_install === 1 ? "" : "s"}`, needs: true };
+  if ((r.needs_artwork ?? 0) > 0) return { label: `Send artwork for ${r.needs_artwork} car${r.needs_artwork === 1 ? "" : "s"}`, needs: true };
   if (r.artwork > 0) return { label: `${r.artwork} car${r.artwork === 1 ? "" : "s"} waiting on you`, needs: true };
   if (r.audience === "direct") {
     if (r.invite_status === "sent") return { label: "Waiting for an answer", needs: false };
@@ -52,9 +54,10 @@ export function CampaignThumb({ kind, media, vehicle, placements }: { kind: stri
     }
     return <span className="fs-campaign-thumb is-car is-diagram"><PlacementDiagram zones={placements} width={84} /></span>;
   }
-  if (!media) return <span className="fs-campaign-thumb is-tall fs-flow-empty" aria-hidden><span className="fs-t-meta" style={{ fontSize: 11, lineHeight: "14px", textAlign: "center" }}>No media</span></span>;
-  if (VIDEO.test(media)) return <span className="fs-campaign-thumb is-tall"><video src={media} muted playsInline preload="metadata" aria-hidden /></span>;
-  return <span className="fs-campaign-thumb is-tall"><Img src={media} alt="" loading="lazy" /></span>;
+  const sheet = kind === "instagram_story" ? " is-story" : "";
+  if (!media) return <span className={`fs-campaign-thumb is-tall fs-flow-empty${sheet}`} aria-hidden><span className="fs-t-meta" style={{ fontSize: 11, lineHeight: "14px", textAlign: "center" }}>No media</span></span>;
+  if (VIDEO.test(media)) return <span className={`fs-campaign-thumb is-tall${sheet}`}><video src={media} muted playsInline preload="metadata" aria-hidden /></span>;
+  return <span className={`fs-campaign-thumb is-tall${sheet}`}><Img src={media} alt="" loading="lazy" /></span>;
 }
 
 export function fmtDay(value: string | null | undefined): string | null {

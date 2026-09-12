@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X } from "@phosphor-icons/react";
 import { formatMoney } from "@/components/fs/parts";
 import { PlacementDiagram } from "@/components/fs/business/PlacementDiagram";
+import { InspectButton } from "@/components/fs/SourceInspector";
 
 /** Small pieces the three creation flows share. */
 const VIDEO = /\.(mp4|webm|mov|m4v)(\?|#|$)/i;
@@ -77,6 +78,8 @@ export function ReferenceSource({ mediaUrl, link, businessName }: { mediaUrl: st
         <div className="fs-media fs-flow-ref-media fs-flow-empty" aria-hidden><span className="fs-t-meta">Reference</span></div>
       )}
       <p className="fs-t-meta" style={{ marginTop: 8 }}>{mediaUrl ? "Your reference" : link ? `Linked Reel · ${safeHost(link)}` : `${businessName} · No reference yet`}</p>
+      {mediaUrl && <InspectButton src={mediaUrl} alt="Your reference" label="Open reference" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }} />}
+      {!mediaUrl && link && /^https?:\/\//.test(link) && <a href={link} target="_blank" rel="noreferrer" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }}>Open the Reel</a>}
     </div>
   );
 }
@@ -96,6 +99,7 @@ export function StorySource({ creativeUrl, businessName }: { creativeUrl: string
         <div className="fs-media fs-flow-story fs-flow-empty" aria-hidden><span className="fs-t-meta">9:16 creative</span></div>
       )}
       <p className="fs-t-meta" style={{ marginTop: 8 }}>{creativeUrl ? "Your Story creative, posted as it is" : `${businessName} · No creative yet`}</p>
+      {creativeUrl && <InspectButton src={creativeUrl} alt="Your Story creative" label="Open creative" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }} />}
     </div>
   );
 }
@@ -111,6 +115,7 @@ export function CarSource({ zones, artworkUrl }: { zones: string[]; artworkUrl: 
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="fs-media" src={artworkUrl} alt="Your artwork" style={{ width: 160, height: "auto", display: "block" }} />
           <p className="fs-t-meta" style={{ marginTop: 4 }}>Your artwork, shown as artwork</p>
+          <InspectButton src={artworkUrl} alt="Your artwork" label="View artwork" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }} />
         </div>
       )}
     </div>

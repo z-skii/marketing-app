@@ -8,7 +8,7 @@ import { ZONE_LABELS } from "@/app/(v2)/cars/zones";
 import { FsUploader } from "@/components/fs/work/Uploader";
 import { formatMoney } from "@/components/fs/parts";
 import { Facts } from "@/components/fs/work/DetailParts";
-import { FlowShell, Field, ChoiceRows, CheckRows, DollarInput, type FlowStep } from "@/components/fs/business/Flow";
+import { FlowShell, Field, ChoiceRows, CheckRows, DollarInput, Commitment, type FlowStep } from "@/components/fs/business/Flow";
 import { PlacementDiagram } from "@/components/fs/business/PlacementDiagram";
 import { FundingPlane, fundingState, type FundingFacts } from "./FundingPlane";
 import { CarSource, todayPlus, dayWord, Presets } from "./shared";
@@ -57,7 +57,7 @@ export function CarFlow({ business, defaultCity, prefill, funding }: { business:
     { key: "where", label: "Where they drive", summary: city || null },
     { key: "spots", label: "How many cars", summary: nSlots >= 1 ? `${nSlots} car${nSlots === 1 ? "" : "s"}` : null },
     { key: "artwork", label: "The artwork", summary: artworkUrl ? "Artwork added" : "Later, after drivers are accepted" },
-    { key: "funding", label: "Funding", summary: fs.canPublish ? "Covered for one month" : "Needs credit" },
+    { key: "funding", label: "Publishing credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
     { key: "publish", label: "Ready to publish", summary: null },
   ];
   const valid = [placements.length > 0, true, payCents >= 2500 && payCents <= 500_000, true, city.trim().length > 0, nSlots >= 1 && nSlots <= 500, true, true, finalTitle.length >= 4 && finalBrief.trim().length >= 20];
@@ -79,13 +79,14 @@ export function CarFlow({ business, defaultCity, prefill, funding }: { business:
       title="Car advertising" kind={business.name} back={{ href: "/business/create", label: "Create" }}
       steps={stepDefs} index={index} onJump={setIndex} error={error} pending={pending} review={last}
       source={<CarSource zones={placements} artworkUrl={artworkUrl} />}
+      commitment={payCents >= 2500 ? <Commitment cents={payCents} basis="per car, per month" total={nSlots >= 1 ? fs.total : undefined} totalLabel={nSlots >= 1 ? `per month for all ${nSlots} car${nSlots === 1 ? "" : "s"}` : undefined} /> : undefined}
       canContinue={valid[index]} continueLabel={last ? "Publish campaign" : index === stepDefs.length - 2 && !fs.canPublish ? "Continue without publishing" : "Continue"}
       onContinue={() => { if (last) submit(true); else setIndex(index + 1); }} onBack={() => setIndex(index - 1)}
     >
       {index === 0 && (
         <>
           <p className="fs-t-body">Pick every placement a driver may offer. The diagram shows where; it never shows an ad on a real car.</p>
-          <CheckRows values={placements} onChange={(v) => setPlacements(v as Placement[])} options={PLACEMENTS.map((z) => ({ value: z, label: ZONE_LABELS[z], media: <PlacementDiagram zones={[z]} width={96} label={`${ZONE_LABELS[z]} on the diagram`} /> }))} />
+          <CheckRows values={placements} onChange={(v) => setPlacements(v as Placement[])} noun="placement" options={PLACEMENTS.map((z) => ({ value: z, label: ZONE_LABELS[z], media: (on: boolean) => <PlacementDiagram zones={[z]} width={96} muted={!on} label={`${ZONE_LABELS[z]} on the diagram`} /> }))} />
         </>
       )}
       {index === 1 && (
@@ -141,9 +142,9 @@ export function CarFlow({ business, defaultCity, prefill, funding }: { business:
             <textarea id="fs-brief" className="fs-textarea" rows={4} maxLength={4000} value={finalBrief} onChange={(e) => { setBrief(e.target.value); setBriefEdited(true); }} />
           </Field>
           <div style={{ marginTop: 16 }}>
-            <Facts rows={[["Placements", zoneWords], ["Duration", `${durationDays} days${startsOn ? `, from ${dayWord(startsOn)}` : ""}`], ["Pay", `${formatMoney(payCents)} per car, per month`], ["Cars", String(nSlots)], ["Per month if every car is on the road", formatMoney(fs.total)], ["Cars preferred", colors.length || bodies.length ? [colors.join(", "), bodies.join(", ")].filter(Boolean).join(" · ") : "Any"], ["Artwork", artworkUrl ? "Added" : "Not yet"], ["City", city]]} />
+            <Facts rows={[["Placements", zoneWords], ["Duration", `${durationDays} days${startsOn ? `, from ${dayWord(startsOn)}` : ""}`], ["Cars", String(nSlots)], ["Cars preferred", colors.length || bodies.length ? [colors.join(", "), bodies.join(", ")].filter(Boolean).join(" · ") : "Any"], ["Artwork", artworkUrl ? "Added" : "Not yet"], ["City", city]]} />
           </div>
-          <p className="fs-t-body" style={{ marginTop: 16 }}>{fs.canPublish ? `Publishing tells drivers in ${city}. Credit leaves only when you confirm an installation or a month.` : "Your credit does not cover one month yet. Save it as a draft and publish once credit is added."}</p>
+          <p className="fs-t-body" style={{ marginTop: 16 }}>Publishing needs credit for one {formatMoney(payCents)} payment. Nothing is held when you publish. Confirming an installation pays the first month. {fs.canPublish ? `Publishing tells drivers in ${city}.` : "Your credit is not enough for one payment yet. Save it as a draft and publish once credit is added."}</p>
           <button type="button" className="fs-btn fs-btn-secondary" style={{ marginTop: 12 }} disabled={pending} onClick={() => submit(false)}>Save as draft</button>
         </>
       )}

@@ -9,7 +9,7 @@ import type { CampaignBrief, AiSource } from "@/lib/ai/types";
 import { FsUploader } from "@/components/fs/work/Uploader";
 import { formatMoney } from "@/components/fs/parts";
 import { Facts } from "@/components/fs/work/DetailParts";
-import { FlowShell, Field, DollarInput, type FlowStep } from "@/components/fs/business/Flow";
+import { FlowShell, Field, DollarInput, Commitment, type FlowStep } from "@/components/fs/business/Flow";
 import { FundingPlane, fundingState, type FundingFacts } from "./FundingPlane";
 import { ReferenceSource, todayPlus, dayWord, Presets, CustomChips } from "./shared";
 
@@ -57,7 +57,7 @@ export function RecreateFlow({ business, defaultCity, prefill, storedBrief, fund
     { key: "pay", label: "Pay per approved video", summary: payCents >= 500 ? formatMoney(payCents) : null },
     { key: "spots", label: "How many approved videos", summary: nSlots >= 1 ? `${nSlots} spot${nSlots === 1 ? "" : "s"}` : null },
     { key: "deadline", label: "Deadline and city", summary: deadline && city ? `${dayWord(deadline)} · ${city}` : null },
-    { key: "funding", label: "Funding", summary: fs.canPublish ? "Covered for one payment" : "Needs credit" },
+    { key: "funding", label: "Publishing credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
     { key: "publish", label: "Ready to publish", summary: null },
   ];
   const valid = [
@@ -100,6 +100,7 @@ export function RecreateFlow({ business, defaultCity, prefill, storedBrief, fund
       title="Recreate a Reel" kind={business.name} back={{ href: "/business/create", label: "Create" }}
       steps={stepDefs} index={index} onJump={setIndex} error={error} pending={pending} review={last}
       source={<ReferenceSource mediaUrl={mediaUrl} link={link} businessName={business.name} />}
+      commitment={payCents >= 500 ? <Commitment cents={payCents} basis="per approved video" total={nSlots >= 1 ? fs.total : undefined} totalLabel={nSlots >= 1 ? `if all ${nSlots} spot${nSlots === 1 ? " is" : "s are"} approved` : undefined} /> : undefined}
       canContinue={valid[index]} continueLabel={last ? "Publish campaign" : index === stepDefs.length - 2 && !fs.canPublish ? "Continue without publishing" : "Continue"}
       onContinue={() => { if (last) submit(true); else setIndex(index + 1); }} onBack={() => setIndex(index - 1)}
     >
@@ -167,7 +168,7 @@ export function RecreateFlow({ business, defaultCity, prefill, storedBrief, fund
       {index === 6 && (
         <>
           <Facts rows={[["Reference", mediaUrl ? (VIDEO.test(mediaUrl) ? "Uploaded video" : "Uploaded image") : "Linked Reel"], ["Pay", `${formatMoney(payCents)} per approved video`], ["Spots", String(nSlots)], ["If every spot is approved", formatMoney(fs.total)], ["Last day to submit", dayWord(deadline)], ["City", city]]} />
-          <p className="fs-t-body" style={{ marginTop: 16 }}>{fs.canPublish ? `Publishing tells people in ${city}. Credit leaves only when you approve a video.` : `Your credit does not cover one payment yet. Save it as a draft and publish once credit is added.`}</p>
+          <p className="fs-t-body" style={{ marginTop: 16 }}>Publishing needs credit for one {formatMoney(payCents)} payment. Nothing is held when you publish; credit leaves only when you approve a video. {fs.canPublish ? `Publishing tells people in ${city}.` : "Your credit is not enough for one payment yet. Save it as a draft and publish once credit is added."}</p>
           <button type="button" className="fs-btn fs-btn-secondary" style={{ marginTop: 12 }} disabled={pending} onClick={() => submit(false)}>Save as draft</button>
         </>
       )}

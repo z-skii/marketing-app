@@ -11,7 +11,7 @@ export type CampaignListRow = {
   id: string; kind: string; title: string; status: string; pay_cents: number; slots: number; city: string | null; created_at: string;
   audience: "public" | "direct"; target_name: string | null; invite_status: string | null;
   media: string | null; vehicle: string | null; placements: string[] | null;
-  approved: number; verified: number; cars_active: number; waiting: number; applications: number; artwork: number;
+  approved: number; verified: number; cars_active: number; waiting: number; applications: number; artwork: number; needs_artwork: number; needs_install: number;
 };
 
 export async function listBusinessCampaigns(businessId: string): Promise<CampaignListRow[]> {
@@ -29,7 +29,9 @@ export async function listBusinessCampaigns(businessId: string): Promise<Campaig
             (select count(*) from car_bookings k where k.campaign_id = c.id and k.status in ('active', 'completed'))::int as cars_active,
             (select count(*) from submissions s where s.campaign_id = c.id and s.status in ('submitted', 'under_review'))::int as waiting,
             (select count(*) from applications a where a.campaign_id = c.id and a.status = 'applied')::int as applications,
-            (select count(*) from car_bookings k where k.campaign_id = c.id and k.status in ('creative_pending', 'installation_pending'))::int as artwork
+            (select count(*) from car_bookings k where k.campaign_id = c.id and k.status in ('creative_pending', 'installation_pending'))::int as artwork,
+            (select count(*) from car_bookings k where k.campaign_id = c.id and k.status = 'creative_pending')::int as needs_artwork,
+            (select count(*) from car_bookings k where k.campaign_id = c.id and k.status = 'installation_pending')::int as needs_install
        from campaigns c
        left join profiles tp on tp.id = c.target_profile_id
       where c.business_id = $1

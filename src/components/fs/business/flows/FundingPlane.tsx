@@ -30,12 +30,12 @@ export function FundingPlane({ payCents, spots, unit, monthly = false, funding, 
   return (
     <div className="fs-plane is-decision fs-funding" aria-label="Funding">
       <dl className="fs-funding-rows">
-        <div><dt>Pay</dt><dd className="fs-tnum"><b>{formatMoney(payCents)}</b> <span className="fs-t-meta">{per}</span></dd></div>
+        <div><dt>Pay, {per}</dt><dd><span className="fs-funding-principal">{formatMoney(payCents)}</span></dd></div>
         <div><dt>Spots</dt><dd className="fs-tnum">{spots}</dd></div>
-        <div><dt>{monthly ? "Per month if every spot is filled" : "If every spot is approved"}</dt><dd className="fs-tnum"><b>{formatMoney(s.total)}</b></dd></div>
-        {funding.feePct > 0 && <div><dt>Creator receives</dt><dd className="fs-tnum">{formatMoney(payCents - fee)} <span className="fs-t-meta">after the {funding.feePct}% TapMart fee, taken from the payout</span></dd></div>}
-        <div className="fs-funding-divider"><dt>Campaign credit now</dt><dd className="fs-tnum"><b>{formatMoney(funding.walletCents)}</b></dd></div>
-        <div><dt>Needed to publish</dt><dd className="fs-tnum">{formatMoney(payCents)} <span className="fs-t-meta">one payment</span> {s.canPublish ? <span className="fs-status is-confirmed">Covered</span> : <span className="fs-status is-problem">Add {formatMoney(s.toPublish)}</span>}</dd></div>
+        <div><dt>{monthly ? "Per month if every spot is filled" : "If every spot is approved"}</dt><dd><b>{formatMoney(s.total)}</b></dd></div>
+        {funding.feePct > 0 && <div><dt>{unit === "car" ? "Driver" : "Creator"} receives</dt><dd className="fs-tnum">{formatMoney(payCents - fee)}</dd><dd className="fs-funding-note">After the {funding.feePct}% TapMart fee, taken from the payout, not added to your pay.</dd></div>}
+        <div className="fs-funding-divider"><dt>Campaign credit now</dt><dd><b>{formatMoney(funding.walletCents)}</b></dd></div>
+        <div><dt>Needed to publish, one payment</dt><dd className="fs-tnum">{formatMoney(payCents)}</dd><dd className="fs-funding-note">{s.canPublish ? <span className="fs-status is-confirmed">Covered</span> : <span className="fs-funding-short"><span className="fs-status is-problem">Insufficient credit</span> · Add {formatMoney(s.toPublish)} to publish</span>}</dd></div>
         <div><dt>Still needed to cover every spot</dt><dd className="fs-tnum">{s.toCoverAll === 0 ? <span className="fs-status is-confirmed">Covered</span> : formatMoney(s.toCoverAll)}</dd></div>
       </dl>
       <p className="fs-t-meta" style={{ marginTop: 12 }}>Credit leaves only when you approve work{monthly ? " or confirm a month" : ""}. Nothing is held at publish. Your plan is billed separately from campaign credit.</p>

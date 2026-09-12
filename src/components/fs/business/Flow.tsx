@@ -14,10 +14,10 @@ import { ArrowLeft } from "@phosphor-icons/react";
  */
 export type FlowStep = { key: string; label: string; summary?: string | null };
 
-export function FlowShell({ title, kind, back, steps, index, onJump, source, error, children, continueLabel = "Continue", canContinue, onContinue, onBack, pending = false, review = false }: {
+export function FlowShell({ title, kind, back, steps, index, onJump, source, commitment, error, children, continueLabel = "Continue", canContinue, onContinue, onBack, pending = false, review = false }: {
   title: string; kind: string; back: { href: string; label: string };
   steps: FlowStep[]; index: number; onJump: (i: number) => void;
-  source: ReactNode; error?: string | null; children: ReactNode;
+  source: ReactNode; commitment?: ReactNode; error?: string | null; children: ReactNode;
   continueLabel?: string; canContinue: boolean; onContinue: () => void; onBack: () => void; pending?: boolean; review?: boolean;
 }) {
   const step = steps[index];
@@ -34,7 +34,8 @@ export function FlowShell({ title, kind, back, steps, index, onJump, source, err
         <div className="fs-detail-source">
           <h1 className="fs-t-page fs-flow-title">{title}</h1>
           <div className="fs-flow-source">{source}</div>
-          {decided.length > 0 && (
+          {commitment && <div className="fs-flow-commitment">{commitment}</div>}
+          {decided.length > 0 && !review && (
             <ol className="fs-flow-ledger" aria-label="Decided so far">
               {decided.map((s) => {
                 const i = steps.indexOf(s);
@@ -53,7 +54,7 @@ export function FlowShell({ title, kind, back, steps, index, onJump, source, err
         <div className="fs-flow-step" aria-live="polite">
           <p className="fs-t-meta fs-tnum">Step {index + 1} of {steps.length}{review ? " · Review" : ""}</p>
           <h2 ref={heading} tabIndex={-1} className="fs-t-section fs-flow-question" style={{ marginTop: 4, outline: "none" }}>{step.label}</h2>
-          <div style={{ marginTop: 16 }}>{children}</div>
+          <div className={review ? "fs-plane fs-flow-review" : undefined} style={{ marginTop: 16 }}>{children}</div>
           {error && <p role="alert" className="fs-field-error" style={{ marginTop: 16 }}>{error}</p>}
           <div className="fs-flow-actions">
             <button type="button" className="fs-btn fs-btn-primary" disabled={!canContinue || pending} onClick={onContinue}>{pending ? "Working" : continueLabel}</button>
@@ -99,23 +100,42 @@ export function ChoiceRows<T extends string>({ name, value, onChange, options }:
 }
 
 /** Multiple choices as real checkboxes styled as rows. */
-export function CheckRows<T extends string>({ values, onChange, options }: {
+export function CheckRows<T extends string>({ values, onChange, options, noun }: {
   values: readonly T[]; onChange: (v: T[]) => void;
-  options: { value: T; label: string; detail?: string; media?: ReactNode }[];
+  options: { value: T; label: string; detail?: string; media?: ReactNode | ((selected: boolean) => ReactNode) }[]; noun?: string;
 }) {
   const toggle = (v: T) => onChange(values.includes(v) ? values.filter((x) => x !== v) : [...values, v]);
   return (
-    <div className="fs-choice-rows">
-      {options.map((o) => (
-        <label key={o.value} className={`fs-choice-row${values.includes(o.value) ? " is-selected" : ""}`}>
-          <input type="checkbox" checked={values.includes(o.value)} onChange={() => toggle(o.value)} className="fs-sr" />
-          {o.media && <span className="fs-choice-media">{o.media}</span>}
-          <span style={{ minWidth: 0 }}>
-            <span className="fs-t-body" style={{ display: "block", fontWeight: 500 }}>{o.label}</span>
-            {o.detail && <span className="fs-t-meta" style={{ display: "block" }}>{o.detail}</span>}
-          </span>
-        </label>
-      ))}
+    <div>
+      {noun && <p className="fs-t-meta" aria-live="polite">{values.length} {noun}{values.length === 1 ? "" : "s"} selected</p>}
+      <div className="fs-choice-rows">
+        {options.map((o) => {
+          const on = values.includes(o.value);
+          const media = typeof o.media === "function" ? o.media(on) : o.media;
+          return (
+            <label key={o.value} className={`fs-choice-row is-check${on ? " is-selected" : ""}`}>
+              <input type="checkbox" checked={on} onChange={() => toggle(o.value)} className="fs-check-input" />
+              {media && <span className="fs-choice-media">{media}</span>}
+              <span style={{ minWidth: 0 }}>
+                <span className="fs-t-body" style={{ display: "block", fontWeight: 500 }}>{o.label}</span>
+                {o.detail && <span className="fs-t-meta" style={{ display: "block" }}>{o.detail}</span>}
+              </span>
+            </label>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/** The pay a flow commits to, attached to the source: the amount first, its basis, then the total if every spot is filled. */
+export function Commitment({ cents, basis, total, totalLabel }: { cents: number; basis: string; total?: number; totalLabel?: string }) {
+  const money = (c: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(c / 100);
+  return (
+    <div className="fs-commit-caption">
+      <span className="fs-commit-amount">{money(cents)}</span>
+      <span className="fs-t-meta" style={{ display: "block" }}>{basis}</span>
+      {total != null && totalLabel && <span className="fs-t-body fs-tnum" style={{ display: "block", marginTop: 4 }}>{money(total)} <span className="fs-t-meta">{totalLabel}</span></span>}
     </div>
   );
 }
