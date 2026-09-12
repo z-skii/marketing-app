@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle } from "@phosphor-icons/react";
-import { respondToInviteAction } from "./actions";
+import { respondToInviteAction } from "@/app/(v2)/o/[id]/actions";
 
 /**
  * A direct request from one business to this person. Two answers. After

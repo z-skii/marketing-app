@@ -291,3 +291,77 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 @media (prefers-reduced-motion: reduce) {
   .fs *, .fs *::before, .fs *::after, .fs-sheet, .fs-inspector { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+/* ------------------------------------------------- Stage 2: user work */
+/* Detail payment: larger than the feed, still tabular and still. */
+.fs .fs-money-detail { font-family: var(--fs-display); font-weight: 700; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.025em; font-size: 32px; line-height: 36px; white-space: nowrap; }
+/* A white working plane: square corners, no shadow. A decision plane carries the cobalt edge. */
+.fs .fs-plane { background: var(--fs-surface); padding: 16px; }
+.fs .fs-plane.is-decision { border-left: 3px solid var(--fs-accent); }
+.fs .fs-note { border-left: 3px solid var(--fs-waiting); padding-left: 12px; }
+.fs .fs-note.is-problem { border-left-color: var(--fs-problem); }
+/* Activity and transactions: unboxed rows separated by dividers. */
+.fs .fs-work-list, .fs .fs-tx-list, .fs .fs-steps, .fs .fs-plain-list { list-style: none; padding: 0; margin: 0; }
+.fs .fs-work-row { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--fs-divider); }
+.fs .fs-work-list > li:first-child .fs-work-row { border-top: 0; }
+.fs .fs-work-row:hover { background: var(--fs-underlay); margin: 0 -8px; padding-left: 8px; padding-right: 8px; }
+.fs .fs-work-row .fs-work-media { width: 56px; height: 75px; background: var(--fs-underlay); }
+.fs .fs-work-row .fs-work-media img, .fs .fs-work-row .fs-work-media video { object-fit: contain; }
+.fs .fs-work-title { font-weight: 500; font-size: 16px; line-height: 24px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.fs .fs-work-money-cell { text-align: right; }
+.fs .fs-work-money { text-align: right; font-family: var(--fs-display); font-weight: 600; font-size: 18px; line-height: 24px; font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+.fs .fs-tx-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--fs-divider); }
+.fs .fs-tx-list > li:first-child .fs-tx-row { border-top: 0; }
+.fs .fs-tx-row .fs-tx-media { width: 40px; height: 53px; background: var(--fs-underlay); display: grid; place-items: center; color: var(--fs-muted); }
+.fs .fs-tx-row .fs-tx-media img { object-fit: contain; }
+/* Facts: label and value pairs. */
+.fs .fs-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 16px; font-size: 14px; line-height: 20px; }
+.fs .fs-facts dt { color: var(--fs-muted); }
+.fs .fs-facts dd { color: var(--fs-ink); }
+/* Steps: number or frame, then one short line. */
+.fs .fs-step { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--fs-divider); }
+.fs .fs-steps > li:first-child .fs-step { border-top: 0; }
+.fs .fs-step .fs-step-frame { width: 48px; height: 64px; background: var(--fs-underlay); display: grid; place-items: center; font-family: var(--fs-display); font-weight: 600; color: var(--fs-muted); font-variant-numeric: tabular-nums; }
+.fs .fs-step .fs-step-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--fs-radius-media); }
+.fs .fs-check { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; align-items: start; padding: 4px 0; font-size: 14px; line-height: 20px; }
+.fs .fs-progress { height: 4px; background: var(--fs-underlay); overflow: hidden; }
+.fs .fs-progress > span { display: block; height: 100%; background: var(--fs-accent); transition: width var(--fs-t-control) linear; }
+.fs .fs-checkbox { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 20px; }
+.fs .fs-checkbox input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--fs-accent); flex-shrink: 0; }
+/* Detail compositions. */
+.fs .fs-detail-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; margin-top: 8px; }
+.fs .fs-detail-source { margin-top: 12px; }
+.fs .fs-op-recreate.is-detail { grid-template-columns: 184px minmax(0, 1fr); }
+.fs .fs-op-story.is-detail { grid-template-columns: minmax(0, 1fr) 180px; }
+.fs .fs-car-caption.is-detail { grid-template-columns: max-content minmax(0, 1fr); }
+.fs .fs-section { margin-top: 32px; }
+.fs .fs-section > h2 { margin-bottom: 8px; }
+.fs .fs-vehicle-row { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--fs-divider); }
+.fs .fs-plain-list > li:first-child .fs-vehicle-row { border-top: 0; }
+.fs .fs-thumb { background: var(--fs-underlay); }
+.fs .fs-thumb img { object-fit: contain; }
+.fs .fs-filters .fs-count { margin-left: 6px; font-weight: 400; color: var(--fs-muted); font-variant-numeric: tabular-nums; }
+.fs .fs-skeleton { background: var(--fs-underlay); }
+@media (max-width: 359px) {
+  .fs .fs-op-recreate.is-detail { grid-template-columns: 1fr; }
+  .fs .fs-op-recreate.is-detail > :first-child { max-height: 360px; }
+  .fs .fs-op-recreate.is-detail > :last-child > div { min-height: 0 !important; }
+  .fs .fs-op-story.is-detail { grid-template-columns: 1fr; }
+  .fs .fs-work-row { grid-template-columns: 56px minmax(0, 1fr); }
+  .fs .fs-work-row .fs-work-money-cell { grid-column: 2; text-align: left; }
+  .fs .fs-work-money { text-align: left; }
+  .fs .fs-facts { grid-template-columns: 1fr; gap: 0; }
+  .fs .fs-facts dt { margin-top: 8px; }
+  .fs .fs-vehicle-row { grid-template-columns: 1fr; }
+}
+@media (min-width: 1024px) {
+  .fs .fs-money-detail { font-size: 44px; line-height: 48px; }
+  .fs .fs-detail { display: grid; grid-template-columns: minmax(0, 448px) minmax(0, 640px); gap: 48px; align-items: start; }
+  .fs .fs-detail-source { position: sticky; top: 32px; }
+  .fs .fs-op-recreate.is-detail { grid-template-columns: 224px minmax(0, 1fr); }
+  .fs .fs-op-recreate.is-detail > :first-child { width: 224px !important; height: 398px !important; }
+  .fs .fs-op-story.is-detail { grid-template-columns: minmax(0, 1fr) 198px; }
+  .fs .fs-op-story.is-detail .fs-story-sheet { width: 198px !important; height: 352px !important; }
+  .fs .fs-narrow { max-width: 760px; }
+  .fs .fs-earnings-grid { display: grid; grid-template-columns: minmax(0, 448px) minmax(0, 640px); gap: 48px; align-items: start; }
+}

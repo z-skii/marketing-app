@@ -23,7 +23,8 @@ export default async function FrameShiftLayout({ children }: { children: React.R
   if (ctx.mode === "business" && ctx.activeBusiness) {
     return (
       <BusinessShell business={{ id: ctx.activeBusiness.id, name: ctx.activeBusiness.name, logo: ctx.activeBusiness.logo_url }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
-        {children}
+        {/* Home, Activity, Earnings and Profile redirect business mode away; an opportunity opened in business mode renders in Frame Shift inside the business shell. */}
+        <div className={`${display.variable} ${ui.variable} fs`} style={{ minHeight: 0 }}>{children}</div>
       </BusinessShell>
     );
   }

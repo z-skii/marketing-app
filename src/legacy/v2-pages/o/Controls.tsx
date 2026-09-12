@@ -3,9 +3,9 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Uploader } from "@/components/v2/Uploader";
-import { applyWithVehicle, participateInStory, submitStoryProof } from "../actions";
-import { addProof } from "../../cars/actions";
-import { withdrawCarApplication } from "./actions";
+import { applyWithVehicle, participateInStory, submitStoryProof } from "@/app/(v2)/o/actions";
+import { addProof } from "@/app/(v2)/cars/actions";
+import { withdrawCarApplication } from "@/app/(v2)/o/[id]/actions";
 
 /** The interactive pieces of the opportunity screen: one button or form per state. */
 

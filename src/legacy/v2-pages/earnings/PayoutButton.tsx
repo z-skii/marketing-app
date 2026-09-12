@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { formatCredit } from "@/lib/money";
-import { requestPayout } from "./actions";
+import { requestPayout } from "@/app/(v2)/earnings/actions";
 
 /**
  * One full width primary button. Enabled only when the available balance

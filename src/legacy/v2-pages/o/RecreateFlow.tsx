@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { CheckCircle, Warning, WarningCircle, Question, UploadSimple, VideoCamera } from "@phosphor-icons/react";
 import type { CheckItem, ClientMediaMeta, CreatorGuide, SubmissionCheck } from "@/lib/ai/types";
 import { readVideoMeta, uploadWithProgress } from "@/lib/client/media-meta";
-import { runSubmissionCheck, submitRecreate } from "../actions";
+import { runSubmissionCheck, submitRecreate } from "@/app/(v2)/o/actions";
 
 /**
  * Start recreating: pick the video, watch it upload, see the requirement
