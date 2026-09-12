@@ -85,7 +85,7 @@ export default async function BusinessPersonPage({ params, searchParams }: { par
                       <InspectButton src={s.url} alt={`${s.title}, ${s.kind === "approved" ? "approved work" : "portfolio"} by ${name}`} label={`Inspect ${s.title}`} className="fs-media" icon={false} style={{ width: w, height: h, display: "block" }}>
                         {VIDEO.test(s.url) ? <span className="fs-video-fallback">Video<span className="fs-video-note">Inspect to play</span></span> : <Img src={s.url} alt="" style={{ width: w, height: h, objectFit: "cover" }} />}
                       </InspectButton>
-                      <span className="fs-t-meta" style={{ display: "block", marginTop: 4, maxWidth: w }}>{s.title} · {s.kind === "approved" ? "Approved work" : "Portfolio"}</span>
+                      <span className="fs-t-meta" style={{ display: "block", marginTop: 4, maxWidth: w }}>{s.kind === "approved" ? `${s.title} · Approved work` : s.title.toLowerCase() === "portfolio" ? "Portfolio" : `${s.title} · Portfolio`}</span>
                     </li>
                   );
                 })}

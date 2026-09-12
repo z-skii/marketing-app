@@ -35,7 +35,7 @@ export function BookingReview({ campaign, booking: b, proofs, monthsPaid, fundin
   return (
     <main className="fs-phone-main" id="main">
       <div className="fs-detail-top">
-        <BackLink fallback={`/business/campaigns/${campaign.id}`} label={campaign.title} />
+        <BackLink fallback={`/business/campaigns/${campaign.id}`} label="Campaign" />
         <span className={`fs-status is-${word.tone}`}>{word.label}</span>
       </div>
       <h1 className="fs-t-page" style={{ marginTop: 8 }}>{b.year} {b.make} {b.model}</h1>
