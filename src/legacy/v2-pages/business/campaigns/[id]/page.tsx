@@ -8,7 +8,7 @@ import { fmtDate, isVideoUrl, type CampaignDetails } from "@/lib/v2/opportunitie
 import { placementLabel } from "@/components/v2/EarnCards";
 import { Avatar, Chip, EmptyState, Money, SectionTitle, StatusChip } from "@/components/v2/ui";
 import { ReviewControls } from "@/app/(v2)/jobs/[id]/CampaignActions";
-import { BookingSteps, CloseCampaignButton, DecideDriver, PublishDraftButton, StoryReviewControls, WithdrawInviteButton } from "./CampaignControls";
+import { BookingSteps, CloseCampaignButton, DecideDriver, PublishDraftButton, StoryReviewControls, WithdrawInviteButton } from "@/legacy/v2-pages/business/campaigns/[id]/CampaignControls";
 import { sql as sqlq } from "@/lib/db";
 
 export const metadata = { title: "Campaign" };

@@ -7,7 +7,7 @@ import { Uploader } from "@/components/v2/Uploader";
 import { closeCampaign, reviewSubmission } from "@/app/(v2)/jobs/[id]/actions";
 import { decideCarApplication } from "@/app/(v2)/o/actions";
 import { advanceBooking, payBookingMonth } from "@/app/(v2)/cars/actions";
-import { publishDraft, withdrawInvite } from "./actions";
+import { publishDraft, withdrawInvite } from "@/app/(v2)/business/campaigns/[id]/actions";
 
 /**
  * The buttons on a campaign's management screen. Every one calls an

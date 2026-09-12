@@ -3,7 +3,7 @@ import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { formatCredit } from "@/lib/money";
 import { requireBusinessContext } from "@/lib/v2/core";
 import { sql } from "@/lib/db";
-import { EmptyState, Money, ScreenHeader } from "@/components/v2/ui";
+import { Money } from "@/components/v2/ui";
 import { MediaPreview } from "@/components/v2/MediaPreview";
 
 export const metadata = { title: "Campaigns" };
@@ -70,7 +70,6 @@ export default async function CampaignsPage({
   const isDone = (r: Row) => ["closed", "completed", "cancelled"].includes(r.status);
   const legacy = (r: Row) => !EARN_KINDS.includes(r.kind);
   const needsYou = (r: Row) => r.waiting > 0 || r.applications > 0 || r.artwork > 0;
-  const pending = (r: Row) => r.waiting + r.applications + r.artwork;
 
   const visible = rows.filter((r) => !legacy(r) || isDone(r));
   const shown = visible.filter((r) =>
