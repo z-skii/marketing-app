@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Frame Shift, the approved production design system, scoped under .fs and migrated screen by screen. */
+@import "./frame-shift.css";
 
 /* Short viewports (small phones, squat windows): the live screen compacts
    its densest rows instead of scrolling. */

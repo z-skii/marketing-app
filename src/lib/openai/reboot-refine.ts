@@ -2,8 +2,6 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { imagePart, loadImage, respond, textPart, type InputPart, type JsonSchema, type Usage } from "./client";
 import { route, type Effort } from "./models";
-import { REBOOT_DIR } from "./reboot";
-import { VISUAL_DIR } from "./reboot-visual";
 import { slug } from "./prompts";
 
 /**
@@ -17,6 +15,9 @@ import { slug } from "./prompts";
  * screenshots follow; the final review uses the founder's standard.
  */
 
+/* Computed here rather than imported so the director, reboot and refine modules never form an import cycle. */
+const REBOOT_DIR = path.join(process.cwd(), "docs", "reboot");
+const VISUAL_DIR = path.join(REBOOT_DIR, "visual");
 export const REFINE_DIR = path.join(REBOOT_DIR, "refine");
 
 const S = (description?: string) => (description ? { type: "string", description } : { type: "string" });
@@ -255,5 +256,52 @@ export function finalReviewMarkdown(review: LabFinalReview, ctx: { screenName: s
   if (review.keep?.length) { L.push("## Keep", ""); for (const k of review.keep) L.push(`- ${k}`); L.push(""); }
   L.push("## Checklist", ""); for (const c of [...(review.checklist ?? [])].sort((a, b) => a.priority - b.priority)) L.push(`${c.priority}. **${c.change}** (${c.where}). ${c.why}`); L.push("");
   if (review.motion?.length) { L.push("## Motion", ""); for (const m of review.motion) L.push(`- ${m}`); L.push(""); }
+  return L.join("\n");
+}
+
+// ------------------------------------------------------------ transfer QA
+
+/** Production implementation QA: was Frame Shift transferred faithfully, and does the real product still work? */
+export const TRANSFER_REVIEW_SCHEMA: JsonSchema = {
+  name: "tapmart_transfer_review",
+  schema: obj({
+    verdict: S("One sentence."),
+    faithful_transfer: { type: "boolean", description: "Was Frame Shift faithfully transferred to production, judged from the production capture against the approved Lab capture?" },
+    functionality_intact: { type: "boolean", description: "Does the production screen still expose TapMart's real functionality (its data, states, actions and navigation) as far as a capture shows?" },
+    why: S("Concrete reasons from the pixels."),
+    scores: obj({ fidelity: SCORE, clarity: SCORE, usability: SCORE, uniqueness: SCORE, brand_recognition: SCORE, premium_feel: SCORE, media_quality: SCORE, viewport_quality: { ...SCORE, description: "Quality at the captured viewport (phone 390, phone 320 or desktop)." }, ai_slop_risk: { ...SCORE, description: "10 = high risk; 0 = none." } }),
+    drift: { type: "array", items: obj({ priority: { type: "integer", minimum: 1 }, change: S("The exact implementation fix, with values."), where: S(), why: S(), kind: { type: "string", enum: ["drift", "usability", "data_honesty", "responsive"] } }) , description: "Implementation drift from the approved design and real usability problems; never a new art direction." },
+    keep: L(),
+    expected_differences: L("Differences that are correct because production has real data and real states where the Lab had fixtures."),
+    ready_to_ship: { type: "boolean", description: "Would you sign off this screen at this viewport for release?" },
+    readiness_note: S(),
+  }),
+};
+
+export type TransferReview = {
+  verdict: string; faithful_transfer: boolean; functionality_intact: boolean; why: string; scores: Record<string, number>;
+  drift: { priority: number; change: string; where: string; why: string; kind: string }[]; keep: string[]; expected_differences: string[]; ready_to_ship: boolean; readiness_note: string;
+};
+
+export function transferReviewerInstructions(system: string | null, ownSpec: string | null): string {
+  return [
+    "You are TapMart's DESIGN QA DIRECTOR. Frame Shift is the approved final art direction; you are no longer redesigning TapMart. Claude Code migrated a production screen to Frame Shift using the approved Design Lab as the visual source of truth and the existing production application as the functional and data source of truth. A browser captured the REAL production screen with REAL data; the approved Lab capture of the same screen follows it.",
+    "Answer the founder's question: was Frame Shift faithfully transferred without breaking TapMart's real functionality? Compare the production capture with the approved Lab capture value by value (surfaces, type, spacing, the source-to-commitment joint, media treatment, money, status text, navigation, controls). Production shows real records and real states, so exact content differs; judge structure, hierarchy and treatment, and list the differences that are correct because the data is real (an initial instead of a portrait, a video reference, a missing model, an empty state) under expected_differences. Do not ask for demo labels in production. Flag implementation drift with exact fixes, and flag genuine usability problems. Never propose another art direction. Return the JSON only.",
+    "=== THE APPROVED FRAME SHIFT SYSTEM ===", system ?? "(missing)", "=== END ===",
+    ...(ownSpec ? ["=== THE APPROVED SCREEN SPEC ===", ownSpec, "=== END ==="] : []),
+  ].join("\n\n");
+}
+
+export function transferReviewMarkdown(r: TransferReview, ctx: { screenName: string; screenshot: string; reference: string; model: string; effort: string; when: string; instructions: string | null }): string {
+  const L = [`# Transfer QA: ${ctx.screenName}`, ""];
+  L.push(`Production: \`${path.basename(ctx.screenshot)}\` · Approved Lab: \`${path.basename(ctx.reference)}\` · Model: ${ctx.model} (${ctx.effort}) · ${ctx.when}`);
+  if (ctx.instructions) L.push(`Instructions: ${ctx.instructions}`);
+  L.push("", `**Verdict.** ${r.verdict}`, "", `**Faithful transfer: ${r.faithful_transfer ? "YES" : "NO"}. Functionality intact: ${r.functionality_intact ? "YES" : "NO"}. Ready to ship: ${r.ready_to_ship ? "YES" : "NO"}.** ${r.readiness_note}`, "", r.why, "");
+  L.push("| score | 0 to 10 |", "| --- | --- |");
+  for (const [k, v] of Object.entries(r.scores)) L.push(`| ${k.replace(/_/g, " ")} | ${v} |`);
+  L.push("");
+  if (r.keep?.length) { L.push("## Keep", ""); for (const k of r.keep) L.push(`- ${k}`); L.push(""); }
+  if (r.expected_differences?.length) { L.push("## Expected differences (real data)", ""); for (const k of r.expected_differences) L.push(`- ${k}`); L.push(""); }
+  L.push("## Drift and usability", ""); for (const c of [...(r.drift ?? [])].sort((a, b) => a.priority - b.priority)) L.push(`${c.priority}. [${c.kind}] **${c.change}** (${c.where}). ${c.why}`); L.push("");
   return L.join("\n");
 }
