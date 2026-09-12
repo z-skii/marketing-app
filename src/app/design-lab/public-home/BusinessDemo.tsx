@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import { PersonSpread, spreads } from "../business-home/PeopleRibbon";
+import { PersonAssembly } from "../business-home/PeopleRibbon";
 import { PlacementDiagram } from "./PlacementDiagram";
 import { ContentWorkspace } from "../business-content/ContentWorkspace";
 import { people, cars, contentFiles, usd, type Person } from "../mock";
@@ -29,7 +29,7 @@ export function BusinessDemo() {
       <div className="pub-demo-bar" role="tablist" aria-label="Business demonstration">
         <button type="button" role="tab" aria-selected={mode === "campaigns"} className={mode === "campaigns" ? "is-on" : ""} onClick={() => setMode("campaigns")}>Campaigns</button>
         <button type="button" role="tab" aria-selected={mode === "content"} className={mode === "content" ? "is-on" : ""} onClick={() => setMode("content")}>Monthly content</button>
-        <span className="t-meta" style={{ marginLeft: "auto" }}>Demo product · Changes reset</span>
+        <span className="t-meta" style={{ marginLeft: "auto" }}>Demo product · Changes reset · No real request is sent</span>
       </div>
       <div className="pub-demo-field" key={mode}>
         {mode === "campaigns" ? (
@@ -37,7 +37,7 @@ export function BusinessDemo() {
           : view.kind === "person" ? <PersonDetail person={people.find((p) => p.id === view.id)!} onBack={() => setView({ kind: "people" })} />
           : <CarsView onBack={() => setView({ kind: "people" })} />
         ) : (
-          <ContentWorkspace files={contentFiles} shootLabel="Shoot 01 · May 7, 2026" uploader="Imani Cole" />
+          <ContentWorkspace files={contentFiles} shootLabel="Shoot 01 · May 7, 2026" uploader="Imani Cole" demo />
         )}
       </div>
     </div>
@@ -48,14 +48,15 @@ function PeopleView({ onView, onCars }: { onView: (id: string) => void; onCars: 
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 8, minHeight: 44 }}>
-        <div className="filters" role="group" aria-label="Discovery" style={{ flex: 1, borderBottom: 0 }}>
-          <button type="button" aria-pressed="true" style={{ fontSize: 16 }}>People</button>
-          <button type="button" aria-pressed="false" style={{ fontSize: 16 }} onClick={onCars}>Cars</button>
+        <div className="filters" role="radiogroup" aria-label="Discovery" style={{ flex: 1, borderBottom: 0 }}>
+          <button type="button" role="radio" aria-checked="true" style={{ fontSize: 16 }}>People</button>
+          <button type="button" role="radio" aria-checked="false" style={{ fontSize: 16 }} onClick={onCars}>Cars</button>
         </div>
       </div>
-      <div data-shelf="people-ribbon" style={{ display: "flex", gap: 24, overflowX: "auto", scrollSnapType: "x proximity", scrollbarWidth: "none", marginTop: 12 }}>
-        {spreads(people).map((s) => <PersonSpread key={s.person.id} s={s} onView={onView} />)}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 376px)", gap: 24, marginTop: 12 }}>
+        {people.slice(0, 3).map((p) => <PersonAssembly key={p.id} person={p} onView={onView} />)}
       </div>
+      <p className="t-meta" style={{ margin: "16px 0 0" }}>3 of {people.length} people · <Link href="/design-lab/business-home" style={{ color: "var(--tm-accent)" }}>See all people</Link></p>
     </div>
   );
 }
@@ -94,6 +95,7 @@ function PersonDetail({ person, onBack }: { person: Person; onBack: () => void }
         <p className="t-meta" style={{ margin: 0 }}>{person.qualification || "Not verified"}</p>
         <p className="t-body" style={{ margin: "12px 0 0" }}>{person.fit}</p>
         <p className="t-label" style={{ margin: "24px 0 0" }}>Request work from {person.name.split(" ")[0]}</p>
+        <p className="t-meta" style={{ margin: "2px 0 0" }}>Demo only · No real request is sent</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 8, maxWidth: 280 }}>
           <button type="button" className="btn btn-secondary" disabled={pending || !person.sample} onClick={() => request("Recreate Reel")}>Request a Reel</button>
           <button type="button" className="btn btn-secondary" disabled={pending || !person.sample} onClick={() => request("Instagram Story")}>Request a Story</button>
@@ -113,9 +115,9 @@ function CarsView({ onBack }: { onBack: () => void }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 8, minHeight: 44 }}>
-        <div className="filters" role="group" aria-label="Discovery" style={{ flex: 1, borderBottom: 0 }}>
-          <button type="button" aria-pressed="false" style={{ fontSize: 16 }} onClick={onBack}>People</button>
-          <button type="button" aria-pressed="true" style={{ fontSize: 16 }}>Cars</button>
+        <div className="filters" role="radiogroup" aria-label="Discovery" style={{ flex: 1, borderBottom: 0 }}>
+          <button type="button" role="radio" aria-checked="false" style={{ fontSize: 16 }} onClick={onBack}>People</button>
+          <button type="button" role="radio" aria-checked="true" style={{ fontSize: 16 }}>Cars</button>
         </div>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "640px minmax(0, 1fr)", gap: 24, marginTop: 12, alignItems: "start" }}>

@@ -53,7 +53,7 @@ export function UserProfileScreen({ embed = false }: { embed?: boolean } = {}) {
 
       <main className="phone-main" id={embed ? undefined : "main"} style={{ paddingTop: 34 }}>
         {/* Record strip: three content-aware tracks on the canvas. */}
-        <dl style={{ display: "grid", gridTemplateColumns: "auto auto auto", justifyContent: "start", gap: 12, columnGap: 24, margin: 0, minHeight: 64 }}>
+        <dl className="record-strip" style={{ display: "flex", flexWrap: "wrap", gap: "12px 24px", margin: 0, minHeight: 64 }}>
           <Fact value={usd(maya.stats.lifetimeEarnedCents)} label="Earned" />
           <Fact value={String(maya.stats.completed)} label="Completed" />
           <Fact value={maya.stats.rating.toFixed(1)} label={`Rating · ${maya.stats.reviews} reviews`} />
@@ -95,11 +95,12 @@ export function UserProfileScreen({ embed = false }: { embed?: boolean } = {}) {
                   </span>
                   <span className="t-meta" style={{ display: "block", marginTop: 8, color: "var(--tm-ink)" }}>{w.kind}</span>
                   <span className={`status ${w.state === "Approved" ? "confirmed" : "waiting"}`} style={{ display: "block" }}>{w.state}</span>
+                  {w.kind === "Story" && <span className="t-meta" style={{ display: "block" }}>Supplied creative</span>}
                 </Link>
               </li>
             ))}
           </ul>
-          <Link href="#activity" className="btn btn-quiet" style={{ paddingLeft: 0, marginTop: 8 }}>View Activity <ArrowRight size={18} aria-hidden /></Link>
+          <Link href="#activity" className="btn btn-quiet link-ink" style={{ paddingLeft: 0, marginTop: 8 }}>View Activity <ArrowRight size={18} aria-hidden /></Link>
         </section>
 
         <section aria-labelledby="earn-title" style={{ marginTop: 24 }}>

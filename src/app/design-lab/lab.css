@@ -103,14 +103,18 @@
 .lab .btn-sm { min-height: 40px; font-size: 14px; }
 .lab .icon-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: var(--tm-radius-control); color: var(--tm-ink); }
 .lab .icon-btn:hover { background: var(--tm-underlay); }
+.lab .shelf-btn { border: 1px solid var(--tm-control-border); }
+.lab .shelf-btn:disabled { color: var(--tm-divider); border-color: var(--tm-divider); cursor: default; background: none; }
+.lab .ledge-action { background: var(--tm-accent) !important; color: #fff !important; border: 1px solid #fff !important; }
+.lab .ledge-action:hover { background: var(--tm-accent-hover) !important; }
 .lab .on-dark .icon-btn { color: var(--tm-on-dark); }
 .lab .on-dark .icon-btn:hover { background: var(--tm-stage); }
 
 /* Filter row: selection edge, not pills. */
 .lab .filters { display: flex; gap: 0; height: 44px; border-bottom: 1px solid var(--tm-divider); }
 .lab .filters button { position: relative; min-width: 76px; padding: 0 12px; font-weight: 500; font-size: 14px; line-height: 44px; color: var(--tm-muted); }
-.lab .filters button[aria-pressed="true"] { color: var(--tm-ink); font-weight: 600; }
-.lab .filters button[aria-pressed="true"]::after { content: ""; position: absolute; left: 12px; bottom: -1px; width: 24px; height: 3px; background: var(--tm-accent); transition: left var(--tm-t-selection) var(--tm-ease-out); }
+.lab .filters button[aria-pressed="true"], .lab .filters button[aria-checked="true"] { color: var(--tm-ink); font-weight: 600; }
+.lab .filters button[aria-pressed="true"]::after, .lab .filters button[aria-checked="true"]::after { content: ""; position: absolute; left: 12px; bottom: -1px; width: 24px; height: 3px; background: var(--tm-accent); transition: left var(--tm-t-selection) var(--tm-ease-out); }
 .lab .filters .kind { margin-left: auto; min-width: 80px; display: inline-flex; align-items: center; gap: 6px; color: var(--tm-ink); }
 
 /* Status text: colour carries meaning only with a word. */
@@ -140,7 +144,6 @@
 .lab .rail { position: sticky; top: 0; height: 100dvh; display: flex; flex-direction: column; padding: 16px 12px; background: var(--tm-graphite); color: var(--tm-on-dark); }
 .lab .rail .wordmark { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 8px; margin-bottom: 8px; }
 .lab .rail .identity { display: block; width: 168px; height: 80px; padding: 8px; margin: 0 0 16px 4px; box-sizing: border-box; border-radius: var(--tm-radius-control); border: 1px solid var(--tm-control-border-dark); text-align: left; }
-.lab .link-ink { color: var(--tm-ink); font-weight: 600; }
 .lab .rail nav { display: flex; flex-direction: column; gap: 2px; }
 .lab .rail nav a { position: relative; display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 12px; border-radius: var(--tm-radius-control); font-size: 16px; line-height: 20px; font-weight: 500; color: var(--tm-muted-dark); }
 .lab .rail nav a:hover { background: var(--tm-stage); color: var(--tm-on-dark); }
@@ -167,6 +170,15 @@
   .lab .op-story .media { margin: 0 auto; }
   .lab .op-story > :first-child, .lab .op-recreate > :last-child { margin-top: 0 !important; }
 }
+
+/* Source inspector: a native dialog, graphite, the same file at its original ratio. */
+.lab .lab-inspector { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; }
+.lab .lab-inspector::backdrop { background: rgba(16, 24, 32, 0.48); }
+.lab .lab-inspector-body { background: var(--tm-graphite); border-radius: var(--tm-radius-overlay); padding: 8px 16px 16px; max-width: min(92vw, 1080px); }
+.lab .lab-inspector-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; }
+.lab .lab-inspector img { display: block; max-width: min(90vw, 1048px); max-height: 80vh; width: auto; height: auto; margin: 0 auto; object-fit: contain; }
+.lab .link-ink { color: var(--tm-ink); font-weight: 600; }
+.lab .link-ul { text-decoration: underline; text-underline-offset: 3px; }
 
 /* --------------------------------------------------------------- media */
 .lab .media { display: block; background: var(--tm-stage); border-radius: var(--tm-radius-media); overflow: hidden; }

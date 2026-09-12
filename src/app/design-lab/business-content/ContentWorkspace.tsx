@@ -12,7 +12,7 @@ import { demoMutation } from "../adapter";
  * and a 1200ms accent wash. Imagery crossfades over 180ms once the next
  * source is ready.
  */
-export function ContentWorkspace({ files, shootLabel, uploader, compact = false }: { files: ContentFile[]; shootLabel: string; uploader: string; compact?: boolean }) {
+export function ContentWorkspace({ files, shootLabel, uploader, compact = false, demo = false }: { files: ContentFile[]; shootLabel: string; uploader: string; compact?: boolean; demo?: boolean }) {
   const [selectedId, setSelectedId] = useState(files[0].id);
   const [states, setStates] = useState<Record<string, ContentFile["state"] | "Skipped">>(Object.fromEntries(files.map((f) => [f.id, f.state])));
   const [pending, setPending] = useState(false);
@@ -61,7 +61,7 @@ export function ContentWorkspace({ files, shootLabel, uploader, compact = false 
         <h3 className="t-section" style={{ margin: "4px 0 0" }}>{selected.title}</h3>
         <p className="t-meta" style={{ margin: "8px 0 0" }}>{shootLabel}</p>
         <p className="t-meta" style={{ margin: 0 }}>Uploaded by {uploader}</p>
-        <p className="t-meta" style={{ margin: 0 }}>Demo delivered file</p>
+        <p className="t-meta" style={{ margin: 0 }}>Demo delivered file{demo ? " · Demo only · Approval here publishes nothing" : ""}</p>
 
         <label className="t-label" style={{ display: "block", marginTop: 16 }}>Caption
           <textarea value={caption[selected.id]} onChange={(e) => setCaption((c) => ({ ...c, [selected.id]: e.target.value }))} rows={2} style={{ display: "block", width: "100%", height: 72, marginTop: 4, padding: 12, font: "inherit", fontSize: 16, lineHeight: "24px", border: "1px solid var(--tm-control-border)", borderRadius: "var(--tm-radius-control)", background: "#fff", color: "var(--tm-ink)", resize: "vertical" }} />

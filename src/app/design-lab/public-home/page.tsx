@@ -8,7 +8,8 @@ import { Enhance } from "./Enhance";
 import { BusinessDemo } from "./BusinessDemo";
 import { PlacementDiagram } from "./PlacementDiagram";
 import { RecreateCommitment, StoryCommitment, StoryEligibility, CarCommitment } from "../work";
-import { PersonSpread, spreads } from "../business-home/PeopleRibbon";
+import { PersonAssembly } from "../business-home/PeopleRibbon";
+import { InspectButton } from "../SourceInspector";
 import { ContentWorkspace } from "../business-content/ContentWorkspace";
 import "./public.css";
 
@@ -25,7 +26,6 @@ import "./public.css";
  */
 export default function PublicHomeLab() {
   const { recreate, story, car } = opportunities;
-  const mayaSpread = spreads(people)[0];
   return (
     <div className="pub">
       <Enhance />
@@ -69,7 +69,7 @@ export default function PublicHomeLab() {
             <Money cents={recreate.payCents} per={recreate.basis} dark />
           </div>
           <div className="pub-hero-foot">
-            <p className="t-meta" style={{ margin: 0 }}>Demo product · Generated filming illustration</p>
+            <div className="t-meta" style={{ margin: 0, display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0 12px" }}>Demo product · Generated filming illustration <InspectButton src={ASSET("public-filming-01")} alt="Filming illustration, generated for the Design Lab" label="View filming illustration" style={{ minHeight: 44, padding: 0, fontSize: 14 }} /></div>
             <Link href="/design-lab/user-home" className="btn btn-secondary pub-open">Open earning example</Link>
           </div>
         </div>
@@ -90,6 +90,7 @@ export default function PublicHomeLab() {
                   <img src={recreate.reference} alt="Reference still: a latte being poured at the Loopday Coffee counter" width={224} height={398} />
                 </div>
                 <span className="t-meta pub-label" style={{ color: "var(--tm-muted-dark)" }}>Reference still · Demo</span>
+                <InspectButton src={recreate.reference} alt="Reference still: the latte pour at the Loopday Coffee counter, original ratio" label="Inspect reference" className="btn btn-quiet pub-inspect" style={{ color: "var(--tm-on-dark)", paddingLeft: 0, minHeight: 44 }} />
               </div>
               <div className="pub-src-film">
                 <div className="media" style={{ width: 624, height: 416 }}>
@@ -106,7 +107,6 @@ export default function PublicHomeLab() {
           </div>
           <div className="pub-chapter-foot on-dark">
             <p className="t-meta" style={{ margin: 0, color: "var(--tm-muted-dark)" }}>Demo work · The reference is a still, not a player</p>
-            <Link href="/design-lab/user-home#recreate" className="btn btn-secondary pub-open">See the example</Link>
           </div>
         </Chapter>
 
@@ -124,6 +124,7 @@ export default function PublicHomeLab() {
                   <img src={story.creative} alt="The supplied Story creative: Take a coffee break." width={288} height={512} />
                 </div>
                 <span className="t-meta pub-label">Supplied creative · Demo</span>
+                <InspectButton src={story.creative} alt="The supplied Story creative at its original 9:16 ratio" label="Inspect creative" className="btn btn-quiet pub-inspect" style={{ paddingLeft: 0, minHeight: 44 }} />
               </div>
               <div className="pub-src-elig"><StoryEligibility width={352} /></div>
             </div>
@@ -133,7 +134,6 @@ export default function PublicHomeLab() {
           </div>
           <div className="pub-chapter-foot">
             <p className="t-meta" style={{ margin: 0 }}>Instagram is a manual entry here, not an API verification</p>
-            <Link href="/design-lab/user-home#story" className="btn btn-secondary pub-open">See the example</Link>
           </div>
         </Chapter>
 
@@ -155,6 +155,7 @@ export default function PublicHomeLab() {
               <div className="pub-src-diagram">
                 <div className="pub-diagram-field"><PlacementDiagram width={208} /></div>
                 <span className="t-meta pub-label">Placement concept: rear doors.</span>
+                <InspectButton src="/design-lab/placement-rear-doors.svg" alt="Placement concept: rear doors, the coded diagram at full size" label="Inspect placement" className="btn btn-quiet pub-inspect" style={{ paddingLeft: 0, minHeight: 44 }} />
               </div>
             </div>
             <div className="pub-work pub-work-drive">
@@ -163,7 +164,6 @@ export default function PublicHomeLab() {
           </div>
           <div className="pub-chapter-foot">
             <p className="t-meta" style={{ margin: 0 }}>Artwork is never composited onto a photographed car</p>
-            <Link href="/design-lab/user-home#car" className="btn btn-secondary pub-open">See the example</Link>
           </div>
         </Chapter>
       </div>
@@ -180,6 +180,7 @@ export default function PublicHomeLab() {
                 <img src={recreate.reference} alt="Reference still" width={112} height={199} />
               </div>
               <span className="t-meta pub-label" style={{ color: "var(--tm-muted-dark)" }}>Reference still</span>
+              <InspectButton src={recreate.reference} alt="Reference still at its original ratio" label="Inspect" className="btn btn-quiet pub-inspect" style={{ color: "var(--tm-on-dark)", paddingLeft: 0, minHeight: 44 }} />
             </div>
             <div>
               <div className="media" style={{ width: 230, height: 153 }}>
@@ -189,7 +190,7 @@ export default function PublicHomeLab() {
               <span className="t-meta pub-label" style={{ color: "var(--tm-muted-dark)" }}>Filming illustration</span>
             </div>
           </div>
-          <div style={{ marginTop: 16, marginLeft: "var(--tm-shift-phone)" }}><RecreateCommitment width={346} height={280} ledge={112} detail href="/design-lab/user-home#recreate" /></div>
+          <div style={{ marginTop: 16 }}><RecreateCommitment width={358} height={280} ledge={112} ledgeInset={12} detail href="/design-lab/user-home#recreate" /></div>
         </section>
         <section className="pub-pchapter tone-canvas">
           <h2 className="pub-h2">Post.</h2>
@@ -200,9 +201,10 @@ export default function PublicHomeLab() {
               <img src={story.creative} alt="The supplied Story creative: Take a coffee break." width={180} height={320} />
             </div>
             <span className="t-meta pub-label" style={{ display: "inline-block" }}>Supplied creative · Demo</span>
+            <div><InspectButton src={story.creative} alt="The supplied Story creative at its original ratio" label="Inspect creative" className="btn btn-quiet pub-inspect" style={{ minHeight: 44 }} /></div>
           </div>
-          <div style={{ marginTop: 16 }}><StoryEligibility width={358} /></div>
-          <div style={{ marginTop: 16, marginLeft: "var(--tm-shift-phone)" }}><StoryCommitment width={346} detail href="/design-lab/user-home#story" /></div>
+          <div style={{ marginTop: 16, background: "var(--tm-surface)", padding: 16 }}><StoryEligibility width={326} /></div>
+          <div style={{ marginLeft: "var(--tm-shift-phone)" }}><StoryCommitment width={346} detail href="/design-lab/user-home#story" /></div>
         </section>
         <section className="pub-pchapter tone-underlay">
           <h2 className="pub-h2">Drive.</h2>
@@ -212,8 +214,8 @@ export default function PublicHomeLab() {
             <img src={car.visual} alt="Campaign visual: a bike shop's delivery car, no ad installed" />
           </div>
           <span className="t-meta pub-label">Campaign visual · Demo · No installed ad</span>
-          <div style={{ marginTop: 16 }}><PlacementDiagram width={160} /><span className="t-meta pub-label">Placement concept: rear doors.</span></div>
-          <div style={{ marginTop: 16 }}><CarCommitment width={358} inset={12} detail href="/design-lab/user-home#car" /></div>
+          <div style={{ marginTop: 16 }}><PlacementDiagram width={160} /><span className="t-meta pub-label">Placement concept: rear doors.</span><InspectButton src="/design-lab/placement-rear-doors.svg" alt="Placement concept: rear doors, the coded diagram at full size" label="Inspect placement" className="btn btn-quiet pub-inspect" style={{ paddingLeft: 0, minHeight: 44 }} /></div>
+          <div style={{ marginTop: 16 }}><CarCommitment width={358} inset={12} detail stacked href="/design-lab/user-home#car" /></div>
         </section>
       </div>
 
@@ -222,20 +224,22 @@ export default function PublicHomeLab() {
         <h2 id="biz-title" className="pub-h2">Put your business out there.</h2>
         <div className="pub-biz-desktop">
           <BusinessDemo />
-          <Link href="/design-lab/business-home" className="btn btn-secondary pub-open" style={{ marginTop: 16 }}>Open full example</Link>
+          <Link href="/design-lab/business-home" className="btn btn-secondary pub-open" style={{ marginTop: 16 }}>Open full business example</Link>
         </div>
         <div className="pub-biz-phone">
+          <p className="t-meta" style={{ margin: "16px 0 0" }}>Demo product · Changes reset · No real request is sent</p>
           <h3 className="t-section" style={{ margin: "24px 0 0" }}>Campaigns</h3>
           <p className="t-task" style={{ margin: "4px 0 16px" }}>Choose people or cars. Fund the work.</p>
-          <PersonSpread s={mayaSpread} compact />
-          <Link href="/design-lab/business-home" className="btn btn-secondary pub-open" style={{ marginTop: 8 }}>Open example</Link>
+          <PersonAssembly person={people[0]} width={358} compact />
+          <Link href="/design-lab/business-home" className="btn btn-secondary pub-open" style={{ marginTop: 8 }}>Open campaign example</Link>
           <h3 className="t-section" style={{ margin: "48px 0 0" }}>Monthly content</h3>
           <p className="t-task" style={{ margin: "4px 0 16px" }}>Real shoots. Photos and videos to review and schedule.</p>
-          <ContentWorkspace files={contentFiles} shootLabel="Shoot 01 · May 7, 2026" uploader="Imani Cole" compact />
-          <Link href="/design-lab/business-content" className="btn btn-secondary pub-open" style={{ marginTop: 16 }}>Open example</Link>
+          <ContentWorkspace files={contentFiles} shootLabel="Shoot 01 · May 7, 2026" uploader="Imani Cole" compact demo />
+          <Link href="/design-lab/business-content" className="btn btn-secondary pub-open" style={{ marginTop: 16 }}>Open content example</Link>
         </div>
-        <dl className="pub-plans"><div><dt>Essential</dt><dd>1 shoot, 10 photos, 3 videos each month.</dd></div><div><dt>Growth</dt><dd>2 shoots, 20 photos, 6 videos each month.</dd></div></dl>
-        <p className="t-task" style={{ marginTop: 24 }}>Campaign spending is separate from your content subscription.</p>
+        <p className="t-label" style={{ margin: "32px 0 0" }}>Monthly content plans</p>
+        <dl className="pub-plans" style={{ marginTop: 8 }}><div><dt>Essential</dt><dd>1 shoot, 10 photos, 3 videos each month.</dd></div><div><dt>Growth</dt><dd>2 shoots, 20 photos, 6 videos each month.</dd></div></dl>
+        <p className="t-task" style={{ marginTop: 12 }}>Campaign spending is separate from your content subscription.</p>
       </section>
 
       {/* Get paid: the steps joined to the financial reading region. */}

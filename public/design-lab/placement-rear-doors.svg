@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Placement concept: rear doors highlighted">
+  <rect x="0" y="0" width="1200" height="800" fill="#FFFFFF" />
+  <line x1="80" y1="620" x2="1120" y2="620" stroke="#CFD3D1" stroke-width="2" />
+  <path d="M150 560 L150 430 Q160 330 260 320 L330 320 L420 200 Q440 170 480 170 L780 170 Q820 170 840 200 L930 320 L1020 335 Q1060 345 1060 400 L1060 560 Z" fill="none" stroke="#151B23" stroke-width="8" stroke-linejoin="round" />
+  <path d="M350 320 L430 205 L580 205 L580 320 Z M615 320 L615 205 L770 205 L830 320 Z" fill="none" stroke="#151B23" stroke-width="6" stroke-linejoin="round" />
+  <line x1="597" y1="205" x2="597" y2="560" stroke="#151B23" stroke-width="6" />
+  <line x1="330" y1="320" x2="330" y2="560" stroke="#151B23" stroke-width="6" />
+  <line x1="860" y1="320" x2="860" y2="560" stroke="#151B23" stroke-width="6" />
+  <rect x="615" y="345" width="235" height="200" fill="#E7EDFF" stroke="#2450E8" stroke-width="8" />
+  <circle cx="330" cy="580" r="70" fill="#FFFFFF" stroke="#151B23" stroke-width="8" />
+  <circle cx="880" cy="580" r="70" fill="#FFFFFF" stroke="#151B23" stroke-width="8" />
+  <circle cx="330" cy="580" r="28" fill="none" stroke="#151B23" stroke-width="6" />
+  <circle cx="880" cy="580" r="28" fill="none" stroke="#151B23" stroke-width="6" />
+</svg>

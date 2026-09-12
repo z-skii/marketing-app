@@ -31,6 +31,7 @@
 .lab .pub-hero-excerpt .money { font-size: 24px; line-height: 28px; }
 .lab .pub-hero-excerpt .t-task { display: none; }
 .lab .pub-hero-foot { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 16px; }
+.lab .pub-inspect { font-size: 14px; font-weight: 600; }
 .lab .pub-hero-media .pub-hero-foot { position: absolute; left: 0; top: 327px; }
 .lab .pub-hero { padding-bottom: calc(48px + 96px); }
 
@@ -64,7 +65,7 @@
 .lab .pub-paid { display: grid; gap: 24px; }
 .lab .pub-steps { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 24px; }
 .lab .pub-step-n { display: block; font-weight: 700; font-size: 32px; line-height: 36px; color: var(--tm-ink); }
-.lab .pub-earnings { max-width: 400px; padding: 24px; background: var(--tm-surface); border-radius: 0; align-self: start; }
+.lab .pub-earnings { max-width: 400px; padding: 24px; background: var(--tm-surface); border-radius: 0; align-self: start; margin-left: var(--tm-shift-phone); }
 
 /* Final choice and footer */
 .lab .pub-final { background: var(--tm-graphite); color: var(--tm-on-dark); }
@@ -100,7 +101,7 @@
   .lab .pub-hero-excerpt { left: 24px; top: 440px; width: 496px; height: 96px; padding: 16px 20px; flex-direction: row; align-items: center; justify-content: space-between; }
   .lab .pub-hero-excerpt .money { font-size: 34px; line-height: 38px; }
   .lab .pub-hero-excerpt .t-task { display: block; }
-  .lab .pub-hero-media .pub-hero-foot { top: 552px; flex-direction: row; align-items: center; gap: 24px; }
+  .lab .pub-hero-media .pub-hero-foot { top: 548px; flex-direction: column; align-items: flex-start; gap: 12px; width: 496px; left: 24px; }
 
   .lab .pub-phone-chapters { display: none; }
   .lab .pub-chapter { display: block; }
@@ -139,14 +140,14 @@
   .lab .pub-biz-desktop { display: block; }
   .lab .pub-biz-phone { display: none; }
   .lab .pub-paid { grid-template-columns: 704px 592px; gap: 48px; align-items: start; }
-  .lab .pub-earnings { max-width: none; margin-top: 24px; }
+  .lab .pub-earnings { max-width: none; margin-top: 24px; margin-left: 0; }
   .lab .pub-footer { padding: 48px; grid-template-columns: auto 1fr auto; align-items: center; max-width: 1440px; margin: 0 auto; }
 }
 
 /* Enhanced desktop: 900px chapters with a locally pinned 780px panel. */
 .lab .pub-enh .pub-chapter { height: 900px; }
 .lab .pub-enh .pub-panel { position: sticky; top: 80px; height: 780px; overflow: hidden; }
-.lab .pub-enh .pub-header { border-bottom: 1px solid var(--tm-divider); }
+.lab .pub-header.is-scrolled { border-bottom: 1px solid var(--tm-divider); }
 @media (prefers-reduced-motion: reduce) {
   .lab .pub-demo-field { animation: none; }
   .lab .pub-chapter { --pa: 1; --pb: 1; }

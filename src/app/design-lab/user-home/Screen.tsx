@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, ArrowsOutSimple, CaretDown, MagnifyingGlass, ChatCircle, Bell } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, CaretDown, MagnifyingGlass, ChatCircle, Bell } from "@phosphor-icons/react/dist/ssr";
+import { InspectButton } from "../SourceInspector";
 import { PhoneHeader, TabBar, USER_TABS } from "../parts";
 import { maya, opportunities } from "../mock";
 import { SaveToggle } from "../SaveToggle";
@@ -47,7 +48,7 @@ export function UserHomeScreen({ embed = false }: { embed?: boolean } = {}) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={recreate.reference} alt="Reference still: a barista pouring a latte at the Loopday Coffee counter" width={160} height={284} style={{ objectFit: "contain" }} />
                 <span className="t-meta" style={{ position: "absolute", top: 8, left: 8, color: "var(--tm-on-dark)", background: "#101820", padding: "0 6px", borderRadius: 4 }}>{recreate.referenceLabel}</span>
-                <button type="button" className="icon-btn" aria-label="Inspect reference" style={{ position: "absolute", right: 4, bottom: 4, background: "#101820", color: "#F6F8FB", borderRadius: 8 }}><ArrowsOutSimple size={24} /></button>
+                <InspectButton src={recreate.reference} alt="Reference still: the latte pour at the Loopday Coffee counter, original ratio" label="Inspect reference" className="btn inspect-ref" style={{ position: "absolute", left: 4, right: 4, bottom: 4, minHeight: 44, background: "#101820", color: "#F6F8FB", borderRadius: 8, fontSize: 14, padding: "0 8px", justifyContent: "flex-start" }} />
               </div>
               <div style={{ marginTop: "var(--tm-shift-phone)" }}>
                 <h2 id="op-recreate" className="sr">{recreate.title}</h2>

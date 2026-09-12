@@ -17,7 +17,11 @@ export function Enhance() {
     const apply = () => root.classList.toggle("pub-enh", mq.matches);
     apply();
     mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
+    const header = root.querySelector(".pub-header");
+    const onScroll = () => header?.classList.toggle("is-scrolled", window.scrollY > 0);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { mq.removeEventListener("change", apply); window.removeEventListener("scroll", onScroll); };
   }, []);
   return null;
 }

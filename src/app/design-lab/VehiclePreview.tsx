@@ -24,7 +24,7 @@ export function VehiclePreview({ vehicle, style }: { vehicle: { label: string; y
           <p className="t-task" style={{ margin: 0 }}>{vehicle.label}</p>
           <p className="t-meta" style={{ margin: "4px 0 0" }}>{vehicle.year} · {vehicle.body}</p>
           <p className="t-meta" style={{ margin: 0 }}>{vehicle.color} · {vehicle.city}</p>
-          <Link href="#vehicle" className="btn btn-quiet" style={{ paddingLeft: 0, minHeight: 44 }}>View vehicle <ArrowRight size={18} aria-hidden /></Link>
+          <Link href="#vehicle" className="btn btn-quiet link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>View vehicle <ArrowRight size={18} aria-hidden /></Link>
         </div>
       </div>
       <p className="t-meta" style={{ margin: "8px 0 0" }}>Smart Vehicle · {vehicle.modelUrl ? "3D model available" : "Photos only"}</p>
