@@ -132,7 +132,7 @@ export function SubmissionReview({ campaign, submission: s, provenance, funding 
                 <p className="fs-t-meta">Credit now {formatMoney(funding.walletCents)}{covered ? "" : " · not enough for this payment"}.</p>
                 {spotsLeft <= 0 && <p className="fs-t-meta" style={{ marginTop: 4 }}>Every spot is already approved. Approving one more is not possible.</p>}
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
-                  <button type="button" className="fs-btn fs-btn-primary" disabled={pending || spotsLeft <= 0 || !covered} onClick={() => run(() => reviewSubmission(s.id, "approved", ""))}>{pending ? "Working" : `Approve and pay ${formatMoney(campaign.pay_cents)}`}</button>
+                  <button type="button" className="fs-btn fs-btn-primary fs-btn-wrap" disabled={pending || spotsLeft <= 0 || !covered} onClick={() => run(() => reviewSubmission(s.id, "approved", ""))}>{pending ? "Working" : `Approve and pay ${formatMoney(campaign.pay_cents)}`}</button>
                   <button type="button" className="fs-btn fs-btn-secondary" disabled={pending} aria-expanded={panel === "changes"} onClick={() => setPanel(panel === "changes" ? null : "changes")}>Request changes</button>
                   <button type="button" className="fs-btn fs-btn-quiet fs-link-ink" disabled={pending} aria-expanded={panel === "reject"} onClick={() => setPanel(panel === "reject" ? null : "reject")}>Reject</button>
                 </div>

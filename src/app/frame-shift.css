@@ -108,6 +108,7 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
   font-weight: 600; font-size: 16px; line-height: 20px; white-space: nowrap; text-align: center;
   transition: background-color var(--fs-t-control) var(--fs-ease-out), transform var(--fs-t-control) var(--fs-ease-out), border-color var(--fs-t-control) var(--fs-ease-out), color var(--fs-t-control) var(--fs-ease-out);
 }
+.fs .fs-btn-wrap { white-space: normal; text-align: left; padding-block: 12px; line-height: 20px; height: auto; }
 .fs .fs-btn-primary { background: var(--fs-accent); color: #fff; box-shadow: 0 0 0 2px #fff; }
 .fs .fs-btn-primary:hover { background: var(--fs-accent-hover); }
 .fs .fs-btn-primary:active { background: var(--fs-accent-pressed); transform: translateY(1px); }

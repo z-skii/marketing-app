@@ -110,7 +110,7 @@ export function BookingReview({ campaign, booking: b, proofs, monthsPaid, fundin
             {b.status === "installation_pending" && (
               <>
                 <p className="fs-t-body" style={{ marginTop: 8 }}>Arrange the install with the driver. {installation ? "Their installation photo is below; open it before you confirm." : "They have not sent an installation photo yet."} Confirming pays the first month from your credit now.</p>
-                <button type="button" className="fs-btn fs-btn-primary" style={{ marginTop: 12 }} disabled={pending || !covered} onClick={() => run(() => advanceBooking(b.id))}>{pending ? "Paying" : `Confirm installation and pay ${formatMoney(b.monthly_cents)}`}</button>
+                <button type="button" className="fs-btn fs-btn-primary fs-btn-wrap" style={{ marginTop: 12 }} disabled={pending || !covered} onClick={() => run(() => advanceBooking(b.id))}>{pending ? "Paying" : `Confirm installation and pay ${formatMoney(b.monthly_cents)}`}</button>
                 {!covered && <p className="fs-t-meta" style={{ marginTop: 8 }}>Your credit does not cover the first month. <Link href="/business/billing" className="fs-link-ink fs-link-ul">Add credit</Link> first.</p>}
               </>
             )}
@@ -118,7 +118,7 @@ export function BookingReview({ campaign, booking: b, proofs, monthsPaid, fundin
               <>
                 <p className="fs-t-body" style={{ marginTop: 8 }}>Look at the driver&apos;s photos first. Paying a month sends it to the driver from your credit. When the campaign is over, mark it completed; nothing is paid for that.</p>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
-                  <button type="button" className="fs-btn fs-btn-primary" disabled={pending || !covered} onClick={() => run(() => payBookingMonth(b.id))}>{pending ? "Paying" : `Pay this month, ${formatMoney(b.monthly_cents)}`}</button>
+                  <button type="button" className="fs-btn fs-btn-primary fs-btn-wrap" disabled={pending || !covered} onClick={() => run(() => payBookingMonth(b.id))}>{pending ? "Paying" : `Pay this month, ${formatMoney(b.monthly_cents)}`}</button>
                   <button type="button" className="fs-btn fs-btn-quiet fs-link-ink" disabled={pending} onClick={() => run(() => advanceBooking(b.id))}>Mark completed</button>
                 </div>
                 {!covered && <p className="fs-t-meta" style={{ marginTop: 8 }}>Your credit does not cover a month. <Link href="/business/billing" className="fs-link-ink fs-link-ul">Add credit</Link> first.</p>}
