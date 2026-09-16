@@ -16,7 +16,7 @@ import { money, type Opportunity } from "../fixtures";
 export function OpportunityObject({ o }: { o: Opportunity }) {
   const viewLabel = `View ${o.title}, ${o.business}`;
   return (
-    <Preview id={o.id} title={o.title} media={o.media} mediaRatio={o.mediaRatio} mediaAlt={o.media ? o.mediaAlt : fallbackLabel(o)} mediaPosition={o.mediaPosition} content={<Detail o={o} />} actions={<Actions o={o} />}>
+    <Preview id={o.id} title={o.title} media={o.media} mediaRatio={o.mediaRatio} mediaAlt={o.media ? o.mediaAlt : fallbackLabel(o)} mediaFit={o.kind === "story" ? "contain" : "cover"} mediaPosition={o.mediaPosition} content={<Detail o={o} />}>
       {(open) => (
         <article className={`obj op op-${o.kind}`} aria-labelledby={`${o.id}-title`}>
           <button type="button" className="media-btn" onClick={open} aria-label={viewLabel}>
@@ -28,16 +28,23 @@ export function OpportunityObject({ o }: { o: Opportunity }) {
           </button>
           <Edge />
           <div className="op-band">
-            <div className="op-money"><Money cents={o.netCents} basis={o.basis} whole /></div>
+            <div className="op-money"><Money cents={o.netCents} basis={o.basis} whole />{o.kind === "car" && <span className="t-fact-ink">Approval required</span>}</div>
             <button type="button" className="btn btn-primary op-view" onClick={open} aria-label={viewLabel}>View</button>
           </div>
           <h2 id={`${o.id}-title`} className="t-object op-title">{o.title}</h2>
           <p className="t-fact op-business">{o.business}</p>
-          <p className="t-fact op-facts">{o.facts.map((f, i) => <span key={f}>{i > 0 && <span aria-hidden> · </span>}{f}</span>)}</p>
+          <p className="t-fact op-facts">{factLines(o).map((line) => <span key={line.join()} className="fact-line">{line.map((f, i) => <span key={f}>{i > 0 && <span aria-hidden> · </span>}{f}</span>)}</span>)}</p>
         </article>
       )}
     </Preview>
   );
+}
+
+/** Car keeps its eligibility condition on its own line; the others read on one line. */
+function factLines(o: Opportunity): string[][] {
+  if (o.kind !== "car") return [o.facts];
+  const req = o.facts.filter((f) => /required/i.test(f));
+  return [o.facts.filter((f) => !req.includes(f)), req].filter((l) => l.length);
 }
 
 function fallbackLabel(o: Opportunity): string {
@@ -88,16 +95,10 @@ function Detail({ o }: { o: Opportunity }) {
         <p className="t-body" style={{ marginTop: 8 }}>Terms unavailable.</p>
       </details>
       <p className="t-body" style={{ marginTop: 24 }}>Approval credits earnings; payout is separate.</p>
+      <div className="preview-actions">
+        <button type="button" className="btn btn-primary" disabled aria-describedby={`${o.id}-apply-note`} style={{ opacity: 0.5 }}>Apply</button>
+        <span id={`${o.id}-apply-note`} className="t-fact">Applications are outside this preview.</span>
+      </div>
     </div>
-  );
-}
-
-function Actions({ o }: { o: Opportunity }) {
-  const id = `${o.id}-apply-note`;
-  return (
-    <>
-      <button type="button" className="btn btn-primary" disabled aria-describedby={id} style={{ opacity: 0.5 }}>Apply</button>
-      <span id={id} className="t-fact">Applications are outside this preview.</span>
-    </>
   );
 }

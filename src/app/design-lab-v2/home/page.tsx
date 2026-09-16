@@ -1,6 +1,6 @@
 import { Rail, TabBar, USER_TABS, Utilities } from "../parts";
 import { Switcher } from "../Switcher";
-import { Feed } from "./Feed";
+import { Feed, SearchSheet } from "./Feed";
 import { homeActivityCount } from "../fixtures";
 
 /**
@@ -11,16 +11,16 @@ export default function V2UserHome() {
   const tabs = USER_TABS.map((t) => t.label === "Activity" ? { ...t, badge: homeActivityCount } : t);
   return (
     <div className="desk">
-      <Rail mode="Personal" active="Home" identity={<Switcher current="Personal" compact avatar />} tabs={tabs} />
+      <Rail mode="Personal" active="Home" identity={<Switcher current="Personal" compact />} tabs={tabs} search={<SearchSheet labelled />} />
       <div className="phone">
         <h1 className="v2-sr">Home</h1>
         <header className="phone-header">
           <Switcher current="Personal" compact />
-          <Utilities />
+          <Utilities search={<SearchSheet labelled />} />
         </header>
         <header className="desk-header tablet-only">
           <Switcher current="Personal" compact />
-          <Utilities />
+          <Utilities search={<SearchSheet labelled />} />
         </header>
         <main className="phone-main desk-main">
           <Feed />

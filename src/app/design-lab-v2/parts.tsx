@@ -55,7 +55,7 @@ export const USER_TABS: Tab[] = [
   { href: "/design-lab-v2/home", label: "Home", icon: <House size={ICON} /> },
   { href: "#activity", label: "Activity", icon: <ListChecks size={ICON} />, outside: true },
   { href: "#earnings", label: "Earnings", icon: <Wallet size={ICON} />, outside: true },
-  { href: "/design-lab-v2/me", label: "Profile", icon: <User size={ICON} /> },
+  { href: "/design-lab-v2/profile", label: "Profile", icon: <User size={ICON} /> },
 ];
 export const BUSINESS_TABS: Tab[] = [
   { href: "/design-lab-v2/business", label: "Home", icon: <House size={ICON} /> },
@@ -76,7 +76,7 @@ export function TabBar({ tabs, active, label }: { tabs: Tab[]; active: string; l
 }
 
 /** Desktop and tablet rail: wordmark, identity switcher (desktop), destinations, labelled utilities. */
-export function Rail({ mode, active, identity, tabs: given }: { mode: "Personal" | "Business"; active: string; identity: ReactNode; tabs?: Tab[] }) {
+export function Rail({ mode, active, identity, tabs: given, search }: { mode: "Personal" | "Business"; active: string; identity: ReactNode; tabs?: Tab[]; search?: ReactNode }) {
   const tabs = given ?? (mode === "Business" ? BUSINESS_TABS : USER_TABS);
   return (
     <aside className="rail">
@@ -84,7 +84,7 @@ export function Rail({ mode, active, identity, tabs: given }: { mode: "Personal"
       <div className="switcher">{identity}</div>
       <nav aria-label="Main">{tabs.map((t) => <TabLink key={t.label} t={t} active={active} />)}</nav>
       <nav aria-label="Utilities" className="bottom">
-        <Outside label="Search"><span aria-hidden><MagnifyingGlass size={20} /></span><span>Search</span></Outside>
+        {search ?? <Outside label="Search"><span aria-hidden><MagnifyingGlass size={20} /></span><span>Search</span></Outside>}
         <Outside label="Messages"><span aria-hidden><ChatCircle size={20} /></span><span>Messages</span></Outside>
         <Outside label="Notifications"><span aria-hidden><Bell size={20} /></span><span>Notifications</span></Outside>
       </nav>
@@ -106,10 +106,10 @@ export function IdentityLabel({ name, mode, avatar, initials }: { name: string; 
   );
 }
 
-export function Utilities({ messages = 0, alerts = 0 }: { messages?: number; alerts?: number }) {
+export function Utilities({ messages = 0, alerts = 0, search }: { messages?: number; alerts?: number; search?: ReactNode }) {
   return (
     <span style={{ display: "flex" }}>
-      <Outside label="Search" className="icon-btn"><MagnifyingGlass size={20} aria-hidden /></Outside>
+      {search ?? <Outside label="Search" className="icon-btn"><MagnifyingGlass size={20} aria-hidden /></Outside>}
       <Outside label="Messages" className="icon-btn"><ChatCircle size={20} aria-hidden />{messages > 0 && <span className="badge" aria-label={`${messages} unread`}>{messages}</span>}</Outside>
       <Outside label="Notifications" className="icon-btn"><Bell size={20} aria-hidden />{alerts > 0 && <span className="badge" aria-label={`${alerts} new`}>{alerts}</span>}</Outside>
     </span>
