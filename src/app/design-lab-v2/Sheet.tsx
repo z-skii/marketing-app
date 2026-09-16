@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { X } from "@phosphor-icons/react";
 
 /**
@@ -19,7 +19,7 @@ export function Sheet({ title, trigger, triggerClass, triggerStyle, triggerLabel
     if (open && !d.open) d.showModal();
     if (!open && d.open) d.close();
   }, [open]);
-  const close = () => { setOpen(false); opener.current?.focus(); };
+  const close = useCallback(() => { setOpen(false); opener.current?.focus(); }, []);
   return (
     <>
       <button ref={opener} type="button" className={triggerClass} style={triggerStyle} aria-label={triggerLabel} aria-haspopup="dialog" onClick={() => setOpen(true)}>{trigger}</button>
