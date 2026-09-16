@@ -1,19 +1,23 @@
-import Link from "next/link";
+import { Business, EarnStage, Footer, Hero, HowItWorks, Pricing, Section, SiteHeader } from "./site/Site";
 
-/** The V2 Design Lab index: the four experiences of the first phase. Fixture data only. */
-export default function V2Index() {
-  const routes = [
-    { href: "/design-lab-v2/site", label: "Public Homepage" },
-    { href: "/design-lab-v2/home", label: "User Home" },
-    { href: "/design-lab-v2/profile", label: "User Profile" },
-    { href: "/design-lab-v2/business", label: "Business Home" },
-  ];
+/**
+ * V2 Public Homepage at /design-lab-v2: everyday before interface. Recreate,
+ * Post and Drive as photography that opens into coded paid work previews;
+ * one ink business chapter; Monthly Content and its two plans; a short
+ * footer. Fixture data only; nothing authenticates or moves money.
+ */
+export default function V2PublicHome() {
   return (
-    <main style={{ padding: 24, maxWidth: 640 }}>
-      <h1 style={{ fontSize: 24, margin: "0 0 16px" }}>TapMart V2 Design Lab</h1>
-      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 8 }}>
-        {routes.map((r) => <li key={r.href}><Link href={r.href} style={{ display: "block", padding: "12px 0", borderTop: "1px solid #ccc" }}>{r.label}</Link></li>)}
-      </ul>
-    </main>
+    <div className="site">
+      <SiteHeader />
+      <main>
+        <Section><Hero /></Section>
+        <section id="earn" aria-label="Earn"><Section><EarnStage /></Section></section>
+        <Section><HowItWorks /></Section>
+        <Business />
+        <Section><Pricing /></Section>
+      </main>
+      <Section><Footer /></Section>
+    </div>
   );
 }

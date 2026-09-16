@@ -77,7 +77,7 @@ function Empty({ text }: { text: string }) {
 
 function PersonObject({ p, featured = false }: { p: Person; featured?: boolean }) {
   return (
-    <Preview id={`person-${p.id}${featured ? "-f" : ""}`} title={p.name} media={p.portrait} mediaRatio="4 / 5" mediaAlt={p.portraitAlt} content={<PersonDetail p={p} />}>
+    <Preview id={`person-${p.id}${featured ? "-f" : ""}`} kind="person" title={p.name} media={p.portrait} mediaRatio="4 / 5" mediaAlt={p.portraitAlt} content={<PersonDetail p={p} />}>
       {(open) => (
         <article className={`obj person${featured ? " person-featured" : ""}`} aria-labelledby={`p-${p.id}${featured ? "f" : ""}`}>
           <div className="person-media">
@@ -109,23 +109,10 @@ function PersonObject({ p, featured = false }: { p: Person; featured?: boolean }
 function PersonDetail({ p }: { p: Person }) {
   return (
     <div>
-      <div className="op-band" style={{ marginTop: 16 }}>
+      <div className="op-band" style={{ marginTop: 16, alignItems: "center" }}>
         <div><h2 className="t-object">{p.name}</h2><p className="t-fact" style={{ marginTop: 4 }}>{p.city}{p.instagram && <><span aria-hidden> · </span>{p.instagram.handle}</>}</p></div>
-        <Viewer src={p.portrait} alt={p.portraitAlt} label="Inspect" className="link t-action" style={{ display: "inline-flex", alignItems: "center", gap: 6, minHeight: 44 }}><ArrowsOutSimple size={18} aria-hidden />Inspect</Viewer>
+        <RequestSheet p={p} />
       </div>
-      <dl className="facts" style={{ marginTop: 24 }}>
-        <div><dt>Completed</dt><dd>{p.completed}</dd></div>
-        {p.rating && <div><dt>Rating</dt><dd>{p.rating.value.toFixed(1)}</dd></div>}
-        {p.instagram && <div><dt>Followers</dt><dd>{p.instagram.followers.toLocaleString("en-US")}</dd></div>}
-        {p.verified && <div><dt>Verified creator</dt><dd>Yes</dd></div>}
-      </dl>
-      {p.rating && (
-        <details className="disclosure" style={{ marginTop: 16 }}>
-          <summary className="t-action">Reviews</summary>
-          <p className="t-body" style={{ marginTop: 8 }}>{p.rating.review.text}</p>
-          <p className="t-fact" style={{ marginTop: 4 }}>{p.rating.review.by}<span aria-hidden> · </span>{p.rating.review.date}</p>
-        </details>
-      )}
       <h3 className="t-action" style={{ marginTop: 24 }}>Work</h3>
       <p className="t-fact" style={{ marginTop: 4 }}>{p.project.title}<span aria-hidden> · </span>{p.project.business}<span aria-hidden> · </span>Recreate still<span aria-hidden> · </span>Approved {p.project.approved}</p>
       <div className="person-detail-work">
@@ -133,7 +120,22 @@ function PersonDetail({ p }: { p: Person }) {
           <Viewer key={i} src={w.src} alt={w.alt} label={`Inspect ${p.project.title} still ${i + 1}`} className="media" style={{ aspectRatio: "4 / 5", display: "block", width: "100%" }}><Img src={w.src} alt="" fallback="Work unavailable" /></Viewer>
         ))}
       </div>
-      <div className="preview-actions"><RequestSheet p={p} /></div>
+      <dl className="facts" style={{ marginTop: 24 }}>
+        <div><dt>Completed</dt><dd>{p.completed}</dd></div>
+        {p.rating && <div><dt>Rating</dt><dd>{p.rating.value.toFixed(1)}</dd></div>}
+        {p.instagram && <div><dt>Followers</dt><dd>{p.instagram.followers.toLocaleString("en-US")}</dd></div>}
+        {p.verified && <div><dt>Verified creator</dt><dd className="v2-sr">Yes</dd></div>}
+      </dl>
+      {p.rating && (
+        <details className="disclosure" style={{ marginTop: 8 }}>
+          <summary className="t-action">Reviews</summary>
+          <p className="t-body" style={{ marginTop: 8 }}>{p.rating.review.text}</p>
+          <p className="t-fact" style={{ marginTop: 4 }}>{p.rating.review.by}<span aria-hidden> · </span>{p.rating.review.date}</p>
+        </details>
+      )}
+      <div style={{ marginTop: 24 }}>
+        <Viewer src={p.portrait} alt={p.portraitAlt} label="Inspect" className="link t-action" style={{ display: "inline-flex", alignItems: "center", gap: 6, minHeight: 44 }}><ArrowsOutSimple size={18} aria-hidden />Inspect</Viewer>
+      </div>
     </div>
   );
 }
@@ -178,7 +180,7 @@ function CarObject() {
           <button type="button" className="media car-photo" style={{ aspectRatio: "3 / 2" }} onClick={open} aria-label={`View ${c.title}`}><Img src={c.photo} alt="" /></button>
           <Edge />
           <div className="op-band">
-            <div className="op-money"><Money cents={c.askCents} basis="/month" whole /></div>
+            <div className="op-money"><Money cents={c.askCents} basis="/month" whole inline /></div>
             <button type="button" className="btn btn-primary" style={{ width: 88 }} onClick={open} aria-label={`View ${c.title}`}>View</button>
           </div>
           <div className="car-id"><h2 id={`c-${c.id}`} className="t-object">{c.title}</h2><span className="t-fact">{c.city}</span></div>
@@ -197,15 +199,15 @@ function CarDetail() {
   return (
     <div>
       <div className="op-band" style={{ marginTop: 16 }}>
-        <div><Money cents={c.askCents} basis="/month" whole /><span className="t-fact-ink">Asking rate</span></div>
+        <div><Money cents={c.askCents} basis="/month" whole inline /><span className="t-fact-ink" style={{ display: "block", marginTop: 4 }}>Asking rate</span></div>
         <Viewer src={c.photo} alt={c.alt} label="Inspect" className="link t-action" style={{ display: "inline-flex", alignItems: "center", gap: 6, minHeight: 44 }}><ArrowsOutSimple size={18} aria-hidden />Inspect</Viewer>
       </div>
       <h2 className="t-object" style={{ marginTop: 12 }}>{c.title}</h2>
       <p className="t-fact" style={{ marginTop: 4 }}>{c.city}</p>
       <h3 className="t-action" style={{ marginTop: 24 }}>Placements</h3>
+      <p className="t-fact" style={{ marginTop: 4 }}>Placement diagram</p>
       <button type="button" className={`placement${selected ? " is-selected" : ""}`} aria-pressed={selected} onClick={() => setSelected((v) => !v)} aria-label={`Rear doors${selected ? ", selected" : ""}`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/design-lab/placement-rear-doors.svg" alt="" style={{ width: "100%", height: "auto" }} />
+        <PlacementDiagram selected={selected} />
       </button>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
         <button type="button" className={`btn ${selected ? "btn-primary" : "btn-line"}`} aria-pressed={selected} onClick={() => setSelected((v) => !v)}>{selected && <Check size={16} aria-hidden />}Rear doors</button>
@@ -226,5 +228,22 @@ function CarDetail() {
       </div>
       <p className="v2-sr">{money(c.askCents)} per month, asking rate, rear doors</p>
     </div>
+  );
+}
+
+/** The supported rear-door zone on a simple side elevation. A diagram, never a reconstruction of the photographed car. */
+function PlacementDiagram({ selected }: { selected: boolean }) {
+  return (
+    <svg viewBox="0 0 1200 800" width="100%" height="auto" aria-hidden style={{ display: "block" }}>
+      <line x1="80" y1="620" x2="1120" y2="620" stroke="var(--v2-line)" strokeWidth="4" />
+      <g fill="none" stroke="var(--v2-ink)" strokeWidth="8" strokeLinejoin="round">
+        <path d="M150 560 L150 430 Q160 330 260 320 L330 320 L420 200 Q440 170 480 170 L780 170 Q820 170 840 200 L930 320 L1020 335 Q1060 345 1060 400 L1060 560 Z" />
+        <path d="M350 320 L430 205 L580 205 L580 320 Z M615 320 L615 205 L770 205 L830 320 Z" strokeWidth="6" />
+        <line x1="597" y1="205" x2="597" y2="560" strokeWidth="6" /><line x1="330" y1="320" x2="330" y2="560" strokeWidth="6" /><line x1="860" y1="320" x2="860" y2="560" strokeWidth="6" />
+        <circle cx="330" cy="580" r="70" fill="var(--v2-surface)" /><circle cx="880" cy="580" r="70" fill="var(--v2-surface)" />
+        <circle cx="330" cy="580" r="28" strokeWidth="6" /><circle cx="880" cy="580" r="28" strokeWidth="6" />
+      </g>
+      <rect x="615" y="345" width="235" height="200" fill={selected ? "var(--v2-ink)" : "var(--v2-soft)"} stroke="var(--v2-ink)" strokeWidth="8" />
+    </svg>
   );
 }

@@ -23,12 +23,12 @@ export function OpportunityObject({ o }: { o: Opportunity }) {
             {o.mediaCaption && <span className="t-note op-caption">{o.mediaCaption}</span>}
             <span className="media op-media" style={{ aspectRatio: o.mediaRatio }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              {o.media ? <img src={o.media} alt="" style={{ objectFit: o.mediaFit ?? "cover", objectPosition: o.mediaPosition }} /> : <span className="media-fallback" style={{ position: "absolute", inset: 0 }}>{fallbackLabel(o)}</span>}
+              {o.media ? <img src={o.media} alt="" className={o.kind === "recreate" ? "fit-contain" : undefined} style={{ objectPosition: o.mediaPosition }} /> : <span className="media-fallback" style={{ position: "absolute", inset: 0 }}>{fallbackLabel(o)}</span>}
             </span>
           </button>
           <Edge />
           <div className="op-band">
-            <div className="op-money"><Money cents={o.netCents} basis={o.basis} whole />{o.kind === "car" && <span className="t-fact-ink">Approval required</span>}</div>
+            <div className="op-money"><Money cents={o.netCents} basis={o.basis} whole inline={o.kind === "car"} />{o.kind === "car" && <span className="t-fact-ink">Approval required</span>}</div>
             <button type="button" className="btn btn-primary op-view" onClick={open} aria-label={viewLabel}>View</button>
           </div>
           <h2 id={`${o.id}-title`} className="t-object op-title">{o.title}</h2>
@@ -55,7 +55,7 @@ function Detail({ o }: { o: Opportunity }) {
   return (
     <div className="op-detail">
       <div className="op-band" style={{ marginTop: 16 }}>
-        <div><Money cents={o.netCents} basis={o.basis} whole /></div>
+        <div><Money cents={o.netCents} basis={o.basis} whole inline={o.kind === "car"} /></div>
         {o.media && <Viewer src={o.media} alt={o.mediaAlt} label="Expand media" className="link t-action" style={{ display: "inline-flex", alignItems: "center", gap: 6, minHeight: 44 }}><ArrowsOutSimple size={18} aria-hidden />Expand media</Viewer>}
       </div>
       <h2 className="t-object" style={{ marginTop: 12 }}>{o.title}</h2>

@@ -27,7 +27,7 @@ export function Sheet({ title, trigger, triggerClass, triggerStyle, triggerLabel
         <div className="sheet-body">
           <div className="sheet-bar">
             <span className="sheet-title">{title}</span>
-            <button type="button" className="icon-btn" aria-label="Close" onClick={close}><X size={20} /></button>
+            <button type="button" className="link link-plain t-action preview-close" onClick={close}><X size={18} aria-hidden />Close</button>
           </div>
           {open && children}
         </div>

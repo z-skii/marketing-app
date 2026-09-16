@@ -17,8 +17,8 @@ import { X } from "@phosphor-icons/react";
  */
 export type OpenPreview = (e: React.MouseEvent<HTMLElement>) => void;
 
-export function Preview({ id, title, eyebrow = "Fictional preview", media, mediaRatio, mediaAlt, mediaFit = "cover", mediaPosition, content, children }: {
-  id: string; title: string; eyebrow?: string; media: string | null; mediaRatio: string; mediaAlt: string; mediaFit?: "cover" | "contain"; mediaPosition?: string;
+export function Preview({ id, title, eyebrow = "Fictional preview", media, mediaRatio, mediaAlt, mediaFit = "cover", mediaPosition, kind, content, children }: {
+  id: string; title: string; eyebrow?: string; kind?: string; media: string | null; mediaRatio: string; mediaAlt: string; mediaFit?: "cover" | "contain"; mediaPosition?: string;
   content: ReactNode; children: (open: OpenPreview) => ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -72,7 +72,7 @@ export function Preview({ id, title, eyebrow = "Fictional preview", media, media
     <>
       {children(openFrom)}
       <dialog ref={dialog} id={`preview-${id}`} className="preview" aria-label={title} onClose={close} onClick={(e) => { if (e.target === dialog.current) close(); }}>
-        <div className="preview-body" data-landed={landed ? "true" : "false"}>
+        <div className="preview-body" data-landed={landed ? "true" : "false"} data-kind={kind}>
           <div className="preview-stage">
             {open && (media ? (
               <div ref={target} className="preview-media" style={{ aspectRatio: mediaRatio }}>

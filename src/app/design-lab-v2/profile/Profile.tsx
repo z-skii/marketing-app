@@ -134,7 +134,7 @@ export function ShareSheet() {
   const path = "/design-lab-v2/profile?public=1";
   return (
     <Sheet title="Share profile" triggerClass="icon-btn" triggerLabel="Share profile" trigger={<ShareNetwork size={20} aria-hidden />}>
-      <a href={path} className="sheet-row" target="_blank" rel="noreferrer">Public preview</a>
+      <a href={path} className="link t-action" style={{ display: "inline-flex", alignItems: "center", minHeight: 44 }} target="_blank" rel="noreferrer">Public preview</a>
       <p className="t-body" style={{ marginTop: 16 }}>This link opens a fictional Design Lab profile, not a live public profile.</p>
       <input readOnly value={path} aria-label="Preview link" onFocus={(e) => e.currentTarget.select()} style={{ width: "100%", marginTop: 12, minHeight: 44, padding: "0 12px", border: "1px solid var(--v2-line)", borderRadius: 4, background: "var(--v2-surface)", font: "inherit", color: "inherit" }} />
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12 }}>
