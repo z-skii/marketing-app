@@ -1,0 +1,73 @@
+{
+ "screen": "Public homepage, Recreate chapter (desktop 1440), Stage 6 pass 1",
+ "screenshot": "d-recreate-review.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "medium",
+ "when": "2026-09-16T08:57:49.890Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16367,
+  "output_tokens": 1669,
+  "total_tokens": 18036,
+  "reasoning_tokens": 482
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "The production opportunity, Demo Coffee Co., deadline and eight available spots correctly replace the Lab\u2019s Loopday fixtures.",
+   "$75.00 per approved version, $63.75 net and the separately disclosed $11.25 fee correctly reflect production configuration; they should not be changed to the Lab\u2019s $65.00.",
+   "The actual reference still replaces the Lab\u2019s coffee-pour reference. Keeping it labeled \u201cReference \u00b7 still\u201d without playback controls is correct.",
+   "Tyler\u2019s portrait and Devon\u2019s initial represent different real demo-account records. Neither needs replacement with Maya\u2019s Lab identity.",
+   "The revision-requested screen and specific business feedback are valid production states, not deviations from the Lab\u2019s open opportunity.",
+   "The sequential sticky product stage, additional Pricing destination and repeated header across this two-capture composite are not layout defects."
+  ],
+  "keep": [
+   "Graphite making surface, mineral navigation shell, restrained cobalt payment ledge and pale-blue step numbers.",
+   "Direct task headline and the reference \u2192 original version \u2192 review \u2192 earnings explanation.",
+   "Real production frames rather than invented product illustrations.",
+   "The source-to-payment offset inside the Recreate screen, square financial plane and identifiable reference.",
+   "Explicit conditional pay, separate gross/net/fee values and literal revision feedback.",
+   "Visible Home, Activity, Earnings and Profile navigation inside the product, plus persistent public Sign in and Get started actions."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The captures preserve the product\u2019s visible data, navigation and independent work states. They do not verify navigation handlers, sticky-frame switching, keyboard access or application submission. Resolve the presentation issues below before desktop sign-off; this review covers only the supplied Recreate chapter.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 7,
+   "uniqueness": 7,
+   "clarity": 7,
+   "premium_feel": 7,
+   "fidelity": 7,
+   "usability": 6,
+   "brand_recognition": 7,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Reserve a caption immediately below the sticky device with a 12px gap, IBM Plex Sans 14/20px and #B3C0CE text. For these frames use \u201cDemo product \u00b7 Tyler \u00b7 Open opportunity\u201d and \u201cDemo product \u00b7 Devon \u00b7 Revision requested\u201d. Add \u201cSeparate example records, not a live progression\u201d once beside the stage. Keep the caption visible with its frame at every sticky position.",
+    "kind": "data_honesty",
+    "why": "Neither captured state visibly identifies the surrounding product demonstration as demo. \u201cDemo Coffee Co.\u201d inside a small screenshot is not sufficient provenance. The account also changes from Tyler to Devon while the narrative reads as one continuous journey; the public framing must distinguish examples without altering authentic app pixels.",
+    "where": "Sticky product stage in both captured chapter positions"
+   },
+   {
+    "priority": 1,
+    "change": "Keep the existing montage, but add a native \u201cInspect demo screen\u201d control beneath the frame: minimum 44px height, 16/20px IBM Plex Sans 600, 8px radius, #F6F8FB text and a 1px #6E8194 border. Open the selected original capture at its native 390px width in a scrollable inspector, with a visible 44px Close control, Escape dismissal and focus return. Beside it provide a 44px \u201cFind Recreate work\u201d link into the existing earning entry route.",
+    "kind": "usability",
+    "why": "The roughly 310px-wide device reduces operational metadata and fee details to approximately 10\u201312px. The first frame ends before the opportunity\u2019s actionable controls, and the later frame\u2019s revision note is similarly small. The chapter\u2019s central evidence needs an inspectable destination; embedded screenshot controls cannot substitute for a working public next action.",
+    "where": "Below the Recreate device and its provenance caption"
+   },
+   {
+    "priority": 2,
+    "change": "Restore the public header lockup to a 28px mark, an 8px mark-to-wordmark gap and Archivo 700 at 30/32px with -0.04em tracking. Preserve the exact 32\u00d732 SVG viewBox and approved paths; retain at least 12px clear space.",
+    "kind": "drift",
+    "why": "The production header lockup appears reduced to approximately a 24px mark and 24px wordmark. The surrounding navigation remains readable, but this weakens the explicitly fixed brand signature relative to the approved treatment.",
+    "where": "Public header in both composite captures"
+   }
+  ],
+  "why": "The chapter reads as a concrete creator workflow rather than a SaaS template: a supplied reference, conditional payment, actual review feedback and an earnings destination carry the explanation. Its graphite/cobalt relationship and in-product source joint are recognizably Frame Shift. The alternative sticky layout is not the problem. The remaining weaknesses are visible demo provenance, the readability and inspectability of the small product evidence, and the undersized header lockup. No fabricated payout, autoplay, installed-ad claim or obvious loss of production functionality is visible.",
+  "verdict": "Frame Shift is substantially present and the visible product functionality is preserved, but missing example provenance and insufficient inspection access prevent desktop release sign-off."
+ }
+}

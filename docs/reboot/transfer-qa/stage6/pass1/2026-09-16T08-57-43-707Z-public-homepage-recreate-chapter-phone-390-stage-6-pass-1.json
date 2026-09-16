@@ -1,0 +1,77 @@
+{
+ "screen": "Public homepage, Recreate chapter (phone 390), Stage 6 pass 1",
+ "screenshot": "m-recreate.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "medium",
+ "when": "2026-09-16T08:57:43.707Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 14732,
+  "output_tokens": 1408,
+  "total_tokens": 16140,
+  "reasoning_tokens": 313
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "Tyler Okafor, Demo Coffee Co., the employee-POV reference, eight spots and the September deadline correctly replace Lab fixtures with production-account records.",
+   "The displayed $75.00 gross, $11.25 fee and $63.75 conditional net need not match the Lab's $65.00 opportunity. Production preserves the distinction between gross pay and creator earnings.",
+   "The production reference is explicitly labeled as a still; no fabricated playback appears.",
+   "The sequential product-frame strip and partial next step are intentional Stage 6 presentation choices, not layout drift."
+  ],
+  "keep": [
+   "Graphite making chapter, mineral header, restrained cobalt payment plane and pale-blue step numbering.",
+   "The direct task headline and short filming/submission explanation: this reads as specific work, not generic SaaS positioning.",
+   "The real Recreate detail capture, including inspection, original-source access, availability, deadline and conditional net payment.",
+   "The recognizable source-to-payment split inside the product frame.",
+   "The 16px phone gutter, clearly labeled Menu control and visible next-step preview."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The capture preserves meaningful product data and exposes real source, navigation and task controls visually. It cannot verify menu behavior, strip scrolling, destination links or mutations. Sign-off is limited to this Recreate viewport, not the complete public journey.",
+  "scores": {
+   "viewport_quality": 6,
+   "media_quality": 7,
+   "uniqueness": 8,
+   "clarity": 7,
+   "premium_feel": 7,
+   "fidelity": 7,
+   "usability": 6,
+   "brand_recognition": 8,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Keep the real device capture, but add a native HTML conditional-pay caption immediately above it: 14/20px provenance and payment basis, 30/34px Archivo amount, and 14/20px gross/fee/net detail sourced from the same record. State 'If approved' beside the net amount. Offset this factual caption 12px from its source alignment; use square corners and no shadow.",
+    "kind": "usability",
+    "why": "The approximately 194px-wide device reduces important payment conditions and fee text to roughly 6\u20138px. The large task explanation is readable, but understanding the actual commitment depends on deciphering miniature UI. The Lab keeps conditional money readable outside its miniature hero device.",
+    "where": "Step 01, real Recreate detail frame and its payment explanation"
+   },
+   {
+    "priority": 2,
+    "change": "Provide a visible 'Inspect demo screen' action before the frame at 16/20px with a minimum 44px target. Open this same capture in a viewer that supports readable enlargement, with a labeled Close control, Escape dismissal and focus return. Do not make the pictured app controls appear independently clickable.",
+    "kind": "usability",
+    "why": "Inspect, Save, Home and the fee disclosure are visible only as tiny screenshot content. No usable inspection affordance is visible alongside this frame in the captured step.",
+    "where": "Step 01 product-frame presentation"
+   },
+   {
+    "priority": 2,
+    "change": "Replace 'A real Reel and a short brief' with 'A supplied reference and a short brief'; retain the remainder about what to show, conditional pay and deadline.",
+    "kind": "data_honesty",
+    "why": "The public explanation promises a Reel while the actual product explicitly says 'Reference \u00b7 still' and the team confirms that production media contains no video. The copy should accommodate the source actually supplied.",
+    "where": "Step 01 explanatory paragraph"
+   },
+   {
+    "priority": 3,
+    "change": "Remove the filming image's approximately 12px neutral mat: set wrapper padding to 0 and background to transparent. Render the source at its intrinsic ratio with 4px corners; reserve #E7E7E2 backing only for necessary letterboxing.",
+    "kind": "drift",
+    "why": "The visible second-step illustration sits inside a thick mineral surround. The approved treatment lets ordinary filming media stand directly on graphite; backing should not become an ornamental picture frame.",
+    "where": "Step 02 filming illustration"
+   }
+  ],
+  "why": "The Frame Shift foundation is recognizable: purposeful graphite, direct work language, authentic product UI and a cobalt conditional-payment joint. This does not read as an AI template or agency page. However, the working commitment has become too small to read on phone, and the reference copy overstates the available media. Those are substantive clarity and honesty issues, not objections to the intentional strip layout.",
+  "verdict": "Frame Shift is recognizably transferred and real product semantics remain visible, but readable conditional pay, source inspection and accurate reference copy are needed before phone sign-off."
+ }
+}

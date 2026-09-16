@@ -1,0 +1,63 @@
+{
+ "screen": "Public homepage, Drive chapter (phone 390), Stage 6 pass 1",
+ "screenshot": "m-drive.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "medium",
+ "when": "2026-09-16T08:57:47.385Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 14729,
+  "output_tokens": 1436,
+  "total_tokens": 16165,
+  "reasoning_tokens": 516
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The campaign capture correctly uses production-demo records: Tyler Okafor, $300.00 per month, rear-window placement, 30 days and Raleigh, rather than the Lab\u2019s $240.00 rear-door campaign.",
+   "The wrapped vehicle inside the product frame is supplied campaign artwork; it is distinct from the unwrapped vehicle photograph outside the frame.",
+   "The phone chapter uses the approved Stage 6 horizontal sequence of real product captures. The next item being cut at the right edge is intentional, not responsive overflow to eliminate.",
+   "Real product navigation, campaign fields and fee information replace the Lab\u2019s simplified work excerpt."
+  ],
+  "keep": [
+   "Mineral header, underlay Drive chapter, graphite typography and restrained cobalt accents.",
+   "The direct headline and explicit condition: monthly pay follows approved proofs.",
+   "The unwrapped vehicle photograph remains separate from the campaign artwork and placement terms.",
+   "Real production screens carry the explanation rather than invented product illustrations.",
+   "The visible Menu control and clear numbered progression."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The Frame Shift foundation is convincing, but improve inspection and source labeling before signing off this phone chapter. The capture exposes real campaign information and navigation; swipe behavior, menu operation, booking actions and later frames still require interaction testing.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 7,
+   "premium_feel": 7,
+   "fidelity": 8,
+   "usability": 6,
+   "brand_recognition": 8,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Keep the horizontal strip and real device captures. Add an ink inspection button below each frame, minimum 44px high with IBM Plex Sans 16/20px, labeled specifically\u2014for example, \u201cInspect campaign.\u201d Open the same capture in a full-width, zoomable viewer with a visible 44px Close control. Provide the essential placement, duration and payment basis outside the image at 14/20px; format any repeated amount from the same record at Archivo 30/34px.",
+    "kind": "usability",
+    "why": "The campaign\u2019s amount is recognizable, but its placement, fee and eligibility fields are reduced to very small screenshot text. Swiping the frame fully into view resolves clipping, not text size. Visitors should not have to decipher a miniature inspector to understand the conditions.",
+    "where": "Drive strip, step 02 campaign frame and subsequent product frames"
+   },
+   {
+    "priority": 2,
+    "change": "Place a source caption 8px below the vehicle photograph in IBM Plex Sans 14/20px, using its actual provenance and explicitly stating \u201cNo installed ad.\u201d Add an ink \u201cInspect vehicle photo\u201d action with a minimum 44px target that opens this exact source. Keep these elements directly beneath the photograph rather than aligning them below the taller neighboring device.",
+    "kind": "drift",
+    "why": "The Lab makes the vehicle source identifiable and inspectable. Production shows the photograph without either treatment, followed by a substantial empty area. That weakens the distinction between the introductory vehicle image and the supplied campaign illustration in the adjacent frame.",
+    "where": "Drive strip, step 01 vehicle photograph"
+   }
+  ],
+  "why": "The captured chapter reads as a vehicle-advertising task within a working platform, not a generic SaaS section: it connects adding an actual vehicle with a real campaign screen, uses the correct underlay material, and keeps conditional monthly pay explicit. The photograph is not falsely wrapped, and the campaign\u2019s financial region remains attached below its source rather than overlaid on it. The principal weaknesses are source inspection and operational legibility, not the intentional horizontal composition. The menu and in-product navigation are visible, but a still capture cannot establish that their interactions or booking mutations work.",
+  "verdict": "Frame Shift has transferred convincingly to the Stage 6 Drive chapter, with real functionality visibly preserved, but source inspection and readable campaign conditions need a final phone usability pass."
+ }
+}

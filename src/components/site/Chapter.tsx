@@ -77,6 +77,11 @@ export function Chapter({ id, tone, num, name, title, lead, note, cta, steps }: 
           <p className="site-meta" style={{ marginTop: 12 }}>{note}</p>
           <Link href={cta.href} className="fs-btn fs-btn-secondary site-chapter-cta">{cta.label}</Link>
         </div>
+        <div className="site-strip-nav">
+          <button type="button" className="fs-icon-btn" onClick={() => go(-1)} disabled={pos === 0} aria-label="Previous step"><CaretLeft size={20} aria-hidden /></button>
+          <p className="site-meta" aria-live="polite">Step {pos + 1} of {steps.length}</p>
+          <button type="button" className="fs-icon-btn" onClick={() => go(1)} disabled={pos >= steps.length - 1} aria-label="Next step"><CaretRight size={20} aria-hidden /></button>
+        </div>
         <div className="site-step-list" ref={list}>
           {steps.map((step, i) => (
             <div key={step.title} className="site-step">
@@ -105,11 +110,6 @@ export function Chapter({ id, tone, num, name, title, lead, note, cta, steps }: 
               </div>
             </div>
           ))}
-        </div>
-        <div className="site-strip-nav">
-          <button type="button" className="fs-icon-btn" onClick={() => go(-1)} disabled={pos === 0} aria-label="Previous step"><CaretLeft size={20} aria-hidden /></button>
-          <p className="site-meta" aria-live="polite">Step {pos + 1} of {steps.length}</p>
-          <button type="button" className="fs-icon-btn" onClick={() => go(1)} disabled={pos >= steps.length - 1} aria-label="Next step"><CaretRight size={20} aria-hidden /></button>
         </div>
       </div>
     </section>

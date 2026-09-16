@@ -11,6 +11,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { Chapter } from "@/components/site/Chapter";
 import { BrowserFrame, PhoneFrame, Photo } from "@/components/site/frames";
 import { Inspect } from "@/components/site/Inspect";
+import { Strip } from "@/components/site/Strip";
 import "./public.css";
 
 export const dynamic = "force-dynamic";
@@ -82,7 +83,8 @@ export default async function HomePage() {
                 <Photo src="/marketing/story-creative.webp" alt="A supplied Instagram Story creative for an iced latte offer" ratio="portrait" width={720} height={1280} eager className="is-sheet" />
                 <Photo src="/marketing/filming.webp" alt="Illustration of a person filming a barista at a counter with a phone" ratio="wide" width={1400} height={933} eager />
               </div>
-              <p className="site-caption">Real TapMart screen with demo campaigns. The Story is a supplied demo creative; the filming image is a generated illustration.</p>
+              <p className="site-caption">Demo product · Tyler · Home · For you. The Story is a supplied demo creative; the filming image is a generated illustration.</p>
+              <div className="site-inspect-row"><Inspect {...phone("user-home-390", "Home, demo account, For you")} /></div>
             </div>
           </div>
         </section>
@@ -119,9 +121,9 @@ export default async function HomePage() {
           note="The frames are separate demo records, not one live progression."
           cta={{ href: "/sign-up", label: "Find Story work" }}
           steps={[
-            { title: "The creative is ready", body: "The business supplies the Story. You post it as it is, in the business's own look.", media: <Photo src="/marketing/story-creative.webp" alt="A finished 9:16 Instagram Story creative for an iced latte offer at a coffee shop" ratio="portrait" width={720} height={1280} className="is-sheet" />, caption: "Supplied Story creative, shown at 9:16 · Demo campaign", plane: { amount: "$25.00", basis: "after 24h live and approval", lines: ["500+ followers · 24h live", "Post our iced latte Story · Demo Coffee Co."], tone: "surface" }, inspect: { src: "/marketing/story-creative.webp", alt: "Supplied Story creative, demo campaign", size: "photo", width: 720, height: 1280, label: "Inspect creative" } },
+            { title: "The creative is ready", body: "The business supplies the Story. You post it as it is, in the business's own look.", media: <Photo src="/marketing/story-creative.webp" alt="A finished 9:16 Instagram Story creative for an iced latte offer at a coffee shop" ratio="portrait" width={720} height={1280} className="is-sheet" />, caption: "Supplied Story creative, shown at 9:16 · Demo campaign", plane: { amount: "$25.00", basis: "after 24h live and approval", lines: ["1,000+ followers · 24h live", "Post our iced latte story · Demo Roastery"], tone: "surface" }, inspect: { src: "/marketing/story-creative.webp", alt: "Supplied Story creative, demo campaign", size: "photo", width: 720, height: 1280, label: "Inspect creative" } },
             { title: "Check what applies", body: "The follower minimum, the live time and the pay are on the campaign before you accept.", media: <PhoneFrame name="story-detail-390" alt="A Story campaign on a phone with its pay, follower requirement and live time" />, caption: "Demo product · Tyler · Open opportunity", inspect: phone("story-detail-390", "Story campaign, open opportunity, demo record") },
-            { title: "Post it, then send proof", body: "A screenshot after the required live time. The business confirms it.", media: <PhoneFrame name="story-submitted-390" alt="A Story job on a phone after the proof was submitted, waiting for the business" />, caption: "Demo product · Devon · Story proof in review", inspect: phone("story-submitted-390", "Story proof in review, demo record") },
+            { title: "Post it, then send proof", body: "A screenshot after the required live time. The business confirms it.", media: <PhoneFrame name="story-submitted-390" alt="A Story job on a phone after the proof was submitted, waiting for the business" />, caption: "Demo product · Devon · Campaign open · Proof in review", inspect: phone("story-submitted-390", "Story proof in review, demo record") },
             { title: "Follow every job in Activity", body: "Submitted, accepted, paid: each state is shown as it happens.", media: <PhoneFrame name="activity-390" alt="Activity on a phone listing the person's jobs and the state of each" />, caption: "Demo product · Devon · Activity", inspect: phone("activity-390", "Activity, demo records") },
           ]}
         />
@@ -159,18 +161,19 @@ export default async function HomePage() {
                   <BrowserFrame name="business-home-1440" alt="Business Home on a desktop: people and cars near the business, and what needs attention" />
                   <PhoneFrame name="business-review-390" alt="Reviewing a submitted Story proof on a phone" />
                 </div>
-                <div className="site-system-media">
-                  <PhoneFrame name="business-home-390" alt="Business Home on a phone: people and cars near the business" />
-                  <PhoneFrame name="business-create-390" alt="Create on a phone: start a Recreate, Story or Car campaign" />
-                  <PhoneFrame name="business-review-390" alt="Reviewing a submitted Story proof on a phone" />
+                <div className="site-only-desktop-block">
+                  <p className="site-caption">Demo product · Demo Coffee Co. · Business Home · 4 campaign decisions · 2 files to approve</p>
+                  <p className="site-caption">Demo product · Demo Coffee Co. · Story proof · Submitted</p>
+                  <div className="site-inspect-row">
+                    <Inspect {...desk("business-home-1440", "Business Home, demo account")} label="Inspect Business Home" />
+                    <Inspect {...phone("business-review-390", "Story proof review, demo account")} label="Inspect Story proof" />
+                  </div>
                 </div>
-                <p className="site-caption">Demo account · Production screens: Business Home, Create and a Story proof review.</p>
-                <div className="site-inspect-row">
-                  <span className="site-only-desktop"><Inspect {...desk("business-home-1440", "Business Home, demo account")} /></span>
-                  <span className="site-only-phone"><Inspect {...phone("business-home-390", "Business Home, demo account")} label="Inspect Home" /></span>
-                  <span className="site-only-phone"><Inspect {...phone("business-create-390", "Create, demo account")} label="Inspect Create" /></span>
-                  <Inspect {...phone("business-review-390", "Story proof review, demo account")} label="Inspect review" />
-                </div>
+                <Strip count={3} label="business screens">
+                  <figure><PhoneFrame name="business-home-390" alt="Business Home on a phone: people and cars near the business" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Business Home · 4 campaign decisions</p><Inspect {...phone("business-home-390", "Business Home, demo account")} /></figcaption></figure>
+                  <figure><PhoneFrame name="business-create-390" alt="Create on a phone: start a Recreate, Story or Car campaign" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Create a campaign</p><Inspect {...phone("business-create-390", "Create, demo account")} /></figcaption></figure>
+                  <figure><PhoneFrame name="business-review-390" alt="Reviewing a submitted Story proof on a phone" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Story proof · Submitted</p><Inspect {...phone("business-review-390", "Story proof review, demo account")} /></figcaption></figure>
+                </Strip>
               </div>
             </div>
 
@@ -188,16 +191,16 @@ export default async function HomePage() {
                     <Photo src="/marketing/shoot-window.webp" alt="Illustration of a window seat as a shoot photo" ratio="square" width={900} height={600} />
                   </div>
                 </div>
-                <div className="site-system-media">
-                  <PhoneFrame name="business-content-390" alt="Business Content on a phone: the month's shoot and the library" />
-                  <Photo src="/marketing/shoot-counter.webp" alt="Illustration of a coffee counter as a shoot photo" ratio="square" width={1200} height={800} />
-                  <Photo src="/marketing/shoot-pour.webp" alt="Illustration of a latte being poured as a shoot photo" ratio="square" width={864} height={1536} />
+                <div className="site-only-desktop-block">
+                  <p className="site-caption">Demo product · Demo Coffee Co. · Content · File: Edit requested · Post: Not scheduled</p>
+                  <p className="site-caption">The two small images are generated sample illustrations, not delivered work.</p>
+                  <div className="site-inspect-row"><Inspect {...desk("business-content-1440", "Business Content, demo account")} label="Inspect Content" /></div>
                 </div>
-                <p className="site-caption">Demo account · Production screen: Content. The small shoot images are generated sample illustrations, not delivered work.</p>
-                <div className="site-inspect-row">
-                  <span className="site-only-desktop"><Inspect {...desk("business-content-1440", "Business Content, demo account")} /></span>
-                  <span className="site-only-phone"><Inspect {...phone("business-content-390", "Business Content, demo account")} label="Inspect Content" /></span>
-                </div>
+                <Strip count={3} label="content screens">
+                  <figure><PhoneFrame name="business-content-390" alt="Business Content on a phone: the month's shoot and the library" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Content · File: Edit requested</p><Inspect {...phone("business-content-390", "Business Content, demo account")} /></figcaption></figure>
+                  <figure><Photo src="/marketing/shoot-counter.webp" alt="Illustration of a coffee counter as a shoot photo" ratio="square" width={1200} height={800} /><figcaption><p className="site-caption">Generated sample shoot illustration</p></figcaption></figure>
+                  <figure><Photo src="/marketing/shoot-pour.webp" alt="Illustration of a latte being poured as a shoot photo" ratio="square" width={864} height={1536} /><figcaption><p className="site-caption">Generated sample shoot illustration</p></figcaption></figure>
+                </Strip>
               </div>
             </div>
 
@@ -237,10 +240,20 @@ export default async function HomePage() {
                 <li><p className="site-step-num" aria-hidden>04</p><h3 className="site-h3">Request a payout</h3><p className="site-body">From {money(minimumPayout)} available. {SITE_NAME} sends payouts by hand, usually within a few days.</p></li>
               </ol>
               <div className="site-paid-media" data-reveal>
-                <div>
-                  <PhoneFrame name="earnings-390" alt="Earnings on a phone: the available balance, the payout minimum and the Request payout action" />
-                  <p className="site-caption">Earnings, shown with a demo balance.</p>
-                </div>
+                <figure>
+                  <div className="site-source-row">
+                    <PhoneFrame name="earnings-390" alt="Earnings on a phone: the available balance, the payout minimum and the Request payout action" />
+                    <div className="site-plane is-surface">
+                      <p className="site-money site-plane-amount">$34.00</p>
+                      <p className="site-plane-basis">available, demo balance</p>
+                      <p className="site-plane-line">Minimum payout {money(minimumPayout)} · Request payout</p>
+                    </div>
+                  </div>
+                  <figcaption>
+                    <p className="site-caption">Demo product · Devon · Earnings · Nothing pending</p>
+                    <Inspect {...phone("earnings-390", "Earnings with a demo balance")} />
+                  </figcaption>
+                </figure>
               </div>
             </div>
           </div>
@@ -261,10 +274,14 @@ export default async function HomePage() {
                   <p className="site-meta" style={{ marginTop: 4 }}>{p.tagline}</p>
                   <p className="site-money site-plan-price">{whole(prices[p.key])}<span>a month</span></p>
                   <ul className="site-plan-features">
-                    {p.features.map((f) => (
-                      <li key={f.label} className={f.soon ? "is-soon" : undefined}><Check size={16} weight="bold" aria-hidden />{f.label}{f.soon ? " (coming later)" : ""}</li>
-                    ))}
+                    {p.features.filter((f) => !f.soon).map((f) => <li key={f.label}><Check size={16} weight="bold" aria-hidden />{f.label}</li>)}
                   </ul>
+                  {p.features.some((f) => f.soon) && (
+                    <>
+                      <p className="site-meta site-plan-soon">Planned, not available today</p>
+                      <ul className="site-plan-features is-soon">{p.features.filter((f) => f.soon).map((f) => <li key={f.label}>{f.label}</li>)}</ul>
+                    </>
+                  )}
                   <Link href="/sign-up" className="fs-btn fs-btn-secondary">{p.cta}</Link>
                 </div>
               ))}

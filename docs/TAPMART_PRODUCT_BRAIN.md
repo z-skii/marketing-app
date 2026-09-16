@@ -92,6 +92,40 @@ Direct requests: a business opens a person and sends a Story or Reel request,
 or opens a car and sends an ad offer. The person accepts or declines. It then
 follows the normal Story, Recreate or Car booking flow.
 
+## Public website (recorded 2026-09-16 at Stage 6)
+
+The front door at / is the product told in the order a person meets it:
+Recreate, Post, Drive, Get paid, then how businesses use TapMart
+(campaigns, then monthly content), then the two plans. Rules:
+
+- Every screen shown is a real production capture taken with the demo
+  accounts, in a device frame, with a native caption that names the demo
+  account and the literal state, and an Inspect action that opens the same
+  file at readable size. Never a Design Lab capture, never an image-model
+  dashboard. Captures live in public/marketing/frames and are retaken when
+  the screen they show changes.
+- A commitment plane beside a source (amount, basis, conditions) describes
+  the demo record in the capture next to it, so the numbers in the plane
+  and in the frame always agree.
+- Supporting imagery is captioned for what it is: a generated illustration
+  says so; a supplied Story creative is shown intact at 9:16 with no
+  radius; no ad is ever composited onto a photographed car.
+- Prices, shoot allocations, the payout minimum and the fee are read from
+  the same configuration the app uses (src/config/plans.ts, planPrices(),
+  app settings). Three kinds of money stay apart on the page: subscription,
+  campaign credit, creator earnings. No instant-payout promise; payouts are
+  described as TapMart sends them.
+- No video and no 3D are shown while none exist in production media.
+- Motion: one sticky product stage per chapter on desktop whose active
+  frame is a pure function of scroll position; one-time 320ms reveals;
+  phone chapters are horizontal strips with Previous and Next; nothing
+  hijacks or snaps the page scroll; reduced motion removes every
+  transition.
+- A signed-in visitor can read the page and gets one Open TapMart action;
+  sign-in itself still lands in the app.
+- Navigation stays minimal: wordmark, Earn, For businesses, How it works,
+  Pricing, Sign in, Get started; a bottom sheet under 1024px.
+
 ## Design rules (what "looks like TapMart" means)
 
 0. **Show first, explain second.** If text is not required for the next
