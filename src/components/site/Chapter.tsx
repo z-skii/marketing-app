@@ -23,9 +23,9 @@ const STEP_W = 232 + 12;
  * 1024px the stylesheet lays the steps out as a horizontal strip with
  * Previous and Next controls and a position line. From 1024px the frames
  * share one sticky stage beside the head and the steps; the active frame is
- * the step closest to the middle of the viewport, found with
- * IntersectionObserver. No scroll position is ever changed by the page;
- * reduced motion swaps frames without the crossfade.
+ * the last step whose text has reached the middle of the viewport, read
+ * from the scroll position. No scroll position is ever changed by the
+ * page; reduced motion swaps frames without the crossfade.
  */
 export function Chapter({ id, tone, num, name, title, lead, note, cta, steps }: { id: string; tone: "graphite" | "canvas" | "underlay"; num: string; name: string; title: string; lead: string; note: string; cta: { href: string; label: string }; steps: ChapterStep[] }) {
   const ref = useRef<HTMLElement>(null);
@@ -35,27 +35,30 @@ export function Chapter({ id, tone, num, name, title, lead, note, cta, steps }: 
 
   useEffect(() => {
     const root = ref.current;
-    if (!root || typeof IntersectionObserver === "undefined") return;
+    if (!root) return;
     const texts = Array.from(root.querySelectorAll<HTMLElement>(".site-step-text"));
     const mq = window.matchMedia("(min-width: 1024px)");
-    let observer: IntersectionObserver | null = null;
-    const start = () => {
-      observer?.disconnect();
-      observer = null;
+    let raf = 0;
+    // The active step is the last one whose text has reached the middle of
+    // the viewport; before the first one, the first. A pure function of the
+    // scroll position, so scrolling back up restores the earlier frame.
+    const update = () => {
+      raf = 0;
       if (!mq.matches) { setActive(0); return; }
-      observer = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(texts.indexOf(entry.target as HTMLElement));
-        }
-      }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
-      texts.forEach((t) => observer!.observe(t));
+      const middle = window.innerHeight / 2;
+      let i = 0;
+      texts.forEach((t, n) => { if (t.getBoundingClientRect().top <= middle) i = n; });
+      setActive(i);
     };
-    start();
-    mq.addEventListener("change", start);
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    mq.addEventListener("change", onScroll);
     const strip = list.current;
     const onStrip = () => { if (strip) setPos(Math.min(steps.length - 1, Math.max(0, Math.round(strip.scrollLeft / STEP_W)))); };
     strip?.addEventListener("scroll", onStrip, { passive: true });
-    return () => { mq.removeEventListener("change", start); observer?.disconnect(); strip?.removeEventListener("scroll", onStrip); };
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); mq.removeEventListener("change", onScroll); if (raf) cancelAnimationFrame(raf); strip?.removeEventListener("scroll", onStrip); };
   }, [steps.length]);
 
   const go = (dir: -1 | 1) => {
