@@ -170,9 +170,9 @@ export default async function HomePage() {
                   </div>
                 </div>
                 <Strip count={3} label="business screens">
-                  <figure><PhoneFrame name="business-home-390" alt="Business Home on a phone: people and cars near the business" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Business Home · 4 campaign decisions</p><Inspect {...phone("business-home-390", "Business Home, demo account")} /></figcaption></figure>
-                  <figure><PhoneFrame name="business-create-390" alt="Create on a phone: start a Recreate, Story or Car campaign" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Create a campaign</p><Inspect {...phone("business-create-390", "Create, demo account")} /></figcaption></figure>
-                  <figure><PhoneFrame name="business-review-390" alt="Reviewing a submitted Story proof on a phone" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Story proof · Submitted</p><Inspect {...phone("business-review-390", "Story proof review, demo account")} /></figcaption></figure>
+                  <figure><PhoneFrame name="business-home-390" alt="Business Home on a phone: people and cars near the business" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Business Home · 4 campaign decisions</p><Inspect {...phone("business-home-390", "Business Home, demo account, 4 campaign decisions")} label="Inspect screen" /></figcaption></figure>
+                  <figure><PhoneFrame name="business-create-390" alt="Create on a phone: start a Recreate, Story or Car campaign" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Create a campaign</p><Inspect {...phone("business-create-390", "Create a campaign, demo account")} label="Inspect screen" /></figcaption></figure>
+                  <figure><PhoneFrame name="business-review-390" alt="Reviewing a submitted Story proof on a phone" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Story proof · Submitted</p><Inspect {...phone("business-review-390", "Story proof review, demo account, submitted")} label="Inspect screen" /></figcaption></figure>
                 </Strip>
               </div>
             </div>
@@ -197,7 +197,7 @@ export default async function HomePage() {
                   <div className="site-inspect-row"><Inspect {...desk("business-content-1440", "Business Content, demo account")} label="Inspect Content" /></div>
                 </div>
                 <Strip count={3} label="content screens">
-                  <figure><PhoneFrame name="business-content-390" alt="Business Content on a phone: the month's shoot and the library" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Content · File: Edit requested</p><Inspect {...phone("business-content-390", "Business Content, demo account")} /></figcaption></figure>
+                  <figure><PhoneFrame name="business-content-390" alt="Business Content on a phone: the month's shoot and the library" /><figcaption><p className="site-caption">Demo product · Demo Coffee Co. · Content · File: Edit requested</p><Inspect {...phone("business-content-390", "Business Content, demo account, edit requested")} label="Inspect screen" /></figcaption></figure>
                   <figure><Photo src="/marketing/shoot-counter.webp" alt="Illustration of a coffee counter as a shoot photo" ratio="square" width={1200} height={800} /><figcaption><p className="site-caption">Generated sample shoot illustration</p></figcaption></figure>
                   <figure><Photo src="/marketing/shoot-pour.webp" alt="Illustration of a latte being poured as a shoot photo" ratio="square" width={864} height={1536} /><figcaption><p className="site-caption">Generated sample shoot illustration</p></figcaption></figure>
                 </Strip>
