@@ -1,0 +1,52 @@
+{
+ "screen": "Public homepage, full page (phone 390), Stage 6 pass 4",
+ "screenshot": "m-full.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:47:54.703Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16639,
+  "output_tokens": 3997,
+  "total_tokens": 20636,
+  "reasoning_tokens": 3106
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The production captures show Tyler, Devon, Demo Coffee Co. and Demo Roastery rather than the Lab's Maya and Loopday fixtures. The native captions identify the accounts and states.",
+   "Recreate shows $75.00 per approved version, with $63.75 after the $11.25 fee, rather than the Lab's $65.00 opportunity. Gross pay, net earnings and approval remain distinguishable.",
+   "Post uses the Roastery iced-latte creative and its $25.00 terms, 1,000-follower requirement and 24-hour live condition. The visible Instagram-not-connected state correctly replaces the Lab's eligible manual-account fixture.",
+   "Drive shows the production campaign's $300.00 monthly amount, $255.00 net and rear-window placement rather than the Lab's $240.00 rear-door campaign. The supplied campaign artwork is distinguished from the unwrapped vehicle illustration.",
+   "Earnings shows Devon's $34.00 available balance and nothing pending, rather than the Lab's $78.40 balance and $50.00 requested payout. No requested or completed payout is invented.",
+   "Business captures retain actual campaign decisions and an Edit requested content state rather than the Lab's initial gallery and New file state. The configured $99/$199 plans and shoot allocations are legitimate production information."
+  ],
+  "keep": [
+   "The Frame Shift surface hierarchy: mineral canvas, graphite making and closing regions, underlay for Drive, white financial planes and concentrated cobalt. Square payment and plan regions avoid generic floating-card treatment.",
+   "The strong Archivo hierarchy and restrained matching wordmarks. Recreate, Post, Drive and Get paid are understandable before reading the small product captures; campaigns and monthly content remain clearly separate business services.",
+   "The native commitment planes: visible 12px phone offsets, cobalt Recreate pay, square Story and Drive terms, and conditions outside the device pixels. The supplied Story remains an intact sheet.",
+   "The pass-4 inspection fix. Fully visible slide buttons fit their own columns, including the narrower business slides; captions remain associated with their frames. Partial next-slide controls are intentional strip clipping, not first-slide overflow.",
+   "The pass-4 Earnings fix. The external $34.00 balance now has the approved 44/48px phone-balance emphasis and is explicitly identified as an available demo balance.",
+   "Per-frame provenance, generated-illustration labels, literal operational states and the warning that frames are separate records rather than live progression. These keep the product demonstration from becoming fabricated proof.",
+   "Visible Previous/Next controls and position indicators above the strips, source inspection actions, audience entry points, plan actions, menu and footer navigation. Subscription charges, campaign credit and creator earnings remain explicitly separate."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off the visible 390px presentation. The capture supports the pass-4 sizing and containment fixes, but cannot verify strip traversal, inspection-dialog keyboard behavior, link destinations or backend actions. Those require interaction tests; this is not approval of the 320px or desktop views.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "This reads as a consumer earning platform with a real business workflow, not a generic SaaS landing page. Actual Home, work-detail, business and Earnings screens carry the explanation, while native headings, money, conditions and inspection controls prevent the story from depending on miniature UI text. The approved material relationships survive the production composition, and both targeted pass-4 corrections are visible. No release-blocking visual drift is evident at this viewport.",
+  "verdict": "Yes\u2014Frame Shift has been faithfully transferred to the 390px public homepage, with real product states preserved and both pass-4 phone fixes visibly resolved."
+ }
+}
