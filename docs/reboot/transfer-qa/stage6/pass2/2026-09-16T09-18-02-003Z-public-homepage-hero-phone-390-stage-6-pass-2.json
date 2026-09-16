@@ -1,0 +1,48 @@
+{
+ "screen": "Public homepage hero (phone 390), Stage 6 pass 2",
+ "screenshot": "m-hero.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:18:02.003Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10392,
+  "output_tokens": 2443,
+  "total_tokens": 12835,
+  "reasoning_tokens": 1755
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The real Home capture shows the local demo account Tyler Okafor rather than the Lab persona. This is product demonstration data, not customer-outcome evidence.",
+   "The opening-shop Recreate record correctly shows Demo Coffee Co., $75.00 per approved version, 8 spots and a September 20, 2026 deadline instead of the Lab coffee-pour fixture and its amounts.",
+   "The reference is the production record\u2019s still image. Keeping it explicitly labeled \u201cReference \u00b7 still\u201d is correct; no video treatment should be invented."
+  ],
+  "keep": [
+   "Mineral canvas, ink typography, restrained cobalt and graphite device housing; no generic floating-card or gradient treatment.",
+   "The approximately 48/48px phone headline and 30/32px wordmark, with 16px page gutters and comfortable Menu and CTA targets.",
+   "The immediate explanation of who pays, what people do and the approval condition, followed by distinct consumer and business entry actions.",
+   "The 280px-wide real Home frame as the first product object. Its source, graphite task information and square cobalt payment plane preserve Frame Shift\u2019s joined composition.",
+   "The visible payment basis, availability and deadline alongside the actual opportunity; the amount is not presented as a customer earnings result.",
+   "The horizontal strip\u2019s intentionally clipped next item. Do not compress every frame into the viewport or recreate the Lab hero collage."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off the captured 390px hero. No functional regression is visible, but this static crop does not verify CTA destinations, Menu contents, strip controls, provenance captions below the frames, or Inspect dialog behavior. Later business and payout chapters are outside this review.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The hero reads as a platform for specific paid local work rather than SaaS or an agency: Recreate, Post, Drive and Get paid lead, the explanation names the business-to-person relationship, and an actual opportunity follows the entry actions. At this viewport the headline fits cleanly, the supporting copy remains readable, and neither button is crowded or clipped. The exact mark relationship, mineral surface, tight display typography and cobalt decision emphasis carry the approved language. Inside the real Home frame, the reference remains identifiable and the offset graphite/cobalt commitment preserves the source-to-payment hierarchy, including $75.00 and \u201cper approved version.\u201d Menu and both audience entry points remain exposed. The taller, product-first composition is intentional Stage 6 structure, not drift from the Lab layout. No visible implementation defect warrants a corrective change.",
+  "verdict": "Yes\u2014at 390px, this hero faithfully transfers Frame Shift into the real-product-led public site, with no visible functional regression."
+ }
+}

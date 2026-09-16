@@ -1,0 +1,66 @@
+{
+ "screen": "Public homepage, Recreate chapter (desktop 1440), Stage 6 pass 2",
+ "screenshot": "d-recreate-review.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:19:48.332Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16643,
+  "output_tokens": 6765,
+  "total_tokens": 23408,
+  "reasoning_tokens": 5696
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The production opportunity is \u201cEmployee POV: opening the shop\u201d from Demo Coffee Co., rather than the Lab\u2019s coffee-pour fixture. Its reference and task copy should remain production-derived.",
+   "$75.00 gross, an $11.25 fee and $63.75 net replace the Lab\u2019s $65.00 example. The arithmetic is consistent, and both approval conditions and the payment basis remain explicit.",
+   "Eight spots and the September 20, 2026 deadline correctly differ from the Lab fixture.",
+   "Tyler\u2019s portrait and Devon\u2019s initial represent their respective production demo accounts; neither should be replaced with the Lab identity.",
+   "The open opportunity and revision-requested screen are separate records. Their account/state captions and the explicit warning that this is not one live progression correctly preserve that distinction.",
+   "The supplied reference remains a still. No fabricated playback is needed."
+  ],
+  "keep": [
+   "The mineral header, graphite making chapter, restrained reversed accents and square cobalt payment plane convincingly carry Frame Shift.",
+   "The large Archivo instruction, operational supporting copy and conditional monetary hierarchy make Recreate understandable quickly.",
+   "The real product captures carry the explanation instead of decorative dashboard mockups. Preserve the native provenance captions and same-capture Inspect actions.",
+   "Keep the visible distinction between gross opportunity pay, the fee and conditional creator earnings.",
+   "Keep the literal revision request and business note. The page does not falsely advance this record to approval or payment.",
+   "Keep the public navigation, clear Find Recreate work entry and visible production navigation inside the captures."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The foundation and visible production semantics pass; desktop release sign-off needs the two presentation fixes below. This composite establishes only the Recreate chapter, not the other earning chapters or business journey. Routing, inspection-dialog behavior and backend mutations still require interaction testing.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "At this desktop breakpoint, give the sticky assembly fixed tracks: grid-template-columns: 288px 260px; column-gap: 24px; width: 572px. Keep every product frame in column 1 at width: 288px and the native commitment in column 2. Preserve the second track when its content is absent rather than centering the remaining phone. Anchor each frame\u2019s provenance and Inspect control beneath the same frame slot.",
+    "kind": "usability",
+    "why": "The open-opportunity phone starts around x=704, while the revision phone starts around x=846. Removing the adjacent commitment recenters the device by roughly 142px. That makes the supposedly stable product stage change position during a record handoff and weakens visual continuity.",
+    "where": "Desktop sticky product stage, comparing the upper open-opportunity capture with the lower revision-requested capture."
+   },
+   {
+    "priority": 2,
+    "change": "Set the native provenance/state captions beneath both devices to IBM Plex Sans 400, 14px/20px, color #B3C0CE. Keep an 8px gap before the Inspect control and retain its minimum 44px target height. Do not enlarge or alter the captured application pixels to fix these external captions.",
+    "kind": "drift",
+    "why": "These lines are visibly smaller than the surrounding operational copy, although they carry essential account and literal-state information. Inspect appropriately solves detailed screen reading, but visitors should not need it to distinguish an open opportunity from a revision request.",
+    "where": "\u201cDemo product \u00b7 Tyler \u00b7 Open opportunity\u201d and \u201cDemo product \u00b7 Devon \u00b7 Revision requested\u201d beneath the product frames."
+   }
+  ],
+  "why": "This reads as a real work platform, not a generic SaaS or agency page: a specific reference, conditional pay, production navigation and an actual revision note explain the transaction. The graphite, mineral and cobalt treatments align with the approved language; the payment region is square and shadowless, and the rounded devices are legitimate product housings rather than floating app cards. The $75.00/$11.25/$63.75 relationship is honest and readable outside the miniature UI. The remaining weaknesses are localized: the device changes horizontal position between steps, and the native state captions are undersized. The composite\u2019s repeated header and partial neighboring steps are capture boundaries, not evidence of duplicated navigation or missing chapter content.",
+  "verdict": "Frame Shift and the visible Recreate functionality have transferred successfully, but stabilize the product-frame position and restore native state-caption sizing before desktop sign-off."
+ }
+}

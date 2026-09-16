@@ -1,0 +1,58 @@
+{
+ "screen": "Public homepage, Post chapter (phone 390), Stage 6 pass 2",
+ "screenshot": "m-post.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:18:20.706Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 15003,
+  "output_tokens": 3361,
+  "total_tokens": 18364,
+  "reasoning_tokens": 2588
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The supplied iced-latte Story replaces the Lab's green coffee creative. Preserve this actual artwork rather than reproducing the fixture.",
+   "The production example shows $25.00 rather than $35.00, while retaining the conditional basis: after 24h live and approval.",
+   "Tyler Okafor, Demo Coffee Co. and the iced-latte task replace the Lab identities and task.",
+   "The visible requirements are 500+ followers, 20 spots and a September 26, 2026 application deadline, rather than the Lab values.",
+   "The chapter presents separate demo records and explicitly says they are not one live progression. It correctly avoids inventing an eligibility result or automatic state transition."
+  ],
+  "keep": [
+   "Mineral canvas, graphite text, muted supporting copy and restrained cobalt accents.",
+   "The exact restrained TapMart lockup, 16px phone gutter and comfortably sized Menu and Find Story work controls.",
+   "The strong, two-line Share the supplied Story heading and concise explanation of Instagram conditions.",
+   "The supplied Story's square edges, source-only shadow and unaltered artwork.",
+   "Real product captures carrying actual task, payment and requirement fields rather than fabricated marketing UI.",
+   "The intentional next-item peek in the phone strip; that clipping is not itself transfer drift."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off for the captured Post viewport, with a non-blocking navigation improvement. Menu and Find Story work remain exposed, and the visible product fields preserve real semantics. This crop does not establish interaction behavior or show the complete native commitment plane, provenance captions, Inspect dialog, strip controls or submitted-proof frame.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": true,
+  "drift": [
+   {
+    "priority": 3,
+    "change": "Move the existing Previous, Step n of N and Next row immediately above the horizontal strip: 16px after Find Story work and 16px before the step headings. Keep both controls at least 44\u00d744px and retain the intentional next-item peek.",
+    "kind": "usability",
+    "why": "The strip begins around y=434 CSS px, but no strip controls or position indicator are visible before the capture ends at y=844. A visitor currently encounters a clipped second heading before an explicit browsing affordance.",
+    "where": "Phone Post chapter, between Find Story work and the numbered source/product strip."
+   }
+  ],
+  "why": "At the normalized 390px viewport, the surfaces, typography, spacing, outlined controls and intact Story treatment convincingly carry Frame Shift. The real Story-detail frame exposes $25.00 with its approval and live-time conditions, rather than presenting an unconditional earning promise. Specific creative and working product UI keep this from reading as a generic SaaS process section. The source-to-commitment joint is not sufficiently visible in this crop to verify its 12px offset; its absence from the crop is not evidence that it is missing from the page.",
+  "verdict": "The visible Post chapter faithfully carries Frame Shift and preserves TapMart's product semantics, with one non-blocking strip-navigation discoverability issue."
+ }
+}

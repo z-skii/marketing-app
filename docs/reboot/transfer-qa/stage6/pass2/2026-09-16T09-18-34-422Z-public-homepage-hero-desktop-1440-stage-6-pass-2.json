@@ -1,0 +1,64 @@
+{
+ "screen": "Public homepage hero (desktop 1440), Stage 6 pass 2",
+ "screenshot": "d-hero.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:18:34.422Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10645,
+  "output_tokens": 4054,
+  "total_tokens": 14699,
+  "reasoning_tokens": 3014
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "Tyler Okafor, Demo Coffee Co. and the production task titles correctly replace the Lab\u2019s fixture identities and records.",
+   "The displayed $75.00 Recreate payment and $25.00 Story payment correctly differ from the Lab\u2019s $65.00 and $35.00. Their approval and live-duration conditions remain visible.",
+   "The opening-the-shop reference and iced-latte Story are legitimate production-record sources; they should not be replaced with the Lab\u2019s coffee-pour reference and supplied creative.",
+   "The actual Home capture correctly retains production filters, search, messages, notifications, Save and Home/Activity/Earnings/Profile navigation rather than reproducing the Lab mockup."
+  ],
+  "keep": [
+   "The 104/96px headline, explanatory paragraph and two clear entry actions quickly establish a local consumer-and-business platform\u2014not SaaS or an agency.",
+   "The mineral canvas, graphite typography, restrained cobalt, 30/32px wordmark and outlined secondary controls follow Frame Shift.",
+   "The real Home frame carries the composition and exposes recognizable work, conditional payments and product navigation.",
+   "Keep the supplied Story intact and square, the filming image restrained, and the explicit generated-illustration disclosure.",
+   "Keep the production-specific hero layout and Pricing navigation. Neither needs to match the Lab\u2019s page composition.",
+   "Keep approval-based earnings language; the hero does not promise instant payouts or present demo amounts as customer outcomes."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The public entry points and real product information remain exposed as far as this capture shows. Release sign-off is blocked by the two visible hero omissions below. Recapture this viewport after fixing them and verify the inspection dialog; later chapters, navigation destinations and payout behavior are outside this capture.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 7,
+   "usability": 7,
+   "brand_recognition": 8,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Apply the shared native frame-caption component to the hero: \u201cDemo product \u00b7 Tyler Okafor \u00b7 Home \u2014 For you\u201d, using IBM Plex Sans 14/20px. Add a visible ink Inspect action with a minimum 44\u00d744px target. Open this exact Home capture at readable size in the existing dialog, retaining Close, Escape and focus return. Keep these controls outside the screenshot; do not alter the production UI image.",
+    "kind": "usability",
+    "why": "The 280px-wide device reduces operational copy to approximately 8\u201310px. Beneath it, the capture shows only a combined provenance paragraph\u2014not the promised account/state caption or an Inspect action. The embedded \u201cInspect reference\u201d belongs to the screenshot and does not provide an obvious way to inspect the product frame.",
+    "where": "Hero Home device and caption beneath the right-hand composition."
+   },
+   {
+    "priority": 2,
+    "change": "Give the standalone supplied Story its native source-to-commitment assembly within the existing source cluster: intact sheet at 0px radius, a narrow #FFFFFF terms plane starting 24px lower beside it, 0px plane radius and no plane shadow. Bind the plane to the same Story record and show $25.00 in Archivo 700 at 34/38px, with \u201cafter 24h live and approval\u201d and the actual follower requirement in IBM Plex Sans 14/20px. Retain only the permitted Story-source shadow. Do not attach an earnings claim to the generated filming illustration.",
+    "kind": "drift",
+    "why": "The separate iced-latte sheet currently reads as a floating promotional image. Its payment and eligibility connection exists only inside the miniature Home screenshot. The native Story commitment plane described for pass 2 is not visible, leaving the signature source-to-decision relationship incomplete outside the device.",
+    "where": "Standalone iced-latte Story sheet below the filming illustration."
+   }
+  ],
+  "why": "The hero successfully establishes what TapMart does through strong verbs, concrete explanation, real working UI and conditional money. Its surfaces, typography, controls and media restraint are recognizably Frame Shift, and the different layout is valid. However, the visible hero does not include the promised frame inspection affordance or a native commitment plane for its standalone Story source. Those are implementation omissions, not reasons to restore the Lab layout.",
+  "verdict": "TapMart\u2019s identity and visible functionality survive, but the missing hero inspection affordance and Story-to-terms joint prevent a complete Frame Shift sign-off."
+ }
+}

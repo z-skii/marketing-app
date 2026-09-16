@@ -1,0 +1,49 @@
+{
+ "screen": "Public homepage, Recreate chapter (phone 390), Stage 6 pass 2",
+ "screenshot": "m-recreate.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:18:44.980Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 15008,
+  "output_tokens": 4147,
+  "total_tokens": 19155,
+  "reasoning_tokens": 3450
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The production frame shows Tyler Okafor and Demo Coffee Co., rather than the Lab\u2019s Maya and Loopday fixtures. These are local demo-account records, not customer-result claims.",
+   "\u201cEmployee POV: opening the shop\u201d and its supplied still reference correctly replace the Lab\u2019s \u201cYour coffee pour\u201d example.",
+   "$75.00 per approved version, 8 spots and the September 20, 2026 deadline correctly replace the Lab\u2019s $65.00, 4 spots and May deadline. Preserve the production record\u2019s amount and payment basis.",
+   "The production application\u2019s own header, business location and detail controls remain visible instead of being replaced by a simplified Lab excerpt."
+  ],
+  "keep": [
+   "Mineral header, graphite chapter, restrained cobalt payment region and clearly differentiated on-dark primary and supporting text.",
+   "The exact restrained mark, approximately 30/32px wordmark, 16px phone gutters and generous chapter-top spacing.",
+   "The strong two-line task heading and direct \u201cFind Recreate work\u201d action. The proposition reads as specific paid creative work, not generic marketplace or SaaS copy.",
+   "The real product frame\u2019s source-left, graphite-facts-right and square cobalt conditional-payment relationship.",
+   "The explicit explanation that the frames represent separate demo records, plus the generated-filming-illustration attribution.",
+   "The intentional next-step preview at the right edge. This is the specified horizontal strip, not accidental page overflow."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off for this captured 390px chapter view. The approximately 194px-wide product capture is an overview, not readable working UI; the supplied implementation\u2019s native captions and Inspect flow are therefore important. Those controls, the strip pager and the standalone native commitment plane are below this crop and are not visually verified here. Routing, dialog keyboard behavior and application mutations still require interaction testing.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 7,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The visible treatment faithfully carries Frame Shift without needing to duplicate the Lab\u2019s page layout. Typography, mineral-to-graphite transition, spacing, outlined controls and cobalt conditional pay form a coherent TapMart chapter. The reference remains identifiable, the filming illustration is separately attributed, and the real application supplies specific work, business, deadline and payment information. There is no visible autoplay fiction, fabricated outcome, floating-card styling or guaranteed-earnings language. The public earning CTA, Menu and illustration inspection remain exposed. In-frame controls demonstrate the actual product but are screenshot content, not evidence of working webpage controls. No concrete implementation drift or broken public control is established by these pixels.",
+  "verdict": "Yes\u2014the captured Recreate chapter faithfully expresses Frame Shift through real TapMart product content, with no visible functional regression; behavioral verification remains separate."
+ }
+}

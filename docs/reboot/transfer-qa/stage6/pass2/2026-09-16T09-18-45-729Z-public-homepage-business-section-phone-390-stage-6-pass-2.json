@@ -1,0 +1,70 @@
+{
+ "screen": "Public homepage, business section (phone 390), Stage 6 pass 2",
+ "screenshot": "m-business-review.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:18:45.729Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16121,
+  "output_tokens": 4285,
+  "total_tokens": 20406,
+  "reasoning_tokens": 3106
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "Demo Coffee Co., Jasmine Reed and Raleigh are production-account content; they should not be replaced with the Lab\u2019s Loopday, Maya and Austin fixtures.",
+   "Content shows \u201cThe slow pour.\u201d with \u201cEdit requested\u201d and four delivered files, rather than the Lab\u2019s \u201cCounter reset,\u201d \u201cNew\u201d and five-file fixture. Preserve the production state.",
+   "Essential at $99/month and Growth at $199/month are legitimate configured prices. Their shoot, photo and video allocations remain explicitly stated.",
+   "The production Home, Create, Story-proof review and Content captures legitimately replace the Lab\u2019s fixture demonstrations. Their actual records and states\u2014not the Lab\u2019s default selections\u2014are the functional reference."
+  ],
+  "keep": [
+   "Mineral canvas, strong Archivo headings, restrained cobalt, exact-looking lockup and graphite device housings without ambient shadows.",
+   "The campaign-to-monthly-content sequence: discovery, campaign creation and review establish a working platform rather than a generic subscription pitch.",
+   "Real product captures and the clearly labeled Inspect actions. Do not replace them with fabricated UI or force the Lab\u2019s page layout onto this implementation.",
+   "The explicit generated-sample disclosure beside monthly content, separate from the production Content capture.",
+   "Visible plan allocations, subscription prices and the clear statement that campaign credit funds work separately from the content subscription."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The capture exposes the real business workflows and entry actions; it does not demonstrate broken application functionality. Hold visual sign-off for the fixes below, then verify strip navigation and Inspect dialogs at 390px, including readable enlargement, Close, Escape and focus return.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Add visible Previous and Next buttons outside the campaigns overflow strip, between the strip and its inspection links. Use minimum 44\u00d744px targets, IBM Plex Sans 14/20px status text and an initial \u201cStep 1 of 3\u201d label. Advance one capture per activation, update the step on native swiping and disable the appropriate endpoint button. Retain the intentional right-edge preview.",
+    "kind": "usability",
+    "why": "The complete campaigns assembly shows Home, a clipped Create frame and three Inspect buttons, but no Previous, Next or step indicator. The later review frame is named without a visible browsing control. The intentional clipping is not the defect; undisclosed strip position is.",
+    "where": "Campaigns phone strip, immediately above the grouped provenance caption and Inspect Home/Create/review buttons."
+   },
+   {
+    "priority": 2,
+    "change": "Attach a native caption to each product figure using IBM Plex Sans 14/20px, directly below its capture and associated with its Inspect action. Populate account, screen and literal state from that capture\u2019s metadata. Home can read \u201cDemo product \u00b7 Demo Coffee Co. \u00b7 Business Home \u00b7 4 campaign decisions \u00b7 2 files to approve\u201d; Content can read \u201cDemo product \u00b7 Demo Coffee Co. \u00b7 Content \u00b7 The slow pour. \u00b7 Edit requested.\u201d Give Create and Review their own captions without inventing an unseen review outcome. Keep the generated-shoot disclosure separately attached to the sample images.",
+    "kind": "drift",
+    "why": "Pass 2\u2019s per-frame provenance and readable states are not visible here. Campaigns has one collective \u201cDemo account \u00b7 Production screens\u2026\u201d caption; Content names the screen but omits its file state. Demo disclosure is present and honest, but operational states remain inside miniature screenshots.",
+    "where": "Captions beneath the campaigns frames and the monthly Content/sample assembly."
+   },
+   {
+    "priority": 3,
+    "change": "Remove the decorative horizontal rules below Essential and Growth: set the plan-row and spending-note borders to 0, with no replacement pseudo-element separator. Keep the regions square and shadowless; use a 12px gap between plan rows and 24px before the campaign-spending note.",
+    "kind": "drift",
+    "why": "Thin full-width rules remain beneath both plan prices despite the approved unboxed plan treatment and the stated pass-2 border removal. Typography and spacing already distinguish these short records.",
+    "where": "Essential/Growth plan list, including the rule immediately above \u201cCampaign spending is separate\u2026\u201d"
+   }
+  ],
+  "why": "The foundation is convincingly Frame Shift: restrained surfaces, substantial typography, recognizable branding and authentic product screens carry the business story. Campaign funding and monthly shoots are understandable, and prices are not presented as creator earnings. The remaining failures are local implementation details, not grounds for another art direction. No additional decorative source-to-decision notch belongs on these plan rows. Repeated headers and broad seams are composite-capture artifacts, and the intentionally clipped later strip items are not themselves responsive drift. Other homepage chapters and the complete Get paid region are outside this capture\u2019s review scope.",
+  "verdict": "The business section preserves TapMart\u2019s real workflows and largely carries Frame Shift, but missing strip controls, grouped state captions and residual plan rules prevent sign-off on this phone pass."
+ }
+}
