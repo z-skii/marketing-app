@@ -10,7 +10,7 @@ import { X } from "@phosphor-icons/react";
  * (variant "menu"). Native dialog: focus is trapped, Escape closes, focus
  * returns to the trigger.
  */
-export function Sheet({ title, trigger, triggerClass, triggerStyle, triggerLabel, variant = "sheet", children }: { title: string; trigger: ReactNode; triggerClass?: string; triggerStyle?: React.CSSProperties; triggerLabel?: string; variant?: "sheet" | "full" | "menu"; children: ReactNode | ((close: () => void) => ReactNode) }) {
+export function Sheet({ title, trigger, triggerClass, triggerStyle, triggerLabel, variant = "sheet", children }: { title: string; trigger: ReactNode; triggerClass?: string; triggerStyle?: React.CSSProperties; triggerLabel?: string; variant?: "sheet" | "full" | "menu"; children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
@@ -29,7 +29,7 @@ export function Sheet({ title, trigger, triggerClass, triggerStyle, triggerLabel
             <span className="t-object">{title}</span>
             <button type="button" className="icon-btn" aria-label="Close" onClick={close}><X size={20} /></button>
           </div>
-          {open && (typeof children === "function" ? children(close) : children)}
+          {open && children}
         </div>
       </dialog>
     </>
