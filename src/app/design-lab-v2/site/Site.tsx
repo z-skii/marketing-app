@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowsOutSimple, List, Plus } from "@phosphor-icons/react";
+import { ArrowsOutSimple, List, Plus, X } from "@phosphor-icons/react";
 import { Sheet } from "../Sheet";
 import { Viewer } from "../Viewer";
 import { Preview } from "../Preview";
 import { Edge, Money, Wordmark } from "../parts";
 import { Img } from "../Img";
-import { ASSET, money, plans, publicExamples } from "../fixtures";
+import { ASSET, businessPeople, money, plans, publicExamples } from "../fixtures";
+import { PlacementDiagram, RequestSheet } from "../business/Discovery";
 
 /**
  * V2 Public Homepage, Open Cut: everyday before interface. Photography of the
@@ -39,6 +40,7 @@ export function Entry({ label, className = "btn btn-primary", business = false, 
 export function SiteHeader() {
   return (
     <header className="site-header">
+      <div className="site-inner site-header-inner">
       <a href="#top" aria-label="TapMart"><Wordmark size={22} className="site-wordmark" /></a>
       <nav className="site-nav" aria-label="Public">
         <a href="#earn">Earn</a><a href="#business">For businesses</a><a href="#how">How it works</a><a href="#pricing">Pricing</a>
@@ -55,6 +57,7 @@ export function SiteHeader() {
           </Sheet>
         </span>
       </span>
+      </div>
     </header>
   );
 }
@@ -62,10 +65,10 @@ export function SiteHeader() {
 /** Media sources: provenance on demand, not a caption under every image. */
 export function Sources({ trigger, className = "link t-note" }: { trigger: string; className?: string }) {
   return (
-    <Sheet title="Media sources" triggerClass={className} trigger={trigger}>
+    <Sheet title="Media sources" variant="full" triggerClass={className} trigger={trigger}>
       <p className="t-body" style={{ marginTop: 8 }}>People, businesses and amounts in product previews are fictional.</p>
       <dl className="facts" style={{ marginTop: 16, gridTemplateColumns: "1fr" }}>
-        <div><dt>Supplied campaign imagery</dt><dd>The three hero photographs: filming, a photographed Story, a wrapped car.</dd></div>
+        <div><dt>Supplied campaign imagery</dt><dd>The three hero photographs: a creator filming, a photograph of a phone displaying an ad (not the underlying Story creative), and a wrapped car.</dd></div>
         <div><dt>Generated fixture media</dt><dd>Portraits, work stills and the Loopday and Spurroom assets.</dd></div>
         <div><dt>Real product capture</dt><dd style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           <Viewer src="/marketing/frames/user-home-390.webp" alt="Real product capture: Personal Home" label="Personal Home" className="link t-action" style={{ minHeight: 44 }}>Personal Home</Viewer>
@@ -96,7 +99,7 @@ export function Hero() {
         </figure>
         <Edge style={{ gridArea: "edge" }} />
       </div>
-      <div><Sources trigger="Campaign imagery" /></div>
+      <div className="site-hero-sources"><Sources trigger="Campaign imagery" /></div>
     </section>
   );
 }
@@ -116,10 +119,10 @@ function ExampleDetail({ kind }: { kind: Kind }) {
       <h3 className="t-object" style={{ marginTop: 12 }}>{e.title}</h3>
       <p className="t-fact" style={{ marginTop: 4 }}>{e.business}{kind === "recreate" && <><span aria-hidden> · </span>Reference frame</>}</p>
       <dl className="facts" style={{ marginTop: 24 }}>
-        <div><dt>Deadline</dt><dd>{kind === "recreate" ? "Sep 30, 2026, 5:00 PM CDT" : kind === "story" ? "Oct 2, 2026, 5:00 PM CDT" : "Oct 1 to Dec 31, 2026"}</dd></div>
+        <div><dt>{kind === "car" ? "Campaign dates" : "Deadline"}</dt><dd>{kind === "recreate" ? "Sep 30, 2026, 5:00 PM CDT" : kind === "story" ? "Oct 2, 2026, 5:00 PM CDT" : "Oct 1 to Dec 31, 2026"}</dd></div>
         {kind === "recreate" && <div><dt>Spots</dt><dd>3</dd></div>}
         {kind === "story" && <><div><dt>Live for</dt><dd>24 hours</dd></div><div><dt>Followers</dt><dd>1,000 minimum</dd></div></>}
-        {kind === "car" && <><div><dt>City</dt><dd>Austin</dd></div><div><dt>Placement</dt><dd>Rear doors</dd></div></>}
+        {kind === "car" && <><div><dt>City</dt><dd>Austin</dd></div><div><dt>Placement</dt><dd><Sheet title="Placement" triggerClass="link t-action" trigger="Rear doors"><p className="t-fact" style={{ marginTop: 8 }}>Placement diagram</p><div style={{ maxWidth: 440, marginTop: 8 }}><PlacementDiagram selected /></div></Sheet></dd></div></>}
       </dl>
       {kind === "story" && <><p className="state due" style={{ marginTop: 16, fontSize: 16, lineHeight: "24px" }}>Not posted</p><p className="t-fact" style={{ marginTop: 4 }}>Posting is not simulated in this preview.</p><p className="t-body" style={{ marginTop: 12 }}>Instagram connection required</p></>}
       {kind === "car" && <><p className="t-body" style={{ marginTop: 16 }}>Listed vehicle required</p><p className="t-body" style={{ marginTop: 8 }}>Proof approval required</p></>}
@@ -147,11 +150,13 @@ export function Example({ kind, stage = false }: { kind: Kind; stage?: boolean }
             </button>
             <Edge />
             <div className="site-ex-band">
-              <div className="op-money"><Money cents={e.netCents} basis={e.basis} whole inline={kind === "car"} size="money" /></div>
+              <div className="op-money"><Money cents={e.netCents} basis={e.basis} whole inline size="money" /></div>
               <h4 id={`site-${kind}${stage ? "-stage" : ""}-h`} className="t-object" style={{ marginTop: 12 }}>{e.title}</h4>
               <p className="t-fact" style={{ marginTop: 4 }}>{e.business}</p>
-              <p className="t-fact" style={{ marginTop: 12 }}>{e.facts.map((f, i) => <span key={f}>{i > 0 && <span aria-hidden> · </span>}{f}</span>)}{kind === "car" && <span className="fact-line" style={{ display: "block", marginTop: 8 }}>Proof approval required</span>}</p>
-              <button type="button" className="btn btn-primary op-view" style={{ marginTop: 16 }} onClick={open}>View</button>
+              <div className="site-ex-facts">
+                <p className="t-fact">{e.facts.map((f, i) => <span key={f}>{i > 0 && <span aria-hidden> · </span>}{f}</span>)}{kind === "car" && <span className="fact-line" style={{ display: "block", marginTop: 4 }}>Proof approval required</span>}</p>
+                <button type="button" className="btn btn-primary op-view" onClick={open}>View</button>
+              </div>
             </div>
           </div>
         </article>
@@ -245,22 +250,6 @@ export function HowItWorks() {
 type BizStage = "people" | "cars" | "create" | "review";
 const BIZ: { key: BizStage; label: string }[] = [{ key: "people", label: "Find people" }, { key: "cars", label: "Find cars" }, { key: "create", label: "Create campaign" }, { key: "review", label: "Review work" }];
 
-function PersonRequest({ className = "btn btn-primary" }: { className?: string }) {
-  const [choice, setChoice] = useState<string | null>(null);
-  return (
-    <Sheet title="Request" triggerClass={className} trigger="Request">
-      {choice ? (
-        <div style={{ marginTop: 8 }}><p className="t-object">{choice}</p><p className="t-body" style={{ marginTop: 12 }}>Outside this preview</p><p className="t-fact" style={{ marginTop: 4 }}>This preview does not create accounts, send requests or move money.</p><button type="button" className="link t-action" style={{ marginTop: 16, minHeight: 44 }} onClick={() => setChoice(null)}>Back</button></div>
-      ) : (
-        <div style={{ marginTop: 8 }}>
-          <button type="button" className="sheet-row" onClick={() => setChoice("Recreate a Reel")}><span>Recreate a Reel</span></button>
-          <button type="button" className="sheet-row" onClick={() => setChoice("Instagram Story ads")}><span>Instagram Story ads</span></button>
-        </div>
-      )}
-    </Sheet>
-  );
-}
-
 function ApprovalPreview() {
   return (
     <Sheet title="Approval preview" triggerClass="link t-action" triggerStyle={{ minHeight: 44, display: "inline-flex", alignItems: "center" }} trigger="Preview approval">
@@ -291,10 +280,10 @@ function BizPanel({ k, heading }: { k: BizStage; heading?: boolean }) {
             <Edge />
             <div className="op-band" style={{ alignItems: "center" }}>
               <div><p className="t-object">Maya Chen</p><p className="t-fact">Austin</p></div>
-              <div style={{ display: "flex", gap: 16, alignItems: "center" }}><Entry label="View person" className="link t-action" business /><PersonRequest /></div>
+              <div style={{ display: "flex", gap: 16, alignItems: "center" }}><Entry label="View person" className="link t-action" business /><RequestSheet p={businessPeople[0]} /></div>
             </div>
           </div>
-          <div className="obj site-biz-car-teaser">
+          <div className="obj site-biz-car-teaser site-only-stage">
             <span className="media" style={{ aspectRatio: "3 / 2", display: "block" }}><Img src={ASSET("vehicle-eli-01")} alt="Eli’s car, a silver sedan outside a brick workshop" /></span>
             <Edge />
             <div className="op-band"><div><span className="t-fact-ink" style={{ display: "block" }}>From</span><Money cents={240_00} basis="/month" whole inline onInk /></div><Entry label="View" business /></div>
@@ -304,9 +293,9 @@ function BizPanel({ k, heading }: { k: BizStage; heading?: boolean }) {
       )}
       {k === "cars" && (
         <div className="site-biz-cars obj">
-          <span className="media" style={{ aspectRatio: "3 / 2", display: "block", maxWidth: 560 }}><Img src={ASSET("vehicle-eli-01")} alt="Eli’s car, a silver sedan outside a brick workshop" /></span>
-          <Edge style={{ maxWidth: 560 }} />
-          <div className="op-band" style={{ maxWidth: 560 }}><div><span className="t-fact-ink" style={{ display: "block" }}>From</span><Money cents={240_00} basis="/month" whole inline onInk /><span className="t-fact" style={{ display: "block", marginTop: 4 }}>Rear doors<span aria-hidden> · </span>Placement</span></div><Entry label="View" business /></div>
+          <span className="media site-biz-cars-photo" style={{ aspectRatio: "3 / 2", display: "block" }}><Img src={ASSET("vehicle-eli-01")} alt="Eli’s car, a silver sedan outside a brick workshop" /></span>
+          <Edge className="site-biz-cars-edge" />
+          <div className="site-biz-cars-band"><span className="t-fact-ink" style={{ display: "block" }}>From</span><Money cents={240_00} basis="/month" whole inline onInk /><p className="t-fact" style={{ marginTop: 8 }}>Eli<span aria-hidden> · </span>Austin</p><p className="t-fact" style={{ marginTop: 4 }}>Rear doors<span aria-hidden> · </span>Placement</p><div style={{ marginTop: 16 }}><Entry label="View" business /></div></div>
         </div>
       )}
       {k === "create" && (
@@ -321,8 +310,8 @@ function BizPanel({ k, heading }: { k: BizStage; heading?: boolean }) {
       )}
       {k === "review" && (
         <div className="site-biz-review">
-          <span className="media" style={{ aspectRatio: "9 / 16", display: "block", width: 200 }}><Img src={work} alt="Work sample: coffee handoff" fallback="Work unavailable" /></span>
-          <div><p className="t-fact" style={{ marginBottom: 8 }}>Work sample</p><p className="t-object">Recreate this Reel</p><p className="t-fact" style={{ marginTop: 4 }}>Loopday Coffee</p><div style={{ marginTop: 16 }}><ApprovalPreview /></div></div>
+          <span className="media site-biz-review-media" style={{ aspectRatio: "9 / 16", display: "block" }}><Img src={work} alt="Work sample: coffee handoff" fallback="Work unavailable" /></span>
+          <div><p className="t-object">Work sample</p><p className="t-fact" style={{ marginTop: 4 }}>Approval preview</p><div style={{ marginTop: 16 }}><ApprovalPreview /></div></div>
         </div>
       )}
     </div>
@@ -352,6 +341,8 @@ export function Business() {
 export function Pricing() {
   const [plan, setPlan] = useState<string | null>(null);
   const chosen = plans.find((p) => p.id === plan) ?? null;
+  const summary = useRef<HTMLDialogElement>(null);
+  useEffect(() => { if (chosen && summary.current && !summary.current.open) summary.current.showModal(); }, [chosen]);
   return (
     <section className="site-pricing" id="pricing" aria-labelledby="pricing-h">
       <h2 id="pricing-h" className="t-verb site-chapter-h">Monthly Content</h2>
@@ -366,7 +357,7 @@ export function Pricing() {
           <div role="radiogroup" aria-label="Plans" className="site-plans">
             {plans.map((p) => (
               <label key={p.id} className="site-plan" data-selected={plan === p.id ? "true" : "false"}>
-                <input type="radio" name="plan" value={p.id} checked={plan === p.id} onChange={() => setPlan(p.id)} className="v2-sr" />
+                <span className="site-plan-radio"><input type="radio" name="plan" value={p.id} checked={plan === p.id} onChange={() => setPlan(p.id)} /></span>
                 <span className="site-plan-name t-title">{p.name}</span>
                 <span className="t-body" style={{ display: "block" }}>{p.cadence}</span>
                 <span className="t-body" style={{ display: "block" }}>{p.line}</span>
@@ -375,13 +366,17 @@ export function Pricing() {
             ))}
           </div>
           <p className="t-body" style={{ marginTop: 16 }}>Campaign spending is separate.</p>
-          {chosen && (
-            <div className="site-plan-summary settle" role="status">
-              <p className="t-object">{chosen.name}</p>
-              <p className="t-fact" style={{ marginTop: 4 }}>Subscription<span aria-hidden> · </span>{money(chosen.priceCents)} /month<span aria-hidden> · </span>{chosen.cadence}, {chosen.line}</p>
-              <p className="t-fact" style={{ marginTop: 8 }}>Campaign spending is separate. No subscription starts in this preview.</p>
+          <dialog ref={summary} className="sheet sheet-menu" aria-label="Plan summary" onClick={(e) => { if (e.target === summary.current) summary.current.close(); }}>
+            <div className="sheet-body">
+              <div className="sheet-bar"><span className="sheet-title">{chosen?.name}</span><button type="button" className="link link-plain t-action preview-close" onClick={() => summary.current?.close()}><X size={18} aria-hidden />Close</button></div>
+              {chosen && (<>
+                <p className="t-fact">Subscription</p>
+                <p className="t-body" style={{ marginTop: 4 }}>{money(chosen.priceCents)} /month<span aria-hidden> · </span>{chosen.cadence}, {chosen.line}</p>
+                <p className="t-body" style={{ marginTop: 12 }}>Campaign spending is separate.</p>
+                <p className="t-fact" style={{ marginTop: 4 }}>No subscription starts in this preview.</p>
+              </>)}
             </div>
-          )}
+          </dialog>
           <div style={{ marginTop: 16 }}><Entry label="Get started" business plan={chosen?.name ?? null} /></div>
         </div>
       </div>

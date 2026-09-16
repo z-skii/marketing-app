@@ -92,8 +92,7 @@ function PersonObject({ p, featured = false }: { p: Person; featured?: boolean }
           <div className="person-band">
             <div className="person-id">
               <h2 id={`p-${p.id}${featured ? "f" : ""}`} className="t-object">{p.name}</h2>
-              <span className="t-fact">{p.city}</span>
-              {p.instagram && <span className="t-fact person-ig"><InstagramLogo size={16} aria-hidden /><span className="v2-sr">Instagram connected </span>{p.instagram.handle}</span>}
+              <span className="t-fact person-facts">{p.city}{p.instagram && <><span aria-hidden> · </span><span className="person-ig"><InstagramLogo size={16} aria-hidden /><span className="v2-sr">Instagram connected </span>{p.instagram.handle}</span></>}</span>
             </div>
             <div className="person-actions">
               <button type="button" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }} onClick={open}>View person</button>
@@ -141,8 +140,8 @@ function PersonDetail({ p }: { p: Person }) {
 }
 
 /** Quick request: Story or Recreate, chosen in context. Nothing is sent from this preview. */
-function RequestSheet({ p }: { p: Person }) {
-  const [choice, setChoice] = useState<"Story" | "Recreate" | null>(null);
+export function RequestSheet({ p }: { p: Person }) {
+  const [choice, setChoice] = useState<string | null>(null);
   return (
     <Sheet title="Request" triggerClass="btn btn-primary" triggerStyle={{ width: 112 }} trigger="Request">
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
@@ -152,9 +151,9 @@ function RequestSheet({ p }: { p: Person }) {
       {choice === null ? (
         <>
           <div style={{ marginTop: 16 }}>
-            <button type="button" className="sheet-row" disabled={!p.instagram} onClick={() => setChoice("Story")} aria-describedby={!p.instagram ? `story-why-${p.id}` : undefined} style={{ opacity: p.instagram ? 1 : 0.5 }}><span>Story</span></button>
+            <button type="button" className="sheet-row" disabled={!p.instagram} onClick={() => setChoice("Post a Story")} aria-describedby={!p.instagram ? `story-why-${p.id}` : undefined} style={{ opacity: p.instagram ? 1 : 0.5 }}><span>Post a Story</span></button>
             {!p.instagram && <p id={`story-why-${p.id}`} className="t-fact" style={{ margin: "4px 0 8px" }}>Story requires a connected Instagram account.</p>}
-            <button type="button" className="sheet-row" onClick={() => setChoice("Recreate")}><span>Recreate</span></button>
+            <button type="button" className="sheet-row" onClick={() => setChoice("Recreate a Reel")}><span>Recreate a Reel</span></button>
           </div>
           <p className="t-fact" style={{ marginTop: 16 }}>Nothing is sent from this preview.</p>
         </>
@@ -232,7 +231,7 @@ function CarDetail() {
 }
 
 /** The supported rear-door zone on a simple side elevation. A diagram, never a reconstruction of the photographed car. */
-function PlacementDiagram({ selected }: { selected: boolean }) {
+export function PlacementDiagram({ selected }: { selected: boolean }) {
   return (
     <svg viewBox="0 0 1200 800" width="100%" height="auto" aria-hidden style={{ display: "block" }}>
       <line x1="80" y1="620" x2="1120" y2="620" stroke="var(--v2-line)" strokeWidth="4" />

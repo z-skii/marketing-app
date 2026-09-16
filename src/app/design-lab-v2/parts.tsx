@@ -52,8 +52,8 @@ export function Money({ cents, basis, size = "money", whole = false, onInk = fal
 }
 
 /** The earning edge: a 2px ink line with a 12px brick terminal. */
-export function Edge({ left = false, style }: { left?: boolean; style?: CSSProperties }) {
-  return <span aria-hidden className={`edge${left ? " edge-left" : ""}`} style={{ display: "block", ...style }} />;
+export function Edge({ left = false, style, className = "" }: { left?: boolean; style?: CSSProperties; className?: string }) {
+  return <span aria-hidden className={`edge${left ? " edge-left" : ""} ${className}`} style={{ display: "block", ...style }} />;
 }
 
 export type Tab = { href: string; label: string; deskLabel?: string; icon: ReactNode; create?: boolean; outside?: boolean; badge?: number };
