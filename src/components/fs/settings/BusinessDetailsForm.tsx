@@ -80,7 +80,7 @@ export function BusinessDetailsForm({ business }: { business: Business }) {
       {field("website", "Website", { placeholder: "https://", type: "url" })}
 
       <details className="fs-disclosure">
-        <summary className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }}>Address, phone, socials and customer note</summary>
+        <summary className="fs-btn fs-btn-quiet fs-link-ink fs-btn-wrap" style={{ paddingLeft: 0 }}>Address, phone, socials and customer note</summary>
         <div style={{ display: "grid", gap: 16, marginTop: 12 }}>
           {field("address", "Address", { hint: "Not shown publicly." })}
           {field("phone", "Phone")}

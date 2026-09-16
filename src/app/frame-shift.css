@@ -714,6 +714,8 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 }
 @media (max-width: 359px) {
   .fs .fs-biz-plate { grid-template-columns: 1fr; }
+  .fs .fs-person-hero { grid-template-columns: 1fr; }
+  .fs .fs-person-hero > span:last-child { padding-top: 0; }
   .fs .fs-brand-images { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .fs .fs-search-form { grid-template-columns: 1fr; }
 }

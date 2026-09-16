@@ -3,7 +3,7 @@ import { ArrowRight, GoogleLogo, InstagramLogo, FacebookLogo, TiktokLogo } from 
 import { requireBusinessContext } from "@/lib/v2/core";
 import { googleConfigured, GOOGLE_NOT_CONFIGURED, type GoogleMeta } from "@/lib/google/oauth";
 import { metaConfigured, META_NOT_CONFIGURED } from "@/lib/social/meta";
-import { connectionState, listConnections, type ConnectionRow, type ConnectionState } from "@/lib/social/summary";
+import { connectionState, listConnections, NEEDS_RECONNECT, type ConnectionRow, type ConnectionState } from "@/lib/social/summary";
 import { STATE_WORD } from "@/lib/fs/business-identity";
 import { UtilityHead } from "@/components/fs/settings/Rows";
 import { ConnectionControls } from "@/components/fs/settings/ConnectionControls";
@@ -50,7 +50,7 @@ export default async function ConnectionsPage({ searchParams }: { searchParams: 
     if (ERRORS[params.error]) return ERRORS[params.error];
     return (provider === "google" ? google : ig)?.last_error ?? "The connection did not complete. Try again.";
   };
-  const lastErrorFor = (row: ConnectionRow | undefined, state: ConnectionState) => (state === "error" || state === "needs_reconnect") && row?.last_error ? row.last_error : null;
+  const lastErrorFor = (row: ConnectionRow | undefined, state: ConnectionState) => (state === "error" || state === "needs_reconnect") && row?.last_error && row.last_error !== NEEDS_RECONNECT ? row.last_error : null;
   const stateLine = (state: ConnectionState, row: ConnectionRow | undefined, extra?: string | null) => (
     <span className="fs-t-meta" style={{ display: "block" }}>
       <span className={`fs-status is-${STATE_WORD[state].tone}`}>{STATE_WORD[state].label}</span>

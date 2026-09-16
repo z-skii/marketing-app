@@ -68,7 +68,8 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   const samples = [...work.map((w) => ({ url: w.url, title: w.title, kind: "approved" as const })), ...portfolio.map((p) => ({ url: p.media_url, title: p.caption ?? "Portfolio", kind: "portfolio" as const }))].slice(0, 9);
   const ratios = await Promise.all(samples.map((s) => (VIDEO.test(s.url) ? Promise.resolve(9 / 16) : imageRatio(s.url))));
   const igConnected = person.ig_status === "connected";
-  const igLine = igConnected ? `Instagram ${person.ig_verified_by === "api" ? "connected" : "confirmed by TapMart"}${person.ig_handle ? ` · @${person.ig_handle.replace(/^@/, "")}` : ""}${person.ig_followers != null ? ` · ${compactCount(person.ig_followers)} followers` : ""}` : "Instagram not connected";
+  const igLine = igConnected ? `Instagram ${person.ig_verified_by === "api" ? "connected" : "confirmed by TapMart"}` : "Instagram not connected";
+  const igDetail = igConnected ? [person.ig_handle ? `@${person.ig_handle.replace(/^@/, "")}` : null, person.ig_followers != null ? `${compactCount(person.ig_followers)} followers` : null].filter(Boolean).join(" · ") : "";
   const verified = person.verification === "verified";
   const ratingCount = person.rating_count ?? 0;
   const businessViewer = ctx.mode === "business" && ctx.activeBusiness;
@@ -81,12 +82,13 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
             <Avatar src={person.avatar_url} name={name} size={160} square />
             <span style={{ minWidth: 0 }}>
               <h1 className="fs-t-page">{name}</h1>
-              <p className="fs-t-meta" style={{ marginTop: 4 }}>@{person.username}{person.city ? ` · ${person.city}` : ""}</p>
+              <p className="fs-t-meta" style={{ marginTop: 4, overflowWrap: "anywhere" }}>@{person.username}{person.city ? ` · ${person.city}` : ""}</p>
               <p className="fs-t-meta" style={{ marginTop: 4 }}>
                 <span className={`fs-status is-${verified ? "confirmed" : "neutral"}`}>{verified ? "Verified creator" : person.verification === "pending" ? "Verification pending" : "Not verified"}</span>
                 {drives && <> · Drives with TapMart</>}
               </p>
               <p className="fs-t-meta" style={{ marginTop: 4 }}>{igLine}</p>
+              {igDetail && <p className="fs-t-meta" style={{ overflowWrap: "anywhere" }}>{igDetail}</p>}
             </span>
           </div>
           {person.bio && <p className="fs-t-body" style={{ marginTop: 12, maxWidth: 448 }}>{person.bio}</p>}

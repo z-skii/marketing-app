@@ -86,7 +86,7 @@ export function BrandKitStudio({ record, businessName, sources: initialSources, 
             <p className="fs-t-label">Current brand <span className={`fs-status is-${record.status === "approved" ? "confirmed" : "waiting"}`}>· {record.status === "approved" ? "Approved" : "Draft"}</span></p>
             {canEdit && <button type="button" className="fs-btn fs-btn-secondary fs-btn-sm" onClick={() => setStep("sources")}>Suggest improvements</button>}
           </div>
-          <BrandVisual kit={kit} businessName={businessName} traits={signals?.tone_words ?? []} />
+          <BrandVisual kit={kit} businessName={businessName} traits={signals?.tone_words ?? []} profileLogo={sources.logoUrl} />
         </section>
       )}
 
@@ -287,15 +287,16 @@ export function Swatches({ colors, small = false }: { colors: string[]; small?: 
   );
 }
 
-function BrandVisual({ kit, businessName, traits }: { kit: BrandKit; businessName: string; traits: string[] }) {
+function BrandVisual({ kit, businessName, traits, profileLogo = null }: { kit: BrandKit; businessName: string; traits: string[]; profileLogo?: string | null }) {
   const images = kit.image_examples;
+  const logo = kit.logo_url ?? profileLogo;
   return (
     <div style={{ marginTop: 12 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <span className="fs-brand-logo">{kit.logo_url ? <Img src={kit.logo_url} alt={`${businessName} logo`} /> : <span className="fs-t-meta">No logo</span>}</span>
+        <span className="fs-brand-logo">{logo ? <Img src={logo} alt={`${businessName} logo`} /> : <span className="fs-t-meta">No logo</span>}</span>
         <span style={{ minWidth: 0 }}>
           <span className="fs-t-section" style={{ display: "block", overflowWrap: "anywhere" }}>{businessName}</span>
-          {!kit.logo_url && <span className="fs-t-meta" style={{ display: "block" }}>No logo yet</span>}
+          <span className="fs-t-meta" style={{ display: "block" }}>{kit.logo_url ? "Logo in the kit" : logo ? "Logo from your profile, not yet part of the kit" : "No logo yet"}</span>
         </span>
       </div>
       <div style={{ marginTop: 20 }}><p className="fs-t-label">Colours</p><Swatches colors={kit.palette} /></div>
