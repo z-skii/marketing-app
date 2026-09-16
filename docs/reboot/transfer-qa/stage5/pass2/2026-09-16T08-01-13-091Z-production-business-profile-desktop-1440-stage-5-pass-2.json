@@ -1,0 +1,51 @@
+{
+ "screen": "Production Business Profile (desktop 1440), Stage 5 pass 2",
+ "screenshot": "d-business_profile.png",
+ "reference": "d-design_lab_business_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:01:13.091Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 9326,
+  "output_tokens": 2226,
+  "total_tokens": 11552,
+  "reasoning_tokens": 1528
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The Lab capture is Business Home, not a Business Profile mock. Replacing discovery shelves with the business\u2019s own identity and management rows is appropriate.",
+   "Demo Coffee Co., Raleigh, its photographs, description, website and service identities are production-local records rather than the Lab\u2019s fictional Loopday Coffee content. The saved description\u2019s development disclosure is legitimate content.",
+   "The square business logo is appropriate here; the creator identity photograph treatment does not apply.",
+   "The record values\u20147 active campaigns, 0 scheduled and 4 delivered\u2014and the separate 4 campaigns waiting for a decision correctly replace fixture counts.",
+   "The Essential plan, renewal date, next shoot, connected services and approved brand-kit swatches are record-specific. The lime swatch represents the business\u2019s saved brand color, not a replacement for TapMart cobalt.",
+   "No discovery pay captions, vehicle inventory or campaign commitment assembly is needed on this identity-management screen."
+  ],
+  "keep": [
+   "Mineral canvas, flat surfaces, restrained dividers and the graphite navigation rail without floating cards or shadows.",
+   "The 200px rail, 32px main gutter, strong Business heading and clearly selected Business navigation item.",
+   "The 640\u00d7360 cover with restrained corners, separate logo square and strong business-name hierarchy.",
+   "Three prominent record values with readable supporting labels; the waiting-for-decision count remains in the Campaigns row.",
+   "The compact Right now list with explicit status words, supporting details and clear navigation affordances.",
+   "Ink treatment for secondary inspection actions, real brand swatches, and both the Settings button and gear entry point."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off this Business Profile at the captured 1440\u00d7900 viewport. The screen preserves the visible data, states and management entry points. Successful navigation and backend actions still require interaction testing; a capture cannot establish their execution.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 9,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The production screen carries the approved language without copying the discovery layout into a management route. The cover remains identifiable, the identity block is strong, and operational information sits on quiet, unshadowed planes. No decorative source-to-commitment notch is forced onto ordinary records. Active, Needs you and Connected remain readable words rather than color-only signals. The zero Scheduled value agrees with Nothing scheduled, and the seven active campaigns agree with seven running. Subscription status is kept separate from campaign counts; no credit or payout amount is invented or merged. Business remains selected, and plan, shoot, campaigns, content, connections, public page, brand kit and settings entry points are exposed without visible clipping or overlap.",
+  "verdict": "Frame Shift was faithfully transferred to this desktop Business Profile, with no visible release-blocking drift or loss of exposed functionality."
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "screen": "Production Notifications (phone 390, full page), Stage 5 pass 2",
+ "screenshot": "m-alerts-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:06:34.013Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10953,
+  "output_tokens": 2788,
+  "total_tokens": 13741,
+  "reasoning_tokens": 1902
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "Demo Coffee Co. and its business thumbnail correctly replace the Lab's personal fixture identity; business navigation replaces creator navigation.",
+   "The seven stored notifications, three New states, timestamps, campaign names and creator handles are legitimate production-data differences.",
+   "The $75 and $25 amounts describe payment conditional on reviewing and approving specific work. They should not resemble an available balance or subscription charge.",
+   "The recorded [demo] titles and seed-message text are local record content, not design drift. No additional demo labels are needed."
+  ],
+  "keep": [
+   "Mineral canvas, flat rows, restrained dividers and 16px phone gutters; no unnecessary cards, shadows or graphite stage.",
+   "Strong application heading, operational typography, muted count and supporting timestamps.",
+   "Needs review items precede accepted-request updates and general TapMart messages.",
+   "Unread dots, stronger unread titles and literal New labels; all three agree with the heading count and bell badge.",
+   "Conditional payment instructions and named request context remain readable without introducing oversized financial displays.",
+   "The compact business image and absence of decorative source-to-commitment offsets are appropriate for this utility screen."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Hold sign-off at 390px for the two localized fixes below. The capture preserves the real notification content and navigation affordances; deep-link activation and read-state persistence still require interaction testing.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 7,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 7,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Include Notifications in the management-route active mapping. Render Business with the approved centered 24\u00d73px #2450E8 top selection edge, #151B23 icon and label, and IBM Plex Sans 600 at 14/18px. Expose its current-section state accessibly. Keep Create's cobalt action treatment independent of navigation selection.",
+    "kind": "drift",
+    "why": "Business is visibly muted like the other destinations and has no selection edge. The specified pass-2 management-route selection fix is not present here; Create is the only emphasized bottom control.",
+    "where": "Bottom navigation, Business tab"
+   },
+   {
+    "priority": 2,
+    "change": "For the linked submission notification, display the bare title \"New submission\" and place the actual linked campaign name beneath it as context: For \"[demo] Recreate our latte pour video\". Preserve the creator attribution and existing deep-link destination. Use 16/24px IBM Plex Sans for the title and 14/20px #526171 for campaign context, without truncating the record name.",
+    "kind": "drift",
+    "why": "This row still embeds the campaign inside a two-line title while the body only supplies generic submission text. It misses the pass-2 bare-title/linked-context hierarchy already established by the surrounding rows.",
+    "where": "Third Needs review row, dated Sep 9"
+   }
+  ],
+  "why": "The supplied Lab is a Profile reference, not a Notifications design, so its portrait, graphite masthead, vehicle joint and earnings sections should not be copied here. Production successfully transfers the shared language through mineral surfaces, strong type, flat separators, restrained cobalt and short operational rows. All seven notifications fit without horizontal clipping or bottom-navigation overlap. Money remains literal and conditional, status words remain visible, and the real business shell retains search, messages, notifications and its five destinations. The remaining failures are localized: missing Business selection and inconsistent campaign-context hierarchy in one submission row.",
+  "verdict": "Frame Shift is largely transferred and the real notification workflow remains exposed, but this pass needs the Business selection and submission-row hierarchy fixes before release."
+ }
+}

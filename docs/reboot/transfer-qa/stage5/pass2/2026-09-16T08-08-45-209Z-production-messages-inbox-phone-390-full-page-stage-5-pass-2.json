@@ -1,0 +1,57 @@
+{
+ "screen": "Production Messages inbox (phone 390, full page), Stage 5 pass 2",
+ "screenshot": "m-messages-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:08:45.209Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10658,
+  "output_tokens": 2024,
+  "total_tokens": 12682,
+  "reasoning_tokens": 1281
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "Demo Coffee Co., demo-creator and the stored campaign titles are real local records; retain them rather than substituting Lab identities or removing record-authored [demo] text.",
+   "The circular D initials are appropriate portrait fallbacks, not missing decorative media.",
+   "Three conversations with the same creator remain separate because they concern different work. Their message excerpts and timestamps correctly reflect those records.",
+   "Business navigation appropriately differs from the Lab\u2019s personal-account navigation.",
+   "This utility inbox correctly omits the Profile\u2019s graphite identity assembly, vehicle media, portfolio and balances. No source-to-commitment offset is needed here."
+  ],
+  "keep": [
+   "Mineral canvas, flat conversation rows, restrained dividers and 16px phone gutters; no floating cards or unnecessary graphite.",
+   "Strong Messages heading and creator names, with work context, message excerpts and timestamps in supporting text treatment.",
+   "One row per conversation: person, named Story or Recreate work, last line and time.",
+   "Literal message excerpts, including payment-sent wording, remain conversation content rather than being promoted into an independent financial status.",
+   "Compact account identity, visible header controls and the existing five-item business navigation shell."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Hold sign-off for the missing Business navigation selection. The capture shows the real conversation structure and navigation controls preserved; opening threads, switching accounts and destination behavior still require interaction testing.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 7,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 8,
+   "brand_recognition": 7,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Include the business Messages inbox in the Business navigation active-route group. Render the Business icon and label in #151B23, use IBM Plex Sans 600 at 14/18px for the selected label, and restore the centered 24px-wide \u00d7 3px-high #2450E8 top selection edge shown by the approved navigation. Preserve the separate cobalt Create action.",
+    "kind": "drift",
+    "why": "Business is still muted like the inactive destinations, with no selected edge. The prominent Create action is not a location indicator. This contradicts the stated pass-2 requirement that Business remain selected on management routes.",
+    "where": "Bottom navigation, rightmost Business item."
+   }
+  ],
+  "why": "The supplied Lab image is a creator Profile, not an inbox, so its composition is not a screen-level template here. Against the approved system, the production inbox is appropriately quiet: mineral background, strong heading, legible operational typography, circular initials, thin separators and no theatrical media or decorative joints. Each visible row retains its work context, last message and timestamp; long text truncates without horizontal overflow at 390px. The supporting timestamp treatment is corrected. The remaining visible failure is navigation state: unlike the Lab\u2019s clearly selected Profile destination, production gives Business no selected treatment.",
+  "verdict": "Frame Shift\u2019s utility language and visible conversation functionality transferred well, but the missing Business navigation selection prevents pass-2 release sign-off."
+ }
+}

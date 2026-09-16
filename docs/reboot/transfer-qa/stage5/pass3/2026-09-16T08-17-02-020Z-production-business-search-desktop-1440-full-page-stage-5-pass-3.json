@@ -1,0 +1,67 @@
+{
+ "screen": "Production Business Search (desktop 1440, full page), Stage 5 pass 3",
+ "screenshot": "d-business_search_q_demo-full.png",
+ "reference": "d-design_lab_business_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:17:02.020Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 12268,
+  "output_tokens": 4723,
+  "total_tokens": 16991,
+  "reasoning_tokens": 3624
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "Search correctly has a query field, clear control, Search action and a muted result count rather than Home\u2019s attention links, city selector and discovery tabs.",
+   "Demo Coffee Co., the six returned people, their locations, supplied images and D/L initial fallbacks replace the Lab fixtures. Do not manufacture portraits or remove source-backed demo titles.",
+   "The complete, multirow result gallery is appropriate for Search. Actual source ratios explain why these spreads do not reproduce the Lab\u2019s three-person opening ribbon.",
+   "Business remains current in the rail while Search is selected as the utility destination, as requested.",
+   "The Request dropdown is a valid entry to the existing request choices; it does not need to reproduce the Lab\u2019s personalized button labels.",
+   "A query result need not include Home\u2019s default vehicle inventory. No Cars section is visible here, but that alone does not establish a broken car search or justify adding fixture vehicles.",
+   "The price embedded in Priya\u2019s supplied creative is source content, not TapMart compensation. No unsolicited people price has been added."
+  ],
+  "keep": [
+   "The mineral #F4F3EF canvas, #101820 rail, restrained reversed lockup and flat, shadow-free working field.",
+   "The 200px rail, main origin at x=232, 32px desktop gutter and approximately 36/40px page title.",
+   "Open source-ratio spreads with 4px media corners, 32px/52px identity offsets and no oversized landscape letterboxes.",
+   "The 18/24px person names, supporting 14/20px city and provenance text, and muted People count.",
+   "Visible View person and Request actions, the cobalt Search decision and the prominent keyboard-focus treatment.",
+   "Literal, separate Instagram and creator-verification states; these should remain tied to their stored records."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visible business context, query entry, clearing, search submission, person navigation and request entry remain exposed. A capture cannot verify their execution or car-query coverage. Before release, exercise a car-matching query, independent empty/error states and the named-recipient request handoff. Visual sign-off remains blocked by the caption issues below.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 7,
+   "premium_feel": 7,
+   "fidelity": 7,
+   "usability": 7,
+   "brand_recognition": 9,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Stop shrinking the source link into an unreadable fragment. Give the actual work title a full-width IBM Plex Sans 14/20px line with white-space: normal, overflow: visible and overflow-wrap: anywhere. Put the existing provenance on the following 14/20px line when necessary. Preserve the real title and inspection destination; do not substitute invented fit labels.",
+    "kind": "usability",
+    "why": "Jasmine\u2019s source title is reduced to '[demo] Recr\u2026', while demo-creator and Marcus show little beyond '[demo]\u2026'. The metadata survives at the expense of the work being requested. This is especially unhelpful beside the uniform red reference, whose clipped title provides almost no identification.",
+    "where": "People captions, particularly Jasmine Reed, demo-creator and Marcus Bell."
+   },
+   {
+    "priority": 2,
+    "change": "Remove follower totals, completed counts, rating scores and review counts from Search\u2019s root people captions. Retain them in person detail. Keep the root hierarchy at name/city 18/24px and 14/20px, readable source title plus literal provenance 14/20px, then View person and Request with minimum 44px targets. Use the freed caption space to resolve source-title truncation.",
+    "kind": "drift",
+    "why": "Production restores lines such as '12.4K followers \u00b7 2 completed \u00b7 5.0 rating \u00b7 2 reviews' and '3.2K followers'. The approved shared discovery treatment explicitly moves reputation into detail so the work and request\u2014not popularity\u2014organize the encounter.",
+    "where": "Reputation rows beneath the people\u2019s source/provenance captions."
+   }
+  ],
+  "why": "The shell, typography, neutral surfaces, source ratios and open identity/work relationships closely follow Frame Shift. Production also retains visible business-search controls without introducing fake portraits, vehicle models, earnings or decorative cards. The material regression is in the captions: reputation summaries have returned, while actual work titles are compressed into nearly meaningless fragments. That reverses the approved source-first hierarchy. The missing default car shelf is not itself drift on a filtered Search screen, and vehicle money or offer behavior cannot be assessed from this capture.",
+  "verdict": "Frame Shift is largely present and visible search functionality survives, but the reputation-heavy, truncated people captions prevent a faithful-transfer sign-off."
+ }
+}

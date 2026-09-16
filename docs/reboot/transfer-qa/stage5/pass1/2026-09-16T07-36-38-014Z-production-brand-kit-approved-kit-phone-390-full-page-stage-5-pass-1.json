@@ -1,0 +1,71 @@
+{
+ "screen": "Production Brand kit, approved kit (phone 390, full page), Stage 5 pass 1",
+ "screenshot": "m-business_brand-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:36:38.014Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 11150,
+  "output_tokens": 3641,
+  "total_tokens": 14791,
+  "reasoning_tokens": 2588
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co., its profile image, photographs and approved brand guidance replace the Lab\u2019s fictional creator records.",
+   "The lime #C8FF3D, dark #0B0D0E and off-white #F7F7F5 swatches are business brand data, not incorrect TapMart interface colours. Likewise, \u201cBody \u2014 Inter\u201d describes the kit rather than the application typography.",
+   "\u201cLogo from your profile, not yet part of the kit\u201d honestly distinguishes the available profile asset from an approved kit logo.",
+   "This approved state appropriately shows Current brand \u00b7 Approved and Suggest improvements rather than a pending proposal\u2019s Approve action.",
+   "Business navigation and the notification count reflect the production account context. Creator earnings, vehicle information and personal-profile sections do not belong here."
+  ],
+  "keep": [
+   "Mineral canvas, ink typography, restrained dividers and white navigation without floating cards or shadows.",
+   "Strong Brand kit heading and a straightforward sequence covering identity, colours, typography, photography, voice, content and rules.",
+   "Literal Approved status in confirmed green, with cobalt reserved for meaningful application actions.",
+   "Explicit profile-image provenance and the statement that changes require the user\u2019s decision.",
+   "The quiet utility composition: no graphite hero, financial content or decorative source-to-commitment notch is needed in this approved-kit view."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Close, but hold release at 390px for the targeted fixes below. The capture exposes account switching, search, messages, notifications, Settings, Suggest improvements and business navigation. It cannot verify their behavior; smoke-test that suggestions preserve the current kit and that a proposal changes it only after explicit Approve.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 7,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 8,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Give Suggest improvements a minimum 44px hit height and IBM Plex Sans 600 at 16/20px. At widths of 390px and below, place it below the status with a 12px gap and width:100%; retain the 8px radius, white surface and 1px #788595 border.",
+    "kind": "usability",
+    "why": "The visible button is approximately 40 CSS pixels high and uses smaller action text than the approved button treatment. The current side-by-side row has insufficient room to restore the action typography comfortably.",
+    "where": "Current brand \u00b7 Approved / Suggest improvements row"
+   },
+   {
+    "priority": 2,
+    "change": "Render the Photo style references at width:84px; height:auto; aspect-ratio:auto with an 8px gap and top alignment. Remove square-cover cropping and retain 4px media corners. Change the profile-sourced logo frame from approximately 8px to 4px corners while preserving its contained image.",
+    "kind": "drift",
+    "why": "The cup photograph is shown as a landscape source in the logo fallback but becomes a cropped square in Photo style. Source material should retain its composition rather than being normalized into square tiles.",
+    "where": "Photo style thumbnails and profile-sourced logo frame"
+   },
+   {
+    "priority": 2,
+    "change": "Keep Business selected on its nested management routes: add the Lab\u2019s centered 24\u00d73px #2450E8 top selection edge, use #151B23 for its icon and label, and set the label to IBM Plex Sans 600. Expose the current section programmatically.",
+    "kind": "usability",
+    "why": "Every destination currently has the same muted treatment. The prominent Create action does not communicate the current location; the Lab navigation provides both a selected edge and stronger selected text.",
+    "where": "Bottom navigation \u2014 Business"
+   }
+  ],
+  "why": "The supplied Lab image is a creator Profile, not a Brand kit specification, so this is a system-level comparison. Production successfully carries over the mineral surface, strong heading hierarchy, operational text, restrained borders and literal status treatment without importing an inappropriate profile hero. All requested approved-kit categories are visible, and no money or fictional capability has been added. The remaining issues are localized: source-photo cropping, a compact suggestion control and missing navigation selection. Proposal comparison, source discovery and approval gating are outside this captured state and cannot be certified from these pixels.",
+  "verdict": "Frame Shift is substantially faithful and the visible functionality survives, but fix media framing, the suggestion control and navigation selection before shipping this viewport."
+ }
+}

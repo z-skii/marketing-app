@@ -1,0 +1,74 @@
+{
+ "screen": "Production Brand kit, suggestions waiting (desktop 1440, full page), Stage 5 pass 1",
+ "screenshot": "d-business_brand-full.png",
+ "reference": "d-design_lab_business_content-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:38:23.965Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10163,
+  "output_tokens": 4226,
+  "total_tokens": 14389,
+  "reasoning_tokens": 3106
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Roastery and its D initial replace the Lab\u2019s Loopday Coffee identity; the production account does not need fixture labels.",
+   "The actual brand palette, typography, voice and source images replace the Lab\u2019s delivered-content fixtures.",
+   "Website and logo findings, plus Instagram and Google being not connected, are legitimate production states. Missing connections must not be replaced with invented findings.",
+   "Waiting for your decision is appropriate for an unapplied proposal, rather than the Lab\u2019s file-approval and publishing states.",
+   "The notification count of 3 can reflect the production record.",
+   "Brand kit appropriately uses a narrow operational layout and small source previews instead of Content\u2019s large media inspector. Subscription, credit and payout amounts do not belong on this screen."
+  ],
+  "keep": [
+   "Mineral canvas, white working planes, graphite navigation, restrained dividers and no app-card shadows.",
+   "The 200px navigation rail, 32px main inset and approximately 752px reading column; the unused desktop space is appropriate for this utility screen.",
+   "Strong page-title typography with smaller operational copy and literal waiting-state text.",
+   "Research findings before numbered improvements, followed by In use now beside Proposed with a 24px gap.",
+   "The compact media treatment and readable colour hex values; do not introduce a large brand-media composition.",
+   "The separate decision plane, explicit replacement/discard explanation, cobalt Approve action and bordered Keep mine action.",
+   "Settings return navigation, the production sidebar and the full-preview affordance."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The visible workflow survives, but hold release for the provenance and current-kit labelling fixes below. The supplied Lab image is Content, so this is a system-transfer review rather than a same-screen pixel match. A capture cannot verify preview expansion, routing or approval/discard persistence.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 7,
+   "clarity": 7,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 3
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Resolve the provenance of improvement 2. If an inspected source supports \u201cthe current feed is all product\u201d, display its actual stored source name/link beside the finding. Otherwise render only \u201cPut a person in every third post.\u201d and remove the unsupported diagnostic clause. Keep \u201cInstagram: not connected, nothing read.\u201d unchanged when that is the stored state; do not imply an Instagram read.",
+    "kind": "data_honesty",
+    "why": "The research summary explicitly says Instagram was not connected and nothing was read, but the second improvement asserts knowledge of the current feed. No alternative source is identified, so the screen currently presents an unexplained factual claim as research.",
+    "where": "Research summary and numbered improvement 2, above the comparison."
+   },
+   {
+    "priority": 2,
+    "change": "Change the subtitle under \u201cIn use now\u201d from \u201cWhat research found\u201d to \u201cYour saved brand kit\u201d. Use \u201cWhat research found\u201d as the heading for the website/logo/connection findings above the improvements. Keep the current column bound to the persisted kit, separate from research and proposal values, until Approve succeeds.",
+    "kind": "data_honesty",
+    "why": "\u201cIn use now\u201d denotes the saved operational kit, while \u201cWhat research found\u201d denotes observations. Combining them obscures the distinction this approval flow is meant to protect. The capture does not establish a binding bug, but the visible label conflates the two.",
+    "where": "Left comparison plane, directly beneath \u201cIn use now\u201d."
+   },
+   {
+    "priority": 3,
+    "change": "Render \u201cShow\u201d in ink #151B23 using IBM Plex Sans 600 at 16/20px rather than muted supporting-text treatment. Preserve the existing preview behavior and provide a minimum 44\u00d744px target with a 3px cobalt focus outline and 3px offset.",
+    "kind": "drift",
+    "why": "The preview command looks like muted metadata beside a stronger explanatory label. The approved language keeps secondary inspection actions in ink, as demonstrated by the Lab\u2019s Open original control.",
+    "where": "\u201cPreview the proposed kit in full\u201d row between the comparison and decision planes."
+   }
+  ],
+  "why": "The production pixels carry the approved mineral/graphite/cobalt palette, flat rectangular working surfaces, strong title hierarchy and restrained controls. The comparison and decision remain easy to scan, without importing Content\u2019s media-heavy silhouette into a management screen. Approve, Keep mine, preview and navigation are all exposed, and nothing visually suggests automatic application. The release concern is chiefly trust: the feed diagnosis lacks visible provenance, and the current-kit subtitle confuses observed findings with saved settings.",
+  "verdict": "Frame Shift\u2019s visual language and visible Brand kit workflow transferred well, but provenance and current-kit labelling need correction before release."
+ }
+}

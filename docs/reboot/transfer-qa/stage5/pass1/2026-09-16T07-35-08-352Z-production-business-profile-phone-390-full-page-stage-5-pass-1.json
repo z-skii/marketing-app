@@ -1,0 +1,61 @@
+{
+ "screen": "Production Business Profile (phone 390, full page), Stage 5 pass 1",
+ "screenshot": "m-business_profile-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:35:08.352Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 11654,
+  "output_tokens": 3711,
+  "total_tokens": 15365,
+  "reasoning_tokens": 2833
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "This is Business Profile, not the Lab's creator Profile. Business identity, campaign records, brand kit and management links correctly replace creator earnings, reviews, vehicles and recent work.",
+   "Demo Coffee Co.'s caf\u00e9 cover, business thumbnail, Raleigh location, website and description are record content. The existing development disclosure does not need additional demo labeling.",
+   "The mineral business header is an appropriate quieter adaptation; it does not need the creator's graphite masthead or portrait crossing.",
+   "The campaign counts, next-shoot date, Essential plan renewal, empty scheduled-content state and connection summaries correctly reflect production records rather than Maya's fixtures.",
+   "The brand-kit swatches #0B0D0E, #C8FF3D and #F7F7F5 are business data, not replacement TapMart interface colors. Keep them.",
+   "Business navigation correctly exposes Home, Content, Create, Campaigns and Business, with actual message and notification badges. Its placement after content is the stated capture convention.",
+   "No creator payout or campaign-credit balance is required here. The subscription summary remains separate rather than merging financial concepts."
+  ],
+  "keep": [
+   "Mineral canvas, ink typography, restrained white controls, thin dividers and shadow-free management rows.",
+   "The 16px phone gutters, strong business name and clear section-to-row type hierarchy.",
+   "The source-ratio caf\u00e9 cover with restrained corners and the contained business thumbnail without forced cropping.",
+   "Literal text alongside status colors: Verified business, Approved, Active, Needs you, Nothing scheduled and Connected.",
+   "Ink secondary actions, cobalt Create and selected navigation edge; do not recolor every management link cobalt.",
+   "Visible access to account switching, search, messages, notifications, brand kit, plan, shoot, campaigns, scheduled content, connections, public page and settings.",
+   "Flat utility rows without decorative Frame Shift notches. These rows do not need an invented source-to-payment joint."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Hold visual sign-off at 390px for the metric reflow below. No functional regression is visible, but this capture cannot establish whether links, mutations or connection records behave correctly at runtime.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 8,
+   "uniqueness": 7,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 8,
+   "brand_recognition": 8,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "At phone widths up to 599px, make the four metrics a grid with grid-template-columns: repeat(2, minmax(0, 1fr)), column-gap: 16px and row-gap: 16px. Remove content-width wrapping and retain the existing record order, values, labels and typography.",
+    "kind": "responsive",
+    "why": "At 390px, Active campaigns, Scheduled and Delivered occupy the first row while Need review sits alone beneath them. The three-plus-one wrap looks accidental and separates the action-relevant review count from the other records. A balanced two-by-two layout also accommodates 320px without compressing labels.",
+    "where": "Business metrics between the description and Brand kit."
+   }
+  ],
+  "why": "The approved language survives at the system level: mineral surfaces, strong Archivo-style headings, operational supporting copy, restrained cobalt, intact source media and flat divided navigation. The business-specific content remains identifiable and the visible management actions are preserved. There is no justification for transplanting the Lab's creator-only media, money or vehicle assembly. The concrete weakness is the metric strip's unbalanced phone wrapping, not a failure of the overall art direction.",
+  "verdict": "Frame Shift was faithfully transferred and visible business functionality survives, but the orphaned fourth metric should be fixed before signing off this phone viewport."
+ }
+}

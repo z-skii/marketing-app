@@ -1,0 +1,51 @@
+{
+ "screen": "Production Business Profile (desktop 1440), Stage 5 pass 1",
+ "screenshot": "d-business_profile.png",
+ "reference": "d-design_lab_business_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:34:39.233Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 9093,
+  "output_tokens": 2644,
+  "total_tokens": 11737,
+  "reasoning_tokens": 1884
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co., Raleigh, its cover, square logo, website and Instagram handle replace the Lab\u2019s Loopday Coffee and Austin fixtures.",
+   "The recorded counts\u20147 active campaigns, 0 scheduled, 4 delivered and 4 needing review\u2014and notification badge of 3 appropriately differ from the Lab\u2019s demo counts.",
+   "Essential plan, Active, Renews Oct 9, and the Sep 18 shoot describe production records. Nothing scheduled correctly preserves the empty scheduling state.",
+   "Instagram and Google are shown as connected, with the business\u2019s own public-page URL exposed separately.",
+   "The approved Brand kit shows #0B0D0E, #C8FF3D and #F7F7F5. These are business-owned colors; the lime swatch is not drift from TapMart\u2019s cobalt accent.",
+   "The development-business wording belongs to the supplied record and does not need replacement with Lab copy."
+  ],
+  "keep": [
+   "The matching 200px graphite navigation rail, restrained TapMart mark, 32px desktop content gutter and cobalt selection edge on Business.",
+   "Mineral canvas, flat working regions, ink headings, muted operational copy and thin horizontal dividers rather than elevated cards.",
+   "The approximately 640\u00d7360px cover with 4px corners, square business logo and strong name/category/city hierarchy.",
+   "The compact Right now list, with readable supporting details and explicit Active, Needs you and Connected labels.",
+   "Separate campaign counts, plan status and Brand kit information; no invented earnings or combined financial total.",
+   "Visible Settings button and gear, contextual row affordances, public-page link, Brand kit Open action, and persistent Search, Messages and Notifications navigation."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off at 1440\u00d7900. The supplied Lab capture is Business Home, not a matching Business Profile, so this approves the system transfer rather than a pixel-identical layout. The capture establishes that functionality remains exposed; it cannot verify routing, mutations or whether the gear actually opens Settings.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 9,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The production screen carries the Lab\u2019s shell, mineral/graphite palette, typography hierarchy, restrained borders and disciplined accent placement into an appropriate identity-and-management layout. The cover is identifiable and unobstructed, while the business facts and operational rows remain stable, flat and easy to scan. There is no reason to force a Recreate-style commitment joint onto ordinary management rows. Cobalt remains concentrated on navigation selection rather than repeated secondary links. Counts reconcile visibly across sections: 7 campaigns, 4 awaiting a decision and no scheduled content. Status words accompany color, and the approved brand colors remain clearly scoped to the Brand kit. No clipping, overlap or visible loss of navigation appears at this viewport. No monetary amount is displayed, so money typography and financial-detail behavior cannot be assessed here.",
+  "verdict": "Yes\u2014Frame Shift was faithfully transferred at this desktop viewport, with the business\u2019s real identity, states and management actions visibly preserved and no release-blocking visual drift."
+ }
+}

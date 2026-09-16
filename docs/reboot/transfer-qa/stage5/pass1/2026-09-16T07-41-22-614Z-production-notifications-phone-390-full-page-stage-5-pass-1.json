@@ -1,0 +1,70 @@
+{
+ "screen": "Production Notifications (phone 390, full page), Stage 5 pass 1",
+ "screenshot": "m-alerts-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:41:22.614Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10540,
+  "output_tokens": 2585,
+  "total_tokens": 13125,
+  "reasoning_tokens": 1552
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "The supplied Lab capture is Profile, not Notifications. This is a system-level comparison; a quiet notification list correctly omits the Profile masthead, vehicle, media assemblies and source-to-commitment offset.",
+   "Demo Coffee Co.\u2019s business image, account switcher and five business navigation destinations correctly replace Maya\u2019s personal identity and navigation.",
+   "The local records, handles, dates, seed-authored copy and three unread notifications are legitimate production-data differences. Existing '[demo]' text is record content, not a reason to add further demo labels.",
+   "The $75 and $25 amounts belong to separate review notifications and remain explicitly conditional on approval; they should not resemble an available balance or subscription charge."
+  ],
+  "keep": [
+   "Mineral canvas, graphite text, restrained dividers and white bottom navigation, without floating cards or decorative branding.",
+   "Strong application heading, readable operational typography and consistent 16px outer content gutters.",
+   "Cobalt unread dots and heavier unread titles; the three visible dots agree with both notification counts.",
+   "Literal notification kinds, timestamps and approval-to-pay wording.",
+   "Compact business imagery and the restrained cobalt Create control; no unnecessary media composition or structural notch."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Hold this 390px screen for action-first ordering, request provenance and the unread-count color correction. The capture exposes the real records and navigation, but cannot establish that every row deep-links correctly. Before release, tap-test every row against its associated record and verify existing read-state and badge behavior.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 7,
+   "clarity": 7,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 8,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Sort actionable notification kinds before informational kinds: assign review-required kinds actionPriority=0 and informational request/system events actionPriority=1, then order by actionPriority ASC, created_at DESC with a stable record-ID tie-break. Preserve each record\u2019s actual unread state. The visible Needs review entries must precede the informational acceptance and welcome entries.",
+    "kind": "usability",
+    "why": "Two acceptance notices lead the list, and a TapMart welcome notice appears before another Needs review item. The visible ordering follows recency rather than the explicitly required actionable-kinds-first hierarchy.",
+    "where": "Notification list ordering"
+   },
+   {
+    "priority": 2,
+    "change": "Keep each stored acceptance title, but add the associated request or campaign title beneath it using IBM Plex Sans 14px/20px, weight 400, color #526171 and a 4px top gap. Include the creator identity when supplied by the associated record. Allow wrapping rather than truncating the distinguishing source. Keep the entire row linked to that exact request; do not invent labels or merge separate records.",
+    "kind": "usability",
+    "why": "The first two rows both say 'Your request was accepted', have the same kind and timestamp, and provide no distinguishing request or person. Users cannot tell which work either row opens.",
+    "where": "First two Request \u00b7 New rows"
+   },
+   {
+    "priority": 3,
+    "change": "Change the heading\u2019s '3 new' color from waiting amber to #526171, retaining IBM Plex Sans 14px/20px at weight 500. Reserve #845600 for literal waiting or attention states; continue expressing unread through title weight and the existing #2450E8 dots.",
+    "kind": "drift",
+    "why": "Unread quantity is not a waiting state. The amber count introduces a second status meaning that the notification records do not establish.",
+    "where": "Unread summary beside Notifications"
+   }
+  ],
+  "why": "The visual foundation is close: the warm mineral surface, ink heading, neutral row rules, compact identity and white navigation translate the approved language appropriately to a utility screen. Text wraps within the captured width, and the final record clears the bottom navigation. Money remains attached to its specific approval condition rather than presented as earned funds. Account switching, Search, Messages, Notifications and business navigation remain exposed. The outstanding problems are operational hierarchy and clarity\u2014not a need for more graphite or media: review work is interleaved with informational notices, two requests are indistinguishable, and amber incorrectly labels unread quantity.",
+  "verdict": "Frame Shift is largely present and real functionality remains exposed, but Notifications needs action-first ordering and clearer request identification before release."
+ }
+}

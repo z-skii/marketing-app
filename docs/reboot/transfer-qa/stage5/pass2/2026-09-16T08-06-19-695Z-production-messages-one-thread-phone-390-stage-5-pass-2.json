@@ -1,0 +1,57 @@
+{
+ "screen": "Production Messages, one thread (phone 390), Stage 5 pass 2",
+ "screenshot": "m-messages_a6bb0426_895a_4c50_b516_07bb3c5d8e91.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:06:19.695Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10662,
+  "output_tokens": 2087,
+  "total_tokens": 12749,
+  "reasoning_tokens": 1337
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "Demo Coffee Co., demo-creator and the stored campaign title replace the Lab\u2019s fictional personal-profile content. Existing demo strings in records should not be rewritten or supplemented with presentation labels.",
+   "The creator\u2019s initial is an appropriate fallback for an absent portrait.",
+   "The dates, incoming message, proof submission and revision request reflect the actual thread history; they should remain literal rather than become decorative status badges.",
+   "This utility screen correctly omits the Lab Profile\u2019s large identity region, vehicle assembly, work samples and financial records. No artificial source-to-commitment offset is needed."
+  ],
+  "keep": [
+   "Mineral canvas #F4F3EF, white incoming bubble and composer, restrained divider and no floating-card shadows.",
+   "Compact person identity with one quiet, single-line thread subject.",
+   "Readable message copy and the corrected supporting treatment for timestamps and the Message placeholder.",
+   "Composer above the tab bar, with a full-size input and Send control; the subdued Send appearance is appropriate for an empty draft.",
+   "Actual business thumbnail, honest initial fallback and sparse history without replacement media or filler content.",
+   "Visible back navigation, account switcher, search, messages, notifications and business navigation destinations."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Not yet ready at 390px: restore the Business tab\u2019s selected state and recapture. Visible messaging functionality remains exposed; sending, persistence, keyboard behavior and outgoing-bubble styling cannot be verified from this capture.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 7,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 8,
+   "brand_recognition": 7,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Include business-context Messages index and thread routes in the Business tab\u2019s active-route mapping. Render its icon and label in #151B23, use IBM Plex Sans 600 at 14/18px for the label, and add the approved centered 24\u00d73px #2450E8 top selection edge. Preserve the existing tab geometry and minimum 44px target. Keep Create\u2019s cobalt treatment as an action, not a current-location indicator.",
+    "kind": "drift",
+    "why": "Business is muted like the inactive destinations and has no selection edge. The claimed pass-2 navigation fix is therefore not visible, leaving this management thread without a clear current section.",
+    "where": "Bottom navigation, Business tab"
+   }
+  ],
+  "why": "The supplied Lab image is Profile, not a Messages specification, so fidelity is assessed against its system treatment and the stated thread requirements. Production carries the mineral and white surfaces, ink hierarchy, supporting text, restrained borders and operational spacing convincingly. The incoming bubble is white, thread events remain literal, and the composer is unobstructed above navigation. There is no reason to import Profile\u2019s graphite masthead, money or media joint. The concrete remaining mismatch is navigation: the Lab demonstrates a clear active destination, while production\u2019s Business tab remains visually inactive.",
+  "verdict": "Frame Shift is mostly transferred and visible messaging functionality survives, but the missing Business selected state prevents full sign-off."
+ }
+}

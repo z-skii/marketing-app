@@ -1,0 +1,50 @@
+{
+ "screen": "Production Brand kit, approved kit (phone 390, full page), Stage 5 pass 2",
+ "screenshot": "m-business_brand-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:02:43.776Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 11413,
+  "output_tokens": 2251,
+  "total_tokens": 13664,
+  "reasoning_tokens": 1552
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co. replaces the Lab\u2019s creator fixture, with business navigation and the Business tab correctly selected.",
+   "The saved brand\u2019s #0B0D0E, #C8FF3D and #F7F7F5 swatches and Archivo/Inter typography direction are customer content, not changes to TapMart\u2019s interface tokens.",
+   "The profile photograph appears as an honest fallback, explicitly labelled \u201cLogo from your profile, not yet part of the kit\u201d; no approved logo is fabricated.",
+   "This is an already-approved kit, so \u201cCurrent brand \u00b7 Approved\u201d and \u201cSuggest improvements\u201d are appropriate. A pending proposal and its Approve control need not appear in this state.",
+   "Creator earnings, vehicles and the large graphite identity region are absent because this is a management screen, not the Profile shown in the supplied Lab reference."
+  ],
+  "keep": [
+   "Mineral canvas, ink text, muted supporting copy and restrained dividers without floating cards or shadows.",
+   "The 16px phone gutters, strong page title and orderly sequence of logo, colours, typography, photo style, voice, content style and rules.",
+   "The full-width, approximately 48px-high Suggest improvements control with an ink label, visible border and 8px corners.",
+   "Photo references displayed at distinct source ratios with restrained 4px corners rather than uniform cropped tiles.",
+   "Literal Approved status, explicit logo provenance and the statement that changes require the user\u2019s decision.",
+   "Settings back navigation, account switching, search, messages, notifications and the selected Business navigation edge."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off visually at 390px. The supplied Lab is a Profile reference, so this is a system-level transfer assessment rather than a same-screen comparison. The capture preserves the visible saved-kit data and management controls; proposal generation, approval gating and persistence still require runtime verification.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 9,
+   "uniqueness": 7,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 8,
+   "ai_slop_risk": 0
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The production screen carries the approved mineral-neutral surface treatment, Archivo-style heading hierarchy, operational supporting text and flat structural layout into a quieter utility context. Content fits the 358px working width without clipped swatches, crowded controls or navigation overlap. The two photo references retain different proportions, while the profile-image fallback is contained and explained. Cobalt remains concentrated in navigation and meaningful controls; the lime swatch belongs to the saved brand. There is no monetary content to merge or misrepresent. This reading state has no source-to-commitment assembly requiring a 12px joint, so omitting a decorative offset is correct. No visible implementation drift warrants a change.",
+  "verdict": "Yes\u2014Frame Shift is faithfully transferred to this approved Brand kit at 390px, with its real data, literal state and visible management functionality preserved."
+ }
+}

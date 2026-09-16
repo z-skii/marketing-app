@@ -1,0 +1,50 @@
+{
+ "screen": "Production Connections, connected (desktop 1440), Stage 5 pass 2",
+ "screenshot": "d-business_settings_connections.png",
+ "reference": "d-design_lab_business_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:03:32.677Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 9303,
+  "output_tokens": 1500,
+  "total_tokens": 10803,
+  "reasoning_tokens": 877
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co. and its caf\u00e9 image replace the Lab\u2019s fictional Loopday Coffee identity and LC initial.",
+   "Instagram shows @democoffee; Google Business Profile shows Demo Coffee Co. Both expose the stored Connected state and Read Sep 16, 4:31 AM timestamp.",
+   "Connected services correctly offer Disconnect and inspection navigation rather than connection prompts.",
+   "Facebook and TikTok remain Not available yet, without fabricated connections or actionable setup controls."
+  ],
+  "keep": [
+   "Mineral canvas, graphite navigation rail, restrained dividers and shadow-free service rows.",
+   "The 200px rail and 32px main-content gutter shared with the approved shell; the approximately 576px operational column is appropriate for this utility screen.",
+   "Strong application-title typography, readable service names and muted supporting account and timestamp text.",
+   "Business remains selected with the cobalt rail edge; Settings provides a clear return path.",
+   "Both Disconnect controls are approximately 116\u00d748px with 8px corners and visible boundaries. Secondary inspection links remain ink.",
+   "Literal Connected text accompanies green status treatment; unavailable services remain plainly labelled.",
+   "The account image stays a small circular identity cue rather than becoming a decorative media composition."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off the connected Connections screen at 1440\u00d7900. The supplied Lab image is Home, so this is a system-level transfer assessment rather than a same-screen layout comparison. The capture exposes the expected records, states, actions and navigation; it cannot verify disconnect mutations or destination loading.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 9,
+   "ai_slop_risk": 0
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The production screen carries the approved mineral/graphite palette, typography hierarchy, rail proportions and restrained control treatment into a quiet management layout. Instagram and Google have aligned, full-size actions, with account identity, connection status and read time clearly separated. Thin rules organise the services without introducing floating cards. The small real account image is sufficient media for this purpose. There is no source-to-commitment boundary requiring a 24px joint, so its omission avoids decorative branding. No money belongs on this route, and none is invented. Business selection, Settings navigation, See what was read, Open Google Business and both Disconnect actions remain visible. No release-blocking visual drift is evident.",
+  "verdict": "Frame Shift was faithfully transferred to this desktop Connections screen, with the real connected-state functionality visibly preserved."
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "screen": "Production Settings (phone 390, full page), Stage 5 pass 1",
+ "screenshot": "m-business_settings-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:36:17.372Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 11668,
+  "output_tokens": 2686,
+  "total_tokens": 14354,
+  "reasoning_tokens": 1907
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co., its category, Raleigh location, owner email and public URL replace fictional Lab identity data.",
+   "The business photograph, personal initial and business initials are appropriate record-backed identity fallbacks; replacement portraits are unnecessary.",
+   "Business-mode destinations and the recorded personal/business switching list correctly differ from the Lab\u2019s creator navigation.",
+   "Connected, Approved, Active, Current and Only you are legitimate production-state differences, not reasons to reproduce Lab fixtures.",
+   "The message and notification counts are appropriate real-state additions."
+  ],
+  "keep": [
+   "Mineral canvas #F4F3EF, restrained #CFD3D1 dividers and white bottom navigation. Flat settings rows avoid shadows and generic card grids.",
+   "The approximately 30/36px Archivo Settings title, IBM Plex Sans operational text, 16px phone gutters and clear label-to-description hierarchy.",
+   "Literal status words with restrained confirmed-green treatment, plus problem-colored Log out and its explicit device-session explanation.",
+   "Plan and billing explicitly separates subscription from campaign credit; no creator payout or invented balance is introduced.",
+   "Small identity media, circular personal initials and rounded business initials. Settings correctly has no large media stage, graphite hero or decorative source-to-commitment joint.",
+   "Visible account, security, notification, business-management, public-page, switching, add-business and logout entry points."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "One localized navigation-state fix remains before visual sign-off at 390px. The capture preserves the functional entry points and readable states; it cannot verify their execution. The supplied Lab image is Profile, so this is a system-transfer assessment rather than Settings pixel parity.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 9,
+   "uniqueness": 7,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 8,
+   "brand_recognition": 8,
+   "ai_slop_risk": 0
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Include Settings in the Business tab\u2019s active-section matcher. Render a centered 24px-wide \u00d7 3px-high #2450E8 top edge above Business, use #151B23 for its icon and label, and set the label to IBM Plex Sans 600 at 14/18px. Expose the active destination accessibly and preserve the separate cobalt Create action and minimum 44px targets.",
+    "kind": "usability",
+    "why": "The approved navigation identifies the current destination with a cobalt top edge and stronger ink label. Production shows Business in the same muted treatment as inactive destinations, while Create is the only emphasized item. The current section is therefore not identifiable from the persistent navigation.",
+    "where": "Bottom navigation, Business tab while viewing Settings"
+   }
+  ],
+  "why": "The production screen transfers the approved language without importing the Profile composition: mineral surfaces, strong typography, flat divided rows, restrained identity imagery and short operational summaries all suit Settings. Descriptions, status words, chevrons and the external-link control remain legible without clipping at 390px. Subscription semantics remain separate, and no fixture earnings, media or vehicle content has been fabricated. The meaningful visible miss is the absent selected Business navigation treatment.",
+  "verdict": "Frame Shift is substantially faithful and real Settings functionality remains exposed, but the Business tab needs its active navigation treatment before release."
+ }
+}

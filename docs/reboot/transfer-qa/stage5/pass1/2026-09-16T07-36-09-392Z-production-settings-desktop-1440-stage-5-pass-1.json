@@ -1,0 +1,57 @@
+{
+ "screen": "Production Settings (desktop 1440), Stage 5 pass 1",
+ "screenshot": "d-business_settings.png",
+ "reference": "d-design_lab_business_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:36:09.392Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 9072,
+  "output_tokens": 2311,
+  "total_tokens": 11383,
+  "reasoning_tokens": 1536
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co., Raleigh, the account email and additional business identities replace the Lab\u2019s fictional Loopday Coffee records; no extra demo labels are needed.",
+   "The available business photograph, circular personal initial and rounded business initials are appropriate real-record identity treatments.",
+   "Notification preferences, connection states, brand approval, subscription state and team membership are production conditions, not values to copy from the Lab.",
+   "Settings correctly uses grouped utility rows instead of the supplied discovery capture\u2019s people, work and vehicle assemblies. Reduced media and graphite are appropriate here.",
+   "Plan and billing explicitly identifies the subscription and keeps campaign credit separate; discovery asking prices do not belong on this screen."
+  ],
+  "keep": [
+   "Mineral canvas, flat graphite rail, restrained TapMart mark and 32px desktop content gutter.",
+   "Strong Settings heading, readable operational typography, approximately 64px utility rows and thin separators rather than floating cards.",
+   "Account and Business grouping, with current conditions directly beneath each destination.",
+   "Identity switching, the Current identity label, Add a business and device-specific logout explanation in the separate side column.",
+   "Literal Connected, Approved and Active labels, and the external-link affordance for the public page."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The visible production destinations, conditions and identity actions are preserved. Restore the current Business navigation state before desktop sign-off. Routing, switching, scrolling and logout execution still require interaction testing; a capture cannot verify them.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 0
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Map Settings and its business-management descendants to the Business rail section. Restore the Lab\u2019s selected treatment: a 3px-wide by 20px-high #2450E8 indicator at the rail\u2019s left edge, vertically centered on the Business row; #F6F8FB label and icon; IBM Plex Sans 600 label. Preserve the existing 20px icon, 1.75px stroke and at least 44px target. Expose the current section programmatically with aria-current=\"true\".",
+    "kind": "usability",
+    "why": "The approved rail clearly marks Home as current. Production leaves every primary destination muted and unmarked even though the Business breadcrumb establishes the active section. Persistent navigation loses its location cue.",
+    "where": "Left navigation rail, Business row"
+   }
+  ],
+  "why": "The supplied Lab image is discovery rather than a Settings specification, so fidelity is judged through the shared system. Production carries over the mineral surface, graphite navigation, typography hierarchy, restrained borders and compact controls. The two-column utility layout is purposeful and comfortably spaced; real conditions remain attached to their destinations without invented health or financial summaries. Identity media stays small and appropriate. There is no source-to-commitment boundary requiring a 24px joint here, so its absence is correct rather than missing branding. All visible management destinations and identity actions survive. The clear implementation omission is the rail\u2019s selected-section treatment.",
+  "verdict": "Frame Shift was faithfully transferred and visible functionality remains intact, but the missing Business navigation state should be fixed before release sign-off."
+ }
+}

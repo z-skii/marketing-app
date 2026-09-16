@@ -1,0 +1,51 @@
+{
+ "screen": "Production Search (desktop 1440), Stage 5 pass 1",
+ "screenshot": "d-search_q_demo.png",
+ "reference": "d-design_lab_business_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:42:23.211Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 11298,
+  "output_tokens": 2253,
+  "total_tokens": 13551,
+  "reasoning_tokens": 1552
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The supplied Lab is Business Home, not a Search design. A narrow operational results list replaces its discovery spreads and vehicle shelf appropriately.",
+   "The Personal/demo selector and Home, Activity, Earnings and Profile destinations reflect the active production context rather than the Lab\u2019s business account.",
+   "Real results replace fictional fixtures: five open campaigns, three businesses and a People heading reporting seven matches. Record-held \u201cdemo\u201d names are not added design provenance.",
+   "Business initials replace unavailable images, while records with imagery retain their actual thumbnails.",
+   "Cars are absent from searchable result groups. \u201cDrivers wanted\u201d appears as an open campaign, not as exposed private vehicle inventory.",
+   "Discovery requests, monthly asking prices and campaign-attention links do not belong on this Search screen and are correctly absent."
+  ],
+  "keep": [
+   "The 200px graphite rail, main-content start at x=232, restrained TapMart lockup and cobalt active-navigation edge.",
+   "Mineral canvas, ink typography, muted metadata and thin dividers without elevated cards or decorative panels.",
+   "One search field with a visible clear affordance, prominent Search action and clearly separated cobalt focus treatment.",
+   "Explicit Open campaigns, Businesses and People grouping, with counts subordinate to section headings.",
+   "Readable campaign titles, named business attribution and literal Open status aligned consistently across rows.",
+   "Compact imagery and honest initial fallbacks; no forced source-to-commitment notch where the screen only indexes results."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off at 1440\u00d7900. The capture exposes the search controls, result groups and navigation, but cannot verify submission, clearing, result destinations or keyboard operation. People rows are below the captured fold.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 7,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 0
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The production screen carries the approved language rather than incorrectly reproducing Business Home\u2019s composition. The rail remains 200px wide, the main column retains the 32px desktop gutter, and the title has the Lab\u2019s strong application-heading hierarchy. The roughly 576px results column keeps titles, attribution and right-aligned statuses close enough to scan; unused space on the right is appropriate for this utility task. White search controls sit against the mineral canvas, graphite stays in navigation, and cobalt identifies the primary action, focus and selected destination. Results use flat rows, restrained separators, small media and literal status text rather than generic cards or fabricated metrics. There is no financial amount to conflate and no private car result group. The visible control and navigation inventory is intact, with no clipping or overlap. No concrete implementation drift is established by these pixels.",
+  "verdict": "Frame Shift was faithfully transferred as a quieter Search utility, with real data and visible functionality preserved and no release-blocking visual drift at 1440\u00d7900."
+ }
+}

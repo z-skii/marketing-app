@@ -1,0 +1,52 @@
+{
+ "screen": "Production Business Profile, minimal business (phone 390, full page), Stage 5 pass 2",
+ "screenshot": "m-business_profile-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:01:11.650Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 11114,
+  "output_tokens": 2259,
+  "total_tokens": 13373,
+  "reasoning_tokens": 1530
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Mo's Demo Shop and Raleigh, NC replace the Lab's fictional creator identity; the recorded business name should remain unchanged.",
+   "The business uses an initial instead of a logo or portrait. Missing artwork is handled by \u201cAdd a logo and cover,\u201d not replacement imagery.",
+   "The three records are business-specific: Active campaigns, Scheduled and Delivered, all genuinely zero. Creator earnings and ratings do not belong here.",
+   "\u201cNot verified,\u201d \u201cNo services connected,\u201d \u201cNot built,\u201d \u201cNo plan,\u201d \u201cNone running\u201d and \u201cNothing scheduled\u201d appropriately expose this business's empty states.",
+   "Instagram and Google both show \u201cnot connected,\u201d without invented account details or health claims.",
+   "Business management destinations and the selected Business tab replace the Lab's creator navigation.",
+   "The quieter mineral identity area and absence of work or vehicle media are appropriate for this minimal business. There is no supplied source requiring a source-to-commitment joint."
+  ],
+  "keep": [
+   "Keep the mineral canvas, white initial and control surfaces, graphite ink, muted supporting text and thin dividers. The flat management rows avoid a generic card grid.",
+   "Keep the strong page and business-name hierarchy, three prominent record values, 16px phone content gutters and readable operational labels. Nothing visibly clips at 390px.",
+   "Keep the business initial's restrained 8px corners; do not substitute the Lab's creator photograph treatment or manufacture a cover.",
+   "Keep cobalt concentrated on Create and the selected navigation edge. Secondary management actions remain ink.",
+   "Keep the literal no-plan caption and the absence of invented prices, credits or payout amounts.",
+   "Keep the visible account switcher, search, messages, notifications, identity editing, brand-kit action, management rows, public-page link and Settings access."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off for visual release at the captured 390px viewport. The production data, empty states, actions and navigation remain exposed; destination behavior, mutations, keyboard focus and other viewport sizes cannot be verified from this capture.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 8,
+   "ai_slop_risk": 0
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "This is a faithful system-level transfer, not a literal copy of the creator Profile fixture. The production screen preserves the approved typography hierarchy, mineral surfaces, restrained borders, flat records and selected-edge navigation. The initial is cleanly contained, the long business name fits, and all three zero values retain prominence without becoming a dashboard. Missing services, artwork, brand kit and subscription are stated plainly. The no-plan region remains rectangular and unshadowed, and no financial figure or success state is fabricated. Business is visibly selected in the bottom navigation. With no real source media present, omitting the Lab's photographic masthead and offset media assembly is correct rather than drift.",
+  "verdict": "Yes\u2014Frame Shift was faithfully transferred to this minimal Business Profile at 390px, with no visible functional loss or release-blocking drift."
+ }
+}

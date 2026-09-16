@@ -214,4 +214,9 @@ lands first, real content instead of any placeholder, one clear next tap.
 13. Portfolio samples are shown as ordinary media at 4px corners. A
     supplied Story sheet is only drawn square when the record says the
     file is a Story creative; a portrait photo is never assumed to be one.
+14. Business Search reuses the Stage 3 person and car compositions from
+    Business Home unchanged. The design QA director asked for the full
+    work title on its own line and for the reputation counts to move off
+    the discovery caption; both belong to the approved Home objects and
+    are revisited there, not on Search.
 

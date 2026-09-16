@@ -1,0 +1,50 @@
+{
+ "screen": "Production Google Business before connection (phone 390), Stage 5 pass 2",
+ "screenshot": "m-business_google.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:04:47.554Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10648,
+  "output_tokens": 1830,
+  "total_tokens": 12478,
+  "reasoning_tokens": 1171
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Mo's Demo Shop and its M initial represent the current business record; Maya's fixture portrait and creator identity do not belong here.",
+   "The mineral utility layout correctly replaces the Lab Profile's graphite identity masthead, photography, work samples and financial records.",
+   "Only Not connected is shown. There are no invented Google listing values, health judgments, rankings or search-performance metrics.",
+   "The unavailable connection control and configuration explanation reflect the real setup limitation, not migration drift.",
+   "Business navigation replaces creator navigation, with Business correctly selected. No Contact support link is expected while no support mailbox is configured."
+  ],
+  "keep": [
+   "Mineral #F4F3EF canvas, square white working surface, restrained dividers and no card shadow.",
+   "16px phone gutters, strong approximately 30/36px page title, readable operational copy and clear supporting-text hierarchy.",
+   "Literal Not connected status in ink, with cobalt concentrated on the connection task and navigation actions rather than implying success.",
+   "The full-size, approximately 48px-high connection control with 8px corners and its adjacent configuration explanation.",
+   "Settings back navigation, business switcher, search, messages, notifications and the persistent selected Business tab.",
+   "The compact task-only composition: no fabricated media, money, dashboard or decorative source-to-commitment joint."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off the captured 390px unconfigured state. Google connection remains unavailable until configuration is supplied; this is explicitly disclosed. The capture does not verify OAuth, control behavior or any connected-state functionality.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 7,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 8,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The supplied Lab image is a creator Profile, so this is a system-level comparison rather than same-screen pixel parity. Production carries over the mineral palette, strong heading treatment, ink hierarchy, square working planes and restrained controls without importing the Profile's media-heavy composition. The connection panel clearly sequences stored status, purpose, explanation, action and the configuration blocker. Its muted action treatment agrees with that blocker. Content fits within the 16px gutters, the button label is intact, and the fixed navigation does not obscure the task. Business has both the cobalt selection edge and emphasized label. No source exists here that warrants a 12px source-to-fact offset, and no money or Google observations are fabricated. The visible functionality is preserved as an honest unavailable-connect state; runtime behavior cannot be established from pixels.",
+  "verdict": "Yes\u2014Frame Shift is faithfully applied to this phone utility screen, with business navigation preserved and the real Google connection limitation clearly disclosed."
+ }
+}

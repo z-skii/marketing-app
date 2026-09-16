@@ -1,0 +1,51 @@
+{
+ "screen": "Production Plan and billing (desktop 1440, full page), Stage 5 pass 2",
+ "screenshot": "d-business_plan-full.png",
+ "reference": "d-design_lab_business_content-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:04:49.803Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10611,
+  "output_tokens": 1949,
+  "total_tokens": 12560,
+  "reasoning_tokens": 1211
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co. and its saved photograph replace the Lab\u2019s Loopday Coffee identity and initials.",
+   "The production subscription is Essential \u00b7 Active at $99.00 a month, rather than the Lab\u2019s Growth subscription. The renewal date and shoot allowance belong to this record.",
+   "Development billing, no card on file and no charge in this environment are explicitly disclosed. The displayed subscription price is not presented as a collected payment.",
+   "The recorded $17,887.00 campaign credit is shown separately from subscription pricing, with its own destination.",
+   "No Contact support link is shown because no support mailbox is configured; an unavailable destination should not be fabricated."
+  ],
+  "keep": [
+   "Keep the mineral #F4F3EF canvas, #101820 navigation rail, flat white working surfaces and shadow-free financial regions. These carry the Lab\u2019s language without turning billing into a media composition.",
+   "Keep the 200px rail, 32px desktop content gutter, exact restrained TapMart mark and selected Business rail item.",
+   "Keep the Archivo heading and money hierarchy with IBM Plex Sans operational copy: 36/40px page title, 24/30px section headings, prominent subscription amount and subordinate monthly basis.",
+   "Keep the two aligned plan columns with their 24px gap, square structural surfaces, restrained row dividers and explicit Your plan text. This is a purposeful comparison, not a generic dashboard grid.",
+   "Keep cobalt concentrated on Move to Growth, with its 48px-high, 8px-radius control. Cancellation and campaign-credit navigation correctly remain quiet ink actions.",
+   "Keep literal Active and Later labels, the cancellation consequence, and the explanation that plan prices exclude campaign spend.",
+   "Keep this utility screen free of an artificial source-to-commitment notch. There is no supplied source object here that requires the Lab\u2019s offset media joint."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off visually at the captured 1440px desktop viewport. The capture exposes the relevant records, states, actions and navigation; successful plan changes, cancellation and destination routing still require interaction testing.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 9,
+   "ai_slop_risk": 0
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The supplied Lab image is Content, not a billing specification, so fidelity here is to its product system rather than its media layout. Production retains the same shell, mineral surfaces, strong typography and restrained controls. The current subscription is immediately identifiable, both plans have comparable pricing and allowances, and unavailable features are explicitly marked Later. The upgrade is the sole prominent decision; cancellation remains visible without competing with it. Campaign credit sits in a distinct section with a separate amount and destination, avoiding any implication that it is included in the subscription. Settings navigation, the business switcher and permanent navigation remain exposed. No visible implementation drift or release-blocking usability problem is evident.",
+  "verdict": "Frame Shift was faithfully transferred to this billing screen, with TapMart\u2019s real functionality visibly preserved and no capture-visible blocker to desktop release."
+ }
+}
