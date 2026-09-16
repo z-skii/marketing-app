@@ -58,7 +58,7 @@ export function SiteHeader({ open }: { open: { href: string; label: string } | n
   return (
     <header className="site-header">
       <div className="site-wrap site-header-row">
-        <Link href="/" className="site-brand" aria-label="TapMart home"><Wordmark size={24} /></Link>
+        <Link href="/" className="site-brand" aria-label="TapMart home"><Wordmark size={30} /></Link>
         <nav className="site-nav" aria-label="Sections">
           {SITE_LINKS.map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}
         </nav>
@@ -79,7 +79,7 @@ export function SiteHeader({ open }: { open: { href: string; label: string } | n
       <dialog ref={menu} className="site-menu" aria-label="Menu" onClick={(e) => { if (e.target === menu.current) close(); }}>
         <div className="site-menu-sheet">
           <div className="site-menu-head">
-            <Wordmark size={22} />
+            <Wordmark size={30} />
             <button type="button" className="fs-icon-btn" onClick={close} aria-label="Close menu"><X size={22} aria-hidden /></button>
           </div>
           <ul className="site-menu-list">

@@ -10,6 +10,7 @@ import { Wordmark } from "@/components/fs/parts";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { Chapter } from "@/components/site/Chapter";
 import { BrowserFrame, PhoneFrame, Photo } from "@/components/site/frames";
+import { Inspect } from "@/components/site/Inspect";
 import "./public.css";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +26,14 @@ const LEGAL_LINKS = [
   { href: "/rules", label: "Rules" },
   { href: "/creator-terms", label: "Creator terms" },
 ];
+
+/** A frame's inspect action: the same capture, readable. */
+function phone(name: string, alt: string) {
+  return { src: `/marketing/frames/${name}.webp`, alt, size: "phone" as const, width: 390, height: 844, label: "Inspect demo screen" };
+}
+function desk(name: string, alt: string) {
+  return { src: `/marketing/frames/${name}.webp`, alt, size: "desktop" as const, width: 1440, height: 900, label: "Inspect demo screen" };
+}
 
 function money(cents: number): string {
   return `$${(cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -70,10 +79,10 @@ export default async function HomePage() {
             <div>
               <div className="site-hero-art">
                 <PhoneFrame name="user-home-390" alt="TapMart Home on a phone: a Recreate Reel campaign paying $75.00 per approved version and an Instagram Story ad paying $25.00" eager />
-                <Photo src="/marketing/story-creative.webp" alt="A supplied Instagram Story creative for an iced latte offer" ratio="portrait" width={720} height={1280} eager />
-                <Photo src="/marketing/filming.webp" alt="A person filming a barista at a counter with a phone" ratio="wide" width={1400} height={933} eager />
+                <Photo src="/marketing/story-creative.webp" alt="A supplied Instagram Story creative for an iced latte offer" ratio="portrait" width={720} height={1280} eager className="is-sheet" />
+                <Photo src="/marketing/filming.webp" alt="Illustration of a person filming a barista at a counter with a phone" ratio="wide" width={1400} height={933} eager />
               </div>
-              <p className="site-caption">Real TapMart screens, shown with demo campaigns.</p>
+              <p className="site-caption">Real TapMart screen with demo campaigns. The Story is a supplied demo creative; the filming image is a generated illustration.</p>
             </div>
           </div>
         </section>
@@ -93,11 +102,13 @@ export default async function HomePage() {
           id="recreate" tone="graphite" num="01" name="Recreate"
           title="Film your version of a business's Reel."
           lead="Follow the brief. Submit your video."
+          note="The frames are separate demo records, not one live progression."
+          cta={{ href: "/sign-up", label: "Find Recreate work" }}
           steps={[
-            { title: "The business supplies the reference", body: "A real Reel and a short brief: what to show, the pay per approved version and the deadline.", media: <PhoneFrame name="recreate-detail-390" alt="A Recreate campaign on a phone: the reference video, the brief and the pay per approved version" /> },
-            { title: "You film your own version", body: "Your place, your phone, your take. It is a new video, not a repost of the reference.", media: <Photo src="/marketing/filming.webp" alt="A person filming a barista at a counter with a phone on a tripod" ratio="wide" width={1400} height={933} />, caption: "Filming a Reel for a coffee shop." },
-            { title: "Submit it for review", body: "The business watches it and accepts it, or asks for one change with a note.", media: <PhoneFrame name="recreate-revision-390" alt="A submitted Recreate video on a phone with the business asking for one change" /> },
-            { title: "Approval creates earnings", body: "Accepted work moves to your available balance in Earnings.", media: <PhoneFrame name="earnings-390" alt="Earnings on a phone: an available balance with the Request payout action" /> },
+            { title: "The business supplies the reference", body: "A supplied reference and a short brief: what to show, the pay per approved version and the deadline.", media: <PhoneFrame name="recreate-detail-390" alt="A Recreate campaign on a phone: the reference video, the brief and the pay per approved version" />, caption: "Demo product · Tyler · Open opportunity", plane: { amount: "$75.00", basis: "per approved version", lines: ["$63.75 to you after the $11.25 fee, if approved", "8 spots · Demo Coffee Co."], tone: "accent" }, inspect: phone("recreate-detail-390", "Recreate campaign, open opportunity, demo record") },
+            { title: "You film your own version", body: "Your place, your phone, your take. It is a new video, not a repost of the reference.", media: <Photo src="/marketing/filming.webp" alt="Illustration of a person filming a barista at a counter with a phone on a tripod" ratio="wide" width={1400} height={933} />, caption: "Generated filming illustration, not a customer.", inspect: { src: "/marketing/filming.webp", alt: "Generated filming illustration", size: "photo", width: 1400, height: 933, label: "Inspect illustration" } },
+            { title: "Submit it for review", body: "The business watches it and accepts it, or asks for one change with a note.", media: <PhoneFrame name="recreate-revision-390" alt="A submitted Recreate video on a phone with the business asking for one change" />, caption: "Demo product · Devon · Revision requested", inspect: phone("recreate-revision-390", "Recreate submission with a revision requested, demo record") },
+            { title: "Approval creates earnings", body: "Accepted work moves to your available balance in Earnings.", media: <PhoneFrame name="earnings-390" alt="Earnings on a phone: an available balance with the Request payout action" />, caption: "Demo product · Devon · Earnings, demo balance", inspect: phone("earnings-390", "Earnings with a demo balance") },
           ]}
         />
 
@@ -105,11 +116,13 @@ export default async function HomePage() {
           id="post" tone="canvas" num="02" name="Post"
           title="Share the supplied Story."
           lead="Instagram eligibility and the required live time apply."
+          note="The frames are separate demo records, not one live progression."
+          cta={{ href: "/sign-up", label: "Find Story work" }}
           steps={[
-            { title: "The creative is ready", body: "The business supplies the Story. You post it as it is, in the business's own look.", media: <Photo src="/marketing/story-creative.webp" alt="A finished 9:16 Instagram Story creative for an iced latte offer at a coffee shop" ratio="portrait" width={720} height={1280} />, caption: "A supplied Story creative, shown at 9:16." },
-            { title: "Check what applies", body: "The follower minimum, the live time and the pay are on the campaign before you accept.", media: <PhoneFrame name="story-detail-390" alt="A Story campaign on a phone with its pay, follower requirement and live time" /> },
-            { title: "Post it, then send proof", body: "A screenshot after the required live time. The business confirms it.", media: <PhoneFrame name="story-submitted-390" alt="A Story job on a phone after the proof was submitted, waiting for the business" /> },
-            { title: "Follow every job in Activity", body: "Submitted, accepted, paid: each state is shown as it happens.", media: <PhoneFrame name="activity-390" alt="Activity on a phone listing the person's jobs and the state of each" /> },
+            { title: "The creative is ready", body: "The business supplies the Story. You post it as it is, in the business's own look.", media: <Photo src="/marketing/story-creative.webp" alt="A finished 9:16 Instagram Story creative for an iced latte offer at a coffee shop" ratio="portrait" width={720} height={1280} className="is-sheet" />, caption: "Supplied Story creative, shown at 9:16 · Demo campaign", plane: { amount: "$25.00", basis: "after 24h live and approval", lines: ["500+ followers · 24h live", "Post our iced latte Story · Demo Coffee Co."], tone: "surface" }, inspect: { src: "/marketing/story-creative.webp", alt: "Supplied Story creative, demo campaign", size: "photo", width: 720, height: 1280, label: "Inspect creative" } },
+            { title: "Check what applies", body: "The follower minimum, the live time and the pay are on the campaign before you accept.", media: <PhoneFrame name="story-detail-390" alt="A Story campaign on a phone with its pay, follower requirement and live time" />, caption: "Demo product · Tyler · Open opportunity", inspect: phone("story-detail-390", "Story campaign, open opportunity, demo record") },
+            { title: "Post it, then send proof", body: "A screenshot after the required live time. The business confirms it.", media: <PhoneFrame name="story-submitted-390" alt="A Story job on a phone after the proof was submitted, waiting for the business" />, caption: "Demo product · Devon · Story proof in review", inspect: phone("story-submitted-390", "Story proof in review, demo record") },
+            { title: "Follow every job in Activity", body: "Submitted, accepted, paid: each state is shown as it happens.", media: <PhoneFrame name="activity-390" alt="Activity on a phone listing the person's jobs and the state of each" />, caption: "Demo product · Devon · Activity", inspect: phone("activity-390", "Activity, demo records") },
           ]}
         />
 
@@ -117,15 +130,17 @@ export default async function HomePage() {
           id="drive" tone="underlay" num="03" name="Drive"
           title="Carry an ad on your real car."
           lead="Monthly pay follows approved proofs."
+          note="The frames are separate demo records, not one live progression."
+          cta={{ href: "/sign-up", label: "Find car placements" }}
           steps={[
-            { title: "Add your car once", body: "Make, model, colour and photos. Campaigns are matched to real vehicles.", media: <Photo src="/marketing/car-context.webp" alt="An ordinary estate car parked outside a local shop" ratio="wide" width={1400} height={933} />, caption: "A real car in its neighbourhood. Artwork is applied only after a booking." },
-            { title: "A placement opens", body: "The placement, the duration and the monthly pay are stated before you apply.", media: <PhoneFrame name="car-detail-390" alt="A car ad campaign on a phone: $300.00 per month for a rear window placement over 30 days" /> },
-            { title: "Book it, install it, prove it", body: "Installation is confirmed with photos. Monthly proofs keep the pay coming.", media: <PhoneFrame name="car-booking-390" alt="A booked car ad on a phone, waiting for the installation photos" /> },
+            { title: "Add your car once", body: "Make, model, colour and photos. Campaigns are matched to real vehicles.", media: <Photo src="/marketing/car-context.webp" alt="Illustration of an ordinary estate car parked outside a local shop, with no ad on it" ratio="wide" width={1400} height={933} />, caption: "Generated illustration · No installed ad", inspect: { src: "/marketing/car-context.webp", alt: "Generated illustration of a car with no installed ad", size: "photo", width: 1400, height: 933, label: "Inspect illustration" } },
+            { title: "A placement opens", body: "The placement, the duration and the monthly pay are stated before you apply.", media: <PhoneFrame name="car-detail-390" alt="A car ad campaign on a phone: $300.00 per month for a rear window placement over 30 days" />, caption: "Demo product · Tyler · Open placement · The wrapped car is the business's supplied campaign artwork", plane: { amount: "$300.00", basis: "per month", lines: ["$255.00 to you after the 15% fee", "Rear window · 30 days · Raleigh, NC"], tone: "surface" }, inspect: phone("car-detail-390", "Car ad campaign, open placement, demo record") },
+            { title: "Book it, install it, prove it", body: "Installation is confirmed with photos. Monthly proofs keep the pay coming.", media: <PhoneFrame name="car-booking-390" alt="A booked car ad on a phone: installation next, the placement, the monthly pay and nothing paid yet" />, caption: "Demo product · Devon · Booking, installation next", inspect: phone("car-booking-390", "Car ad booking waiting for installation, demo record") },
           ]}
         />
 
         {/* ------------------------------------------------------ business */}
-        <section id="business" className="site-section tone-surface" aria-labelledby="business-title">
+        <section id="business" className="site-section tone-canvas" aria-labelledby="business-title">
           <div className="site-wrap">
             <div className="site-section-head" data-reveal>
               <p className="site-kicker">For businesses</p>
@@ -142,12 +157,19 @@ export default async function HomePage() {
               <div>
                 <div className="site-desk-composition">
                   <BrowserFrame name="business-home-1440" alt="Business Home on a desktop: people and cars near the business, and what needs attention" />
-                  <PhoneFrame name="business-review-390" alt="Reviewing a submitted Recreate video on a phone: accept it or ask for a change" />
+                  <PhoneFrame name="business-review-390" alt="Reviewing a submitted Story proof on a phone" />
                 </div>
                 <div className="site-system-media">
                   <PhoneFrame name="business-home-390" alt="Business Home on a phone: people and cars near the business" />
                   <PhoneFrame name="business-create-390" alt="Create on a phone: start a Recreate, Story or Car campaign" />
-                  <PhoneFrame name="business-review-390" alt="Reviewing a submitted Recreate video on a phone" />
+                  <PhoneFrame name="business-review-390" alt="Reviewing a submitted Story proof on a phone" />
+                </div>
+                <p className="site-caption">Demo account · Production screens: Business Home, Create and a Story proof review.</p>
+                <div className="site-inspect-row">
+                  <span className="site-only-desktop"><Inspect {...desk("business-home-1440", "Business Home, demo account")} /></span>
+                  <span className="site-only-phone"><Inspect {...phone("business-home-390", "Business Home, demo account")} label="Inspect Home" /></span>
+                  <span className="site-only-phone"><Inspect {...phone("business-create-390", "Create, demo account")} label="Inspect Create" /></span>
+                  <Inspect {...phone("business-review-390", "Story proof review, demo account")} label="Inspect review" />
                 </div>
               </div>
             </div>
@@ -162,16 +184,20 @@ export default async function HomePage() {
                 <div className="site-desk-composition">
                   <BrowserFrame name="business-content-1440" alt="Business Content on a desktop: the month's shoot, the library and the calendar" />
                   <div className="site-contact">
-                    <Photo src="/marketing/shoot-counter.webp" alt="A coffee counter photographed during a content shoot" ratio="square" width={1200} height={800} />
-                    <Photo src="/marketing/shoot-window.webp" alt="A window seat photographed during a content shoot" ratio="square" width={900} height={600} />
+                    <Photo src="/marketing/shoot-counter.webp" alt="Illustration of a coffee counter as a shoot photo" ratio="square" width={1200} height={800} />
+                    <Photo src="/marketing/shoot-window.webp" alt="Illustration of a window seat as a shoot photo" ratio="square" width={900} height={600} />
                   </div>
                 </div>
                 <div className="site-system-media">
                   <PhoneFrame name="business-content-390" alt="Business Content on a phone: the month's shoot and the library" />
-                  <Photo src="/marketing/shoot-counter.webp" alt="A coffee counter photographed during a content shoot" ratio="square" width={1200} height={800} />
-                  <Photo src="/marketing/shoot-pour.webp" alt="A latte being poured, photographed during a content shoot" ratio="square" width={864} height={1536} />
+                  <Photo src="/marketing/shoot-counter.webp" alt="Illustration of a coffee counter as a shoot photo" ratio="square" width={1200} height={800} />
+                  <Photo src="/marketing/shoot-pour.webp" alt="Illustration of a latte being poured as a shoot photo" ratio="square" width={864} height={1536} />
                 </div>
-                <p className="site-caption">Sample shoot photography.</p>
+                <p className="site-caption">Demo account · Production screen: Content. The small shoot images are generated sample illustrations, not delivered work.</p>
+                <div className="site-inspect-row">
+                  <span className="site-only-desktop"><Inspect {...desk("business-content-1440", "Business Content, demo account")} /></span>
+                  <span className="site-only-phone"><Inspect {...phone("business-content-390", "Business Content, demo account")} label="Inspect Content" /></span>
+                </div>
               </div>
             </div>
 
@@ -234,7 +260,6 @@ export default async function HomePage() {
                   <h3 className="site-h3">{p.name}</h3>
                   <p className="site-meta" style={{ marginTop: 4 }}>{p.tagline}</p>
                   <p className="site-money site-plan-price">{whole(prices[p.key])}<span>a month</span></p>
-                  <p className="site-plan-shoots">{shootsLine(p.shoots)}.</p>
                   <ul className="site-plan-features">
                     {p.features.map((f) => (
                       <li key={f.label} className={f.soon ? "is-soon" : undefined}><Check size={16} weight="bold" aria-hidden />{f.label}{f.soon ? " (coming later)" : ""}</li>
@@ -266,7 +291,7 @@ export default async function HomePage() {
       <footer className="site-footer">
         <div className="site-wrap site-footer-grid">
           <div>
-            <Wordmark size={22} />
+            <Wordmark size={30} />
             <p className="site-meta" style={{ marginTop: 8 }}>Local marketing. Real people.</p>
             <p className="site-meta" style={{ marginTop: 4 }}>{year} {SITE_NAME}</p>
           </div>
