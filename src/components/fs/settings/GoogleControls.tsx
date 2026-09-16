@@ -69,10 +69,10 @@ export function FixList({ fixes, canEdit }: { fixes: GoogleFix[]; canEdit: boole
           </dl>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, marginTop: 12 }}>
             {done[fix.key] ? <span className="fs-status is-confirmed">{done[fix.key]}</span>
-              : fix.canApply ? <button type="button" className="fs-btn fs-btn-primary fs-btn-sm" disabled={!canEdit || busy !== null} onClick={() => approve(fix)}>{busy === fix.key ? "Sending to Google" : "Approve this change"}</button>
+              : fix.canApply ? <button type="button" className="fs-btn fs-btn-primary" disabled={!canEdit || busy !== null} onClick={() => approve(fix)}>{busy === fix.key ? "Sending to Google" : "Approve this change"}</button>
               : fix.href ? (fix.href.startsWith("/")
-                ? <a href={fix.href} className="fs-btn fs-btn-secondary fs-btn-sm">Change it in TapMart</a>
-                : <a href={fix.href} target="_blank" rel="noreferrer" className="fs-btn fs-btn-secondary fs-btn-sm">Change it on Google <ArrowSquareOut size={16} aria-hidden /></a>)
+                ? <a href={fix.href} className="fs-btn fs-btn-secondary">Change it in TapMart</a>
+                : <a href={fix.href} target="_blank" rel="noreferrer" className="fs-btn fs-btn-secondary">Change it on Google <ArrowSquareOut size={16} aria-hidden /></a>)
               : null}
           </div>
           {!fix.canApply && fix.reason && <p className="fs-t-meta" style={{ marginTop: 8 }}>{fix.reason}</p>}

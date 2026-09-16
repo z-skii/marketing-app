@@ -27,7 +27,7 @@ export type GoogleFix = {
   href?: string;
 };
 
-export const GOOGLE_MANUAL_REASON = "Google does not allow this change through the API. Do it in your Google Business Profile.";
+export const GOOGLE_MANUAL_REASON = "Make this change in your Google Business Profile.";
 export const GOOGLE_PROFILE_URL = "https://business.google.com/";
 
 export const PATCHABLE_KEYS = ["hours", "phone", "website", "description"] as const;
@@ -154,7 +154,13 @@ export function fixesFrom(checks: GoogleCheck[], profile: GoogleProfileData, bus
       }
       case "photos":
       case "photo_activity": {
-        fixes.push({ key: check.key, label, current: check.detail, proposed: "Add recent photos of the place, the product and the people", canApply: false, reason: GOOGLE_MANUAL_REASON, href: manualHref });
+        fixes.push({
+          key: check.key, label,
+          current: check.key === "photos"
+            ? (typeof check.observed === "number" ? `${check.observed} photo${check.observed === 1 ? "" : "s"}` : "Photo count not reported")
+            : (typeof check.observed === "string" ? `Last photo added ${check.observed.slice(0, 10)}` : "No photo date reported"),
+          proposed: "Add recent photos of the place, the product and the people", canApply: false, reason: GOOGLE_MANUAL_REASON, href: manualHref,
+        });
         break;
       }
       default: {

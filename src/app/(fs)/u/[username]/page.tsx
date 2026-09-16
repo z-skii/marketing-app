@@ -79,7 +79,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
       <div className="fs-detail" style={{ marginTop: 12 }}>
         <div className="fs-detail-source" style={{ marginTop: 0 }}>
           <div className="fs-person-hero">
-            <Avatar src={person.avatar_url} name={name} size={160} square />
+            {person.avatar_url ? <span className="fs-media" style={{ width: 160, height: 160, flex: "none" }}><Img src={person.avatar_url} alt={`${name}, profile photo`} loading="eager" /></span> : <Avatar src={null} name={name} size={160} square />}
             <span style={{ minWidth: 0 }}>
               <h1 className="fs-t-page">{name}</h1>
               <p className="fs-t-meta" style={{ marginTop: 4, overflowWrap: "anywhere" }}>@{person.username}{person.city ? ` · ${person.city}` : ""}</p>
@@ -132,7 +132,6 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
               ["Followers", `${counts?.followers ?? 0} on TapMart`],
               ["Following", counts?.following ?? "0"],
               ["Instagram", igConnected ? (person.ig_verified_by === "api" ? "Connected through Instagram" : "Confirmed manually by TapMart") : "Not connected"],
-              ["Vehicle", drives ? "Listed for car advertising" : "None listed"],
             ]} />
           </Section>
           {reviews.length > 0 && (

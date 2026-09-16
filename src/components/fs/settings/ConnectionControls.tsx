@@ -35,15 +35,15 @@ export function ConnectionControls({ provider, name, state, configured, startHre
 
   return (
     <span className="fs-conn-actions">
-      {state === "not_connected" && <button type="button" className="fs-btn fs-btn-secondary fs-btn-sm" disabled={!configured} onClick={go} aria-label={`Connect ${name}`}>Connect</button>}
-      {(state === "needs_reconnect" || state === "error") && <button type="button" className="fs-btn fs-btn-primary fs-btn-sm" disabled={!configured} onClick={go} aria-label={`Reconnect ${name}`}>Reconnect</button>}
+      {state === "not_connected" && <button type="button" className="fs-btn fs-btn-secondary" disabled={!configured} onClick={go} aria-label={`Connect ${name}`}>Connect</button>}
+      {(state === "needs_reconnect" || state === "error") && <button type="button" className="fs-btn fs-btn-primary" disabled={!configured} onClick={go} aria-label={`Reconnect ${name}`}>Reconnect</button>}
       {state === "connecting" && (resumeHref
-        ? <a href={resumeHref} className="fs-btn fs-btn-primary fs-btn-sm">Pick a location</a>
-        : <button type="button" className="fs-btn fs-btn-secondary fs-btn-sm" disabled={!configured} onClick={go}>Try again</button>)}
+        ? <a href={resumeHref} className="fs-btn fs-btn-primary">Pick a location</a>
+        : <button type="button" className="fs-btn fs-btn-secondary" disabled={!configured} onClick={go}>Try again</button>)}
       {state === "connected" && (
         <>
-          {provider === "instagram" && configured && <button type="button" className="fs-btn fs-btn-quiet fs-btn-sm fs-link-ink" disabled={pending} onClick={() => act(syncInstagramNow)}>{pending ? "Refreshing" : "Refresh"}</button>}
-          <button type="button" className="fs-btn fs-btn-secondary fs-btn-sm" disabled={pending} onClick={() => act(() => disconnectConnection(provider))} aria-label={`Disconnect ${name}`}>{pending ? "One moment" : "Disconnect"}</button>
+          {provider === "instagram" && configured && <button type="button" className="fs-btn fs-btn-quiet fs-link-ink" disabled={pending} onClick={() => act(syncInstagramNow)}>{pending ? "Refreshing" : "Refresh"}</button>}
+          <button type="button" className="fs-btn fs-btn-secondary" disabled={pending} onClick={() => act(() => disconnectConnection(provider))} aria-label={`Disconnect ${name}`}>{pending ? "One moment" : "Disconnect"}</button>
         </>
       )}
       {error && <span role="alert" className="fs-field-error" style={{ flexBasis: "100%" }}>{error}</span>}

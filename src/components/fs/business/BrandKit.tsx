@@ -82,9 +82,9 @@ export function BrandKitStudio({ record, businessName, sources: initialSources, 
     <div>
       {step === "kit" && (
         <section aria-label="Current brand" style={{ marginTop: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, minHeight: 44 }}>
+          <div className="fs-brand-head">
             <p className="fs-t-label">Current brand <span className={`fs-status is-${record.status === "approved" ? "confirmed" : "waiting"}`}>· {record.status === "approved" ? "Approved" : "Draft"}</span></p>
-            {canEdit && <button type="button" className="fs-btn fs-btn-secondary fs-btn-sm" onClick={() => setStep("sources")}>Suggest improvements</button>}
+            {canEdit && <button type="button" className="fs-btn fs-btn-secondary" onClick={() => setStep("sources")}>Suggest improvements</button>}
           </div>
           <BrandVisual kit={kit} businessName={businessName} traits={signals?.tone_words ?? []} profileLogo={sources.logoUrl} />
         </section>
@@ -108,9 +108,12 @@ export function BrandKitStudio({ record, businessName, sources: initialSources, 
           <p className="fs-t-label">Suggestions <span className="fs-status is-waiting">· Waiting for your decision</span></p>
           <p className="fs-t-meta" style={{ marginTop: 4 }}>{source === "ai" ? "Proposed from what TapMart read in your sources." : "Proposed from the details already on your profile."} Nothing has changed yet.</p>
           {signals?.notes && signals.notes.length > 0 && (
-            <ul className="fs-plain-list" aria-label="What TapMart found" style={{ marginTop: 12 }}>
-              {signals.notes.map((n) => <li key={n} className="fs-t-meta" style={{ padding: "2px 0" }}>{n}</li>)}
-            </ul>
+            <div style={{ marginTop: 12 }}>
+              <p className="fs-t-label">What research found</p>
+              <ul className="fs-plain-list" aria-label="What research found">
+                {signals.notes.map((n) => <li key={n} className="fs-t-meta" style={{ padding: "2px 0" }}>{n}</li>)}
+              </ul>
+            </div>
           )}
           <p className="fs-t-task" style={{ marginTop: 16 }}>
             {proposal.improvements.length === 0 ? "Nothing to change. Your brand already reads as one." : `${proposal.improvements.length} way${proposal.improvements.length === 1 ? "" : "s"} to make your brand more consistent`}
@@ -129,7 +132,7 @@ export function BrandKitStudio({ record, businessName, sources: initialSources, 
           <div className="fs-brand-compare">
             <div className="fs-brand-side">
               <p className="fs-t-label">In use now</p>
-              <p className="fs-t-meta">What research found</p>
+              <p className="fs-t-meta">Your saved brand kit</p>
               <Compare
                 logo={signals?.logo_url ?? kit.logo_url}
                 colors={signals?.colors.length ? signals.colors : kit.palette}
@@ -146,7 +149,7 @@ export function BrandKitStudio({ record, businessName, sources: initialSources, 
             </div>
           </div>
 
-          <details className="fs-disclosure" style={{ marginTop: 16 }}>
+          <details className="fs-disclosure is-command" style={{ marginTop: 16 }}>
             <summary className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }}>Preview the proposed kit in full</summary>
             <BrandVisual kit={proposal} businessName={businessName} traits={signals?.tone_words ?? []} />
           </details>

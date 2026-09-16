@@ -26,6 +26,8 @@ const NAV = [
 
 function active(item: { href: string; exact: boolean }, pathname: string) {
   if (item.href === "/business" && (pathname.startsWith("/business/people") || pathname.startsWith("/business/cars"))) return true;
+  // Everything behind the gear belongs to the Business tab: settings, details, brand, Google, plan, billing, team.
+  if (item.href === "/business/profile" && /^\/business\/(settings|edit|brand|google|plan|billing|team)(\/|$)/.test(pathname)) return true;
   return item.exact ? pathname === item.href : pathname === item.href || pathname.startsWith(item.href + "/");
 }
 

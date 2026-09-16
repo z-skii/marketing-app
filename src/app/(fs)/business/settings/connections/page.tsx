@@ -76,7 +76,12 @@ export default async function ConnectionsPage({ searchParams }: { searchParams: 
           </div>
           {!igConfigured && igState !== "connected" && <p className="fs-t-meta" style={{ marginTop: -4, paddingBottom: 12 }}>{META_NOT_CONFIGURED}</p>}
           {(errorFor("instagram") ?? lastErrorFor(ig, igState)) && <p role="alert" className="fs-note is-problem fs-t-meta" style={{ marginBottom: 12 }}>{errorFor("instagram") ?? lastErrorFor(ig, igState)}</p>}
-          {igState === "connected" && <p className="fs-t-meta" style={{ marginTop: -4, paddingBottom: 12 }}>Only what Instagram returns for this account is shown anywhere in TapMart. <Link href="/business/social" className="fs-link-ink fs-link-ul">See what was read</Link></p>}
+          {igState === "connected" && (
+            <div style={{ marginTop: -4, paddingBottom: 12 }}>
+              <p className="fs-t-meta">Only what Instagram returns for this account is shown anywhere in TapMart.</p>
+              <Link href="/business/social" className="fs-link-ink fs-link-ul" style={{ display: "inline-flex", alignItems: "center", minHeight: 44, whiteSpace: "nowrap" }}>See what was read</Link>
+            </div>
+          )}
         </li>
         <li>
           <div className="fs-conn-row">

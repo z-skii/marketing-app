@@ -5,6 +5,7 @@ import { getGoogleProfileSnapshot, getLastGoogleHealth, type GoogleCheck } from 
 import { describePeriods, googleFixes, GOOGLE_PROFILE_URL } from "@/lib/google/fixes";
 import { getGoogleConnection, googleConfigured, GOOGLE_NOT_CONFIGURED, type GoogleHoursPeriod, type GoogleMeta } from "@/lib/google/oauth";
 import { connectionStateFrom, googleIssueLine } from "@/lib/google/summary";
+import { CONTACT_EMAIL } from "@/config/site";
 import { UtilityHead } from "@/components/fs/settings/Rows";
 import { Facts } from "@/components/fs/work/DetailParts";
 import { ConnectGoogleButton, DisconnectGoogleButton, FixList, RunCheckButton } from "@/components/fs/settings/GoogleControls";
@@ -60,7 +61,12 @@ export default async function GooglePage({ searchParams }: { searchParams: Promi
           {state === "connecting" && (meta.locations?.length ?? 0) > 0
             ? <Link href="/business/settings/connections/google" className="fs-btn fs-btn-primary" style={{ marginTop: 16 }}>Pick your location</Link>
             : <ConnectGoogleButton configured={configured} label={state === "needs_reconnect" || state === "error" ? "Reconnect Google" : "Connect Google Business"} />}
-          {!configured && <p className="fs-t-meta" style={{ marginTop: 12 }}>{GOOGLE_NOT_CONFIGURED}</p>}
+          {!configured && (
+            <div style={{ marginTop: 12 }}>
+              <p className="fs-t-meta">{GOOGLE_NOT_CONFIGURED}</p>
+              {CONTACT_EMAIL && <a href={`mailto:${CONTACT_EMAIL}`} className="fs-link-ink fs-link-ul" style={{ display: "inline-flex", alignItems: "center", minHeight: 44 }}>Contact support</a>}
+            </div>
+          )}
           {(state === "needs_reconnect" || state === "error") && connection?.last_error && <p role="alert" className="fs-note is-problem fs-t-meta" style={{ marginTop: 12 }}>{connection.last_error}</p>}
         </div>
       </main>

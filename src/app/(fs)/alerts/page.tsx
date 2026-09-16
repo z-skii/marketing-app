@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { getV2Context } from "@/lib/v2/core";
 import { sql } from "@/lib/db";
-import { MarkReadOnView } from "@/app/(v2)/alerts/MarkReadOnView";
+import { KIND_LABEL, isEarnKind } from "@/lib/v2/opportunities";
+import { MarkReadOnView } from "@/components/fs/inbox/MarkReadOnView";
 
 export const metadata = { title: "Notifications" };
 export const dynamic = "force-dynamic";
@@ -19,7 +20,7 @@ function relativeTime(iso: string, now: number): string {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-/** The word for what a notification is about, from its stored category. Actionable kinds come first in the list. */
+/** The word for what a notification is about, from its stored category. */
 const KIND: Record<string, { word: string; actionable: boolean }> = {
   submission: { word: "Needs review", actionable: true },
   application: { word: "Applicant", actionable: true },
@@ -31,6 +32,16 @@ const KIND: Record<string, { word: string; actionable: boolean }> = {
   message: { word: "Message", actionable: false },
   system: { word: "TapMart", actionable: false },
 };
+
+/** Something to do comes before something that happened. An answer to a request is an outcome, not a task. */
+function actionable(category: string, title: string): boolean {
+  const k = KIND[category];
+  if (!k?.actionable) return false;
+  if (category === "direct_request" && /accepted|declined|withdrawn|expired/i.test(title)) return false;
+  return true;
+}
+
+const CAMPAIGN_HREF = /^\/(?:business\/campaigns|o|jobs)\/([0-9a-f-]{36})/i;
 
 /**
  * Notifications: everything that happened, newest first, each row deep
@@ -46,14 +57,30 @@ export default async function AlertsPage() {
   );
   const now = new Date().getTime();
   const unread = rows.filter((r) => !r.read_at);
-  const rest = rows.filter((r) => r.read_at);
-  const ordered = [...unread.sort((a, b) => Number(KIND[b.category]?.actionable ?? false) - Number(KIND[a.category]?.actionable ?? false)), ...rest];
+  const ordered = rows.map((r, i) => ({ r, i, act: actionable(r.category, r.title) })).sort((a, b) => Number(b.act) - Number(a.act) || a.i - b.i).map((x) => x.r);
+  // The thing each notification points at, from the record itself, so two identical titles can be told apart.
+  const campaignIds = Array.from(new Set(rows.map((r) => r.href?.match(CAMPAIGN_HREF)?.[1]).filter((id): id is string => Boolean(id))));
+  const campaigns = campaignIds.length
+    ? await sql<{ id: string; title: string; kind: string; audience: string; invitee: string | null }>(
+        `select c.id, c.title, c.kind::text as kind, c.audience::text as audience,
+                (select p.username from campaign_invites i join profiles p on p.id = i.profile_id where i.campaign_id = c.id order by i.created_at desc limit 1) as invitee
+           from campaigns c where c.id = any($1::uuid[])`,
+        [campaignIds],
+      )
+    : [];
+  const about = (href: string | null): string | null => {
+    const id = href?.match(CAMPAIGN_HREF)?.[1];
+    const c = id ? campaigns.find((x) => x.id === id) : null;
+    if (!c) return null;
+    const kind = isEarnKind(c.kind) ? KIND_LABEL[c.kind] : "Campaign";
+    return `${kind} · ${c.title}${c.audience === "direct" && c.invitee ? ` · @${c.invitee}` : ""}`;
+  };
 
   return (
     <main className="fs-phone-main fs-utility" id="main">
       <div className="fs-purpose-row">
         <h1 className="fs-t-page">Notifications</h1>
-        {unread.length > 0 && <span className="fs-t-meta"><span className="fs-status is-waiting">{unread.length} new</span></span>}
+        {unread.length > 0 && <span className="fs-t-label" style={{ color: "var(--fs-muted)" }}>{unread.length} new</span>}
       </div>
       <MarkReadOnView hasUnread={unread.length > 0} />
       {rows.length === 0 ? (
@@ -74,6 +101,7 @@ export default async function AlertsPage() {
                   <span className="fs-t-meta" style={{ display: "block" }}>{kind.word}{isUnread ? " · New" : ""}</span>
                   <span className="fs-t-body fs-notif-title" style={{ display: "block" }}>{n.title}</span>
                   {n.body && <span className="fs-t-meta" style={{ display: "block", color: isUnread ? "var(--fs-ink)" : undefined }}>{n.body}</span>}
+                  {!n.body && about(n.href) && <span className="fs-t-meta" style={{ display: "block", marginTop: 4 }}>{about(n.href)}</span>}
                 </span>
                 <span className="fs-t-meta fs-tnum" style={{ whiteSpace: "nowrap" }}>{relativeTime(n.created_at, now)}</span>
               </>

@@ -51,7 +51,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
         {current && active ? (
           <>
             <h2 id="current-title" className="fs-t-section" style={{ marginTop: 4 }}>{current.name}</h2>
-            <div style={{ marginTop: 8 }}><Money cents={prices[current.key]} per="a month, billed to your card" className="fs-money-detail" /></div>
+            <div style={{ marginTop: 8 }}><Money cents={prices[current.key]} per={active.billing === "stripe" ? "a month, billed to your card" : active.billing === "manual" ? "a month, billed manually" : "a month · No charge in this environment"} className="fs-money-detail" /></div>
             <Facts rows={[
               ["Billing", active.status === "past_due" ? "Past due. The last payment did not go through." : active.billing === "dev" ? "Development billing, no card on file" : active.billing === "stripe" ? "Card on file with Stripe" : "Billed manually"],
               [active.status === "trialing" ? "Trial ends" : "Renews", active.current_period_end ? fmtDate(active.current_period_end) : "Renewal date not recorded"],

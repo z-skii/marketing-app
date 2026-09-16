@@ -639,14 +639,17 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-biz-logo img { width: 100%; height: 100%; object-fit: contain; }
 .fs .fs-on-dark .fs-biz-logo { background: var(--fs-stage); border-color: var(--fs-control-border-dark); }
 /* Brand kit: swatches as real colour, never a chart. */
+.fs .fs-brand-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; flex-wrap: wrap; }
+@media (max-width: 599px) { .fs .fs-brand-head > .fs-btn { flex: 1 1 100%; } }
+.fs .fs-disclosure.is-command > summary::after { color: var(--fs-ink); font-weight: 600; }
 .fs .fs-swatches { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 12px 16px; }
 .fs .fs-swatches > li { display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 20px; color: var(--fs-muted); font-variant-numeric: tabular-nums; }
 .fs .fs-swatch { width: 40px; height: 40px; border-radius: var(--fs-radius-media); box-shadow: inset 0 0 0 1px #10182020; flex: none; }
 .fs .fs-swatch.is-small { width: 28px; height: 28px; }
-.fs .fs-brand-images { list-style: none; padding: 0; margin: 8px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-.fs .fs-brand-images > li { aspect-ratio: 1 / 1; background: var(--fs-underlay); border-radius: var(--fs-radius-media); overflow: hidden; }
-.fs .fs-brand-images img { width: 100%; height: 100%; object-fit: cover; }
-.fs .fs-brand-logo { width: 96px; height: 96px; border-radius: var(--fs-radius-control); background: var(--fs-surface); border: 1px solid var(--fs-divider); display: grid; place-items: center; overflow: hidden; flex: none; }
+.fs .fs-brand-images { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
+.fs .fs-brand-images > li { position: relative; width: 84px; background: var(--fs-underlay); border-radius: var(--fs-radius-media); overflow: hidden; }
+.fs .fs-brand-images img { width: 84px; height: auto; display: block; }
+.fs .fs-brand-logo { width: 96px; height: 96px; border-radius: var(--fs-radius-media); background: var(--fs-surface); border: 1px solid var(--fs-divider); display: grid; place-items: center; overflow: hidden; flex: none; }
 .fs .fs-brand-logo img { width: 100%; height: 100%; object-fit: contain; }
 .fs .fs-brand-compare { display: grid; gap: 24px; margin-top: 16px; }
 .fs .fs-brand-side { background: var(--fs-surface); padding: 16px; }
@@ -687,10 +690,11 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-bubble { max-width: min(80%, 480px); padding: 10px 12px; border-radius: 12px; background: var(--fs-surface); font-size: 16px; line-height: 24px; white-space: pre-wrap; overflow-wrap: anywhere; }
 .fs .fs-bubble.is-mine { background: var(--fs-graphite); color: var(--fs-on-dark); border-bottom-right-radius: 4px; }
 .fs .fs-bubble.is-theirs { border-bottom-left-radius: 4px; }
-.fs .fs-bubble .fs-bubble-time { display: block; margin-top: 2px; font-size: 12px; line-height: 16px; color: var(--fs-muted); text-align: right; }
+.fs .fs-bubble .fs-bubble-time { display: block; margin-top: 2px; font-size: 14px; line-height: 20px; color: var(--fs-muted); text-align: right; }
 .fs .fs-bubble.is-mine .fs-bubble-time { color: var(--fs-muted-dark); }
 .fs .fs-composer { position: sticky; bottom: calc(64px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; padding: 8px 0 12px; background: var(--fs-canvas); }
 .fs .fs-composer .fs-textarea { min-height: 48px; max-height: 160px; resize: none; }
+.fs .fs-input::placeholder, .fs .fs-textarea::placeholder { color: var(--fs-muted); opacity: 1; }
 /* Search: one field, then real results grouped by what they are. */
 .fs .fs-search-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; margin-top: 12px; }
 .fs .fs-hit-list { list-style: none; padding: 0; margin: 8px 0 0; }
@@ -716,7 +720,6 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
   .fs .fs-biz-plate { grid-template-columns: 1fr; }
   .fs .fs-person-hero { grid-template-columns: 1fr; }
   .fs .fs-person-hero > span:last-child { padding-top: 0; }
-  .fs .fs-brand-images { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .fs .fs-search-form { grid-template-columns: 1fr; }
 }
 @media (min-width: 1024px) {

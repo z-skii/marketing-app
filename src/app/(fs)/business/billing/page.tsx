@@ -80,7 +80,7 @@ export default async function BillingPage() {
 
       <section aria-labelledby="sub-title" style={{ marginTop: 32 }}>
         <h2 id="sub-title" className="fs-t-section">Subscription, kept separate</h2>
-        <p className="fs-t-body" style={{ marginTop: 8 }}>{active ? `${PLAN_BY_KEY[active.plan].name} plan${active.status !== "active" ? `, ${active.status.replace("_", " ")}` : ""}` : "No plan"}<span className="fs-t-meta"> · Billed to your card, never taken from campaign credit</span></p>
+        <p className="fs-t-body" style={{ marginTop: 8 }}>{active ? `${PLAN_BY_KEY[active.plan].name} plan${active.status !== "active" ? `, ${active.status.replace("_", " ")}` : ""}` : "No plan"}<span className="fs-t-meta"> · {active?.billing === "stripe" ? "Billed to your card" : active?.billing === "manual" ? "Billed manually" : active ? "Development billing, no charge" : "Billed separately"}, never taken from campaign credit</span></p>
         <Link href="/business/plan" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 4 }}>{active ? "Manage the plan" : "See the plans"} <ArrowRight size={18} aria-hidden /></Link>
       </section>
     </main>

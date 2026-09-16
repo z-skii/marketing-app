@@ -70,7 +70,6 @@ export default async function BusinessProfilePage() {
             <Fact value={String(counts.active)} label={counts.active === 1 ? "Active campaign" : "Active campaigns"} />
             <Fact value={String(counts.scheduled)} label="Scheduled" />
             <Fact value={String(counts.delivered)} label="Delivered" />
-            {counts.review > 0 && <Fact value={String(counts.review)} label={counts.review === 1 ? "Needs review" : "Need review"} />}
           </dl>
 
           <section aria-labelledby="brand-title" style={{ marginTop: 20 }}>
@@ -108,7 +107,7 @@ export default async function BusinessProfilePage() {
 function Fact({ value, label }: { value: string; label: string }) {
   return (
     <div style={{ minWidth: 0 }}>
-      <dd className="fs-money-record fs-tnum" style={{ fontSize: 24, lineHeight: "28px" }}>{value}</dd>
+      <dd className="fs-money-record fs-tnum">{value}</dd>
       <dt className="fs-t-meta">{label}</dt>
     </div>
   );

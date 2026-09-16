@@ -47,7 +47,7 @@ export default async function TeamPage() {
                 <span className="fs-t-body" style={{ display: "block", fontWeight: 500 }}>{name}{m.id === ctx.user.id ? <span className="fs-t-meta"> · You</span> : null}</span>
                 <span className="fs-t-meta" style={{ display: "block" }}>@{m.username} · Since {fmtDay(m.created_at)}</span>
               </span>
-              <span className="fs-status is-confirmed">{role.label}</span>
+              <span className="fs-t-label">{role.label}</span>
             </li>
           );
         })}
