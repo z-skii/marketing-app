@@ -1,0 +1,80 @@
+# V2 review: Business Home, pass 3 (final)
+
+Reviewer: Astra, TapMart's design director.
+
+Captures: business-home-m.png, business-home-s.png, business-home-t.png, business-home-u.png, business-home-v.png, business-home-d.png, business-home-l.png, business-home-m-person.png, business-home-m-request.png, business-home-m-request-nora.png, business-home-d-car.png, biz-open-m-strip.png, biz-open-m-reduced-strip.png, biz-request-m-strip.png
+
+**Verdict: fix.** A creator and her coffee work, with clear choices to inspect or request her. On desktop, a separate car opportunity immediately adds a monthly asking rate and rear-door placement.
+
+## The ten questions
+
+- Does this feel like a premium modern product? **yes**. Large, sharp media, disciplined type, restrained colour and direct actions feel professionally designed. The desktop media-edge misalignment is the main remaining compositional defect.
+- Does it explain itself without paragraphs? **yes**. Faces, work, Request, View person and the monthly placement ask explain the marketplace. The request choices now use understandable verbs; qualifications appear where they matter.
+- Does it feel like a consumer platform, not business software? **yes**. People and work lead rather than queues, credit balances or setup panels. Navigation supports discovery instead of becoming the subject.
+- Is it memorable? **yes**. The asymmetric face-and-work montage, warm canvas and small brick terminals establish a recognisable composition. Restore the shared media datum to complete its signature.
+- Does motion improve understanding? **partly**. The Request strip visibly establishes a temporary task over unchanged context. Normal person opening and return look indistinguishable from the reduced-motion strip; the intended source-to-preview continuity is not demonstrated.
+- Does each earning type feel different? **partly**. Creators and car placements are strongly differentiated through media, money and actions. Story and Recreate become explicit in Request, but remain textual choices rather than separate visual experiences. Do not add discovery badges merely to force three categories onto this screen.
+- Is business discovery exciting? **yes**. You can judge a person’s work immediately, and the next people offer different subjects rather than duplicated inventory. The car creates a useful change of silhouette and commercial possibility.
+- Is Profile identity, not settings? **partly**. The shown person preview is clearly identity and work, not administration. The actual Profile screen is not supplied; its score of 0 means unassessed, not failed.
+- Does the website make someone keep scrolling? **partly**. This logged-in marketplace invites further browsing, but no public website is shown. Its score of 0 means unassessed, not failed.
+- Is it significantly stronger than current production? **yes**. The before captures are a dense miniature directory. This is a legible visual marketplace with clearer actions, stronger people-and-work relationships and more careful money treatment.
+
+## Scores
+
+- earning types distinct: 8
+- motion understanding: 4
+- keeps scrolling: 0
+- slop risk: 2
+- text discipline: 10
+- identity not settings: 0
+- stronger than production: 9
+- discovery excitement: 8
+- memorable: 8
+- self explaining: 9
+- truthfulness: 9
+- premium: 8
+- consumer not software: 9
+
+## Spec drift
+
+- At 1440px, Maya’s earning edge is around y=560 while the car’s is around y=502. At 1920px they are around y=604 and y=542. Restore the specified shared media bottom, not a shared bottom for the complete compositions.
+- The tablet mismatch persists: at 768px the car media ends roughly 44 CSS pixels above the person montage; at 1023px the difference is smaller but still visible. Use the same media-only alignment rule across the entire tablet range.
+- The 320px capture does not show the specified contained 4:5 portrait or work stills, despite the engineer’s note. Retain the successful action clearance while correcting image fit.
+- The normal object-opening strip contains no visible intermediate bounds change and is visually indistinguishable from reduced motion. The motion acceptance requirement remains unproven.
+- The Request strip fades the sheet surface and its contents over the underlying car. The specified treatment is a short sheet translation over a separately fading scrim.
+
+## Spec was wrong
+
+- Bare Story and Recreate labels were too internal. Keep Post a Story and Recreate a Reel in the request choices.
+- Keeping the car amount and View on one row is wrong at narrow tablet widths. Keep US$240 /month together and give View its own 44px row at 768px.
+- City and connected handle work better together beneath the name than scattered across the identity band. Retain this arrangement; Nora gets only her city, with no empty social row.
+- I over-specified the fictional work pairs as consecutive moments from matching sequences. Maya’s sleeves differ, and Eli’s ceramic cup becomes a takeaway cup. Treat these as individual stills within the explicitly fictional project examples, not consecutive video frames. Do not invent replacement projects or media to disguise the differences.
+
+## Fixes
+
+- 1. Align the lead media bottoms independently of their factual bands. At 1440px, use the y=140–500 media deck: Maya’s 288×360 portrait, two 224×280 samples and the car image all finish at y=500, followed by their own 2px edges. At 1920px, use y=140–540 with the specified 400px deck. On tablet, derive the deck from the taller person montage and bottom-align the car media to it. Place each identity/action band below that datum; do not bottom-align whole objects with unequal band heights. (Featured Maya/car spread at 768–1920px, especially business-home-d.png and business-home-l.png.): The shared earning edge is the signature relationship between people, work and advertising space. Currently the layout aligns the ends of the information areas instead, leaving the media seams visibly disconnected.
+- 2. Deliver demonstrable source-image continuity during normal person opening and return: 320ms into the preview and 240ms back, without stretching, while reduced motion remains immediate. Recapture timestamped intermediate frames rather than only settled states. For Request, keep the sheet surface opaque during its 24px entrance and fade the scrim independently; avoid the transparent text-over-car frame visible in the strip. (biz-open-m-strip.png, biz-open-m-reduced-strip.png and biz-request-m-strip.png.): The normal opening strip currently reads as the same cut as reduced motion. Request establishes context, but its transparent intermediate surface briefly produces overlapping content rather than a clean temporary layer.
+- 3. At 320×568, preserve the 212px media-height cap but actually contain the images at 4:5. The portrait can render at 169.6×212px; the two work stills can render at 80×100px with a 12px vertical gap. Bottom-align them within their allocated columns and leave unused width as paper. Preserve the current 44px actions and their clearance above navigation. (Featured montage in business-home-s.png.): The current portrait visibly fills an approximately 194×214px region and clips the top of the hair. The promised contained 4:5 treatment is not present in the pixels. The work frames also lose their specified proportion.
+
+## Keep
+
+- The warm paper canvas, green-black typography, square untreated media and restrained brick earning-edge terminal. Do not add card containers, shadows, gradients or image treatments.
+- The portrait-plus-work composition, grounded landscape car and independently composed desktop spread. Do not return to repetitive shelves or equal cards.
+- One filled Request and one quiet View person per creator; one View for the car. Essential actions remain visible without hovering.
+- US$240 with /month, Asking rate and Rear doors. Keep the financial qualification beside Offer and the explicit Selected placement state.
+- Nora’s clean discovery identity and the factual explanation beside her disabled Story choice. Do not add a disconnected warning to discovery.
+- Five labelled business destinations, restrained attention counts, the single lime Create action and the visible Fictional preview context.
+- The achieved text discipline: 41 default words on phone, 53 on desktop, 24 in both phone first screens, no measured long blocks and no measured horizontal overflow. Do not remove more useful copy.
+
+## Why better than production
+
+Production makes you read through notices, tiny work thumbnails and repeated metadata before choosing someone. This version leads with a face and work you can actually judge. Request starts an invitation; View person lets you inspect first. Cars have a different shape, a clearly monthly asking rate and a named placement. The supplied counts fall from 208 to 41 words on phone and 249 to 53 on desktop, without removing those essential distinctions. It is substantially more inviting and understandable—not just a colour refresh. Three finish issues prevent final approval.
+
+## Remaining risks
+
+- All people, work associations, rates, reviews and attention counts remain isolated fixtures. The visible Fictional preview label must remain while those records are used; this review does not establish production provenance or rights.
+- All six commissioned work-image slots are now visible, but they should not be represented as continuity-matched footage or evidence of real completed work.
+- The supplied captures do not establish filter results, both city changes, identity-state preservation, More, empty/error variants, the unselected Offer state or request/offer boundaries. Those still need the specified interaction QA.
+- Focus outlines are visible on return, but screenshots cannot establish focus trapping, background inertness, Escape/Back behaviour, scroll restoration or 200% text-zoom usability.
+- No placement-motion sequence or reduced-motion Request sequence is supplied. Approve those behaviours from a recording, not from the selected placement still.
+- The roomy composition must still be checked with actual record-bound portraits, work, variable-length names and missing media. Do not compensate for weaker inventory with unrelated imagery or duplicated records.
