@@ -15,6 +15,7 @@ export function Switcher({ current, className = "identity", compact = false, ava
   const rows = [
     { key: "Personal", name: "Maya Chen", mode: "Personal" as const, href: "/design-lab-v2/home", avatar: "/design-lab/portrait-maya-01.jpg", initials: "MC" },
     { key: "Business", name: "Loopday Coffee", mode: "Business" as const, href: "/design-lab-v2/business", avatar: null, initials: "LC" },
+    { key: "Spurroom", name: "Spurroom Bikes", mode: "Business" as const, href: "/design-lab-v2/business", avatar: null, initials: "SB" },
   ];
   const me = rows.find((r) => r.key === current) ?? rows[0];
   return (

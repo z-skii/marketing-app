@@ -26,7 +26,7 @@ export function Sheet({ title, trigger, triggerClass, triggerStyle, triggerLabel
       <dialog ref={dialog} className={`sheet${variant === "full" ? " sheet-full" : ""}${variant === "menu" ? " sheet-menu" : ""}`} aria-label={title} onClose={close} onClick={(e) => { if (e.target === dialog.current) close(); }}>
         <div className="sheet-body">
           <div className="sheet-bar">
-            <span className="t-object">{title}</span>
+            <span className="sheet-title">{title}</span>
             <button type="button" className="icon-btn" aria-label="Close" onClick={close}><X size={20} /></button>
           </div>
           {open && children}

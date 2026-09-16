@@ -31,12 +31,14 @@ export default async function V2Profile({ searchParams }: { searchParams: Promis
           </span>
           <span style={{ display: "flex", gap: 8 }}><ShareSheet /><SettingsSheet /></span>
         </header>
+        <div className="desk-wrap">
         <header className="desk-header profile-desk-header">
           <Switcher current="Personal" compact className="identity tablet-only" />
           <span className="t-note">Fictional profile</span>
           <span style={{ display: "flex", gap: 8 }}><ShareSheet /><SettingsSheet /></span>
         </header>
         <main className="phone-main desk-main"><ProfileBody /></main>
+        </div>
         <TabBar tabs={USER_TABS} active="Profile" label="Personal" />
       </div>
     </div>

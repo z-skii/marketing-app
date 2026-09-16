@@ -93,23 +93,25 @@ export const BUSINESS_SETTINGS = ["Account", "Business Details", "Connections", 
 
 export type Person = {
   id: string; name: string; city: string; portrait: string; portraitAlt: string;
-  instagram: string | null;
-  work: { src: string; ratio: string; alt: string; title: string; kind: Kind }[];
-  canStory: boolean;
+  instagram: { handle: string; followers: number } | null;
+  completed: number; rating: { value: number; review: { by: string; text: string; date: string } } | null; verified: boolean;
+  project: { title: string; business: string; approved: string; stills: { src: string; alt: string }[] };
 };
 
 export const businessPeople: Person[] = [
-  { id: "maya", name: "Maya Chen", city: "Austin", portrait: ASSET("portrait-maya-01"), portraitAlt: "Maya Chen, fictional creator", instagram: "@maya.tapmart_demo", canStory: true,
-    work: [{ src: ASSET("work-maya-loopday-01"), ratio: "4 / 5", alt: "Coffee handoff at a counter", title: "Coffee handoff", kind: "recreate" }, { src: ASSET("content-loopday-pour-03"), ratio: "4 / 5", alt: "A slow pour into a cup", title: "Slow pour", kind: "recreate" }] },
-  { id: "nora", name: "Nora Vale", city: "Austin", portrait: ASSET("portrait-nora-01"), portraitAlt: "Nora Vale, fictional creator", instagram: null, canStory: false,
-    work: [{ src: ASSET("work-eli-spurroom-01"), ratio: "4 / 5", alt: "A bicycle wheel being trued", title: "Wheel true", kind: "recreate" }, { src: ASSET("work-nora-lunch-01"), ratio: "4 / 5", alt: "A lunch plate on a table", title: "Lunch plate", kind: "story" }] },
-  { id: "eli", name: "Eli Moss", city: "Round Rock", portrait: ASSET("portrait-eli-01"), portraitAlt: "Eli Moreno, fictional creator", instagram: "@eli.tapmart_demo", canStory: true,
-    work: [{ src: ASSET("work-maya-spurroom-02"), ratio: "4 / 5", alt: "A tire check in a bike workshop", title: "Tire check", kind: "recreate" }, { src: ASSET("work-jules-flowers-01"), ratio: "4 / 5", alt: "A bouquet being wrapped", title: "Bouquet wrap", kind: "recreate" }] },
+  { id: "maya", name: "Maya Chen", city: "Austin", portrait: ASSET("portrait-maya-01"), portraitAlt: "Maya Chen, fictional creator", instagram: { handle: "@maya.tapmart_demo", followers: 2400 }, completed: 4, verified: true,
+    rating: { value: 5, review: { by: "Spurroom Bikes", text: "Clear framing and careful attention to the brief.", date: "Sep 12, 2026" } },
+    project: { title: "Counter pour", business: "Loopday Coffee", approved: "Sep 10, 2026", stills: [{ src: V2ASSET("maya-work-pour-01"), alt: "Recreate still: hands pouring milk into a coffee cup" }, { src: V2ASSET("maya-work-cup-02"), alt: "Recreate still: hands presenting the finished cup" }] } },
+  { id: "nora", name: "Nora Vale", city: "Austin", portrait: ASSET("portrait-nora-01"), portraitAlt: "Nora Vale, fictional creator", instagram: null, completed: 1, verified: false, rating: null,
+    project: { title: "Chain care", business: "Spurroom Bikes", approved: "Sep 9, 2026", stills: [{ src: V2ASSET("nora-work-chain-01"), alt: "Recreate still: hands cleaning a bicycle chain" }, { src: V2ASSET("nora-work-wheel-02"), alt: "Recreate still: checking the rear wheel and chain" }] } },
+  { id: "eli", name: "Eli Moss", city: "Round Rock", portrait: ASSET("portrait-eli-01"), portraitAlt: "Eli Moss, fictional creator", instagram: { handle: "@eli.tapmart_demo", followers: 1800 }, completed: 3, verified: false, rating: null,
+    project: { title: "Desk ritual", business: "Loopday Coffee", approved: "Sep 8, 2026", stills: [{ src: V2ASSET("eli-work-bag-01"), alt: "Recreate still: hands opening a paper coffee bag" }, { src: V2ASSET("eli-work-cup-02"), alt: "Recreate still: placing the prepared cup beside the bag" }] } },
 ];
 
-export const businessCar = { id: "eli-car", title: "Eli’s car", city: "Austin", photo: ASSET("vehicle-eli-01"), alt: "Eli’s car: a silver sedan parked outside a brick workshop", zone: "Rear doors", askCents: 24000 };
+export const businessCar = { id: "car-eli-rear-doors", title: "Eli’s car", city: "Austin", photo: ASSET("vehicle-eli-01"), alt: "Eli’s car: a silver sedan parked outside a brick workshop", zone: "Rear doors", askCents: 24000 };
 
 export const businessAttention = { content: 2, campaigns: 3 };
+export const businessCities = ["Austin", "Round Rock"];
 
 // -------------------------------------------------------- Public site
 

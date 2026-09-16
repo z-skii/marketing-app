@@ -16,15 +16,17 @@ export default function V2UserHome() {
         <h1 className="v2-sr">Home</h1>
         <header className="phone-header">
           <Switcher current="Personal" compact />
-          <Utilities search={<SearchSheet labelled />} />
+          <Utilities search={<SearchSheet />} />
         </header>
+        <div className="desk-wrap">
         <header className="desk-header tablet-only">
           <Switcher current="Personal" compact />
-          <Utilities search={<SearchSheet labelled />} />
+          <Utilities search={<SearchSheet />} />
         </header>
         <main className="phone-main desk-main">
           <Feed />
         </main>
+        </div>
         <TabBar tabs={tabs} active="Home" label="Personal" />
       </div>
     </div>

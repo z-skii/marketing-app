@@ -48,7 +48,7 @@ export function Edge({ left = false, style }: { left?: boolean; style?: CSSPrope
   return <span aria-hidden className={`edge${left ? " edge-left" : ""}`} style={{ display: "block", ...style }} />;
 }
 
-export type Tab = { href: string; label: string; icon: ReactNode; create?: boolean; outside?: boolean; badge?: number };
+export type Tab = { href: string; label: string; deskLabel?: string; icon: ReactNode; create?: boolean; outside?: boolean; badge?: number };
 
 const ICON = 22;
 export const USER_TABS: Tab[] = [
@@ -60,13 +60,13 @@ export const USER_TABS: Tab[] = [
 export const BUSINESS_TABS: Tab[] = [
   { href: "/design-lab-v2/business", label: "Home", icon: <House size={ICON} /> },
   { href: "#content", label: "Content", icon: <CalendarBlank size={ICON} />, outside: true },
-  { href: "#create", label: "Create", icon: <Plus size={18} weight="bold" />, create: true, outside: true },
+  { href: "#create", label: "Create", deskLabel: "Create campaign", icon: <Plus size={18} weight="bold" />, create: true, outside: true },
   { href: "#campaigns", label: "Campaigns", icon: <Megaphone size={ICON} />, outside: true },
   { href: "#business", label: "Business", icon: <Storefront size={ICON} />, outside: true },
 ];
 
 function TabLink({ t, active }: { t: Tab; active: string }) {
-  const inner = <><span className={t.create ? "disc icon" : "icon"} aria-hidden={t.badge ? undefined : true}>{t.icon}{t.badge ? <span className="count" aria-label={`${t.badge} need attention`}>{t.badge}</span> : null}</span><span>{t.label}</span></>;
+  const inner = <><span className={t.create ? "disc icon" : "icon"} aria-hidden={t.badge ? undefined : true}>{t.icon}{t.badge ? <span className="count" aria-label={`${t.badge} need attention`}>{t.badge}</span> : null}</span><span>{t.deskLabel ? <><span className="lbl-phone">{t.label}</span><span className="lbl-desk">{t.deskLabel}</span></> : t.label}</span></>;
   if (t.outside) return <Outside label={t.label} className={t.create ? "create" : undefined}>{inner}</Outside>;
   return <Link href={t.href} aria-current={t.label === active ? "page" : undefined} className={t.create ? "create" : undefined}>{inner}</Link>;
 }

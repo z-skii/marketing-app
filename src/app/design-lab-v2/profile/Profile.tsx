@@ -25,6 +25,7 @@ export function ProfileBody({ publicView = false }: { publicView?: boolean }) {
         <div className="profile-who">
           <h1 className="t-name">{p.name}</h1>
           <p className="t-fact profile-handle">{p.username}<span aria-hidden> · </span>{p.city}</p>
+          {publicView && <p className="t-fact profile-public-count">{p.completed} completed</p>}
           {!publicView && (
             <p className="t-fact profile-signals">
               <span>{p.instagram ? "Instagram connected" : "Instagram not connected"}</span>
@@ -32,11 +33,13 @@ export function ProfileBody({ publicView = false }: { publicView?: boolean }) {
             </p>
           )}
         </div>
-        <div className="profile-metrics">
-          {!publicView && <div><Money cents={p.earnedCents} size="money-metric" /><span className="t-fact">Earned</span></div>}
-          <div><span className="money-metric" style={{ display: "block" }}>{p.completed}</span><span className="t-fact">Completed</span></div>
-          {p.reviews === 0 ? <p className="t-fact profile-reviews">No reviews yet</p> : null}
-        </div>
+        {!publicView && (
+          <div className="profile-metrics">
+            <div><Money cents={p.earnedCents} size="money-metric" /><span className="t-fact">Earned</span></div>
+            <div><span className="money-metric" style={{ display: "block" }}>{p.completed}</span><span className="t-fact">Completed</span></div>
+            {p.reviews === 0 ? <p className="t-fact profile-reviews">No reviews yet</p> : null}
+          </div>
+        )}
       </section>
 
       <section className="profile-work" aria-labelledby="work-h">
@@ -46,7 +49,7 @@ export function ProfileBody({ publicView = false }: { publicView?: boolean }) {
         ) : (
           <div className="work-deck">
             {p.work.map((w) => (
-              <Preview key={w.id} id={w.id} title={w.title} eyebrow="Fictional profile" media={w.media} mediaRatio={w.ratio} mediaAlt={w.alt} content={<WorkDetail w={w} />}>
+              <Preview key={w.id} id={w.id} title={w.title} eyebrow="Fictional profile" media={w.media} mediaRatio={w.ratio} mediaAlt={w.alt} content={<WorkDetail w={w} publicView={publicView} />}>
                 {(open) => (
                   <button type="button" className={`obj work work-${w.kind}`} onClick={open} aria-label={`Open ${w.title}`}>
                     <span className="media" style={{ aspectRatio: w.ratio }}><Img src={w.media} alt="" /></span>
@@ -55,7 +58,7 @@ export function ProfileBody({ publicView = false }: { publicView?: boolean }) {
               </Preview>
             ))}
             <Edge style={{ gridArea: "edge" }} />
-            <Edge style={{ gridArea: "edge2" }} />
+            <span className="edge edge-2" aria-hidden style={{ gridArea: "edge2", display: "block" }} />
           </div>
         )}
       </section>
@@ -81,29 +84,33 @@ export function ProfileBody({ publicView = false }: { publicView?: boolean }) {
 
 type Work = (typeof profile.work)[number];
 
-function WorkDetail({ w }: { w: Work }) {
+const plain = (cents: number) => (cents / 100).toFixed(2);
+
+function WorkDetail({ w, publicView = false }: { w: Work; publicView?: boolean }) {
   const kind = w.kind === "recreate" ? "Recreate" : w.kind === "story" ? "Story" : "Car";
   return (
     <div>
       <div className="op-band" style={{ marginTop: 16 }}>
-        <div><Money cents={w.netCents} basis="Credited" /></div>
+        <div>{publicView ? <h2 className="t-object">{w.title}</h2> : <Money cents={w.netCents} basis="Credited" />}</div>
         {w.media && <Viewer src={w.media} alt={w.alt} label="Expand media" className="link t-action" style={{ display: "inline-flex", alignItems: "center", gap: 6, minHeight: 44 }}><ArrowsOutSimple size={18} aria-hidden />Expand media</Viewer>}
       </div>
-      <h2 className="t-object" style={{ marginTop: 12 }}>{w.title}</h2>
+      {!publicView && <h2 className="t-object" style={{ marginTop: 12 }}>{w.title}</h2>}
       <p className="t-fact" style={{ marginTop: 4 }}>{kind}<span aria-hidden> · </span>{w.business}<span aria-hidden> · </span>{w.mediaNote}</p>
       <p className="state ok" style={{ marginTop: 12, fontSize: 16, lineHeight: "24px" }}>{w.state}</p>
       <dl className="facts" style={{ marginTop: 16 }}>
         {w.facts.map((f) => <div key={f.label}><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
       </dl>
-      <details className="disclosure" style={{ marginTop: 24 }}>
-        <summary className="t-action">Payment details</summary>
-        <dl className="facts" style={{ marginTop: 12 }}>
-          <div><dt>Gross</dt><dd>{money(w.grossCents, { cents: true })} USD</dd></div>
-          <div><dt>Platform fee</dt><dd>{money(w.feeCents, { cents: true })} USD</dd></div>
-          <div><dt>Credited</dt><dd>{money(w.netCents, { cents: true })} USD, {w.creditedOn}</dd></div>
-        </dl>
-        <p className="t-body" style={{ marginTop: 12 }}>Credited earnings are not a bank payout.</p>
-      </details>
+      {!publicView && (
+        <details className="disclosure" style={{ marginTop: 24 }}>
+          <summary className="t-action">Payment details</summary>
+          <dl className="facts" style={{ marginTop: 12 }}>
+            <div><dt>Gross</dt><dd>{plain(w.grossCents)} USD</dd></div>
+            <div><dt>Platform fee</dt><dd>{plain(w.feeCents)} USD</dd></div>
+            <div><dt>Credited</dt><dd>{plain(w.netCents)} USD, {w.creditedOn}</dd></div>
+          </dl>
+          <p className="t-body" style={{ marginTop: 12 }}>Credited earnings are not a bank payout.</p>
+        </details>
+      )}
     </div>
   );
 }

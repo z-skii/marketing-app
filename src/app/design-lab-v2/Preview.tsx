@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft } from "@phosphor-icons/react";
+import { X } from "@phosphor-icons/react";
 
 /**
  * Card becomes detail. The media a person tapped continues into the object
@@ -77,7 +77,7 @@ export function Preview({ id, title, eyebrow = "Fictional preview", media, media
             {open && (media ? (
               <div ref={target} className="preview-media" style={{ aspectRatio: mediaRatio }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={media} alt={mediaAlt} style={{ objectFit: mediaFit, objectPosition: mediaPosition }} />
+                <img src={media} alt={mediaAlt} style={{ objectFit: "contain", objectPosition: mediaPosition }} data-fit={mediaFit} />
               </div>
             ) : (
               <div className="preview-media media-fallback" style={{ aspectRatio: mediaRatio }}>{mediaAlt}</div>
@@ -85,9 +85,9 @@ export function Preview({ id, title, eyebrow = "Fictional preview", media, media
           </div>
           <div className="preview-pane">
             <div className="preview-bar">
-              <button type="button" className="icon-btn" aria-label="Close" onClick={close}><ArrowLeft size={20} /></button>
+              <button type="button" className="link link-plain t-action preview-close" onClick={close}><X size={18} aria-hidden />Close</button>
               <span className="t-note">{eyebrow}</span>
-              <span style={{ width: 44 }} aria-hidden />
+              <span style={{ width: 72 }} aria-hidden />
             </div>
             {open && <div className="preview-content">{content}</div>}
           </div>
