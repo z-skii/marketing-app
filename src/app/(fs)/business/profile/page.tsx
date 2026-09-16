@@ -51,7 +51,7 @@ export default async function BusinessProfilePage() {
             <div className="fs-biz-cover"><Img src={row.cover_url} alt={`${row.name}, cover photo`} loading="eager" /></div>
           ) : null}
           <div className="fs-biz-plate" style={{ marginTop: row.cover_url ? 16 : 0 }}>
-            <span className="fs-biz-logo">{row.logo_url ? <Img src={row.logo_url} alt={`${row.name} logo`} loading="eager" /> : <span aria-hidden className="fs-display" style={{ fontWeight: 700, fontSize: 40 }}>{(row.name.trim()[0] ?? "?").toUpperCase()}</span>}</span>
+            <span className={`fs-biz-logo${row.logo_url ? " has-image" : ""}`}>{row.logo_url ? <Img src={row.logo_url} alt={`${row.name} logo`} loading="eager" /> : <span aria-hidden className="fs-display" style={{ fontWeight: 700, fontSize: 40 }}>{(row.name.trim()[0] ?? "?").toUpperCase()}</span>}</span>
             <div style={{ minWidth: 0, paddingTop: 4 }}>
               <p className="fs-t-identity">{row.name}</p>
               <p className="fs-t-meta" style={{ marginTop: 4 }}>{identityLine || "Add a category and city in Business details"}</p>

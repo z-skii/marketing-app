@@ -197,3 +197,21 @@ lands first, real content instead of any placeholder, one clear next tap.
 9. Repeated seed vehicle and media images are acceptable for demo data.
    Never invent visual diversity in production; real records determine
    variety.
+
+## Backlog (non-blocking, recorded 2026-09-16 at Stage 5)
+
+10. Team: the product has no invitation record, so Team lists only the
+    members and roles that exist and says invitations are not available
+    yet. When invitations are built, they need their own stored state
+    (invited, accepted, expired) before any invited row is drawn.
+11. A Contact support link appears on the unconfigured Google and
+    Instagram states only once a real support mailbox is configured in
+    src/config/site.ts. Until then the sentence stands without a link.
+12. The shared Home opportunity objects keep their cobalt View work link
+    on the public business page; the design QA director suggested ink for
+    inspection links there. Revisit with the Stage 1 objects, not per
+    screen.
+13. Portfolio samples are shown as ordinary media at 4px corners. A
+    supplied Story sheet is only drawn square when the record says the
+    file is a Story creative; a portrait photo is never assumed to be one.
+

@@ -50,7 +50,7 @@ export default async function BusinessPublicPage({ params }: { params: Promise<{
         <div className="fs-detail-source" style={{ marginTop: 0 }}>
           {business.cover_url && <div className="fs-biz-cover"><Img src={business.cover_url} alt={`${business.name}, cover photo`} loading="eager" /></div>}
           <div className="fs-biz-plate" style={{ marginTop: business.cover_url ? 16 : 0 }}>
-            <span className="fs-biz-logo">{business.logo_url ? <Img src={business.logo_url} alt={`${business.name} logo`} loading="eager" /> : <span aria-hidden className="fs-display" style={{ fontWeight: 700, fontSize: 40 }}>{(business.name.trim()[0] ?? "?").toUpperCase()}</span>}</span>
+            <span className={`fs-biz-logo${business.logo_url ? " has-image" : ""}`}>{business.logo_url ? <Img src={business.logo_url} alt={`${business.name} logo`} loading="eager" /> : <span aria-hidden className="fs-display" style={{ fontWeight: 700, fontSize: 40 }}>{(business.name.trim()[0] ?? "?").toUpperCase()}</span>}</span>
             <span style={{ minWidth: 0, paddingTop: 4 }}>
               <h1 className="fs-t-identity">{business.name}</h1>
               {meta && <p className="fs-t-meta" style={{ marginTop: 4 }}>{meta}</p>}

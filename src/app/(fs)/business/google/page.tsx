@@ -118,8 +118,8 @@ export default async function GooglePage({ searchParams }: { searchParams: Promi
 
       {fixes.length > 0 && (
         <section aria-labelledby="fix-title" style={{ marginTop: 32 }}>
-          <h2 id="fix-title" className="fs-t-section">Fixes you can approve</h2>
-          <p className="fs-t-meta" style={{ marginTop: 4 }}>Nothing changes on Google until you approve it here, one change at a time.</p>
+          <h2 id="fix-title" className="fs-t-section">Fix your listing</h2>
+          <p className="fs-t-meta" style={{ marginTop: 4 }}>Approve a proposal here and TapMart sends that one change to Google. Where it says Change it on Google, make the change in your Google Business Profile.</p>
           <FixList fixes={fixes} canEdit={canEdit} />
         </section>
       )}

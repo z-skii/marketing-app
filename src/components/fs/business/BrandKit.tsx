@@ -122,7 +122,7 @@ export function BrandKitStudio({ record, businessName, sources: initialSources, 
             <ol className="fs-plain-list" style={{ marginTop: 8 }}>
               {proposal.improvements.map((line, i) => (
                 <li key={line} style={{ display: "grid", gridTemplateColumns: "28px minmax(0, 1fr)", gap: 8, padding: "8px 0", borderTop: i ? "1px solid var(--fs-divider)" : undefined }}>
-                  <span className="fs-display fs-tnum" style={{ fontWeight: 700, fontSize: 18, color: "var(--fs-accent)" }}>{i + 1}</span>
+                  <span className="fs-display fs-tnum" style={{ fontWeight: 700, fontSize: 18 }}>{i + 1}</span>
                   <span className="fs-t-body">{line}</span>
                 </li>
               ))}
