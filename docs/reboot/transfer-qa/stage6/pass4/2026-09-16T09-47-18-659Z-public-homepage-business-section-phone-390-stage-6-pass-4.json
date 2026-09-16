@@ -1,0 +1,51 @@
+{
+ "screen": "Public homepage, business section (phone 390), Stage 6 pass 4",
+ "screenshot": "m-business-review.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:47:18.659Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16411,
+  "output_tokens": 2831,
+  "total_tokens": 19242,
+  "reasoning_tokens": 2070
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co., Jasmine Reed and Raleigh replace the Lab\u2019s fixture identities and location. They appear within clearly captioned production demo captures.",
+   "Business Home shows actual demo-account counts, including 4 campaign decisions and 2 files to approve, rather than reproducing the Lab\u2019s discovery example.",
+   "Content shows \u201cThe slow pour.\u201d with \u201cEdit requested\u201d and 4 delivered files instead of the Lab\u2019s \u201cCounter reset\u201d in the \u201cNew\u201d state. The native caption preserves that distinction.",
+   "Essential at $99 a month and Growth at $199 a month expose configured production prices absent from the Lab example. Shoot, photo and video allocations remain explicit."
+  ],
+  "keep": [
+   "The mineral canvas, graphite device housings, strong Archivo headings, readable operational copy and restrained cobalt preserve Frame Shift without turning the section into floating SaaS cards.",
+   "Campaigns and Monthly content remain separate, vertically explained propositions. Production screens demonstrate discovery, campaign creation and content review rather than serving as decorative dashboard thumbnails.",
+   "Keep the slide-contained Inspect buttons: the visible buttons align with their own approximately 200px-wide slides, have substantial targets and do not overlap neighboring captions.",
+   "Keep native provenance beneath each product frame, especially the Content caption\u2019s literal \u201cFile: Edit requested\u201d state.",
+   "Keep the strip controls above the frames and the intentional next-slide preview at the right edge. That clipping is navigation affordance, not responsive drift.",
+   "Keep generated shoot imagery explicitly labeled as a generated sample, distinct from the delivered-file interface.",
+   "Keep the unboxed plan lines, visible allocations and separate campaign-spending explanation. The cobalt account-creation action and secondary plans action establish a clear next decision.",
+   "Do not add decorative source-to-commitment notches to plan rows or navigation. Their absence here is consistent with using the joint only at meaningful source-to-fact boundaries."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off this business section at 390px on capture evidence. No visible release blocker remains. Off-screen slides, Inspect dialog behavior, menu destinations and the separate Earnings-balance adjustment cannot be verified from this composite.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "This is a faithful transfer of the approved language, not a reproduction of the Lab layout. The 16px phone gutters, clear heading hierarchy, quiet surfaces, restrained borders and shadow-free housings remain coherent across all four captures. Real product records carry the business story: find a person, create a campaign, then review delivered content with an honest edit-requested state. Subscription prices have an explicit monthly basis, and campaign credit is explained separately rather than presented as creator earnings. The small embedded interfaces now have readable native captions and slide-bounded inspection actions. Repeated headers and partial content at composite boundaries are capture artifacts; neighboring slides cut at the right edge are intentional. Nothing visible suggests lost functionality or fabricated outcomes.",
+  "verdict": "Frame Shift has transferred faithfully to this 390px business section, with real product states intact and the targeted Inspect-button containment fix visibly resolved."
+ }
+}

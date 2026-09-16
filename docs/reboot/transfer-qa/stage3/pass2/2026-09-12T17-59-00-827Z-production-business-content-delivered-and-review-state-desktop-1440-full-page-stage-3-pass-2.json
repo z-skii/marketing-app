@@ -1,0 +1,53 @@
+{
+  "screen": "Production Business Content, delivered and review state (desktop 1440, full page), stage 3 pass 2",
+  "screenshot": "d-business_content-full.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T17:59:00.827Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 10295,
+    "output_tokens": 2630,
+    "total_tokens": 12925,
+    "reasoning_tokens": 1825
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "The real Essential plan, Demo Coffee Co. business name and D initial replace the Lab fixtures. Message and notification counts are legitimate production navigation states; no Demo disclosure needs to be added.",
+      "Production shows four delivered files and two needing approval rather than the Lab’s five and one. The selected file is Edit requested rather than New, with its recorded edit note visible.",
+      "Actual café photography replaces the fixture photography. Graphite pillarboxing preserves the selected photo’s proportions, and the video tile identifies a real video without inventing a still.",
+      "Caption · Read only and the explanation directing changes through Request an edit correctly reflect production’s available functionality. The additional edit note legitimately moves the actions lower.",
+      "Actual creator attribution, verification, dates, time zones, business and location replace fixture provenance. Delivered photo correctly replaces Demo delivered file.",
+      "Three shoots expose completed, booked and being-scheduled states. The broader Shoots heading and additional page height are appropriate for these real records.",
+      "The single failed Instagram Reel replaces the Lab’s scheduled-photo and failed-photo examples. Its recorded scheduled time, failure explanation and Open Connections recovery remain visible."
+    ],
+    "keep": [
+      "The matching 200px graphite rail, 32px desktop content gutter, mineral canvas, restrained mark and selected Content navigation treatment.",
+      "The approved review assembly: 816px media region, 24px source-to-inspector joint and 336px white decision plane, without floating dashboard cards.",
+      "Intact source media, restrained media corners, source-ratio thumbnail treatment and a clear cobalt selection outline.",
+      "The matched title, section, file-title and operational-text hierarchy; square structural regions; and rounded, clearly bounded controls.",
+      "The action hierarchy: cobalt Approve content, outlined Request an edit, then ink Skip and Open original.",
+      "Independent file, post and shoot status text. Approved · Post failed correctly avoids presenting file approval as successful publication.",
+      "The flat shoot records, quiet dividers, visible shoot navigation and explicit Open Connections recovery action."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Sign off the captured 1440px desktop screen for visual release. The capture shows the required records, states, navigation and actions; it cannot establish whether playback, navigation destinations or backend mutations execute successfully.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "Production closely preserves the approved composition rather than merely borrowing its colors. The rail, header, tabs, review heading, 420px-high source reservation and adjacent white inspector occupy the same positions. Mineral, graphite, white and cobalt retain their approved roles, with no added shadows or generic card framing. The real photograph remains intact inside its graphite housing; thumbnail selection is explicit. Additional read-only guidance and the recorded edit note fit without crowding or losing any review action. All four delivered files remain identifiable, including the approved video whose publication failed. The extra shoot extends the flat records section naturally, and the failed-post explanation and recovery control remain fully visible below it. No clipping or overlap is evident. Neither capture contains a monetary amount to compare, and production invents no financial promise. There is no evidenced implementation drift requiring a fix.",
+    "verdict": "Frame Shift was faithfully transferred at this desktop viewport, with production data, independent states and visible functionality preserved."
+  }
+}

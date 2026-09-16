@@ -1,0 +1,51 @@
+{
+  "screen": "Production Business Home (phone 390), stage 3 pass 2",
+  "screenshot": "m-business-full.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T17:57:35.067Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 12422,
+    "output_tokens": 3817,
+    "total_tokens": 16239,
+    "reasoning_tokens": 3004
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co., Raleigh/Durham, four visible people and two vehicles replace the Lab’s fictional business, locations and inventory. The saved business and work titles containing “Demo” or “[demo]” are record content, not missing Lab provenance.",
+      "The attention link shows 2 files to approve rather than the Lab’s fixture counts. Message and notification badges also reflect production state; fixture counts should not be restored.",
+      "Uploaded coffee and vehicle images appear in identity positions, and the missing portrait uses a D initial. The plain coral square is supplied work and correctly remains visible without replacement imagery.",
+      "Instagram connection, creator verification, completed work and reviews vary independently. Followers appear only for connected Instagram records, and ratings appear only where reviews exist.",
+      "The BMW inventory exposes real monthly starting asks of $80.00 and $250.00, with multiple named placements rather than the Lab’s single-placement prices. The second vehicle does not invent a missing city."
+    ],
+    "keep": [
+      "Mineral canvas, ink typography, muted operational text and restrained borders. Records remain open compositions without dashboard cards, enclosing media underlays or ambient shadows.",
+      "The phone translation uses 16px outer gutters and a clear 12px-lower identity column beside each work source. Vehicle captions retain the lower-right step beneath their photographs.",
+      "Work remains at its own aspect ratio, including the square upload. Identity media stays compact, and vehicle photographs are unobstructed by money, badges or invented advertising artwork.",
+      "The strong two-line page heading, readable names, compact provenance and recorded reputation row. The product-owner-approved reputation treatment does not become a popularity leaderboard.",
+      "Separate View person and Request actions, with the visible Request menu indicator. Keep the approved Request Story/Request Reel entry rather than restoring the Lab’s recipient-named button labels.",
+      "Vehicle identity, named placements and monthly asking amounts remain attached captions in ink. “Asking from” distinguishes starting inventory prices from agreed offers or earnings.",
+      "For you, People, Cars and Nearby remain visible, alongside See all people and See all cars. The mobile shell retains business switching, search, messages, notifications and the five primary navigation destinations."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off for the captured 390px viewport. The document-end tab bar is an accepted capture arrangement. Click destinations, Request menu behavior, permissions and query-failure handling still require runtime verification; the capture does not establish those behaviors.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 8,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The production screen preserves Frame Shift’s source-to-decision relationship rather than merely copying its colors. Work begins on the left, identity starts 12px lower on the right, and source captions lead into distinct inspection and request actions. Cars use complete photographs followed by stepped, unboxed monthly terms. The mineral surface, restrained cobalt, strong hierarchy and literal status text match the approved language. The header, city control, captions, prices and navigation fit without visible clipping or collisions. Cars appear farther down because the explicitly approved phone layout presents people vertically; that is not desktop-composition drift. No release-blocking visual or exposed-functionality regression is evident.",
+    "verdict": "Frame Shift was faithfully transferred to this 390px production screen, with real data and visible functionality preserved; approve this viewport."
+  }
+}

@@ -1,0 +1,63 @@
+{
+ "screen": "Production Google Business before connection (phone 390), Stage 5 pass 1",
+ "screenshot": "m-business_google.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:39:55.084Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10415,
+  "output_tokens": 3750,
+  "total_tokens": 14165,
+  "reasoning_tokens": 2880
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The supplied Lab image is a creator Profile, not a Google Business design. This utility screen correctly omits its graphite identity masthead, portfolio, vehicle assembly and earnings.",
+   "Mo's Demo Shop, the M initial, notification count and business navigation replace the Lab's fictional personal account and portrait.",
+   "Not connected and the configuration warning are legitimate production states. The disabled Connect Google Business button should remain disabled while the integration is unconfigured.",
+   "No listing information, reviews, performance claims or inferred health appear before a real Google connection. That absence is correct."
+  ],
+  "keep": [
+   "Mineral canvas, white working surface, square structural corners and no card shadows.",
+   "The 16px phone gutters, strong 30/36px page title and clear operational type hierarchy.",
+   "Literal Not connected status and the explicit explanation of why connection is unavailable.",
+   "The restrained single-purpose layout. Do not add media, a source-to-commitment offset, financial figures or a dashboard to this state.",
+   "Visible Settings return, account switcher, search, messages, notifications and business navigation."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The capture shows no evidence of functionality lost during migration; connection is explicitly blocked by configuration rather than presented as working. Hold viewport sign-off for the navigation-selection and support-path fixes below. Routing and OAuth behavior still require interaction testing.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 10,
+   "uniqueness": 7,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 7,
+   "brand_recognition": 8,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Keep Business selected throughout its settings routes. Apply #151B23 to its icon and label, IBM Plex Sans 600 at 14/18px to the label, and the Lab's centered 24\u00d73px #2450E8 top selection edge. Preserve the separate Create action and existing navigation targets.",
+    "kind": "usability",
+    "why": "Every destination currently has the same muted treatment. The cobalt Create control is an action, not an indication of the current section; the Lab distinguishes its active Profile destination.",
+    "where": "Bottom navigation, Business tab"
+   },
+   {
+    "priority": 2,
+    "change": "Keep the configuration explanation at 14/20px, but replace the plain instruction to ask support with a visible Contact support action wired to TapMart's actual support destination. Use an ink #151B23 text control, IBM Plex Sans 600 at 16/20px, with a minimum 44px hit target. Do not enable Connect until configuration permits it.",
+    "kind": "usability",
+    "why": "The only primary action is disabled, and the stated recovery step is plain text. No explicit support destination is exposed in this state; the generic messages icon does not identify that path.",
+    "where": "Configuration warning beneath Connect Google Business"
+   }
+  ],
+  "why": "At the captured 390px CSS width, the screen carries the approved mineral/white palette, ink and muted text hierarchy, 16px outer gutters, rectangular working region and 8px control treatment without clipping or ornamental depth. The heading, status, explanation and connection action scan in the right order. The absence of graphite media, money and an offset joint is appropriate because there is no connected source to inspect or financial commitment to present. The faded button is explained by a real configuration limitation, not accompanied by invented Google results. The remaining visible weaknesses are the unmarked Business navigation destination and a recovery instruction without a direct action.",
+  "verdict": "Frame Shift is faithfully transferred into an honest connection-only screen, with two navigation and recovery fixes needed before release."
+ }
+}

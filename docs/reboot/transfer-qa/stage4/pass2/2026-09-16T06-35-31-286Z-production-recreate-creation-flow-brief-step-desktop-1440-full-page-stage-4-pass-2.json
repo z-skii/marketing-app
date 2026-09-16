@@ -1,0 +1,64 @@
+{
+  "screen": "Production Recreate creation flow, brief step (desktop 1440, full page), stage 4 pass 2",
+  "screenshot": "d-create_recreate_2_brief.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:35:31.286Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9972,
+    "output_tokens": 5980,
+    "total_tokens": 15952,
+    "reasoning_tokens": 4880
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co., its D initial, and the message and notification counts replace the Lab’s fixture account and states.",
+      "The uploaded portrait image is a valid Recreate reference. It should remain intact rather than imitate the Lab’s landscape delivered photograph or gain invented video controls.",
+      "The campaign name, instructions, requirements, 15–25-second duration, $50 payment and ten spots belong to the production draft.",
+      "Create selection, Step 2 of 7, and brief-editing controls correctly replace the Content navigation and review actions illustrated in the Lab. The Lab did not specify this creation screen."
+    ],
+    "keep": [
+      "The 200px graphite rail, restrained TapMart mark, 32px application gutter and mineral canvas closely reproduce the approved shell.",
+      "The source ends at x680 and the brief begins at x704, preserving the 24px desktop source-to-decision gap.",
+      "The portrait reference retains its approximately 9:16 ratio, restrained corners and visible ink Open reference action.",
+      "The $50.00 amount has strong hierarchy. '$50.00 per approved video' and '$500.00 if all 10 spots are approved' communicate conditional payment accurately without implying a deposit or reserved funds.",
+      "Your campaign brief and Draft it for me frame the generated text as editable campaign instructions, not an analysis result.",
+      "Visible field labels, substantial input heights, focus indication, removable requirements, custom requirement entry, duration inputs, Continue and Back preserve the working brief flow."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Hold visual sign-off for the source/payment assembly and duration-control clarification. The capture exposes the expected brief functionality, but cannot verify reference opening, draft generation, persistence, validation or navigation. Publishing credit and creator-fee handling are not shown at this step.",
+    "scores": {
+      "viewport_quality": 7,
+      "media_quality": 9,
+      "uniqueness": 6,
+      "clarity": 8,
+      "premium_feel": 7,
+      "fidelity": 7,
+      "usability": 8,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Keep the brief at x704 and the 24px column gap. Consolidate the reference and payment into one right-aligned, 240px-wide source assembly ending at x680. Preserve the current uncropped 240×427px image. Attach the payment caption directly beneath the image with margin-top: 0, width: 100%, box-sizing: border-box, padding: 24px, border-radius: 0 and box-shadow: none. Use #101820 for the source housing and #2450E8 with #F6F8FB text for the Recreate commitment caption. Retain the amount at Archivo 700, 44/48px and payment conditions at IBM Plex Sans 14/20px. Place provenance and the ink Open reference control below that assembly with 16px spacing, followed by the existing ledger.",
+        "kind": "drift",
+        "why": "The image starts at x440, but the amount starts at x256, roughly 100px below the image’s bottom and separated by provenance and inspection controls. Without an attached graphite/cobalt commitment treatment, the source and money read as unrelated objects on the canvas. The correct 24px column gap alone does not complete Recreate’s signature.",
+        "where": "Left reference and payment assembly: image at x440–680, y160–587; payment beginning near x256, y694."
+      },
+      {
+        "priority": 2,
+        "change": "Make the Shortest and Longest inputs the sole editable duration constraint. Render the existing '15 to 25 seconds' summary as non-removable text derived from those inputs, using IBM Plex Sans 14/20px, and remove its × control. Keep removal controls for independent must-include requirements. Preserve the current 15 and 25 values.",
+        "kind": "usability",
+        "why": "Duration appears both as a removable Must include chip and as an editable numeric range. The two presentations currently agree, but the removal affordance makes it unclear whether deleting the chip removes the duration condition while the numeric limits remain.",
+        "where": "Must include duration chip and the Shortest/Longest fields below it."
+      }
+    ],
+    "why": "The production shell, typography, controls and source-ratio media are close to the approved language, and the visible financial wording is accurate. The main failure is compositional: the portrait occupies the right edge of the source column while its payment floats independently at the far left, without Recreate’s graphite/cobalt commitment caption. All brief controls remain visible within the full-page capture, with no horizontal clipping or apparent loss of navigation.",
+    "verdict": "The real brief flow appears intact and the shell is faithful, but the detached Recreate payment treatment prevents Frame Shift sign-off at this viewport."
+  }
+}

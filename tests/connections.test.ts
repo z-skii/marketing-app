@@ -183,7 +183,7 @@ describe("google health on a connected account", () => {
     expect(phone).toMatchObject({ current: null, proposed: "555 0100", canApply: true });
     const reviews = fixes.find((f) => f.key === "reviews")!;
     expect(reviews.canApply).toBe(false);
-    expect(reviews.reason).toContain("Google does not allow this change through the API");
+    expect(reviews.reason).toContain("Make this change in your Google Business Profile");
     expect(reviews.href).toBe("https://maps.google.com/?cid=1");
     expect(patchFor("phone", "555 0100")).toEqual({ updateMask: "phoneNumbers.primaryPhone", body: { phoneNumbers: { primaryPhone: "555 0100" } } });
 

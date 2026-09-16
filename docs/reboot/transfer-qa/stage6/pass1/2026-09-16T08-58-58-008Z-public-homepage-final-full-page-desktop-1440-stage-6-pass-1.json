@@ -1,0 +1,88 @@
+{
+ "screen": "Public homepage, final full page (desktop 1440), Stage 6 pass 1",
+ "screenshot": "d-full.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "medium",
+ "when": "2026-09-16T08:58:58.008Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16117,
+  "output_tokens": 2131,
+  "total_tokens": 18248,
+  "reasoning_tokens": 516
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "The production frames correctly show the local accounts, campaign artwork, $75.00 Recreate opportunity, $25.00 Story, $300.00 monthly campaign and $34.00 earnings balance rather than the Lab fixtures.",
+   "Revision requests, submitted Story proof, Activity tasks and vehicle booking screens appropriately demonstrate real production states absent from the Lab overview.",
+   "Configured subscription prices and shoot allocations, campaign credit and creator earnings are legitimately separate financial concepts.",
+   "The additional Pricing destination and production onboarding actions are appropriate public-site functionality; no Design Lab notice is needed.",
+   "Real product captures can replace the Lab's interactive demonstration for this storytelling format. The unrolled capture placing each frame beside its step is not itself excessive-spacing or sticky-stage drift.",
+   "The absence of video playback is correct. The supplied campaign illustration inside the car campaign is distinct from the unwrapped vehicle photograph."
+  ],
+  "keep": [
+   "The immediate Recreate, Post, Drive, Get paid proposition and the subsequent separation of campaigns from monthly content.",
+   "The mineral canvas, graphite making chapter, neutral vehicle chapter and restrained cobalt decisions.",
+   "Real production frames showing imperfect intermediate states, not just polished success screens.",
+   "The intact Story artwork and the photographed vehicle without an advertising overlay.",
+   "Explicit approval conditions, the deducted platform fee, payout minimum and manually sent payouts.",
+   "The restrained matching header/footer lockup and direct earning and business entry points.",
+   "Unboxed subscription inclusion rows and the explicit separation of campaign spending from subscriptions."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The capture visibly preserves the product's breadth and independent work states, but cannot establish that navigation, onboarding, sticky-frame changes or embedded inspection actions work. Sign-off also needs keyboard, reduced-motion and destination checks. This is not a request to reproduce the Lab layout.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 7,
+   "uniqueness": 6,
+   "clarity": 8,
+   "premium_feel": 7,
+   "fidelity": 6,
+   "usability": 7,
+   "brand_recognition": 7,
+   "ai_slop_risk": 3
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Keep the real frames and step choreography, but restore a native HTML commitment beside the relevant source. Use one 24px desktop source-to-fact offset, square financial planes and no shadow. Render opportunity amounts at Archivo 700, 34/38px with tabular numerals, and conditions at IBM Plex Sans 14/20px. Bind each excerpt to the same record as its frame: Recreate's per-approved-video amount, Story's live-time and approval basis, and Drive's monthly basis. Keep these facts stationary during frame changes.",
+    "kind": "drift",
+    "why": "The approved signature is a source handing off to readable conditions and money. Here that relationship mostly exists only inside reduced phone screenshots; outside them, the page becomes explanatory text beside devices. The hero's detached image samples particularly weaken the Frame Shift joint.",
+    "where": "Hero and the Recreate, Post and Drive product stages"
+   },
+   {
+    "priority": 1,
+    "change": "Make every product frame an explicit inspection target with an adjacent ink 'Inspect screen' control, minimum 44px high. Open the same capture at native resolution: 390px-wide phone content and a desktop image allowed to scroll at native width. Use a dialog with visible Close, Escape dismissal and focus return. Preserve the current embedded previews rather than enlarging the whole page.",
+    "kind": "usability",
+    "why": "The phone previews communicate screen identity, but much of their status and condition text is small. The Business Home and Content desktop captures are reduced further, making their real controls and independent approval/publication states difficult to inspect. Those details are central to the promised product story.",
+    "where": "All production device frames, especially Business Home and Content"
+   },
+   {
+    "priority": 1,
+    "change": "Correct the existing external media captions without changing the assets: identify the filming image as 'Generated filming illustration' and the car image as 'Campaign illustration \u00b7 No installed ad'. Remove the claim 'A real car in a neighbourhood' for this reused illustrative source. Keep the campaign artwork inside the actual product capture unchanged. Use 14/20px captions with #526171 on light surfaces and #B3C0CE on graphite.",
+    "kind": "data_honesty",
+    "why": "The filming and vehicle images match illustrative sources in the approved reference. Production's filming caption no longer discloses that provenance, and the vehicle caption describes the illustration as a real car. Real application screenshots do not turn adjacent illustrative media into documentary evidence.",
+    "where": "Hero filming sample, Recreate filming step and Drive's standalone vehicle image"
+   },
+   {
+    "priority": 2,
+    "change": "Restore the approved desktop display hierarchy: hero Archivo 800 at 104/96px with -0.05em tracking; primary earning-chapter headings Archivo 780 at 88/84px with -0.04em tracking; business and Get paid headings 64/64px. Keep operational instructions at 18/24px and body copy at 16/24px. Reflow within the existing chapter layout rather than adding copy or blank space.",
+    "kind": "drift",
+    "why": "The production hero remains clear, but chapter headings are substantially more restrained than the approved public language. Small numbered labels, medium headings and separated device previews repeat into a conventional feature-tour rhythm. Restoring the existing type system would distinguish chapter statements from working steps without changing direction.",
+    "where": "Hero headline and primary Recreate, Post, Drive, business and Get paid headings"
+   },
+   {
+    "priority": 2,
+    "change": "Remove the thick neutral mats around the standalone filming images and supplied Story. Display the Story at its intact 9:16 ratio with 0px radius and, if needed, only the approved 0 6px 16px #10182018 source shadow. Use 4px corners for ordinary photographs. Remove the broad ambient shadows from desktop browser-preview housings; retain the approved shadow only for phone devices.",
+    "kind": "drift",
+    "why": "The added mats make supplied material feel like framed promotional tiles rather than distinct source objects. The floating business browser panels reinforce a SaaS-demo treatment. The approved language reserves depth for the supplied sheet, purposeful overlap and phones\u2014not ordinary desktop product regions.",
+    "where": "Hero samples, standalone Recreate photograph, Post creative and business browser frames"
+   }
+  ],
+  "why": "The page convincingly describes a consumer earning platform and a business workflow, not an agency or an invented marketplace. Its real revision, proof, booking and earnings screens are a substantial strength, and the financial explanations avoid an instant-payout promise. The surface palette and material changes transfer well. However, native source-to-commitment composition has largely been replaced by a text-and-device tour, public typography has lost force, and several important product details are readable only inside reduced captures. Illustrative-media provenance also needs correction. The unrolled presentation is not the reason for withholding approval.",
+  "verdict": "The production story and visible functionality are substantially intact, but Frame Shift is only partially transferred; restore its readable commitment joints, inspection access and source honesty before shipping."
+ }
+}

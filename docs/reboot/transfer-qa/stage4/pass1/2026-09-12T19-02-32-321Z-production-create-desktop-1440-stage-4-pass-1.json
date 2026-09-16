@@ -1,0 +1,71 @@
+{
+  "screen": "Production Create (desktop 1440), stage 4 pass 1",
+  "screenshot": "d-business_create.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T19:02:32.321Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 8979,
+    "output_tokens": 4112,
+    "total_tokens": 13091,
+    "reasoning_tokens": 2911
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co. and its D initial correctly replace the Lab's fictional Loopday Coffee identity.",
+      "The Messages and Notifications counts of 2 and 7 are legitimate production-state differences.",
+      "This unconfigured chooser appropriately shows payment bases rather than invented campaign amounts, balances or approval states.",
+      "The Lab's fictional-marketplace footer does not belong in production."
+    ],
+    "keep": [
+      "The mineral canvas, 200px graphite rail, restrained reversed mark and 32px desktop content gutter.",
+      "The strong page-title hierarchy, readable operational copy and quiet payment-basis captions.",
+      "Three open compositions without elevated cards, repeated borders or premature setup controls.",
+      "Story's distinct phone-based silhouette and the separate placement diagram for Car.",
+      "The business switcher, selected Create navigation state and persistent utility navigation.",
+      "Keep each complete composition as the link into its existing flow; do not add competing setup buttons."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The capture exposes all three campaign kinds and the production navigation shell; it shows no clear functional removal. It cannot verify whole-composition activation, keyboard access, routing or downstream payment behavior. Fix the visible blockers, then smoke-test those interactions and the three existing creation flows before release.",
+    "scores": {
+      "viewport_quality": 7,
+      "media_quality": 4,
+      "uniqueness": 6,
+      "clarity": 7,
+      "premium_feel": 6,
+      "fidelity": 5,
+      "usability": 7,
+      "brand_recognition": 7,
+      "ai_slop_risk": 6
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Replace the wrapped-car image with an unmodified, permissioned vehicle photo. Render it at its intrinsic aspect ratio, max-width: 376px, object-fit: contain and border-radius: 4px. Retain the separate approximately 132×88px placement diagram; use #E7EDFF for the selected placement fill and #2450E8 for its selected edge. Do not composite campaign artwork onto the photographic car. If no suitable photo exists, show a compact literal missing-photo state.",
+        "kind": "data_honesty",
+        "why": "The large night scene depicts TapMart advertising already installed across a car. That contradicts the explicit separation between actual vehicle imagery and proposed placement, and reads as installed-ad proof rather than neutral inventory.",
+        "where": "Car chooser, photographic source at approximately x1032–1408, y140–391."
+      },
+      {
+        "priority": 1,
+        "change": "Remove the empty cobalt bracket and supply the missing creator-version source beside the reference. Within the 376px column, use two 160px-wide media elements with aspect-ratio: 9 / 16, a 24px gap, object-fit: contain and 4px corners. Add truthful Reference and Creator version captions at 14/20px with an 8px media-to-caption gap. Use a permitted corresponding source, not a duplicate or fabricated result. If it is unavailable, replace the empty bracket with a compact literal 'Creator version not available' state.",
+        "kind": "drift",
+        "why": "Only one 9:16 image is visible. The arrow points toward an empty cobalt outline, so the required reference-to-creator-version relationship is missing. The bracket is decoration in place of the object that should explain Recreate.",
+        "where": "Recreate chooser, reference at x232–392 and empty arrow/bracket area around x408–464."
+      },
+      {
+        "priority": 2,
+        "change": "Apply --tm-shift-desktop: 24px once at each source-to-choice boundary. Keep source assembly left edges at x232, x632 and x1032; move the corresponding campaign label, linked heading, description and payment-basis groups to x256, x656 and x1056. Reduce their available widths by 24px, preserve the shared text baseline and 32px right page gutter, and keep these regions unshadowed. Do not introduce a payment panel or fictional amount on this chooser.",
+        "kind": "drift",
+        "why": "Every text group currently starts flush with its source's left edge. The Car diagram overlap is source-to-placement, not the source-to-decision joint. Consequently, the composition largely reads as three generic image-and-description columns rather than the approved spatial relationship.",
+        "where": "All three source assemblies and the decision/caption groups beginning around y469."
+      }
+    ],
+    "why": "The supplied Lab image is Business Home, not an approved Create layout, so its discovery tabs, people records and inventory shelves are not requirements here. Against the shared system, production transfers the mineral and graphite surfaces, desktop gutters, strong title, operational typography, restrained navigation and flat regions well. Payment semantics remain legible: approved video, Story posted and car per month are differentiated without invented amounts or statuses. Story is visually distinct, and Car retains a separate placement diagram. The substantive failures are the missing second Recreate source, its decorative cobalt bracket, the installed-wrap depiction on the car, and the absent 24px source-to-choice joint. Those are composition and honesty issues, not acceptable substitutions of real records for fixtures.",
+    "verdict": "The shell transferred well and functionality remains visibly exposed, but the incomplete Recreate assembly, wrapped-car imagery and missing source-to-choice joint prevent Frame Shift sign-off."
+  }
+}

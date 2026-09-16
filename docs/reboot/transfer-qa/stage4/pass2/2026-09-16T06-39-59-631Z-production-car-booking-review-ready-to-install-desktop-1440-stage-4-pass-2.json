@@ -1,0 +1,51 @@
+{
+  "screen": "Production Car booking review, ready to install (desktop 1440), stage 4 pass 2",
+  "screenshot": "d-business_campaigns_e4000000_0000_4000_8000_000000000020_cars_e4000000_0000_4000_8000_000000000023.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:39:59.631Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9854,
+    "output_tokens": 2277,
+    "total_tokens": 12131,
+    "reasoning_tokens": 1552
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co., Marcus Bell, the BMW, booking dates and notification counts replace the Lab’s fictional business and content records.",
+      "The uploaded car photograph is displayed at 3:2 rather than adopting the Lab’s wider café-image crop. No advertisement is composited onto the vehicle.",
+      "Booking status, months paid, installation-photo receipt and available credit correctly replace the Lab’s content and publication states.",
+      "Confirming installation pays the first month; the amount-bearing payment action correctly replaces content approval. No approve-proof action is introduced.",
+      "Campaigns is selected and a Campaign back link replaces the Content tabs and Brand kit controls, appropriately reflecting this workflow."
+    ],
+    "keep": [
+      "The shared shell: 200px graphite rail, restrained reversed mark, mineral canvas, 32px main gutter and cobalt selected-navigation edge.",
+      "The source-to-decision geometry: the 816px source ends at x1048, followed by the approved 24px joint and a 336px decision column beginning at x1072.",
+      "The typography hierarchy: strong Archivo vehicle identity and approximately 44/48px payment amount, with compact IBM Plex Sans facts, provenance and controls.",
+      "The flat, square white payment plane with a restrained cobalt edge, 4px source corners and 8px primary-control corners; no floating dashboard cards or decorative shadows.",
+      "The financial wording: $250.00 per car, per month; confirmation pays the first month from existing credit now. No escrow, reservation or additional business-side platform fee is implied.",
+      "Independent literal facts: Ready to install, Months paid 0 · $0.00, On the road since Not yet, and the received installation-photo date.",
+      "The ink Open car photo control, separate placement diagram, driver identity and installation-photo section below the decision."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off at 1440×900. The capture exposes the booking facts, credit, navigation and stage-appropriate payment action. Payment execution and file-opening behavior still require normal interaction tests. The placement diagram continues below the viewport; artwork and lower file controls cannot be assessed from this crop and are not presumed missing.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 8,
+      "brand_recognition": 9,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The Lab did not specify this booking screen, but production faithfully carries its wide-source/narrow-decision composition and exact desktop joint into the new purpose. The photograph remains identifiable, the $250.00 commitment is prominent and stationary, and the button repeats the charge. Nearby copy explicitly identifies it as the first-month payment from credit. The visible ledger shows no months paid rather than suggesting money is already held. Controls, status text and navigation remain legible, with no horizontal clipping or generic form-card drift at this viewport.",
+    "verdict": "Frame Shift was faithfully transferred to this desktop booking review, with no visible functional regression or release-blocking drift."
+  }
+}

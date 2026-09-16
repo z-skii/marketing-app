@@ -1,0 +1,63 @@
+{
+ "screen": "Public homepage hero (phone 390), Stage 6 pass 1",
+ "screenshot": "m-hero.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "medium",
+ "when": "2026-09-16T08:57:53.450Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10116,
+  "output_tokens": 1724,
+  "total_tokens": 11840,
+  "reasoning_tokens": 783
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The production-first hero and horizontal strip correctly replace the Lab\u2019s illustration-led composition; Stage 6 does not require matching that layout.",
+   "Tyler Okafor, Demo Coffee Co., the $75 Recreate opportunity, the $25 Story opportunity and their conditions appropriately come from captured production records rather than the Lab fixtures.",
+   "The supplied iced-latte creative correctly replaces the Lab\u2019s coffee creative. Still media is appropriate because no production video is available.",
+   "The caption explicitly identifies the screens as real TapMart screens with demo campaigns; the displayed amounts are not presented as customer earnings outcomes."
+  ],
+  "keep": [
+   "The required phone sequence: Menu header, proposition, explanation, two entry actions, then the strip with real User Home first.",
+   "The mineral canvas, graphite typography, restrained cobalt primary action and outlined business action.",
+   "The direct consumer proposition and explanation connecting local businesses, specific work and approval-based earnings.",
+   "The real Home screen\u2019s source-to-payment joint, conditional money labels, opportunity actions and permanent navigation.",
+   "The deliberate right-edge continuation of the horizontal strip; this is not accidental page overflow."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The Frame Shift foundation and production semantics are preserved, but make the product preview more readable and remove the supplied Story\u2019s generic container before signing off this viewport. This capture shows entry controls and real application functionality; it cannot establish that Menu, routing or strip interaction work. Later business chapters and payout disclosures are outside this capture.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 7,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 7,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 8,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "At 390px, increase the first device from approximately 168px to 280px CSS width, using flex: 0 0 280px and proportional height. Retain the 16px page gutter, 12px strip gap, natural vertical flow and horizontal scrolling. Do not crop or reconstruct the production capture.",
+    "kind": "usability",
+    "why": "The Home screen is the right first source, but its approximately 140px-wide working area reduces conditions, status text and navigation labels to roughly 5\u20137px. Visitors can recognize a phone and an amount more readily than understand the real workflow. A larger first frame lets the product carry the story; later items may remain partially visible by design.",
+    "where": "Hero strip, first real User Home device"
+   },
+   {
+    "priority": 2,
+    "change": "Remove the supplied Story wrapper\u2019s approximately 12px padding, rounded corners and #E7E7E2 background. Render the creative at its natural aspect ratio with height: auto, border-radius: 0 and no crop. Use only the approved source shadow, 0 6px 16px #10182018, if separation is needed.",
+    "kind": "drift",
+    "why": "The intact creative is correct, but the thick neutral rounded surround makes it read as another generic media card. Frame Shift explicitly treats supplied Story creative as a free, square-cornered sheet rather than a padded underlay.",
+    "where": "Iced-latte supplied creative immediately to the right of the Home device"
+   }
+  ],
+  "why": "The visible page reads as a consumer earning platform with a clear business entrance, not a SaaS dashboard pitch or agency portfolio. Strong verbs, specific work types, approval-based earnings language and an actual Home capture establish the product quickly. The mark, neutral surfaces, cobalt decision and conditional financial treatment are coherent with Frame Shift. The remaining weaknesses are presentation-level: the real product is too reduced to explain its working details comfortably, and the supplied Story has acquired an unnecessary rounded container. No fabricated result, instant-payout promise or replaced backend state is visible.",
+  "verdict": "Frame Shift and TapMart\u2019s visible production semantics transferred faithfully, but the undersized Home preview and boxed Story treatment need correction before this phone hero ships."
+ }
+}

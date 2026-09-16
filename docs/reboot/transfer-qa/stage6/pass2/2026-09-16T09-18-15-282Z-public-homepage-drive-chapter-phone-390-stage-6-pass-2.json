@@ -1,0 +1,48 @@
+{
+ "screen": "Public homepage, Drive chapter (phone 390), Stage 6 pass 2",
+ "screenshot": "m-drive.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:18:15.282Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 15005,
+  "output_tokens": 2972,
+  "total_tokens": 17977,
+  "reasoning_tokens": 2319
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The production campaign shows $300.00 per month rather than the Lab\u2019s $240.00 fixture. Preserve the production record\u2019s amount and monthly basis.",
+   "Tyler Okafor and the Demo Roastery campaign replace the Lab\u2019s fixture identities. These belong to the actual production demonstration accounts.",
+   "The campaign frame contains the business\u2019s supplied wrapped-car illustration rather than the Lab\u2019s placement diagram. Its visible 'Campaign visual \u00b7 Artwork supplied' caption distinguishes creative from installation evidence."
+  ],
+  "keep": [
+   "Mineral navigation canvas, underlay Drive chapter, ink headings and muted operational copy preserve the approved material hierarchy without floating cards or ambient shadows.",
+   "The 64px header, 16px phone gutters, approximately 36/38px chapter headline and native-size supporting text maintain the phone typography and spacing system.",
+   "Keep the unchanged TapMart lockup and the clearly bounded, comfortably sized Menu, Find car placements and Inspect illustration controls.",
+   "The unaltered 3:2 car source has restrained 4px corners and an explicit 'Generated illustration \u00b7 No installed ad' caption.",
+   "Keep 'Monthly pay follows approved proofs' and the separate-demo-record disclosure. Neither promises guaranteed earnings nor implies that scrolling advances a booking.",
+   "Retain the production-frame strip and its intentional next-item preview; the partially visible second item is not accidental viewport overflow."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off the visible viewport. The capture exposes navigation, placement discovery and source inspection without an evident regression. It does not independently verify dialog behavior, strip navigation, the offscreen native commitment plane or the later booking state.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "This reads as a vehicle-advertising workflow within TapMart, not a generic SaaS feature section: the named Drive chapter leads with the task, qualifies monthly payment, offers a relevant entry action, then connects vehicle registration to an actual campaign screen. The approved underlay, compact source treatment, typography, border treatment and restrained depth survive the migration. The plain car remains visibly separate from the supplied campaign artwork, and the embedded amount retains its monthly basis. Inspection uses ink rather than unnecessary cobalt. The source-to-commitment joint and later installation-next state are outside this crop, so they are not claimed as visually verified. No visible defect justifies reversing the production-led layout or replacing its records with Lab fixtures.",
+  "verdict": "Yes\u2014the visible Drive viewport faithfully carries Frame Shift into the production-led public site, with honest media and preserved product entry points."
+ }
+}

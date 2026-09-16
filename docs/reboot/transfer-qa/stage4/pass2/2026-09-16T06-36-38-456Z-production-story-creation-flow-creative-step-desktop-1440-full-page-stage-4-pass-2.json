@@ -1,0 +1,58 @@
+{
+  "screen": "Production Story creation flow, creative step (desktop 1440, full page), stage 4 pass 2",
+  "screenshot": "d-create_story_1_creative.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:36:38.456Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9818,
+    "output_tokens": 2567,
+    "total_tokens": 12385,
+    "reasoning_tokens": 1716
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "The Lab shows Content review, not this creation flow. Step 1 of 8, Replace the creative and Continue appropriately replace review-specific fields and actions.",
+      "Demo Coffee Co., its D initial and notification counts are production account data; Loopday Coffee and its fixture identity should not be copied.",
+      "The supplied portrait Story correctly replaces the Lab’s landscape photography. Its embedded $4 promotion belongs to the artwork, not the campaign payment.",
+      "The $25.00 payment, 20 spots and conditional $500.00 total reflect this campaign rather than Lab content.",
+      "Funding and publishing controls need not appear on the first creative-selection step."
+    ],
+    "keep": [
+      "The mineral canvas, 200px graphite navigation rail, restrained mark and 32px application gutter closely match the approved shell.",
+      "Keep the intact, approximately 240×427px creative with square corners and restrained source shadow; do not crop it or add a landscape media housing.",
+      "Preserve the 24px gap between the creative’s right edge at x680 and the decision content beginning at x704.",
+      "Keep Open creative in ink, Replace the creative as a bordered secondary action and Continue as the cobalt primary action.",
+      "Keep the short operational explanation, visible step number and uncluttered progressive disclosure.",
+      "Keep the prominent payment amount and its conditional basis: $25.00 per approved Story, $500.00 only if all 20 spots are approved."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The capture exposes the creative, inspection, replacement, continuation, back navigation and business navigation without visible functionality loss. The arithmetic is correct, and nothing shown claims funds are reserved or adds a platform fee to the business payment. Fix the detached payment caption before release. Interaction testing must still verify approved-only library selection, replacement behavior and creative persistence through subsequent steps.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 9,
+      "uniqueness": 7,
+      "clarity": 8,
+      "premium_feel": 7,
+      "fidelity": 7,
+      "usability": 8,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Move the existing payment summary into the same 240px-wide source stack as the creative, provenance and Open creative control. Align its left edge with the sheet at x440 instead of x256; use width:100%, padding:0 and margin-top:16px after the inspection control. Remove the separate full-column placement. Retain the 44/48px amount, 14/20px payment basis, square structural edges and no shadow. Preserve the existing 24px source-to-decision gap.",
+        "kind": "drift",
+        "why": "The amount is visually strong but sits 184px left of the creative, reading as an unrelated page-level balance rather than its attached commitment caption. This breaks the source-to-money relationship central to Frame Shift.",
+        "where": "The $25.00 / per approved Story / $500.00 summary in the lower-left content area."
+      }
+    ],
+    "why": "The shell, typography hierarchy, surfaces and control treatments transfer convincingly. The supplied Story is identifiable, fully visible and inspectable, and the decision begins exactly 24px beyond its edge. The screen avoids generic cards, excessive borders and invented status. However, the payment summary returns to the outer content area instead of following the source: the sheet starts at x440 while the money starts at x256. That conspicuous separation leaves the defining commitment caption unfinished despite otherwise sound execution.",
+    "verdict": "Frame Shift is mostly preserved and visible functionality remains intact, but the detached payment caption prevents sign-off at this viewport."
+  }
+}

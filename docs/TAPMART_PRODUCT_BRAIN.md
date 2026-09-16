@@ -92,6 +92,40 @@ Direct requests: a business opens a person and sends a Story or Reel request,
 or opens a car and sends an ad offer. The person accepts or declines. It then
 follows the normal Story, Recreate or Car booking flow.
 
+## Public website (recorded 2026-09-16 at Stage 6)
+
+The front door at / is the product told in the order a person meets it:
+Recreate, Post, Drive, Get paid, then how businesses use TapMart
+(campaigns, then monthly content), then the two plans. Rules:
+
+- Every screen shown is a real production capture taken with the demo
+  accounts, in a device frame, with a native caption that names the demo
+  account and the literal state, and an Inspect action that opens the same
+  file at readable size. Never a Design Lab capture, never an image-model
+  dashboard. Captures live in public/marketing/frames and are retaken when
+  the screen they show changes.
+- A commitment plane beside a source (amount, basis, conditions) describes
+  the demo record in the capture next to it, so the numbers in the plane
+  and in the frame always agree.
+- Supporting imagery is captioned for what it is: a generated illustration
+  says so; a supplied Story creative is shown intact at 9:16 with no
+  radius; no ad is ever composited onto a photographed car.
+- Prices, shoot allocations, the payout minimum and the fee are read from
+  the same configuration the app uses (src/config/plans.ts, planPrices(),
+  app settings). Three kinds of money stay apart on the page: subscription,
+  campaign credit, creator earnings. No instant-payout promise; payouts are
+  described as TapMart sends them.
+- No video and no 3D are shown while none exist in production media.
+- Motion: one sticky product stage per chapter on desktop whose active
+  frame is a pure function of scroll position; one-time 320ms reveals;
+  phone chapters are horizontal strips with Previous and Next; nothing
+  hijacks or snaps the page scroll; reduced motion removes every
+  transition.
+- A signed-in visitor can read the page and gets one Open TapMart action;
+  sign-in itself still lands in the app.
+- Navigation stays minimal: wordmark, Earn, For businesses, How it works,
+  Pricing, Sign in, Get started; a bottom sheet under 1024px.
+
 ## Design rules (what "looks like TapMart" means)
 
 0. **Show first, explain second.** If text is not required for the next
@@ -157,3 +191,66 @@ content; hero cards 14px apart; rows 9px apart.
 
 Bigger media, fewer words, fewer boxes, one lime action, money where the eye
 lands first, real content instead of any placeholder, one clear next tap.
+
+## Backlog (non-blocking, recorded 2026-09-12 at Stage 1 approval)
+
+1. Desktop User Home: when the number of open opportunities is uneven for
+   the 358px column grid, a single trailing object leaves a visual gap.
+   Handle that gracefully later (for example a different last-row
+   treatment); not a Stage 1 blocker.
+2. Video submissions without a poster: investigate generating a truthful
+   thumbnail from the actual uploaded video when the platform can decode
+   it. Until then the honest "View video · No preview available" state
+   stays. Never fabricate media.
+3. Desktop rail unread badges (Messages, Notifications) are cobalt. The
+   design QA director suggested graphite (#1D2833) so cobalt stays reserved
+   for decisions. The rail is part of approved Stage 1; revisit with the
+   shell, not per screen.
+
+## Backlog (non-blocking, recorded 2026-09-12 at Stage 2 approval)
+
+4. Activity on desktop may later use the empty right side for real
+   contextual detail when useful. Never filler or invented summaries.
+5. Recreate accepted and revision detail may later consider progressive
+   disclosure for secondary instructions, only after the next required
+   action and the critical shot requirements stay immediately visible.
+6. Payout timing, payout minimum and fee language must keep coming from
+   real current configuration and settings wherever technically possible.
+   No operational promise is hardcoded.
+
+## Backlog (non-blocking, recorded 2026-09-12 at Stage 3 approval)
+
+7. Business Home on phones: if real creator metadata ever becomes too
+   tall, consider progressive disclosure for lower-priority stats while
+   the decision information (work, name, provenance, request) stays
+   visible.
+8. Desktop People and Cars shelves should ultimately support natural
+   mouse and touchpad dragging, or an equally polished interaction, in
+   addition to Next and Previous, when the architecture supports it
+   cleanly.
+9. Repeated seed vehicle and media images are acceptable for demo data.
+   Never invent visual diversity in production; real records determine
+   variety.
+
+## Backlog (non-blocking, recorded 2026-09-16 at Stage 5)
+
+10. Team: the product has no invitation record, so Team lists only the
+    members and roles that exist and says invitations are not available
+    yet. When invitations are built, they need their own stored state
+    (invited, accepted, expired) before any invited row is drawn.
+11. A Contact support link appears on the unconfigured Google and
+    Instagram states only once a real support mailbox is configured in
+    src/config/site.ts. Until then the sentence stands without a link.
+12. The shared Home opportunity objects keep their cobalt View work link
+    on the public business page; the design QA director suggested ink for
+    inspection links there. Revisit with the Stage 1 objects, not per
+    screen.
+13. Portfolio samples are shown as ordinary media at 4px corners. A
+    supplied Story sheet is only drawn square when the record says the
+    file is a Story creative; a portrait photo is never assumed to be one.
+14. Business Search reuses the Stage 3 person and car compositions from
+    Business Home unchanged. The design QA director asked for the full
+    work title on its own line and for the reputation counts to move off
+    the discovery caption; both belong to the approved Home objects and
+    are revisited there, not on Search.
+

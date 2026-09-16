@@ -1,0 +1,52 @@
+{
+  "screen": "Production Business Home (desktop 1440), stage 3 pass 3",
+  "screenshot": "d-business.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T18:06:14.046Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 11245,
+    "output_tokens": 3377,
+    "total_tokens": 14622,
+    "reasoning_tokens": 2484
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co., its D initial and Raleigh, NC replace the Lab business and location. The coherent business selector remains; production does not need additional Lab demo labels.",
+      "The attention area shows 2 files to approve rather than the fixture campaign/file counts. Messages and Notifications also display real unread counts.",
+      "Jasmine Reed, demo-creator and Tyler Okafor retain their recorded identity images and work. The missing-avatar initial and plain-colour uploaded still are honest source content, not placeholders requiring replacement.",
+      "Actual work proportions produce wider spreads than the first Lab fixtures, leaving the third person partially visible. The visible Next people control supplies the continuation affordance; sources should not be cropped to reproduce fixture widths.",
+      "Approved work, Instagram connection, creator verification and recorded reputation reflect production records. The person without reviews does not receive an invented rating.",
+      "Two BMW inventory records replace the fixture vehicles, with their supplied photographs, named placements and monthly asking-from amounts of $80.00 and $250.00. The second record does not invent a missing city. Both cars fit, so disabled shelf arrows are appropriate."
+    ],
+    "keep": [
+      "The 200px graphite rail, 32px main gutter, 1176px working field, restrained TapMart lockup and 168×80px business selector closely match the approved shell.",
+      "Keep the mineral canvas, ink typography, muted operational text and restrained borders. Cobalt remains concentrated on selection, Request actions and notification indicators; there are no generic elevated dashboard cards.",
+      "Keep the strong 36/40px page heading, 18/24px person and vehicle names, compact metadata and 16/24px monthly asking amounts.",
+      "Keep the open, source-ratio people spreads and honest initial fallback. No landscape letterboxes, invented portraits, autoplay presentation or popularity-led visual hierarchy have been introduced.",
+      "Retain the approved compact caption stack, title-only ellipsis and single recorded-reputation row. Keep Request with its menu affordance rather than restoring the Lab's person-named action labels.",
+      "Keep the car photographs at 336×224px with 24px gaps, approximately y=600, and attached captions stepped 12px to the right. Names, placements and asking amounts remain visible within the 900px viewport.",
+      "Keep the existing rail destinations, location control, attention link, four discovery views, gallery links, separate 44px browsing controls and visible View person/Request entries."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off for Business Home at 1440×900. The capture preserves the visible data, literal states and entry points without exposing a functional regression. Request-menu contents, navigation handlers, permissions, scrolling, keyboard access and full accessible source titles still require runtime verification; the screenshot alone cannot certify them.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 8,
+      "uniqueness": 9,
+      "clarity": 8,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The defining composition survived: open identity/work assemblies lead directly into compact named-person actions, followed by physical inventory and stationary monthly asking captions. The rail, title, palette, typography and control treatment closely track the Lab. Production accommodates its extra approved reputation row without pushing car prices below the viewport: the car heading is around y=556, photographs begin at y=600, and asking amounts remain readable near y=882. Source imagery remains distinct from factual captions, secondary inspection actions remain ink, and no replacement media, fake model controls or promotional status language appears. The visible differences are attributable to real records and explicitly approved product decisions, not a competing design direction.",
+    "verdict": "Yes—Frame Shift was faithfully transferred at this desktop viewport, with TapMart's real data and visible functional entry points preserved and no release-blocking visual drift."
+  }
+}

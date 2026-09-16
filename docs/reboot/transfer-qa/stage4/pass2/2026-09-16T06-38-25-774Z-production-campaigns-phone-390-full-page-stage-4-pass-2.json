@@ -1,0 +1,49 @@
+{
+  "screen": "Production Campaigns (phone 390, full page), stage 4 pass 2",
+  "screenshot": "m-business_campaigns-full.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:38:25.774Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 10595,
+    "output_tokens": 3739,
+    "total_tokens": 14334,
+    "reasoning_tokens": 3058
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co., its initial, campaign titles, recipient handles, Raleigh location and BMW replace the Lab’s fictional marketplace records.",
+      "The seven active campaigns, review and completed counts, payment amounts and approval totals reflect production records rather than fixture values.",
+      "Real landscape vehicle photos, portrait video references and supplied Story artwork retain their different proportions instead of sharing a replacement image treatment.",
+      "The direct Recreate request honestly shows “No media”; accepted, awaiting-work and unanswered-request states remain visible rather than being replaced with populated fixtures."
+    ],
+    "keep": [
+      "Mineral canvas, flat records, restrained dividers and ink inspection actions; cobalt remains concentrated on selection and Create.",
+      "Consistent phone row geometry: 16px outer gutters, an 84px source column and a 12px gap to the operational information.",
+      "Source-ratio thumbnails, square supplied Story sheets and unmodified vehicle photographs.",
+      "Bold, stationary amounts with explicit payment bases: per approved Story, per approved video, or per car per month.",
+      "Literal next steps, including “Review 1 driver,” “Send artwork for 1 car” and “Accepted. Waiting for their work.”",
+      "Labelled phone navigation, visible campaign tabs and clearly distinguished active selection."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off for Campaigns at 390px. The supplied Lab image establishes the design language, not a matching Campaigns layout. This capture supports preservation of records, states and exposed actions; it cannot verify navigation execution, payout calculations or publishing-credit enforcement. The document-end tab bar is the stated capture accommodation, not a positioning defect.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 8,
+      "uniqueness": 7,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 8,
+      "brand_recognition": 7,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The production screen translates the approved language into a working list rather than copying the desktop discovery composition. Warm neutral surfaces, dark typography, restrained selection edges and intact sources are preserved. The source-to-information relationship remains consistent across car, Story and Recreate rows, while payment stays attached to its record and clearly states its unit. Long titles and recipient handles fit the phone without visible horizontal clipping. Active 7 matches the seven displayed records, and five rows expose concrete next-step actions. Open and Request sent have literal text as well as color; campaign progress remains separate from the outstanding task. Car actions distinguish driver review from sending artwork and do not introduce an approve-proof command. Nothing shown implies escrow, reserved campaign funds or a fee added above the displayed pay. There is no visible functional loss or release-blocking design drift in this capture.",
+    "verdict": "Yes—Frame Shift is faithfully transferred to this 390px Campaigns screen, with real records, financial units and workflow actions visibly preserved."
+  }
+}

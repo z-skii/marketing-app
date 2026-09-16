@@ -1,0 +1,87 @@
+{
+  "screen": "Production User Profile (desktop 1440), stage 1",
+  "screenshot": "d-me.png",
+  "reference": "m-design_lab_user_profile-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T16:02:39.683Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 12118,
+    "output_tokens": 6144,
+    "total_tokens": 18262,
+    "reasoning_tokens": 4660
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "The D initial, demo-creator identity, @democreator handle and Raleigh location legitimately replace Maya’s fixture identity. Do not invent a portrait or add a Demo label.",
+      "$34 Earned, 1 Completed and New Rating replace the fixture statistics. New is an appropriate unrated state rather than an invented numerical rating.",
+      "Confirmed manually, 1,850 followers and Verified reflect production states. Instagram provenance and creator verification correctly remain separate.",
+      "The saved vehicle’s name, color and Listed for ads state may differ from the fixture. Photos only and the absence of a 3D control are appropriate; the apparent photo/identity mismatch is flagged separately.",
+      "A video reference, landscape Story creative and square Recreate source can replace the fixture photographs. In review, In review and Paid must remain the actual record states.",
+      "Available $34 and No payout requested correctly replace the fixture balance and requested payout. Omitting Demo money and the fixture payout date is correct."
+    ],
+    "keep": [
+      "Keep the approved desktop translation: 200px graphite rail, left-side identity/record/capabilities/vehicle, and right-side recent work/earnings/destinations.",
+      "Keep the 104×130px identity reservation at x=232, y=68 and its exact 12px crossing below the masthead at y=186. The initial fallback preserves the identity composition.",
+      "Keep the mineral canvas, graphite masthead, restrained mark, square financial regions and absence of app-card shadows.",
+      "Keep the prominent name, unboxed record values, readable operational text and separate Earned versus Available money contexts.",
+      "Keep the modest vehicle source, square white factual plane, Photos only caption and ink View vehicle action.",
+      "Keep source-ratio letterboxing, literal text statuses, the selected Profile rail edge, and visible production destinations including All vehicles, Activity and Earnings."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Close, but not ready for release. Resolve the media identity/provenance issues and desktop vehicle offset, then recapture. Visible functionality appears preserved; navigation execution, editing, source inspection and scrolling to Settings still require a smoke test. Settings being below this capture is not evidence that it was removed.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 5,
+      "uniqueness": 8,
+      "clarity": 8,
+      "premium_feel": 7,
+      "fidelity": 8,
+      "usability": 8,
+      "brand_recognition": 8,
+      "ai_slop_risk": 2
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Verify that the photograph and facts resolve from the same vehicle.id and its saved media association. The photograph appears to show a BMW, while the facts say 2021 Toyota Camry. If the mismatch is persisted data, correct it through the existing vehicle-record workflow rather than silently changing the displayed make/model. If no identity-matched photo is available, retain the 184×136px reservation with an honest Photo unavailable state; do not substitute stock imagery.",
+        "kind": "data_honesty",
+        "why": "The visible kidney-grille vehicle does not appear to match the named Toyota. Frame Shift requires the inspected source and factual vehicle identity to describe the same object. The capture cannot establish whether this originated in migration or existing data.",
+        "where": "Vehicles: photograph at approximately x=232, y=492 and adjacent 2021 Toyota Camry facts."
+      },
+      {
+        "priority": 2,
+        "change": "Render the selected video’s genuine poster or decoded frame with object-fit: contain inside the existing 104×139px frame. If no preview is available, show Video preview unavailable at 14/20px and retain the existing source-inspection destination with a minimum 44×44px target. Do not generate a replacement poster or require autoplay.",
+        "kind": "usability",
+        "why": "The first recent-work tile is visually blank apart from Video and dark side bars. A video instead of a still is valid, but this static state does not identify the work or explain the missing preview.",
+        "where": "Recent work: first Recreate tile, approximately x=920, y=262."
+      },
+      {
+        "priority": 2,
+        "change": "Restore a source-provenance line beneath the Story state using IBM Plex Sans 14/20px and #526171. Bind it to the actual asset role: Supplied creative only for supplied creative, or the corresponding truthful evidence label otherwise. Preserve In review independently.",
+        "kind": "data_honesty",
+        "why": "The approved capture distinguishes the Story’s supplied creative from publication evidence. Production shows Story and In review but drops that source-role distinction.",
+        "where": "Recent work: Story caption beneath the middle preview."
+      },
+      {
+        "priority": 2,
+        "change": "At the desktop breakpoint, set the vehicle factual plane’s block-start offset to --tm-shift-desktop: 24px, measured from the top of the 184×136px source reservation. Retain the centered 184×123px photograph, 4px media corners and 0px factual-plane radius. Leave the identity masthead’s explicit 12px crossing unchanged.",
+        "kind": "drift",
+        "why": "The white vehicle plane starts only about 5–6px below the visible photograph, consistent with the phone’s 12px offset after the image’s centering inset. The approved desktop source-to-fact offset is 24px.",
+        "where": "Vehicles: source-to-fact joint around x=416, y=497."
+      },
+      {
+        "priority": 3,
+        "change": "Change All vehicles text and any associated icon to #151B23 while preserving its current route and minimum 44px target.",
+        "kind": "drift",
+        "why": "This is now a secondary collection-inspection link, not the Lab’s primary Add vehicle action. Its inherited cobalt treatment competes with the system’s reserved primary-decision accent.",
+        "where": "Vehicles heading: All vehicles."
+      }
+    ],
+    "why": "Most of the transfer is convincing: the rail replaces the phone shell appropriately, the identity retains its measured overlap, typography and unboxed money remain hierarchical, and the two columns preserve the intended grouping without turning the vehicle into a hero. Real verification, review, payment and empty-payout states remain visible and independent. The release concerns are localized: an apparent vehicle/source identity mismatch, an uninformative video preview, missing Story provenance, and a vehicle joint still using phone geometry.",
+    "verdict": "Frame Shift is largely transferred and visible production functionality is preserved, but source honesty and the desktop vehicle joint need correction before sign-off."
+  }
+}

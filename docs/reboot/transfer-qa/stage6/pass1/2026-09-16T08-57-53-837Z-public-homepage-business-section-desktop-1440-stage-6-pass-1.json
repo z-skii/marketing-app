@@ -1,0 +1,87 @@
+{
+ "screen": "Public homepage, business section (desktop 1440), Stage 6 pass 1",
+ "screenshot": "d-business-review.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "medium",
+ "when": "2026-09-16T08:57:53.837Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16366,
+  "output_tokens": 1645,
+  "total_tokens": 18011,
+  "reasoning_tokens": 355
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "Real production browser and phone captures replace the Lab\u2019s interactive fixture gallery. The two-system presentation and composite sticky-stage captures are intentional, not layout drift.",
+   "Demo Coffee Co., Jasmine Reed, Devon Carter, Raleigh-area cars and actual Content records correctly replace the Lab\u2019s people, location and work fixtures.",
+   "Initial-based identity fallbacks and differing work-image ratios are legitimate production states; do not substitute fixture portraits.",
+   "Content correctly shows Edit requested separately from Post \u00b7 Not scheduled, while other filmstrip records retain their own approval and publication states.",
+   "The configured $99 and $199 monthly prices and corresponding shoot allocations appropriately replace the Lab\u2019s unpriced plan descriptions.",
+   "Pricing navigation and separate business-account and plan actions expose production destinations absent from the Lab reference."
+  ],
+  "keep": [
+   "The direct business headline and immediate explanation of campaigns versus monthly content.",
+   "Campaign discovery paired with submission review, followed by Content paired with shoot imagery: these demonstrate an actual platform rather than abstract software benefits.",
+   "Graphite product navigation, restrained cobalt decisions, ink typography and unboxed plan rows.",
+   "Separate subscription and campaign-credit explanations; neither is presented as creator earnings.",
+   "Visible production controls for finding people and cars, reviewing files, requesting edits and scheduling content.",
+   "The composite\u2019s repeated headers and overlapping scroll positions should not be treated as duplicated page content."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The captures retain recognizable production data, navigation, actions and independent statuses. They cannot establish that public links, sticky-stage switching, keyboard access or backend actions work. Resolve the visible media and presentation issues before desktop sign-off; the rest of the homepage is outside this capture\u2019s review scope.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 5,
+   "uniqueness": 7,
+   "clarity": 8,
+   "premium_feel": 7,
+   "fidelity": 6,
+   "usability": 6,
+   "brand_recognition": 7,
+   "ai_slop_risk": 3
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Regenerate the review-phone capture after its actual source state has settled. If the submitted file has playable media, use its genuine loaded poster or decoded frame. If it is unavailable, render the production fallback at 14/20px with the literal unavailable state and any existing retry or file action. Do not retain a blank white player or invent replacement footage.",
+    "kind": "usability",
+    "why": "The Submitted video phone is dominated by a white media area above a visible playback timeline. At both captured campaign positions, the supposed review evidence looks broken rather than inspectable.",
+    "where": "Campaigns stage, overlapping review phone"
+   },
+   {
+    "priority": 1,
+    "change": "Add a persistent native-HTML caption below each complete device assembly, 14/20px IBM Plex Sans in #526171 with an 8px top gap: \u201cDemo account \u00b7 Production screen.\u201d Identify the small shoot images as sample shoot photos where that is their actual provenance. Keep these captions outside the captured pixels.",
+    "kind": "data_honesty",
+    "why": "The visible stages do not expose the promised readable demo captions. Tiny account names inside scaled frames are insufficient provenance, and the loose shoot photographs currently have no visible source description.",
+    "where": "Campaigns and Monthly content device assemblies"
+   },
+   {
+    "priority": 2,
+    "change": "Provide an ink \u201cInspect production screen\u201d action below each assembly with a minimum 44px target. Open the same capture at readable size in an accessible viewer with a visible 44px Close control, Escape dismissal and focus return. Preserve the intact device compositions in the page.",
+    "kind": "usability",
+    "why": "The browser frames carry the right product story, but names, payment details and operational statuses are too small to inspect at their displayed scale. The review phone is smaller still.",
+    "where": "Both business product stages"
+   },
+   {
+    "priority": 2,
+    "change": "Use #F4F3EF for the outer business-section canvas; retain #FFFFFF for actual working surfaces inside the product. Set the business section heading to Archivo 700 at 64/64px with -0.04em tracking at 1440px, retaining the existing responsive layout.",
+    "kind": "drift",
+    "why": "The broad white field and smaller headline flatten the distinction between public canvas and working product. Compared with the approved mineral foundation and stronger business heading, this reads more like a conventional software screenshot section.",
+    "where": "Business section background and \u201cPut your business out there.\u201d heading"
+   },
+   {
+    "priority": 3,
+    "change": "Remove the campaign-spending callout\u2019s cobalt left border and its border-specific left padding. Keep a 24px gap above the text and preserve the existing plan dividers and wording.",
+    "kind": "drift",
+    "why": "This cobalt rule decorates explanatory copy rather than marking a selected edge, primary decision or source-to-commitment boundary. The financial separation is already clear through the plan rows and explicit text.",
+    "where": "Campaign-spending explanation below the plans"
+   }
+  ],
+  "why": "The business proposition is quickly understandable, and genuine discovery, review and Content screens keep it grounded in TapMart rather than agency imagery or fabricated software. Plan allocations and spending semantics are unusually clear. However, the blank review media, missing readable provenance and non-inspectable miniature statuses weaken the central claim that the real product carries the story. The white canvas, reduced heading hierarchy and decorative cobalt callout also dilute Frame Shift\u2019s approved language.",
+  "verdict": "The production functionality remains visibly represented, but this business section needs targeted media, provenance, readability and Frame Shift corrections before release."
+ }
+}

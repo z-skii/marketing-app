@@ -1,0 +1,52 @@
+{
+ "screen": "Production Campaign credit (phone 390, full page), Stage 5 pass 2",
+ "screenshot": "m-business_billing-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:08:28.921Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10841,
+  "output_tokens": 1516,
+  "total_tokens": 12357,
+  "reasoning_tokens": 848
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co. and its business thumbnail replace the Lab\u2019s personal identity and portrait.",
+   "The recorded $17,887.00 campaign-credit balance replaces fixture earnings; it is correctly identified as available to pay people, not creator payout.",
+   "September spend shows the actual $40.00 payment, linked work title and September 9, 2026 date. The stored \u201c[demo]\u201d title is not design drift.",
+   "Add credit explains that Stripe is not configured rather than presenting an apparently working payment action.",
+   "Essential plan uses the real development-billing state: no charge and never taken from campaign credit.",
+   "Business-account navigation replaces the Lab\u2019s personal navigation, with Business correctly selected."
+  ],
+  "keep": [
+   "Mineral #F4F3EF canvas, white financial surface, ink headings and muted supporting text; no shadows or unnecessary graphite regions.",
+   "16px phone gutters, square balance-plane corners, approximately 30/36px page title, 22/28px section headings and 44/48px balance typography.",
+   "The strong, stationary balance followed by clear payment conditions; campaign credit, monthly spend and subscription remain distinct.",
+   "The simple transaction row: work description and date on the left, $40.00 aligned on the right without clipping.",
+   "Literal Stripe and development-billing explanations, with no invented payment readiness or subscription charge.",
+   "Back navigation, Manage the plan, header controls and the five-item business navigation remain visible; the selected Business edge is cobalt.",
+   "No forced source-to-commitment offset or decorative media assembly: this utility screen has no source object requiring that joint."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off at 390px. The capture exposes the relevant records, configuration state and navigation; interaction execution and backend behavior cannot be verified from a still image.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 8,
+   "ai_slop_risk": 0
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The supplied Lab image is Profile, not a Campaign credit layout, so fidelity here is to the approved system rather than its identity-and-vehicle composition. Production carries across the mineral surfaces, strong Archivo hierarchy, readable operational copy, restrained borders and selected navigation treatment. The balance is the visual anchor, the monthly total reconciles with the single visible payment, and subscription billing is explicitly separate. Text wraps cleanly within the phone gutters, the final action clears the bottom navigation, and unavailable card payments are explained honestly. No visible implementation drift or functional omission warrants a fix.",
+  "verdict": "Yes\u2014Frame Shift was faithfully adapted to Campaign credit, with the real financial distinctions and available functionality preserved at this viewport."
+ }
+}

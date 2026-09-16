@@ -1,0 +1,76 @@
+{
+ "screen": "Public homepage, final full page (desktop 1440), Stage 6 pass 2",
+ "screenshot": "d-full.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:19:31.285Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16663,
+  "output_tokens": 6171,
+  "total_tokens": 22834,
+  "reasoning_tokens": 4655
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The public examples use production records from local demo accounts, including Tyler and Devon, rather than the Lab's Maya fixtures. Keep their actual identities, artwork and task titles.",
+   "Recreate shows $75.00 per approved version and $63.75 after the stated fee; Story shows $25.00 after 24 hours live and approval; Drive shows $300.00 per month. These should not be replaced with the Lab's $65.00, $35.00 and $240.00.",
+   "The $34.00 available earnings balance is a separate demo account state, not the outcome of the preceding $75.00 opportunity. The separate-record notices correctly prevent that implication.",
+   "Revision requested, proof in review, Activity entries and installation-next booking states appropriately replace the Lab's predominantly open opportunities.",
+   "The supplied iced-latte Story and campaign artwork differ from the Lab sources. The wrapped car inside the campaign capture is identified as supplied campaign artwork; the separate photographed car has no installed ad.",
+   "The $99 and $199 plans, shoot allocations, 15% fee and $25 payout minimum come from production configuration. Subscription charges, campaign funding and creator earnings remain separate.",
+   "No reference playback or substitute 3D vehicle is necessary when production has no corresponding media."
+  ],
+  "keep": [
+   "Keep the production-led narrative and real product captures. The unrolled walkthrough is intentional; do not restore the Lab's chapter layout or judge this capture's total height as sticky-stage drift.",
+   "Keep the mineral canvas, graphite Recreate chapter, underlay Drive region and white working planes. The business section correctly returns to canvas instead of becoming another arbitrary dark marketing band.",
+   "Retain the 104/96 hero, 88/84 earning headings, 64/64 business and Get paid headings, and restrained 30/32 wordmark treatment.",
+   "Keep the native $75.00, $25.00 and $300.00 commitment planes beside their corresponding sources: square, shadowless and structurally offset, with cobalt reserved for Recreate.",
+   "Keep the intact, square-cornered Story sheet and its source-only shadow. Keep generated illustration/sample captions and the distinction between campaign artwork and installation evidence.",
+   "Keep the real revision, submitted-proof, booking, content-review and earnings screens. These make the page read as an operating consumer-and-business platform rather than a speculative dashboard pitch.",
+   "Keep the clearly named earning actions, separate business entry, public navigation and the inspection controls already present throughout the walkthrough.",
+   "Keep manual-payout wording, conditional earnings language, square plan regions and the explicit separation of subscription spending from campaign spending."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The visual foundation and product story pass. Close the localized inspection and state-caption gaps before final sign-off, and remove the remaining inclusion-row rules. The still capture supports functional exposure, not proof that navigation, dialogs, sticky handoffs or reduced-motion behavior execute correctly; those need a short interaction smoke test.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 8,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Add a visible Inspect demo screen action beneath both the hero User Home capture and the Get paid Earnings capture, wired to the existing same-capture dialog. Use a minimum 44px target, IBM Plex Sans 600 at 16/20px, and an 8px gap from the caption. Give each frame its own 14/20px provenance caption using the captured account and literal state: for example, Demo product \u00b7 Tyler \u00b7 User Home \u00b7 For you, and Demo product \u00b7 Devon \u00b7 Earnings \u00b7 $34.00 available. Split the business montage's shared provenance into per-capture captions using its actual account, screen and state. Keep these labels outside the captured product pixels.",
+    "kind": "usability",
+    "why": "The chapter frames generally expose inspection, but the hero has only a shared explanatory caption and Get paid ends with 'Earnings, shown with a demo balance.' Neither shows the promised Inspect action. Their scaled operational text is not comfortably readable without enlargement. The business montage also uses a shared generic provenance line rather than identifying each frame independently.",
+    "where": "Hero User Home phone, Get paid Earnings phone, and business montage captions"
+   },
+   {
+    "priority": 1,
+    "change": "Change the native caption to distinguish campaign availability from the participant's proof state: Demo product \u00b7 Tyler \u00b7 Campaign open \u00b7 Proof in review, populated from the states represented by that capture. Do not change the production screen pixels or relabel the proof as unsubmitted.",
+    "kind": "data_honesty",
+    "why": "The 'Check what applies' phone visibly contains a Your proof block with in-review copy, while its caption says only 'Open opportunity.' An open campaign and an already-submitted proof can coexist, but the current caption collapses those independent states and makes this look like a pre-submission example.",
+    "where": "Post chapter, step 02 \u2014 Check what applies"
+   },
+   {
+    "priority": 3,
+    "change": "Remove the remaining horizontal rules around the Essential and Growth inclusion rows: set border-top and border-bottom to 0, remove separator pseudo-elements, and retain a 12px gap between the two unboxed rows. Leave the separate square pricing panels unchanged.",
+    "kind": "drift",
+    "why": "Thin full-width rules remain above, between and below the inclusion rows beneath Monthly content. They contradict the approved unboxed treatment and the stated pass-2 removal, adding an unnecessary comparison-table treatment to this short explanation.",
+    "where": "Business section, Essential/Growth inclusion summary below the Content demonstration"
+   }
+  ],
+  "why": "This is a faithful transfer of Frame Shift's language, not a reproduction of the Lab composition. The three-line hero identifies the earning modes quickly; the actual app frames then explain reference, submission, review, booking and earnings. Graphite means making, the supplied Story remains an intact sheet, and Drive separates the unadvertised vehicle illustration from campaign artwork and monthly terms. The native commitment planes restore the source-to-money relationship without floating financial cards. Typography, restrained branding, surfaces and control treatment are substantially consistent. Production states and configured prices remain visible rather than being replaced with cleaner fixtures. The remaining problems are localized: incomplete inspection/provenance coverage, one ambiguous state caption, and residual inclusion-row borders. Nothing visible indicates that core production functionality was removed, although a screenshot cannot establish that actions execute.",
+  "verdict": "Frame Shift has transferred faithfully and TapMart reads as a real working platform; hold final release sign-off for the remaining inspection and literal-state caption fixes, not a redesign."
+ }
+}

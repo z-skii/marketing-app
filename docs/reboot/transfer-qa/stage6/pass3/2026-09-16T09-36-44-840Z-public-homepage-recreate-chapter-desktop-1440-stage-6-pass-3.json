@@ -1,0 +1,51 @@
+{
+ "screen": "Public homepage, Recreate chapter (desktop 1440), Stage 6 pass 3",
+ "screenshot": "d-recreate-review.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:36:44.840Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16856,
+  "output_tokens": 2742,
+  "total_tokens": 19598,
+  "reasoning_tokens": 2021
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The production captures show Tyler Okafor and Devon Carter in separate demo records rather than the Lab's Maya fixture. Both frames identify their account and literal state.",
+   "Employee POV: opening the shop for Demo Coffee Co. replaces the Lab's Your coffee pour opportunity for Loopday Coffee.",
+   "The actual opportunity shows $75.00 per approved version, eight spots and a September 20, 2026 deadline. The native commitment correctly distinguishes $63.75 net from the $11.25 fee and retains the approval condition.",
+   "The later frame shows Revision requested with a specific business note instead of another open opportunity. This is a legitimate production workflow state, not visual drift.",
+   "The reference remains explicitly labeled as a still. No video playback or completed-work outcome has been fabricated."
+  ],
+  "keep": [
+   "Graphite making stage, mineral navigation, restrained cobalt commitment and square, shadow-free financial plane.",
+   "Strong task headline paired with the direct explanation and Find Recreate work action.",
+   "Fixed 288px frame and 260px companion tracks with a 24px gap; the device retains its horizontal position when the later state has no companion plane.",
+   "Native-size payment basis, fee and approval conditions outside the reduced product capture.",
+   "Readable provenance beneath each frame and a separate, labeled Inspect demo screen action.",
+   "The explicit statement that these are separate demo records, not one live progression.",
+   "The literal revision note and the distinction between approval creating earnings and a payout being paid."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off for the two captured desktop Recreate states. The composite seam is not a page defect. Static captures cannot verify sticky handoffs, Inspect dialog behavior, navigation destinations or backend actions, and the other homepage chapters are outside this review.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "This is a faithful translation of the approved language, not a reproduction of the Lab layout. The graphite surface, tight display typography, operational captions and cobalt conditional-money plane preserve Frame Shift's hierarchy. The still reference remains identifiable within the real product frame, and inspection is exposed outside it. The $75.00 headline is immediately qualified by its payment basis, net amount, fee and approval condition. In the later capture, the unchanged frame position and explicit Revision requested caption preserve continuity without pretending that scrolling advanced a customer's work. Home, Activity, Earnings, Profile, Save and original-reference affordances remain represented inside the captures; the public page separately exposes entry and inspection actions. Specific work, a real revision note and honest financial semantics make this read as a working consumer platform rather than a generic SaaS feature showcase. No release-blocking drift is visible in this chapter.",
+  "verdict": "Yes\u2014the captured desktop Recreate chapter faithfully carries Frame Shift into the production product story, with no visible loss of functionality or misleading state progression."
+ }
+}

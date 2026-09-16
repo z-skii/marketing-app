@@ -1,0 +1,78 @@
+{
+ "screen": "Public homepage hero (desktop 1440), Stage 6 pass 1",
+ "screenshot": "d-hero.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "medium",
+ "when": "2026-09-16T08:57:46.353Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10369,
+  "output_tokens": 1672,
+  "total_tokens": 12041,
+  "reasoning_tokens": 516
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "The production Home frame correctly shows Tyler Okafor, real demo campaign records, $75.00 Recreate pay and $25.00 Story pay rather than the Lab fixtures.",
+   "The supplied iced-latte Story creative correctly replaces the Lab coffee-break creative.",
+   "Using a real Home capture alongside two source objects, rather than reproducing the Lab hero layout and external payment ledge, is appropriate for this Stage 6 migration.",
+   "The Pricing link and production entry actions are legitimate navigation differences.",
+   "Still references and the explicit demo-campaign caption are appropriate; no video or customer earnings outcome is fabricated."
+  ],
+  "keep": [
+   "The immediate Recreate / Post / Drive / Get paid message and the single explanation connecting local businesses, work and approval.",
+   "The prominent Start earning action paired with For businesses.",
+   "The real Home frame as the dominant product object, including its source-to-cobalt-payment joint, approval conditions, inspection action and permanent navigation.",
+   "The restrained mineral canvas, graphite text, cobalt primary actions and absence of decorative gradients or floating app cards.",
+   "The three-object composition: supplied creative, filming visual and actual working product. It reads as a consumer platform rather than an agency or SaaS dashboard."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The capture exposes coherent production records, payment conditions, inspection, save and navigation controls without visible functional loss. It does not establish that public links, frame inspection, authentication or later sticky-stage transitions work. Correct the visible provenance and system-treatment issues before visual sign-off.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 6,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 7,
+   "fidelity": 7,
+   "usability": 8,
+   "brand_recognition": 8,
+   "ai_slop_risk": 3
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Add the caption \u201cGenerated filming illustration\u201d directly below the filming visual in IBM Plex Sans 14/20px, color #526171, with an 8px gap. Keep the existing real-screen/demo-campaign caption scoped to the product frame.",
+    "kind": "data_honesty",
+    "why": "The filming visual matches the image explicitly identified as generated in the approved Lab. Production removes that provenance. The caption about real TapMart screens does not identify the separate illustration and can lend it unintended documentary credibility.",
+    "where": "Filming visual above and to the left of the Home device"
+   },
+   {
+    "priority": 2,
+    "change": "Remove the 12px neutral padding and decorative backing from both standalone source wrappers: padding: 0; background: transparent. Render the filming image at its source ratio with 4px corners. Render the supplied Story intact with 0px corners and, if depth is retained, only box-shadow: 0 6px 16px #10182018.",
+    "kind": "drift",
+    "why": "Both sources currently sit inside inset neutral mats. These are passive containers rather than actual letterboxing or source-to-decision joints. The Story should read as a free supplied sheet, not a rounded card containing an image.",
+    "where": "Standalone filming-image and Story-creative wrappers"
+   },
+   {
+    "priority": 2,
+    "change": "At the captured 1440px desktop width, set the hero heading to Archivo 800, font-size: 104px; line-height: 96px; letter-spacing: -0.05em. Preserve the three intentional lines and the existing copy. Reserve 72/72px for widths below 1200px.",
+    "kind": "drift",
+    "why": "The heading is visibly closer to 84px than the approved 104px desktop display scale. Its wording is strong, but the reduced scale weakens the expressive Frame Shift hierarchy and leaves the hero feeling more conventional.",
+    "where": "Main Recreate / Post / Drive / Get paid heading"
+   },
+   {
+    "priority": 3,
+    "change": "Set the header wordmark to Archivo 700 at 30/32px with letter-spacing: -0.04em. Retain the exact 28px SVG mark and 8px mark-to-wordmark gap.",
+    "kind": "drift",
+    "why": "The wordmark appears approximately 24px, below the specified brand lockup size. The symbol treatment itself should not be redrawn or enlarged independently.",
+    "where": "Top-left TapMart lockup"
+   }
+  ],
+  "why": "The platform proposition is understandable immediately, and the real Home frame supplies meaningful proof: identifiable work, conditional money, status metadata and genuine app navigation. The revised composition is not a failure to match the Lab layout. The remaining departures are specific: reduced display and wordmark sizing, passive mats around supplied media, and lost provenance on the generated filming visual. No functional break is visible, but later business chapters and interaction behavior are outside this capture.",
+  "verdict": "Frame Shift is substantially present and the visible production functionality survives, but media provenance and a few explicit system treatments need correction before this desktop hero ships."
+ }
+}

@@ -1,0 +1,51 @@
+{
+ "screen": "Production public business profile (desktop 1440), Stage 5 pass 2",
+ "screenshot": "d-b_demo_coffee_co.png",
+ "reference": "d-design_lab_business_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:07:37.878Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 9320,
+  "output_tokens": 2286,
+  "total_tokens": 11606,
+  "reasoning_tokens": 1552
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The Lab image is Business Home, not a public business profile. This screen correctly uses the approved product language without reproducing Home\u2019s people and vehicle discovery layout.",
+   "Demo Coffee Co.\u2019s cover, logo, category, Raleigh location, website and development disclosure belong to the recorded local demo business; they should not be replaced with Lab fixtures.",
+   "Verified business, Verified by TapMart, No reviews yet and September 2026 are literal record values, not missing decorative content.",
+   "This is your business reflects the owner-view state rather than a prospect-facing action.",
+   "The three-campaign count, supplied references, payment amounts, eligibility, availability and deadlines come from production records. Only two campaign objects are visible within this capture."
+  ],
+  "keep": [
+   "The mineral canvas, 200px graphite navigation rail, restrained mark and 32px desktop content gutter.",
+   "The clear identity hierarchy: photographic cover, separate business logo, strong business name, supporting category/location and explicit verification provenance.",
+   "The flat On the record section with aligned labels and values, rather than elevated cards or a dashboard treatment.",
+   "The Recreate joint: the commitment starts 24px below the reference plane, with graphite conditions and an attached rectangular cobalt payment region.",
+   "The intact portrait Story creative, square sheet corners and restrained source-only shadow beside a narrow payment and eligibility treatment.",
+   "The separate financial meanings: $75.00 per approved version, $25.00 after 24h live and approval, and the supplied advertisement\u2019s own $4 product price.",
+   "Inspect reference, View work, Save and the website link remain exposed. Keep the shared Home objects\u2019 cobalt View work treatment as instructed."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off at 1440\u00d7900. The capture exposes the expected identity, record facts, campaign conditions and controls. Runtime QA must still verify navigation, reference inspection, Save persistence and that scrolling exposes all three recorded open campaigns.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 9,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The transfer preserves Frame Shift\u2019s relationships rather than copying an unrelated fixture layout. The cover is approximately 448\u00d7300px with restrained corners; the business identity is prominent without becoming a theatrical hero. Supporting text is muted and readable, verification is expressed literally, and ordinary information has no floating-card shadows. The Recreate source begins at y=114 and its commitment at y=138, preserving the desktop 24px shift. Its payment is large, stationary and explicitly conditional. The Story remains an intact approximately 144\u00d7256px supplied sheet, with eligibility and payout outside the artwork. Navigation labels, campaign inspection, work links and Save controls remain visible without clipping. No concrete implementation drift or capture-visible functional regression warrants a fix.",
+  "verdict": "Yes\u2014Frame Shift was faithfully transferred to this public business profile, with its real records and visible functionality preserved, and this desktop viewport is ready for visual sign-off."
+ }
+}

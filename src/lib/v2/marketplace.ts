@@ -36,10 +36,14 @@ export type Person = {
   has_listed_vehicle: boolean;
   /** Up to three: approved work first, then portfolio. */
   media: string[];
+  /** The same files with what they are: the campaign title of approved work, or Portfolio. */
+  samples: PersonSample[];
   same_city: boolean;
 };
 
-type PersonRow = Omit<Person, "instagram" | "media" | "rating_avg"> & {
+export type PersonSample = { url: string; title: string; kind: "approved" | "portfolio" };
+
+type PersonRow = Omit<Person, "instagram" | "media" | "samples" | "rating_avg"> & {
   bio: string | null;
   suspended: boolean;
   rating_avg: string | null;
@@ -48,6 +52,7 @@ type PersonRow = Omit<Person, "instagram" | "media" | "rating_avg"> & {
   ig_followers: number | null;
   ig_avatar: string | null;
   media: string[] | null;
+  samples: PersonSample[] | null;
 };
 
 const PERSON_SELECT = `
@@ -65,6 +70,13 @@ const PERSON_SELECT = `
                   union all
                   select 2, row_number() over (order by pi.sort, pi.created_at desc), pi.media_url
                     from portfolio_items pi where pi.profile_id = p.id) m) as media,
+         (select json_agg(json_build_object('url', m.url, 'title', m.title, 'kind', m.kind) order by m.rank, m.ord)
+            from (select 1 as rank, row_number() over (order by s.created_at desc) as ord, s.media_urls[1] as url, c.title, 'approved' as kind
+                    from submissions s join campaigns c on c.id = s.campaign_id
+                   where s.creator_id = p.id and s.status in ('approved', 'paid') and cardinality(s.media_urls) > 0
+                  union all
+                  select 2, row_number() over (order by pi.sort, pi.created_at desc), pi.media_url, 'Portfolio', 'portfolio'
+                    from portfolio_items pi where pi.profile_id = p.id) m) as samples,
          ($2::text is not null and lower(coalesce(p.city, '')) = lower($2::text)) as same_city
     from profiles p
     left join creator_profiles cp on cp.profile_id = p.id
@@ -75,13 +87,14 @@ const PERSON_ORDER = `
             greatest(p.onboarded_at, p.created_at, (select max(s.created_at) from submissions s where s.creator_id = p.id)) desc`;
 
 function toPerson(r: PersonRow): Person {
-  const { ig_status, ig_handle, ig_followers, ig_avatar, media, rating_avg, bio: _bio, suspended: _suspended, ...rest } = r;
+  const { ig_status, ig_handle, ig_followers, ig_avatar, media, samples, rating_avg, bio: _bio, suspended: _suspended, ...rest } = r;
   void _bio; void _suspended;
   return {
     ...rest,
     rating_avg: rating_avg == null ? null : Number(rating_avg),
     instagram: ig_status ? { status: ig_status, handle: ig_handle, followers: ig_status === "connected" ? ig_followers : null, avatar_url: ig_status === "connected" ? ig_avatar : null } : null,
     media: (media ?? []).filter(Boolean).slice(0, 3),
+    samples: (samples ?? []).filter((x) => x && x.url).slice(0, 3),
   };
 }
 

@@ -1,0 +1,58 @@
+{
+  "screen": "Production Recreate creation flow, funding step (phone 390, full page), stage 4 pass 2",
+  "screenshot": "m-create_recreate_6_funding.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:34:39.362Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 11205,
+    "output_tokens": 4027,
+    "total_tokens": 15232,
+    "reasoning_tokens": 3106
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co., its D initial, campaign brief, deadline and Raleigh location replace the Lab's fictional business and records.",
+      "The saved reference is explicitly an uploaded image. It need not match the Lab's delivered photography or the separate submission WebM mentioned in the brief.",
+      "The real $17,887.00 credit balance covers both the $50.00 publishing minimum and the $500.00 conditional total, so both Covered states are appropriate.",
+      "Step 6 of 7 exposes publishing credit and Continue rather than the Lab Content screen's review actions. This workflow had no direct Lab mockup."
+    ],
+    "keep": [
+      "Mineral canvas, square white financial plane, restrained cobalt commitment edge, ink inspection link and shadow-free working regions.",
+      "The identifiable portrait-ratio reference, restrained media corners and explicit Open reference control.",
+      "The visible 12px phone inset connecting the source-aligned content to the payment and decision plane.",
+      "Strong $50.00 hierarchy and the explicit $500.00 total only if all 10 spots are approved.",
+      "Correct creator-side fee arithmetic: $42.50 received from a $50.00 payout after the 15% fee, with no fee added to business pay.",
+      "Literal publishing semantics: only one payment's credit is required, nothing is held at publish, credit leaves upon approval, and the plan is billed separately.",
+      "Add credit, Continue, Back and labeled primary navigation. The document-end tab placement is an intentional capture accommodation."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Do not ship the intended 390px phone layout until the horizontal overflow is fixed. Although the capture metadata says desktop, the visible shell is a phone composition. The Lab supplied here is a different workflow, so this assessment applies its shared language rather than requiring identical content or layout. Actions and states remain exposed; successful navigation, credit addition and backend mutations cannot be verified from a capture.",
+    "scores": {
+      "viewport_quality": 4,
+      "media_quality": 8,
+      "uniqueness": 7,
+      "clarity": 8,
+      "premium_feel": 6,
+      "fidelity": 7,
+      "usability": 6,
+      "brand_recognition": 7,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Make the fee explanation a full-width wrapping row: white-space: normal; overflow-wrap: break-word; min-width: 0; max-width: 100%; grid-column: 1 / -1 if the ledger uses grid. Set min-width: 0 on its containing grid/flex child and box-sizing: border-box on the funding plane. Preserve the 16px phone gutters, 12px decision inset and 16px panel padding; at 390px the inset plane should remain 346px wide. Verify document.documentElement.scrollWidth equals clientWidth at 390px and 320px. Do not mask the defect with overflow-x: hidden.",
+        "kind": "responsive",
+        "why": "The sentence beginning “After the 15% TapMart fee” stays on one line and runs beyond the white funding plane into the right-hand canvas. Ordinary content and navigation occupy only the left portion of the expanded capture. This breaks the phone composition and makes essential fee information require horizontal travel or appear clipped.",
+        "where": "Publishing credit → Creator receives → platform-fee explanation"
+      }
+    ],
+    "why": "The transfer largely preserves Frame Shift's materials, typography, source treatment, offset relationship and money-first hierarchy without reverting to floating dashboard cards. Financial meaning is accurate: 10 × $50.00 is $500.00, the creator receives $42.50, publishing requires only $50.00 of credit, and nothing is described as reserved or escrowed. The visible controls preserve the workflow. However, the overflowing fee explanation expands the captured page beyond its phone shell, so the viewport transfer is not yet release-faithful.",
+    "verdict": "Frame Shift and the real financial workflow largely survived, but the overflowing fee explanation blocks sign-off at the intended phone viewport."
+  }
+}

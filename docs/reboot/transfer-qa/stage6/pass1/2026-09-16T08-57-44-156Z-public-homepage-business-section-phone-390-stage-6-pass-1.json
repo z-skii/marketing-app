@@ -1,0 +1,65 @@
+{
+ "screen": "Public homepage, business section (phone 390), Stage 6 pass 1",
+ "screenshot": "m-business-review.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "medium",
+ "when": "2026-09-16T08:57:44.156Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 15845,
+  "output_tokens": 1438,
+  "total_tokens": 17283,
+  "reasoning_tokens": 482
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The frames show production demo-account records, including Demo Coffee Co. and Jasmine Reed, rather than the Lab\u2019s Maya and Loopday fixtures.",
+   "Content shows the actual \u201cThe slow pour.\u201d record and \u201cEdit requested\u201d state instead of the Lab\u2019s \u201cCounter reset\u201d and \u201cNew\u201d state. That state must not be normalized to the Lab.",
+   "The configured $99/month Essential and $199/month Growth prices correctly replace the Lab\u2019s unpriced inclusion lines. Shoot and output allocations remain explicit.",
+   "Production application screens retain their actual navigation, campaign creation choices, content library and review states rather than the Lab\u2019s isolated interactive excerpts."
+  ],
+  "keep": [
+   "The direct business proposition and clear Campaigns \u2192 Monthly content sequence.",
+   "Real Business Home, Create and Content captures as the product evidence; do not replace them with fabricated marketing UI.",
+   "The approved phone-strip approach, including intentional right-edge clipping of later items.",
+   "The restrained TapMart lockup, graphite device housings, cobalt primary action and outlined secondary action.",
+   "Unboxed plan rows with explicit shoot allocations and prices.",
+   "The prominent distinction between content subscription spending and campaign credit.",
+   "The external \u201cSample shoot photography\u201d caption and the separate photographic source."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The visible production functionality and financial distinctions are preserved. This capture cannot verify menu behavior, strip navigation, account-entry destinations or application actions. Hold this viewport for a small surface correction and a clearly exposed way to inspect the product frames.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 8,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Set the outer business chapter background to --tm-canvas: #F4F3EF rather than #FFFFFF. Preserve white inside the captured working UI and preserve #E7E7E2 for actual source backing. Do not recolor screenshot pixels.",
+    "kind": "drift",
+    "why": "The business chapter is a large white marketing field, whereas the approved mineral canvas distinguishes the public narrative from white working surfaces. The production header and following Get paid region already demonstrate that warmer neutral.",
+    "where": "Business chapter, from \u201cFor businesses\u201d through the business account and plans actions."
+   },
+   {
+    "priority": 1,
+    "change": "Keep the horizontal strips, but add a visible ink \u201cInspect screen\u201d action for each product frame, using 16/20px IBM Plex Sans 600 and a minimum 44px target. Open the selected original in a viewer that fits it to the available viewport width and supports zoom; provide a visible 44px Close control, Escape dismissal and focus return.",
+    "kind": "usability",
+    "why": "Each device is approximately 184 CSS px wide at this 390px viewport. Business identity, file status, provenance and much of the navigation consequently render at roughly 6\u20138px. The overall screen silhouettes communicate real software, but visitors cannot comfortably inspect the details carrying the product story. No external inspection affordance is visible here.",
+    "where": "Campaigns Business Home/Create frames and the Monthly content Content frame."
+   }
+  ],
+  "why": "This reads as a real consumer-and-business platform rather than a generic SaaS template: work-led discovery, campaign setup and delivered-content review occupy the page, with practical copy explaining what businesses do. The heading hierarchy, 16px phone gutters, restrained controls and unboxed plan treatment broadly retain Frame Shift. Subscription prices are not presented as creator earnings, and campaign funding is explicitly separate. The phone strips are an authorized production composition, not layout drift from the Lab. The remaining weaknesses are the broad white canvas and product details reduced below comfortable reading size without a visible inspection route. Repeated headers and cropped section boundaries belong to the supplied viewport composite and are not page defects.",
+  "verdict": "Frame Shift is substantially faithful and the visible product semantics remain intact, but this phone business section needs readable frame inspection and the mineral canvas restored before sign-off."
+ }
+}

@@ -1,0 +1,50 @@
+{
+  "screen": "Production Car creation flow, publish step (phone 390, full page), stage 4 pass 2",
+  "screenshot": "m-create_car_9_publish.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:36:30.832Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 11239,
+    "output_tokens": 2240,
+    "total_tokens": 13479,
+    "reasoning_tokens": 1552
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co. and its D initial correctly reflect the production business rather than the Lab’s Loopday Coffee fixture.",
+      "The uploaded Demo Roastery artwork is shown intact and separately from the placement diagram; it should not be replaced with fixture photography or composited onto a real car.",
+      "Raleigh, NC; 30 days; three cars; Rear window and Driver door; and Any preferred cars are production campaign choices.",
+      "The commitment correctly reflects those choices: $250.00 per car per month and $750.00 per month for all three cars."
+    ],
+    "keep": [
+      "Mineral canvas, flat white editing surface, restrained borders, strong headings and readable operational typography.",
+      "The 12px phone inset from the source assembly to the payment and decision heading, with monthly pay leading the commitment.",
+      "Placement highlights on a diagram, including the rear windscreen, with the actual artwork preserved below and an ink View artwork control.",
+      "The explicit per-car payment basis and subordinate three-car monthly total.",
+      "The literal financial explanation: publishing requires credit for one $250.00 payment, nothing is held, and confirming installation pays the first month.",
+      "Editable campaign name and generated driver instructions, followed by a compact factual summary.",
+      "Distinct Publish campaign, Save as draft and Back actions, plus the retained business navigation."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Sign off the visible composition at 390px. Artwork opening, draft persistence, publishing, and actual credit enforcement still require runtime verification. The supplied Lab is a desktop Content screen, so this assesses the approved language applied to this workflow, not a same-screen pixel match.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 8,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 8,
+      "usability": 8,
+      "brand_recognition": 8,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The phone composition remains source-led rather than becoming a generic form: the broad placement diagram and separate artwork precede the offset monetary commitment and final editing surface. The artwork is not distorted or falsely installed, and its small preview has an explicit inspection action. Money is prominent, its monthly basis is visible, and $250 × 3 correctly yields $750. Publishing is clearly distinguished from payment: there is no escrow or reservation claim, no creator-side fee added to the business amount, and installation confirmation is named as the first-month payment trigger. Labels, facts, editable fields and actions remain legible without visible horizontal overflow. Cobalt is concentrated on placement selection, active navigation and publishing; secondary inspection stays ink. The document-end tab bar is an acknowledged capture arrangement, not responsive drift. No capture-visible functional regression or release-blocking implementation drift is evident.",
+    "verdict": "Frame Shift has been faithfully transferred to this 390px publish step, with accurate visible payment semantics and the core production controls intact."
+  }
+}

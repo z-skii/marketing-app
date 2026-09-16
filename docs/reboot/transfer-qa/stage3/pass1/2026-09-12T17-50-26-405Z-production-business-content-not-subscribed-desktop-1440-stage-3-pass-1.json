@@ -1,0 +1,64 @@
+{
+  "screen": "Production Business Content, not subscribed (desktop 1440), stage 3 pass 1",
+  "screenshot": "d-business_content.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T17:50:26.405Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9405,
+    "output_tokens": 2423,
+    "total_tokens": 11828,
+    "reasoning_tokens": 1552
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Roastery and its D initial replace the Lab's Loopday Coffee fixture. The production business switcher correctly omits the Lab-only demo designation.",
+      "No plan yet, Not subscribed and View plans correctly replace Growth · Active and Manage plan.",
+      "The compact subscription plane and empty delivered-files, shoots and posts sections correctly replace the populated review assembly. No reference media, approval controls, scheduled shoot or published-content status should be invented.",
+      "The Lab's fictional uploader, file provenance and demo-content disclaimer are correctly absent.",
+      "Messages and Notifications show real unread counts of 2 and 7."
+    ],
+    "keep": [
+      "The mineral canvas, 200px graphite rail, 32px desktop content gutter and flat, square white subscription plane.",
+      "Strong Archivo page and section headings, readable operational copy and literal subscription and empty-state wording.",
+      "The restrained mark, selected Content navigation edge, Overview underline and cobalt View plans decision.",
+      "The complete business navigation, content tabs, Brand kit entry point and global utility controls.",
+      "The honest absence of a source-to-commitment joint: without a delivered source, no media housing, 24px offset or replacement imagery is needed."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The visible no-plan functionality is intact, but correct the two desktop shell details below before sign-off. This capture cannot verify routes, subscription activation or Brand kit behavior, and it does not validate the populated media-review state.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 9,
+      "uniqueness": 7,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 8,
+      "usability": 8,
+      "brand_recognition": 9,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 2,
+        "change": "Restore the Brand kit button to the Lab's 48px height, 16px horizontal padding and IBM Plex Sans 600 at 16/20px. Keep its 8px radius, 1px control border and 32px right gutter.",
+        "kind": "usability",
+        "why": "Production renders a visibly smaller, approximately 93×40px button with 14px text; the Lab uses approximately 100×48px with 16px text. The visible 40px control also falls below the system's 44px target requirement.",
+        "where": "Top-right Brand kit button"
+      },
+      {
+        "priority": 3,
+        "change": "Set the desktop main content's top padding to 32px rather than the observed 44px, removing the extra 12px before the header. Preserve the 32px horizontal gutters and existing internal header-to-tab spacing.",
+        "kind": "drift",
+        "why": "The production title, subtitle and tabs are consistently 12px below the approved positions: the title's visible top is around y=50 instead of y=38, and the tab divider is around y=171 instead of y=159. This is shell spacing drift, not a source-to-decision offset.",
+        "where": "Content page header and tab strip"
+      }
+    ],
+    "why": "The production screen preserves the approved surface hierarchy, typography, restrained borders, navigation and primary-decision treatment without turning the empty state into generic dashboard cards. Its subscription copy explicitly says nothing is booked until a plan is active, and the three content sections expose their genuine empty states. There are no fabricated files, financial promises or status claims. The missing photographic source and commitment inspector are appropriate for this account, not failed migration. The visible deviations are localized to the header's vertical placement and the smaller Brand kit control.",
+    "verdict": "Frame Shift and the honest no-plan workflow were faithfully transferred overall, with two localized desktop shell corrections required before release sign-off."
+  }
+}

@@ -1,0 +1,69 @@
+{
+ "screen": "Public homepage, full page (phone 390), Stage 6 pass 3",
+ "screenshot": "m-full.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:38:25.593Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16551,
+  "output_tokens": 6936,
+  "total_tokens": 23487,
+  "reasoning_tokens": 5696
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The device frames show production demo accounts such as Tyler, Devon and Demo Coffee Co., rather than the Lab\u2019s Maya and Loopday fixtures. These are appropriately identified as demo product captures, not customer results.",
+   "Recreate shows Employee POV: opening the shop, $75.00 per approved version and $63.75 after the $11.25 fee. These record-specific values should not be replaced with the Lab\u2019s $65.00 coffee-pour opportunity.",
+   "Post uses the Roastery iced-latte creative and its $25.00 campaign. The creative, native terms and visible campaign frame now agree. Instagram not connected is an honest production state, unlike the Lab\u2019s eligible manual fixture.",
+   "Drive shows $300.00 per month, rear-window placement and a 30-day duration, rather than the Lab\u2019s $240.00 rear-door campaign. The unwrapped car illustration remains separate from the business-supplied wrapped campaign artwork.",
+   "Monthly content visibly has File: Edit requested rather than the Lab\u2019s New state. Preserving that literal state is correct.",
+   "Earnings shows Devon\u2019s $34.00 available balance and nothing pending, not the Lab\u2019s $78.40 balance and $50.00 requested payout. The $25.00 minimum, manual payout process and fee explanation remain explicit.",
+   "The $99 and $199 subscription prices and shoot allocations come from production configuration. Separating unavailable features under Planned is correct."
+  ],
+  "keep": [
+   "The mineral canvas, graphite Recreate chapter, underlay Drive section, white working planes and concentrated cobalt closely preserve Frame Shift\u2019s material language.",
+   "Keep Archivo headings and money, IBM Plex Sans operational text, the restrained matching header/footer lockups and the 16px phone gutters.",
+   "The 12px source-to-fact offsets, square commitment planes and cobalt Recreate payment region carry the signature without decorative brackets or floating cards.",
+   "Keep the intact, square-cornered Story sheet and its source-only shadow. Generated illustrations and samples are explicitly distinguished from supplied creative and actual product screens.",
+   "The page explains consumer work before business campaigns and monthly content. Actual tasks, records and product states\u2014not generic dashboard claims\u2014carry the story.",
+   "Keep the per-frame provenance captions and Inspect actions, including the hero Home frame, business frames and Earnings frame. Step counters and navigation above the strips make additional screens discoverable.",
+   "Keep the distinction between subscription charges, campaign credit and creator earnings, together with the separate approval and payout steps.",
+   "The earning and business entry actions, chapter-specific destinations, Menu and footer navigation remain exposed."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The visible product functionality and data semantics remain intact. Fix the two phone issues below before signing off this viewport. A capture cannot verify strip navigation, inspection-dialog Close/Escape/focus return, menu behavior or destination routing; those still require an interaction smoke test.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Constrain each phone-strip Inspect action to its own slide: inline-size:100%; max-inline-size:100%; min-inline-size:0; box-sizing:border-box; padding:10px 8px; gap:8px; min-block-size:44px; white-space:normal. Retain 16/20px action text and a 16px inter-slide gap. Allow the label to wrap rather than overflow its slide.",
+    "kind": "responsive",
+    "why": "In the Campaigns strip, the first two Inspect demo screen buttons visually meet at the slide boundary even though the frames above are separated. The current slide\u2019s action should not spill into its neighbor. This is distinct from the intentional right-edge clipping of later slides.",
+    "where": "For businesses \u2192 Campaigns \u2192 Inspect actions beneath the Business Home and Create frames; apply the containment rule to all phone frame strips."
+   },
+   {
+    "priority": 2,
+    "change": "Give the external available-balance amount the approved Earnings role: Archivo 700 at 44/48px, letter-spacing:-0.03em, font-variant-numeric:tabular-nums lining-nums, color:#151B23. Keep the square white plane, 12px offset, $34.00 value, demo qualifier and payout conditions unchanged.",
+    "kind": "drift",
+    "why": "The external $34.00 balance currently has approximately the same visual size as the opportunity amounts. The approved phone Earnings balance is 44/48px, not the 30/34px opportunity-pay role. Restoring that distinction makes available money the anchor instead of leaving the small device screen to establish its hierarchy.",
+    "where": "Get paid \u2192 native white balance plane below Devon\u2019s Earnings frame."
+   }
+  ],
+  "why": "This reads as a consumer-and-business platform on the Frame Shift foundation, not a generic SaaS template. Specific references, supplied artwork, literal work states and inspectable production frames dominate the page. Conditions remain attached to money, generated imagery is disclosed, and the business story distinguishes campaigns from monthly content. The remaining visible weaknesses are narrow: overflowing inspection controls in the business strip and an undersized available-balance anchor.",
+  "verdict": "Frame Shift and TapMart\u2019s real-product story transferred faithfully, but two targeted phone fixes remain before release sign-off."
+ }
+}

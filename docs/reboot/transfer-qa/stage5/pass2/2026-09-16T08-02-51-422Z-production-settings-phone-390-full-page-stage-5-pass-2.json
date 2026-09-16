@@ -1,0 +1,51 @@
+{
+ "screen": "Production Settings (phone 390, full page), Stage 5 pass 2",
+ "screenshot": "m-business_settings-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:02:51.422Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 11901,
+  "output_tokens": 2251,
+  "total_tokens": 14152,
+  "reasoning_tokens": 1552
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co., its caf\u00e9 thumbnail, Raleigh location, owner email and public URL replace the Lab\u2019s fictional creator identity with local production records.",
+   "The account switcher exposes the recorded personal account and three businesses. Initials for accounts without photographs are appropriate; Current and Switch distinguish the active identity.",
+   "Instagram connected, Google Connected, Brand kit Approved, Essential Active and Team Only you are record-specific summaries, not states that should match the Lab.",
+   "Business navigation and the notification badge replace the creator-specific navigation and fixture notification state.",
+   "The subscription summary correctly keeps campaign credit separate and does not import the Lab\u2019s creator earnings or payout amounts.",
+   "Omitting Contact support is correct while no support mailbox is configured."
+  ],
+  "keep": [
+   "The flat mineral canvas, ink text, muted supporting copy and restrained dividers; no floating cards, shadows or decorative frame corners.",
+   "The 16px phone gutters, approximately 30/36px Settings title, 16px row titles and 14/20px supporting text and statuses.",
+   "The Account, Business and Use TapMart as grouping, with generous full-row navigation targets and clear trailing chevrons.",
+   "Literal green Connected, Approved, Active and Current labels rather than color-only status indicators.",
+   "The selected Business tab with its cobalt edge, alongside the existing search, messages, notifications and Create controls.",
+   "The explicit public-page external-link indicator and separated Log out action with its device-session explanation."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off at 390px. The capture preserves the visible management routes, account switching and session controls without clipping or overlap. Navigation, mutations, focus behavior and backend-state accuracy still require interaction tests; a screenshot cannot establish those.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 9,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 8,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The supplied Lab capture is creator Profile, not a Settings specification, so fidelity is appropriately judged against its shared language and the management-screen rules. Production carries over the mineral surface, strong heading hierarchy, supporting-text treatment, flat divided rows and restrained cobalt navigation. Omitting the Profile\u2019s graphite masthead, large media and source-to-commitment offset is correct: these settings rows contain no source-to-decision boundary. Small identity images and honest initials are sufficient. The longer billing caption wraps cleanly without colliding with Active or its chevron. Account, security, notifications, business details, connections, Google, brand kit, billing, team, public page, identity switching, add-business and logout actions remain exposed. The five-item bottom navigation fits and correctly keeps Business selected. No release-blocking visual drift is evident.",
+  "verdict": "Frame Shift was faithfully transferred to Settings at 390px, with the visible production functionality preserved and no visual fixes required."
+ }
+}

@@ -1,0 +1,51 @@
+{
+  "screen": "Production Recreate submission review (desktop 1440), stage 4 pass 2",
+  "screenshot": "d-business_campaigns_f28f4d7d_117e_45b6_bf83_fc067318e101_submissions_e4000000_0000_4000_8000_000000000012.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:40:09.642Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9851,
+    "output_tokens": 2688,
+    "total_tokens": 12539,
+    "reasoning_tokens": 1926
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "This real submission review correctly replaces the Lab’s Content overview with campaign navigation, a submitted file, its reference, brief requirements and payment decisions. Overview tabs, shoots and publishing controls do not belong here.",
+      "Demo Coffee Co., Jasmine Reed, the connected-account details, recorded date and creator note appropriately replace the Lab’s fictional business and creator records.",
+      "The submitted WebM genuinely contains white frames. Keeping that file visible on graphite, with native playback and Open original, is correct; it must not be replaced with attractive fixture imagery.",
+      "The player’s 0:17 duration and the creator’s note saying 22 seconds remain separately visible. Recorded testimony should not overwrite actual file metadata.",
+      "Submitted status, Campaigns selection, the $75.00 payment, $63.75 creator receipt and $17,887.00 credit balance reflect this workflow rather than the Lab’s nonfinancial content approval."
+    ],
+    "keep": [
+      "The restrained TapMart mark, 200px graphite rail, mineral canvas and 32px workspace gutters closely match the approved shell.",
+      "The approximately 816px source assembly, 24px desktop joint and 336px decision column preserve the approved wide-source/narrow-commitment geometry.",
+      "The submitted video is contained without cropping on graphite; the portrait reference remains identifiable at its own ratio. Open original and Open reference are visible ink inspection controls.",
+      "The square white financial plane and cobalt commitment edge establish hierarchy without floating cards, decorative notches or excessive borders.",
+      "The $75.00 amount anchors the decision. Paid now on approval and Approve and pay $75.00 explicitly communicate the immediate financial consequence.",
+      "The creator receives $63.75 after the 15% fee: the arithmetic is correct and the fee is deducted from the creator’s payout, not added to the business payment. Nothing implies escrow or reserved credit.",
+      "Creator provenance, their attributed note, the brief checklist and literal Submitted status remain distinct. Request changes and Reject remain exposed beside the primary decision."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off at 1440×900. The capture exposes the required review actions and real financial state without apparent obstruction. Playback, file opening, payment execution, and whether Request changes preserves the original and records a note still require interaction tests; pixels alone cannot verify those behaviors.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The production screen transfers the approved composition rather than copying unrelated fixture content. Mineral and graphite surfaces, strong heading and money typography, restrained cobalt, source-ratio media and the 24px source-to-decision separation are consistent with Frame Shift. All essential review content and actions fit within the captured viewport without clipping or overlap. Payment wording and fee arithmetic are accurate, the available credit is stated literally, and the white video is an honest rendering of the supplied file—not missing-media theatre. No release-blocking visual drift is evident.",
+    "verdict": "Yes—Frame Shift is faithfully transferred at this desktop viewport, with accurate immediate-payment semantics and the real review workflow visibly intact."
+  }
+}

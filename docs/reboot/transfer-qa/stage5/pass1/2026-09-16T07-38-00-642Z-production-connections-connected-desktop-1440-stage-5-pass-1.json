@@ -1,0 +1,64 @@
+{
+ "screen": "Production Connections, connected (desktop 1440), Stage 5 pass 1",
+ "screenshot": "d-business_settings_connections.png",
+ "reference": "d-design_lab_business_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:38:00.642Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 9070,
+  "output_tokens": 3437,
+  "total_tokens": 12507,
+  "reasoning_tokens": 2588
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co. and its saved photograph replace the Lab\u2019s fictional Loopday Coffee identity and initials.",
+   "Instagram @democoffee and Google Business Profile show Connected with the stored read time, Sep 16, 4:19 AM. These are record-specific states, not invented connection health.",
+   "Facebook and TikTok correctly say Not available yet without offering unavailable connection actions.",
+   "The production notification count of 3 is a legitimate record-dependent difference."
+  ],
+  "keep": [
+   "The 200px graphite navigation rail, restrained TapMart mark and 32px desktop content gutter.",
+   "Mineral canvas, white controls, thin neutral dividers and a flat service list without shadows or generic cards.",
+   "Strong Archivo page heading and IBM Plex Sans operational text.",
+   "Separate Instagram and Google identities, literal connection status, stored read times and independent Disconnect controls.",
+   "The Settings return path, Instagram provenance inspection and Open Google Business navigation.",
+   "The compact utility composition. Connections needs neither discovery imagery, money nor a decorative source-to-commitment offset."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The capture exposes the expected records, states, actions and navigation. Hold visual sign-off for the two small control fixes below; actual disconnect, inspection and navigation behavior still requires an interaction smoke test.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 9,
+   "uniqueness": 7,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 0
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Increase both Disconnect controls from approximately 40px to at least 44px high. Apply IBM Plex Sans 600 at 16px/20px, padding: 11px 16px, box-sizing: border-box, a 1px #788595 border and the existing 8px radius. Keep their right edges aligned with the list at x=808.",
+    "kind": "usability",
+    "why": "The visible controls fall below the approved 44px target, and their labels are smaller than the adjacent operational actions.",
+    "where": "Instagram and Google Disconnect buttons, around x=702 at y=196 and y=325."
+   },
+   {
+    "priority": 3,
+    "change": "Keep the provenance sentence at 14px/20px. Put See what was read on its own line as a single ink, underlined link with display: flex, width: fit-content, min-height: 44px, align-items: center, white-space: nowrap and margin-top: 4px. Preserve its existing destination.",
+    "kind": "usability",
+    "why": "The link currently wraps after \u201cwas\u201d, leaving \u201cread\u201d alone at the far-left edge of the next line. This fragments the inspection action and weakens scanning.",
+    "where": "Instagram provenance text immediately above the first divider."
+   }
+  ],
+  "why": "The supplied Lab image is Business Home, not a Connections mockup, so this is a system-transfer assessment. Production carries over the mineral and graphite surfaces, typography hierarchy, rail proportions, restrained borders and ink secondary actions. The narrow service list is appropriate for management rather than missing a discovery composition. Account media remains modest and identifiable; Connected is expressed with literal text, and read times provide provenance without fabricated metrics. No financial categories are introduced or merged. The visible shortcomings are confined to control sizing and the fragmented inspection link.",
+  "verdict": "Frame Shift was faithfully transferred and real connection functionality remains exposed, but the Disconnect sizing and inspection-link wrapping need a small finishing pass before release sign-off."
+ }
+}

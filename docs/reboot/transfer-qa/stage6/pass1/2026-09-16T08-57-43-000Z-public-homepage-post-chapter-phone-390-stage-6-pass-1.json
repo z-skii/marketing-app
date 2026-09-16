@@ -1,0 +1,64 @@
+{
+ "screen": "Public homepage, Post chapter (phone 390), Stage 6 pass 1",
+ "screenshot": "m-post.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "medium",
+ "when": "2026-09-16T08:57:43.000Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 14727,
+  "output_tokens": 1359,
+  "total_tokens": 16086,
+  "reasoning_tokens": 391
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [
+   "The supplied iced-latte creative replaces the Lab coffee-and-croissant fixture. Preserve its business branding, promotional $4 price and original artwork.",
+   "The production Story opportunity shows $25.00, a 500-follower requirement, Demo Coffee Co. and a September deadline rather than the Lab fixture values.",
+   "Tyler Okafor and submitted proof marked In review correctly replace the Lab's Maya identity and open opportunity. Submission must not be presented as approval or earned money.",
+   "The horizontal sequence of creative, campaign and proof frames is intentional for this public-site migration. The next item being cut off at the right edge is not itself responsive drift.",
+   "Real production captures replace the Lab's native working excerpts; their internal application navigation and controls should remain unchanged."
+  ],
+  "keep": [
+   "Mineral canvas, restrained cobalt, graphite typography and the recognizable TapMart header.",
+   "The direct heading \u201cShare the supplied Story.\u201d and the immediate eligibility/live-time qualification.",
+   "Creative-first sequencing and the explanation that the business supplies the artwork.",
+   "Actual product screens showing conditional payment and submitted proof rather than invented success states.",
+   "The distinction between the creative's $4 retail promotion and the opportunity's $25.00 conditional creator payment."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The capture preserves recognizable product data, navigation and independent review/payment states. It cannot verify menu operation, strip navigation, inspection links or onboarding destinations. Fix the source treatment and provide readable access to the product conditions before signing off this viewport.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 7,
+   "uniqueness": 7,
+   "clarity": 7,
+   "premium_feel": 7,
+   "fidelity": 7,
+   "usability": 6,
+   "brand_recognition": 8,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Remove the Story's rounded mineral backing and its approximately 12px inset padding. Render the supplied image as an intact sheet with width:180px; height:auto; object-fit:contain; border-radius:0; background:transparent; box-shadow:0 6px 16px #10182018. Keep the existing horizontal sequence.",
+    "kind": "drift",
+    "why": "The production creative sits inside a thick rounded underlay. The approved Post material is the supplied sheet itself, with square edges and source-only depth\u2014not a generic media card. This weakens the chapter's distinct silhouette.",
+    "where": "First strip item, beneath \u201cThe creative is ready\u201d"
+   },
+   {
+    "priority": 1,
+    "change": "Keep the authentic device capture, but expose the campaign's payment and conditions as selectable HTML in its strip item: amount at Archivo 700 30/34px and basis/requirements at IBM Plex Sans 14/20px. Populate these from the same demo record, including $25.00, after 24h live and approval, and 500+ followers. Add an ink \u201cInspect campaign screen\u201d action with a minimum 44px target opening the same capture at readable size; provide equivalent inspection for the supplied creative and proof screen.",
+    "kind": "usability",
+    "why": "The visible device renders essential conditions and proof status at miniature screenshot scale. Swiping it fully into view will remove clipping but will not increase that text size. Unlike the Lab's readable operational excerpts, this view currently relies on a small image to explain the commitment. Embedded screenshot controls are not substitutes for actual public-page controls.",
+    "where": "Campaign and proof items in the phone strip"
+   }
+  ],
+  "why": "The chapter reads as a concrete consumer task, not a SaaS pitch: supplied artwork leads into a real Story opportunity and proof state. The palette, typography, generous section spacing and restrained header broadly carry Frame Shift. However, the rounded backing changes the approved supplied-sheet treatment, and the source-to-commitment relationship is clearer visually than operationally because its payment and status details live inside a miniature device capture. The deliberate horizontal strip is not the problem; readable conditions and inspectable sources are.",
+  "verdict": "Frame Shift is substantially recognizable and the visible product semantics are preserved, but the supplied-sheet treatment and access to readable campaign conditions need correction before phone release."
+ }
+}

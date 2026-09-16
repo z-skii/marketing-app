@@ -1,0 +1,59 @@
+{
+  "screen": "Production Create (desktop 1440), stage 4 pass 2",
+  "screenshot": "d-business_create.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:34:17.016Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9248,
+    "output_tokens": 3234,
+    "total_tokens": 12482,
+    "reasoning_tokens": 2326
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co. and its D initial correctly replace the Lab’s fictional Loopday Coffee identity; production should not inherit the Lab’s Demo qualifier.",
+      "Messages and Notifications show production counts of 2 and 7 rather than the Lab’s unbadged fixture navigation.",
+      "The reference, Story creative and car imagery need not match the Lab’s marketplace fixtures.",
+      "No payment amount is shown before a campaign is configured. Payment-basis captions are appropriate here; fixture prices should not be imported."
+    ],
+    "keep": [
+      "The mineral canvas, graphite navigation rail, restrained dividers and absence of floating app cards closely follow the approved language.",
+      "The 200px rail, 32px main gutter and strong application title preserve the Lab’s desktop hierarchy.",
+      "Each decision block begins 24px to the right of its source: x232→256, x632→656 and x1032→1056. Preserve these desktop joints.",
+      "Keep the portrait reference and Story source at their visible 9:16 ratio, with restrained media corners and no large letterboxing containers.",
+      "Keep the unmodified car photograph and separate placement diagram. No artwork is falsely presented as installed on the vehicle.",
+      "Keep cobalt on the three setup decisions and selected navigation edge; ordinary explanatory copy remains ink or muted text.",
+      "Keep the literal payment bases: per approved video, per approved Story, and per car per month. Nothing shown implies reserved funds or a business-side fee surcharge.",
+      "Keep this as a three-choice entry screen rather than copying the Lab Home screen’s discovery shelves or exposing setup fields prematurely."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The visible functionality appears intact, but visual sign-off is pending the missing Recreate output source. This capture cannot verify whole-composition link targets, downstream setup, publishing-credit checks, fees or payment mutations.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 8,
+      "uniqueness": 7,
+      "clarity": 8,
+      "premium_feel": 8,
+      "fidelity": 8,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 2,
+        "change": "Complete the Recreate source assembly with a matching creator-version source beside the reference. At this viewport, retain the reference at x232/y140, width 160px and aspect-ratio 9/16; place the creator version at x408/y140 with a 16px gap and maximum dimensions of 160×284px, preserving its intrinsic ratio without cropping. Label it “Creator’s version” using IBM Plex Sans 14/20px. Keep the decision block at x256 so its existing 24px joint remains unchanged. Use genuine corresponding media; if unavailable, show a compact honest unavailable state in that position rather than fabricating completed work.",
+        "kind": "drift",
+        "why": "The chooser explicitly requires Recreate to communicate reference-to-creator-version. Production shows only one portrait reference, leaving the second source absent and making Recreate visually too similar to Story’s single-source proposition.",
+        "where": "Recreate chooser, first column: the source assembly above “Recreate a Reel”."
+      }
+    ],
+    "why": "The supplied Lab is Business Home, not a Create specification, so the valid comparison is its visual language and the stated chooser composition. Production transfers the shell, neutral surfaces, typography hierarchy, source-ratio media and 24px source-to-decision offsets convincingly. All three campaign routes and the business navigation remain visible without clipping at 1440×900. Story shows creative on a phone, and Car correctly separates a real photograph from the placement diagram. Financial captions are appropriate to an unconfigured chooser. The material omission is Recreate’s creator-version source: explanatory copy alone does not complete the requested reference-to-output assembly.",
+    "verdict": "Frame Shift is largely transferred and visible functionality survives, but complete Recreate’s missing creator-version source before signing off this viewport."
+  }
+}

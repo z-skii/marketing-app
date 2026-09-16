@@ -1,0 +1,57 @@
+{
+ "screen": "Public homepage, business section (phone 390), Stage 6 pass 3",
+ "screenshot": "m-business-review.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:37:26.345Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16334,
+  "output_tokens": 4590,
+  "total_tokens": 20924,
+  "reasoning_tokens": 3759
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Discovery shows Demo Coffee Co., Jasmine Reed in Raleigh, four campaign decisions and two files awaiting approval rather than the Lab\u2019s Maya/Loopday fixtures.",
+   "Content shows \u201cThe slow pour.\u201d with the literal \u201cEdit requested\u201d state and four delivered files, rather than the Lab\u2019s \u201cCounter reset\u201d fixture in its New state. Preserve these production states.",
+   "The $99/month Essential and $199/month Growth prices come from production configuration. Their presence, alongside the configured shoot and output allocations, is correct even though the Lab omitted prices.",
+   "Real Business Home, Create and Content navigation remains visible inside the production captures; it should not be replaced with the Lab\u2019s simplified fixture interfaces."
+  ],
+  "keep": [
+   "Mineral canvas, graphite typography, restrained cobalt, the correct TapMart lockup and approximately 16px phone gutters establish the approved foundation.",
+   "The strong business heading and explicit Campaigns/Monthly content sequence explain two actual product systems rather than presenting a generic SaaS feature grid.",
+   "Real product frames carry discovery, campaign creation and content review. Keep their individual native-size provenance captions, literal states and Inspect actions.",
+   "Keep the generated shoot sample explicitly captioned as an illustration, separate from delivered-file provenance.",
+   "Keep the unboxed plan lines, stated output allocations and explicit separation of subscription charges from campaign credit.",
+   "Keep natural phone flow, above-strip navigation and the intentional glimpse of later items at the right edge."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "The visible business workflows and production states remain exposed. Fix the Inspect-button overflow before signing off this 390px section. The composite does not verify dialog behavior, carousel operation, menu destinations or underlying product mutations.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Keep the existing phone-frame widths. Constrain each figure\u2019s caption and Inspect button with width:100%, max-width:100%, min-width:0 and box-sizing:border-box. Give the button min-height:44px, padding:0 12px, gap:8px and a 20px icon; shorten its visible label to \u201cInspect screen\u201d while retaining the account, screen and state in its accessible name. Maintain a clear 12px gap between adjacent items.",
+    "kind": "usability",
+    "why": "The first \u201cInspect demo screen\u201d button extends beyond its frame/caption column. In Campaigns its outline meets or overlaps the next item\u2019s button; in Monthly content it intrudes into the neighbouring sample-caption column. This is control overflow, not the intentional clipping of later strip items.",
+    "where": "Campaigns and Monthly content phone strips, beneath the first product frame."
+   }
+  ],
+  "why": "The section reads as a real business side of TapMart: discover people and cars, create funded campaigns, then review content from monthly shoots. Loaded production screens, independent file states and explicit spending separation provide substance beyond the marketing copy. The warm canvas, tight bold headings, restrained controls and unboxed pricing retain Frame Shift without copying the Lab layout. Native captions make the reduced product frames honest and identifiable, with inspection offered for readability. The visible transfer defect is the oversized Inspect action escaping its column.",
+  "verdict": "Frame Shift is faithfully transferred overall and the visible business functionality is preserved, but the overlapping phone-strip Inspect controls need a local sizing fix before release."
+ }
+}

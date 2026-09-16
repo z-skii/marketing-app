@@ -1,0 +1,49 @@
+{
+  "screen": "Production Create (desktop 1440), stage 4 pass 3",
+  "screenshot": "d-business_create.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:43:35.728Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9346,
+    "output_tokens": 1694,
+    "total_tokens": 11040,
+    "reasoning_tokens": 1034
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co., its initial avatar, and the message/notification counts replace the Lab’s fixture business and navigation states.",
+      "The chooser uses its supplied reference, Story creative and car photograph rather than the Lab’s discovery records.",
+      "The empty 9:16 “Their version” frame correctly avoids fabricating creator work. Its caption distinguishes it from “Your reference”.",
+      "Payment is expressed as a basis rather than a configured amount at this campaign-type selection stage."
+    ],
+    "keep": [
+      "The mineral canvas, graphite navigation rail, restrained mark and cobalt selected edge match the approved shell without introducing floating cards or dashboard containers.",
+      "Keep the 200px rail, 32px desktop content gutter and three source assemblies. Each decision block begins 24px to the right of its source edge.",
+      "Preserve the distinct media silhouettes: paired portrait frames for Recreate, an intact 9:16 Story creative, and a landscape car photograph with placement shown separately on a diagram.",
+      "Keep the Archivo heading hierarchy, IBM Plex Sans operational text, muted source captions and short descriptions.",
+      "Retain the three explicit setup links, cobalt confined to primary decisions, and visible production navigation with Create selected.",
+      "Keep “Pay per approved video”, “Pay per approved Story” and “Pay per car, per month”. Nothing here implies escrow, reserved funds or an added advertiser-side fee."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Sign off this chooser at 1440×900. All three campaign setup entry points and production navigation remain exposed. The capture does not verify route execution or downstream publishing, credit and payment behavior.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The supplied Lab capture is Business Home, not a Create specification, so fidelity is judged against its visual language and the approved system. Production carries over the mineral/graphite surfaces, heading scale, operational typography, restrained borders and source-led composition. The three columns start at x232, x632 and x1032; their decision blocks start at x256, x656 and x1056, preserving the 24px desktop shift. Recreate’s missing creator version is honest, Story remains a free supplied sheet, and the car photograph carries no simulated advertising overlay. The diagram separates placement from the actual vehicle. All descriptions, payment bases and setup actions fit within the viewport without clipping. No material visual drift or capture-visible functional regression is evident.",
+    "verdict": "Yes—Frame Shift is faithfully transferred to the desktop Create chooser, with honest media states and TapMart’s visible functionality preserved."
+  }
+}

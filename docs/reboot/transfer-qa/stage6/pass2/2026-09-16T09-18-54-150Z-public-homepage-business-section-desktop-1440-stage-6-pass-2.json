@@ -1,0 +1,65 @@
+{
+ "screen": "Public homepage, business section (desktop 1440), Stage 6 pass 2",
+ "screenshot": "d-business-review.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:18:54.150Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16642,
+  "output_tokens": 4740,
+  "total_tokens": 21382,
+  "reasoning_tokens": 3624
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co., the Raleigh-area people and the BMW inventory correctly replace the Lab's Loopday, Maya and Austin fixtures.",
+   "The visible D initial is an acceptable missing-portrait fallback; it should not be replaced with an invented photograph.",
+   "The business review shows actual submitted Story proof rather than the Lab's open Story opportunity. Its supplied artwork and Submitted state should remain.",
+   "Content shows The slow pour with File: Edit requested and Post: Not scheduled. Those independent production states should not be reset to the Lab's New fixture.",
+   "The configured $99 and $199 monthly prices correctly accompany the actual shoot allocations. Subscription charges remain separate from campaign credit and creator earnings."
+  ],
+  "keep": [
+   "The mineral canvas, graphite product navigation, restrained cobalt actions and matching TapMart lockup.",
+   "The 64/64 business heading and clear Campaigns \u2192 Monthly content sequence. Actual discovery, proof review and content operations make this read as a working platform rather than an abstract SaaS promise.",
+   "The real Business Home browser capture paired with the Story review phone, followed by the real Content capture. Do not replace them with decorative mockups or force the Lab's demonstration layout onto this page.",
+   "Loaded proof media, source-ratio work previews and separately identified generated shoot samples.",
+   "The visible Inspect controls, business-account action, plan destination and existing public navigation.",
+   "The explicit campaign-spending exclusion and visible plan output counts."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Hold final desktop sign-off for the two bounded fixes below. The captures retain the real product's data and operational distinctions; no functional regression is visible. Pixels cannot verify the reported inspection-dialog behavior or navigation destinations. This composite covers the business sequence and only the beginning of Get paid, not the consumer chapters or complete payout explanation.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Replace the pooled caption with a native caption row for each displayed capture, using IBM Plex Sans 14/20px and #526171. For this campaign step, use 'Demo product \u00b7 Demo Coffee Co. \u00b7 Business Home \u00b7 4 campaign decisions \u00b7 2 files to approve' and 'Demo product \u00b7 Demo Coffee Co. \u00b7 Story proof \u00b7 Submitted'. For Content, use 'Demo product \u00b7 Demo Coffee Co. \u00b7 Content \u00b7 File: Edit requested \u00b7 Post: Not scheduled'. Bind these rows to the active capture so they update with the sticky stage. Remove 'Create' unless its capture is actually displayed. Label the corresponding controls 'Inspect Business Home', 'Inspect Story proof' and 'Inspect Content', retaining at least 44px targets. Keep the generated-sample disclosure separate.",
+    "kind": "data_honesty",
+    "why": "The visible campaign caption says 'Demo account \u00b7 Production screens: Business Home, Create and a Story proof review', although the displayed pair is Business Home and Story proof. Neither it nor the Content caption supplies the account name and literal states promised for pass 2. Those distinctions currently require reading the reduced product pixels or opening inspection.",
+    "where": "Native captions and Inspect controls below the Campaigns assembly and the Monthly content assembly."
+   },
+   {
+    "priority": 2,
+    "change": "Set border: 0, box-shadow: none and background: transparent on both plan rows and their wrapper; remove divider pseudo-elements. Keep border-radius: 0 and use a 12px gap between the unboxed inclusion rows. Preserve the configured prices, shoot counts and separate spending explanation.",
+    "kind": "drift",
+    "why": "Thin horizontal rules remain above, between and below Essential and Growth. These are actual plan-row dividers, not the thick composite-capture separators. The approved treatment is two unboxed inclusion rows, and the pass-2 note says these decorative borders were removed.",
+    "where": "Essential and Growth plan lines beneath Monthly content."
+   }
+  ],
+  "why": "The main transfer succeeds: surfaces, typography, restrained depth and cobalt hierarchy carry Frame Shift, while the production frames explain finding people and cars, reviewing submitted proof, and approving or editing monthly content. The phone and sample-photo overlaps are purposeful source assemblies, not ornamental notches. Subscription prices have a monthly basis and a clear campaign-credit exclusion; no earnings outcome or instant payout is claimed here. Inspection controls address the reduced screen size, although the native captions still need accurate state-level provenance. The repeated headers belong to the supplied scroll composite and are not evidence of duplicated live navigation. The remaining issues are local implementation drift, not a reason to redesign the section.",
+  "verdict": "Frame Shift is substantially and faithfully transferred, with real business functionality visibly preserved, but correct the frame captions and remaining plan dividers before final desktop sign-off."
+ }
+}

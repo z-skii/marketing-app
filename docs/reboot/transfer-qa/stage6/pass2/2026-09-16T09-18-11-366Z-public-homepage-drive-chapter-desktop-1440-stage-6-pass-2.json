@@ -1,0 +1,51 @@
+{
+ "screen": "Public homepage, Drive chapter (desktop 1440), Stage 6 pass 2",
+ "screenshot": "d-drive-review.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:18:11.366Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16645,
+  "output_tokens": 2852,
+  "total_tokens": 19497,
+  "reasoning_tokens": 2070
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The production booking shows Devon\u2019s local demo-account record in \u201cInstallation next,\u201d rather than the Lab\u2019s open campaign. \u201cPaid so far: Nothing yet\u201d correctly preserves its unpaid state.",
+   "The production record shows $300.00 monthly and $255.00 to the creator after the 15% fee, rather than the Lab\u2019s $240.00 example. Gross pay, creator earnings and the fee remain distinguishable.",
+   "Rear-window placement, a 30-day duration and the booked 2019 BMW 330i replace the Lab\u2019s rear-door, 60-day campaign example. These are record differences, not visual drift.",
+   "Demo Roastery\u2019s supplied artwork replaces the Lab\u2019s bike-shop campaign material. It remains separate from the generated, unwrapped car illustration.",
+   "The real booking capture retains production navigation, artwork inspection, vehicle access and booking conditions instead of reproducing the Lab\u2019s simplified work-summary panel."
+  ],
+  "keep": [
+   "The mineral navigation surface, inventory underlay, graphite ink and restrained cobalt retain the approved material hierarchy without turning the chapter into a generic card grid.",
+   "The large Archivo task heading, plain-language explanation and \u201cFind car placements\u201d action make Drive understandable before the visitor inspects the product.",
+   "Keep the intact landscape illustration, 4px media corners and explicit \u201cGenerated illustration \u00b7 No installed ad\u201d caption. No artwork is falsely installed on the pictured car.",
+   "Keep the explicit warning that the frames are separate demo records, not one live progression. It prevents the illustration and Devon\u2019s booking from being mistaken for the same vehicle journey.",
+   "Keep the native account/state caption and clearly labeled Inspect actions. They make the reduced product capture identifiable and provide a route to readable detail.",
+   "Keep the literal installation-next state, approval-dependent payment explanation and unpaid balance. Nothing visually advances installation or earnings.",
+   "Keep the public navigation and the visible Home, Activity, Earnings and Profile navigation inside the actual product capture."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off for the supplied desktop Drive start and booking states. The intermediate placement state\u2014and therefore its reported 24px native commitment joint\u2014is not visible here and is not being marked absent. Inspect-dialog behavior, focus return, navigation and sticky frame changes cannot be verified from still captures.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 8,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "This reads as a specific earning workflow, not a SaaS feature section: add a vehicle, inspect a placement, then handle installation and proof through the real product. The upper capture establishes the unwrapped source; the later capture supplies a genuine booking state with conditional monthly pay and nothing paid yet. The approved neutral surfaces, strong typography, restrained controls and honest media treatment survive the different public-page layout. Booking details are small inside the phone, but the native state caption and Inspect action address that limitation without pretending the screenshot itself is interactive. The repeated header belongs to the supplied two-position composite, not a duplicated page element. No visible implementation drift or functional removal warrants blocking this viewport.",
+  "verdict": "Yes\u2014Frame Shift is faithfully expressed in these desktop Drive states, with honest production records and no visible loss of TapMart\u2019s functionality."
+ }
+}

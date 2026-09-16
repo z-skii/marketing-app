@@ -1,0 +1,59 @@
+{
+  "screen": "Production Business Home (desktop 1440), stage 3 pass 2",
+  "screenshot": "d-business.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T17:57:52.662Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 11197,
+    "output_tokens": 4473,
+    "total_tokens": 15670,
+    "reasoning_tokens": 3507
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co., Raleigh, the two-file approval attention link, and notification badges replace the Lab’s fixture business, location and counts.",
+      "Production avatars and work uploads replace the fixture portraits and samples. The D initial and plain coral upload are honest records, not missing design assets.",
+      "Landscape and square sources produce different spread widths and ribbon continuation. Preserve their actual ratios rather than forcing fixture dimensions.",
+      "The compact recorded reputation row is an approved production requirement. Connected-account followers, completed work and existing reviews are not drift.",
+      "Request with a dropdown indicator correctly replaces the Lab’s named Request labels. The intended choices remain Request Story and Request Reel.",
+      "Two recorded BMW listings replace four fixture vehicles. Disabled car-shelf arrows are appropriate when both available items fit."
+    ],
+    "keep": [
+      "The 200px graphite rail, 32px main gutter, mineral canvas, restrained lockup and coherent business selector.",
+      "The strong application title, right-aligned location control and unboxed attention link.",
+      "The selected cobalt navigation edge, ink inspection links and cobalt Request actions.",
+      "Open portrait/work spreads, source-ratio media, honest initials and the absence of enclosing dashboard cards.",
+      "Visible View person and Request controls, See all destinations and separate ribbon navigation buttons.",
+      "The 336×224px car photographs, 24px shelf gaps and 12px rightward caption step."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "The visible navigation, records, statuses and action entry points appear preserved. Hold this viewport for the car-shelf correction. A static capture does not verify Request menu contents, permissions, destination behavior or asking-price data below the fold.",
+    "scores": {
+      "viewport_quality": 7,
+      "media_quality": 8,
+      "uniqueness": 8,
+      "clarity": 8,
+      "premium_feel": 8,
+      "fidelity": 8,
+      "usability": 7,
+      "brand_recognition": 9,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 1,
+        "change": "Restore the car header to approximately y=544 with a 44px control row and photographs at y=600. Keep the current 232px people-media reservation. At its current y=192 position, use an 8px caption gap followed by 24px name/city, 20px source/provenance, 20px recorded reputation and 44px actions; this ends at y=540. Allow only the displayed source-title link to ellipsize using min-width:0, overflow:hidden, text-overflow:ellipsis and white-space:nowrap; retain its full accessible name and existing inspection destination, and keep literal provenance visible. Use a 4px gap before the car header and 12px before its photographs. Preserve 336×224px photos, then place captions 8px below and 12px to the right: vehicle name at 18/24px, city and named zone at 14/20px, and recorded asking price at 16/24px with tabular numerals, beginning around y=876. Do not remove the approved reputation row, reduce 44px action targets or use negative positioning.",
+        "kind": "drift",
+        "why": "Production’s car photographs begin at y=640 versus approximately y=598 in the Lab. At the 900px fold, production exposes only the vehicle-name line; named placements and monthly asking prices cannot be read. The additional wrapped discovery metadata and section spacing have displaced the screen’s financial decision anchor.",
+        "where": "People caption/action stack and the Available cars shelf immediately below it."
+      }
+    ],
+    "why": "The transfer substantially matches Frame Shift: surfaces, typography, rail geometry, restrained borders, open source framing and the offset car captions all remain recognizable. Real records and the product-owner-approved caption changes are handled without replacement media or generic cards. The remaining material failure is vertical composition: Available cars sits roughly 44px lower than the Lab, pushing the placement and monthly-price information outside the captured viewport. Visible functionality appears preserved, but the approved first-viewport decision hierarchy is not yet complete.",
+    "verdict": "Frame Shift is largely preserved and visible functionality appears intact, but release sign-off should wait until the car placements and recorded monthly asking prices return to the first desktop viewport."
+  }
+}

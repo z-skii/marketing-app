@@ -1,0 +1,58 @@
+{
+ "screen": "Public homepage, business section (desktop 1440), Stage 6 pass 3",
+ "screenshot": "d-business-review.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:37:12.327Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16855,
+  "output_tokens": 3994,
+  "total_tokens": 20849,
+  "reasoning_tokens": 3106
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Coffee Co., the Raleigh discovery records, actual vehicle listings and the initial-only identity replace the Lab\u2019s fixture people and businesses. These are production-demo records, not customer evidence.",
+   "The campaign review shows actual loaded Story proof with the literal Submitted state rather than the Lab\u2019s discovery/request example.",
+   "Content shows File: Edit requested and Post: Not scheduled instead of the Lab\u2019s New file fixture. Approval and publication remain visibly separate.",
+   "The configured $99 and $199 monthly prices supplement the plan allocations: one shoot with 10 photos and 3 videos, or two shoots with 20 photos and 6 videos. They should not be replaced with Lab-only values.",
+   "The two supplementary shoot images are explicitly identified as generated samples, not delivered work."
+  ],
+  "keep": [
+   "The mineral canvas, graphite product housings, strong ink typography and restrained cobalt decisions preserve Frame Shift without turning the business section into a generic SaaS card grid.",
+   "The 64/64 business and Get paid headings, restrained TapMart lockup, native explanatory copy and readable provenance captions.",
+   "The two distinct business explanations: discovery and campaign review first, then delivered-content review and scheduling.",
+   "Each business frame\u2019s account/state caption and specifically named Inspect action. These make the scaled product views useful without pretending their embedded controls are live public controls.",
+   "Unboxed plan lines, visible output allocations, and the explicit separation between content subscriptions and campaign credit.",
+   "The real product imagery and purposeful browser/phone pairing; do not replace them with the Lab\u2019s fixture layout or decorative marketing dashboards."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Approve this captured desktop business section, with the sample-image placement issue treated as non-blocking polish. The visible production data, independent states, inspection controls, navigation and business-entry actions are preserved. A still capture does not verify dialog behavior, routing or authenticated mutations, and this crop does not establish readiness for the unseen consumer chapters or Earnings details.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": true,
+  "drift": [
+   {
+    "priority": 3,
+    "change": "Keep both generated samples, but move their row into normal flow after the Content frame\u2019s provenance/Inspect group: margin-top: 16px; gap: 12px; image width: 120px; height: auto. Remove the row\u2019s absolute positioning and negative offsets. Keep its generated-sample caption immediately below at 14/20px. Neither sample should overlap the browser\u2019s filmstrip or file labels.",
+    "kind": "usability",
+    "why": "The two sample photographs currently cover part of the first two Content filmstrip entries and their labels. Their disclosure is honest, but the overlap weakens the distinction between supplementary illustrations and actual delivered files, and obscures some of the product being demonstrated.",
+    "where": "Monthly content assembly, lower-left edge of the Content browser frame."
+   }
+  ],
+  "why": "The page explains an actual business workflow rather than selling an abstract platform: choose people or cars, fund campaign work, review submitted proof, then separately review and schedule monthly content. The browser and review-phone captures carry those claims with visible records and literal states. Surface temperature, heading hierarchy, cobalt restraint, square plan treatment and external controls remain consistent with the approved language. Subscription prices are not presented as campaign budgets or creator earnings. The repeated headers and partial stages belong to the supplied composite scroll captures, not duplicated page sections. The only visible cleanup is the generated sample overlap on the Content filmstrip.",
+  "verdict": "Frame Shift is faithfully carried into this desktop business section, with real product states and clear entry and inspection paths preserved; only minor sample-image placement polish remains."
+ }
+}

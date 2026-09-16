@@ -10,7 +10,7 @@ import {
   COPY_SCHEMA, CREATIVE_DIRECTION_SCHEMA, CREATIVE_REVIEW_SCHEMA, SCREEN_REVIEW_SCHEMA, SCREEN_SCHEMA, SYSTEM_SCHEMA,
 } from "./schemas";
 import { screenDesignMarkdown, screenReviewMarkdown, systemMarkdown } from "./markdown";
-import { LAB_FINAL_REVIEW_SCHEMA, finalReviewMarkdown, finalReviewerInstructions, loadRefinedSpecText, refinedSystemText, type LabFinalReview } from "./reboot-refine";
+import { LAB_FINAL_REVIEW_SCHEMA, TRANSFER_REVIEW_SCHEMA, finalReviewMarkdown, finalReviewerInstructions, loadRefinedSpecText, refinedSystemText, transferReviewMarkdown, transferReviewerInstructions, type LabFinalReview, type TransferReview } from "./reboot-refine";
 
 /**
  * The design director's jobs. Each takes plain inputs, assembles the
@@ -145,9 +145,12 @@ export type ScreenReviewInput = {
   lab?: boolean;
   /** Final standard: the founder's ten scores and the production readiness question, against the refined spec. */
   standard?: boolean;
+  /** Production transfer QA: path to the approved Lab capture of the same screen to compare against. */
+  transfer?: string | null;
 };
 
 export async function reviewScreen(i: ScreenReviewInput, o: CommonOptions = {}): Promise<RespondResult<ScreenReview> & { markdown: string; specPath: string | null }> {
+  if (i.transfer) return reviewTransfer(i, o) as unknown as RespondResult<ScreenReview> & { markdown: string; specPath: string | null };
   if (i.standard) return reviewScreenStandard(i, o) as unknown as RespondResult<ScreenReview> & { markdown: string; specPath: string | null };
   const kind: JobKind = i.minor ? "minor_qa" : i.final ? "screen_review_final" : "screen_review";
   const r = route(kind, o.effort);
@@ -211,6 +214,39 @@ export async function reviewScreenStandard(i: ScreenReviewInput, o: CommonOption
     const base = path.join(dir, `${when.replace(/[:.]/g, "-")}-${slug(i.screenName)}`);
     await writeFile(`${base}.md`, markdown);
     await writeFile(`${base}.json`, JSON.stringify({ screen: i.screenName, screenshot: path.basename(i.screenshot), model: r.model, effort: r.effort, when, usage: res.usage, review: res.data }, null, 2));
+  }
+  return { ...res, markdown, specPath: own?.path ?? null };
+}
+
+/** Production transfer QA: the real production capture against the approved Lab capture of the same screen. */
+export async function reviewTransfer(i: ScreenReviewInput, o: CommonOptions = {}): Promise<RespondResult<TransferReview> & { markdown: string; specPath: string | null }> {
+  const r = route(i.final ? "screen_review_final" : "screen_review", o.effort);
+  const shot = await loadImage(i.screenshot);
+  if (!shot) throw new Error(`Screenshot not readable: ${i.screenshot}`);
+  const ref = await loadImage(i.transfer as string);
+  if (!ref) throw new Error(`Approved Lab capture not readable: ${i.transfer}`);
+  const size = imageSize(shot);
+  const own = await loadRefinedSpecText(i.spec ?? null, i.screenName);
+  const content: InputPart[] = [
+    textPart([
+      `Screen: ${i.screenName}. Images in order: PRODUCTION (real data), APPROVED LAB (fixture data).`,
+      `Production capture: ${size ? `${size.width}x${size.height}px, ` : ""}${size && size.width <= 900 ? "phone capture" : "desktop capture"}.`,
+      i.instructions ? `Extra instructions from the team: ${i.instructions}` : "",
+      "Answer with the JSON only.",
+    ].filter(Boolean).join("\n")),
+    textPart("PRODUCTION:"), imagePart(shot), textPart("APPROVED LAB:"), imagePart(ref),
+  ];
+  const res = await respond<TransferReview>({
+    model: r.model, effort: r.effort, instructions: transferReviewerInstructions(await refinedSystemText(), own?.text ?? null), content, schema: TRANSFER_REVIEW_SCHEMA, dryRun: o.dryRun, onProgress: o.onProgress,
+  });
+  const when = new Date().toISOString();
+  const markdown = o.dryRun ? "" : transferReviewMarkdown(res.data, { screenName: i.screenName, screenshot: i.screenshot, reference: i.transfer as string, model: r.model, effort: r.effort, when, instructions: i.instructions ?? null });
+  if (!o.dryRun) {
+    const dir = i.outDir ?? path.join(process.cwd(), "design-reviews");
+    await mkdir(dir, { recursive: true });
+    const base = path.join(dir, `${when.replace(/[:.]/g, "-")}-${slug(i.screenName)}`);
+    await writeFile(`${base}.md`, markdown);
+    await writeFile(`${base}.json`, JSON.stringify({ screen: i.screenName, screenshot: path.basename(i.screenshot), reference: path.basename(i.transfer as string), model: r.model, effort: r.effort, when, usage: res.usage, review: res.data }, null, 2));
   }
   return { ...res, markdown, specPath: own?.path ?? null };
 }

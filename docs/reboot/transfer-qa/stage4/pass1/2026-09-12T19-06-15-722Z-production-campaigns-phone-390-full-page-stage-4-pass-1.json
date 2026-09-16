@@ -1,0 +1,72 @@
+{
+  "screen": "Production Campaigns (phone 390, full page), stage 4 pass 1",
+  "screenshot": "m-business_campaigns-full.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T19:06:15.722Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 10160,
+    "output_tokens": 4208,
+    "total_tokens": 14368,
+    "reasoning_tokens": 3106
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co., its D initial, recipient handles and stored campaign titles—including the existing [demo] prefix—are real record content, not fixture-copy errors.",
+      "The seven active campaigns, five review items and two completed campaigns reflect production data. Open, Request sent, accepted-and-waiting, and the different progress counts should remain distinct.",
+      "The BMW photographs, supplied Story artwork and portrait video references correctly replace the Lab’s fictional sources.",
+      "The direct Recreate request’s No media state is an appropriate honest fallback; it should not receive replacement imagery.",
+      "The actual rates—$250 and $110 per car per month, $25 and $40 per approved Story, and $75 per approved video—should retain their production values and payment bases."
+    ],
+    "keep": [
+      "Mineral canvas, ink and muted text, flat rows and restrained dividers without app-card shadows.",
+      "Source-ratio landscape vehicle photographs and portrait creative/reference thumbnails; no artwork fabricated onto the cars.",
+      "Bold dollar amounts with their payment basis immediately underneath, separate from approval and waiting states.",
+      "Literal operational status and specific review actions, including driver review rather than car-proof approval.",
+      "Business switching, search, messages, notifications, campaign tabs and all five bottom-navigation destinations remain exposed.",
+      "The phone row layout and document-end tab bar used for this full-page capture; the latter is not a sticky-navigation defect."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Not yet signed off visually. Correct the attention-row rail/alignment, inspection-link colors and Story corners. The capture supports continuity of visible functionality, but cannot verify navigation, backend transitions or payment execution.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 8,
+      "uniqueness": 6,
+      "clarity": 8,
+      "premium_feel": 7,
+      "fidelity": 7,
+      "usability": 8,
+      "brand_recognition": 7,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 2,
+        "change": "Remove the attention-only 3px cobalt left border and its extra inline inset: border-inline-start: 0; padding-inline: 0. Give every row the same 84px source track, 12px column gap and 16px page gutters. Preserve the 12px source-to-fact step and #CFD3D1 row separators. Retain the explicit review labels and counts as the attention signal.",
+        "kind": "drift",
+        "why": "The first five records form one continuous blue spine and push their sources and text approximately 15px farther right than the final two records. These are pending-review records, not five selected rows. The extra status-based edge competes with the source-to-fact relationship and makes the list alignment change with backend state.",
+        "where": "Left edge and content alignment of the first five campaign rows, ending before the accepted direct Recreate request."
+      },
+      {
+        "priority": 2,
+        "change": "Set repeated review/inspection link text and arrows to #151B23, retaining IBM Plex Sans 600 at 16/20px and minimum 44px activation targets. Preserve the 3px #2450E8 focus outline with 3px offset. Keep cobalt on Create and selected navigation/tab edges.",
+        "kind": "drift",
+        "why": "Review 1 driver, Check 1 proof, 1 car waiting on you, Review 1 video and Review 1 applicant are all bright cobalt. They open inspection workflows rather than commit payment. The approved system explicitly keeps repeated secondary inspection links in ink; their current treatment competes with the monetary anchors.",
+        "where": "Review and waiting-action links in the first five campaign rows."
+      },
+      {
+        "priority": 2,
+        "change": "Set border-radius: 0 on supplied Story thumbnails and their clipping wrappers. Preserve their intrinsic portrait ratio and intact artwork. Keep 4px corners on ordinary vehicle and video-reference media.",
+        "kind": "drift",
+        "why": "Both supplied Story sheets visibly inherit rounded media corners. Frame Shift distinguishes supplied sheets from ordinary photographs through square corners.",
+        "where": "Artwork in Post our iced latte Story and Story for Demo Coffee Co."
+      }
+    ],
+    "why": "The supplied Lab is desktop discovery, not a Campaigns counterpart, so this assessment compares the approved language rather than inventing a pixel-identical screen. Production carries over the mineral surfaces, typography hierarchy, source-ratio media, readable rates and flat working layout. At 390px, titles wrap without visible clipping and the real states, review routes and navigation remain available. The principal drift is the continuous cobalt attention rail with state-dependent indentation, compounded by cobalt inspection links and rounded supplied Story sheets.",
+    "verdict": "The visible business functionality appears preserved, but Frame Shift is not fully faithful until the row alignment, inspection accents and Story-sheet treatment are corrected."
+  }
+}

@@ -1,0 +1,58 @@
+{
+ "screen": "Production Business Profile (phone 390, full page), Stage 5 pass 2",
+ "screenshot": "m-business_profile-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:01:43.624Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 11797,
+  "output_tokens": 3349,
+  "total_tokens": 15146,
+  "reasoning_tokens": 2483
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The Lab did not draw Business Profile. A lighter business identity and management layout is appropriate; the creator\u2019s graphite masthead, vehicle assembly, recent work and earnings sections are not required here.",
+   "Demo Coffee Co.\u2019s caf\u00e9 cover, saved business image, description, website and social details correctly replace Maya\u2019s fixture identity. The development-data disclosure belongs to this record.",
+   "The three records correctly show 7 active campaigns, 0 scheduled and 4 delivered. The four items awaiting a decision belong in the Campaigns row, not a fourth headline metric.",
+   "Essential plan, Active, Renews Oct 9, the next shoot, Nothing scheduled and the connection states represent business operations rather than creator payouts. No subscription money, campaign credit or payout is conflated.",
+   "The approved brand-kit swatches, including #C8FF3D, are saved business content\u2014not drift from TapMart\u2019s cobalt accent.",
+   "Business navigation appropriately replaces creator navigation, and Business remains selected. Placement of the tab bar after the content is an intentional full-page capture accommodation."
+  ],
+  "keep": [
+   "Mineral canvas, flat sections, restrained dividers and 16px phone gutters; no unnecessary graphite panels, shadows or card grid.",
+   "The source-ratio caf\u00e9 cover and contained business image, without decorative media staging or replacement imagery.",
+   "Strong business identity typography and three 28/32px record values, with supporting labels kept subordinate.",
+   "Literal text alongside status color: Verified business, Approved, Active, Needs you and Connected.",
+   "Ink inspection links, clearly separated management rows, the outlined Settings control and the selected Business tab."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off at the captured 390px viewport. The remaining media-corner mismatch is non-blocking polish. Search, messages, notifications, account switching, brand kit, operational routes, public page and settings remain visibly exposed. A capture cannot verify click-through behavior, backend mutations or other viewport sizes.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 8,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [
+   {
+    "priority": 3,
+    "change": "Change the photographic business-image wrapper from 8px to 4px border-radius and clip its contents to that radius. Preserve the current 104\u00d7104px reservation and contained source treatment; retain 8px only for a business-initial fallback.",
+    "kind": "drift",
+    "why": "The visible photographic tile uses control-like rounded corners. Frame Shift specifies 4px for ordinary source media and reserves the 8px business exception for initials.",
+    "where": "Business identity image beneath the caf\u00e9 cover, left of Demo Coffee Co."
+   }
+  ],
+  "why": "The production screen carries the approved language through its mineral surface, ink headings, muted operational copy, restrained borders and large record values. The caf\u00e9 cover reads as a real source at its own ratio rather than a wide placeholder housing. Management remains a simple list, with readable wrapped metadata and no visible clipping at 390px. The Lab\u2019s vehicle source-to-fact joint is not applicable to these utility rows; adding a notch or payment ledge would be decorative rather than faithful. Cobalt is concentrated in navigation and meaningful controls, while business colors remain inside the saved brand kit. Pass-2 corrections are visible: Business is selected, there are exactly three headline records, and the decision count sits in Campaigns. No visible functionality regression or misleading financial treatment is evident.",
+  "verdict": "Yes\u2014Frame Shift was faithfully transferred to Business Profile without a visible functionality regression, with only a minor media-corner mismatch remaining."
+ }
+}

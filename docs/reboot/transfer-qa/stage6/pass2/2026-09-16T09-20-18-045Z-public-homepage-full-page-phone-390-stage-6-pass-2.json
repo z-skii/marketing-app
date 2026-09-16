@@ -1,0 +1,82 @@
+{
+ "screen": "Public homepage, full page (phone 390), Stage 6 pass 2",
+ "screenshot": "m-full.png",
+ "reference": "m-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:20:18.045Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16111,
+  "output_tokens": 8214,
+  "total_tokens": 24325,
+  "reasoning_tokens": 6732
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Tyler, Demo Coffee Co. and the production business-discovery records correctly replace Maya and the Lab fixtures.",
+   "Recreate correctly shows $75.00 per approved version, with $63.75 after the $11.25 fee. Story shows $25.00 after 24 hours live and approval, with a 500-follower requirement. These should not be replaced with Lab amounts or eligibility thresholds.",
+   "The car campaign correctly uses $300.00 per month, $255.00 after the fee, rear-window placement and its actual campaign terms rather than the Lab\u2019s rear-door example.",
+   "Essential at $99/month and Growth at $199/month, including their configured shoot and output allocations, are legitimate production information absent from the Lab treatment.",
+   "The 15% creator fee, $25 payout minimum and manual payout explanation correctly reflect production settings without promising instant payment.",
+   "Real application, proof and review screens need not match the Lab\u2019s open or new fixture states. The statement that these are separate demo records appropriately avoids implying one continuous live progression.",
+   "Still references, supplied campaign artwork and explicitly labeled generated illustrations are appropriate here. No replacement video or fake installed advertisement is needed."
+  ],
+  "keep": [
+   "The immediate consumer explanation: Recreate, Post, Drive, Get paid, followed by clear earning and business entry actions.",
+   "The mineral canvas, graphite Recreate chapter, underlay Drive chapter, restrained cobalt and matching header/footer mark.",
+   "The square native commitment planes, visible 12px phone offset, conditional payment bases and prominent monetary typography.",
+   "The intact Story sheet and source-only shadow; the separation between the unwrapped car illustration and supplied campaign artwork.",
+   "The real production frames as the main product evidence, rather than recreating the Lab\u2019s public-page layout.",
+   "The intentional horizontal chapter strips, partially visible next items, step indicators and browsing controls. Their right-edge cutoffs are not responsive defects.",
+   "The distinction between campaign funding, content subscriptions and creator earnings, plus the literal approval and manual-payout conditions."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Hold phone release sign-off for the missing financial product demonstration and incomplete inspection/provenance coverage. The captures show no obvious loss of production functionality, but cannot verify navigation, dialog behavior or backend actions. After the targeted fixes, recapture at 390px and check Inspect, Close, Escape, focus return, strip controls and entry links.",
+  "scores": {
+   "viewport_quality": 7,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 8,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 7,
+   "brand_recognition": 8,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 2,
+    "change": "Render the existing Activity and Earnings captures in the phone Get paid section using the established frame-strip component: 16px gutters and item gaps, a Step n of 2 indicator, and Previous, Next and Inspect targets of at least 44px. Include a square #FFFFFF financial excerpt with a 12px source-to-fact offset and 16px padding, using only the available balance and payout-request state from the same demo record. Keep requested and paid explicitly separate; do not import the Lab\u2019s balances.",
+    "kind": "responsive",
+    "why": "Get paid contains only four text rows in this capture. Unlike the earning and business chapters, the final financial promise has no visible production screen or source-to-financial joint. This is where the product-led explanation falls back into generic landing-page copy.",
+    "where": "Phone Get paid section, between the monthly-content introduction and Business plans"
+   },
+   {
+    "priority": 2,
+    "change": "Add a visible 44px-minimum Inspect demo screen action beneath the hero caption, opening that exact User Home capture. Give each product frame its own adjacent 14/20px provenance line using the actual account, screen and literal visible state. For example, identify the hero\u2019s User Home / For you view and the Content frame\u2019s Edit requested state. Replace the aggregate Business Home/Create/Review caption with frame-specific captions while retaining the existing Inspect Home, Inspect Create, Inspect Review and Inspect Content actions.",
+    "kind": "usability",
+    "why": "The hero\u2019s visible caption has no inspection action. The business montage uses a collective caption, and the Content caption says only Production screen: Content even though the screen visibly shows Edit requested. Pass 2\u2019s claimed per-frame readable inspection and literal-state coverage is therefore incomplete.",
+    "where": "Hero User Home frame and business Campaigns/Monthly content frame captions"
+   },
+   {
+    "priority": 3,
+    "change": "Remove border-top and border-bottom from the compact Essential and Growth inclusion rows and the campaign-spending note: border: 0 and box-shadow: none. Keep the rows unboxed with 12px between them and 24px before the separate spending explanation.",
+    "kind": "drift",
+    "why": "Thin horizontal rules remain above Essential, between the plan rows and before the spending note, despite the approved unboxed treatment and the stated pass-2 removal.",
+    "where": "Compact plan summary immediately below the Monthly content demonstration"
+   },
+   {
+    "priority": 3,
+    "change": "Remove check icons from all coming-later features. Group those lines under a 14/20px muted label, Planned \u2014 not available today, retaining their existing feature names. Reserve cobalt inclusion checks for currently available capabilities.",
+    "kind": "data_honesty",
+    "why": "Google/social connections, team access, multiple locations and deeper analytics still use checklist inclusion symbols. The coming-later text helps, but the icon grammar conflicts with availability and makes the pricing tail feel more like a conventional SaaS feature grid than a literal account of the product.",
+    "where": "Essential and Growth pricing-card feature lists"
+   }
+  ],
+  "why": "Judged as a production-led public website rather than a Lab layout clone, this is a convincing Frame Shift transfer. The task-specific material changes, real app frames, intact creative and offset monetary planes establish TapMart rather than a generic marketplace or agency. The hero explains the proposition quickly, and the business section clearly separates campaigns from monthly content. Visible production navigation, actions, amounts and states remain recognizable; there is no apparent fabricated payout or automatic acceptance. The remaining gaps are concentrated: Get paid loses its working-product evidence, some frames lack complete native inspection/provenance coverage, and a few pricing treatments contradict the claimed cleanup.",
+  "verdict": "Frame Shift\u2019s foundation and TapMart\u2019s real product story transferred well, but this phone pass needs targeted financial-demonstration and inspection fixes before release sign-off."
+ }
+}

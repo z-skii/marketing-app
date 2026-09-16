@@ -8,6 +8,7 @@
  *   npm run creative -- design-screen "Business Content" --purpose "..." --data "..." --actions "..." [--phone png] [--desktop png] [--media url]
  *   npm run creative -- review-screen shot.png "Business Content (phone), pass 1" ["instructions"] [--final] [--minor] [--spec slug] [--lab] [--standard]
  *       --standard: the founder's final Design Lab standard (ten scores, unmistakably TapMart, production readiness) against docs/reboot/refine
+ *       --transfer <approved-lab.png>: production transfer QA, the real capture compared with the approved Lab capture
  *   npm run creative -- refine --shot png [--shot png ...] --review json [--review json ...] [--resume]
  *       The final art direction refinement: Astra sees the real prototype screenshots and its
  *       own verdicts, refines the system and four screens, writes docs/reboot/refine.
@@ -142,7 +143,7 @@ async function main() {
     case "review-screen": {
       const [screenshot, screenName, ...rest] = pos;
       if (!screenshot || !screenName) throw new Error('review-screen needs <screenshot.png> "<Screen name>" [instructions]');
-      const r = await reviewScreen({ screenName, screenshot, instructions: rest.join(" ") || null, spec: str(flags, "spec") || null, final: on(flags, "final"), minor: on(flags, "minor"), lab: on(flags, "lab"), standard: on(flags, "standard"), outDir: str(flags, "out") || null }, common);
+      const r = await reviewScreen({ screenName, screenshot, instructions: rest.join(" ") || null, spec: str(flags, "spec") || null, final: on(flags, "final"), minor: on(flags, "minor"), lab: on(flags, "lab"), standard: on(flags, "standard"), transfer: str(flags, "transfer") || null, outDir: str(flags, "out") || null }, common);
       if (dryRun) { log(`Dry run: ${JSON.stringify(r.request).length} bytes, nothing sent.`); return; }
       process.stdout.write(r.markdown);
       log(`Usage ${JSON.stringify(r.usage)}`);

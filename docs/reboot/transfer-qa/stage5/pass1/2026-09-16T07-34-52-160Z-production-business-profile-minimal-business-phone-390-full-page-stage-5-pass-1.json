@@ -1,0 +1,57 @@
+{
+ "screen": "Production Business Profile, minimal business (phone 390, full page), Stage 5 pass 1",
+ "screenshot": "m-business_profile-full.png",
+ "reference": "m-design_lab_user_profile-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T07:34:52.160Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10881,
+  "output_tokens": 3065,
+  "total_tokens": 13946,
+  "reasoning_tokens": 2293
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The business initial replaces a photograph or logo, and no cover image is fabricated. \u201cAdd a logo and cover\u201d provides the relevant next action.",
+   "The real business name, Raleigh location and zero campaign, scheduled and delivered counts replace the Lab\u2019s personal identity and creator records.",
+   "\u201cNot verified,\u201d \u201cNo services connected,\u201d \u201cNot built,\u201d \u201cNo plan,\u201d \u201cNone running\u201d and \u201cNothing scheduled\u201d correctly describe this minimal account.",
+   "Business management destinations replace the Lab\u2019s Instagram, vehicle, portfolio and earnings sections. Business navigation and the recorded notification count are appropriate.",
+   "The quieter mineral identity area is appropriate for this utility screen. With no supplied media source, neither the Lab\u2019s portrait crossing nor a decorative source-to-commitment offset is required."
+  ],
+  "keep": [
+   "Mineral canvas, ink headings, muted operational copy, restrained dividers and flat management rows.",
+   "Strong business identity, 16px phone gutters and the rounded-square business initial rather than a fabricated portrait.",
+   "Literal empty states beside relevant management actions, without invented connection health, earnings or plan benefits.",
+   "Ink secondary actions, cobalt Create control and the selected navigation edge.",
+   "Visible account switching, Search, Messages, Notifications, Settings, Brand kit, Connections and public-page access."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off at the captured 390px viewport, with one non-blocking typography correction. The capture shows the relevant states and entry points, but cannot establish whether taps, routing or backend mutations work.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 7,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 9,
+   "brand_recognition": 7,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [
+   {
+    "priority": 3,
+    "change": "Set the three record values to the approved phone Profile record token: Archivo 700, 28px font-size, 32px line-height, -0.02em tracking, and tabular lining numerals. Retain the existing three-column layout and 14/20px labels.",
+    "kind": "drift",
+    "why": "The production zeros read at approximately 24px, smaller than the Lab\u2019s record values and the specified 28/32px profile-record treatment. This slightly weakens the record hierarchy but is not a usability blocker.",
+    "where": "Active campaigns, Scheduled and Delivered values beneath the business identity"
+   }
+  ],
+  "why": "The production screen carries over the approved working language rather than copying an unrelated creator layout: mineral surfaces, strong Archivo headings, muted supporting text, restrained borders, square structural regions and rounded controls. Spacing remains orderly, the business name fits, and all five bottom-navigation labels are visible without clipping. The initial is an honest media fallback; there is no invented cover, vehicle or decorative joint. Money is appropriately absent for this no-plan account rather than replaced with fixture earnings or conflated balances. Status words remain explicit, and management rows expose their destinations through labels and chevrons. The smaller record numerals are the only clear token-level drift.",
+  "verdict": "Frame Shift was faithfully transferred to this minimal business profile, with real states and visible business functionality preserved and only minor record-typography drift."
+ }
+}

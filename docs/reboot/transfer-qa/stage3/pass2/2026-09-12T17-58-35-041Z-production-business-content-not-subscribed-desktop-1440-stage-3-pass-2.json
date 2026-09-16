@@ -1,0 +1,49 @@
+{
+  "screen": "Production Business Content, not subscribed (desktop 1440), stage 3 pass 2",
+  "screenshot": "d-business_content.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-12T17:58:35.041Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9517,
+    "output_tokens": 1648,
+    "total_tokens": 11165,
+    "reasoning_tokens": 1023
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Roastery and its D initial replace the Lab's Loopday Coffee fixture; production correctly omits the separate demo designation.",
+      "No plan yet and View plans replace Growth · Active and Manage plan.",
+      "The compact Not subscribed plane replaces the delivered-source and approval assembly because this business has no plan or delivered files.",
+      "Honest empty states replace the Lab's delivered thumbnails, booked shoots and scheduled or failed posts. File-specific approval, editing and original-file controls are appropriately absent.",
+      "Messages and Notifications show production unread counts of 2 and 7 rather than the Lab's unbadged navigation."
+    ],
+    "keep": [
+      "The 200px graphite rail, restrained TapMart mark and 32px desktop content gutter.",
+      "Mineral canvas, square white working plane, shadow-free sections and restrained control borders.",
+      "Strong Content title and section headings, muted operational copy, cobalt primary action and selected navigation edges.",
+      "Brand kit, all four Content tabs and the complete business navigation.",
+      "The compact, literal no-plan state without replacement imagery, invented money or a decorative source-to-commitment notch."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Sign off this 1440px not-subscribed state. The capture supports visual and state fidelity and shows the relevant entry points; it cannot verify their click behavior, subscription activation or populated-file workflows.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The shared shell closely matches the approved capture: content begins at x=232 beside the 200px rail, the title and tabs retain their placement and hierarchy, and Brand kit remains at the upper right. The mineral background, graphite navigation, white working surface, cobalt selection and 48px-high primary button preserve the approved treatment. Production's approximately 560px-wide subscription plane is rectangular and shadow-free, not a generic elevated dashboard card. Delivered files, shoots and posts remain distinct, readable sections with literal empty-state explanations. With no delivered source, omitting the Lab's media, provenance inspector and source-to-commitment joint is correct; there is nothing to inspect or approve. No unsupported price, booking, file or publication state is presented. Media quality here reflects appropriate omission, not validation of a populated media viewer.",
+    "verdict": "Frame Shift is faithfully transferred for this desktop not-subscribed state, with honest production states and the relevant navigation and actions visibly intact."
+  }
+}

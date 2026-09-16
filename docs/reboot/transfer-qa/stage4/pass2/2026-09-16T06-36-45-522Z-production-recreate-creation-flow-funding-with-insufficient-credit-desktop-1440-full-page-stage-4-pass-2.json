@@ -1,0 +1,57 @@
+{
+  "screen": "Production Recreate creation flow, funding with insufficient credit (desktop 1440, full page), stage 4 pass 2",
+  "screenshot": "d-create_recreate_6_funding.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:36:45.522Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 10047,
+    "output_tokens": 2834,
+    "total_tokens": 12881,
+    "reasoning_tokens": 2070
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "This is a creation-flow funding step, not the Lab’s Content overview; its step indicator, financial ledger and continuation controls appropriately replace review tabs and delivered-file actions.",
+      "Demo Coffee Co., its D initial and notification counts reflect the production account rather than the Lab fixture.",
+      "The uploaded portrait reference, campaign brief, deadline and Raleigh location are record-specific. Keeping the reference at its approximately 9:16 ratio is correct.",
+      "The $10.00 campaign credit and insufficient-credit state legitimately introduce a $40.00 publishing shortfall, Add credit and Continue without publishing."
+    ],
+    "keep": [
+      "Mineral canvas, graphite navigation, white working plane, restrained cobalt, flat surfaces and matching typography.",
+      "The 24px source-to-decision joint between the source column ending at x=680 and the funding column beginning at x=704.",
+      "Intact portrait media with a visible, ink-colored Open reference control and conditional payment caption.",
+      "Strong $50.00 payment anchors and the distinction between one approved video and the $500.00 total if all 10 spots are approved.",
+      "Explicit creator-side fee calculation: $42.50 received after 15%, with no fee added to the business’s $50.00 payment.",
+      "Visible top-up, non-publishing continuation and back navigation without unnecessary disclosure layers."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Ready for visual sign-off at this desktop viewport, with minor rail alignment polish. The capture exposes the required actions but cannot verify top-up behavior, draft persistence or backend debit timing.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [
+      {
+        "priority": 3,
+        "change": "Remove the desktop rail’s 20px top inset. Anchor it at top: 0 with margin-top: 0 and height: 100dvh; retain its 200px width and the main content’s 32px gutter. Preserve the flow’s internal vertical spacing.",
+        "kind": "drift",
+        "why": "Production leaves a mineral strip above the graphite rail and shifts its entire contents down 20px. The approved rail starts flush against the viewport top.",
+        "where": "Desktop navigation rail: production y=20–920 versus Lab y=0–900."
+      }
+    ],
+    "why": "The transfer preserves the approved material hierarchy and a measurable 24px joint without turning the funding step into rounded dashboard cards. The reference remains identifiable and inspectable, while payment leads the decision plane. Financial meaning is accurate: $50.00 is required for one payment, $10.00 is available, and the separate shortfall line asks for $40.00. The $490.00 remaining to cover every spot is distinguished from the publishing requirement. Copy explicitly says credit leaves only on approval, nothing is held at publication, and the plan is billed separately. All funding controls and the campaign summary remain visible without clipping.",
+    "verdict": "Frame Shift was faithfully transferred, and the capture preserves the real insufficient-credit workflow and financial semantics, with only minor desktop rail alignment drift."
+  }
+}

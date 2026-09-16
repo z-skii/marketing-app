@@ -1,0 +1,48 @@
+{
+ "screen": "Production Search (desktop 1440), Stage 5 pass 2",
+ "screenshot": "d-search_q_demo.png",
+ "reference": "d-design_lab_business_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T08:07:15.701Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 11531,
+  "output_tokens": 1645,
+  "total_tokens": 13176,
+  "reasoning_tokens": 1034
+ },
+ "review": {
+  "faithful_transfer": false,
+  "expected_differences": [],
+  "keep": [
+   "Preserve the real authentication guard and existing sign-in, password visibility, recovery and account-creation functionality.",
+   "Do not substitute fixture search results for an unauthenticated state."
+  ],
+  "functionality_intact": false,
+  "readiness_note": "Blocked by the wrong captured state, not a demonstrated Search regression. The production image contains no authenticated Search UI or real search records. Functionality remains unverified; media quality is scored neutrally because no source media is shown.",
+  "scores": {
+   "viewport_quality": 5,
+   "media_quality": 5,
+   "uniqueness": 1,
+   "clarity": 6,
+   "premium_feel": 2,
+   "fidelity": 0,
+   "usability": 3,
+   "brand_recognition": 1,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": false,
+  "drift": [
+   {
+    "priority": 1,
+    "change": "Capture the existing Search destination using a valid authenticated business session with access to the real records. Wait for authentication and the initial search state to settle, then recapture at 1440\u00d7900. Add capture assertions that the single Search query field is visible and the 'Welcome back' sign-in form is absent. Preserve authentication and permission checks; do not bypass them. Verify results remain grouped as Open campaigns, Businesses and People, with zero searchable vehicle groups.",
+    "kind": "usability",
+    "why": "The supplied production capture stops at authentication. It exposes neither Search nor the application navigation, so the transfer and real search functionality cannot receive release sign-off.",
+    "where": "Entire production capture: 'Welcome back' sign-in screen instead of Production Search."
+   }
+  ],
+  "why": "Production shows a near-black full-page login, a lime-dot TapMart label, rounded dark inputs and a glowing lime Sign in button. These do not demonstrate the approved mineral #F4F3EF working canvas, restrained graphite regions, exact frame mark, cobalt #2450E8 actions or application typography. The Lab establishes those tokens through its graphite rail and open working field, but its discovery composition is not a Search template: Search should not acquire its people ribbon, car shelf or source-to-commitment offsets merely to match the reference. No Search field, grouped results, record statuses, financial semantics, result destinations or selected app navigation are visible in production. Consequently, no real-data differences or Search functionality can be verified, and the visible legacy login should not be misreported as evidence of Search-specific styling regressions.",
+  "verdict": "Do not sign off: the production capture shows sign-in rather than Search, leaving both Frame Shift fidelity and real Search functionality unverified."
+ }
+}
