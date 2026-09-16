@@ -1,0 +1,51 @@
+{
+  "screen": "Production Campaign detail, car campaign (desktop 1440), stage 4 pass 3",
+  "screenshot": "d-business_campaigns_e4000000_0000_4000_8000_000000000020.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:44:30.524Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9937,
+    "output_tokens": 2014,
+    "total_tokens": 11951,
+    "reasoning_tokens": 1365
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co. and its initial replace the Lab business identity; production does not need fictional-record labels.",
+      "The Raleigh car campaign, $250.00 monthly rate, vehicle identities and driver handles replace the Lab’s content-review fixtures.",
+      "Open, Car not verified, Ready to install, 0 months paid and the driver-photo count represent actual campaign and booking states.",
+      "Placement is shown on a labelled diagram, supplied artwork remains separate, and actual vehicle photos identify applicants and booked cars. The Lab’s editorial photography is not required here.",
+      "Campaigns is selected in navigation, with production message and notification counts."
+    ],
+    "keep": [
+      "The matching 200px graphite rail, restrained TapMart mark, mineral canvas, white working planes and shadow-free records.",
+      "The corrected 24px desktop column gap: the source ends at x680 and the operational column begins at x704.",
+      "The monthly commitment caption’s 24px inset from the source edge, square geometry and strong $250.00 hierarchy.",
+      "The separate placement diagram and intact artwork preview with the ink View artwork control; no advertisement is fabricated onto a real car.",
+      "Literal booking language: accepting books the car without payment, while installation confirmation triggers payment.",
+      "Independent campaign, verification, installation and payment states, with no approve-proof action for cars.",
+      "Visible Accept and Decline controls, installation-review navigation and progressively disclosed campaign settings."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Sign off the captured 1440×900 layout. The capture shows the relevant records, states and action entry points, but does not establish click behavior, payment execution, or campaign-credit and fee calculations; those require interaction testing.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 8,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 8,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The supplied Lab is a Content screen, so its exact gallery and inspector proportions are not a campaign-detail specification. Production successfully transfers its language: matching surfaces and typography, few borders, a clear source assembly, an offset financial caption and unboxed operational records. The targeted 24px column gap is present. Cobalt remains restrained to selection and commitment rather than repeated inspection links. Both monetary displays agree on $250.00 per month, acceptance explicitly does not pay, and no visible wording implies escrow, reserved funds or an added business-side platform fee. Navigation and controls remain legible without clipping at this viewport.",
+    "verdict": "Frame Shift is faithfully transferred at this desktop viewport, with no visible release-blocking drift and TapMart’s campaign functionality still exposed."
+  }
+}

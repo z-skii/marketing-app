@@ -1,0 +1,51 @@
+{
+  "screen": "Production Recreate creation flow, funding step (phone 390, full page), stage 4 pass 3",
+  "screenshot": "m-create_recreate_6_funding.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:43:38.762Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 11209,
+    "output_tokens": 2234,
+    "total_tokens": 13443,
+    "reasoning_tokens": 1552
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co., its D initial, notification counts and campaign details are production records, not the Lab’s Loopday Coffee fixtures.",
+      "The supplied portrait image is explicitly identified as an uploaded reference. It need not match the Lab’s delivered photography or appear as a completed creator video.",
+      "The $50 payment, 10 spots, $17,887 campaign credit and Covered states correctly reflect this campaign rather than fixture amounts.",
+      "The creation-step recap and publishing-credit assessment are appropriate to this production workflow; the Lab’s content-review statuses and approval controls do not belong here."
+    ],
+    "keep": [
+      "Mineral canvas, flat white funding plane, restrained dividers and square financial regions without card shadows.",
+      "Source-ratio reference with the cobalt payment caption attached directly beneath it, followed by provenance and a visible ink Open reference control.",
+      "16px phone gutters and the 12px inward shift into the decision section.",
+      "Strong $50 money hierarchy and explicitly conditional $500 total for all 10 approvals.",
+      "The fee explanation wrapping entirely inside the funding plane: $42.50 reaches the creator after the 15% deduction from the $50 payout.",
+      "Separate publishing eligibility and whole-campaign coverage, with literal Covered text rather than color alone.",
+      "Explicit statements that approval spends credit, publishing holds nothing and plan billing is separate.",
+      "Visible Add credit, Continue, Back and business navigation; the capture-only placement of the tab bar does not obscure content."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Sign off at the captured 390px viewport. The supplied Lab is a desktop Content screen, so this assessment validates the approved language applied to funding, not same-screen pixel parity. Navigation and actions remain exposed; a capture cannot verify their handlers or actual ledger mutations.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 8,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The source remains identifiable and inspectable, its cobalt commitment caption is physically attached, and the inset funding section preserves the phone offset without turning the flow into generic elevated cards. The heading, dominant amounts, operational labels and ink inspection action retain the approved hierarchy. Financial meaning is consistent throughout: $50 per approval, $500 only if all 10 spots are approved, and $42.50 to the creator after a $7.50 fee—not an additional business charge. Publishing requires credit for one payment, and the screen explicitly denies any hold at publication. The fee note, campaign-credit explanation, statuses and controls fit inside the phone plane without clipping or overlap. No release-blocking drift is visible.",
+    "verdict": "Yes—Frame Shift is faithfully transferred at this phone viewport, with accurate financial meaning and no visible loss of production functionality."
+  }
+}

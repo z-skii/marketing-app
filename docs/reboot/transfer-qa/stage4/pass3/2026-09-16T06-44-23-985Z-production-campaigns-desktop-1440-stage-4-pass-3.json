@@ -1,0 +1,50 @@
+{
+  "screen": "Production Campaigns (desktop 1440), stage 4 pass 3",
+  "screenshot": "d-business_campaigns.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:44:23.985Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9343,
+    "output_tokens": 1745,
+    "total_tokens": 11088,
+    "reasoning_tokens": 1034
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co., its D initial, and the message and notification counts replace the Lab’s fictional business identity and states.",
+      "Actual campaign references and supplied creative replace the Lab’s discovery photography. Landscape car photos and portrait Story/Recreate media correctly retain different proportions.",
+      "Campaign titles, public versus direct distribution, recipient handle, rates, progress counts and pending actions reflect production records.",
+      "Campaigns uses an operational list rather than the Lab’s discovery spreads; the Lab did not specify this workflow, so fidelity is judged against the approved language rather than identical content."
+    ],
+    "keep": [
+      "Mineral canvas, graphite navigation rail, restrained cobalt selection indicators and flat records without card shadows.",
+      "The shared desktop row geometry: reserved 3px leading edge, source column beginning at x247, 84px source reservation and 24px gap before the decision column at x355.",
+      "Stable alignment through the highlighted row: thumbnails, campaign information and right-aligned money retain the same insets.",
+      "Strong page-title and money hierarchy, with operational titles, muted metadata and literal green Open status text.",
+      "Source-ratio thumbnails, intact Story artwork and unmodified car photography without simulated installed advertising.",
+      "Ink inspection actions with specific next steps: Review 1 driver, Check 1 proof, Send artwork for 1 car and Review 1 video.",
+      "The persistent business switcher, navigation labels, selected Campaigns entry and Active, Review and Completed tabs with counts."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Sign off the visual transfer at 1440×900. The capture preserves the visible records, states, navigation and next actions; link execution, tab filtering, hover stability and payment mutations still require runtime verification.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 0
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The production screen transfers the approved system without forcing a discovery composition onto campaign management. The 200px graphite rail and 32px content gutter match the Lab shell. Rows share source, text and payment alignment, with the requested 24px source-to-decision joint and restrained separators. The highlighted third row preserves that geometry. Money remains the anchor: $250.00 and $110.00 explicitly say per car, per month; $25.00 says per approved Story; $75.00 says per approved video. Car progress is expressed as cars on the road, and the car actions concern driver review and artwork rather than proof approval. Nothing visible suggests escrow, reserved funds or a fee added above the stated pay. Content remains readable at this viewport, and the partially visible next row is normal list continuation rather than horizontal overflow. No actionable implementation drift is evident.",
+    "verdict": "Yes—Frame Shift is faithfully transferred to the desktop Campaigns list, with its real functionality visibly preserved and no release-blocking drift in this capture."
+  }
+}
