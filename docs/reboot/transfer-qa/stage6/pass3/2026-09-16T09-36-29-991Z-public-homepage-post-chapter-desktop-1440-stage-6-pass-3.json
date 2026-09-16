@@ -1,0 +1,50 @@
+{
+ "screen": "Public homepage, Post chapter (desktop 1440), Stage 6 pass 3",
+ "screenshot": "d-post-review.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:36:29.991Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16857,
+  "output_tokens": 2212,
+  "total_tokens": 19069,
+  "reasoning_tokens": 1552
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Demo Roastery's iced-latte creative replaces the Lab's Loopday coffee-break artwork. The external sheet and captured campaign show the same creative and business.",
+   "Creator pay is $25.00 rather than the Lab's $35.00. The native terms plane and production frame agree, retaining the 24-hour live requirement, approval condition and 1,000-follower minimum.",
+   "Devon's production demo account replaces Maya's Lab fixture. Maya's follower count and fixture eligibility result are not presented as Devon's.",
+   "The later frame shows submitted proof in review rather than only an open opportunity. Its caption correctly distinguishes 'Campaign open' from 'Proof in review'."
+  ],
+  "keep": [
+   "Mineral canvas, ink typography and square white commitment plane without card elevation; cobalt remains restrained.",
+   "The 88/84px chapter-heading hierarchy and clear progression from task explanation to numbered operational steps.",
+   "The intact 288\u00d7512px Story sheet, source-only shadow and adjacent 260px terms plane with a 24px gap.",
+   "The fixed 288px stage track: the later product frame retains the creative's horizontal position when the adjacent terms plane is absent.",
+   "Native provenance captions and ink Inspect actions outside the scaled product capture.",
+   "The explicit warning that frames are separate demo records, not one live progression.",
+   "Visible public navigation, Find Story work action, and the production frame's proof inspection and Home, Activity, Earnings and Profile navigation."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Visual sign-off for this Post chapter at desktop 1440. The capture supports preserved data, state and action visibility; it does not independently verify Inspect dialogs, keyboard behavior, navigation destinations or sticky-stage transitions.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "The supplied creative remains the major source object, with a distinct, native-size financial commitment beside it. Its $4 customer offer is clearly separate from the $25.00 creator payment, whose conditions remain explicit. The later production frame demonstrates actual proof submission and a literal review state rather than implying acceptance or earnings. Typography, neutral surfaces, restrained controls and the source-to-terms relationship retain Frame Shift despite the intentionally different public-page composition. The two composite views show an occupied product stage, not a missing Lab assembly. Small embedded operational text has a clearly labeled external inspection route. Nothing visible establishes a functional regression or a release-blocking visual defect.",
+  "verdict": "Frame Shift is faithfully carried into this desktop Post chapter, with coherent real-product storytelling and no visible release-blocking drift."
+ }
+}

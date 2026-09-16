@@ -1,0 +1,61 @@
+{
+ "screen": "Public homepage, final full page (desktop 1440), Stage 6 pass 3",
+ "screenshot": "d-full.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:38:23.455Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16876,
+  "output_tokens": 6234,
+  "total_tokens": 23110,
+  "reasoning_tokens": 5178
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Tyler, Devon and the production demo businesses replace Maya and the Lab fixtures. The captions correctly identify demo accounts and literal states rather than presenting customer results.",
+   "Recreate shows $75.00 per approved video and $63.75 after the $11.25 fee, rather than the Lab's $65.00 opportunity. The revision-requested screen is a legitimate production state.",
+   "Post uses the Roastery creative and its matching $25.00 campaign rather than Loopday's $35.00 fixture. The Instagram connection requirement and submitted proof are valid alternatives to the Lab's explicitly eligible manual account.",
+   "Drive shows the production campaign's $300.00 monthly amount, rear-window placement and 30-day terms. The booking correctly remains at installation next; the wrapped vehicle is supplied campaign artwork, not evidence of an installed ad.",
+   "Earnings shows a $34.00 available demo balance and nothing pending, rather than $78.40 available with a $50.00 requested payout. These records are not presented as earnings caused by the preceding example.",
+   "Business frames expose actual discovery, submitted Story proof and Content states, including Edit requested independently of Post: Not scheduled.",
+   "The $99 and $199 subscriptions and their shoot allocations come from production configuration. Campaign funding remains separate, and unavailable features are explicitly listed as Planned."
+  ],
+  "keep": [
+   "The immediate Recreate / Post / Drive / Get paid proposition and literal explanation of what people do. This reads as a consumer-and-business platform, not generic SaaS positioning.",
+   "Mineral canvas, graphite Recreate, underlay Drive, white working planes and restrained cobalt. The large, tight Archivo headings and restrained TapMart lockup retain the approved visual language.",
+   "The fixed 288px frame and 260px commitment tracks with a 24px gap. Square, shadowless native terms planes make amounts and conditions readable without requiring visitors to decipher a device screenshot.",
+   "The intact, square Story sheet; source-faithful filming and vehicle illustrations; explicit generated-media captions; and separation between campaign artwork and the unwrapped car.",
+   "Real product captures covering open work, revisions, proof review, booking, Activity, Earnings and business operations. The separate-record notices prevent the sequence from implying automatic progression.",
+   "Frame-specific provenance and Inspect actions, including the hero, business frames and Earnings. These make the captured product inspectable without pretending its pictured controls are live page controls.",
+   "Visible earning and business entry points, task-specific destinations, pricing, sign-in and legal navigation. Subscription, campaign credit and creator earnings remain distinct."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Approve this desktop presentation with one non-blocking typography correction. This is visual sign-off: the unrolled capture supports state and action visibility, but does not independently verify routing, Inspect-dialog keyboard behavior or live sticky-stage transitions.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 9,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [
+   {
+    "priority": 3,
+    "change": "Set the native available-balance amount to Archivo 700, 56px font size, 60px line height, -0.03em tracking and tabular lining numerals at desktop. Keep $34.00, the demo qualifier and payout conditions unchanged; do not modify the production screenshot.",
+    "kind": "drift",
+    "why": "The external $34.00 currently reads at roughly the same scale as the opportunity amounts. The approved desktop Available Earnings role is 56/60px, giving an existing balance a stronger financial anchor. It remains readable, so this is polish rather than a release blocker.",
+    "where": "Get paid \u2014 native white balance plane beneath the Earnings device."
+   }
+  ],
+  "why": "The production page preserves Frame Shift through its material changes, tight display typography, source-to-terms joints and disciplined financial treatment\u2014not merely through its logo. Real product frames substantiate the promise with requests, revisions, proof, booking and independent business states. The Post creative and terms now agree, generated sources are disclosed, and no payout or installation is invented. The business section stays on canvas and explains campaigns before monthly content; its configured plans support that explanation rather than replacing it with a SaaS pricing pitch. The intentionally unrolled chapters and production-led composition are not Lab-layout drift. No functional regression is visible in the capture.",
+  "verdict": "Yes\u2014Frame Shift has been faithfully transferred into a credible production-led TapMart homepage, with real functionality visibly preserved and only minor Earnings typography polish remaining."
+ }
+}

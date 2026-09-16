@@ -1,0 +1,66 @@
+{
+ "screen": "Public homepage, final full page (desktop 1440), Stage 6 pass 3",
+ "screenshot": "d-full.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:28:04.868Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 16876,
+  "output_tokens": 5670,
+  "total_tokens": 22546,
+  "reasoning_tokens": 4660
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "Tyler, Devon, Demo Coffee Co. and Demo Roastery replace the Lab fixtures. The public captions correctly identify these as demo accounts and distinguish separate records from a live progression.",
+   "Recreate shows $75.00 gross and $63.75 after the $11.25 fee; Post shows $25.00; Drive shows $300.00 monthly and $255.00 after the fee. These record-specific amounts should not be changed to the Lab values.",
+   "The Roastery Story creative, eligibility conditions and campaign frame belong together. Production's Instagram connection requirement and submitted proof appropriately differ from the Lab's eligible fixture.",
+   "Revision requested, proof in review, installation next, and Content's separate file and publication states expose actual product behavior rather than a fabricated successful journey.",
+   "Earnings shows $34.00 available with nothing pending, not the Lab's $78.40 balance and $50.00 requested payout.",
+   "The configured $99 and $199 subscriptions, shoot allocations and separately identified planned features correctly extend the public explanation beyond the Lab."
+  ],
+  "keep": [
+   "The mineral canvas, graphite Recreate chapter, underlay Drive chapter, restrained cobalt and square financial planes.",
+   "The recognizable Archivo hierarchy and matching header/footer lockups.",
+   "The native commitment planes beside the relevant sources, including the cobalt Recreate amount and explicit fee and approval conditions.",
+   "The intact, square Story sheet; generated-media disclosures; and separation between the unwrapped car photograph and supplied campaign illustration.",
+   "Real product captures showing both opportunities and consequential states, with record-specific captions and Inspect actions.",
+   "Campaigns and monthly content as distinct business workflows, with subscription spending, campaign credit and creator earnings kept separate."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off this desktop presentation with the two non-blocking visual corrections below. The unrolled capture establishes content, hierarchy and visible navigation\u2014not runtime behavior. Inspect dialogs, onboarding destinations, sticky handoffs, keyboard handling and other viewports still require interaction testing.",
+  "scores": {
+   "viewport_quality": 8,
+   "media_quality": 8,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 8,
+   "fidelity": 8,
+   "usability": 8,
+   "brand_recognition": 9,
+   "ai_slop_risk": 2
+  },
+  "ready_to_ship": true,
+  "drift": [
+   {
+    "priority": 3,
+    "change": "Give both audience actions equal secondary treatment: #FFFFFF background, #151B23 text, 1px #788595 border, 8px radius, IBM Plex Sans 600 at 16/20px, 48px height and 12px gap. Keep their current labels and destinations; leave the header's Get started action cobalt.",
+    "kind": "drift",
+    "why": "Start earning is filled cobalt while For businesses is outlined. The approved audience choices have equal visual weight; the current treatment makes the business entrance subordinate.",
+    "where": "Hero audience actions and the final Your next local move section"
+   },
+   {
+    "priority": 3,
+    "change": "Set the native $34.00 available-balance value to Archivo 700, 56/60px, tracking -0.03em, with tabular lining numerals. Keep its demo qualifier, minimum and payout conditions at 14/20px, and retain the square, shadowless white plane. Do not alter the embedded production screenshot.",
+    "kind": "drift",
+    "why": "The external balance currently reads closer to an opportunity amount than the approved available-earnings anchor. It is readable, but loses financial hierarchy beneath the large heading and device.",
+    "where": "Get paid \u2014 native available-balance plane below the Earnings frame"
+   }
+  ],
+  "why": "This reads as a consumer and business platform, not a generic SaaS template. Specific work, supplied creative, literal review states and conditional pay carry the explanation; pricing arrives after the product workflows. The source-to-commitment relationship survives outside the miniature screenshots through readable native terms. Navigation, audience entry points and inspection controls remain visible. The business frames show discovery, review and content operations without collapsing approval into publication. There is no visible invented payout, installed-ad claim or automatic success sequence. The different page layout and repeated frames are appropriate to the explicitly unrolled production presentation, not evidence of missing sticky stages.",
+  "verdict": "Yes\u2014Frame Shift has transferred convincingly to the desktop public site, and the visible real-product functionality and financial semantics remain intact."
+ }
+}
