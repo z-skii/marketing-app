@@ -1,0 +1,50 @@
+{
+  "screen": "Production Campaign detail, Recreate campaign (phone 390, full page), stage 4 pass 2",
+  "screenshot": "m-business_campaigns_f28f4d7d_117e_45b6_bf83_fc067318e101-full.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:37:56.652Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 10758,
+    "output_tokens": 2807,
+    "total_tokens": 13565,
+    "reasoning_tokens": 2070
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co. and its D initial are real account identity, not replacements that need to resemble the Lab business.",
+      "This campaign has an identifiable still reference and a separate linked Reel; these correctly replace the Lab’s delivered-photo fixtures without conflating reference and submission.",
+      "The $75.00 rate, 0 of 8 approvals, $0.00 paid, September 20 deadline and $17,887.00 current credit reflect the actual campaign.",
+      "Jasmine Reed’s Submitted state and demo-creator’s Changes requested state correctly produce one video under Needs you. The Lab’s content-approval and publishing states should not be copied here."
+    ],
+    "keep": [
+      "The 16px phone gutters and joined split: the commitment begins 12px below the source, preserving the open-corner relationship at this viewport.",
+      "Mineral canvas, #1D2833 source housing, #101820 factual plane and #2450E8 payment caption; flat white working regions without dashboard-card shadows.",
+      "The intact portrait reference, restrained 4px source corners, square financial plane and separate ink Open reference and Open the linked Reel controls.",
+      "Archivo heading and money hierarchy with readable operational copy. The large page title wraps cleanly, and $75.00 remains the assembly’s financial anchor.",
+      "The explicit per-approved-video basis and payment-on-approval wording, followed by separate approval count, paid-to-date and current-credit facts.",
+      "Needs you before the submission history, literal text statuses, quiet row dividers and deeper disclosure for campaign settings.",
+      "The account controls, Campaigns back navigation and labelled bottom navigation with Campaigns visibly selected."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off for the captured 390px viewport. The capture exposes the expected records and entry points, but cannot verify playback, navigation destinations, expanded settings or downstream approval transactions and creator-fee deductions. The document-end tab bar is the stated capture accommodation, not drift.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 9,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 8,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The supplied Lab is a desktop Content workspace, so this is a transfer-of-language assessment rather than a one-to-one screen comparison. Production applies that language convincingly: the source stays identifiable, the 12px-lower graphite commitment attaches directly to a cobalt amount, and the remaining records sit on quiet, largely borderless surfaces. At 390px, the source controls, financial facts, submission states and settings disclosure fit without visible clipping or collisions. Financial meaning is consistent: approval triggers payment, $75.00 is stated per approved video, and paid-to-date is separate from current credit. Nothing visible implies escrow, reserved funds or a fee added to the business payment. The review count also agrees with the visible submission states. No actionable implementation drift is evident.",
+    "verdict": "Yes—Frame Shift is faithfully transferred at this phone viewport, with real campaign functionality visibly preserved and no release-blocking visual drift."
+  }
+}

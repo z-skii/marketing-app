@@ -14,10 +14,10 @@ import { ArrowLeft } from "@phosphor-icons/react";
  */
 export type FlowStep = { key: string; label: string; summary?: string | null };
 
-export function FlowShell({ title, kind, back, steps, index, onJump, source, commitment, error, children, continueLabel = "Continue", canContinue, onContinue, onBack, pending = false, review = false }: {
+export function FlowShell({ title, kind, back, steps, index, onJump, source, commitment, assembly = "portrait", error, children, continueLabel = "Continue", canContinue, onContinue, onBack, pending = false, review = false }: {
   title: string; kind: string; back: { href: string; label: string };
   steps: FlowStep[]; index: number; onJump: (i: number) => void;
-  source: ReactNode; commitment?: ReactNode; error?: string | null; children: ReactNode;
+  source: ReactNode; commitment?: ReactNode; assembly?: "portrait" | "full"; error?: string | null; children: ReactNode;
   continueLabel?: string; canContinue: boolean; onContinue: () => void; onBack: () => void; pending?: boolean; review?: boolean;
 }) {
   const step = steps[index];
@@ -33,8 +33,10 @@ export function FlowShell({ title, kind, back, steps, index, onJump, source, com
       <div className="fs-detail fs-flow">
         <div className="fs-detail-source">
           <h1 className="fs-t-page fs-flow-title">{title}</h1>
-          <div className="fs-flow-source">{source}</div>
-          {commitment && <div className="fs-flow-commitment">{commitment}</div>}
+          <div className={`fs-flow-source is-${assembly}`}>
+            {source}
+            {commitment && <div className="fs-flow-commitment">{commitment}</div>}
+          </div>
           {decided.length > 0 && !review && (
             <ol className="fs-flow-ledger" aria-label="Decided so far">
               {decided.map((s) => {

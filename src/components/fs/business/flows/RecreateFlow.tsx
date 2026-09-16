@@ -33,8 +33,8 @@ export function RecreateFlow({ business, defaultCity, prefill, storedBrief, fund
   const [title, setTitle] = useState(sb?.title ?? prefill?.title ?? "");
   const [brief, setBrief] = useState(sb?.summary ?? prefill?.brief ?? "");
   const [steps, setSteps] = useState<string[]>(sb ? sb.steps.map((s) => s.text) : []);
-  const suggestions = useMemo(() => ["15 to 25 seconds", "Vertical 9:16", `Say ${business.name} once`, "Show the product"], [business.name]);
-  const [requirements, setRequirements] = useState<string[]>(sb ? Array.from(new Set([...sb.required_elements, ...sb.must_keep])).slice(0, 8) : prefill?.requirements ?? suggestions.slice(0, 2));
+  const suggestions = useMemo(() => ["Vertical 9:16", `Say ${business.name} once`, "Show the product"], [business.name]);
+  const [requirements, setRequirements] = useState<string[]>(sb ? Array.from(new Set([...sb.required_elements, ...sb.must_keep])).slice(0, 8) : (prefill?.requirements ?? suggestions.slice(0, 1)).filter((r) => !/\d+ to \d+ seconds/.test(r)));
   const [durMin, setDurMin] = useState(String(sb?.duration_seconds[0] ?? 15));
   const [durMax, setDurMax] = useState(String(sb?.duration_seconds[1] ?? 25));
   const [pay, setPay] = useState(String(sb ? Math.round(sb.suggested_pay_cents / 100) : prefill?.payDollars ?? 50));
@@ -83,10 +83,12 @@ export function RecreateFlow({ business, defaultCity, prefill, storedBrief, fund
     setError(null);
     if (prefill?.id) await markIdeaUsed(prefill.id, business.id);
     const dMin = Math.round(Number(durMin || 0)); const dMax = Math.round(Number(durMax || 0));
+    const durationLine = dMin > 0 && dMax >= dMin ? `${dMin} to ${dMax} seconds` : null;
+    const allRequirements = durationLine && !requirements.includes(durationLine) ? [durationLine, ...requirements] : requirements;
     const campaignBrief = sb ? { ...sb, title: title.trim() || sb.title, summary: brief.trim(), steps: steps.map((text, i) => ({ ...(sb.steps[i] ?? { n: i + 1 }), n: i + 1, text })), required_elements: requirements, suggested_pay_cents: payCents, suggested_slots: nSlots } : undefined;
     const r = await createEarnCampaign({
       businessId: business.id, title: title.trim(), publish, kind: "recreate_reel",
-      referenceUrl: link || undefined, referenceMediaUrl: mediaUrl || undefined, brief: brief.trim(), requirements,
+      referenceUrl: link || undefined, referenceMediaUrl: mediaUrl || undefined, brief: brief.trim(), requirements: allRequirements,
       durationSeconds: dMin > 0 && dMax >= dMin ? [dMin, dMax] : undefined, payDollars: Number(pay), slots: nSlots,
       deadline: deadline ? `${deadline}T23:59:00` : undefined, city: city.trim(),
       briefId: storedBrief?.id, campaignBrief, trendId: storedBrief?.trendId ?? undefined,
@@ -135,12 +137,16 @@ export function RecreateFlow({ business, defaultCity, prefill, storedBrief, fund
             </div>
           )}
           <div style={{ marginTop: 16 }}>
+            <p className="fs-t-label">Length</p>
+            <div style={{ marginTop: 4, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, maxWidth: 280 }}>
+              <Field id="fs-dur-min" label="Shortest, seconds"><input id="fs-dur-min" className="fs-input fs-tnum" inputMode="numeric" value={durMin} onChange={(e) => setDurMin(e.target.value.replace(/[^0-9]/g, "").slice(0, 3))} /></Field>
+              <Field id="fs-dur-max" label="Longest, seconds"><input id="fs-dur-max" className="fs-input fs-tnum" inputMode="numeric" value={durMax} onChange={(e) => setDurMax(e.target.value.replace(/[^0-9]/g, "").slice(0, 3))} /></Field>
+            </div>
+            <p className="fs-t-meta" style={{ marginTop: 4 }}>{Number(durMin) > 0 && Number(durMax) >= Number(durMin) ? `Creators are told: ${Number(durMin)} to ${Number(durMax)} seconds.` : "Set the shortest and longest length."}</p>
+          </div>
+          <div style={{ marginTop: 16 }}>
             <p className="fs-t-label">Must include</p>
             <CustomChips values={requirements} onChange={setRequirements} suggestions={suggestions} max={12} />
-          </div>
-          <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, maxWidth: 280 }}>
-            <Field id="fs-dur-min" label="Shortest, seconds"><input id="fs-dur-min" className="fs-input fs-tnum" inputMode="numeric" value={durMin} onChange={(e) => setDurMin(e.target.value.replace(/[^0-9]/g, "").slice(0, 3))} /></Field>
-            <Field id="fs-dur-max" label="Longest, seconds"><input id="fs-dur-max" className="fs-input fs-tnum" inputMode="numeric" value={durMax} onChange={(e) => setDurMax(e.target.value.replace(/[^0-9]/g, "").slice(0, 3))} /></Field>
           </div>
         </>
       )}

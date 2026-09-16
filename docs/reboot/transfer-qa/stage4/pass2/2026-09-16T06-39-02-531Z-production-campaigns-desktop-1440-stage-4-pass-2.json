@@ -1,0 +1,57 @@
+{
+  "screen": "Production Campaigns (desktop 1440), stage 4 pass 2",
+  "screenshot": "d-business_campaigns.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:39:02.531Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9267,
+    "output_tokens": 5464,
+    "total_tokens": 14731,
+    "reasoning_tokens": 4660
+  },
+  "review": {
+    "faithful_transfer": false,
+    "expected_differences": [
+      "Demo Coffee Co., its initial, and the message and notification counts correctly replace the Lab workspace fixtures.",
+      "Active 7, Review 5 and Completed 2 expose production campaign states rather than the Lab’s discovery categories.",
+      "Campaign names, supplied creatives, reference previews, vehicle photographs, amounts and progress reflect real records. Preserve these, including any existing '[demo]' title prefix.",
+      "Review driver, Check proof, Send artwork and Review video appropriately differ by the actual campaign workflow."
+    ],
+    "keep": [
+      "The graphite navigation rail, restrained mark, mineral canvas, 32px desktop content gutter and strong application heading.",
+      "Flat, divider-separated campaign rows without summary tiles, elevated cards or decorative framing.",
+      "Portrait Story and Recreate previews and landscape vehicle photographs retain distinct source proportions; no advertisement is fabricated onto a car.",
+      "Prominent money with explicit units: per approved Story, per approved video, and per car, per month.",
+      "Literal status and progress alongside a specific next inspection action; repeated inspection links correctly remain ink.",
+      "Visible Active, Review and Completed counts, selected navigation edges, and existing business navigation."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Hold desktop design sign-off for the localized shared-row geometry correction. The capture exposes real records, states and actions, but does not establish that tabs, navigation or payment mutations execute correctly.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 8,
+      "uniqueness": 7,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 8,
+      "usability": 8,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": false,
+    "drift": [
+      {
+        "priority": 2,
+        "change": "Use one shared row grid: 84px source track, 24px desktop column gap, flexible facts column and an end-aligned money column. Reserve a 3px leading border on every row, transparent when inactive, with 12px inner leading padding. At this viewport, retain media at x247 and the money right edge at x1048; move the facts/action column from x343 to x355. Remove the highlighted car row’s separate horizontal insets so its media, facts and money use those same anchors. Preserve intrinsic media ratios and keep the 12px source-to-fact gap for phones only.",
+        "kind": "drift",
+        "why": "The landscape source ends around x331 and its facts begin at x343: a 12px joint at desktop rather than 24px. The highlighted BMW row also shifts its source and text roughly 4px left and its money edge roughly 8px left compared with adjacent rows, despite the required shared geometry.",
+        "where": "Campaign list source-to-fact boundary and the highlighted 'Car ad on 2017 BMW 328i' row."
+      }
+    ],
+    "why": "The supplied Lab capture is Business Home, not a Campaigns template, so its discovery shelves should not be copied here. Production successfully transfers the shell, typography hierarchy, restrained surfaces, source-led records and anchored financial reading. The visible amounts have clear payment bases; nothing suggests escrow, reserved funds, an added business-side platform fee or approval of car photos. The remaining transfer issue is the desktop source-to-decision spacing and inconsistent alignment within the highlighted row, not the real content or workflow language.",
+    "verdict": "Frame Shift is substantially transferred and visible functionality is preserved, but the shared desktop row geometry needs one correction before sign-off."
+  }
+}

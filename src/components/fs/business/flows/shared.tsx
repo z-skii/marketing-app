@@ -111,7 +111,7 @@ export function CarSource({ zones, artworkUrl }: { zones: string[]; artworkUrl: 
       <div style={{ border: "1px solid var(--fs-divider)", background: "#fff" }}><PlacementDiagram zones={zones} width={448} /></div>
       <p className="fs-t-meta" style={{ marginTop: 8 }}>{zones.length ? `Placement${zones.length === 1 ? "" : "s"} you chose, on a diagram` : "No placement chosen yet"}</p>
       {artworkUrl && (
-        <div style={{ marginTop: 12 }}>
+        <div className="fs-flow-artwork" style={{ marginTop: 12 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="fs-media" src={artworkUrl} alt="Your artwork" style={{ width: 160, height: "auto", display: "block" }} />
           <p className="fs-t-meta" style={{ marginTop: 4 }}>Your artwork, shown as artwork</p>

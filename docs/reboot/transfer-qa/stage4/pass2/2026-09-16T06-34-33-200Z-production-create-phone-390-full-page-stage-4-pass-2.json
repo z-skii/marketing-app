@@ -1,0 +1,49 @@
+{
+  "screen": "Production Create (phone 390, full page), stage 4 pass 2",
+  "screenshot": "m-business_create-full.png",
+  "reference": "d-design_lab_business_home-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:34:33.200Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 9983,
+    "output_tokens": 3735,
+    "total_tokens": 13718,
+    "reasoning_tokens": 3087
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co. and its D initial correctly replace the Lab’s fictional business identity.",
+      "The message and notification badges show production counts of 2 and 7; these are real application states, not visual drift.",
+      "This Create selector has no configured payment amount, selected creator or campaign status yet. Payment-basis labels are appropriate; the Lab Home’s fictional identities and vehicle asking prices should not appear here."
+    ],
+    "keep": [
+      "Mineral canvas, ink typography, restrained dividers and shadow-free working regions.",
+      "The 16px phone gutters, strong page title, clear section headings and readable body and payment-basis text.",
+      "Three vertically stacked source-to-decision assemblies with aligned decision columns and staggered starts—not generic boxed campaign cards.",
+      "Portrait samples at 9:16 and the landscape car photograph, with placement shown separately on a diagram rather than painted onto the vehicle.",
+      "Cobalt setup actions with explicit campaign-type labels; all three routes remain visible.",
+      "Literal payment bases: per approved video, per approved Story, and per car per month.",
+      "Business switching, search, messages, notifications and all five navigation destinations, with Create visibly selected."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Sign off the Create selector at 390px. The capture exposes all three setup routes and the business navigation without clipping. It does not verify downstream publishing-credit checks, creator fees, approval payments or installation payments; those require their own screen and interaction reviews.",
+    "scores": {
+      "viewport_quality": 9,
+      "media_quality": 8,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 9,
+      "usability": 9,
+      "brand_recognition": 8,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "The supplied Lab is desktop Business Home, not a Create specification, so fidelity is appropriately judged against the approved language rather than its records or rail layout. Production preserves the mineral surface, Archivo-led heading hierarchy, operational text scale, open source-ratio media and restrained cobalt decisions. The portrait sources occupy narrower widths than the car while the decision edge stays aligned; the source-column joint and lowered decision starts retain the phone offset logic. The car remains an unmodified photograph with a separate placement diagram. Payment bases are legible beneath each explanation and make no escrow, reserved-funds or business-side fee claim. Headings and setup links wrap without collisions or horizontal clipping. The phone navigation is complete, and its document-end position is the stated capture accommodation. No concrete release-blocking design drift or visible loss of functionality is evident.",
+    "verdict": "Yes—the 390px Create selector faithfully adapts Frame Shift into three clear, source-led setup choices while preserving the visible business functionality."
+  }
+}

@@ -122,7 +122,7 @@ export function RequestFlow({ kind, person, sample, creatives, funding, business
   return (
     <FlowShell
       title={story ? "Request Story" : "Request Reel"} kind={businessName} back={{ href: `/business/people/${person.username}`, label: name }}
-      steps={steps} index={index} onJump={setIndex} error={error} pending={pending} review={last} source={source}
+      steps={steps} index={index} onJump={setIndex} error={error} pending={pending} review={last} source={source} assembly="full"
       commitment={payCents >= 500 ? <Commitment cents={payCents} basis={story ? "for the Story, when you approve the proof" : "for the approved video"} /> : undefined}
       canContinue={valid[index]} continueLabel={last ? `Send the request` : "Continue"}
       onContinue={() => { if (last) send(); else setIndex(index + 1); }} onBack={() => setIndex(index - 1)}

@@ -1,0 +1,50 @@
+{
+  "screen": "Production direct request, Reel to one person, send step (desktop 1440, full page), stage 4 pass 2",
+  "screenshot": "d-request_reel_7_send.png",
+  "reference": "d-design_lab_business_content-full.png",
+  "model": "director",
+  "effort": "high",
+  "when": "2026-09-16T06:40:32.917Z",
+  "usage": {
+    "model": "director",
+    "input_tokens": 12063,
+    "output_tokens": 3222,
+    "total_tokens": 15285,
+    "reasoning_tokens": 2570
+  },
+  "review": {
+    "faithful_transfer": true,
+    "expected_differences": [
+      "Demo Coffee Co., its D initial and notification counts replace the Lab business fixtures.",
+      "Jasmine Reed’s supplied identity image, work sample, handle, location and displayed Instagram/verification facts are record-specific; no fixture portrait is needed.",
+      "The real request supplies the Instagram reference, $75.00 conditional pay, September 19, 2026 deadline and personal note.",
+      "Step 7 of 7 is a request-review state, not the Lab’s Content approval state. “Send the request” is the correct action here."
+    ],
+    "keep": [
+      "The 200px graphite rail, restrained TapMart lockup, mineral canvas and 32px main gutter match the approved shell.",
+      "The source and decision columns retain the 24px desktop separation. The white ledger is flat and square, without generic card borders or shadows.",
+      "The recipient and unboxed portrait-format work remain visible alongside the decisions. The pay caption starts 24px inward from the source edge.",
+      "The $75.00 amount has strong Archivo hierarchy and an adjacent “for the approved video” condition; it is not presented as available earnings or an immediate charge.",
+      "The final ledger exposes recipient, reference, pay, deadline and note. Open reference is explicit and ink-colored.",
+      "Cobalt is concentrated on Send the request; Back and the recipient return link remain secondary.",
+      "The acceptance and payment explanation clearly says nothing is agreed until acceptance and credit leaves only when the business approves the work."
+    ],
+    "functionality_intact": true,
+    "readiness_note": "Visual sign-off at 1440×900. The capture exposes the required data, conditions, navigation and actions, but cannot verify request submission, link destinations, recipient binding or accounting execution.",
+    "scores": {
+      "viewport_quality": 8,
+      "media_quality": 7,
+      "uniqueness": 8,
+      "clarity": 9,
+      "premium_feel": 8,
+      "fidelity": 8,
+      "usability": 9,
+      "brand_recognition": 9,
+      "ai_slop_risk": 1
+    },
+    "ready_to_ship": true,
+    "drift": [],
+    "why": "This is a credible purpose-specific transfer, not a reproduction of the Lab’s Content screen. The production capture preserves the mineral/graphite/white surface hierarchy, operational typography, open source treatment, offset monetary caption and restrained cobalt commitment. Its work preview is compact, but the recipient, work context and explicit reference inspection remain available beside a complete final ledger. All send-step information and controls fit comfortably within the viewport. The copy does not imply escrow, reserved credit, payment on sending or a platform fee added above the $75.00 pay. No release-blocking visual or financial-semantic drift is evident.",
+    "verdict": "Frame Shift was faithfully adapted to this request send step, with the required functionality visibly preserved and no capture-visible release blocker."
+  }
+}

@@ -71,7 +71,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
       <h1 className="fs-t-page" style={{ marginTop: 8 }}>{campaign.title}</h1>
       <p className="fs-t-meta" style={{ marginTop: 4 }}>{KIND_WORD[campaign.kind] ?? campaign.kind} · {campaign.audience === "direct" ? "Direct request" : "Public"}{campaign.city ? ` · ${campaign.city}` : ""}</p>
 
-      <div className="fs-detail" style={{ marginTop: 12 }}>
+      <div className="fs-detail is-campaign" style={{ marginTop: 12 }}>
         <div className="fs-detail-source">
           <CampaignSource campaign={campaign} />
           <div style={{ marginTop: 12 }}>

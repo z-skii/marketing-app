@@ -78,7 +78,7 @@ export function CarFlow({ business, defaultCity, prefill, funding }: { business:
     <FlowShell
       title="Car advertising" kind={business.name} back={{ href: "/business/create", label: "Create" }}
       steps={stepDefs} index={index} onJump={setIndex} error={error} pending={pending} review={last}
-      source={<CarSource zones={placements} artworkUrl={artworkUrl} />}
+      source={<CarSource zones={placements} artworkUrl={artworkUrl} />} assembly="full"
       commitment={payCents >= 2500 ? <Commitment cents={payCents} basis="per car, per month" total={nSlots >= 1 ? fs.total : undefined} totalLabel={nSlots >= 1 ? `per month for all ${nSlots} car${nSlots === 1 ? "" : "s"}` : undefined} /> : undefined}
       canContinue={valid[index]} continueLabel={last ? "Publish campaign" : index === stepDefs.length - 2 && !fs.canPublish ? "Continue without publishing" : "Continue"}
       onContinue={() => { if (last) submit(true); else setIndex(index + 1); }} onBack={() => setIndex(index - 1)}

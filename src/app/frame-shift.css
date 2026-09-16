@@ -359,6 +359,7 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 @media (min-width: 1024px) {
   .fs .fs-money-detail { font-size: 44px; line-height: 48px; }
   .fs .fs-detail { display: grid; grid-template-columns: minmax(0, 448px) minmax(0, 640px); gap: 48px; align-items: start; }
+  .fs .fs-detail.is-campaign { gap: 24px; }
   .fs .fs-detail-source { position: sticky; top: 32px; }
   .fs .fs-op-recreate.is-detail { grid-template-columns: 224px minmax(0, 1fr); }
   .fs .fs-op-recreate.is-detail > :first-child { width: 224px !important; height: 398px !important; }
@@ -449,6 +450,10 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-create-source.is-portrait img { width: 160px; aspect-ratio: 9 / 16; object-fit: cover; }
 .fs .fs-create-source.is-car img { width: 176px; aspect-ratio: 3 / 2; object-fit: cover; }
 .fs .fs-create-diagram { display: block; width: 132px; border: 1px solid var(--fs-divider); background: #fff; }
+.fs .fs-create-pair { display: flex; gap: 12px; align-items: flex-start; }
+.fs .fs-create-pair > span { display: grid; gap: 4px; }
+.fs .fs-create-source.is-pair img { width: 82px; }
+.fs .fs-create-version { display: grid; place-items: center; width: 82px; aspect-ratio: 9 / 16; border: 1px dashed var(--fs-divider); border-radius: var(--fs-radius-media); text-align: center; padding: 8px; box-sizing: border-box; }
 .fs .fs-create-commit { display: grid; gap: 4px; padding-top: var(--fs-shift-phone); min-width: 0; }
 .fs .fs-create-title { font-family: var(--fs-display); font-weight: 700; font-size: 22px; line-height: 28px; letter-spacing: -0.03em; }
 .fs .fs-create-action { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 4px; font-weight: 600; font-size: 16px; line-height: 20px; color: var(--fs-accent); }
@@ -457,6 +462,8 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
   .fs .fs-create-choice { grid-template-columns: 1fr; gap: 0; }
   .fs .fs-create-source { width: 100%; min-height: 336px; align-content: start; }
   .fs .fs-create-source.is-car img { width: 100%; max-width: 376px; }
+  .fs .fs-create-pair { gap: 16px; }
+  .fs .fs-create-source.is-pair img, .fs .fs-create-version { width: 160px; }
   .fs .fs-create-commit { padding-top: 8px; margin-left: var(--fs-shift-desktop); }
 }
 /* Guided flows: the source stays in view, decided steps sit under it as a ledger, one question at a time. */
@@ -465,7 +472,16 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-flow-ref-media { display: block; width: 176px; aspect-ratio: 9 / 16; object-fit: cover; background: var(--fs-underlay); }
 .fs .fs-flow-story { display: block; width: 176px; aspect-ratio: 9 / 16; object-fit: cover; background: var(--fs-underlay); border-radius: 0; box-shadow: var(--fs-shadow-source, 0 6px 16px #10182018); }
 .fs .fs-flow-empty { display: grid; place-items: center; border: 1px dashed var(--fs-divider); }
-.fs .fs-flow-commitment { margin-top: var(--fs-shift-phone); margin-left: var(--fs-shift-phone); }
+.fs .fs-flow-source { display: flex; flex-direction: column; }
+.fs .fs-flow-source > .fs-flow-ref { display: contents; }
+.fs .fs-flow-source > .fs-flow-ref > * { order: 2; }
+.fs .fs-flow-source > .fs-flow-ref > .fs-flow-ref-media, .fs .fs-flow-source > .fs-flow-ref > .fs-flow-story, .fs .fs-flow-source > .fs-flow-ref > div:first-child { order: 0; }
+.fs .fs-flow-source > .fs-flow-ref > .fs-flow-artwork { order: 3; }
+.fs .fs-flow-source > .fs-flow-ref > p { margin-top: 8px; }
+.fs .fs-flow-source.is-portrait > .fs-flow-ref > .fs-flow-ref-media, .fs .fs-flow-source.is-portrait > .fs-flow-ref > .fs-flow-story { background: var(--fs-graphite); }
+.fs .fs-flow-commitment { order: 1; width: 176px; padding: 12px; background: var(--fs-accent); color: #fff; box-sizing: border-box; }
+.fs .fs-flow-source.is-full > .fs-flow-commitment { width: calc(100% - var(--fs-shift-phone)); margin-left: var(--fs-shift-phone); margin-top: var(--fs-shift-phone); }
+.fs .fs-flow-commitment .fs-t-meta, .fs .fs-flow-commitment .fs-t-body { color: #F6F8FB; }
 .fs .fs-commit-amount { display: block; font-family: var(--fs-display); font-weight: 700; font-size: 30px; line-height: 34px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums lining-nums; }
 .fs .fs-flow-ledger { list-style: none; padding: 0; margin: 16px 0 0; border-top: 1px solid var(--fs-divider); }
 .fs .fs-flow-ledger-row { display: grid; grid-template-columns: minmax(96px, max-content) minmax(0, 1fr); gap: 4px 16px; width: 100%; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid var(--fs-divider); background: transparent; text-align: left; color: inherit; font: inherit; cursor: pointer; align-items: baseline; }
@@ -511,15 +527,17 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-funding-rows dt { color: var(--fs-muted); font-size: 14px; line-height: 20px; }
 .fs .fs-funding-rows dd { margin: 0; text-align: right; font-size: 16px; line-height: 24px; white-space: nowrap; }
 .fs .fs-funding-rows dd b { font-family: var(--fs-display); font-weight: 700; font-size: 18px; line-height: 24px; font-variant-numeric: tabular-nums lining-nums; }
-.fs .fs-funding-rows .fs-funding-note { grid-column: 1 / -1; color: var(--fs-muted); font-size: 14px; line-height: 20px; margin: -4px 0 0; }
+.fs .fs-funding-rows .fs-funding-note { grid-column: 1 / -1; color: var(--fs-muted); font-size: 14px; line-height: 20px; margin: -4px 0 0; text-align: left; white-space: normal; overflow-wrap: anywhere; min-width: 0; }
 .fs .fs-funding-rows .fs-funding-principal { font-family: var(--fs-display); font-weight: 700; font-size: 30px; line-height: 34px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums lining-nums; }
 .fs .fs-funding-short { font-size: 18px; line-height: 24px; font-weight: 600; color: var(--fs-waiting); }
 .fs .fs-funding-rows .fs-funding-divider { border-top: 1px solid var(--fs-divider); padding-top: 8px; margin-top: 4px; }
 @media (min-width: 1024px) {
   .fs .fs-flow-ref-media, .fs .fs-flow-story { width: 240px; }
   .fs .fs-flow.fs-detail { gap: 24px; grid-template-columns: minmax(0, 448px) minmax(0, 640px); }
-  .fs .fs-flow .fs-flow-ref:has(> .fs-flow-ref-media), .fs .fs-flow .fs-flow-ref:has(> .fs-flow-story) { width: 240px; margin-left: auto; }
-  .fs .fs-flow-commitment { margin-left: var(--fs-shift-desktop); margin-top: var(--fs-shift-desktop); }
+  .fs .fs-flow-source.is-portrait > .fs-flow-ref > .fs-flow-ref-media, .fs .fs-flow-source.is-portrait > .fs-flow-ref > .fs-flow-story, .fs .fs-flow-source.is-portrait > .fs-flow-commitment { width: 240px; margin-left: auto; }
+  .fs .fs-flow-commitment { padding: 24px; }
+  .fs .fs-flow-source.is-portrait > .fs-flow-ref > p, .fs .fs-flow-source.is-portrait > .fs-flow-ref > button, .fs .fs-flow-source.is-portrait > .fs-flow-ref > a { width: 240px; margin-left: auto; box-sizing: border-box; justify-content: flex-start; }
+  .fs .fs-flow-source.is-full > .fs-flow-commitment { width: calc(100% - var(--fs-shift-desktop)); margin-left: var(--fs-shift-desktop); margin-top: var(--fs-shift-desktop); }
   .fs .fs-funding-rows .fs-funding-principal { font-size: 44px; line-height: 48px; letter-spacing: -0.025em; }
   .fs .fs-flow-step { margin-top: 0; margin-left: 0; padding-top: 76px; }
 }
@@ -568,8 +586,8 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-proof { display: block; width: 100%; aspect-ratio: 4 / 3; }
 .fs .fs-proof img { width: 100%; height: 100%; object-fit: cover; display: block; }
 @media (min-width: 1024px) {
-  .fs .fs-campaign-row { grid-template-columns: 84px minmax(0, 1fr) auto; border-inline-start: 3px solid transparent; padding-inline-start: 12px; box-sizing: border-box; }
-  .fs .fs-campaign-row:hover { margin: 0; padding-right: 8px; }
+  .fs .fs-campaign-row { grid-template-columns: 84px minmax(0, 1fr) auto; gap: 24px; border-inline-start: 3px solid transparent; padding: 12px 0 12px 12px; box-sizing: border-box; }
+  .fs .fs-campaign-row:hover { margin: 0; padding: 12px 0 12px 12px; }
   .fs .fs-campaign-row.needs-you { border-inline-start-color: var(--fs-accent); }
   .fs .fs-campaign-info { padding-top: var(--fs-shift-desktop); }
   .fs .fs-campaign-money { grid-column: 3; grid-row: 1; margin-top: var(--fs-shift-desktop); text-align: right; }
