@@ -52,6 +52,7 @@
 }
 @media (max-width: 359px) { .v2 { --v2-pad: 12px; --v2-gap: 12px; } }
 .v2 *, .v2 *::before, .v2 *::after { box-sizing: border-box; }
+.v2 dialog { color: var(--v2-ink); color-scheme: light; font-family: inherit; }
 .v2 a { color: inherit; text-decoration: none; }
 .v2 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
 .v2 img, .v2 video, .v2 canvas { display: block; max-width: 100%; }
@@ -145,7 +146,7 @@
 .v2 .obj .media-btn { display: block; width: 100%; }
 
 /* --------------------------------------------------------------- shells */
-.v2 .phone { width: 100%; min-height: 100dvh; display: flex; flex-direction: column; background: var(--v2-paper); }
+.v2 .phone { position: relative; width: 100%; min-height: 100dvh; display: flex; flex-direction: column; background: var(--v2-paper); }
 .v2 .phone-header { display: flex; align-items: center; justify-content: space-between; height: var(--v2-header); padding: 0 calc(var(--v2-pad) - 4px) 0 var(--v2-pad); }
 .v2 .phone-main { flex: 1; padding: 0 var(--v2-pad) calc(88px + env(safe-area-inset-bottom)); }
 .v2 .identity { display: flex; align-items: center; gap: 8px; min-height: 44px; padding-right: 8px; }
@@ -157,8 +158,9 @@
   height: calc(var(--v2-tabbar) + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom);
   background: var(--v2-paper); border-top: 1px solid var(--v2-line);
 }
-.v2 .tabbar a { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 44px; height: var(--v2-tabbar); font-size: 12px; line-height: 16px; font-weight: 500; color: var(--v2-muted); }
+.v2 .tabbar a, .v2 .tabbar button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 44px; height: var(--v2-tabbar); font-size: 12px; line-height: 16px; font-weight: 500; color: var(--v2-muted); }
 .v2 .tabbar a[aria-current="page"] { color: var(--v2-ink); }
+.v2 .tabbar .icon, .v2 .rail nav .icon { position: relative; display: inline-flex; }
 .v2 .tabbar a[aria-current="page"] > span:last-child::after { content: ""; display: block; height: 2px; background: var(--v2-ink); margin-top: 2px; }
 .v2 .tabbar a.create .disc { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--v2-lime); color: var(--v2-ink); }
 @media (min-width: 768px) { .v2 .tabbar, .v2 .phone-header { display: none; } .v2 .phone-main { padding: 0; } }
@@ -168,6 +170,7 @@
 .v2 .rail { position: sticky; top: 0; height: 100dvh; display: flex; flex-direction: column; padding: 16px 8px; background: var(--v2-paper); border-right: 1px solid var(--v2-line); }
 .v2 .rail .wordmark { display: flex; align-items: center; height: 44px; padding: 0 4px; margin-bottom: 16px; }
 .v2 .rail .switcher { display: none; }
+@media (max-width: 1023px) { .v2 .rail .wordmark { display: none; } }
 .v2 .rail nav { display: flex; flex-direction: column; gap: 2px; }
 .v2 .rail nav a, .v2 .rail nav button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; padding: 0 4px; border-radius: var(--v2-r-control); font-size: 12px; line-height: 16px; font-weight: 500; color: var(--v2-muted); }
 .v2 .rail nav a:hover, .v2 .rail nav button:hover { background: var(--v2-soft); color: var(--v2-ink); }
@@ -178,7 +181,7 @@
 .v2 .rail .bottom { margin-top: auto; }
 .v2 .desk-main { padding: 24px; max-width: calc(1280px + 64px); }
 .v2 .desk-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 44px; margin-bottom: 24px; }
-@media (max-width: 767px) { .v2 .desk { display: block; } .v2 .rail { display: none; } .v2 .desk-main { padding: 0; max-width: none; } .v2 .desk-header { display: none; } }
+@media (max-width: 767px) { .v2 .desk { display: block; } .v2 .rail { display: none; } .v2 .desk-main { max-width: none; } .v2 .desk-header { display: none; } }
 @media (min-width: 1024px) {
   .v2 .desk { grid-template-columns: var(--v2-sidebar) minmax(0, 1fr); }
   .v2 .rail { padding: 16px 12px; }
@@ -255,3 +258,87 @@
 .v2 .notice { border: 0; padding: 0; background: transparent; }
 .v2 .notice::backdrop { background: var(--v2-scrim); }
 .v2 .notice-body { background: var(--v2-surface); border-radius: var(--v2-r-sheet); padding: 24px; max-width: 360px; box-shadow: var(--v2-shadow-sheet); }
+
+
+/* ------------------------------------------------------------ User Home */
+.v2 .count { position: absolute; top: -6px; right: -12px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--v2-ink); color: var(--v2-paper); font-size: 11px; line-height: 16px; font-weight: 600; text-align: center; }
+@media (min-width: 1024px) { .v2 .rail nav .count { position: static; margin-left: auto; } }
+.v2 .tablet-only { display: none; }
+@media (min-width: 768px) and (max-width: 1023px) { .v2 .tablet-only { display: flex; } }
+.v2 .home-utility { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+.v2 .home-spread { display: flex; flex-direction: column; gap: 32px; }
+.v2 .op { position: relative; }
+.v2 .op .media-btn { display: flex; flex-direction: column; align-items: flex-start; width: 100%; }
+.v2 .op-caption { display: block; margin-bottom: 6px; text-align: left; }
+.v2 .op-media { display: block; width: 100%; }
+.v2 .op-band { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-top: 16px; min-height: 54px; }
+.v2 .op-view { width: 80px; flex-shrink: 0; }
+.v2 .op-title { margin-top: 12px; }
+.v2 .op-business { margin-top: 4px; }
+.v2 .op-facts { margin-top: 12px; }
+.v2 .disclosure summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; list-style: none; }
+.v2 .disclosure summary::-webkit-details-marker { display: none; }
+.v2 .disclosure summary::before { content: "+"; display: inline-block; width: 20px; color: var(--v2-accent); font-weight: 600; }
+.v2 .disclosure[open] summary::before { content: "-"; }
+/* A vertical earning edge: 2px wide, terminal at the bottom, extends on hover or focus. */
+.v2 .edge-v { position: relative; width: 2px; background: var(--v2-ink); }
+.v2 .edge-v::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 12px; background: var(--v2-accent); transition: height var(--v2-t-edge) var(--v2-ease-std); }
+.v2 .obj:hover .edge-v::after, .v2 .obj:focus-within .edge-v::after { height: 24px; }
+
+/* Phone (to 767): Recreate full width 4:5, capped on short screens; Story is a rail, a vertical edge and an intact creative, with the title below; Car full width 3:2. */
+@media (max-width: 767px) {
+  .v2 .op-recreate .op-media { max-height: min(360px, calc(100svh - 248px)); }
+  .v2 .op-story { display: grid; grid-template-columns: 108px 16px minmax(0, 1fr); grid-template-rows: auto auto 1fr auto auto; grid-template-areas: "money edge media" "business edge media" "facts edge media" "view edge media" "title title title"; }
+  .v2 .op-story .media-btn { grid-area: media; align-self: end; align-items: flex-end; }
+  .v2 .op-story .op-media { width: 100%; max-width: 234px; margin-left: auto; }
+  .v2 .op-story .edge { grid-area: edge; width: 2px; height: 100%; justify-self: center; background: var(--v2-ink); }
+  .v2 .op-story .edge::after { top: auto; bottom: 0; right: 0; left: 0; width: 2px; height: 12px; transition: height var(--v2-t-edge) var(--v2-ease-std); }
+  .v2 .op-story:hover .edge::after, .v2 .op-story:focus-within .edge::after { width: 2px; height: 24px; }
+  .v2 .op-story .op-band { display: contents; }
+  .v2 .op-story .op-money { grid-area: money; }
+  .v2 .op-story .op-business { grid-area: business; margin-top: 16px; padding-right: 8px; }
+  .v2 .op-story .op-facts { grid-area: facts; margin-top: 12px; padding-right: 8px; }
+  .v2 .op-story .op-view { grid-area: view; width: 108px; align-self: end; }
+  .v2 .op-story .op-title { grid-area: title; margin-top: 16px; }
+}
+@media (max-width: 359px) {
+  .v2 .op-story { grid-template-columns: 96px 12px minmax(0, 1fr); }
+  .v2 .op-story .op-media { max-width: 180px; }
+  .v2 .op-story .op-view { width: 96px; }
+}
+/* Tablet (768 to 1023): Recreate five columns beside Story three, media on one baseline; Car spans eight, photo beside a vertical edge and its facts. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .v2 .home-spread { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 48px 20px; align-items: start; }
+  .v2 .op-recreate, .v2 .op-story { display: grid; grid-template-rows: 500px 2px auto auto auto auto; }
+  .v2 .op-recreate { grid-column: span 5; }
+  .v2 .op-story { grid-column: span 3; }
+  .v2 .op-recreate .media-btn, .v2 .op-story .media-btn { grid-row: 1; align-self: end; justify-content: flex-end; }
+  .v2 .op-recreate .op-media { max-width: 400px; }
+  .v2 .op-story .op-media { max-width: 248px; }
+  .v2 .op-recreate .edge { margin-right: -20px; }
+  .v2 .op-car { grid-column: span 8; display: grid; grid-template-columns: 5fr 3fr; grid-template-rows: auto auto auto 1fr; grid-template-areas: "media band" "media title" "media business" "media facts"; column-gap: 20px; align-items: start; }
+  .v2 .op-car .media-btn { grid-area: media; }
+  .v2 .op-car .edge { display: none; }
+  .v2 .op-car .op-band { grid-area: band; margin-top: 0; border-left: 2px solid var(--v2-ink); padding-left: 16px; position: relative; }
+  .v2 .op-car .op-band::after { content: ""; position: absolute; left: -2px; bottom: 0; width: 2px; height: 12px; background: var(--v2-accent); transition: height var(--v2-t-edge) var(--v2-ease-std); }
+  .v2 .op-car:hover .op-band::after, .v2 .op-car:focus-within .op-band::after { height: 24px; }
+  .v2 .op-car .op-title { grid-area: title; padding-left: 18px; }
+  .v2 .op-car .op-business { grid-area: business; padding-left: 18px; }
+  .v2 .op-car .op-facts { grid-area: facts; padding-left: 18px; }
+}
+/* Desktop (1024 up): one composed spread. Columns 1 to 5, 6 to 8, 9 to 12; media bottoms on a 500px deck; one continuous edge with a terminal per allocation. */
+@media (min-width: 1024px) {
+  .v2 .home-utility { margin-bottom: 24px; }
+  .v2 .home-spread { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px 24px; align-items: start; }
+  .v2 .op { display: grid; grid-template-rows: 500px 2px auto auto auto auto; }
+  .v2 .op-recreate { grid-column: 1 / span 5; }
+  .v2 .op-story { grid-column: 6 / span 3; }
+  .v2 .op-car { grid-column: 9 / span 4; }
+  .v2 .op .media-btn { grid-row: 1; align-self: end; justify-content: flex-end; }
+  .v2 .op .edge { grid-row: 2; margin-right: -24px; }
+  .v2 .op-car .edge { margin-right: 0; }
+  .v2 .op .op-band { grid-row: 3; min-height: 58px; }
+  .v2 .op .op-title { grid-row: 4; } .v2 .op .op-business { grid-row: 5; } .v2 .op .op-facts { grid-row: 6; }
+  .v2 .op-recreate .op-media { width: 400px; max-width: 100%; }
+  .v2 .op-story .op-media { width: 248px; max-width: 100%; }
+}

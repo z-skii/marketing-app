@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { House, ListChecks, Wallet, User, CalendarBlank, Plus, Megaphone, Storefront, MagnifyingGlass, ChatCircle, Bell, CaretDown } from "@phosphor-icons/react/dist/ssr";
-import { usd } from "./fixtures";
+import { money } from "./fixtures";
 import { Outside } from "./Outside";
 
 /**
@@ -34,7 +34,7 @@ export function Avatar({ src, name, initials, size = 40 }: { src: string | null;
 
 /** Money: DM Sans 600, tabular lining numerals. Discovery drops needless .00; balances keep two decimals. */
 export function Money({ cents, basis, size = "money", whole = false, onInk = false, basisInk = false }: { cents: number; basis?: string; size?: "money" | "money-compact" | "money-metric" | "money-public" | "money-balance"; whole?: boolean; onInk?: boolean; basisInk?: boolean }) {
-  const amount = whole && cents % 100 === 0 ? usd(cents, { whole: true }) : usd(cents);
+  const amount = money(cents, { cents: !whole });
   return (
     <span style={{ display: "block" }}>
       <span className={size} style={{ display: "block", color: onInk ? "var(--v2-paper)" : undefined }}>{amount}</span>
@@ -48,7 +48,7 @@ export function Edge({ left = false, style }: { left?: boolean; style?: CSSPrope
   return <span aria-hidden className={`edge${left ? " edge-left" : ""}`} style={{ display: "block", ...style }} />;
 }
 
-export type Tab = { href: string; label: string; icon: ReactNode; create?: boolean; outside?: boolean };
+export type Tab = { href: string; label: string; icon: ReactNode; create?: boolean; outside?: boolean; badge?: number };
 
 const ICON = 22;
 export const USER_TABS: Tab[] = [
@@ -66,18 +66,18 @@ export const BUSINESS_TABS: Tab[] = [
 ];
 
 function TabLink({ t, active }: { t: Tab; active: string }) {
-  const inner = <>{t.create ? <span className="disc" aria-hidden>{t.icon}</span> : <span aria-hidden>{t.icon}</span>}<span>{t.label}</span></>;
+  const inner = <><span className={t.create ? "disc icon" : "icon"} aria-hidden={t.badge ? undefined : true}>{t.icon}{t.badge ? <span className="count" aria-label={`${t.badge} need attention`}>{t.badge}</span> : null}</span><span>{t.label}</span></>;
   if (t.outside) return <Outside label={t.label} className={t.create ? "create" : undefined}>{inner}</Outside>;
   return <Link href={t.href} aria-current={t.label === active ? "page" : undefined} className={t.create ? "create" : undefined}>{inner}</Link>;
 }
 
 export function TabBar({ tabs, active, label }: { tabs: Tab[]; active: string; label: string }) {
-  return <nav className="tabbar" aria-label={label}>{tabs.map((t) => <TabLink key={t.label} t={t} active={active} />)}</nav>;
+  return <nav className="tabbar v2-fixed-unroll" aria-label={label}>{tabs.map((t) => <TabLink key={t.label} t={t} active={active} />)}</nav>;
 }
 
 /** Desktop and tablet rail: wordmark, identity switcher (desktop), destinations, labelled utilities. */
-export function Rail({ mode, active, identity }: { mode: "Personal" | "Business"; active: string; identity: ReactNode }) {
-  const tabs = mode === "Business" ? BUSINESS_TABS : USER_TABS;
+export function Rail({ mode, active, identity, tabs: given }: { mode: "Personal" | "Business"; active: string; identity: ReactNode; tabs?: Tab[] }) {
+  const tabs = given ?? (mode === "Business" ? BUSINESS_TABS : USER_TABS);
   return (
     <aside className="rail">
       <div className="wordmark"><Link href="/design-lab-v2" aria-label="TapMart"><Wordmark size={22} /></Link></div>
