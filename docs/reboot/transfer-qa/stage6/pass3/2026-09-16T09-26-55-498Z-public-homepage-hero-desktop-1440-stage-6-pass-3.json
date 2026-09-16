@@ -1,0 +1,50 @@
+{
+ "screen": "Public homepage hero (desktop 1440), Stage 6 pass 3",
+ "screenshot": "d-hero.png",
+ "reference": "d-design_lab_public_home-full.png",
+ "model": "director",
+ "effort": "high",
+ "when": "2026-09-16T09:26:55.498Z",
+ "usage": {
+  "model": "director",
+  "input_tokens": 10858,
+  "output_tokens": 2815,
+  "total_tokens": 13673,
+  "reasoning_tokens": 2070
+ },
+ "review": {
+  "faithful_transfer": true,
+  "expected_differences": [
+   "The Home frame shows the real demo account Tyler Okafor and its current For you state, rather than Maya and the Lab fixture's revision notice.",
+   "The Recreate opportunity is Employee POV: opening the shop, with $75.00 per approved version, rather than the Lab's $65.00 coffee-pour fixture. Its availability and deadline correctly follow the production record.",
+   "The Story opportunity shows $25.00 after 24h live and approval, rather than the Lab's $35.00 fixture.",
+   "The supplied Demo Roastery iced-latte creative replaces the Lab's coffee-break creative. Its $4 promotional price remains part of the source artwork, distinct from creator earnings."
+  ],
+  "keep": [
+   "Keep the mineral #F4F3EF canvas, graphite identity and device housing, and concentrated #2450E8 primary actions. There are no floating app cards or decorative branded notches.",
+   "Keep the 104/96 Archivo hero, 30/32 wordmark and restrained operational typography. The three-line headline makes Recreate, Post, Drive and payment immediately understandable.",
+   "Keep the current desktop spacing: copy and actions occupy the left column while the right-hand assembly remains substantial without colliding with them.",
+   "Keep the intact, square Story sheet with source-only shadow and the filming illustration at its own ratio with restrained corners. Neither is forced into a generic media card.",
+   "Keep the visible source-to-commitment relationship inside the real Home frame: identifiable reference, graphite task information and cobalt conditional pay. Do not add a redundant Story terms plane to this introductory hero.",
+   "Keep the explicit demo-account, Home-state and generated-illustration provenance, the 14/20 caption and the separate Inspect demo screen action.",
+   "Keep both audience entry points, the visible Sign in and Get started controls, and the real Home frame's filters, work actions, save control and bottom navigation."
+  ],
+  "functionality_intact": true,
+  "readiness_note": "Sign off this hero at 1440\u00d7900. The capture supports visual and exposed-functionality approval; it does not independently verify routing, the Inspect dialog's keyboard behavior, or chapters below the viewport.",
+  "scores": {
+   "viewport_quality": 9,
+   "media_quality": 9,
+   "uniqueness": 8,
+   "clarity": 9,
+   "premium_feel": 9,
+   "fidelity": 9,
+   "usability": 9,
+   "brand_recognition": 9,
+   "ai_slop_risk": 1
+  },
+  "ready_to_ship": true,
+  "drift": [],
+  "why": "This is a faithful language transfer, not a copy of the Lab layout. The oversized verbs, specific local-work explanation and prominent consumer/business actions establish a working platform rather than a SaaS or agency pitch. The real Home frame carries recognizable tasks, conditional money, status information and navigation; the supplied creative and filming illustration support that product story without pretending to be earnings evidence. The 280px-wide device is intentionally a preview, with a clearly labeled inspection action below. Its provenance is explicit, the artwork remains intact, and no visible control, amount or caption is clipped. No release-blocking drift is evident in this hero.",
+  "verdict": "Yes\u2014Frame Shift is faithfully expressed in the desktop hero, with real product semantics preserved and no visible functional regression."
+ }
+}
