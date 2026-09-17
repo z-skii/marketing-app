@@ -6,7 +6,7 @@ import { Sheet } from "../../../design-lab-v2/Sheet";
 import { Viewer } from "../../../design-lab-v2/Viewer";
 import { Img } from "../../../design-lab-v2/Img";
 import { Money } from "../../../design-lab-v2/parts";
-import { PlacementDiagram } from "../../../design-lab-v2/business/Discovery";
+import { Plan } from "../Plan";
 import { businessCar, businessPeople, profile, money, homeOpportunities } from "../../../design-lab-v2/fixtures";
 import { M } from "../media";
 import { useMotion, usePresentationTimer } from "../motion";
@@ -87,7 +87,7 @@ export function FindCars() {
   const plan = (
     <div className="x-fc-plan paper">
       <span className="t-fact">Placement plan</span>
-      <span className={`x-fc-diagram${zoneOn ? " is-on" : ""}`}><PlacementDiagram selected={zoneOn} /></span>
+      <span className={`x-fc-diagram${zoneOn ? " is-on" : ""}`}><Plan selected={zoneOn} /></span>
       <span className={`x-fc-zone t-object${zoneOn ? " x-reveal" : ""}`}>Rear doors</span>
     </div>
   );

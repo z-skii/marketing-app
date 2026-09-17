@@ -9,6 +9,7 @@ import { homeOpportunities, money, type Opportunity } from "../../../design-lab-
 import { M } from "../media";
 import { LabStrip } from "../motion";
 import { Open } from "../Open";
+import { Plan } from "../Plan";
 
 /**
  * V3 User Home (docs/design-lab-v3/screens/x-user-home.md): WHAT CAN I
@@ -145,7 +146,7 @@ function Detail({ o }: { o: Opportunity }) {
       {o.kind === "car" && (
         <div className="x-detail-plan paper">
           <span className="t-fact">Placement preview</span>
-          <img src={M.plan} alt="Placement plan: the rear doors of a car" width={1200} height={800} className="x-plan-img" />
+          <span className="x-plan-img" role="img" aria-label="Placement plan: the rear doors of a car"><Plan selected /></span>
           <span className="t-fact-ink">Rear doors</span>
         </div>
       )}

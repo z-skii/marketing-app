@@ -10,6 +10,7 @@ import { M } from "../media";
 import { useMotion } from "../motion";
 import { SeqControls, Ordered, useSequence, type Frame } from "../Stage";
 import { Chapter } from "./Shell";
+import { Plan } from "../Plan";
 
 /**
  * The earning story: Recreate, Post, Drive, Get paid. Each act is a coded
@@ -82,7 +83,7 @@ export function Recreate() {
   const money75 = <Money cents={recreate.netCents} basis="On approval" whole inline />;
   const Submission = (
     <div className="x-rc-sub">
-      {work()}
+      <span className="x-rc-workwrap">{work()}{source}</span>
       <div className="x-rc-task paper">
         <span className="t-fact">Submission preview</span>
         <span className="t-object">Counter pour</span>
@@ -129,7 +130,7 @@ export function Recreate() {
     <Chapter id="recreate" verb="Recreate">
       <div className="x-rc" data-frame={f}>
         {f <= 1 && <div className="x-rc-frame" key="cmp"><Comparison pct={pct} setPct={(n) => { setPct(n); }} active /><div className="x-rc-edge paper">{money75}<span className="t-fact">{recreate.business}</span></div></div>}
-        {f === 2 && <div className="x-rc-frame x-open" key="submit">{source}{Submission}</div>}
+        {f === 2 && <div className="x-rc-frame x-open" key="submit">{Submission}</div>}
         {f === 3 && <div className="x-rc-frame" key="approve">{Approval}</div>}
         {f === 4 && <div className="x-rc-frame x-settle" key="ledger">{Ledger}</div>}
       </div>
@@ -221,7 +222,7 @@ export function Drive() {
   const plan = (on: boolean) => (
     <div className={`x-dr-plan paper${on ? " is-on" : ""}`}>
       <span className="t-fact">Placement preview</span>
-      <img src={M.plan} alt="Placement plan: the rear doors of a car, drawn as a side elevation" width={1200} height={800} className="x-plan-img" decoding="async" loading="lazy" />
+      <span className="x-plan-img" role="img" aria-label="Placement plan: the rear doors of a car, drawn as a side elevation"><Plan selected={on} /></span>
       <span className="t-object">Rear doors</span>
     </div>
   );

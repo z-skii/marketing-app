@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, CaretDown, Check, MapPin, X } from "@phosphor-icons/react";
 import { Sheet } from "../../../design-lab-v2/Sheet";
 import { Money } from "../../../design-lab-v2/parts";
-import { PlacementDiagram } from "../../../design-lab-v2/business/Discovery";
+import { Plan } from "../Plan";
 import { businessCar as v2Car, businessCities, businessPeople, money, type Person } from "../../../design-lab-v2/fixtures";
 import { LoyaltyStrip } from "../../business/LoyaltyStrip";
 import { M } from "../media";
@@ -175,7 +175,7 @@ function RequestComposer({ p, onClose }: { p: Person; onClose: () => void }) {
   const [type, setType] = useState<"recreate" | "story" | null>(null);
   const [pay, setPay] = useState(""); const [deadline, setDeadline] = useState(""); const [deliverables, setDeliverables] = useState(""); const [terms, setTerms] = useState(false);
   const [review, setReview] = useState(false); const [tried, setTried] = useState(false); const [discard, setDiscard] = useState(false);
-  useEffect(() => { const d = ref.current; if (d && !d.open) d.showModal(); }, []);
+  useEffect(() => { const t = setTimeout(() => { const d = ref.current; if (d && !d.open) d.showModal(); }, 0); return () => clearTimeout(t); }, []);
   const dirty = type !== null || pay || deadline || deliverables || terms;
   const errors = { type: type === null ? "Choose a request type." : null, pay: !pay || Number(pay) <= 0 ? "Enter creator pay in US dollars." : null, deadline: !deadline ? "Enter a deadline." : null, deliverables: !deliverables.trim() ? "Describe the deliverables." : null, terms: !terms ? "Accept the standard creator terms." : null };
   const valid = !Object.values(errors).some(Boolean);
@@ -238,7 +238,7 @@ function VehicleTask({ offer, setOffer, onClose }: { offer: boolean; setOffer: (
         <span className="media x-vt-photo x-open"><img src={M.vehicleEli(1200)} alt={c.alt} width={1200} height={800} /></span>
         <div className="x-vt-plan paper">
           <span className="t-fact">Placement plan</span>
-          <span className="x-fc-diagram"><PlacementDiagram selected={on} /></span>
+          <span className="x-fc-diagram"><Plan selected={on} /></span>
           <span className="x-vt-zone"><span className={`t-object${on ? " x-reveal" : ""}`}>Rear doors</span><span className="t-fact">Supported zone</span></span>
         </div>
         <div className="x-vt-rate paper">
@@ -258,7 +258,7 @@ function OfferComposer({ onClose }: { onClose: () => void }) {
   const c = businessCar;
   const [start, setStart] = useState(""); const [months, setMonths] = useState("3"); const [pay, setPay] = useState(""); const [terms, setTerms] = useState(false);
   const [review, setReview] = useState(false); const [tried, setTried] = useState(false); const [discard, setDiscard] = useState(false);
-  useEffect(() => { const d = ref.current; if (d && !d.open) d.showModal(); }, []);
+  useEffect(() => { const t = setTimeout(() => { const d = ref.current; if (d && !d.open) d.showModal(); }, 0); return () => clearTimeout(t); }, []);
   const dirty = start || pay || terms || months !== "3";
   const errors = { start: !start ? "Enter a start date." : null, months: !months || Number(months) < 1 ? "Enter the number of months." : null, pay: !pay || Number(pay) <= 0 ? "Enter monthly pay in US dollars." : null, terms: !terms ? "Accept the placement terms." : null };
   const valid = !Object.values(errors).some(Boolean);
