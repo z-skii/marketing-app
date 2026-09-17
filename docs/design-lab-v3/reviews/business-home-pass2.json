@@ -1,0 +1,158 @@
+{
+  "screen": "Business Home with Loyalty",
+  "pass": 2,
+  "final": true,
+  "shots": [
+    "business-home-m-full.png",
+    "business-home-d.png",
+    "business-home-states-m-none.png",
+    "business-home-states-d-live-empty.png"
+  ],
+  "when": "2026-09-17T03:49:56.698Z",
+  "reviewer": "director",
+  "review": {
+    "why_better_than_production": "This adds a clear bridge from advertising the shop to bringing customers back. A business can still find people and cars first, then see how many people joined its loyalty program and returned. Loyalty feels like part of running the same business, not another software product. These captures demonstrate that entry and its honest setup states, not live customer acquisition, sales attribution or Wallet delivery.",
+    "spec_was_wrong": [
+      "I specified one authored-work slot too rigidly. The inherited two-still composition gives a better sense of someone's work. Retain both stills where their ownership is verified; do not replace them merely to match my original slot count.",
+      "I put the person's identity above the media on phone. The built media-first order is stronger. Keep portrait and work first, then name, compact facts and the separate View person and Request actions.",
+      "I overconstrained the desktop media baseline. The car's larger money band justifies its image ending above Maya's image. Keep the completed identity/fact bands aligned; do not move the car down simply to align image edges."
+    ],
+    "keep": [
+      "The marketplace-first opening: Maya's face and work, followed by an independently composed vehicle opportunity. Do not move Loyalty above discovery.",
+      "The warm paper, green-black typography, untreated square photography and restrained brick earning-edge terminals. No additional containers or decoration.",
+      "The Loyalty seam's correct position, 56px artwork fragment, two separators and quiet named action. Its central desktop breathing room is intentional.",
+      "Only Members and Came back in this entry. No reward metrics, source chart, QR, miniature Wallet pass or Live badge.",
+      "The honest state changes: no program shows the brand mark and Create program; live with no members shows zero counts and View QR.",
+      "The five destinations, Home selection, inherited attention badges and lime campaign Create. Loyalty must not become a sixth destination.",
+      "View person remains distinct from Request. The car retains US$240, /month, Rear doors and Asking rate together."
+    ],
+    "quality_bar": [
+      {
+        "question": "Does this feel like a premium modern product?",
+        "answer": "yes",
+        "note": "The photography, open canvas and restrained controls feel considered. Desktop seam spacing needs one final tightening."
+      },
+      {
+        "question": "Does it explain itself without paragraphs?",
+        "answer": "yes",
+        "note": "People, work, asking rate and actions are immediately readable. The Loyalty entry explains enrollment and return in one short line."
+      },
+      {
+        "question": "Does it feel like a consumer platform, not business software?",
+        "answer": "yes",
+        "note": "Faces and work lead. There are no dashboard tiles, administrative headings or metric grids."
+      },
+      {
+        "question": "Is it memorable?",
+        "answer": "yes",
+        "note": "The portrait/work pairing and the quiet return seam create a recognizable composition rather than a generic feed."
+      },
+      {
+        "question": "Does motion improve understanding?",
+        "answer": "partly",
+        "note": "Not assessable from these static captures. No motion strip demonstrates selection, opening, count replacement or reduced motion."
+      },
+      {
+        "question": "Does each earning type feel different?",
+        "answer": "partly",
+        "note": "People and vehicle opportunities have clearly different silhouettes. Recreate versus Story earning surfaces are not shown."
+      },
+      {
+        "question": "Is business discovery exciting?",
+        "answer": "yes",
+        "note": "Large faces, tangible work samples and a complete vehicle photograph make discovery inviting without promotional noise."
+      },
+      {
+        "question": "Is Profile identity, not settings?",
+        "answer": "partly",
+        "note": "Profile is not captured. The Business navigation label cannot establish its destination's quality."
+      },
+      {
+        "question": "Does the website make someone keep scrolling?",
+        "answer": "partly",
+        "note": "The public website is outside these captures. The marketplace continuation is inviting, but that is a different judgment."
+      },
+      {
+        "question": "Is it significantly stronger than current production?",
+        "answer": "partly",
+        "note": "The visible Loyalty entry strengthens the business story without displacing discovery. Full comparative and operational superiority is not established by these screenshots."
+      }
+    ],
+    "scores": {
+      "motion_understanding": 0,
+      "slop_risk": 1,
+      "text_discipline": 9,
+      "natural_part_of_tapmart": 9,
+      "attribution_honest_power": 6,
+      "memorable": 8,
+      "quick_to_understand": 9,
+      "self_explaining": 9,
+      "business_value": 8,
+      "wallet_realism": 0,
+      "truthfulness": 9,
+      "consumer_not_software": 9,
+      "premium": 8
+    },
+    "fixes": [
+      {
+        "priority": 1,
+        "change": "Verify both Eli work images against his existing V2 ownership manifests. The visible portions appear to repeat Maya's coffee stills. If either is Maya-owned, replace it only with Eli's verified existing work; use Media unavailable if no valid binding exists.",
+        "why": "Authored work is the evidence behind choosing a person. A polished layout cannot compensate for a misleading ownership association. The partial capture raises a concern but does not prove the binding is wrong.",
+        "where": "Desktop lower-right Eli person composition, and the phone Eli record revealed through More."
+      },
+      {
+        "priority": 2,
+        "change": "Set the desktop gap before the Loyalty top separator to 24px after the lower completed lead action band. Set the gap after its bottom separator to the lower roster to 32px, rather than the visible approximately 48px. Keep the seam itself approximately 104px tall.",
+        "why": "The entry should feel like a seam within the marketplace, not a detached intermission. Its internal spacing is already resolved.",
+        "where": "Desktop Business Home, including live and live-empty states."
+      },
+      {
+        "priority": 3,
+        "change": "Complete the acceptance evidence: add 320×568, 768×1024, 1023×900 and 1920×1080 captures, plus an actual 390×844 opening viewport. Include Draft, filter and empty-result states. Attach checks for keyboard access, Back/focus restoration, 200% text zoom, reduced motion and provider-derived count changes after signup and recording.",
+        "why": "The supplied images establish the main visual direction and three entry states, but not the required responsive and behavioral acceptance. Do not redesign unseen states or claim they passed.",
+        "where": "V3 capture report and this route's Home-owned interactions."
+      }
+    ],
+    "two_second_read": "Find a person or car to advertise Loopday. Further down, Loyalty is already part of this business: ten members, six came back, Open loyalty.",
+    "verdict": "fix",
+    "spec_drift": [
+      "Desktop outer seam spacing is looser than specified: the top rule sits about 52px below the last visible lead facts, and the next roster starts about 48px after the bottom rule. Restore 24px after the completed action band and 32px before the roster.",
+      "The build uses two work stills instead of the specified single slot and places phone identity below the media. These are accepted departures under the revised instructions in spec_was_wrong, subject to ownership verification.",
+      "The desktop car image ends roughly 58px above Maya's image, while their lower identity/fact bands align. Accept this resolved composition rather than enforcing the original shared image baseline."
+    ],
+    "loyalty_bar": [
+      {
+        "question": "Does this feel like a natural part of TapMart?",
+        "answer": "yes",
+        "note": "It uses the same canvas, artwork language, navigation and quiet actions. Its placement connects discovery and retention without changing Home's purpose."
+      },
+      {
+        "question": "Does it strengthen the business value proposition?",
+        "answer": "yes",
+        "note": "Members and Came back introduce an understandable outcome beyond finding someone to advertise the shop."
+      },
+      {
+        "question": "Can a business understand it quickly?",
+        "answer": "yes",
+        "note": "The live entry is immediate, and both alternative states give the appropriate next action. Opening phone copy through Maya's actions is approximately 26 words including navigation labels and badges."
+      },
+      {
+        "question": "Does it feel consumer quality rather than SaaS admin?",
+        "answer": "yes",
+        "note": "A small branded object and ordinary language replace statistic cards and management controls."
+      },
+      {
+        "question": "Does attribution feel powerful without becoming fake analytics?",
+        "answer": "partly",
+        "note": "The two counts are restrained and make no revenue or causality claim. Source attribution, definitions and reconciliation are not visible on this Home entry."
+      }
+    ],
+    "remaining_risks": [
+      "The apparent reuse of Maya's work in Eli's lower composition needs a provenance check before approval.",
+      "Draft, narrow-phone and tablet behavior remain uncaptured here. Full-page phone navigation placement is not treated as a layout defect.",
+      "Static counts cannot establish shared-provider projections, immutable sources, same-day protection or unchanged counts after redemption.",
+      "Route isolation, destination behavior, media ownership and accessibility cannot be certified from pixels alone.",
+      "Scores use 0 to 10. Motion understanding and Wallet realism are marked 0 for not evidenced, not poor execution: no motion strip or Wallet specimen was supplied, and a Wallet specimen should not be added to this Home surface."
+    ]
+  }
+}

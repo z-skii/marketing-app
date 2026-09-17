@@ -134,8 +134,9 @@ export function Sequence() {
     <div className="seq-receipt">
       <span className="t-name">Sara</span>
       <Marks m={SARA_RECEIPT} p={liveProgram} size="l" />
-      <span className="t-fact-ink">5 of 5 visits</span>
-      <span className="t-object">Reward ready · Free coffee</span>
+      <span className="seq-receipt-visits">5 of 5 visits</span>
+      <span className="seq-receipt-ready">Reward ready</span>
+      <span className="seq-receipt-reward">Free coffee</span>
       <span className="t-fact">Wallet update · simulated</span>
       <div className="seq-receipt-actions"><Link href="/design-lab-v3/business/loyalty" className="btn btn-primary">Open loyalty preview</Link><Entry label="Get started" className="link t-action" business /></div>
     </div>

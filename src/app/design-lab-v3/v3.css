@@ -9,7 +9,8 @@
 /* --------------------------------------------------------- Wallet cards */
 .v3 .wc { position: relative; overflow: hidden; font-family: -apple-system, "SF Pro Text", var(--v2-font-ui), system-ui, sans-serif; flex-shrink: 0; max-width: 100%; }
 .v3 .wc-fit { width: 100% !important; }
-.v3 .wc-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: 100%; max-width: 375px; }
+.v3 .wc-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 8px; width: 100%; max-width: 375px; }
+.v3 .wc-wrap > .settle { width: 100%; }
 .v3 .wc-apple { border-radius: 12px; }
 .v3 .wc-google { border-radius: 12px; font-family: "Google Sans", Roboto, var(--v2-font-ui), system-ui, sans-serif; }
 .v3 .wc .wc-label { display: block; font-size: 10px; line-height: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--wc-label); }
@@ -112,7 +113,9 @@
 .v3 .loy-source-name { display: inline-block; margin-top: 12px; }
 .v3 .loy-source-lanes { width: 100%; }
 .v3 .loy-source-link { order: 3; }
-@media (max-width: 767px) { .v3 .loy-source { flex-direction: column; } .v3 .loy-source-id .loy-source-link { display: none; } .v3 .loy-source::after { content: ""; } }
+.v3 .loy-source-link { min-height: 44px; display: inline-flex; align-items: center; }
+.v3 .loy-source-link-after { display: none; }
+@media (max-width: 767px) { .v3 .loy-source { flex-direction: column; } .v3 .loy-source-id .loy-source-link { display: none; } .v3 .loy-source-link-after { display: inline-flex; } .v3 .loy-source::after { content: ""; } }
 .v3 .loy-actions { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: flex-start; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--v2-line); }
 .v3 .loy-actions .link { min-height: 44px; display: inline-flex; align-items: center; }
 .v3 .loy-action-col { display: flex; flex-direction: column; }
@@ -145,7 +148,7 @@
 .v3 .loy-strip-text .t-fact-ink { font-size: 16px; line-height: 24px; }
 .v3 .loy-strip-action { grid-area: action; min-height: 44px; display: inline-flex; align-items: center; align-self: start; justify-self: start; }
 @media (min-width: 768px) {
-  .v3 .biz-desk .loy-strip { grid-column: 1 / -1; grid-template-columns: 56px minmax(0, 1fr) auto; grid-template-areas: "art text action"; column-gap: 24px; min-height: 104px; align-items: center; padding: 24px 0; }
+  .v3 .biz-desk .loy-strip { grid-column: 1 / -1; grid-template-columns: 56px minmax(0, 1fr) auto; grid-template-areas: "art text action"; column-gap: 24px; min-height: 104px; align-items: center; padding: 24px 0; margin: 24px 0 32px; }
   .v3 .biz-desk .loy-strip-action { align-self: center; }
 }
 
@@ -194,6 +197,8 @@
 .v3 .members-tools { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
 .v3 .members-tools .mem-search { flex: 1; margin-top: 0; }
 .v3 .members-scan { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+.v3 .members-head-desk { display: none; }
+@media (min-width: 1024px) { .v3 .members-head-phone { display: none; } .v3 .members-head-desk { display: inline-flex; } }
 .v3 .mem-search { display: flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 16px; padding: 0 12px; border: 1px solid var(--v2-line); border-radius: var(--v2-r-control); background: var(--v2-surface); }
 .v3 .mem-search input { flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; color: inherit; outline: none; min-height: 42px; }
 .v3 .mem-list-head { display: flex; justify-content: space-between; padding: 12px 24px 4px 0; }
@@ -460,12 +465,17 @@
 .v3 .seq-signup .t-fact-ink, .v3 .seq-signup .t-title, .v3 .seq-signup .t-body, .v3 .seq-signup .t-object { color: var(--v2-ink); } .v3 .seq-signup .t-fact { color: var(--v2-muted); }
 .v3 .seq-signup-brand { display: flex; align-items: center; gap: 10px; }
 .v3 .seq-btn { align-self: flex-start; background: var(--v2-ink) !important; color: var(--v2-paper) !important; }
-.v3 .seq-card { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.v3 .seq-card { display: flex; flex-direction: column; gap: 8px; align-items: stretch; width: 100%; max-width: 375px; }
+.v3 .seq-card > div { width: 100%; }
 .v3 .on-ink .seq-card .wc { box-shadow: 0 0 0 1px rgba(247, 244, 235, 0.24); }
 .v3 .seq-date { display: block; font-variant-numeric: tabular-nums; }
 .v3 .seq-card-arrive { animation: v3-card-arrive 320ms var(--v2-ease-out) both; }
 @keyframes v3-card-arrive { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 .v3 .seq-receipt { display: flex; flex-direction: column; gap: 8px; max-width: 440px; padding: 16px 0 0; border-top: 2px solid var(--v2-paper); }
+.v3 .seq-receipt .t-name { font-size: 20px; line-height: 26px; }
+.v3 .seq-receipt-visits { font-size: 24px; line-height: 28px; font-weight: 600; }
+.v3 .seq-receipt-ready { font-family: var(--v2-font-display); font-size: 28px; line-height: 32px; font-weight: 600; letter-spacing: -0.02em; }
+.v3 .seq-receipt-reward { font-size: 18px; line-height: 24px; }
 .v3 .seq-receipt-actions { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
 .v3 .seq-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 8px; }
 .v3 .seq-play { min-height: 44px; display: inline-flex; align-items: center; gap: 6px; }

@@ -43,18 +43,17 @@ export function Members({ filter: initialFilter, source, selected }: { filter: s
   const points = p.kind === "points";
   return (
     <div className="loy members">
-      <LoyaltyHead title="Members" here="Members" backHref="/design-lab-v3/business/loyalty" action={<Link href="/design-lab-v3/business/loyalty/record" className="btn btn-primary">Add {points ? "points" : "visit"}</Link>} />
+      <LoyaltyHead title="Members" here="Members" backHref="/design-lab-v3/business/loyalty" action={<><Link href="/design-lab-v3/business/loyalty/record" className="btn btn-primary members-head-phone">Add {points ? "points" : "visit"}</Link><Link href="/design-lab-v3/business/loyalty/record" className="link t-action members-scan members-head-desk" aria-label="Scan"><QrCode size={18} aria-hidden />Scan</Link></>} />
       <div className="members-split">
         <div className="members-roster">
           {src && <p className="t-fact-ink" style={{ marginTop: 8 }}>Joined from {src.label}<span aria-hidden> · </span>{src.sub}<span aria-hidden> · </span><Link href="/design-lab-v3/business/loyalty/members" className="link">All members</Link></p>}
           <div className="members-tools">
             <label className="mem-search"><MagnifyingGlass size={20} aria-hidden /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search members" aria-label="Search members" /></label>
-            <Link href="/design-lab-v3/business/loyalty/record" className="link t-action members-scan" aria-label="Scan"><QrCode size={18} aria-hidden />Scan</Link>
           </div>
           <div className="tabs" role="tablist" aria-label="Filter">
             {([["all", "All"], ["repeat", "Repeat visitors"], ["ready", "Reward ready"]] as const).map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={filter === k} onClick={() => setFilter(k)}>{l}</button>)}
           </div>
-          <div className="mem-list-head"><span className="t-fact">Name</span><span className="t-fact">{points ? "Points" : "Visits"}</span></div>
+          <div className="mem-list-head"><span className="t-fact" aria-hidden></span><span className="t-fact">{points ? "Points" : "Visits"}</span></div>
           <div className="mem-list">
             {list.length === 0 && state.members.length === 0 && <div className="loy-empty"><p className="t-object">No members yet.</p><Link href="/design-lab-v3/business/loyalty/qr" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>View QR</Link></div>}
             {list.length === 0 && state.members.length > 0 && <div className="loy-empty"><p className="t-object">No members match.</p><p className="t-fact">Try another name or contact.</p></div>}

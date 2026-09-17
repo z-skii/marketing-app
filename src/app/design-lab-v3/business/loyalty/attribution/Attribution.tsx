@@ -15,6 +15,9 @@ const TYPE_LABEL: Record<string, string> = { RECREATE: "Recreate campaign", STOR
 function sourceKey(r: SourceRow) { return r.source.creatorId ? r.source.creatorId : r.source.type === "BUSINESS_QR" ? "counter" : r.source.type === "TAPMART_LINK" ? "tapmart" : "direct"; }
 
 function SourceDetails({ r }: { r: SourceRow }) {
+  const { state: st } = useLoyalty();
+  // A first touch is only ever a recorded campaign click; it is never derived from a signup time.
+  const firstTouch = r.source.linkCode ? st.events.filter((e) => e.type === "CAMPAIGN_CLICK" && e.note === r.source.linkCode).map((e) => e.at).sort()[0] ?? null : null;
   const dates = r.members.map((m) => m.joinedAt).sort();
   const first = dates[0]; const last = dates[dates.length - 1];
   return (
@@ -23,9 +26,9 @@ function SourceDetails({ r }: { r: SourceRow }) {
       <Descent joined={r.joined} returned={r.returned} redeemed={r.redeemed} max={r.joined} size="m" />
       <dl className="facts" style={{ gridTemplateColumns: "1fr", marginTop: 16 }}>
         <div><dt>Source type</dt><dd>{TYPE_LABEL[r.source.type]}</dd></div>
-        <div><dt>{r.source.type === "BUSINESS_QR" || r.source.type === "CAR" ? "QR" : "Link"}</dt><dd>{r.source.linkCode ? (r.source.creatorId ? `${r.source.label}’s ${r.source.type === "STORY" ? "Story sticker" : r.source.type === "RECREATE" ? "Reel caption" : "placement QR"}` : r.source.type === "BUSINESS_QR" ? "The card at the register" : "Loopday’s TapMart page") : "Not recorded"}</dd></div>
-        <div><dt>Confidence</dt><dd>{r.source.confidence === "link" ? "Link recorded" : "Source not tracked"}</dd></div>
-        <div><dt>First touch</dt><dd>{r.source.confidence === "link" ? `${fmtDayYear(first)}, ${fmtTime(first)}` : "Not recorded"}</dd></div>
+        <div><dt>{r.source.type === "BUSINESS_QR" || r.source.type === "CAR" ? "QR" : "Link"}</dt><dd>{r.source.linkCode ? (r.source.creatorId ? `${r.source.campaign ?? r.source.label} signup ${r.source.type === "CAR" ? "QR" : "link"}` : r.source.type === "BUSINESS_QR" ? "The card at the register" : "Loopday’s TapMart page") : "Not recorded"}</dd></div>
+        <div><dt>Source confidence</dt><dd>{r.source.confidence === "link" ? "Link recorded" : "Source not tracked"}</dd></div>
+        <div><dt>First touch</dt><dd>{firstTouch ? `${fmtDayYear(firstTouch)}, ${fmtTime(firstTouch)}` : "Not recorded"}</dd></div>
         <div><dt>Signup range</dt><dd>{first === last ? fmtDayYear(first) : `${fmtDayYear(first)} to ${fmtDayYear(last)}`}</dd></div>
       </dl>
       <p className="t-fact" style={{ marginTop: 12 }}>The first known signup source stays attached.</p>

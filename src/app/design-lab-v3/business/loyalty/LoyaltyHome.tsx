@@ -103,9 +103,9 @@ export function LoyaltyHome() {
               <div className="loy-source-id">
                 <h3 className="t-object">Joined from</h3>
                 {lead ? <><Link href={`/design-lab-v3/business/loyalty/attribution?source=${lead.key}`} className="link t-object loy-source-name">{lead.source.label}</Link><span className="t-fact">{lead.source.sub.split(" · ")[1] ?? lead.source.sub}</span></> : <span className="t-body">Your first signup will appear here.</span>}
-                <Link href="/design-lab-v3/business/loyalty/attribution" className="link t-action loy-source-link" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>View attribution</Link>
+                <Link href="/design-lab-v3/business/loyalty/attribution" className="link t-action loy-source-link">View attribution</Link>
               </div>
-              {lead && <div className="loy-source-lanes"><Descent joined={lead.joined} returned={lead.returned} redeemed={lead.redeemed} max={lead.joined} size="m" /></div>}
+              {lead && <div className="loy-source-lanes"><Descent joined={lead.joined} returned={lead.returned} redeemed={lead.redeemed} max={lead.joined} size="m" /><Link href="/design-lab-v3/business/loyalty/attribution" className="link t-action loy-source-link loy-source-link-after">View attribution</Link></div>}
             </section>
           </div>
           <div className="loy-actions">

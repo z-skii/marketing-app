@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, DotsThree } from "@phosphor-icons/react";
+import { DotsThree } from "@phosphor-icons/react";
 import { Sheet } from "../../../../../design-lab-v2/Sheet";
 import { Marks } from "../../../../Progress";
 import { QR } from "../../../../qr";
@@ -61,7 +61,6 @@ export function MemberDetail({ id, embedded = false }: { id: string; embedded?: 
         <summary className="t-action">History</summary>
         <ul className="mem-history">{events.map((e) => <li key={e.id} className={`t-fact${e.counted || e.type === "SIGNUP" ? " t-fact-ink" : ""}`}><span className="mem-history-when">{fmtDayYear(e.at)}, {fmtTime(e.at)}</span><span>{e.note.startsWith("Not counted") ? "Not counted · same day" : HISTORY[e.type] ?? e.type}{e.type === "SIGNUP" ? ` · ${m.source.label}` : ""}</span></li>)}</ul>
       </details>
-      {!embedded && <Link href="/design-lab-v3/business/loyalty/members" className="link t-action loy-back"><ArrowLeft size={16} aria-hidden />Members</Link>}
     </div>
   );
 }

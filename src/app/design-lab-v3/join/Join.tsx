@@ -129,15 +129,14 @@ export function Join({ code, memberId: presetMember }: { code: string; memberId:
           <div className="join-stage-pass">
             <h1 className="t-title">Your demo card</h1>
             {sourceLine && <span className="t-fact-ink">{sourceLine}</span>}
-            <span className="t-fact">{me.progress} of {p.requirement} {unitWord}{me.lifetime === 0 ? " · No visits yet." : ""}</span>
-            <div className="join-platforms" role="tablist" aria-label="Wallet">
+                        <div className="join-platforms" role="tablist" aria-label="Wallet">
               <button type="button" role="tab" aria-selected={platform === "apple"} onClick={() => setPlatform("apple")}>Apple Wallet</button>
               <button type="button" role="tab" aria-selected={platform === "google"} onClick={() => setPlatform("google")}>Google Wallet</button>
             </div>
             <div className="wc-wrap">
               <PlatformLabel platform={platform} />
               <div key={platform} className="settle">{platform === "apple" ? <AppleCard d={data} width={375} className="wc-fit" /> : <GoogleCard d={data} width={375} className="wc-fit" />}</div>
-              <PlatformLabel platform={platform} above={false} />
+              {(saved || notNow || me.wallet !== "none") && <PlatformLabel platform={platform} above={false} />}
             </div>
           </div>
           <div className="join-stage-side">
@@ -163,7 +162,7 @@ export function Join({ code, memberId: presetMember }: { code: string; memberId:
             )}
             <div className="join-after">
               <button type="button" className="link t-action" style={{ minHeight: 44 }} onClick={() => setDetails((v) => !v)} aria-expanded={details}>Details</button>
-              <Link href="/design-lab-v3/business/loyalty" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>Done</Link>
+              {(saved || notNow || me.wallet !== "none") && <Link href="/design-lab-v3/business/loyalty" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>Done</Link>}
             </div>
             {details && <CardDetails d={data} platform={platform} />}
           </div>

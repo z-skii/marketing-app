@@ -106,11 +106,10 @@ export function Create({ initialStep }: { initialStep: number }) {
           {step === 2 && (
             <>
               <span className="t-title create-equation">{equation}</span>
-              <span className="t-fact">{points ? "Points datum: 100" : "Visits datum: 5"}</span>
-              <label className="join-field"><span className="t-fact-ink">Reward name</span><input className="join-input" value={d.reward.name} maxLength={24} onChange={(e) => { patch({ reward: { ...d.reward, name: e.target.value } }); card({ rewardTitle: e.target.value }); }} aria-invalid={tried && !nameOk ? true : undefined} />{tried && !nameOk && <span className="join-error">Enter a reward name.</span>}</label>
+                            <label className="join-field"><span className="t-fact-ink">Reward name</span><input className="join-input" value={d.reward.name} maxLength={24} onChange={(e) => { patch({ reward: { ...d.reward, name: e.target.value } }); card({ rewardTitle: e.target.value }); }} aria-invalid={tried && !nameOk ? true : undefined} />{tried && !nameOk && <span className="join-error">Enter a reward name.</span>}</label>
               <label className="join-field create-req"><span className="t-fact-ink">{points ? "Points to reward" : "Visits to reward"}</span><input className="join-input" type="number" inputMode="numeric" min={2} max={points ? 10000 : 50} step={1} value={d.requirement} onChange={(e) => patch({ requirement: Number(e.target.value) })} aria-invalid={tried && !reqOk ? true : undefined} />{tried && !reqOk && <span className="join-error">{!Number.isInteger(d.requirement) ? "Use a whole number." : points ? "Enter 2 to 10,000 points." : "Enter 2 to 50 visits."}</span>}<span className="t-fact">One qualifying purchase counts per day.</span></label>
               <div className="create-terms">
-                <span className="t-fact-ink">Terms <span className="t-note">Optional</span></span>
+                <span className="t-fact-ink">Additional terms <span className="t-note">Optional</span></span>
                 {terms || d.reward.terms ? <textarea className="join-input join-textarea" rows={3} value={d.reward.terms} maxLength={400} onChange={(e) => patch({ reward: { ...d.reward, terms: e.target.value } })} aria-label="Terms" /> : <button type="button" className="link t-action" style={{ minHeight: 44, alignSelf: "flex-start" }} onClick={() => setTerms(true)}>Add terms</button>}
                 <details className="disclosure"><summary className="t-action">Program terms</summary><p className="t-fact" style={{ marginTop: 8 }}>{REWARD_TERMS}</p></details>
               </div>

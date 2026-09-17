@@ -25,8 +25,8 @@ export function Logo({ design, size = 28, style, className = "" }: { design: Car
   // The approved fixture mark: an open loop with a short brick terminal, a return made visible.
   return (
     <svg className={`wc-logo ${className}`} width={size} height={size} viewBox="0 0 28 28" aria-hidden style={style}>
-      <path d="M21.5 9.5A9 9 0 1 0 23 14" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="butt" />
-      <path d="M23 14h-5" stroke="#B73E28" strokeWidth="3" strokeLinecap="butt" />
+      <path d="M22.1 9.6A9 9 0 1 0 22.1 18.4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="butt" />
+      <path d="M22.1 18.4l2.4 -4.2" stroke="#B73E28" strokeWidth="3" strokeLinecap="butt" />
     </svg>
   );
 }
