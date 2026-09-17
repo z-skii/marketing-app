@@ -470,6 +470,8 @@
 @media (min-width: 768px) {
   .v3 .program-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; align-items: start; }
   .v3 .qr-body { flex-direction: row; align-items: flex-start; gap: 48px; }
+  /* The focused QR task keeps its vertical reading order inside the 560px pane: rule, code with quiet zone, disclosure, actions. */
+  .v3 .qr-task .qr-body { flex-direction: column; align-items: flex-start; gap: 12px; }
   .v3 .upd-row { grid-template-columns: 180px minmax(0, 1fr) 240px; gap: 16px; }
   .v3 .composer-platforms { flex-direction: row; gap: 48px; align-items: flex-start; }
 }

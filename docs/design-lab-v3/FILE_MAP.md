@@ -46,23 +46,24 @@ delivers a notification. All state is the in memory fixture store in
 
 | File | Lines | What it is |
 | --- | --- | --- |
-| `x/x.css` | 167 | The material system: tokens, the two lens recipes, working paper, grip, typography, the floating app bar, pause behaviour |
-| `x/site.css` | 356 | Public homepage layout: navigation, hero, the four earning chapters, the business run, the Loyalty loop, footer |
-| `x/app.css` | 244 | App surfaces: the working task, User Home, User Profile, Business Home, and the Loyalty restyle |
+| `x/x.css` | 169 | The material system: tokens, the two lens recipes, working paper, grip, typography, the floating app bar, pause behaviour |
+| `x/site.css` | 377 | Public homepage layout: navigation, hero, the four earning chapters, the business run, the Loyalty loop, footer |
+| `x/app.css` | 269 | App surfaces: the working task, User Home, User Profile, Business Home, and the Loyalty restyle |
 | `x/motion.tsx` | 85 | Motion provider, Pause motion control, lab strip, pause aware presentation timer |
-| `x/Stage.tsx` | 109 | The sequence engine: frames, playback, direct access, Steps, ordered reduced motion output |
+| `x/Stage.tsx` | 123 | The sequence engine: frames, playback, direct access, Steps, ordered reduced motion output |
 | `x/Open.tsx` | 123 | Object continuity: the selected media becomes the working task, with history and focus restoration |
-| `x/Nav.tsx` | 92 | The two app shells and the V3 identity switchers |
+| `x/Nav.tsx` | 108 | The two app shells and the V3 identity switchers |
+| `business/loyalty/TaskHead.tsx` | 23 | The one head for the focused Loyalty tasks: Back, title and step fact, Close, lab and motion strip |
 | `x/Plan.tsx` | 16 | The flat rear door placement plan |
 | `x/media.ts` | 29 | Responsive derivative paths |
-| `x/site/Shell.tsx` | 122 | Public navigation, lab strip, media sources, footer, chapter frame |
+| `x/site/Shell.tsx` | 126 | Public navigation, lab strip, media sources, footer, chapter frame |
 | `x/site/Hero.tsx` | 86 | One brief, two viewpoints |
-| `x/site/Earn.tsx` | 290 | Recreate, Post, Drive, Get paid |
-| `x/site/Business.tsx` | 205 | Find people, Find cars, Create, Review, Monthly content |
-| `x/site/Loop.tsx` | 142 | The source preserving Loyalty loop |
-| `x/home/Feed.tsx` | 171 | User Home |
-| `x/profile/Profile.tsx` | 158 | User Profile, share sheet, settings sheet |
-| `x/business/Discovery.tsx` | 300 | Business Home, person and vehicle tasks, request and offer composers |
+| `x/site/Earn.tsx` | 294 | Recreate, Post, Drive, Get paid |
+| `x/site/Business.tsx` | 209 | Find people, Find cars, Create, Review, Monthly content |
+| `x/site/Loop.tsx` | 144 | The source preserving Loyalty loop |
+| `x/home/Feed.tsx` | 179 | User Home |
+| `x/profile/Profile.tsx` | 160 | User Profile, share sheet, settings sheet |
+| `x/business/Discovery.tsx` | 313 | Business Home, person and vehicle tasks, request and offer composers |
 
 ## Loyalty foundation, kept and restyled
 

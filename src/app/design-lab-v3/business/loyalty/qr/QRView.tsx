@@ -2,13 +2,21 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, Copy, Printer } from "@phosphor-icons/react";
+import { ArrowLeft, Copy, DownloadSimple, Printer } from "@phosphor-icons/react";
 import { QR } from "../../../qr";
 import { Logo } from "../../../wallet/Cards";
 import { useLoyalty } from "../../../store";
 import { useOrigin } from "../../../useOrigin";
 import { LoyaltyCrumb } from "../LoyaltyCrumb";
 import { TaskHead } from "../TaskHead";
+
+/** Local export of the acquisition code with its quiet zone: the rendered SVG, nothing fetched, nothing issued. */
+function svgDownload(name: string) {
+  const el = document.querySelector<SVGSVGElement>(".qr-download svg");
+  if (!el) return;
+  const blob = new Blob([`<?xml version="1.0"?>${el.outerHTML.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"')}`], { type: "image/svg+xml" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href);
+}
 
 export function QRView({ print = false }: { print?: boolean }) {
   const { state } = useLoyalty();
@@ -45,6 +53,7 @@ export function QRView({ print = false }: { print?: boolean }) {
         <div className="qr-actions">
           <button type="button" className="link t-action" onClick={() => { void navigator.clipboard?.writeText(url).catch(() => {}); setCopied(true); }}><Copy size={16} aria-hidden />{copied ? "Demo link copied." : "Copy demo link"}</button>
           <Link href="/design-lab-v3/join/loopday-counter" className="link t-action">Open signup</Link>
+          <button type="button" className="link t-action" onClick={() => svgDownload("loopday-demo-qr.svg")}><DownloadSimple size={16} aria-hidden />Download demo QR</button>
           <Link href="/design-lab-v3/business/loyalty/qr?view=print" className="link t-action"><Printer size={16} aria-hidden />Preview printout</Link>
         </div>
       </div>

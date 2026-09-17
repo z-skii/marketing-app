@@ -7,7 +7,7 @@
     {
       "file": "docs/design-lab-v3/captures/INDEX.json",
       "kind": "data",
-      "size_kb": 34,
+      "size_kb": 35,
       "readable": true
     },
     {
@@ -215,28 +215,28 @@
     {
       "file": "docs/design-lab-v3/captures/loyalty-qr-d-full.png",
       "kind": "image",
-      "size_kb": 64,
+      "size_kb": 90,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-qr-d.png",
       "kind": "image",
-      "size_kb": 64,
+      "size_kb": 90,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-qr-m-full.png",
       "kind": "image",
-      "size_kb": 78,
+      "size_kb": 82,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-qr-m.png",
       "kind": "image",
-      "size_kb": 78,
+      "size_kb": 82,
       "dimensions": "780x1688",
       "readable": true
     },

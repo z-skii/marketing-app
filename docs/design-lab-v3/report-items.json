@@ -364,7 +364,7 @@
       "n": 32,
       "title": "Performance results",
       "kind": "doc",
-      "body": "docs/design-lab-v3/PERFORMANCE.md records Lighthouse measurements against the production build on a named setup, with each target beside its result and the dev server numbers kept separate.",
+      "body": "docs/design-lab-v3/PERFORMANCE.md records Lighthouse measurements against the final production build (next build with DESIGN_LAB=1, served by next start, measured after the director's READY verdicts) on the named container and browser. Desktop: performance 99 to 100, LCP 0.7s to 0.9s, CLS 0, total blocking time 0ms, accessibility 98 on every run. Mobile (Lighthouse's throttled slow 4G, 4x CPU preset): performance 83 to 91, LCP 3.5s to 4.7s, CLS 0, total blocking time 40 to 50ms. The mobile LCP target of 2.5 seconds is NOT met on any surface; it is reported as missed, not rounded up. Met targets: CLS at or below 0.1 everywhere, no continuous idle animation, at most one video decoder (none used), initial mobile route media at or below 350KB on four of five surfaces (Business Home is 400KB over seven images and is reported as over). The two missing accessibility points are the production root layout's skip link, outside the lab and left alone.",
       "files": [
         "docs/design-lab-v3/PERFORMANCE.md"
       ]
@@ -392,8 +392,25 @@
       "n": 34,
       "title": "Astra's final verdicts on all primary surfaces",
       "kind": "director",
-      "body": null,
-      "source": "pending: v3x-review pass 1, pass 2, fixes, then v3x-review --verify on the final state for public-home, user-home, user-profile, business-home and business-loyalty"
+      "body": "The design director verified every primary surface AFTER the final fixes, from the recaptured stable captures and motion strips, with the verify schema (READY or a named blocker). All five read READY; no surface is left in a fix state. Sequence per surface: pass 1 review, fixes, recapture, pass 2 review, fixes, recapture, final verification; Business Loyalty needed two more verification rounds because the rebuilt counter QR sheet had dropped the required Download demo QR action and its desktop pane had collapsed, both fixed and recaptured before the READY verdict. Public homepage: READY (pass 1 recompose, pass 2 fix); nine questions 8 yes, 1 partly, 0 no; the director wrote: READY for human approval of the isolated public homepage. No specific genuine blocker is visible in this final capture and motion-strip set. Stop here; this is not production-release clearance. User Home: READY (pass 1 fix, pass 2 fix); nine questions 6 yes, 3 partly, 0 no; the director wrote: User Home is ready for human approval on the supplied current evidence. The finishing edits preserve the media-first marketplace while making task inspection opaque and navigation readable. Stop here; this is surface approval, not production-release approval. User Profile: READY (pass 1 fix, pass 2 fix); nine questions 6 yes, 3 partly, 0 no; the director wrote: Ready for User Profile\u2019s isolated Design Lab handoff. The finishing edits resolve the gallery concern, and the current interaction strips support the intended experience. No further design edits are warranted here. This is a surface-specific approval, not whole-V3 or production approval; stop for human approval. Business Home: READY (pass 1 fix, pass 2 fix); nine questions 8 yes, 1 partly, 0 no; the director wrote: Business Home is ready for human approval. The finishing edits resolve the inspection composition without weakening product truth. Stop here; this is not approval for production migration. Business Loyalty: READY (pass 1 fix, pass 2 fix); nine questions 8 yes, 1 partly, 0 no; the director wrote: Loyalty strengthens the story and belongs inside the final V3 language. The restored QR action and corrected desktop task composition resolve the finishing items without disturbing the approved experience. Ready for human approval; stop here. The verification records are docs/design-lab-v3/reviews/x-<surface>-pass1, -pass2 and -final (.json and .md). The partly answers are the director declining to judge questions outside a surface (Business and Loyalty on a Personal surface) or declining to claim superiority over production without a matched production capture; they are not open items. This is surface approval inside the isolated lab, not production release clearance.",
+      "source": "pending: v3x-review pass 1, pass 2, fixes, then v3x-review --verify on the final state for public-home, user-home, user-profile, business-home and business-loyalty",
+      "files": [
+        "docs/design-lab-v3/reviews/x-public-home-final.md",
+        "docs/design-lab-v3/reviews/x-public-home-pass2.md",
+        "docs/design-lab-v3/reviews/x-public-home-pass1.md",
+        "docs/design-lab-v3/reviews/x-user-home-final.md",
+        "docs/design-lab-v3/reviews/x-user-home-pass2.md",
+        "docs/design-lab-v3/reviews/x-user-home-pass1.md",
+        "docs/design-lab-v3/reviews/x-user-profile-final.md",
+        "docs/design-lab-v3/reviews/x-user-profile-pass2.md",
+        "docs/design-lab-v3/reviews/x-user-profile-pass1.md",
+        "docs/design-lab-v3/reviews/x-business-home-final.md",
+        "docs/design-lab-v3/reviews/x-business-home-pass2.md",
+        "docs/design-lab-v3/reviews/x-business-home-pass1.md",
+        "docs/design-lab-v3/reviews/x-business-loyalty-final.md",
+        "docs/design-lab-v3/reviews/x-business-loyalty-pass2.md",
+        "docs/design-lab-v3/reviews/x-business-loyalty-pass1.md"
+      ]
     },
     {
       "n": 35,
@@ -408,7 +425,7 @@
       "n": 36,
       "title": "What would change if V3 migrates to production",
       "kind": "doc",
-      "body": "What would change if V3 moved to production, from the boundaries the build already makes explicit. Data: every record is a fixture from the in memory store (store.tsx and the V2 fixtures) and a reload resets it; production binds the same objects to real opportunities, submissions, approvals, ledger entries, vehicles, placements, members and events, and the labels that read Ledger example unavailable or Approved example disappear once a real relationship exists. Identity: the lab never authenticates; production reads the signed in person and the selected business, and Log out becomes real. Money: the amounts shown are gross opportunity amounts with Before fee stated; production must render the fee from the real campaign record and show net only where a ledger entry exists. Actions: Request, Offer, Post, Submit, Add visit, Save to Wallet and Send update are local previews that write nothing; production connects them to the existing request, submission, review and payout flows, and to real pass issuance and notification delivery, which the lab explicitly does not simulate. Loyalty: the approved event model, first touch attribution, member privacy and idempotency rules move as designed; the counter scan and the campaign link handoff need a real code registry instead of the fixture registry. Navigation: the five Business destinations and the User tabs are unchanged; the Content, Create, Campaigns, Messages, Notifications and remaining Settings destinations that open Outside this preview become the existing production routes, restyled. Media: fixture stills become the person's and business's real uploads at the derivative sizes in x/media.ts. Performance: the mobile LCP measured 3.4s to 4.7s on the throttled preset against a 2.5s target, so production needs smaller first viewport media (Business Home is 400KB over seven images against a 350KB budget) and a priority hint on the LCP image before launch. Removed from production surfaces: the Design Lab strip, the Pause motion control's lab label, the scenario selector and the Reset demo action. Not carried: nothing in /design-lab-v3 migrates until the founder approves this package.",
+      "body": "What would change if V3 moved to production, from the boundaries the build already makes explicit. Data: every record is a fixture from the in memory store (store.tsx and the V2 fixtures) and a reload resets it; production binds the same objects to real opportunities, submissions, approvals, ledger entries, vehicles, placements, members and events, and the labels that read Ledger example unavailable or Approved example disappear once a real relationship exists. Identity: the lab never authenticates; production reads the signed in person and the selected business, and Log out becomes real. Money: the amounts shown are gross opportunity amounts with Before fee stated; production must render the fee from the real campaign record and show net only where a ledger entry exists. Actions: Request, Offer, Post, Submit, Add visit, Save to Wallet and Send update are local previews that write nothing; production connects them to the existing request, submission, review and payout flows, and to real pass issuance and notification delivery, which the lab explicitly does not simulate. Loyalty: the approved event model, first touch attribution, member privacy and idempotency rules move as designed; the counter scan and the campaign link handoff need a real code registry instead of the fixture registry. Navigation: the five Business destinations and the User tabs are unchanged; the Content, Create, Campaigns, Messages, Notifications and remaining Settings destinations that open Outside this preview become the existing production routes, restyled. Media: fixture stills become the person's and business's real uploads at the derivative sizes in x/media.ts. Performance: the mobile LCP measured 3.5s to 4.7s on the throttled preset against a 2.5s target, so production needs smaller first viewport media (Business Home is 400KB over seven images against a 350KB budget) and a priority hint on the LCP image before launch. Removed from production surfaces: the Design Lab strip, the Pause motion control's lab label, the scenario selector and the Reset demo action. Not carried: nothing in /design-lab-v3 migrates until the founder approves this package.",
       "source": "pending: written after the final verdicts, from the fixture to real data differences the build already makes explicit"
     }
   ],
@@ -418,8 +435,10 @@
   },
   "gates": {
     "tsc": "pass",
-    "eslint": "no errors in src/app/design-lab-v3",
+    "eslint": "no errors in src/app/design-lab-v3 (only the deliberate no-img-element warnings on fixture imagery)",
     "vitest": "140 tests in 11 files, all passing",
-    "build": "next build with DESIGN_LAB=1 compiles; every /design-lab-v3 route builds"
+    "build": "next build with DESIGN_LAB=1 compiles; every /design-lab-v3 route builds; the final Lighthouse run was measured against this build",
+    "director": "all five surfaces READY in the final verification after the final fixes (pass 1, fixes, pass 2, fixes, verify; Loyalty verified in three rounds)",
+    "media": "196 stable files under docs/design-lab-v3/captures and recordings, every one opened and decoded after saving (captures/INDEX.json)"
   }
 }
