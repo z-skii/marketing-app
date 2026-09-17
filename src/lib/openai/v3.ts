@@ -186,7 +186,7 @@ async function directionText(): Promise<string> {
   try { return JSON.stringify(JSON.parse(await readFile(path.join(V3_DIR, "loyalty-direction.json"), "utf8")).direction); } catch { return "(no direction yet)"; }
 }
 
-const V3_MEDIA = [...V2_MEDIA, { path: "/design-lab-v2/assets/*.jpg", what: "The eight V2 fixture stills (Maya, Nora and Eli work samples, placements) listed in their .jpg.json manifests" }, { path: "(coded)", what: "The Wallet card, the QR codes, the progress marks and the scanner are coded objects, not images" }];
+export const V3_MEDIA = [...V2_MEDIA, { path: "/design-lab-v2/assets/*.jpg", what: "The eight V2 fixture stills (Maya, Nora and Eli work samples, placements) listed in their .jpg.json manifests" }, { path: "(coded)", what: "The Wallet card, the QR codes, the progress marks and the scanner are coded objects, not images" }];
 
 function directionInstructions(m: { brief: string; research: string; architecture: string; truth: string }, sys: { chosen: string; system: string; direction: string }, bizSpec: string, siteSpec: string): string {
   return [

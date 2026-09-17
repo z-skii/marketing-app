@@ -34,7 +34,10 @@
  *       V3 Design Lab: Astra decides the Loyalty direction (placement, vocabulary, every surface, card designer,
  *       signup, recording, attribution, updates, public sequence, fixture story) in the V2 system (docs/design-lab-v3/LOYALTY_DIRECTION.md).
  *   npm run creative -- v3-screen <business-home|loyalty-home|loyalty-create|loyalty-signup|loyalty-members|loyalty-attribution|site-loyalty> [--phone png] [--desktop png] [--notes "..."]
- *   npm run creative -- v3-review <key> --shot png [--shot png ...] [--pass 1] [--final] [--notes "..."]
+ *   npm run creative -- v3-review <key> --shot png [--shot png ...] [--pass 1] [--final] [--verify] [--notes "..."]
+ *   npm run creative -- v3x-direction [--resume] [--capture png ...]
+ *   npm run creative -- v3x-screen <public-home|user-home|user-profile|business-home|business-loyalty> [--phone png] [--desktop png]
+ *   npm run creative -- v3x-review <key> --shot png [--shot png ...] [--pass 1] [--final] [--verify] [--density json]
  *   npm run creative -- reboot [--resume] [--skip-mockups] [--mockups 5] [--effort xhigh] [--out docs/reboot]
  *       The design reboot: Astra designs TapMart from a blank canvas (sees only
  *       docs/reboot/TAPMART_FUNCTIONAL_INVENTORY.md), writes the master package
@@ -64,6 +67,7 @@ import { renderLabAssets } from "@/lib/openai/lab-assets";
 import { runRefine } from "@/lib/openai/reboot-refine";
 import { runV2Directions, runV2Review, runV2Screen, type V2ScreenKey } from "@/lib/openai/v2";
 import { runV3Direction, runV3Review, runV3Screen, type V3ScreenKey } from "@/lib/openai/v3";
+import { runV3XDirection, runV3XReview, runV3XScreen, type V3XKey } from "@/lib/openai/v3x";
 
 type Flags = Record<string, string | string[] | boolean>;
 
@@ -278,6 +282,29 @@ async function main() {
       const r = await runV3Screen(key as V3ScreenKey, { effort, dryRun, phone: str(flags, "phone") || null, desktop: str(flags, "desktop") || null, notes: str(flags, "notes") || null, onProgress: log });
       if (dryRun) { log("Dry run: request built; nothing sent."); return; }
       log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3x-direction": {
+      const r = await runV3XDirection({ effort, dryRun, resume: on(flags, "resume"), captures: list(flags, "capture"), onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3x-screen": {
+      const [key] = pos;
+      if (!key) throw new Error("v3x-screen needs <public-home|user-home|user-profile|business-home|business-loyalty>");
+      const r = await runV3XScreen(key as V3XKey, { effort, dryRun, phone: str(flags, "phone") || null, desktop: str(flags, "desktop") || null, notes: str(flags, "notes") || null, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3x-review": {
+      const [key] = pos;
+      if (!key || !list(flags, "shot").length) throw new Error("v3x-review needs <key> --shot png [--shot png] [--pass n] [--final] [--verify] [--density json]");
+      const r = await runV3XReview({ key: key as V3XKey, shots: list(flags, "shot"), pass: Number(str(flags, "pass", "1")), final: on(flags, "final"), verify: on(flags, "verify"), notes: str(flags, "notes") || null, density: str(flags, "density") || null }, { effort, dryRun, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      process.stdout.write(r.markdown);
+      log(`Usage ${JSON.stringify(totalUsage(r.usage))}`);
       return;
     }
     case "v3-review": {
