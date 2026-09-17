@@ -66,10 +66,17 @@ delivers a notification. All state is the in memory fixture store in
 
 ## Loyalty foundation, kept and restyled
 
-`store.tsx` (233 lines), `fixtures.ts` (159), `Progress.tsx`,
-`wallet/Cards.tsx`, `qr.tsx`, `LabControl.tsx`, `parts.tsx`,
-`settings.ts`, `useOrigin.ts` and the whole `business/loyalty` tree are
-unchanged in behaviour. `v3.css` (500 lines) still carries the Loyalty
+`store.tsx` (233 lines), `fixtures.ts` (159), `Progress.tsx`, `qr.tsx`,
+`LabControl.tsx`, `parts.tsx`, `settings.ts`, `useOrigin.ts` and the
+whole `business/loyalty` tree are unchanged in behaviour. After the
+director's pass 1 the Loyalty surfaces were restyled further without
+touching the model: `business/loyalty/TaskHead.tsx` is the one head for
+the focused tasks (the counter, creation, the counter QR); `record/page.tsx`
+and `qr/page.tsx` render those tasks as a 560px pane beside inert Loyalty
+Home on desktop; `attribution/Attribution.tsx` places identities in the
+left field and descents on one scale at the right; `wallet/Cards.tsx`
+draws the Apple concept to the store card anatomy (header field, full
+width strip, secondary and auxiliary fields, barcode). `v3.css` (500 lines) still carries the Loyalty
 component styles; `x/app.css` re-points its surface styling into the V3
 material language. The event model, first touch attribution, reward
 instances, same day rule, QR distinctions and Wallet concepts are exactly

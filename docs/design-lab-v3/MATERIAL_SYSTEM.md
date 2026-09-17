@@ -18,7 +18,7 @@ Content itself is opaque or uncovered. Every value below is scoped under
 | --- | --- | --- |
 | Canvas | 0 | `#F6F7F5`, no blur, no border, no shadow, radius 0. It is the page background on every V3 surface |
 | Media | 10 | Original colours at opacity 1, no blur, no shadow. Radius 4px on a reference or portrait, 0 on an intact Story creative and on a car field |
-| Working paper | 20 | `#FFFFFF`, opaque, inset top highlight `0 1px 0 rgba(255,255,255,0.9)`, `1px #DCE2DE` dividers only where a reading group needs one. Float shadow `0 16px 48px rgba(43,67,54,0.10)` only when it floats over another task |
+| Working paper | 20 | `#FFFFFF`, opaque, inset top highlight `0 1px 0 rgba(255,255,255,0.9)`, `1px #DCE2DE` dividers only where a reading group needs one. On the public stages and the app feeds a reading edge is flush paper with radius 0 (or the opaque canvas itself), attached to its media, never a rounded container. Float shadow `0 16px 48px rgba(43,67,54,0.10)` only when it floats over another task |
 | Light lens | 40 | `rgba(255,255,255,0.58)`, `backdrop-filter: blur(16px) saturate(1.16)`, a masked 1px 135deg edge from `rgba(255,255,255,0.88)` through `rgba(255,255,255,0.16)` to `rgba(223,234,225,0.64)`, inset highlight `0 1px 0 rgba(255,255,255,0.74)`, shadow `0 8px 28px rgba(46,74,60,0.09)`. Radius 18px for navigation, 14px for an inspection rail |
 | Dark lens | 40 | `rgba(22,34,27,0.64)`, `blur(16px) saturate(1.12)`, a white top highlight into `rgba(235,246,237,0.26)`, shadow `0 8px 28px rgba(10,28,17,0.22)`. Only for controls over the dark public media stage |
 | Grip | 50 | `#17221E` with white text, radius 12px, inset top highlight `rgba(255,255,255,0.16)`, no shadow unless it genuinely floats. This is the primary action, not another glass layer |
@@ -30,7 +30,10 @@ Content itself is opaque or uncovered. Every value below is scoped under
 Used: the public floating navigation, the phone app navigation bar, the
 hero audience control, the Recreate approval rail, the Review rail, and
 the comparison grip. That is at most one active region on a resting app
-surface and two on the public page.
+surface and two on the public page. The approval rail is one narrow band
+across the work; its text sits on an opaque paper chip inside the lens so
+the recorded identity and date read at full contrast, and the registered
+source copy exists only in the 7px rim.
 
 Not used, by rule: opportunity media, people, work galleries, car
 photographs, money, Loyalty counts, customer rows, attribution ledges,
@@ -86,6 +89,13 @@ press  100ms down, 160ms back, scale 0.98 on the control only
 Object continuity is a measured transform: `x/Open.tsx` measures the
 source and destination once, then animates transform and opacity only. No
 layout property is animated, and no layout is read during a transition.
+
+Sequences have no reserved minimum heights: each frame lays out at its
+natural size. A deliberate Previous, Next or Steps choice re anchors the
+stage beneath the navigation only when the new object would otherwise sit
+above the viewport (`useSequence` in `x/Stage.tsx`); a stage already in
+view is never moved under the finger, and autoplay never scrolls.
+Playback stops when the stage leaves the viewport.
 
 ## Pause and reduced motion
 

@@ -48,7 +48,7 @@ export function CounterActions({ m, wide = false, label, onDone }: { m: Member; 
         </div>
       ) : m.ready > 0 ? (
         confirm ? (
-          <div className="counter-confirm settle" role="group" aria-label="Redeem">
+          <div className="counter-confirm" role="group" aria-label="Redeem">
             <span className="t-object">Redeem {p.reward.name}?</span>
             <span className="t-fact">Use one ready reward. This does not add a visit.</span>
             <span className="counter-confirm-actions"><button type="button" className="link t-action" style={{ minHeight: 44 }} onClick={() => setConfirm(false)}>Cancel</button><button type="button" className="btn btn-primary" onClick={() => { dispatch({ type: "redeem", memberId: m.id }); setConfirm(false); }}><Check size={18} weight="bold" aria-hidden />Redeem reward</button></span>

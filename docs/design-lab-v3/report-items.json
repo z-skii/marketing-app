@@ -2,43 +2,415 @@
   "note": "The 36 item V3 approval package from docs/design-lab-v3/EXPERIENCE_BRIEF.md. Every media path is repository relative and was verified readable (docs/design-lab-v3/captures/INDEX.json). Items whose body is null still need the design director's judgement and are listed in CHECKPOINT.md; the mechanical items are complete.",
   "generated": "2026-09-17",
   "items": [
-    { "n": 1, "title": "Proof of the real Artec study", "kind": "doc", "body": "docs/design-lab-v3/ARTEC_LIVE_STUDY.md records what was actually retrieved from the live site on 2026-09-17: the URLs, their HTTP 200 responses and byte sizes, the page structure, the verbatim glass CSS, measured copy counts and the retrieval route, with its limitations stated. The partial render proof is docs/design-lab-v3/artec/artec-home-1440-2026-09-17.jpg.", "files": ["docs/design-lab-v3/ARTEC_LIVE_STUDY.md", "docs/design-lab-v3/artec/artec-home-1440-2026-09-17.jpg"] },
-    { "n": 2, "title": "The V3 design thesis in one short paragraph", "kind": "director", "body": null, "source": "docs/design-lab-v3/EXPERIENCE_DIRECTION.md, Thesis" },
-    { "n": 3, "title": "Homepage 1440 full", "kind": "capture", "files": ["docs/design-lab-v3/captures/public-home-d-full.png"] },
-    { "n": 4, "title": "Homepage 390 full", "kind": "capture", "files": ["docs/design-lab-v3/captures/public-home-m-full.png"] },
-    { "n": 5, "title": "Hero still", "kind": "capture", "files": ["docs/design-lab-v3/captures/public-home-m.png", "docs/design-lab-v3/captures/public-home-d.png", "docs/design-lab-v3/captures/public-home-business-m.png", "docs/design-lab-v3/captures/public-home-business-d.png"] },
-    { "n": 6, "title": "Hero recording", "kind": "recording", "files": ["docs/design-lab-v3/recordings/01-hero-m.webm", "docs/design-lab-v3/recordings/01-hero-m-strip.png", "docs/design-lab-v3/recordings/01-hero-d.webm", "docs/design-lab-v3/recordings/01-hero-d-strip.png", "docs/design-lab-v3/recordings/02-audience-switch-m.webm", "docs/design-lab-v3/recordings/02-audience-switch-m-strip.png", "docs/design-lab-v3/recordings/02-audience-switch-d.webm", "docs/design-lab-v3/recordings/02-audience-switch-d-strip.png"] },
-    { "n": 7, "title": "Recreate recording", "kind": "recording", "files": ["docs/design-lab-v3/recordings/03-recreate-m.webm", "docs/design-lab-v3/recordings/03-recreate-m-strip.png", "docs/design-lab-v3/recordings/03-recreate-d.webm", "docs/design-lab-v3/recordings/03-recreate-d-strip.png"], "states": ["docs/design-lab-v3/captures/states/recreate-submit-m.png", "docs/design-lab-v3/captures/states/recreate-approved-m.png", "docs/design-lab-v3/captures/states/recreate-approved-d.png", "docs/design-lab-v3/captures/states/recreate-earnings-d.png"] },
-    { "n": 8, "title": "Story recording", "kind": "recording", "files": ["docs/design-lab-v3/recordings/04-story-m.webm", "docs/design-lab-v3/recordings/04-story-m-strip.png", "docs/design-lab-v3/recordings/04-story-d.webm", "docs/design-lab-v3/recordings/04-story-d-strip.png"], "states": ["docs/design-lab-v3/captures/states/post-handoff-m.png", "docs/design-lab-v3/captures/states/post-proof-m.png"] },
-    { "n": 9, "title": "Car recording", "kind": "recording", "files": ["docs/design-lab-v3/recordings/05-car-m.webm", "docs/design-lab-v3/recordings/05-car-m-strip.png", "docs/design-lab-v3/recordings/05-car-d.webm", "docs/design-lab-v3/recordings/05-car-d-strip.png"], "states": ["docs/design-lab-v3/captures/states/findcars-plan-m.png", "docs/design-lab-v3/captures/states/findcars-plan-d.png", "docs/design-lab-v3/captures/states/drive-placement-m.png"] },
-    { "n": 10, "title": "Business to Loyalty recording", "kind": "recording", "files": ["docs/design-lab-v3/recordings/07-business-loyalty-loop-m.webm", "docs/design-lab-v3/recordings/07-business-loyalty-loop-m-strip.png", "docs/design-lab-v3/recordings/07-business-loyalty-loop-d.webm", "docs/design-lab-v3/recordings/07-business-loyalty-loop-d-strip.png"], "states": ["docs/design-lab-v3/captures/states/loop-signup-m.png", "docs/design-lab-v3/captures/states/loop-card-m.png", "docs/design-lab-v3/captures/states/loop-sep16-d.png", "docs/design-lab-v3/captures/states/loop-reward-m.png", "docs/design-lab-v3/captures/states/loop-attribution-d.png"] },
-    { "n": 11, "title": "User Home 390", "kind": "capture", "files": ["docs/design-lab-v3/captures/user-home-m.png", "docs/design-lab-v3/captures/user-home-m-full.png"] },
-    { "n": 12, "title": "User Home 1440", "kind": "capture", "files": ["docs/design-lab-v3/captures/user-home-d.png", "docs/design-lab-v3/captures/user-home-d-full.png"] },
-    { "n": 13, "title": "Opportunity open and return recording", "kind": "recording", "files": ["docs/design-lab-v3/recordings/08-opportunity-open-return-m.webm", "docs/design-lab-v3/recordings/08-opportunity-open-return-m-strip.png", "docs/design-lab-v3/recordings/08-opportunity-open-return-d.webm", "docs/design-lab-v3/recordings/08-opportunity-open-return-d-strip.png"], "states": ["docs/design-lab-v3/captures/states/home-open-m.png", "docs/design-lab-v3/captures/states/home-open-d.png", "docs/design-lab-v3/captures/states/home-open-story-m.png", "docs/design-lab-v3/captures/states/home-open-car-m.png", "docs/design-lab-v3/captures/states/home-close-m.png", "docs/design-lab-v3/captures/states/home-filter-m.png"] },
-    { "n": 14, "title": "User Profile 390", "kind": "capture", "files": ["docs/design-lab-v3/captures/user-profile-m.png", "docs/design-lab-v3/captures/user-profile-m-full.png", "docs/design-lab-v3/captures/user-profile-public-m-full.png"] },
-    { "n": 15, "title": "User Profile 1440", "kind": "capture", "files": ["docs/design-lab-v3/captures/user-profile-d.png", "docs/design-lab-v3/captures/user-profile-d-full.png", "docs/design-lab-v3/captures/user-profile-public-d.png"] },
-    { "n": 16, "title": "Business Home 390", "kind": "capture", "files": ["docs/design-lab-v3/captures/business-home-m.png", "docs/design-lab-v3/captures/business-home-m-full.png"] },
-    { "n": 17, "title": "Business Home 1440", "kind": "capture", "files": ["docs/design-lab-v3/captures/business-home-d.png", "docs/design-lab-v3/captures/business-home-d-full.png"] },
-    { "n": 18, "title": "Creator interaction recording", "kind": "recording", "files": ["docs/design-lab-v3/recordings/09-creator-interaction-m.webm", "docs/design-lab-v3/recordings/09-creator-interaction-m-strip.png", "docs/design-lab-v3/recordings/09-creator-interaction-d.webm", "docs/design-lab-v3/recordings/09-creator-interaction-d-strip.png", "docs/design-lab-v3/recordings/06-business-discovery-m.webm", "docs/design-lab-v3/recordings/06-business-discovery-m-strip.png", "docs/design-lab-v3/recordings/06-business-discovery-d.webm", "docs/design-lab-v3/recordings/06-business-discovery-d-strip.png"], "states": ["docs/design-lab-v3/captures/states/biz-person-m.png", "docs/design-lab-v3/captures/states/biz-person-d.png", "docs/design-lab-v3/captures/states/biz-request-m.png", "docs/design-lab-v3/captures/states/biz-cars-m.png"] },
-    { "n": 19, "title": "Car interaction recording", "kind": "recording", "files": ["docs/design-lab-v3/recordings/10-vehicle-interaction-m.webm", "docs/design-lab-v3/recordings/10-vehicle-interaction-m-strip.png", "docs/design-lab-v3/recordings/10-vehicle-interaction-d.webm", "docs/design-lab-v3/recordings/10-vehicle-interaction-d-strip.png"], "states": ["docs/design-lab-v3/captures/states/biz-vehicle-m.png", "docs/design-lab-v3/captures/states/biz-vehicle-d.png", "docs/design-lab-v3/captures/states/biz-offer-d.png"] },
-    { "n": 20, "title": "Loyalty Home 390", "kind": "capture", "files": ["docs/design-lab-v3/captures/loyalty-home-m.png", "docs/design-lab-v3/captures/loyalty-home-m-full.png"] },
-    { "n": 21, "title": "Loyalty Home 1440", "kind": "capture", "files": ["docs/design-lab-v3/captures/loyalty-home-d.png", "docs/design-lab-v3/captures/loyalty-home-d-full.png"] },
-    { "n": 22, "title": "Create program flow", "kind": "capture", "files": ["docs/design-lab-v3/captures/loyalty-create-m-full.png", "docs/design-lab-v3/captures/loyalty-create-d-full.png", "docs/design-lab-v3/captures/loyalty-program-m-full.png", "docs/design-lab-v3/captures/loyalty-program-d-full.png"] },
-    { "n": 23, "title": "Wallet card", "kind": "capture", "files": ["docs/design-lab-v3/captures/loyalty-card-m-full.png", "docs/design-lab-v3/captures/loyalty-card-d-full.png"] },
-    { "n": 24, "title": "QR signup", "kind": "capture", "files": ["docs/design-lab-v3/captures/loyalty-qr-m-full.png", "docs/design-lab-v3/captures/loyalty-qr-d-full.png", "docs/design-lab-v3/captures/loyalty-join-m-full.png", "docs/design-lab-v3/captures/loyalty-join-d-full.png"] },
-    { "n": 25, "title": "Visit to reward recording", "kind": "recording", "files": ["docs/design-lab-v3/recordings/11-loyalty-visit-reward-m.webm", "docs/design-lab-v3/recordings/11-loyalty-visit-reward-m-strip.png", "docs/design-lab-v3/recordings/11-loyalty-visit-reward-d.webm", "docs/design-lab-v3/recordings/11-loyalty-visit-reward-d-strip.png"] },
-    { "n": 26, "title": "Attribution view", "kind": "capture", "files": ["docs/design-lab-v3/captures/loyalty-attribution-m-full.png", "docs/design-lab-v3/captures/loyalty-attribution-d-full.png"] },
-    { "n": 27, "title": "Where Loyalty lives in the Business architecture", "kind": "director", "body": null, "source": "docs/design-lab-v3/EXPERIENCE_DIRECTION.md, Loyalty placement" },
-    { "n": 28, "title": "Settings architecture", "kind": "director", "body": null, "source": "docs/design-lab-v3/EXPERIENCE_DIRECTION.md, Settings architecture", "states": ["docs/design-lab-v3/captures/states/profile-settings-m.png", "docs/design-lab-v3/captures/states/profile-share-m.png"] },
-    { "n": 29, "title": "Glass and material system", "kind": "doc", "body": "docs/design-lab-v3/MATERIAL_SYSTEM.md records the implemented layers, the two lens recipes, the fallbacks, the tokens, the typography, the motion curves, the pause and reduced motion behaviour and the single optical rim approximation, each transcribed from src/app/design-lab-v3/x/x.css.", "files": ["docs/design-lab-v3/MATERIAL_SYSTEM.md"] },
-    { "n": 30, "title": "Visible word counts", "kind": "doc", "body": "docs/design-lab-v3/TEXT_COUNTS.md records the measured counts per surface and viewport against each budget, plus the whole page counts and the lettering inside media.", "files": ["docs/design-lab-v3/TEXT_COUNTS.md"] },
-    { "n": 31, "title": "The three required wow moments", "kind": "director", "body": null, "source": "docs/design-lab-v3/EXPERIENCE_DIRECTION.md, Wow moments; evidence in items 7, 9 and 10" },
-    { "n": 32, "title": "Performance results", "kind": "doc", "body": "docs/design-lab-v3/PERFORMANCE.md records Lighthouse measurements against the production build on a named setup, with each target beside its result and the dev server numbers kept separate.", "files": ["docs/design-lab-v3/PERFORMANCE.md"] },
-    { "n": 33, "title": "Reduced motion behaviour", "kind": "recording", "files": ["docs/design-lab-v3/recordings/19-reduced-motion-hero-m.webm", "docs/design-lab-v3/recordings/19-reduced-motion-hero-m-strip.png", "docs/design-lab-v3/recordings/19-reduced-motion-loop-m.webm", "docs/design-lab-v3/recordings/19-reduced-motion-loop-m-strip.png", "docs/design-lab-v3/recordings/19-reduced-motion-recreate-m.webm", "docs/design-lab-v3/recordings/19-reduced-motion-recreate-m-strip.png", "docs/design-lab-v3/recordings/19-reduced-motion-opportunity-m.webm", "docs/design-lab-v3/recordings/19-reduced-motion-opportunity-m-strip.png", "docs/design-lab-v3/recordings/19-reduced-motion-visit-m.webm", "docs/design-lab-v3/recordings/19-reduced-motion-visit-m-strip.png", "docs/design-lab-v3/recordings/20-pause-keyboard-back-m.webm", "docs/design-lab-v3/recordings/20-pause-keyboard-back-m-strip.png"] },
-    { "n": 34, "title": "Astra's final verdicts on all primary surfaces", "kind": "director", "body": null, "source": "pending: v3x-review pass 1, pass 2, fixes, then v3x-review --verify on the final state for public-home, user-home, user-profile, business-home and business-loyalty" },
-    { "n": 35, "title": "Exact routes and files", "kind": "doc", "body": "docs/design-lab-v3/FILE_MAP.md lists every implemented route with its page file and body, the new V3 experience files with line counts, the kept Loyalty foundation, the read only V2 imports, the director tooling and the media and evidence locations.", "files": ["docs/design-lab-v3/FILE_MAP.md"] },
-    { "n": 36, "title": "What would change if V3 migrates to production", "kind": "doc", "body": null, "source": "pending: written after the final verdicts, from the fixture to real data differences the build already makes explicit" }
+    {
+      "n": 1,
+      "title": "Proof of the real Artec study",
+      "kind": "doc",
+      "body": "docs/design-lab-v3/ARTEC_LIVE_STUDY.md records what was actually retrieved from the live site on 2026-09-17: the URLs, their HTTP 200 responses and byte sizes, the page structure, the verbatim glass CSS, measured copy counts and the retrieval route, with its limitations stated. The partial render proof is docs/design-lab-v3/artec/artec-home-1440-2026-09-17.jpg.",
+      "files": [
+        "docs/design-lab-v3/ARTEC_LIVE_STUDY.md",
+        "docs/design-lab-v3/artec/artec-home-1440-2026-09-17.jpg"
+      ]
+    },
+    {
+      "n": 2,
+      "title": "The V3 design thesis in one short paragraph",
+      "kind": "director",
+      "body": "The director's thesis, from EXPERIENCE_DIRECTION.md: TapMart V3 is a product experience about the same work changing hands. A reference becomes a submission, a vehicle becomes specific advertising inventory, and a creator's source stays attached to a customer who returns. Real media supplies desire; readable coded objects supply understanding. A bright, restrained canvas and a few optically convincing control surfaces give those handoffs physical depth. Open Cut's product discipline and the approved Loyalty foundation are kept; its flat editorial shell is replaced with material and motion that reveal what the product does. In the build this reads as: the homepage shows the four earning acts and the six business chapters as coded sequences of real fixture objects, User Home and Business Home are short inspectable collections rather than card stacks, the Profile is an authored presence, and Loyalty closes the loop by carrying the source from a Story to a returning customer.",
+      "source": "docs/design-lab-v3/EXPERIENCE_DIRECTION.md, Thesis"
+    },
+    {
+      "n": 3,
+      "title": "Homepage 1440 full",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/public-home-d-full.png"
+      ]
+    },
+    {
+      "n": 4,
+      "title": "Homepage 390 full",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/public-home-m-full.png"
+      ]
+    },
+    {
+      "n": 5,
+      "title": "Hero still",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/public-home-m.png",
+        "docs/design-lab-v3/captures/public-home-d.png",
+        "docs/design-lab-v3/captures/public-home-business-m.png",
+        "docs/design-lab-v3/captures/public-home-business-d.png"
+      ]
+    },
+    {
+      "n": 6,
+      "title": "Hero recording",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/01-hero-m.webm",
+        "docs/design-lab-v3/recordings/01-hero-m-strip.png",
+        "docs/design-lab-v3/recordings/01-hero-d.webm",
+        "docs/design-lab-v3/recordings/01-hero-d-strip.png",
+        "docs/design-lab-v3/recordings/02-audience-switch-m.webm",
+        "docs/design-lab-v3/recordings/02-audience-switch-m-strip.png",
+        "docs/design-lab-v3/recordings/02-audience-switch-d.webm",
+        "docs/design-lab-v3/recordings/02-audience-switch-d-strip.png"
+      ]
+    },
+    {
+      "n": 7,
+      "title": "Recreate recording",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/03-recreate-m.webm",
+        "docs/design-lab-v3/recordings/03-recreate-m-strip.png",
+        "docs/design-lab-v3/recordings/03-recreate-d.webm",
+        "docs/design-lab-v3/recordings/03-recreate-d-strip.png"
+      ],
+      "states": [
+        "docs/design-lab-v3/captures/states/recreate-submit-m.png",
+        "docs/design-lab-v3/captures/states/recreate-approved-m.png",
+        "docs/design-lab-v3/captures/states/recreate-approved-d.png",
+        "docs/design-lab-v3/captures/states/recreate-earnings-d.png"
+      ]
+    },
+    {
+      "n": 8,
+      "title": "Story recording",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/04-story-m.webm",
+        "docs/design-lab-v3/recordings/04-story-m-strip.png",
+        "docs/design-lab-v3/recordings/04-story-d.webm",
+        "docs/design-lab-v3/recordings/04-story-d-strip.png"
+      ],
+      "states": [
+        "docs/design-lab-v3/captures/states/post-handoff-m.png",
+        "docs/design-lab-v3/captures/states/post-proof-m.png"
+      ]
+    },
+    {
+      "n": 9,
+      "title": "Car recording",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/05-car-m.webm",
+        "docs/design-lab-v3/recordings/05-car-m-strip.png",
+        "docs/design-lab-v3/recordings/05-car-d.webm",
+        "docs/design-lab-v3/recordings/05-car-d-strip.png"
+      ],
+      "states": [
+        "docs/design-lab-v3/captures/states/findcars-plan-m.png",
+        "docs/design-lab-v3/captures/states/findcars-plan-d.png",
+        "docs/design-lab-v3/captures/states/drive-placement-m.png"
+      ]
+    },
+    {
+      "n": 10,
+      "title": "Business to Loyalty recording",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/07-business-loyalty-loop-m.webm",
+        "docs/design-lab-v3/recordings/07-business-loyalty-loop-m-strip.png",
+        "docs/design-lab-v3/recordings/07-business-loyalty-loop-d.webm",
+        "docs/design-lab-v3/recordings/07-business-loyalty-loop-d-strip.png"
+      ],
+      "states": [
+        "docs/design-lab-v3/captures/states/loop-signup-m.png",
+        "docs/design-lab-v3/captures/states/loop-card-m.png",
+        "docs/design-lab-v3/captures/states/loop-sep16-d.png",
+        "docs/design-lab-v3/captures/states/loop-reward-m.png",
+        "docs/design-lab-v3/captures/states/loop-attribution-d.png"
+      ]
+    },
+    {
+      "n": 11,
+      "title": "User Home 390",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/user-home-m.png",
+        "docs/design-lab-v3/captures/user-home-m-full.png"
+      ]
+    },
+    {
+      "n": 12,
+      "title": "User Home 1440",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/user-home-d.png",
+        "docs/design-lab-v3/captures/user-home-d-full.png"
+      ]
+    },
+    {
+      "n": 13,
+      "title": "Opportunity open and return recording",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/08-opportunity-open-return-m.webm",
+        "docs/design-lab-v3/recordings/08-opportunity-open-return-m-strip.png",
+        "docs/design-lab-v3/recordings/08-opportunity-open-return-d.webm",
+        "docs/design-lab-v3/recordings/08-opportunity-open-return-d-strip.png"
+      ],
+      "states": [
+        "docs/design-lab-v3/captures/states/home-open-m.png",
+        "docs/design-lab-v3/captures/states/home-open-d.png",
+        "docs/design-lab-v3/captures/states/home-open-story-m.png",
+        "docs/design-lab-v3/captures/states/home-open-car-m.png",
+        "docs/design-lab-v3/captures/states/home-close-m.png",
+        "docs/design-lab-v3/captures/states/home-filter-m.png"
+      ]
+    },
+    {
+      "n": 14,
+      "title": "User Profile 390",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/user-profile-m.png",
+        "docs/design-lab-v3/captures/user-profile-m-full.png",
+        "docs/design-lab-v3/captures/user-profile-public-m-full.png"
+      ]
+    },
+    {
+      "n": 15,
+      "title": "User Profile 1440",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/user-profile-d.png",
+        "docs/design-lab-v3/captures/user-profile-d-full.png",
+        "docs/design-lab-v3/captures/user-profile-public-d.png"
+      ]
+    },
+    {
+      "n": 16,
+      "title": "Business Home 390",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/business-home-m.png",
+        "docs/design-lab-v3/captures/business-home-m-full.png"
+      ]
+    },
+    {
+      "n": 17,
+      "title": "Business Home 1440",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/business-home-d.png",
+        "docs/design-lab-v3/captures/business-home-d-full.png"
+      ]
+    },
+    {
+      "n": 18,
+      "title": "Creator interaction recording",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/09-creator-interaction-m.webm",
+        "docs/design-lab-v3/recordings/09-creator-interaction-m-strip.png",
+        "docs/design-lab-v3/recordings/09-creator-interaction-d.webm",
+        "docs/design-lab-v3/recordings/09-creator-interaction-d-strip.png",
+        "docs/design-lab-v3/recordings/06-business-discovery-m.webm",
+        "docs/design-lab-v3/recordings/06-business-discovery-m-strip.png",
+        "docs/design-lab-v3/recordings/06-business-discovery-d.webm",
+        "docs/design-lab-v3/recordings/06-business-discovery-d-strip.png"
+      ],
+      "states": [
+        "docs/design-lab-v3/captures/states/biz-person-m.png",
+        "docs/design-lab-v3/captures/states/biz-person-d.png",
+        "docs/design-lab-v3/captures/states/biz-request-m.png",
+        "docs/design-lab-v3/captures/states/biz-cars-m.png"
+      ]
+    },
+    {
+      "n": 19,
+      "title": "Car interaction recording",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/10-vehicle-interaction-m.webm",
+        "docs/design-lab-v3/recordings/10-vehicle-interaction-m-strip.png",
+        "docs/design-lab-v3/recordings/10-vehicle-interaction-d.webm",
+        "docs/design-lab-v3/recordings/10-vehicle-interaction-d-strip.png"
+      ],
+      "states": [
+        "docs/design-lab-v3/captures/states/biz-vehicle-m.png",
+        "docs/design-lab-v3/captures/states/biz-vehicle-d.png",
+        "docs/design-lab-v3/captures/states/biz-offer-d.png"
+      ]
+    },
+    {
+      "n": 20,
+      "title": "Loyalty Home 390",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/loyalty-home-m.png",
+        "docs/design-lab-v3/captures/loyalty-home-m-full.png"
+      ]
+    },
+    {
+      "n": 21,
+      "title": "Loyalty Home 1440",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/loyalty-home-d.png",
+        "docs/design-lab-v3/captures/loyalty-home-d-full.png"
+      ]
+    },
+    {
+      "n": 22,
+      "title": "Create program flow",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/loyalty-create-m-full.png",
+        "docs/design-lab-v3/captures/loyalty-create-d-full.png",
+        "docs/design-lab-v3/captures/loyalty-program-m-full.png",
+        "docs/design-lab-v3/captures/loyalty-program-d-full.png"
+      ]
+    },
+    {
+      "n": 23,
+      "title": "Wallet card",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/loyalty-card-m-full.png",
+        "docs/design-lab-v3/captures/loyalty-card-d-full.png"
+      ]
+    },
+    {
+      "n": 24,
+      "title": "QR signup",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/loyalty-qr-m-full.png",
+        "docs/design-lab-v3/captures/loyalty-qr-d-full.png",
+        "docs/design-lab-v3/captures/loyalty-join-m-full.png",
+        "docs/design-lab-v3/captures/loyalty-join-d-full.png"
+      ]
+    },
+    {
+      "n": 25,
+      "title": "Visit to reward recording",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/11-loyalty-visit-reward-m.webm",
+        "docs/design-lab-v3/recordings/11-loyalty-visit-reward-m-strip.png",
+        "docs/design-lab-v3/recordings/11-loyalty-visit-reward-d.webm",
+        "docs/design-lab-v3/recordings/11-loyalty-visit-reward-d-strip.png"
+      ]
+    },
+    {
+      "n": 26,
+      "title": "Attribution view",
+      "kind": "capture",
+      "files": [
+        "docs/design-lab-v3/captures/loyalty-attribution-m-full.png",
+        "docs/design-lab-v3/captures/loyalty-attribution-d-full.png"
+      ]
+    },
+    {
+      "n": 27,
+      "title": "Where Loyalty lives in the Business architecture",
+      "kind": "director",
+      "body": "Decision (director, Loyalty placement): Loyalty lives permanently at Business, then Loyalty. It is the business's ongoing member relationship, not a campaign type, an account setting or a separate Growth product. The five destinations stay Home, Content, Create, Campaigns and Business; there is no sixth tab, no permanently expanded Loyalty submenu and no notification badge. Reasoning: a permanent sixth tab would compete with the marketplace and with campaign creation without improving the meaning of either; keeping five destinations keeps acquisition, content, campaign work and business ownership distinct. Discovery is two fold and both are built: Business Profile places Loyalty as its first operational row beneath brand identity, and Business Home carries one shallow strip (LoyaltyStrip.tsx) after the complete lead person and car spread and before the lower roster, in every marketplace filter, with an artwork fragment, two counts and one quiet action that changes with state (Create program, Continue setup, View QR, Open loyalty). The strip is an open separated band, not a promotional card, so retention counts never sit above Maya's face or Eli's vehicle. From Home and from Business Profile, Loyalty is one tap away; from other destinations it is normally two taps through Business, and the package does not claim it is universally one tap away. Loyalty routes keep Business selected, with the desktop breadcrumb Business / Loyalty. The public closing loop opens the Loyalty preview directly. Any future change to this architecture would need evidence that the preserved entry causes a daily operational problem.",
+      "source": "docs/design-lab-v3/EXPERIENCE_DIRECTION.md, Loyalty placement"
+    },
+    {
+      "n": 28,
+      "title": "Settings architecture",
+      "kind": "director",
+      "body": "Decision (director, Settings architecture): one Settings gear per mode, on the owner's User Profile and on Business Profile, 44 by 44, accessible name Settings. On phone it opens an opaque full height working sheet; at desktop a 480 pixel right drawer; rows are at least 56 pixels. The public share view has no gear. The user list is Account, Instagram and connections (with its factual Not connected state), Verification, Payout, Notifications, Privacy, Security and Log out; balances and transactions stay in Earnings, not in Settings. The business list is Account, Business Details, Connections, Google Business, Brand Kit, Plan and Billing, Team, Notifications, Security and Log out. Removed from the visible product: edit profile buttons, verification explanations, payout rows and account lists on the shareable Profile; private earnings from the public identity; billing summaries, campaign credit tiles, connection recovery panels and brand research status from Business Home; any Loyalty row in general Settings (reward, terms and card editing stay inside View program); any second gear on Loyalty, a vehicle, the gallery or a customer card. In the lab, Log out is a disabled confirmation that states the preview cannot sign out an account, and unimplemented destinations open the existing Outside this preview notice rather than navigating anywhere. Evidence: profile-settings-m.png and profile-share-m.png under captures/states.",
+      "source": "docs/design-lab-v3/EXPERIENCE_DIRECTION.md, Settings architecture",
+      "states": [
+        "docs/design-lab-v3/captures/states/profile-settings-m.png",
+        "docs/design-lab-v3/captures/states/profile-share-m.png"
+      ]
+    },
+    {
+      "n": 29,
+      "title": "Glass and material system",
+      "kind": "doc",
+      "body": "docs/design-lab-v3/MATERIAL_SYSTEM.md records the implemented layers, the two lens recipes, the fallbacks, the tokens, the typography, the motion curves, the pause and reduced motion behaviour and the single optical rim approximation, each transcribed from src/app/design-lab-v3/x/x.css.",
+      "files": [
+        "docs/design-lab-v3/MATERIAL_SYSTEM.md"
+      ]
+    },
+    {
+      "n": 30,
+      "title": "Visible word counts",
+      "kind": "doc",
+      "body": "docs/design-lab-v3/TEXT_COUNTS.md records the measured counts per surface and viewport against each budget, plus the whole page counts and the lettering inside media.",
+      "files": [
+        "docs/design-lab-v3/TEXT_COUNTS.md"
+      ]
+    },
+    {
+      "n": 31,
+      "title": "The three required wow moments",
+      "kind": "director",
+      "body": "The three wow moments the direction named, as built and recorded. 1. The work changes hands (user earning, public Recreate chapter, reused by the User Home opportunity detail): the reference rests, a comparison handle exposes the creator's version with a hard boundary, Next opens the submission in 440ms while the reference shrinks to a labelled source, the submission passes beneath the approval rail (the one refracting object, with the optical rim on its own source image), the approved snapshot reveals in 160ms and a ledger continuation lands beside the work; a payout is a separate event. Evidence: item 7, recordings 03-recreate at phone and desktop, states recreate-creator, recreate-submit, recreate-approved, recreate-earnings. 2. One part of a real car (car, public Find cars chapter and the Business Home vehicle inspection): Eli's photograph opens to a wider inspection stage over 440ms, the flat rear door placement plan unfolds beside the intact photograph, its zone fills in 160ms and the US$240 per month asking rate aligns to that zone; the car is never rotated, extracted or painted on, and the US$300 per month campaign opportunity stays a separate record. Evidence: item 9, recordings 05-car and 10-vehicle-interaction, states findcars-plan and drive-placement. 3. The source never leaves (business to Loyalty loop, the closing public sequence): Jasmine's Story rests, its source marker stays fixed while the media hands off to Sara's September 8 signup, the zero progress card arrives, dated visits on September 8, 10, 13 and 16 replay, the explicit September 17 example completes the fifth stroke, Reward ready appears, and the unchanged source marker becomes the attribution heading with the 4 / 3 / 1 ledges. Evidence: item 10, recordings 07-business-loyalty-loop, states loop-signup, loop-card, loop-sep16, loop-reward, loop-attribution. Each moment runs once and rests; under reduced motion each renders as ordered stationary sections (item 33).",
+      "source": "docs/design-lab-v3/EXPERIENCE_DIRECTION.md, Wow moments; evidence in items 7, 9 and 10"
+    },
+    {
+      "n": 32,
+      "title": "Performance results",
+      "kind": "doc",
+      "body": "docs/design-lab-v3/PERFORMANCE.md records Lighthouse measurements against the production build on a named setup, with each target beside its result and the dev server numbers kept separate.",
+      "files": [
+        "docs/design-lab-v3/PERFORMANCE.md"
+      ]
+    },
+    {
+      "n": 33,
+      "title": "Reduced motion behaviour",
+      "kind": "recording",
+      "files": [
+        "docs/design-lab-v3/recordings/19-reduced-motion-hero-m.webm",
+        "docs/design-lab-v3/recordings/19-reduced-motion-hero-m-strip.png",
+        "docs/design-lab-v3/recordings/19-reduced-motion-loop-m.webm",
+        "docs/design-lab-v3/recordings/19-reduced-motion-loop-m-strip.png",
+        "docs/design-lab-v3/recordings/19-reduced-motion-recreate-m.webm",
+        "docs/design-lab-v3/recordings/19-reduced-motion-recreate-m-strip.png",
+        "docs/design-lab-v3/recordings/19-reduced-motion-opportunity-m.webm",
+        "docs/design-lab-v3/recordings/19-reduced-motion-opportunity-m-strip.png",
+        "docs/design-lab-v3/recordings/19-reduced-motion-visit-m.webm",
+        "docs/design-lab-v3/recordings/19-reduced-motion-visit-m-strip.png",
+        "docs/design-lab-v3/recordings/20-pause-keyboard-back-m.webm",
+        "docs/design-lab-v3/recordings/20-pause-keyboard-back-m-strip.png"
+      ]
+    },
+    {
+      "n": 34,
+      "title": "Astra's final verdicts on all primary surfaces",
+      "kind": "director",
+      "body": null,
+      "source": "pending: v3x-review pass 1, pass 2, fixes, then v3x-review --verify on the final state for public-home, user-home, user-profile, business-home and business-loyalty"
+    },
+    {
+      "n": 35,
+      "title": "Exact routes and files",
+      "kind": "doc",
+      "body": "docs/design-lab-v3/FILE_MAP.md lists every implemented route with its page file and body, the new V3 experience files with line counts, the kept Loyalty foundation, the read only V2 imports, the director tooling and the media and evidence locations.",
+      "files": [
+        "docs/design-lab-v3/FILE_MAP.md"
+      ]
+    },
+    {
+      "n": 36,
+      "title": "What would change if V3 migrates to production",
+      "kind": "doc",
+      "body": "What would change if V3 moved to production, from the boundaries the build already makes explicit. Data: every record is a fixture from the in memory store (store.tsx and the V2 fixtures) and a reload resets it; production binds the same objects to real opportunities, submissions, approvals, ledger entries, vehicles, placements, members and events, and the labels that read Ledger example unavailable or Approved example disappear once a real relationship exists. Identity: the lab never authenticates; production reads the signed in person and the selected business, and Log out becomes real. Money: the amounts shown are gross opportunity amounts with Before fee stated; production must render the fee from the real campaign record and show net only where a ledger entry exists. Actions: Request, Offer, Post, Submit, Add visit, Save to Wallet and Send update are local previews that write nothing; production connects them to the existing request, submission, review and payout flows, and to real pass issuance and notification delivery, which the lab explicitly does not simulate. Loyalty: the approved event model, first touch attribution, member privacy and idempotency rules move as designed; the counter scan and the campaign link handoff need a real code registry instead of the fixture registry. Navigation: the five Business destinations and the User tabs are unchanged; the Content, Create, Campaigns, Messages, Notifications and remaining Settings destinations that open Outside this preview become the existing production routes, restyled. Media: fixture stills become the person's and business's real uploads at the derivative sizes in x/media.ts. Performance: the mobile LCP measured 3.4s to 4.7s on the throttled preset against a 2.5s target, so production needs smaller first viewport media (Business Home is 400KB over seven images against a 350KB budget) and a priority hint on the LCP image before launch. Removed from production surfaces: the Design Lab strip, the Pause motion control's lab label, the scenario selector and the Reset demo action. Not carried: nothing in /design-lab-v3 migrates until the founder approves this package.",
+      "source": "pending: written after the final verdicts, from the fixture to real data differences the build already makes explicit"
+    }
   ],
-  "extraViewports": { "note": "320x568, 768x1024, 1023x900 and 1920x1080 for all five primary surfaces", "dir": "docs/design-lab-v3/captures/viewports" },
-  "gates": { "tsc": "pass", "eslint": "no errors in src/app/design-lab-v3", "vitest": "140 tests in 11 files, all passing", "build": "next build with DESIGN_LAB=1 compiles; every /design-lab-v3 route builds" }
+  "extraViewports": {
+    "note": "320x568, 768x1024, 1023x900 and 1920x1080 for all five primary surfaces",
+    "dir": "docs/design-lab-v3/captures/viewports"
+  },
+  "gates": {
+    "tsc": "pass",
+    "eslint": "no errors in src/app/design-lab-v3",
+    "vitest": "140 tests in 11 files, all passing",
+    "build": "next build with DESIGN_LAB=1 compiles; every /design-lab-v3 route builds"
+  }
 }

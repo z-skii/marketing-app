@@ -67,35 +67,33 @@ export function Attribution({ initial }: { initial: string | null }) {
         <div className="loy-empty" style={{ marginTop: 24 }}><p className="t-object">No members yet.</p><p className="t-fact">Your first signup will appear here.</p><Link href="/design-lab-v3/business/loyalty/qr" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>View QR</Link></div>
       ) : (
         <div className="attr-body">
-          <div className="attr-lane-left">
-            <span className="t-object">All sources</span>
-            <span className="t-fact">From signup to a recorded return.</span>
-            <Sheet title="How counts work" variant="full" triggerClass="link t-action" triggerStyle={{ minHeight: 44, display: "inline-flex", alignItems: "center" }} trigger="How counts work">
-              <span className="t-note">Design Lab · Fictional preview</span>
-              <dl className="facts" style={{ marginTop: 16, gridTemplateColumns: "1fr" }}>
-                <div><dt>Joined</dt><dd>Members who signed up. A signup is not a purchase.</dd></div>
-                <div><dt>Came back</dt><dd>Members with counted visits on two different business days.</dd></div>
-                <div><dt>Redeemed</dt><dd>Members who used at least one reward. Unique members, not redemptions.</dd></div>
-                <div><dt>Scope</dt><dd>Members grouped by their signup source and signup period. Outcomes are counted through the demo snapshot.</dd></div>
-                <div><dt>Scale</dt><dd>Every source shares one scale, set by the largest joined source.</dd></div>
-              </dl>
-              <p className="t-body" style={{ marginTop: 16 }}>The first known signup source stays attached.</p>
-              <p className="t-body" style={{ marginTop: 8 }}>Later visits and links do not replace it.</p>
-            </Sheet>
-          </div>
-          <div className="attr-lane-right">
-            <section className="attr-total">
-              <Descent joined={c.members} returned={c.repeat} redeemed={uniqueRedeemed} max={c.members} size="l" />
-            </section>
-            {campaignRows.length === 0 && <div className="loy-empty" style={{ marginTop: 16 }}><p className="t-object">No members from campaigns yet.</p><p className="t-fact">Share a campaign’s signup link to connect future members.</p><Link href="/design-lab-v3/business/loyalty/qr" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>View QR</Link></div>}
-            <div className="attr-grid">
-              {shown.map((r) => (
-                <button type="button" key={r.key} className="attr-source obj" onClick={() => setOpen(r.key)} aria-haspopup="dialog">
-                  <span className="attr-source-head"><span><span className="t-object attr-source-name">{view === "campaigns" && r.source.campaign ? r.source.campaign : r.source.label}</span><span className="t-fact" style={{ display: "block" }}>{view === "campaigns" && r.source.campaign ? `${r.source.label} · ${TYPE_LABEL[r.source.type]}` : r.source.sub}</span></span><CaretRight size={16} aria-hidden className="attr-chevron" /></span>
-                  <Descent joined={r.joined} returned={r.returned} redeemed={r.redeemed} max={max} size="m" />
-                </button>
-              ))}
+          <div className="attr-row attr-total">
+            <div className="attr-lane-left">
+              <span className="t-object">All sources</span>
+              <span className="t-fact">From signup to a recorded return.</span>
+              <Sheet title="How counts work" variant="full" triggerClass="link t-action" triggerStyle={{ minHeight: 44, display: "inline-flex", alignItems: "center" }} trigger="How counts work">
+                <span className="t-note">Design Lab · Fictional preview</span>
+                <dl className="facts" style={{ marginTop: 16, gridTemplateColumns: "1fr" }}>
+                  <div><dt>Joined</dt><dd>Members who signed up. A signup is not a purchase.</dd></div>
+                  <div><dt>Came back</dt><dd>Members with counted visits on two different business days.</dd></div>
+                  <div><dt>Redeemed</dt><dd>Members who used at least one reward. Unique members, not redemptions.</dd></div>
+                  <div><dt>Scope</dt><dd>Members grouped by their signup source and signup period. Outcomes are counted through the demo snapshot.</dd></div>
+                  <div><dt>Scale</dt><dd>The whole cohort has its own scale. Every source shares one scale, set by the largest joined source.</dd></div>
+                </dl>
+                <p className="t-body" style={{ marginTop: 16 }}>The first known signup source stays attached.</p>
+                <p className="t-body" style={{ marginTop: 8 }}>Later visits and links do not replace it.</p>
+              </Sheet>
             </div>
+            <div className="attr-lane-right"><Descent joined={c.members} returned={c.repeat} redeemed={uniqueRedeemed} max={c.members} size="l" /><span className="t-note attr-scale">Whole cohort scale</span></div>
+          </div>
+          {campaignRows.length === 0 && <div className="loy-empty" style={{ marginTop: 16 }}><p className="t-object">No members from campaigns yet.</p><p className="t-fact">Share a campaign’s signup link to connect future members.</p><Link href="/design-lab-v3/business/loyalty/qr" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>View QR</Link></div>}
+          <div className="attr-grid">
+            {shown.map((r) => (
+              <button type="button" key={r.key} className="attr-source attr-row obj" onClick={() => setOpen(r.key)} aria-haspopup="dialog">
+                <span className="attr-source-head"><span><span className="t-object attr-source-name">{view === "campaigns" && r.source.campaign ? r.source.campaign : r.source.label}</span><span className="t-fact" style={{ display: "block" }}>{view === "campaigns" && r.source.campaign ? `${r.source.label} · ${TYPE_LABEL[r.source.type]}` : r.source.sub}</span></span><CaretRight size={16} aria-hidden className="attr-chevron" /></span>
+                <Descent joined={r.joined} returned={r.returned} redeemed={r.redeemed} max={max} size="m" />
+              </button>
+            ))}
           </div>
         </div>
       )}

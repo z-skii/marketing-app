@@ -74,7 +74,8 @@ function Comparison({ pct, setPct, active }: { pct: number; setPct: (n: number) 
 
 export function Recreate() {
   const { reduced } = useMotion();
-  const seq = useSequence(RC);
+  const stage = useRef<HTMLDivElement>(null);
+  const seq = useSequence(RC, { stage });
   const [pct, setPct] = useState(0);
   const f = seq.frame;
   useEffect(() => { if (f > 1) return; const t = setTimeout(() => setPct(f === 0 ? 0 : 100), 0); return () => clearTimeout(t); }, [f]);
@@ -94,15 +95,17 @@ export function Recreate() {
       </div>
     </div>
   );
+  // One narrow rail across the work: the only refracting object in the act. Its text sits on an opaque reading chip; the source copy lives only in the 7px rim.
   const Approval = (
     <div className="x-rc-approve">
       <div className="x-rc-under">{work("x-rc-work-under")}</div>
       <div className="x-rc-rail lens lens-rail" aria-label="Approval">
         <span className="x-rim" aria-hidden><img src={M.mayaPour(480)} alt="" /></span>
-        <span className="t-fact">Approved example</span>
-        <span className="t-object">Approved</span>
-        <span className="t-fact-ink">Sep 10, 2026<span aria-hidden> · </span>{recreate.business}</span>
-        <span className="t-fact">Recorded example</span>
+        <span className="x-rc-rail-chip paper">
+          <span className="t-object">Approved</span>
+          <span className="t-fact-ink">Sep 10, 2026<span aria-hidden> · </span>{recreate.business}</span>
+          <span className="t-fact">Recorded example</span>
+        </span>
       </div>
     </div>
   );
@@ -110,7 +113,7 @@ export function Recreate() {
     <div className="x-rc-ledger">
       {work("x-rc-work-small")}
       <div className="x-rc-ledger-lines paper">
-        <span className="t-fact">Earnings</span>
+        <span className="t-fact">Approval</span>
         <span className="t-object">Approval earns.</span>
         <span className="t-object">Payout is separate.</span>
         <span className="t-fact">Ledger example unavailable for Counter pour. A recorded example follows under Get paid.</span>
@@ -128,7 +131,7 @@ export function Recreate() {
   }
   return (
     <Chapter id="recreate" verb="Recreate">
-      <div className="x-rc" data-frame={f}>
+      <div className="x-rc" data-frame={f} ref={stage}>
         {f <= 1 && <div className="x-rc-frame" key="cmp"><Comparison pct={pct} setPct={(n) => { setPct(n); }} active /><div className="x-rc-edge paper">{money75}<span className="t-fact">{recreate.business}</span></div></div>}
         {f === 2 && <div className="x-rc-frame x-open" key="submit">{Submission}</div>}
         {f === 3 && <div className="x-rc-frame" key="approve">{Approval}</div>}
@@ -148,7 +151,8 @@ const PO: Frame[] = [
 ];
 export function Post() {
   const { reduced } = useMotion();
-  const seq = useSequence(PO);
+  const stage = useRef<HTMLDivElement>(null);
+  const seq = useSequence(PO, { stage });
   const f = seq.frame;
   const creative = <span className="media x-po-creative"><img src={M.story(480)} srcSet={`${M.story(480)} 480w, ${M.story(720)} 720w`} sizes="(min-width: 1024px) 288px, 238px" alt="Story creative, Loopday Coffee" width={480} height={853} decoding="async" loading="lazy" /></span>;
   const rail = (
@@ -177,7 +181,7 @@ export function Post() {
   );
   const earnings = (
     <div className="x-po-earn paper">
-      <span className="t-fact">Earnings</span>
+      <span className="t-fact">Approval</span>
       <Money cents={story.netCents} basis="On approval" whole inline />
       <span className="t-object">Approval earns.</span>
       <span className="t-object">Payout is separate.</span>
@@ -189,7 +193,7 @@ export function Post() {
   }
   return (
     <Chapter id="post" verb="Post">
-      <div className="x-po" data-frame={f}>
+      <div className="x-po" data-frame={f} ref={stage}>
         <div className={`x-po-stage${f >= 1 ? " x-po-viewport" : ""}`}>{creative}{f >= 1 && <span className="x-po-vp-label t-fact x-reveal">Handoff preview</span>}</div>
         {f === 0 && <div key="rail" className="x-po-side">{rail}</div>}
         {f === 1 && <div key="handoff" className="x-po-side x-open">{handoff}</div>}
@@ -210,13 +214,15 @@ const DR: Frame[] = [
 ];
 export function Drive() {
   const { reduced } = useMotion();
-  const seq = useSequence(DR);
+  const stage = useRef<HTMLDivElement>(null);
+  const seq = useSequence(DR, { stage });
   const f = seq.frame;
   const photo = <span className="media x-dr-photo"><img src={M.vehicleEli(800)} srcSet={`${M.vehicleEli(800)} 800w, ${M.vehicleEli(1200)} 1200w`} sizes="(min-width: 1024px) 900px, 100vw" alt="Vehicle example: a silver sedan parked outside a brick workshop" width={800} height={533} decoding="async" loading="lazy" /><span className="t-note x-dr-caption">Vehicle example</span></span>;
   const band = (
     <div className="x-dr-band paper">
       <span className="x-dr-band-l"><Money cents={car.netCents} basis="/month" whole inline /><span className="t-fact-ink">Monthly approval</span></span>
       <span className="x-dr-band-r"><span className="t-object">{car.title}</span><span className="t-fact">{car.business}</span><span className="t-fact">{car.facts[0]}<span aria-hidden> · </span>{car.facts[1]}</span></span>
+      <span className="t-fact x-dr-example">Example vehicle photograph. The campaign car is not shown.</span>
     </div>
   );
   const plan = (on: boolean) => (
@@ -246,7 +252,7 @@ export function Drive() {
   }
   return (
     <Chapter id="drive" verb="Drive">
-      <div className="x-dr" data-frame={f}>
+      <div className="x-dr" data-frame={f} ref={stage}>
         <div className={`x-dr-stage${f >= 1 ? " is-wide" : ""}`}>{photo}</div>
         {f === 0 && <div key="band" className="x-dr-side">{band}</div>}
         {f === 1 && <div key="plan" className="x-dr-side x-open">{plan(true)}</div>}

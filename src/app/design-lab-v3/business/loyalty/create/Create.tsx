@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, Check, X } from "@phosphor-icons/react";
+import { Check, X } from "@phosphor-icons/react";
 import { Sheet } from "../../../../design-lab-v2/Sheet";
 import { Img } from "../../../../design-lab-v2/Img";
 import { REWARD_TERMS, defaultCard, type Program, type ProgramKind } from "../../../fixtures";
@@ -11,6 +11,7 @@ import { AppleCard, GoogleCard, Logo, PlatformLabel, type CardData, type CardSta
 import { QR } from "../../../qr";
 import { CardControls, contrast } from "./CardControls";
 import { LabEntrance } from "../../../LabControl";
+import { TaskHead } from "../TaskHead";
 import { useOrigin } from "../../../useOrigin";
 
 const STEPS = ["Program", "Reward", "Card", "Signup", "Launch"] as const;
@@ -75,15 +76,10 @@ export function Create({ initialStep }: { initialStep: number }) {
 
   return (
     <div className="create-page" data-step={step}>
-      <header className="record-bar create-bar">
-        {step > 1 && !launched ? <button type="button" className="icon-btn" aria-label="Back" onClick={back}><ArrowLeft size={20} aria-hidden /></button> : <span className="create-bar-spacer" aria-hidden />}
-        <span className="create-bar-step"><span className="t-object">{launched ? "Launch" : STEPS[step - 1]}</span><span className="t-fact">{step} of 5</span></span>
-        {CloseSheet}
-      </header>
+      <TaskHead title={launched ? "Launch" : STEPS[step - 1]} fact={`Create program · ${step} of 5`} onBack={step > 1 && !launched ? back : undefined} close={CloseSheet} />
       <ol className="create-steps" aria-label="Steps">
         {STEPS.map((s, i) => <li key={s} aria-current={step === i + 1 ? "step" : undefined} data-done={step > i + 1 ? "true" : undefined}><button type="button" onClick={() => !launched && i + 1 <= Math.max(d.draftStep, step) && setStep(i + 1)} disabled={launched || i + 1 > Math.max(d.draftStep, step)}>{step > i + 1 && <Check size={12} weight="bold" aria-hidden className="create-step-check" />}{s}</button></li>)}
       </ol>
-      <LabEntrance />
       <div className={`create-body${step === 3 ? " has-preview" : ""}`}>
         <section className="create-pane" aria-live="polite">
           {step === 1 && (

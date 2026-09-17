@@ -2,20 +2,13 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, Copy, DownloadSimple, Printer } from "@phosphor-icons/react";
+import { ArrowLeft, Copy, Printer } from "@phosphor-icons/react";
 import { QR } from "../../../qr";
 import { Logo } from "../../../wallet/Cards";
 import { useLoyalty } from "../../../store";
 import { useOrigin } from "../../../useOrigin";
 import { LoyaltyCrumb } from "../LoyaltyCrumb";
-
-function svgDownload(url: string, name: string) {
-  const el = document.querySelector<SVGSVGElement>(".qr-download svg");
-  if (!el) return;
-  const blob = new Blob([`<?xml version="1.0"?>${el.outerHTML.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"')}`], { type: "image/svg+xml" });
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href);
-  void url;
-}
+import { TaskHead } from "../TaskHead";
 
 export function QRView({ print = false }: { print?: boolean }) {
   const { state } = useLoyalty();
@@ -39,28 +32,22 @@ export function QRView({ print = false }: { print?: boolean }) {
     );
   }
   if (p.status !== "live") return <div className="loy"><LoyaltyCrumb here="Counter QR" /><p className="t-fact-ink" style={{ marginTop: 24 }}>Demo QR · activates after launch.</p><Link href="/design-lab-v3/business/loyalty" className="link t-action loy-back"><ArrowLeft size={16} aria-hidden />Back</Link></div>;
+  // A usable customer entry object: the reward rule, then a centered black on white code with its quiet zone; no raw address, no card, no second navigation.
   return (
-    <div className="loy qr">
-      <LoyaltyCrumb here="Counter QR" />
-      <p className="t-fact-ink" style={{ marginTop: 4 }}>Scan to join {p.card.businessName}</p>
+    <div className="qr-task">
+      <TaskHead title="Counter QR" />
       <div className="qr-body">
-        <div className="create-launch-qr obj qr-download">
-          <QR value={url} size={220} label="Counter QR" ink="#18231D" paper="#FFFEF9" quiet={4} />
-          <span className="t-note">Demo QR · Design Lab only</span>
-          <span className="create-launch-link t-fact-ink">{url.replace(/^https?:\/\//, "")}</span>
-        </div>
-        <div className="qr-facts">
-          <p className="t-body">{rule}</p>
-          <p className="t-fact" style={{ marginTop: 4 }}>The counter QR is the code people scan to join. Member QRs on their cards are different codes.</p>
-          <div className="create-launch-actions" style={{ marginTop: 16 }}>
-            <button type="button" className="link t-action" onClick={() => { void navigator.clipboard?.writeText(url).catch(() => {}); setCopied(true); }}><Copy size={16} aria-hidden />{copied ? "Demo link copied." : "Copy demo link"}</button>
-            <Link href="/design-lab-v3/business/loyalty/qr?view=print" className="link t-action"><Printer size={16} aria-hidden />Preview printout</Link>
-            <button type="button" className="link t-action" onClick={() => svgDownload(url, "loopday-demo-qr.svg")}><DownloadSimple size={16} aria-hidden />Download demo QR</button>
-            <Link href="/design-lab-v3/join/loopday-counter" className="link t-action">Open signup</Link>
-          </div>
+        <p className="t-object qr-rule">{rule}</p>
+        <p className="t-fact">Scan to join {p.card.businessName}.</p>
+        <div className="qr-code qr-download"><QR value={url} size={224} label="Counter QR" ink="#000000" paper="#FFFFFF" quiet={4} /></div>
+        <span className="t-note">Demo QR · Design Lab only</span>
+        <p className="t-fact">The counter QR is the code people scan to join. Member QRs on their cards are different codes.</p>
+        <div className="qr-actions">
+          <button type="button" className="link t-action" onClick={() => { void navigator.clipboard?.writeText(url).catch(() => {}); setCopied(true); }}><Copy size={16} aria-hidden />{copied ? "Demo link copied." : "Copy demo link"}</button>
+          <Link href="/design-lab-v3/join/loopday-counter" className="link t-action">Open signup</Link>
+          <Link href="/design-lab-v3/business/loyalty/qr?view=print" className="link t-action"><Printer size={16} aria-hidden />Preview printout</Link>
         </div>
       </div>
-      <Link href="/design-lab-v3/business/loyalty" className="link t-action loy-back"><ArrowLeft size={16} aria-hidden />Back</Link>
     </div>
   );
 }

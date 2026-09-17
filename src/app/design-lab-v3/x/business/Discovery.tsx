@@ -6,7 +6,7 @@ import { ArrowLeft, CaretDown, Check, MapPin, X } from "@phosphor-icons/react";
 import { Sheet } from "../../../design-lab-v2/Sheet";
 import { Money } from "../../../design-lab-v2/parts";
 import { Plan } from "../Plan";
-import { businessCar as v2Car, businessCities, businessPeople, money, type Person } from "../../../design-lab-v2/fixtures";
+import { businessCar as v2Car, businessCities, businessPeople as v2People, homeOpportunities, money, profile, type Person } from "../../../design-lab-v2/fixtures";
 import { LoyaltyStrip } from "../../business/LoyaltyStrip";
 import { M } from "../media";
 import { LabStrip, useMotion, usePresentationTimer } from "../motion";
@@ -22,6 +22,15 @@ import { LabStrip, useMotion, usePresentationTimer } from "../motion";
  * ?vehicle=, ?zone=, ?offer= are native history). Nothing is sent.
  */
 const businessCar = { ...v2Car, city: "Round Rock" };
+/**
+ * V3 truth for people: Maya's Business record is reconciled with her own
+ * Profile record (3 Completed, no connected Instagram, no rating record),
+ * and inspection shows only supported public facts. The V2 fixture file
+ * itself is untouched.
+ */
+const businessPeople: Person[] = v2People.map((p) => (p.id === "maya" ? { ...p, completed: profile.completed, instagram: profile.instagram ? { handle: profile.instagram.handle, followers: profile.instagram.followers ?? 0 } : null, verified: false, rating: null } : p));
+const PLATFORM_FEE_PCT = 15; // src/lib/settings.ts default platform_fee_pct
+const RIGHTS = { recreate: homeOpportunities[0].usage, story: homeOpportunities[1].usage } as const;
 type Tab = "for-you" | "people" | "cars" | "nearby";
 const PORTRAIT: Record<string, string> = { maya: M.portraitMaya(480), nora: M.portraitNora(), eli: M.portraitEli() };
 const STILLS: Record<string, [string, string]> = { maya: [M.mayaPour(480), M.mayaCup()], nora: [M.noraChain(), M.noraWheel()], eli: [M.eliBag(), M.eliCup()] };
@@ -113,7 +122,7 @@ function CarObject({ onOpen }: { onOpen: (el: HTMLElement) => void }) {
   return (
     <article className="x-obj x-car" aria-labelledby={`c-${c.id}`}>
       <button type="button" className="media x-car-photo" onClick={(e) => onOpen(e.currentTarget)} aria-label={`View ${c.title}`}><img src={M.vehicleEli(800)} srcSet={`${M.vehicleEli(800)} 800w, ${M.vehicleEli(1200)} 1200w`} sizes="(min-width: 1024px) 376px, 100vw" alt="" width={800} height={533} decoding="async" /></button>
-      <div className="x-car-band paper">
+      <div className="x-car-band">
         <span className="x-car-rate"><Money cents={c.askCents} basis="/month" whole inline /><span className="t-fact-ink">Asking rate</span></span>
         <button type="button" className="btn btn-primary x-car-view" onClick={(e) => onOpen(e.currentTarget)} aria-label={`View ${c.title}`}>View</button>
         <span className="x-car-id"><h2 id={`c-${c.id}`} className="t-object">{c.title}</h2><button type="button" className="link t-action" onClick={(e) => onOpen(e.currentTarget)}>Rear doors</button></span>
@@ -148,23 +157,18 @@ function PersonTask({ p, work, request, setWork, setRequest, onClose }: { p: Per
   return (
     <Task title={p.name} onClose={onClose} kind="person">
       <div className="x-pt">
-        <div className="x-pt-media">
-          <span className="media x-pt-portrait"><img src={PORTRAIT[p.id]} alt={p.portraitAlt} width={480} height={600} /></span>
-          <span className="media x-pt-work x-open" key={w}><img src={stills[w]} alt={p.project.stills[w].alt} width={480} height={600} /></span>
+        <span className="media x-pt-portrait"><img src={PORTRAIT[p.id]} alt={p.portraitAlt} width={480} height={600} /></span>
+        <div className="x-pt-id">
+          <span className="t-object">{p.name}</span>
+          <span className="t-fact">{p.city}<span aria-hidden> · </span><span className="t-fact-ink">{p.completed}</span> Completed</span>
+          <button type="button" className="btn btn-primary x-pt-request" onClick={() => setRequest(true)}>Request</button>
         </div>
+        <span className="media x-pt-work x-open" key={w}><img src={stills[w]} alt={p.project.stills[w].alt} width={480} height={600} /></span>
         <div className="x-pt-ctx">
-          <span className="t-fact">Work</span>
+          <span className="t-fact">Work<span aria-hidden> · </span>still {w + 1} of {stills.length}</span>
           <span className="t-object">{p.project.title}</span>
           <span className="t-fact">{p.project.business}<span aria-hidden> · </span>Approved {p.project.approved}</span>
           <span className="x-pt-nav"><button type="button" className="link t-action" onClick={() => setWork((w + 1) % 2)}>Previous</button><button type="button" className="link t-action" onClick={() => setWork((w + 1) % 2)}>Next</button></span>
-          <dl className="facts" style={{ marginTop: 16 }}>
-            <div><dt>Completed</dt><dd>{p.completed}</dd></div>
-            {p.rating && <div><dt>Rating</dt><dd>{p.rating.value.toFixed(1)}</dd></div>}
-            {p.instagram && <div><dt>Instagram</dt><dd>{p.instagram.handle}<span aria-hidden> · </span>{p.instagram.followers.toLocaleString("en-US")} followers</dd></div>}
-            {p.verified && <div><dt>Verified creator</dt><dd>Yes</dd></div>}
-          </dl>
-          {p.rating && <p className="t-body" style={{ marginTop: 12 }}>“{p.rating.review.text}” <span className="t-fact">{p.rating.review.by}, {p.rating.review.date}</span></p>}
-          <div className="preview-actions"><button type="button" className="btn btn-primary" onClick={() => setRequest(true)}>Request</button></div>
         </div>
       </div>
       {request && <RequestComposer p={p} onClose={() => setRequest(false)} />}
@@ -180,11 +184,12 @@ function RequestComposer({ p, onClose }: { p: Person; onClose: () => void }) {
   const [review, setReview] = useState(false); const [tried, setTried] = useState(false); const [discard, setDiscard] = useState(false);
   useEffect(() => { const t = setTimeout(() => { const d = ref.current; if (d && !d.open) d.showModal(); }, 0); return () => clearTimeout(t); }, []);
   const dirty = type !== null || pay || deadline || deliverables || terms;
-  const errors = { type: type === null ? "Choose a request type." : null, pay: !pay || Number(pay) <= 0 ? "Enter creator pay in US dollars." : null, deadline: !deadline ? "Enter a deadline." : null, deliverables: !deliverables.trim() ? "Describe the deliverables." : null, terms: !terms ? "Accept the standard creator terms." : null };
+  const errors = { type: type === null ? "Choose a request type." : null, pay: !pay || Number(pay) <= 0 ? "Enter creator pay in US dollars." : null, deadline: !deadline ? "Enter a deadline." : null, deliverables: !deliverables.trim() ? "Describe the deliverables." : null, terms: !terms ? "Agree to the terms shown." : null };
+  const rights = type ? RIGHTS[type] : "Choose a type to see the rights.";
   const valid = !Object.values(errors).some(Boolean);
   const tryClose = () => { if (dirty && !review) setDiscard(true); else onClose(); };
   return (
-    <dialog ref={ref} className="sheet" aria-label="Request" onClose={onClose} onClick={(e) => { if (e.target === ref.current) tryClose(); }}>
+    <dialog ref={ref} className="sheet sheet-full x-composer-sheet" aria-label="Request" onClose={onClose} onClick={(e) => { if (e.target === ref.current) tryClose(); }}>
       <div className="sheet-body x-composer">
         <div className="sheet-bar"><button type="button" className="icon-btn" aria-label="Back" onClick={() => (review ? setReview(false) : tryClose())}><ArrowLeft size={20} /></button><span className="sheet-title">{review ? "Request preview" : "Request"}</span><button type="button" className="link link-plain t-action preview-close" onClick={tryClose}><X size={18} aria-hidden />Close</button></div>
         <p className="t-object">{p.name}</p>
@@ -200,7 +205,8 @@ function RequestComposer({ p, onClose }: { p: Person; onClose: () => void }) {
               <div><dt>Pay</dt><dd>{money(Math.round(Number(pay) * 100), { cents: true })}</dd></div>
               <div><dt>Deadline</dt><dd>{deadline}</dd></div>
               <div><dt>Deliverables</dt><dd>{deliverables}</dd></div>
-              <div><dt>Terms</dt><dd>Standard creator terms</dd></div>
+              <div><dt>Pay basis</dt><dd>On approval. Gross; the platform fee is {PLATFORM_FEE_PCT}% of gross.</dd></div>
+              <div><dt>Rights</dt><dd>{rights}</dd></div>
             </dl>
             <p className="t-body" style={{ marginTop: 16 }}>Nothing will be sent.</p>
             <p className="t-fact" style={{ marginTop: 4 }}>Sending, acceptance and approval are outside this preview.</p>
@@ -218,7 +224,15 @@ function RequestComposer({ p, onClose }: { p: Person; onClose: () => void }) {
             <label className="x-composer-field"><span className="t-fact">Pay (US$)</span><input className="join-input" inputMode="decimal" value={pay} onChange={(e) => setPay(e.target.value)} aria-invalid={tried && Boolean(errors.pay)} />{tried && errors.pay && <span className="join-error">{errors.pay}</span>}</label>
             <label className="x-composer-field"><span className="t-fact">Deadline</span><input className="join-input" type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} aria-invalid={tried && Boolean(errors.deadline)} />{tried && errors.deadline && <span className="join-error">{errors.deadline}</span>}</label>
             <label className="x-composer-field"><span className="t-fact">Deliverables</span><textarea className="join-input join-textarea" value={deliverables} onChange={(e) => setDeliverables(e.target.value)} aria-invalid={tried && Boolean(errors.deliverables)} />{tried && errors.deliverables && <span className="join-error">{errors.deliverables}</span>}</label>
-            <label className="join-consent"><input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} /><span className="t-body">Standard creator terms apply. Pay, deadline, deliverables and rights are shown before sending.</span></label>
+            <div className="x-composer-terms">
+              <span className="t-fact">Terms</span>
+              <dl className="facts" style={{ gridTemplateColumns: "1fr" }}>
+                <div><dt>Pay basis</dt><dd>On approval. Gross; the platform fee is {PLATFORM_FEE_PCT}% of gross.</dd></div>
+                <div><dt>Rights</dt><dd>{rights}</dd></div>
+                <div><dt>Deadline</dt><dd>{deadline || "Not set"}</dd></div>
+              </dl>
+            </div>
+            <label className="join-consent"><input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} /><span className="t-body">I agree to the terms shown above.</span></label>
             {tried && errors.terms && <span className="join-error">{errors.terms}</span>}
             <div className="preview-actions"><button type="submit" className="btn btn-primary">Review request</button><span className="t-fact">Nothing will be sent.</span></div>
           </form>
@@ -239,16 +253,15 @@ function VehicleTask({ offer, setOffer, onClose }: { offer: boolean; setOffer: (
     <Task title={c.title} onClose={onClose} kind="vehicle">
       <div className={`x-vt${on ? " is-on" : ""}`}>
         <span className="media x-vt-photo x-open"><img src={M.vehicleEli(1200)} alt={c.alt} width={1200} height={800} /></span>
-        <div className="x-vt-plan paper">
+        <div className="x-vt-plan">
           <span className="t-fact">Placement plan</span>
           <span className="x-fc-diagram"><Plan selected={on} /></span>
-          <span className="x-vt-zone"><span className={`t-object${on ? " x-reveal" : ""}`}>Rear doors</span><span className="t-fact">Supported zone</span></span>
-        </div>
-        <div className="x-vt-rate paper">
-          <span className={`x-vt-rate-line${on ? " x-rate-align" : ""}`}><Money cents={c.askCents} basis="/month" whole inline /><span className="t-fact-ink">Asking rate<span aria-hidden> · </span>Rear doors</span></span>
-          <span className="t-fact">{c.city}<span aria-hidden> · </span>Eli Moss</span>
-          <p className="t-body" style={{ marginTop: 8 }}>Asking rate; fees and final terms are not yet quoted.</p>
-          <div className="preview-actions"><button type="button" className="btn btn-primary" onClick={() => setOffer(true)}>Offer</button></div>
+          <div className="x-vt-group">
+            <span className="x-vt-zone"><span className={`t-object${on ? " x-reveal" : ""}`}>Rear doors</span><span className="t-fact">Supported zone</span></span>
+            <span className={`x-vt-rate-line${on ? " x-rate-align" : ""}`}><Money cents={c.askCents} basis="/month" whole inline /><span className="t-fact-ink">Asking rate</span></span>
+            <span className="t-fact">{c.city}<span aria-hidden> · </span>Eli Moss<span aria-hidden> · </span>Fees and final terms not yet quoted.</span>
+            <button type="button" className="btn btn-primary x-vt-offer" onClick={() => setOffer(true)}>Offer</button>
+          </div>
         </div>
       </div>
       {offer && <OfferComposer onClose={() => setOffer(false)} />}
@@ -267,7 +280,7 @@ function OfferComposer({ onClose }: { onClose: () => void }) {
   const valid = !Object.values(errors).some(Boolean);
   const tryClose = () => { if (dirty && !review) setDiscard(true); else onClose(); };
   return (
-    <dialog ref={ref} className="sheet" aria-label="Offer" onClose={onClose} onClick={(e) => { if (e.target === ref.current) tryClose(); }}>
+    <dialog ref={ref} className="sheet sheet-full x-composer-sheet" aria-label="Offer" onClose={onClose} onClick={(e) => { if (e.target === ref.current) tryClose(); }}>
       <div className="sheet-body x-composer">
         <div className="sheet-bar"><button type="button" className="icon-btn" aria-label="Back" onClick={() => (review ? setReview(false) : tryClose())}><ArrowLeft size={20} /></button><span className="sheet-title">{review ? "Offer preview" : "Offer"}</span><button type="button" className="link link-plain t-action preview-close" onClick={tryClose}><X size={18} aria-hidden />Close</button></div>
         <p className="t-object">{c.title}<span className="t-fact" style={{ display: "block" }}>Placement<span aria-hidden> · </span>Rear doors</span></p>

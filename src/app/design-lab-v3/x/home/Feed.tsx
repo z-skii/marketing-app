@@ -101,7 +101,7 @@ function OpportunityObject({ o }: { o: Opportunity }) {
   const label = o.mediaCaption ? `${o.mediaCaption}. View ${o.title}, ${o.business}` : `View ${o.title}, ${o.business}`;
   const facts = o.kind === "recreate" ? `${o.facts[0]} · ${o.facts[1]}` : o.kind === "story" ? o.facts[0] : `${o.facts[0]} · ${o.facts[1]}`;
   return (
-    <Open id={o.id} title={o.title} kind={o.kind} media={o.media} mediaRatio={o.mediaRatio} mediaAlt={o.mediaAlt} mediaFit={o.kind === "story" ? "contain" : "cover"} mediaPosition={o.mediaPosition} content={<Detail o={o} />}>
+    <Open id={o.id} title={o.title} kind={o.kind} media={o.media} mediaRatio={o.mediaRatio} mediaAlt={o.mediaAlt} mediaFit={o.kind === "car" ? "cover" : "contain"} mediaPosition={o.mediaPosition} content={<Detail o={o} />}>
       {(open) => (
         <article className={`x-obj x-op x-op-${o.kind}`} aria-labelledby={`${o.id}-t`}>
           <button type="button" className={`media x-op-media x-op-media-${o.kind}`} onClick={open} aria-label={label} style={{ aspectRatio: o.mediaRatio }}>
@@ -121,12 +121,19 @@ function OpportunityObject({ o }: { o: Opportunity }) {
   );
 }
 
+/** V3 eligibility truth: Maya's default state has no connected Instagram, so the Story shows the real boundary rather than a connected identity. */
+type Eligibility = { label: string; state: "ok" | "bad" | "due"; note?: string }[];
+const V3_ELIGIBILITY: Record<string, Eligibility> = {
+  "lab-story-loopday-24h": [{ label: "Instagram not connected", state: "due", note: "Connect in Settings before posting." }, { label: "500+ followers required", state: "due", note: "Checked after connecting." }],
+};
+
 function Detail({ o }: { o: Opportunity }) {
   const [saved, setSaved] = useState(false);
+  const eligibility: Eligibility | undefined = o.id in V3_ELIGIBILITY ? V3_ELIGIBILITY[o.id] : o.eligibility;
   return (
     <div className="x-detail">
       <div className="x-detail-top">
-        <div><Money cents={o.netCents} basis={o.kind === "car" ? "/month · Monthly approval" : "On approval"} whole inline={o.kind === "car"} /><p className="t-fact" style={{ marginTop: 4 }}>{o.business}</p></div>
+        <div><Money cents={o.netCents} basis={o.kind === "car" ? "/month · Monthly approval" : "On approval"} whole inline={o.kind === "car"} /><p className="t-fact" style={{ marginTop: 4 }}>{o.business}</p>{o.mediaCaption && <p className="t-fact" style={{ marginTop: 4 }}>{o.mediaCaption}: not your listed vehicle.</p>}</div>
         <div className="x-detail-top-actions">
           {o.media && <Viewer src={o.media} alt={o.mediaAlt} label="View image" className="link t-action" style={{ display: "inline-flex", alignItems: "center", gap: 6, minHeight: 44 }}><ArrowsOutSimple size={18} aria-hidden />View image</Viewer>}
           <button type="button" className="link t-action" aria-pressed={saved} style={{ minHeight: 44 }} onClick={() => setSaved((v) => !v)}>{saved ? "Saved" : "Save"}</button>
@@ -137,9 +144,9 @@ function Detail({ o }: { o: Opportunity }) {
         {o.submitBy && <div><dt>Submit by</dt><dd>{o.submitBy}</dd></div>}
         {o.extra?.map((x) => <div key={x.label}><dt>{x.label}</dt><dd>{x.value}</dd></div>)}
       </dl>
-      {o.eligibility && (
+      {eligibility && (
         <ul className="reqs" style={{ marginTop: 24 }} aria-label="Eligibility">
-          {o.eligibility.map((e) => <li key={e.label}><span className={`state ${e.state}`}>{e.label}</span>{e.note && <span className="t-fact">{e.note}</span>}</li>)}
+          {eligibility.map((e) => <li key={e.label}><span className={`state ${e.state}`}>{e.label}</span>{e.note && <span className="t-fact">{e.note}</span>}</li>)}
         </ul>
       )}
       <h3 className="t-action" style={{ marginTop: 24 }}>Requirements</h3>

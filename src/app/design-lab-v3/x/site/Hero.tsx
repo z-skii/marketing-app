@@ -57,13 +57,18 @@ export function Hero({ initial }: { initial: Audience }) {
               <Link href="/design-lab-v3/business?person=maya&work=1" className="media x-hero-work" aria-label="Maya Chen, Counter pour still"><Img src={M.mayaPour(480)} alt="" /></Link>
             </div>
           ) : (
-            <div className="x-hero-edge paper x-settle" key="edge">
+            <div className="x-hero-edge x-settle" key="edge">
               <span className="x-hero-edge-l"><span className="t-fact">Reference</span><span className="t-object">{ref.title}</span><span className="t-fact">{ref.business}</span></span>
               <span className="x-hero-edge-r"><Money cents={ref.netCents} basis="On approval" whole /></span>
+              {/* the actions stay attached to the object they act on */}
+              <span className="x-hero-actions x-hero-actions-earn">
+                <a href="#recreate" className="btn btn-primary">Explore earning</a>
+                <Link href="/design-lab-v3/home?open=lab-recreate-loopday-pour" className="link t-action">Open preview</Link>
+              </span>
             </div>
           )}
         </div>
-        {business ? (
+        {business && (
           <div className="x-hero-actions x-reveal" key="biz-actions">
             <span className="x-hero-who"><span className="t-fact">Find people</span><span className="t-object">{maya.name}</span></span>
             <span className="x-hero-actions-r">
@@ -71,11 +76,6 @@ export function Hero({ initial }: { initial: Audience }) {
               <Link href="/design-lab-v3/business?person=maya&request=1" className="btn btn-primary">Request</Link>
               <a href="#find-people" className="link t-action">Explore business</a>
             </span>
-          </div>
-        ) : (
-          <div className="x-hero-actions" key="earn-actions">
-            <a href="#recreate" className="btn btn-primary">Explore earning</a>
-            <Link href="/design-lab-v3/home?open=lab-recreate-loopday-pour" className="link t-action">Open preview</Link>
           </div>
         )}
       </div>

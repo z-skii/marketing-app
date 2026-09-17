@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Sheet } from "../../../design-lab-v2/Sheet";
 import { Viewer } from "../../../design-lab-v2/Viewer";
 import { Img } from "../../../design-lab-v2/Img";
@@ -65,7 +65,8 @@ export function FindPeople() {
 const FC: Frame[] = [{ key: "car", label: "Eli’s car", dur: 1400 }, { key: "plan", label: "Placement plan", dur: 2200 }];
 export function FindCars() {
   const { reduced } = useMotion();
-  const seq = useSequence(FC);
+  const stage = useRef<HTMLDivElement>(null);
+  const seq = useSequence(FC, { stage });
   const open = seq.frame === 1;
   const [zone, setZone] = useState(false);
   // the supported zone fills 680ms into the opening; reduced motion fills immediately
@@ -77,29 +78,31 @@ export function FindCars() {
       <img src={M.vehicleEli(800)} srcSet={`${M.vehicleEli(800)} 800w, ${M.vehicleEli(1200)} 1200w`} sizes="(min-width: 1024px) 976px, 100vw" alt="Eli’s car: a silver sedan parked outside a brick workshop" width={800} height={533} decoding="async" loading="lazy" className="x-fc-img" />
     </span>
   );
+  const rate = <span className="x-fc-rate"><Money cents={businessCar.askCents} basis="/month" whole inline /><span className="t-fact-ink">Asking rate<span aria-hidden> · </span>Rear doors</span></span>;
   const band = (
     <div className="x-fc-band paper">
-      <span className="x-fc-rate"><Money cents={businessCar.askCents} basis="/month" whole inline /><span className="t-fact-ink">Asking rate</span></span>
+      {rate}
       <span className="x-fc-id"><span className="t-object">{businessCar.title}</span><button type="button" className="link t-action" onClick={() => { if (!open) { setZone(false); seq.go(1); } }} aria-pressed={open}>Rear doors</button></span>
       <Link href={carLink} className="btn btn-primary x-fc-view">View</Link>
     </div>
   );
+  // Open: the zone, its asking rate and View form one reading group directly beneath the selected zone on the plan.
   const plan = (
     <div className="x-fc-plan paper">
-      <span className="t-fact">Placement plan</span>
+      <span className="t-fact">{businessCar.title}<span aria-hidden> · </span>Placement plan</span>
       <span className={`x-fc-diagram${zoneOn ? " is-on" : ""}`}><Plan selected={zoneOn} /></span>
       <span className={`x-fc-zone t-object${zoneOn ? " x-reveal" : ""}`}>Rear doors</span>
+      <span className="x-fc-plan-group">{rate}<Link href={carLink} className="btn btn-primary x-fc-view">View</Link></span>
     </div>
   );
   if (reduced) {
-    return <Chapter id="find-cars" verb="Find cars" dark><Ordered id="find-cars" frames={FC} render={(i) => <div className="x-fc" data-frame={i}>{photo}{band}{i === 1 && plan}</div>} /></Chapter>;
+    return <Chapter id="find-cars" verb="Find cars" dark><Ordered id="find-cars" frames={FC} render={(i) => <div className="x-fc" data-frame={i}>{photo}{i === 0 ? band : plan}</div>} /></Chapter>;
   }
   return (
     <Chapter id="find-cars" verb="Find cars" dark>
-      <div className={`x-fc${open ? " is-open" : ""}`} data-frame={seq.frame} data-zone={zoneOn ? "true" : "false"}>
+      <div className={`x-fc${open ? " is-open" : ""}`} data-frame={seq.frame} data-zone={zoneOn ? "true" : "false"} ref={stage}>
         <div className="x-fc-stage">{photo}</div>
-        {open && <div className="x-fc-planwrap" key="plan">{plan}</div>}
-        <div className="x-fc-bandwrap">{band}</div>
+        {open ? <div className="x-fc-planwrap" key="plan">{plan}</div> : <div className="x-fc-bandwrap" key="band">{band}</div>}
       </div>
       <SeqControls seq={seq} frames={FC} showPlay={false} />
     </Chapter>
@@ -161,7 +164,8 @@ export function Review() {
           <span className="t-fact">Recorded example</span>
           <span className="t-object">{isWork ? maya.project.title : proofRecord.title}</span>
           <span className="t-fact">{isWork ? `${maya.name} · ${maya.project.business} · Approved ${maya.project.approved}` : `${profile.name} · ${proofRecord.business} · ${proofRecord.state} ${proofRecord.facts[1].value.replace("Proof approved ", "")}`}</span>
-          <Sheet title="Business approval" triggerClass="btn btn-primary" trigger="Business approval">
+          {/* Both records are already approved: the action inspects the approval, it never invites a second decision. */}
+          <Sheet title="Approval record" triggerClass="btn btn-primary" trigger="View approval">
             {isWork ? (
               <><p className="t-body" style={{ marginTop: 8 }}>Counter pour was approved on {maya.project.approved}. Its creator pay and fee are not in this preview&rsquo;s records.</p></>
             ) : (

@@ -37,6 +37,8 @@ export function ProfilePage({ publicView }: { publicView: boolean }) {
         </header>
       )}
       <LabStrip />
+      {/* Desktop keeps the sidebar, so the owner entrances (Share profile, one Settings gear) sit at the top of the composition. */}
+      {!publicView && <div className="x-pf-owner"><ShareSheet /><SettingsSheet /></div>}
       <ProfileBody publicView={publicView} />
     </div>
   );
@@ -71,20 +73,22 @@ export function ProfileBody({ publicView }: { publicView: boolean }) {
       <section className="x-pf-work" aria-labelledby="work-h">
         <div className="x-pf-work-head">
           <h3 id="work-h" ref={sel !== null ? heading : undefined} tabIndex={sel !== null ? -1 : undefined} className="x-pf-work-h">Work</h3>
-          {w && <button type="button" className="link link-plain t-action preview-close" onClick={closeWork}><X size={18} aria-hidden />Close</button>}
+          {w && (
+            <span className="x-pf-work-tools">
+              <button type="button" className="link t-action" onClick={() => step(-1)}>Previous</button>
+              <button type="button" className="link t-action" onClick={() => step(1)}>Next</button>
+              <button type="button" className="link link-plain t-action preview-close" onClick={closeWork}><X size={18} aria-hidden />Close</button>
+            </span>
+          )}
         </div>
         {w ? (
           <div className="x-pf-inspect x-open" key={w.id} role="region" aria-label={`Work: ${w.title}`}>
             <span className="media x-pf-inspect-media" style={{ aspectRatio: w.ratio }}><img src={w.full} alt={w.alt} /></span>
-            <div className="x-pf-inspect-ctx paper">
-              <span className="t-fact">{w.kind}</span>
+            <div className="x-pf-inspect-ctx">
+              <span className="t-fact">{w.kind}<span aria-hidden> · </span>{sel! + 1} of {WORK.length}</span>
               <span className="t-object">{w.title}</span>
               <span className="t-fact">{w.business}</span>
               <span className="t-fact-ink">{w.state}</span>
-              <span className="x-pf-inspect-nav">
-                <button type="button" className="link t-action" onClick={() => step(-1)}>Previous</button>
-                <button type="button" className="link t-action" onClick={() => step(1)}>Next</button>
-              </span>
             </div>
           </div>
         ) : (
@@ -116,9 +120,7 @@ function VehicleTask() {
     <div className="x-pf-vehicle-task">
       <LabStrip />
       <span className="media x-pf-vehicle-large"><img src={M.vehicleMaya(1200)} alt={v.alt} width={1200} height={800} decoding="async" /></span>
-      <p className="t-object" style={{ marginTop: 16 }}>{v.title}</p>
-      <p className="t-fact" style={{ marginTop: 4 }}>{v.listed ? "Listed for ads" : "Vehicle not ready"}<span aria-hidden> · </span>{profile.city}</p>
-      <p className="t-fact" style={{ marginTop: 12 }}>One photograph on record. Listing details are in Settings, Account, Vehicles.</p>
+      <p className="t-fact" style={{ marginTop: 12 }}>{v.listed ? "Listed for ads" : "Vehicle not ready"}<span aria-hidden> · </span>{profile.city}</p>
     </div>
   );
 }

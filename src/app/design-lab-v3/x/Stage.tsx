@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type ReactNode, type RefObject } from "react";
 import { ArrowCounterClockwise, CaretDown, Pause, Play, SkipBack, SkipForward } from "@phosphor-icons/react";
 import { Sheet } from "../../design-lab-v2/Sheet";
 import { useMotion } from "./motion";
@@ -17,7 +17,7 @@ import { useMotion } from "./motion";
  */
 export type Frame = { key: string; label: string; dur: number; unavailable?: string };
 
-export function useSequence(frames: readonly Frame[], opts: { autoplay?: boolean } = {}) {
+export function useSequence(frames: readonly Frame[], opts: { stage?: RefObject<HTMLDivElement | null> } = {}) {
   const { paused, reduced } = useMotion();
   const [frame, setFrame] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -26,6 +26,22 @@ export function useSequence(frames: readonly Frame[], opts: { autoplay?: boolean
   const remaining = useRef(frames[0]?.dur ?? 0);
   const startedAt = useRef<number | null>(null);
   const autoplayed = useRef(false);
+  // The caller's stage element: a deliberate step keeps its reading anchor beneath the navigation, and playback stops when it leaves view.
+  const stage = opts.stage;
+  useEffect(() => {
+    const el = stage?.current; if (!el) return;
+    const io = new IntersectionObserver((es) => { if (!es[0].isIntersecting) setPlaying(false); }, { threshold: 0 });
+    io.observe(el); return () => io.disconnect();
+  }, [stage]);
+  const anchor = useCallback(() => {
+    const el = stage?.current; if (!el) return;
+    requestAnimationFrame(() => {
+      const r = el.getBoundingClientRect();
+      const top = window.innerWidth < 1024 ? 84 : 96;
+      // Only when the new object would sit above the viewport: a stage already in view is never moved under the finger.
+      if (r.top < top - 8) window.scrollTo({ top: window.scrollY + r.top - top, behavior: reduced ? "auto" : "smooth" });
+    });
+  }, [reduced, stage]);
 
   // timer for the current frame, pause aware
   useEffect(() => {
@@ -49,7 +65,8 @@ export function useSequence(frames: readonly Frame[], opts: { autoplay?: boolean
   const go = useCallback((n: number) => {
     const i = Math.max(0, Math.min(frames.length - 1, n));
     setPlaying(false); setStarted(true); setFrame(i); remaining.current = frames[i].dur; setTick((x) => x + 1);
-  }, [frames]);
+    anchor();
+  }, [frames, anchor]);
   const play = useCallback(() => {
     setStarted(true);
     setFrame((f) => { const s = f >= frames.length - 1 ? 0 : f; remaining.current = frames[s].dur; return s; });

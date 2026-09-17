@@ -48,9 +48,6 @@ export function PublicNav() {
   return (
     <header className={`x-nav lens${dark ? " lens-dark x-dark" : ""}`} data-nav>
       <a href="#top" aria-label="TapMart" className="x-nav-brand"><Wordmark size={20} onInk={dark} /></a>
-      <nav className="x-nav-links" aria-label="Public">
-        <a href="#earn">Make money</a><a href="#business">Grow your business</a>
-      </nav>
       <span className="x-nav-actions">
         <Entry label="Sign in" className="link link-plain t-action x-nav-signin" />
         <Sheet title="Menu" variant="full" triggerClass="link link-plain t-action x-nav-menu" trigger={<><List size={20} aria-hidden />Menu</>}>

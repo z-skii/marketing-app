@@ -2,7 +2,7 @@
   "verified": "2026-09-17",
   "note": "Every file below was opened and fully decoded after saving. Paths are repository relative and stable; no scratchpad or temporary path is referenced by the V3 package.",
   "total": 189,
-  "unreadable": 0,
+  "unreadable": 3,
   "files": [
     {
       "file": "docs/design-lab-v3/captures/INDEX.json",
@@ -14,13 +14,13 @@
       "file": "docs/design-lab-v3/captures/business-home-d-full.png",
       "kind": "image",
       "size_kb": 680,
-      "dimensions": "1440x1089",
+      "dimensions": "1440x955",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/business-home-d.png",
       "kind": "image",
-      "size_kb": 640,
+      "size_kb": 666,
       "dimensions": "1440x900",
       "readable": true
     },
@@ -47,84 +47,84 @@
     {
       "file": "docs/design-lab-v3/captures/loyalty-attribution-d-full.png",
       "kind": "image",
-      "size_kb": 103,
-      "dimensions": "1440x1411",
+      "size_kb": 104,
+      "dimensions": "1440x1489",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-attribution-d.png",
       "kind": "image",
-      "size_kb": 79,
+      "size_kb": 78,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-attribution-m-full.png",
       "kind": "image",
-      "size_kb": 189,
-      "dimensions": "780x3600",
+      "size_kb": 194,
+      "dimensions": "780x3644",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-attribution-m.png",
       "kind": "image",
-      "size_kb": 123,
+      "size_kb": 129,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-card-d-full.png",
       "kind": "image",
-      "size_kb": 71,
+      "size_kb": 97,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-card-d.png",
       "kind": "image",
-      "size_kb": 71,
+      "size_kb": 97,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-card-m-full.png",
       "kind": "image",
-      "size_kb": 167,
+      "size_kb": 239,
       "dimensions": "780x1734",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-card-m.png",
       "kind": "image",
-      "size_kb": 166,
+      "size_kb": 238,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-create-d-full.png",
       "kind": "image",
-      "size_kb": 376,
-      "dimensions": "1440x1024",
+      "size_kb": 260,
+      "dimensions": "1440x907",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-create-d.png",
       "kind": "image",
-      "size_kb": 372,
+      "size_kb": 260,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-create-m-full.png",
       "kind": "image",
-      "size_kb": 231,
+      "size_kb": 237,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-create-m.png",
       "kind": "image",
-      "size_kb": 231,
+      "size_kb": 237,
       "dimensions": "780x1688",
       "readable": true
     },
@@ -145,7 +145,7 @@
     {
       "file": "docs/design-lab-v3/captures/loyalty-home-m-full.png",
       "kind": "image",
-      "size_kb": 376,
+      "size_kb": 378,
       "dimensions": "780x2738",
       "readable": true
     },
@@ -187,78 +187,78 @@
     {
       "file": "docs/design-lab-v3/captures/loyalty-program-d-full.png",
       "kind": "image",
-      "size_kb": 150,
-      "dimensions": "1440x1041",
+      "size_kb": 175,
+      "dimensions": "1440x1017",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-program-d.png",
       "kind": "image",
-      "size_kb": 147,
+      "size_kb": 173,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-program-m-full.png",
       "kind": "image",
-      "size_kb": 327,
+      "size_kb": 400,
       "dimensions": "780x3158",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-program-m.png",
       "kind": "image",
-      "size_kb": 219,
+      "size_kb": 293,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-qr-d-full.png",
       "kind": "image",
-      "size_kb": 67,
+      "size_kb": 64,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-qr-d.png",
       "kind": "image",
-      "size_kb": 67,
+      "size_kb": 64,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-qr-m-full.png",
       "kind": "image",
-      "size_kb": 118,
+      "size_kb": 78,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/loyalty-qr-m.png",
       "kind": "image",
-      "size_kb": 119,
+      "size_kb": 78,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/public-home-business-d-full.png",
       "kind": "image",
-      "size_kb": 4814,
-      "dimensions": "1440x9146",
+      "size_kb": 4813,
+      "dimensions": "1440x8811",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/public-home-business-d.png",
       "kind": "image",
-      "size_kb": 416,
+      "size_kb": 414,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/public-home-business-m-full.png",
       "kind": "image",
-      "size_kb": 6617,
-      "dimensions": "780x18336",
+      "size_kb": 6611,
+      "dimensions": "780x17118",
       "readable": true
     },
     {
@@ -271,22 +271,22 @@
     {
       "file": "docs/design-lab-v3/captures/public-home-d-full.png",
       "kind": "image",
-      "size_kb": 4752,
-      "dimensions": "1440x9298",
+      "size_kb": 4844,
+      "dimensions": "1440x8999",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/public-home-d.png",
       "kind": "image",
-      "size_kb": 351,
+      "size_kb": 437,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/public-home-m-full.png",
       "kind": "image",
-      "size_kb": 6739,
-      "dimensions": "780x18404",
+      "size_kb": 6737,
+      "dimensions": "780x17164",
       "readable": true
     },
     {
@@ -299,21 +299,21 @@
     {
       "file": "docs/design-lab-v3/captures/user-home-d-full.png",
       "kind": "image",
-      "size_kb": 585,
+      "size_kb": 586,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/user-home-d.png",
       "kind": "image",
-      "size_kb": 585,
+      "size_kb": 586,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/user-home-m-full.png",
       "kind": "image",
-      "size_kb": 1482,
+      "size_kb": 1483,
       "dimensions": "780x3546",
       "readable": true
     },
@@ -327,14 +327,14 @@
     {
       "file": "docs/design-lab-v3/captures/user-profile-d-full.png",
       "kind": "image",
-      "size_kb": 672,
-      "dimensions": "1440x900",
+      "size_kb": 675,
+      "dimensions": "1440x916",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/user-profile-d.png",
       "kind": "image",
-      "size_kb": 672,
+      "size_kb": 674,
       "dimensions": "1440x900",
       "readable": true
     },
@@ -383,14 +383,14 @@
     {
       "file": "docs/design-lab-v3/captures/viewports/business-home-l-full.png",
       "kind": "image",
-      "size_kb": 725,
-      "dimensions": "1920x1112",
+      "size_kb": 726,
+      "dimensions": "1920x1080",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/business-home-l.png",
       "kind": "image",
-      "size_kb": 725,
+      "size_kb": 726,
       "dimensions": "1920x1080",
       "readable": true
     },
@@ -398,7 +398,7 @@
       "file": "docs/design-lab-v3/captures/viewports/business-home-s-full.png",
       "kind": "image",
       "size_kb": 1364,
-      "dimensions": "740x3432",
+      "dimensions": "740x3388",
       "readable": true
     },
     {
@@ -411,21 +411,21 @@
     {
       "file": "docs/design-lab-v3/captures/viewports/business-home-t-full.png",
       "kind": "image",
-      "size_kb": 1650,
+      "size_kb": 1651,
       "dimensions": "1588x2310",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/business-home-t.png",
       "kind": "image",
-      "size_kb": 1592,
+      "size_kb": 1593,
       "dimensions": "1536x2048",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/business-home-v-full.png",
       "kind": "image",
-      "size_kb": 592,
+      "size_kb": 591,
       "dimensions": "1023x1155",
       "readable": true
     },
@@ -445,21 +445,21 @@
     {
       "file": "docs/design-lab-v3/captures/viewports/loyalty-home-l-full.png",
       "kind": "image",
-      "size_kb": 187,
+      "size_kb": 188,
       "dimensions": "1920x1080",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/loyalty-home-l.png",
       "kind": "image",
-      "size_kb": 187,
+      "size_kb": 188,
       "dimensions": "1920x1080",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/loyalty-home-s-full.png",
       "kind": "image",
-      "size_kb": 372,
+      "size_kb": 374,
       "dimensions": "640x2954",
       "readable": true
     },
@@ -473,50 +473,50 @@
     {
       "file": "docs/design-lab-v3/captures/viewports/loyalty-home-t-full.png",
       "kind": "image",
-      "size_kb": 377,
-      "dimensions": "1572x2048",
+      "size_kb": 270,
+      "dimensions": "1536x2048",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/loyalty-home-t.png",
       "kind": "image",
-      "size_kb": 374,
+      "size_kb": 270,
       "dimensions": "1536x2048",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/loyalty-home-v-full.png",
       "kind": "image",
-      "size_kb": 133,
+      "size_kb": 134,
       "dimensions": "1023x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/loyalty-home-v.png",
       "kind": "image",
-      "size_kb": 133,
+      "size_kb": 134,
       "dimensions": "1023x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/public-home-l-full.png",
       "kind": "image",
-      "size_kb": 5380,
-      "dimensions": "1920x9620",
+      "size_kb": 5566,
+      "dimensions": "1920x9321",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/public-home-l.png",
       "kind": "image",
-      "size_kb": 357,
+      "size_kb": 445,
       "dimensions": "1920x1080",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/public-home-s-full.png",
       "kind": "image",
-      "size_kb": 5325,
-      "dimensions": "640x18206",
+      "size_kb": 5329,
+      "dimensions": "640x16780",
       "readable": true
     },
     {
@@ -529,77 +529,77 @@
     {
       "file": "docs/design-lab-v3/captures/viewports/public-home-t-full.png",
       "kind": "image",
-      "size_kb": 9346,
-      "dimensions": "1536x15704",
+      "size_kb": 9345,
+      "dimensions": "1536x14482",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/public-home-t.png",
       "kind": "image",
-      "size_kb": 981,
+      "size_kb": 1179,
       "dimensions": "1536x2048",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/public-home-v-full.png",
       "kind": "image",
-      "size_kb": 4538,
-      "dimensions": "1023x8602",
+      "size_kb": 4541,
+      "dimensions": "1023x8226",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/public-home-v.png",
       "kind": "image",
-      "size_kb": 471,
+      "size_kb": 477,
       "dimensions": "1023x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/user-home-l-full.png",
       "kind": "image",
-      "size_kb": 628,
+      "size_kb": 629,
       "dimensions": "1920x1080",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/user-home-l.png",
       "kind": "image",
-      "size_kb": 628,
+      "size_kb": 629,
       "dimensions": "1920x1080",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/user-home-s-full.png",
       "kind": "image",
-      "size_kb": 980,
-      "dimensions": "640x3338",
+      "size_kb": 981,
+      "dimensions": "640x3186",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/user-home-s.png",
       "kind": "image",
-      "size_kb": 409,
+      "size_kb": 413,
       "dimensions": "640x1136",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/user-home-t-full.png",
       "kind": "image",
-      "size_kb": 2333,
+      "size_kb": 2335,
       "dimensions": "1536x2942",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/user-home-t.png",
       "kind": "image",
-      "size_kb": 1651,
+      "size_kb": 1652,
       "dimensions": "1536x2048",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/user-home-v-full.png",
       "kind": "image",
-      "size_kb": 1266,
+      "size_kb": 1265,
       "dimensions": "1023x1841",
       "readable": true
     },
@@ -613,14 +613,14 @@
     {
       "file": "docs/design-lab-v3/captures/viewports/user-profile-l-full.png",
       "kind": "image",
-      "size_kb": 686,
+      "size_kb": 688,
       "dimensions": "1920x1080",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/viewports/user-profile-l.png",
       "kind": "image",
-      "size_kb": 686,
+      "size_kb": 688,
       "dimensions": "1920x1080",
       "readable": true
     },
@@ -676,77 +676,77 @@
     {
       "file": "docs/design-lab-v3/captures/states/biz-offer-d.png",
       "kind": "image",
-      "size_kb": 810,
+      "size_kb": 608,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/biz-person-d.png",
       "kind": "image",
-      "size_kb": 445,
+      "size_kb": 508,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/biz-person-m.png",
       "kind": "image",
-      "size_kb": 522,
+      "size_kb": 497,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/biz-request-m.png",
       "kind": "image",
-      "size_kb": 522,
+      "size_kb": 96,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/biz-vehicle-d.png",
       "kind": "image",
-      "size_kb": 698,
+      "size_kb": 692,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/biz-vehicle-m.png",
       "kind": "image",
-      "size_kb": 612,
+      "size_kb": 604,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/create-sel-m.png",
       "kind": "image",
-      "size_kb": 634,
+      "size_kb": 633,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/drive-placement-d.png",
       "kind": "image",
-      "size_kb": 533,
+      "size_kb": 796,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/drive-placement-m.png",
       "kind": "image",
-      "size_kb": 547,
+      "size_kb": 550,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/findcars-plan-d.png",
       "kind": "image",
-      "size_kb": 678,
+      "size_kb": 667,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/findcars-plan-m.png",
       "kind": "image",
-      "size_kb": 536,
+      "size_kb": 541,
       "dimensions": "780x1688",
       "readable": true
     },
@@ -760,14 +760,14 @@
     {
       "file": "docs/design-lab-v3/captures/states/hero-business-m.png",
       "kind": "image",
-      "size_kb": 713,
+      "size_kb": 587,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/home-close-m.png",
       "kind": "image",
-      "size_kb": 675,
+      "size_kb": 673,
       "dimensions": "780x1688",
       "readable": true
     },
@@ -781,7 +781,7 @@
     {
       "file": "docs/design-lab-v3/captures/states/home-open-car-m.png",
       "kind": "image",
-      "size_kb": 680,
+      "size_kb": 679,
       "dimensions": "780x1688",
       "readable": true
     },
@@ -795,63 +795,63 @@
     {
       "file": "docs/design-lab-v3/captures/states/home-open-m.png",
       "kind": "image",
-      "size_kb": 657,
+      "size_kb": 410,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/home-open-story-m.png",
       "kind": "image",
-      "size_kb": 394,
+      "size_kb": 384,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/loop-attribution-d.png",
       "kind": "image",
-      "size_kb": 53,
+      "size_kb": 67,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/loop-attribution-m.png",
       "kind": "image",
-      "size_kb": 244,
+      "size_kb": 118,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/loop-card-m.png",
       "kind": "image",
-      "size_kb": 160,
+      "size_kb": 271,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/loop-reward-m.png",
       "kind": "image",
-      "size_kb": 167,
+      "size_kb": 274,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/loop-sep16-d.png",
       "kind": "image",
-      "size_kb": 96,
+      "size_kb": 122,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/loop-signup-m.png",
       "kind": "image",
-      "size_kb": 118,
+      "size_kb": 136,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/post-handoff-m.png",
       "kind": "image",
-      "size_kb": 312,
+      "size_kb": 425,
       "dimensions": "780x1688",
       "readable": true
     },
@@ -879,331 +879,334 @@
     {
       "file": "docs/design-lab-v3/captures/states/profile-vehicle-m.png",
       "kind": "image",
-      "size_kb": 524,
+      "size_kb": 506,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/profile-work-m.png",
       "kind": "image",
-      "size_kb": 1390,
-      "dimensions": "780x3036",
+      "size_kb": 1389,
+      "dimensions": "780x2886",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/recreate-approved-d.png",
       "kind": "image",
-      "size_kb": 436,
+      "size_kb": 399,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/recreate-approved-m.png",
       "kind": "image",
-      "size_kb": 776,
+      "size_kb": 757,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/recreate-creator-m.png",
       "kind": "image",
-      "size_kb": 828,
+      "size_kb": 830,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/recreate-earnings-d.png",
       "kind": "image",
-      "size_kb": 103,
+      "size_kb": 135,
       "dimensions": "1440x900",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/recreate-earnings-m.png",
       "kind": "image",
-      "size_kb": 333,
+      "size_kb": 475,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/captures/states/recreate-submit-m.png",
       "kind": "image",
-      "size_kb": 826,
+      "size_kb": 827,
       "dimensions": "780x1688",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/01-hero-d-strip.png",
       "kind": "image",
-      "size_kb": 754,
+      "size_kb": 931,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/01-hero-d.webm",
       "kind": "video",
-      "size_kb": 660,
+      "size_kb": 652,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/01-hero-m-strip.png",
       "kind": "image",
-      "size_kb": 620,
+      "size_kb": 635,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/01-hero-m.webm",
       "kind": "video",
-      "size_kb": 427,
+      "size_kb": 322,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/02-audience-switch-d-strip.png",
       "kind": "image",
-      "size_kb": 581,
+      "size_kb": 692,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/02-audience-switch-d.webm",
       "kind": "video",
-      "size_kb": 769,
+      "size_kb": 749,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/02-audience-switch-m-strip.png",
       "kind": "image",
-      "size_kb": 417,
+      "size_kb": 517,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/02-audience-switch-m.webm",
       "kind": "video",
-      "size_kb": 478,
+      "size_kb": 456,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/03-recreate-d-strip.png",
       "kind": "image",
-      "size_kb": 983,
+      "size_kb": 1233,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/03-recreate-d.webm",
       "kind": "video",
-      "size_kb": 1108,
+      "size_kb": 1021,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/03-recreate-m-strip.png",
       "kind": "image",
-      "size_kb": 427,
+      "size_kb": 698,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/03-recreate-m.webm",
       "kind": "video",
-      "size_kb": 735,
+      "size_kb": 837,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/04-story-d-strip.png",
       "kind": "image",
-      "size_kb": 375,
+      "size_kb": 277,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/04-story-d.webm",
       "kind": "video",
-      "size_kb": 644,
+      "size_kb": 402,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/04-story-m-strip.png",
       "kind": "image",
-      "size_kb": 372,
+      "size_kb": 403,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/04-story-m.webm",
       "kind": "video",
-      "size_kb": 461,
+      "size_kb": 381,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/05-car-d-strip.png",
       "kind": "image",
-      "size_kb": 1098,
+      "size_kb": 1920,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/05-car-d.webm",
       "kind": "video",
-      "size_kb": 1402,
+      "size_kb": 953,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/05-car-m-strip.png",
       "kind": "image",
-      "size_kb": 745,
+      "size_kb": 474,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/05-car-m.webm",
       "kind": "video",
-      "size_kb": 1028,
+      "size_kb": 530,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/06-business-discovery-d-strip.png",
       "kind": "image",
-      "size_kb": 1302,
+      "size_kb": 911,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/06-business-discovery-d.webm",
       "kind": "video",
-      "size_kb": 1188,
+      "size_kb": 787,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/06-business-discovery-m-strip.png",
       "kind": "image",
-      "size_kb": 765,
+      "size_kb": 293,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/06-business-discovery-m.webm",
       "kind": "video",
-      "size_kb": 758,
+      "size_kb": 410,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/07-business-loyalty-loop-d-strip.png",
       "kind": "image",
-      "size_kb": 281,
+      "size_kb": 325,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/07-business-loyalty-loop-d.webm",
       "kind": "video",
-      "size_kb": 894,
+      "size_kb": 738,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/07-business-loyalty-loop-m-strip.png",
       "kind": "image",
-      "size_kb": 143,
+      "size_kb": 198,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/07-business-loyalty-loop-m.webm",
       "kind": "video",
-      "size_kb": 563,
+      "size_kb": 502,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/08-opportunity-open-return-d-strip.png",
       "kind": "image",
-      "size_kb": 731,
+      "size_kb": 739,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/08-opportunity-open-return-d.webm",
       "kind": "video",
-      "size_kb": 902,
+      "size_kb": 881,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/08-opportunity-open-return-m-strip.png",
       "kind": "image",
-      "size_kb": 747,
+      "size_kb": 721,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/08-opportunity-open-return-m.webm",
       "kind": "video",
-      "size_kb": 490,
+      "size_kb": 405,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/09-creator-interaction-d-strip.png",
       "kind": "image",
-      "size_kb": 1164,
+      "size_kb": 1507,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/09-creator-interaction-d.webm",
-      "kind": "video",
-      "size_kb": 935,
-      "readable": true
+      "kind": "unknown",
+      "size_kb": 0,
+      "readable": false,
+      "error": "webm too small"
     },
     {
       "file": "docs/design-lab-v3/recordings/09-creator-interaction-m-strip.png",
       "kind": "image",
-      "size_kb": 497,
+      "size_kb": 437,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/09-creator-interaction-m.webm",
       "kind": "video",
-      "size_kb": 565,
+      "size_kb": 524,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/10-vehicle-interaction-d-strip.png",
       "kind": "image",
-      "size_kb": 1538,
+      "size_kb": 1477,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/10-vehicle-interaction-d.webm",
       "kind": "video",
-      "size_kb": 1109,
+      "size_kb": 1072,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/10-vehicle-interaction-m-strip.png",
       "kind": "image",
-      "size_kb": 526,
+      "size_kb": 506,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/10-vehicle-interaction-m.webm",
-      "kind": "video",
-      "size_kb": 599,
-      "readable": true
+      "kind": "unknown",
+      "size_kb": 0,
+      "readable": false,
+      "error": "webm too small"
     },
     {
       "file": "docs/design-lab-v3/recordings/11-loyalty-visit-reward-d-strip.png",
       "kind": "image",
-      "size_kb": 150,
+      "size_kb": 268,
       "dimensions": "6216x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/11-loyalty-visit-reward-d.webm",
-      "kind": "video",
-      "size_kb": 261,
-      "readable": true
+      "kind": "unknown",
+      "size_kb": 0,
+      "readable": false,
+      "error": "webm too small"
     },
     {
       "file": "docs/design-lab-v3/recordings/11-loyalty-visit-reward-m-strip.png",
@@ -1215,85 +1218,85 @@
     {
       "file": "docs/design-lab-v3/recordings/11-loyalty-visit-reward-m.webm",
       "kind": "video",
-      "size_kb": 200,
+      "size_kb": 142,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-hero-m-strip.png",
       "kind": "image",
-      "size_kb": 617,
+      "size_kb": 627,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-hero-m.webm",
       "kind": "video",
-      "size_kb": 372,
+      "size_kb": 312,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-loop-m-strip.png",
       "kind": "image",
-      "size_kb": 132,
+      "size_kb": 131,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-loop-m.webm",
       "kind": "video",
-      "size_kb": 182,
+      "size_kb": 243,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-opportunity-m-strip.png",
       "kind": "image",
-      "size_kb": 464,
+      "size_kb": 423,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-opportunity-m.webm",
       "kind": "video",
-      "size_kb": 363,
+      "size_kb": 310,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-recreate-m-strip.png",
       "kind": "image",
-      "size_kb": 1302,
+      "size_kb": 1282,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-recreate-m.webm",
       "kind": "video",
-      "size_kb": 715,
+      "size_kb": 710,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-visit-m-strip.png",
       "kind": "image",
-      "size_kb": 102,
+      "size_kb": 100,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/19-reduced-motion-visit-m.webm",
       "kind": "video",
-      "size_kb": 138,
+      "size_kb": 163,
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/20-pause-keyboard-back-m-strip.png",
       "kind": "image",
-      "size_kb": 537,
+      "size_kb": 499,
       "dimensions": "1848x496",
       "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/20-pause-keyboard-back-m.webm",
       "kind": "video",
-      "size_kb": 1127,
+      "size_kb": 912,
       "readable": true
     }
   ]

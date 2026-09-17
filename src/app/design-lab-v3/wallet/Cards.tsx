@@ -9,10 +9,10 @@ import type { CardDesign, Program } from "../fixtures";
 /**
  * Simulated Wallet cards drawn to each platform's documented anatomy
  * (docs/design-lab-v3/WALLET_RESEARCH.md) and the director's spec. Apple:
- * a store card at 375 reference width; 60px header with logo and logo
- * text; a 375:123 strip split hard at 60% solid reading area and 40%
- * photograph carrying the one primary field; Reward and Member on one row,
- * Status below; a complete black on white member QR with a four module
+ * a store card at 375 reference width; a 60px header with the rectangular
+ * logo and logo text at left and the one header field (Visits) at right;
+ * a full width 375:123 strip of the program's artwork; Reward and Member
+ * as secondary fields on one row, Status as the auxiliary field below; a complete black on white member QR with a four module
  * quiet zone and the readable member ID. Google: a 72px header with the
  * program name first and the issuer beneath; a 3:1 hero; the Visits and
  * Rewards balances; Member and Member ID; the member QR. Design Lab
@@ -49,14 +49,14 @@ export function AppleCard({ d, width = 375, className = "" }: { d: CardData; wid
   const scale = width / 375;
   return (
     <div className={`wc wc-apple ${className}`} style={{ width, background: design.bg, color: design.fg, ["--wc-label" as string]: design.label, ["--wc-bg" as string]: design.bg, ["--wc-scale" as string]: scale }} data-state={d.state} role="img" aria-label={`Apple Wallet store card concept: ${design.businessName}, ${unit(p)} ${primary}, ${status}`}>
-      <div className="wc-apple-top"><span className="wc-apple-brand"><Logo design={design} size={24} /><span className="wc-apple-logotext">{design.businessName}</span></span></div>
-      <div className="wc-apple-strip">
-        {design.artwork ? <span className="wc-apple-strip-art"><Img src={design.artwork} alt="" position={design.artworkPosition} /></span> : null}
-        <span className="wc-apple-primary"><span className="wc-label">{unit(p)}</span><span className="wc-value wc-value-primary">{primary}</span></span>
+      <div className="wc-apple-top">
+        <span className="wc-apple-brand"><span className="wc-apple-logo"><Logo design={design} size={22} /></span><span className="wc-apple-logotext">{design.businessName}</span></span>
+        <span className="wc-field wc-field-right wc-apple-header"><span className="wc-label">{unit(p)}</span><span className="wc-value wc-value-header">{primary}</span></span>
       </div>
+      <div className="wc-apple-strip">{design.artwork ? <Img src={design.artwork} alt="" position={design.artworkPosition} /> : <span className="wc-apple-strip-plain" />}</div>
       <div className="wc-apple-fields">
         {d.publicSubset ? (
-          <span className="wc-field wc-field-wide"><span className="wc-value">{design.rewardTitle}</span></span>
+          <span className="wc-field wc-field-wide"><span className="wc-label">Reward</span><span className="wc-value">{design.rewardTitle}</span></span>
         ) : (
           <><span className="wc-field"><span className="wc-label">Reward</span><span className="wc-value">{design.rewardTitle}</span></span>
           <span className="wc-field wc-field-right"><span className="wc-label">Member</span><span className="wc-value">{d.firstName}</span></span></>

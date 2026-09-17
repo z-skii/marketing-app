@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { MagnifyingGlass, X } from "@phosphor-icons/react";
+import { MagnifyingGlass } from "@phosphor-icons/react";
 import { Marks } from "../../../Progress";
 import { useOrigin } from "../../../useOrigin";
 import { cardUrl } from "../../../wallet/Cards";
@@ -10,7 +10,7 @@ import { QR } from "../../../qr";
 import { type Member } from "../../../fixtures";
 import { progressLabel, useLoyalty } from "../../../store";
 import { CounterActions } from "./CounterActions";
-import { LabEntrance } from "../../../LabControl";
+import { TaskHead } from "../TaskHead";
 
 /**
  * Add visit: a focused counter task. Scan is the default: a paper
@@ -38,11 +38,7 @@ export function Record({ preset }: { preset: string | null }) {
   const clear = () => { setFound(null); setQ(""); setUnknown(false); };
   return (
     <div className="record">
-      <header className="record-bar">
-        <span className="t-object">Add {points ? "points" : "visit"}</span>
-        <Link href="/design-lab-v3/business/loyalty" className="link link-plain t-action preview-close" aria-label="Close"><X size={18} aria-hidden />Close</Link>
-      </header>
-      <LabEntrance />
+      <TaskHead title={`Add ${points ? "points" : "visit"}`} />
       {!m ? (
         <>
           <div className="tabs" role="tablist" aria-label="Find the member">
@@ -76,13 +72,14 @@ export function Record({ preset }: { preset: string | null }) {
           )}
         </>
       ) : (
-        <section className={`record-found settle${m.ready > 0 ? " is-ready" : ""}`} aria-live="polite">
+        <section className={`record-found${m.ready > 0 ? " is-ready" : ""}`} aria-live="polite">
           <div className="record-found-grid">
             <span className="record-found-qr"><QR value={cardUrl(origin, m.code)} size={165} label={`${m.firstName}’s member QR`} ink="#111" paper="#fff" quiet={4} /><span className="t-fact">{m.memberId}</span></span>
             <div className="record-found-id">
-              <h2 className="t-name">{m.firstName}</h2>
+              <h2 className="t-title record-name">{m.firstName}</h2>
               <span className="t-fact">{m.contactMasked}</span>
-              <span className="mem-progress-big record-progress-value">{progressLabel(m, p)}</span>
+              <span className="mem-progress-big record-progress-value">{m.ready > 0 ? "Reward ready" : progressLabel(m, p)}</span>
+              {m.ready > 0 && <span className="t-fact-ink record-progress-n">{p.requirement} of {p.requirement} {points ? "points" : "visits"}</span>}
               <Marks m={m} p={p} size="l" live={live} />
               <span className="t-fact-ink">{p.reward.name}{points && m.ready === 0 ? " · 1 point per qualifying purchase" : ""}</span>
             </div>

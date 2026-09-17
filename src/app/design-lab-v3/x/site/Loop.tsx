@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { Img } from "../../../design-lab-v2/Img";
 import { Sheet } from "../../../design-lab-v2/Sheet";
 import { AppleCard, GoogleCard, Logo, PlatformLabel, type CardData } from "../../wallet/Cards";
@@ -10,7 +10,7 @@ import { liveProgram, type Member } from "../../fixtures";
 import { M } from "../media";
 import { useMotion } from "../motion";
 import { SeqControls, Ordered, useSequence, type Frame } from "../Stage";
-import { Chapter, Entry } from "./Shell";
+import { Chapter } from "./Shell";
 
 /**
  * The source never leaves: the third wow moment and the closing chapter.
@@ -45,10 +45,10 @@ function card(visits: number, ready: boolean): CardData {
 
 export function Loop() {
   const { reduced } = useMotion();
-  const seq = useSequence(FR);
+  const stage = useRef<HTMLDivElement>(null);
+  const seq = useSequence(FR, { stage });
   const [platform, setPlatform] = useState<"apple" | "google">("apple");
   const f = seq.frame;
-  useEffect(() => { const el = document.getElementById("loyalty"); if (!el) return; const io = new IntersectionObserver((es) => { if (!es[0].isIntersecting) seq.stop(); }, { threshold: 0 }); io.observe(el); return () => io.disconnect(); }, [seq]);
 
   const Source = (
     <div className="x-lp-source">
@@ -75,7 +75,7 @@ export function Loop() {
       <span className="seq-field"><span className="t-fact">First name</span><span className="t-body">Sara</span></span>
       <span className="seq-field"><span className="t-fact">Contact</span><span className="t-body">••42</span></span>
       <span className="t-fact">Agreed to the demo program terms and privacy notice.</span>
-      <span className="btn btn-primary seq-btn" aria-hidden>Create my card</span>
+      <span className="t-fact-ink x-lp-replayed">Card created<span aria-hidden> · </span>recorded {fmt("2026-09-08")}</span>
     </div>
   );
   const Pass = (visits: number, ready: boolean, iso: string | null, label: string | null, arrive: boolean) => {
@@ -96,7 +96,7 @@ export function Loop() {
     <div className="x-lp-attr x-settle">
       <Descent joined={4} returned={3} redeemed={1} max={4} size="l" />
       <span className="t-fact">Recorded aggregates<span aria-hidden> · </span>Unique members</span>
-      <span className="x-lp-attr-actions"><Link href="/design-lab-v3/business/loyalty" className="btn btn-primary">Open loyalty preview</Link><Entry label="Get started" className="link t-action" business /></span>
+      <span className="x-lp-attr-actions"><Link href="/design-lab-v3/business/loyalty" className="btn btn-primary">Open loyalty preview</Link></span>
     </div>
   );
   const WalletOptions = (
@@ -130,7 +130,7 @@ export function Loop() {
   }
   return (
     <Chapter id="loyalty" verb="Loyalty">
-      <div className="x-lp" data-frame={f} data-act={ACT(f)}>
+      <div className="x-lp" data-frame={f} data-act={ACT(f)} ref={stage}>
         {shared}
         <div className="x-lp-object" aria-live="polite">{f === 0 && seq.playing ? Story(true) : render(f)}</div>
         <SeqControls seq={seq} frames={FR} playLabel="Play sequence">{WalletOptions}{f < 8 && <Link href="/design-lab-v3/business/loyalty" className="link t-action x-open-preview">Open loyalty preview</Link>}</SeqControls>

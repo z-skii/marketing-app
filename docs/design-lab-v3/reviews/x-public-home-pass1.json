@@ -1,0 +1,192 @@
+{
+  "screen": "Public homepage",
+  "pass": 1,
+  "final": false,
+  "verification": false,
+  "shots": [
+    "public-home-m.png",
+    "public-home-m-full.png",
+    "public-home-d.png",
+    "public-home-d-full.png",
+    "public-home-business-m.png",
+    "01-hero-m-strip.png",
+    "02-audience-switch-d-strip.png",
+    "03-recreate-m-strip.png",
+    "04-story-m-strip.png",
+    "05-car-d-strip.png",
+    "06-business-discovery-m-strip.png",
+    "07-business-loyalty-loop-m-strip.png",
+    "recreate-approved-m.png",
+    "loop-attribution-d.png"
+  ],
+  "when": "2026-09-17T15:59:01.111Z",
+  "reviewer": "director",
+  "review": {
+    "experience": [
+      {
+        "question": "Would someone keep scrolling?",
+        "answer": "partly",
+        "note": "The phone opening earns attention through the photograph and US$75. The dark people spread renews interest. Repeated photographs, large empty intervals and remote sequence controls weaken the journey between them, especially on desktop."
+      },
+      {
+        "question": "Does motion reveal the product?",
+        "answer": "partly",
+        "note": "The hard comparison and separate vehicle plan explain something real. The strips otherwise show state replacement more convincingly than object handoff. On phone, advancing sequences leaves important objects above the viewport; the Loyalty resolution becomes mostly empty canvas."
+      },
+      {
+        "question": "Is this more desirable than production?",
+        "answer": "partly",
+        "note": "The media-first opening, lighter typography and portrait/work compositions move in the intended direction. This evidence does not establish a complete improvement over production: desktop composition and narrative continuity remain unfinished."
+      },
+      {
+        "question": "Is the hierarchy instantly understood?",
+        "answer": "yes",
+        "note": "Both audience names are immediately visible. The earning lens clearly attaches US$75 and On approval to a Loopday brief. The business lens introduces a person and request action without a paragraph. Desktop action placement weakens an otherwise clear first read."
+      },
+      {
+        "question": "Does this feel like a consumer product?",
+        "answer": "partly",
+        "note": "It avoids dashboard vocabulary and leads with desirable objects. But much of the page still feels like an editorial fixture presentation with slideshow controls rather than an integrated, touchable product experience."
+      },
+      {
+        "question": "Does the Business side justify paying?",
+        "answer": "partly",
+        "note": "People, authored work, a scoped vehicle rate and delivered photographs make the offer tangible. The public evidence does not show enough of the request, creation and review decision surfaces to establish the paid workflow. The final attribution provides useful value, but its phone delivery fails."
+      },
+      {
+        "question": "Does Loyalty strengthen the story?",
+        "answer": "partly",
+        "note": "Jasmine's desktop 4/3/1 descent supplies a meaningful ending beyond content approval. In the phone strip, source identity, dates and final aggregates are outside the visible reading area. The central source-to-return relationship is therefore not sustained in the experience shown."
+      },
+      {
+        "question": "Are we actually at the quality benchmark?",
+        "answer": "no",
+        "note": "Not ready to place beside the benchmark without apology. Desktop space is insufficiently composed, the approval material looks stacked and cloudy, and the most important closing sequence loses its subject during playback."
+      },
+      {
+        "question": "Are there at least three memorable product moments?",
+        "answer": "no",
+        "note": "Two promising explanatory beats are visible: the hard reference/creator comparison and the car revealing a separate placement plan. Neither is fully resolved as directed. The source-preserving customer handoff is not successfully visible in the phone recording."
+      }
+    ],
+    "scores": {
+      "business_justifies_paying": 5,
+      "slop_risk": 4,
+      "text_discipline": 7,
+      "memorable_moments": 4,
+      "material_quality": 4,
+      "loyalty_strengthens": 6,
+      "keep_scrolling": 5,
+      "at_benchmark": 3,
+      "truthfulness": 6,
+      "more_desirable_than_production": 5,
+      "motion_reveals_product": 4,
+      "hierarchy_instant": 8,
+      "consumer_product": 6
+    },
+    "verdict": "recompose",
+    "fixes": [
+      {
+        "priority": 1,
+        "change": "Recompose desktop around connected object groups. Use the centered 1280px narrative datum. Give the hero reference the intended seven-column stage, preserve its proportions, and place identity, amount and both actions together at its reading edge. Remove the far-right orphan Open preview. In subsequent chapters, constrain controls to the width of the object/task composition rather than the whole page.",
+        "why": "The current 448px-wide desktop hero image, detached white panel and distant action leave most of the canvas unresolved. This is not purposeful negative space.",
+        "where": "Desktop hero, Recreate, Post and sequence action rows"
+      },
+      {
+        "priority": 2,
+        "change": "Replace blanket sequence minimum heights with state-aware natural layouts. Keep the active object, its necessary labels and controls adjacent. On deliberate Next or Steps selection, preserve the active stage's reading anchor below the navigation; do not leave the user looking at the old controls while the new object sits above the viewport. On phone, use ordinary flow and stop playback when the meaningful stage leaves view. Keep the lab/motion strip reachable without placing content beneath it.",
+        "why": "Recreate and Loyalty strips visibly lose their subjects. Large blank spaces are functioning as empty stage reserves, not narrative pacing. No mobile pinning is needed to fix this.",
+        "where": "All phone sequences, especially Recreate and Loyalty"
+      },
+      {
+        "priority": 3,
+        "change": "Rebuild the Loyalty frame composition with Jasmine's source and simulation label immediately above each active customer object, outside its boundary. Show a clearly read-only September 8 signup replay, the distinct zero-progress member card, every required visit date and September 17 · Example continuation. Keep Sara's identity and QR stable. At the endpoint, position source and all three attribution measures in the reading area, remove Get started, and retain one Open loyalty preview action.",
+        "why": "The current strip shows a live-looking Create my card control and already-agreed copy, then cropped pass states and an attribution endpoint whose actual attribution is offscreen. This defeats the closing product explanation.",
+        "where": "Loyalty public replay and final attribution"
+      },
+      {
+        "priority": 4,
+        "change": "Replace the approval overlay with one narrow functional rail. Give its text a stable, sufficiently opaque reading backing; confine any registered source duplicate to the 6 to 8px optical rim. Remove the nested rounded translucent faces and oversized cloudy body. Keep recorded state information on opaque paper if it cannot fit cleanly within the rail.",
+        "why": "The approval still reads as stacked glassmorphism, not a thin optical control. It covers authored work without demonstrating a useful physical handoff.",
+        "where": "recreate-approved-m.png and the approval transition"
+      },
+      {
+        "priority": 5,
+        "change": "Complete the Recreate handoff in a capture that retains the whole relationship: comparison, selected creator work entering the coded submission surface, stationary approval rail, supported snapshot and ledger boundary. Keep source and submission distinguishable throughout. Show the provenance disclosure for the actual reference, Counter pour approval and separate Latte take ledger record.",
+        "why": "A hard comparison is visible, but the strip cuts the meaningful work above the viewport during later states. The supplied captures alone cannot verify the asserted media-to-approval-to-money relationships.",
+        "where": "Recreate, Get paid and Media sources"
+      },
+      {
+        "priority": 6,
+        "change": "Move Rear doors and US$240 /month Asking rate directly beneath the selected zone in the expanded plan composition, with View beside that group. Retain the intact photograph. In Drive, either show the verified campaign image or explicitly identify this photograph as separate vehicle example media, visually distinct from the US$300 campaign object.",
+        "why": "The plan currently appears beside the photograph while the price remains in the old footer, so the motion stops short of explaining zone-priced inventory. Reusing the identical car across both monetary contexts needs a stronger verified boundary than a small Vehicle example badge.",
+        "where": "Find cars inspection and Drive"
+      },
+      {
+        "priority": 7,
+        "change": "Open the real public person/request, three creation and review previews in the evidence. Keep each action attached to its media. For the already-approved Counter pour record, use an inspection action such as View approval rather than an apparently actionable Business approval button; only pending records may expose an approval decision and its exact financial disclosure.",
+        "why": "The resting business compositions are promising, but the working value is not demonstrated by a Business Home browsing strip. An approved record must not appear to invite approval again.",
+        "where": "Find people, Create, Review and business-discovery recording"
+      },
+      {
+        "priority": 8,
+        "change": "Remove duplicate desktop audience links from navigation and restore the quiet Menu entrance. Flatten the hero and earning metadata into attached opaque reading edges instead of repeating rounded white containers. Reduce the empty hero-to-Recreate interval and redundant control-to-object gaps without shrinking media or essential text.",
+        "why": "The page has little prose, but repetition in controls, shells and spacing still makes it feel templated. The phone hero itself should largely be preserved.",
+        "where": "Public navigation, earning reading surfaces and chapter spacing"
+      },
+      {
+        "priority": 9,
+        "change": "Recapture both widths after these changes, including uninterrupted opening, active-stage transitions and final rest. Supply rendered-text audits, actual document heights, required alternate/reduced-motion states, keyboard/Back/focus evidence, transparency fallback and measured performance. Demonstrate the working Loyalty baseline remains 10/6/1/2 after public playback.",
+        "why": "Strips establish visible states, not timing quality, state isolation or accessibility. Approval requires the final evidence after the final fixes.",
+        "where": "Public homepage evidence package"
+      }
+    ],
+    "two_second_read": "Two clear audiences; a real coffee brief worth US$75 on approval. Switching to business introduces Maya and a request. The opening answers the question; the full page does not yet sustain it as a product film.",
+    "material_read": "Photography is substantial, ungraded and mostly uncovered. Navigation shows some genuine translucency over scrolling media, and money remains opaque. However, the default lenses mostly read as soft white pills with diffuse shadows. The approval overlay is visibly stacked, cloudy glassmorphism. Material is rationed in quantity but not yet convincing in execution.",
+    "wow_moments_seen": [
+      "A hard divider exposes distinct reference and creator photographs without dissolving them.",
+      "Eli's photograph opens beside a separate rear-door placement plan without painting a wrap onto the car.",
+      "The desktop attribution still presents an unboxed, common-scale 4/3/1 resolution under Jasmine; its source-preserving arrival is not established by the supplied phone strip."
+    ],
+    "spec_was_wrong": [
+      "The nominal phone stage heights reserved too much empty space for alternate states. Use natural state-aware composition rather than treating those heights as layout targets.",
+      "The narrow approval-rail prescription did not adequately constrain its text payload. A recorded snapshot with identity and date needs opaque reading space, not a larger glass panel.",
+      "Minimal-copy inventories and generous desktop columns were insufficient to guarantee composed negative space. Actions and facts need explicit proximity to the object, not merely placement somewhere within the same stage.",
+      "Nine or ten narrative stops are not valuable by themselves. Each stop must preserve source, state and controls in a usable reading relationship; completeness cannot be achieved only through a Steps menu."
+    ],
+    "keep": [
+      "Both audience names visible before the hero object.",
+      "Phone hero photograph, readable money and adjacent approval basis.",
+      "The same reference remaining identifiable across audience lenses.",
+      "Different silhouettes for Recreate, Story and vehicle media.",
+      "Maya's portrait/work spread and independently presented Nora and Eli.",
+      "Exactly three Create objects.",
+      "Mixed-proportion subscription delivery photographs.",
+      "Separate vehicle plan and scoped asking-rate wording.",
+      "Opaque member QR and unboxed attribution measures.",
+      "Explicit recorded-example, simulation and payout-separation language where visible."
+    ],
+    "spec_drift": [
+      "Desktop hero and Recreate media occupy much less of the intended stage; actions are spread to unrelated page edges.",
+      "Desktop navigation repeats the audience names and omits the specified Menu entrance.",
+      "The lab/motion context does not remain visible with the navigation in the scrolled strips.",
+      "Phone sequence advancement leaves active work, source markers and attribution outside the captured reading area.",
+      "The approval material is a substantial layered panel rather than a narrow rail.",
+      "The expanded car rate remains below the photograph rather than aligning with the selected plan zone.",
+      "The Loyalty strip shows nine stops; the required separate trusted-link inspection and complete dated sequence are not demonstrated.",
+      "The closing attribution adds an unrequested Get started action.",
+      "The supplied business-discovery strip shows the working marketplace, not the public composition-to-preview handoff."
+    ],
+    "why_better_than_production": "The strongest improvement is media-led clarity: the phone opening shows the earning object and its condition immediately, while the business lens presents a person rather than operational tiles. The lighter canvas and distinct media silhouettes support desirability. A complete superiority claim is premature without a direct production comparison and successful narrative handoffs.",
+    "remaining_risks": [
+      "Scores use a 1 to 10 scale; higher is better except slop_risk, where higher means greater risk.",
+      "Media ownership, approved-state bindings and ledger provenance are not verifiable from these captures alone.",
+      "The Story endpoint labels US$25 as Earnings while retaining On approval. Without a matching ledger record, use an approval-condition endpoint rather than a balance-like earnings object.",
+      "Public replay isolation, reward non-redemption and the unchanged working baseline have not been demonstrated here.",
+      "The supplied strips do not establish easing, frame timing, interaction latency or uninterrupted source continuity.",
+      "Reduced motion, other required widths, 200% text zoom, focus restoration and transparency fallback remain unreviewed.",
+      "This is a public-homepage pass, not approval of the other four primary surfaces."
+    ],
+    "word_count_read": "Reported first-screen counts of 29 phone and 33 desktop are within the 35-word phone ceiling numerically, and the opening looks disciplined. Reported page totals of 244/248 are below the pressure targets; do not add filler. They need reconciliation: the full captures contain repeated controls, record dates, proof/financial labels and media lettering such as Take a coffee break. Supply the rendered-node audit plus manual media-lettering count, separate hero meaning and alternate-state totals, and actual page heights before treating these numbers as approved measurements."
+  }
+}
