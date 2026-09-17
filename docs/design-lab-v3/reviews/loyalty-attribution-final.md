@@ -1,22 +1,24 @@
 # V3 final verification: Attribution
 
-Reviewer: Astra. Verdict: **BLOCKER**. Captures: attribution-m-full.png, attribution-d.png, attribution-d-open.png, attribution-m-how.png.
+Reviewer: Astra. Verdict: **READY**. Captures: attribution-m-full.png, attribution-d.png, attribution-d-open.png, attribution-m-how.png.
 
 **Two second read.** Ten joined, six came back, two redeemed. Jasmine leads returns; both of Maya’s members returned.
 
 ## Confirmed
-- Baseline totals correctly read 10 Joined, 6 Came back, 2 Redeemed.
-- All five sources appear in the correct creator order with reconciled counts.
-- Source ledges share a consistent scale; zero outcomes have no drawn bar.
-- Business remains selected, and fictional-preview labels are visible.
-- Definitions distinguish signup, repeat visits and unique members who redeemed.
-- Captured text and controls are readable without visible overlap.
+- The baseline descent reads 10 Joined, 6 Came back, 2 Redeemed.
+- All five sources retain the correct identities, counts and ordering.
+- Source ledges share a consistent scale; zero outcomes have no decorative bar.
+- Phone and desktop captures show readable labels without visible overflow.
+- Business remains selected, with no additional primary destination.
+- Jasmine’s drawer identifies the registered link and honestly marks first touch as Not recorded.
+- Definitions distinguish signups, distinct-day returns and unique redeemed members.
+- Fictional-preview context remains visible in the overview and inspection layers.
 
 ## Blockers
-- **Capture 3, attribution-d-open.png: Jasmine drawer, First touch field..** First touch incorrectly displays “Aug 27, 2026, 8:50 AM.” Why it blocks: The baseline fixture contains no independently recorded first-touch timestamp. Presenting the earliest signup time as First touch invents acquisition evidence. Fix: Show “Not recorded” for baseline First touch. Populate this field only from an independently recorded first-touch value; never fall back to signup time.
+- None.
 
 ## Notes, not blockers
-- The desktop comparison leaves substantial unused space beneath the editorial column; this is a composition preference, not a blocker.
-- Split the Scope explanation into separate short paragraphs to meet the specified copy-length target.
+- The desktop comparison leaves substantial unused space on the left. This is a composition preference, not a blocker; retain the current layout for this pass.
+- Split the Scope explanation into two short paragraphs at the existing sentence break for easier scanning.
 
-**For the founder.** The comparison is clear and restrained. One provenance claim prevents sign-off: Jasmine’s drawer presents a signup timestamp as a known first touch.
+**For the founder.** Ready for sign-off on this Attribution surface in the isolated Design Lab. The captures communicate the acquisition-to-return story clearly without inventing sales, customer value or delivery claims. This is not production-launch approval.

@@ -1,20 +1,23 @@
 # V3 final verification: Customer signup and Wallet card
 
-Reviewer: Astra. Verdict: **BLOCKER**. Captures: join-m-full.png, join-m-card.png, join-m-apple.png, join-d-google.png, card-m-apple-ready.png, card-m-google-updated.png, join-errors-m.png.
+Reviewer: Astra. Verdict: **READY**. Captures: join-m-full.png, join-m-card.png, join-m-apple.png, join-d-google.png, card-m-apple-ready.png, card-m-google-updated.png, join-errors-m.png.
 
-**Two second read.** Five qualifying visits earn a free coffee. Join with a name and one contact, then keep your own demo member card.
+**Two second read.** Five qualifying visits earn a free coffee. Join with a name and one contact, then keep your own clearly simulated member card.
 
 ## Confirmed
-- Signup presents the reward, daily counting rule, one contact field and unchecked consent in a continuous, readable document.
-- Validation errors sit beside the relevant fields and agreement without breaking the layout.
-- Tess’s new Apple card correctly shows 0 of 5 visits and Collecting.
-- Apple and Google have distinct, legible card compositions with adjacent concept and simulation labels.
-- Sara’s ready specimen shows 5 of 5, Reward ready, its example date and the preserved Jasmine source.
-- No contact details, staff Redeem action or fabricated operating-system save sheet appear on the card fronts.
+- Signup clearly presents the reward, five-visit requirement and daily counting rule before consent.
+- The form requests only first name and one contact, with explicit fictional-data and no-messaging guidance.
+- Validation errors are readable, field-specific and retain the agreement and submit action in normal document flow.
+- Tess’s Apple card correctly shows zero visits, Collecting and member ID LD-011.
+- Apple and Google have distinct, readable card compositions with adjacent concept and simulation labels.
+- Sara’s ready example shows 5 of 5 and Reward ready, explicitly labelled Preview only with the Jasmine source preserved outside the pass.
+- Sara’s QR remains visually consistent between the supplied Apple and Google examples.
+- The supplied phone and desktop layouts show no visible horizontal overflow, overlapping controls or clipped essential text.
 
 ## Blockers
-- **Member QR areas in captures 2 to 6: join-m-card.png, join-m-apple.png, join-d-google.png, card-m-apple-ready.png and card-m-google-updated.png..** The rendered member QR symbols are too low-capacity to contain the specified member-route payload. Why it blocks: The visible symbols have 21×21 modules, a version-1 QR. At error correction M, that cannot contain the required current-origin URL plus /design-lab-v3/card/ and the long opaque member code. This is a capacity issue visible in the captures, not a claim that the payload was decoded. The member QR is a required working identifier, not decorative artwork. Fix: Generate genuine QR matrices from each member’s complete V3 demo card URL using error correction M and automatic version selection. Retain the current displayed footprint, four-module quiet zone and identical payload across that member’s platforms and specimen states.
+- None.
 
 ## Notes, not blockers
+- Outlined Wallet actions would match the specified quieter treatment more closely than the current filled pair; this is polish, not a blocker.
 
-**For the founder.** The visual surface is resolved. One functional identity defect remains: the displayed member QRs cannot encode the required demo member URLs. Fix the QR generation without changing the surrounding design.
+**For the founder.** Ready for sign-off on this surface in the isolated Design Lab. These captures communicate membership, progress and Wallet simulation clearly without becoming an account dashboard or pretending to issue a real pass. No genuine visual blocker remains.

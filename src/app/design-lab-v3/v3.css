@@ -448,11 +448,12 @@
 .v3 .site-loy .media { background: #26332B; }
 .v3 .site-loy .mark { border-color: var(--v2-inverse-muted); } .v3 .site-loy .mark[data-on="true"] { background: var(--v2-paper); border-color: var(--v2-paper); }
 .v3 .seq { display: flex; flex-direction: column; }
+.v3 .site-loy { scroll-margin-top: 64px; }
+@media (max-width: 1023px) { .v3 .seq-left { padding-top: 8px; } }
 .v3 .seq-context { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .v3 .seq-from { min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: 4px; }
 .v3 .seq-stage { display: flex; flex-direction: column; gap: 16px; }
 .v3 .seq-left { display: flex; flex-direction: column; gap: 8px; }
-@media (max-width: 1023px) { .v3 .seq-left { position: sticky; top: 56px; z-index: 3; background: var(--v2-ink); padding-bottom: 8px; } }
 .v3 .seq-act { display: block; }
 .v3 .seq-act-quiet { font-size: 28px; }
 .v3 .seq-object { display: flex; flex-direction: column; min-height: 520px; }

@@ -90,8 +90,8 @@ export function Sequence() {
   const f = FRAMES[frame];
   const visits = frame <= 3 ? 0 : frame === 4 ? 1 : frame === 5 ? DAYS[dayIx]?.n ?? 2 : 5;
   const card: CardData = { design: liveProgram.card, program: liveProgram, firstName: "Sara", memberId: "LD-001", code: "LMQ-7K2P-SARA", qr: "tapmart-demo-member:loopday:q7n4k9r2m6t8", progress: frame >= 6 ? 5 : visits, ready: frame >= 6 ? 1 : 0, state: frame >= 6 ? "ready" : "collecting", publicSubset: true };
-  const date = frame === 4 ? "2026-09-08" : frame === 5 ? DAYS[dayIx].iso : frame >= 6 ? "2026-09-17" : null;
-  const bandLabel = frame === 4 ? "First visit" : frame === 5 ? DAYS[dayIx].label : frame === 6 ? "Visit counted" : null;
+  const date = frame === 3 ? "2026-09-08" : frame === 4 ? "2026-09-08" : frame === 5 ? DAYS[dayIx].iso : frame >= 6 ? "2026-09-17" : null;
+  const bandLabel = frame === 3 ? "Joined" : frame === 4 ? "First visit" : frame === 5 ? DAYS[dayIx].label : frame === 6 ? "Visit counted" : null;
 
   const Context = (
     <div className="seq-context">
@@ -144,7 +144,7 @@ export function Sequence() {
 
   if (reduced) {
     const stills: { i: number; node: React.ReactNode }[] = [
-      { i: 0, node: Source(false) }, { i: 2, node: Excerpt }, { i: 3, node: Pass({ ...card, progress: 0, ready: 0, state: "collecting" }, null, null, false) },
+      { i: 0, node: Source(false) }, { i: 2, node: Excerpt }, { i: 3, node: Pass({ ...card, progress: 0, ready: 0, state: "collecting" }, "2026-09-08", "Joined", false) },
       { i: 5, node: Pass({ ...card, progress: 4, ready: 0, state: "collecting" }, "2026-09-16", "Sep 8 first visit · Sep 10 came back · Sep 13 · Sep 16", false) },
       { i: 7, node: Receipt },
     ];
@@ -158,7 +158,7 @@ export function Sequence() {
 
   const Stage = (
     <div className={`seq-stage seq-frame-${f.key}`} data-frame={frame} aria-live="polite">
-      <div className="seq-left">{Context}{(frame <= 3 || frame === 7) && <span className="seq-act t-verb">{f.act}</span>}{frame >= 4 && frame <= 6 && <span className="seq-act t-verb seq-act-quiet">{f.act}</span>}</div>
+      <div className="seq-left">{Context}{(frame <= 2 || frame === 7) && <span className="seq-act t-verb">{f.act}</span>}</div>
       <div className="seq-object">
         {frame <= 1 && Source(frame === 1)}
         {frame === 2 && Excerpt}
