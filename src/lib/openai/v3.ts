@@ -297,7 +297,20 @@ function reviewInstructions(sys: { chosen: string; system: string; direction: st
   ].filter(Boolean).join("\n\n");
 }
 
-export type V3ReviewInput = { key: V3ScreenKey; shots: string[]; pass: number; final?: boolean; notes?: string | null };
+/** Targeted final verification after the finishing edits: ready, or a specific genuine blocker. */
+export const V3_VERIFY_SCHEMA: JsonSchema = {
+  name: "tapmart_v3_verify",
+  schema: obj({
+    verdict: { type: "string", enum: ["ready", "blocker"] },
+    two_second_read: S(),
+    confirmed: L("What is now right in these captures, as short observations"),
+    blockers: { type: "array", items: obj({ where: S(), what: S(), why_it_blocks: S(), fix: S() }) },
+    notes: L("Polish preferences that are NOT blockers"),
+    note_for_founder: S(),
+  }),
+};
+
+export type V3ReviewInput = { key: V3ScreenKey; shots: string[]; pass: number; final?: boolean; verify?: boolean; notes?: string | null };
 
 export async function runV3Review(i: V3ReviewInput, o: V2Options = {}): Promise<{ data: Record<string, unknown> | null; usage: Usage[]; files: string[]; markdown: string }> {
   const say = o.onProgress ?? (() => {});
@@ -313,10 +326,27 @@ export async function runV3Review(i: V3ReviewInput, o: V2Options = {}): Promise<
     "Answer with the JSON only.",
   ].filter(Boolean).join("\n"))];
   for (const s of i.shots) await pushImage(content, s, `CAPTURE ${path.basename(s)}:`);
-  say(`Review ${def.name} pass ${i.pass} (${r.effort})`);
-  const res = await respond<Record<string, unknown>>({ model: r.model, effort: r.effort, instructions: reviewInstructions(sys, direction, spec, Boolean(i.final)), content, schema: V3_REVIEW_SCHEMA, maxOutputTokens: 30000, dryRun: o.dryRun, onProgress: o.onProgress });
+  say(`${i.verify ? "Verify" : "Review"} ${def.name} pass ${i.pass} (${r.effort})`);
+  const verifyText = [
+    WHO,
+    "This job is V3 FINAL VERIFICATION. The finishing edits after your last review are done; these captures are the CURRENT state. Do not redesign and do not ask for more evidence. Decide only: is this surface READY, or is there a specific genuine blocker? A blocker is a defect a professional product designer would refuse to sign off with: a broken or overflowing layout, an untruthful or missing label, unreadable text, a state that contradicts the fixture, a missing required element. Preferences, exact pixel datums, wishes for more captures and larger recompositions are NOT blockers; put them under notes. If you name a blocker, name where it is in which capture, what is wrong, why it blocks, and the smallest fix.",
+    NO_SLOP,
+    "Return the JSON only.",
+    "=== THE V3 LOYALTY DIRECTION ===", direction, "=== END ===",
+    ...(spec ? ["=== YOUR SPEC FOR THIS SURFACE ===", spec, "=== END ==="] : []),
+  ].join("\n\n");
+  const res = await respond<Record<string, unknown>>({ model: r.model, effort: r.effort, instructions: i.verify ? verifyText : reviewInstructions(sys, direction, spec, Boolean(i.final)), content, schema: i.verify ? V3_VERIFY_SCHEMA : V3_REVIEW_SCHEMA, maxOutputTokens: 30000, dryRun: o.dryRun, onProgress: o.onProgress });
   if (o.dryRun) return { data: null, usage: [res.usage], files: [], markdown: "" };
   await mkdir(REVIEWS_DIR, { recursive: true });
+  if (i.verify) {
+    res.data = noDashes(res.data);
+    const vb = path.join(REVIEWS_DIR, `${i.key}-final`);
+    const v = res.data as { verdict: string; two_second_read: string; confirmed: string[]; blockers: { where: string; what: string; why_it_blocks: string; fix: string }[]; notes: string[]; note_for_founder: string };
+    const vmd = [`# V3 final verification: ${def.name}`, "", `Reviewer: Astra. Verdict: **${v.verdict.toUpperCase()}**. Captures: ${i.shots.map((s) => path.basename(s)).join(", ")}.`, "", `**Two second read.** ${v.two_second_read}`, "", "## Confirmed", ...bullets(v.confirmed), "", "## Blockers", ...(v.blockers.length ? v.blockers.flatMap((b) => [`- **${b.where}.** ${b.what} Why it blocks: ${b.why_it_blocks} Fix: ${b.fix}`]) : ["- None."]), "", "## Notes, not blockers", ...bullets(v.notes), "", `**For the founder.** ${v.note_for_founder}`, ""].join("\n");
+    await writeFile(`${vb}.json`, JSON.stringify({ screen: def.name, verification: true, shots: i.shots.map((s) => path.basename(s)), when: new Date().toISOString(), reviewer: "director", review: res.data }, null, 2));
+    await writeFile(`${vb}.md`, vmd);
+    return { data: res.data, usage: [res.usage], files: [`${vb}.json`, `${vb}.md`], markdown: vmd };
+  }
   const base = path.join(REVIEWS_DIR, `${i.key}-pass${i.pass}`);
   res.data = noDashes(res.data);
   const md = v3ReviewMarkdown(def.name, i, res.data);

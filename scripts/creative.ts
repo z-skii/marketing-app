@@ -283,7 +283,7 @@ async function main() {
     case "v3-review": {
       const [key] = pos;
       if (!key || !list(flags, "shot").length) throw new Error("v3-review needs <key> --shot png [--shot png]");
-      const r = await runV3Review({ key: key as V3ScreenKey, shots: list(flags, "shot"), pass: Number(str(flags, "pass", "1")), final: on(flags, "final"), notes: str(flags, "notes") || null }, { effort, dryRun, onProgress: log });
+      const r = await runV3Review({ key: key as V3ScreenKey, shots: list(flags, "shot"), pass: Number(str(flags, "pass", "1")), final: on(flags, "final"), verify: on(flags, "verify"), notes: str(flags, "notes") || null }, { effort, dryRun, onProgress: log });
       if (dryRun) { log("Dry run: request built; nothing sent."); return; }
       process.stdout.write(r.markdown);
       log(`Usage ${JSON.stringify(totalUsage(r.usage))}`);
