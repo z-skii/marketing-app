@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { X } from "@phosphor-icons/react";
 import { LabStrip } from "./motion";
 
@@ -17,6 +17,14 @@ import { LabStrip } from "./motion";
  */
 export type OpenFn = (e?: React.MouseEvent<HTMLElement> | null) => void;
 
+/**
+ * Per object bookkeeping that belongs to the browser session rather than to
+ * a render: the scroll offset to restore and whether this object pushed a
+ * history entry. Keyed by object id, written only from click handlers.
+ */
+const scrollFor = new Map<string, number>();
+const pushedFor = new Set<string>();
+
 export function Open({ id, title, media, mediaRatio, mediaAlt, mediaFit = "cover", mediaPosition, kind, content, children, query = "open", header }: {
   id: string; title: string; media: string | null; mediaRatio: string; mediaAlt: string; mediaFit?: "cover" | "contain"; mediaPosition?: string; kind: string;
   content: ReactNode; children: (open: OpenFn) => ReactNode; query?: string; header?: ReactNode;
@@ -27,8 +35,6 @@ export function Open({ id, title, media, mediaRatio, mediaAlt, mediaFit = "cover
   const dialog = useRef<HTMLDialogElement>(null);
   const target = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
-  const scrollY = useRef(0);
-  const pushed = useRef(false);
   const srcSel = `[data-x-src="${id}"]`;
   const openerSel = `[data-x-opener="${id}"]`;
 
@@ -46,7 +52,7 @@ export function Open({ id, title, media, mediaRatio, mediaAlt, mediaFit = "cover
   }, []);
   // browser Back closes
   useEffect(() => {
-    const onPop = () => { if (new URLSearchParams(location.search).get(query) !== id) { setOpen(false); setLanded(false); pushed.current = false; } };
+    const onPop = () => { if (new URLSearchParams(location.search).get(query) !== id) { setOpen(false); setLanded(false); pushedFor.delete(id); } };
     window.addEventListener("popstate", onPop); return () => window.removeEventListener("popstate", onPop);
   }, [id, query]);
 
@@ -65,8 +71,9 @@ export function Open({ id, title, media, mediaRatio, mediaAlt, mediaFit = "cover
     return () => { cancelAnimationFrame(raf); clearTimeout(done); if (src) src.style.visibility = ""; };
   }, [open, from, srcSel]);
 
-  const openFrom: OpenFn = (e) => {
-    scrollY.current = window.scrollY;
+  // useCallback keeps the handler out of the render path: it reads and writes refs, and is only ever invoked from a click.
+  const openFrom: OpenFn = useCallback((e) => {
+    scrollFor.set(id, window.scrollY);
     const host = e?.currentTarget as HTMLElement | undefined;
     if (host) {
       const img = (host.querySelector("img") ?? host.closest(".x-obj")?.querySelector("img") ?? null) as HTMLElement | null;
@@ -76,22 +83,22 @@ export function Open({ id, title, media, mediaRatio, mediaAlt, mediaFit = "cover
       const r = (img ?? host).getBoundingClientRect();
       setFrom({ left: r.left, top: r.top, width: r.width, height: r.height });
     } else setFrom(null);
-    const u = new URL(location.href); if (u.searchParams.get(query) !== id) { u.searchParams.set(query, id); history.pushState(null, "", u); pushed.current = true; }
+    const u = new URL(location.href); if (u.searchParams.get(query) !== id) { u.searchParams.set(query, id); history.pushState(null, "", u); pushedFor.add(id); }
     setLanded(false); setOpen(true);
-  };
-  const close = () => {
+  }, [id, query, srcSel, openerSel]);
+  const close = useCallback(() => {
     setOpen(false); setLanded(false);
     const u = new URL(location.href);
-    if (u.searchParams.get(query) === id) { if (pushed.current) history.back(); else { u.searchParams.delete(query); history.replaceState(null, "", u); } }
-    pushed.current = false;
+    if (u.searchParams.get(query) === id) { if (pushedFor.has(id)) history.back(); else { u.searchParams.delete(query); history.replaceState(null, "", u); } }
+    pushedFor.delete(id);
     const opener = document.querySelector<HTMLElement>(openerSel);
-    requestAnimationFrame(() => { window.scrollTo({ top: scrollY.current }); opener?.focus(); });
-  };
+    requestAnimationFrame(() => { window.scrollTo({ top: scrollFor.get(id) ?? 0 }); opener?.focus(); });
+  }, [id, query, openerSel]);
 
   return (
     <>
       {children(openFrom)}
-      <dialog ref={dialog} id={`open-${id}`} className="x-task" aria-label={title} onClose={close} onClick={(e) => { if (e.target === dialog.current) close(); }}>
+      <dialog ref={dialog} id={`open-${id}`} className="x-task" aria-label={title} onClose={close} onClick={(e) => { if (e.target === e.currentTarget) close(); }}>
         <div className="x-task-body" data-landed={landed ? "true" : "false"} data-kind={kind}>
           <div className="x-task-head paper">
             <h2 ref={heading} tabIndex={-1} className="t-object x-task-title">{title}</h2>

@@ -127,7 +127,7 @@ function VehicleTask() {
 export function ShareSheet() {
   const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
   const [url, setUrl] = useState(PUBLIC_PATH);
-  useEffect(() => { setUrl(`${location.origin}${PUBLIC_PATH}`); }, []);
+  useEffect(() => { const t = setTimeout(() => setUrl(`${location.origin}${PUBLIC_PATH}`), 0); return () => clearTimeout(t); }, []);
   return (
     <Sheet title="Share profile" triggerClass="link link-plain t-action x-share" trigger="Share profile">
       <p className="t-fact" style={{ marginTop: 8 }}>Design Lab link</p>

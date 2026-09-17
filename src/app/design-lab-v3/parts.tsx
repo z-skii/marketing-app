@@ -3,7 +3,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { House, CalendarBlank, Plus, Megaphone, Storefront, CaretDown, Check } from "@phosphor-icons/react";
-import { Rail, TabBar, Utilities, Avatar, type Tab } from "../design-lab-v2/parts";
+import { Rail, TabBar, Avatar, type Tab } from "../design-lab-v2/parts";
+import { Utilities } from "./x/Nav";
 import { Sheet } from "../design-lab-v2/Sheet";
 import { business, defaultCard } from "./fixtures";
 import { Logo } from "./wallet/Cards";

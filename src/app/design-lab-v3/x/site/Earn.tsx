@@ -77,7 +77,7 @@ export function Recreate() {
   const seq = useSequence(RC);
   const [pct, setPct] = useState(0);
   const f = seq.frame;
-  useEffect(() => { if (f === 0) setPct(0); if (f === 1) setPct(100); }, [f]);
+  useEffect(() => { if (f > 1) return; const t = setTimeout(() => setPct(f === 0 ? 0 : 100), 0); return () => clearTimeout(t); }, [f]);
   const source = <span className="media x-rc-source"><Img src={M.reference4x5(720)} alt="Reference" /><span className="t-fact x-rc-source-l">Reference</span></span>;
   const work = (cls = "") => <span className={`media x-rc-work ${cls}`}><img src={M.mayaPour(800)} alt="Creator version: Maya Chen, Counter pour still" width={800} height={1000} decoding="async" loading="lazy" /></span>;
   const money75 = <Money cents={recreate.netCents} basis="On approval" whole inline />;

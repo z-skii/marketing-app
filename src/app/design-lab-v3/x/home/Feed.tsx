@@ -97,7 +97,8 @@ function arrange(all: Opportunity[], order: Order, kind: KindFilter, city: strin
 
 function OpportunityObject({ o }: { o: Opportunity }) {
   const m = MEDIA[o.id];
-  const label = `View ${o.title}, ${o.business}`;
+  // The accessible name carries any visible caption inside the button, so the name matches what a person reads.
+  const label = o.mediaCaption ? `${o.mediaCaption}. View ${o.title}, ${o.business}` : `View ${o.title}, ${o.business}`;
   const facts = o.kind === "recreate" ? `${o.facts[0]} · ${o.facts[1]}` : o.kind === "story" ? o.facts[0] : `${o.facts[0]} · ${o.facts[1]}`;
   return (
     <Open id={o.id} title={o.title} kind={o.kind} media={o.media} mediaRatio={o.mediaRatio} mediaAlt={o.mediaAlt} mediaFit={o.kind === "story" ? "contain" : "cover"} mediaPosition={o.mediaPosition} content={<Detail o={o} />}>
@@ -109,7 +110,7 @@ function OpportunityObject({ o }: { o: Opportunity }) {
           </button>
           <div className="x-op-band paper">
             <div className="x-op-money"><Money cents={o.netCents} basis={o.kind === "car" ? "/month" : "On approval"} whole inline={o.kind === "car"} />{o.kind === "car" && <span className="t-fact-ink x-op-basis2">Monthly approval</span>}</div>
-            <button type="button" className="btn btn-primary x-op-view" onClick={open} aria-label={label}>View</button>
+            <button type="button" className="btn btn-primary x-op-view" onClick={open} aria-label={`View ${o.title}, ${o.business}`}>View</button>
             <h2 id={`${o.id}-t`} className="t-object x-op-title">{o.title}</h2>
             <p className="t-fact x-op-business">{o.business}</p>
             <p className="t-fact x-op-facts">{facts}</p>

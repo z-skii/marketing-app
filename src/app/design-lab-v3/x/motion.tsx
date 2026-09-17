@@ -69,7 +69,8 @@ export function usePresentationTimer(active: boolean, ms: number, onDone: () => 
   const { paused, reduced } = useMotion();
   const remaining = useRef(ms);
   const started = useRef<number | null>(null);
-  const cb = useRef(onDone); cb.current = onDone;
+  const cb = useRef(onDone);
+  useEffect(() => { cb.current = onDone; }, [onDone]);
   useEffect(() => { remaining.current = ms; started.current = null; }, [key, ms]);
   useEffect(() => {
     if (!active || reduced) return;

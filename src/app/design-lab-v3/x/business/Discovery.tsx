@@ -33,6 +33,10 @@ function useQuery() {
   return { q, set };
 }
 
+function Empty({ text }: { text: string }) {
+  return <div className="x-biz-empty"><p className="t-object">{text}</p><p className="t-fact">Choose another filter.</p></div>;
+}
+
 export function Discovery() {
   const [tab, setTab] = useState<Tab>("for-you");
   const [city, setCity] = useState("Austin");
@@ -50,7 +54,6 @@ export function Discovery() {
   const lead = people[0] ?? null;
   const rest = people.slice(1);
   const phoneRest = tab === "for-you" || tab === "nearby" ? (more ? rest : rest.slice(0, 1)) : rest;
-  const Empty = ({ text }: { text: string }) => <div className="x-biz-empty"><p className="t-object">{text}</p><p className="t-fact">Choose another filter.</p></div>;
   return (
     <div className="x-biz">
       <LabStrip right={

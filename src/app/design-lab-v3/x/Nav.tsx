@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { House, ListChecks, Wallet, User, CalendarBlank, Plus, Megaphone, Storefront } from "@phosphor-icons/react";
-import { Rail, TabBar, Utilities, type Tab } from "../../design-lab-v2/parts";
+import { House, ListChecks, Wallet, User, CalendarBlank, Plus, Megaphone, Storefront, MagnifyingGlass, ChatCircle, Bell } from "@phosphor-icons/react";
+import { Rail, TabBar, type Tab } from "../../design-lab-v2/parts";
+import { Outside } from "../../design-lab-v2/Outside";
 import { Sheet } from "../../design-lab-v2/Sheet";
 import { Avatar } from "../../design-lab-v2/parts";
 import { CaretDown, Check } from "@phosphor-icons/react";
@@ -33,6 +34,21 @@ export const BUSINESS_TABS_X: Tab[] = [
   { href: "#campaigns", label: "Campaigns", icon: <Megaphone size={ICON} />, outside: true, badge: businessAttention.campaigns },
   { href: "/design-lab-v3/business/profile", label: "Business", icon: <Storefront size={ICON} /> },
 ];
+
+/**
+ * Phone utilities: icon only Search, Messages and Notifications with
+ * 44x44 targets and accessible names, so the icons are reachable by name
+ * without printing their labels beside each control.
+ */
+export function Utilities({ messages = 0, alerts = 0 }: { messages?: number; alerts?: number }) {
+  return (
+    <span style={{ display: "flex" }}>
+      <Outside label="Search" className="icon-btn"><MagnifyingGlass size={20} aria-hidden /><span className="v2-sr">Search</span></Outside>
+      <Outside label="Messages" className="icon-btn"><ChatCircle size={20} aria-hidden /><span className="v2-sr">Messages</span>{messages > 0 && <span className="badge" aria-label={`${messages} unread`}>{messages}</span>}</Outside>
+      <Outside label="Notifications" className="icon-btn"><Bell size={20} aria-hidden /><span className="v2-sr">Notifications</span>{alerts > 0 && <span className="badge" aria-label={`${alerts} new`}>{alerts}</span>}</Outside>
+    </span>
+  );
+}
 
 /** The V3 Personal identity switcher: the same isolated sheet as V2, with V3 destinations. It never changes a production session. */
 export function PersonalSwitcher({ className = "identity" }: { className?: string }) {
