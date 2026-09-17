@@ -1,0 +1,631 @@
+{
+  "screen": "Public site: the business story with Loyalty",
+  "route": "/design-lab-v3",
+  "when": "2026-09-17T02:49:33.270Z",
+  "author": "director",
+  "spec": {
+    "acceptance": [
+      "Review real captures at 320×568, 390×844, 768×1024, 1023×900, 1440×900 and 1920×1080. This specification is approval to build, not approval of the finished screen.",
+      "The scope is the public business chapter, its Loyalty sequence and the overlays opened from that sequence. Preserve the as-built V2 hero, earning chapters, marketplace demonstration, Monthly Content and footer. Do not invent replacement homepage content.",
+      "The phone homepage first screen contains fewer than 40 visible words, including navigation. The Loyalty stage has a hard ceiling of 29 simultaneously visible words, including controls, data, truth labels and legible lettering inside media. Count the actual capture, not just authored headings.",
+      "Only the active animated scene is rendered visually. Do not place eight hidden-but-readable scenes behind the active scene. Report the complete expanded copy separately for reduced-motion stills and disclosures.",
+      "The initial Story scene has 12 authored visible words, leaving 17 for intrinsic asset lettering. Verify the supplied creative before claiming the word target passes. If it exceeds that allowance, stop for art-direction review; do not crop its lettering, shrink it into illegibility or substitute another business.",
+      "Get attention, signup, a distinct member QR, dated counted visits and Reward ready are understandable without opening any disclosure.",
+      "The same From Jasmine source line remains stationary throughout the sequence. It never migrates into the Wallet card or becomes a claim of verified sales.",
+      "The public replay cannot change the business provider. Opening either business preview still shows the baseline ten-member fixture, including Sara at four visits.",
+      "No signup, visit, Wallet save, redemption, campaign click or notification event is written by playback, scrubbing, scrolling or viewing an image.",
+      "A member QR decodes correctly, has a four-module quiet zone and remains at least 144px square. No acquisition QR is substituted for it.",
+      "No simulated operating-system sheet, notification banner, cursor-driven consent, delivery receipt, money counter or automatic redemption appears.",
+      "Test keyboard operation, screen-reader scene descriptions, 200% text zoom, touch scrubbing, browser Back, reduced motion and failed media loading. There must be no horizontal page overflow or inaccessible scene content."
+    ],
+    "signature_moment": "A film-style scrubber follows one fictional member through time while From Jasmine stays fixed outside every object. No live loyalty product or Wallet card should expose a control that rewinds someone’s visits; here it is explicitly a public replay. The last cut reveals the business’s reward receipt, not a pretend device notification.",
+    "visible_copy": [
+      {
+        "text": "TapMart",
+        "why_needed": "Identifies the unchanged public site.",
+        "where": "Shared public header."
+      },
+      {
+        "text": "Earn",
+        "why_needed": "Retains the existing earning-chapter entrance.",
+        "where": "Desktop public navigation and opened phone menu."
+      },
+      {
+        "text": "For businesses",
+        "why_needed": "Locates the business story without creating a separate Loyalty marketing destination.",
+        "where": "Existing public navigation and business chapter entrance."
+      },
+      {
+        "text": "How it works",
+        "why_needed": "Retains the as-built public anchor.",
+        "where": "Existing desktop navigation and opened phone menu."
+      },
+      {
+        "text": "Pricing",
+        "why_needed": "Retains access to the separate plan explanation.",
+        "where": "Existing desktop navigation and opened phone menu."
+      },
+      {
+        "text": "Sign in",
+        "why_needed": "Retains the public authentication entrance with a Lab boundary.",
+        "where": "Shared public header."
+      },
+      {
+        "text": "Menu",
+        "why_needed": "Exposes the phone navigation.",
+        "where": "Phone header."
+      },
+      {
+        "text": "Start earning",
+        "why_needed": "Preserves the existing audience action rather than replacing it with Loyalty.",
+        "where": "Existing header or opened phone menu; unchanged hero."
+      },
+      {
+        "text": "Fictional product preview",
+        "why_needed": "Identifies the existing business demonstration as fiction.",
+        "where": "Business chapter entrance, before the retained marketplace demonstration."
+      },
+      {
+        "text": "Find people",
+        "why_needed": "Retains the marketplace demonstration entrance.",
+        "where": "Existing business demonstration controls."
+      },
+      {
+        "text": "Find cars",
+        "why_needed": "Retains the distinct car demonstration.",
+        "where": "Existing business demonstration controls."
+      },
+      {
+        "text": "Create campaign",
+        "why_needed": "Keeps campaign creation distinct from loyalty-program creation.",
+        "where": "Existing business demonstration controls."
+      },
+      {
+        "text": "Review work",
+        "why_needed": "Preserves the approval boundary before the Loyalty extension.",
+        "where": "Existing business demonstration controls."
+      },
+      {
+        "text": "Open business preview",
+        "why_needed": "Opens the unscaled business marketplace.",
+        "where": "Retained marketplace action band; source disclosure; Get started handoff."
+      },
+      {
+        "text": "Design Lab · Fictional replay",
+        "why_needed": "Combines the fictional and simulated-sequence context in one persistent, short label.",
+        "where": "Upper edge of every Loyalty scene, paused state, fallback and reduced-motion still."
+      },
+      {
+        "text": "From Jasmine",
+        "why_needed": "Makes the preserved acquisition source the visual thread.",
+        "where": "Stationary source control beside or below the replay label in every scene."
+      },
+      {
+        "text": "Get attention.",
+        "why_needed": "Names the first business act.",
+        "where": "Scenes 1 and 2 only."
+      },
+      {
+        "text": "Turn them into customers.",
+        "why_needed": "Names the transition from campaign to signup.",
+        "where": "Scene 3 only."
+      },
+      {
+        "text": "Bring them back.",
+        "why_needed": "Names the final business outcome.",
+        "where": "Scene 8 only; dated Wallet scenes communicate the intervening returns visually."
+      },
+      {
+        "text": "Join Loopday",
+        "why_needed": "Shows the campaign’s acquisition handoff.",
+        "where": "Coded action band adjacent to the Story in scenes 1 and 2; non-interactive replay content."
+      },
+      {
+        "text": "Play sequence",
+        "why_needed": "Invites deliberate playback rather than suggesting the static Story is a video.",
+        "where": "Playback control at the initial resting scene."
+      },
+      {
+        "text": "Loopday Coffee",
+        "why_needed": "Keeps the business identifiable across signup and Wallet.",
+        "where": "Signup excerpt and public Apple store-card concept."
+      },
+      {
+        "text": "Free coffee",
+        "why_needed": "States the actual reward.",
+        "where": "Signup excerpt, Wallet reward field and final business receipt."
+      },
+      {
+        "text": "5 visits",
+        "why_needed": "States the requirement before the depicted signup.",
+        "where": "Scene 3 signup excerpt."
+      },
+      {
+        "text": "One counted visit per day.",
+        "why_needed": "Prevents the depiction of repeated taps from implying repeated qualifying visits.",
+        "where": "Scene 3, adjacent to the requirement."
+      },
+      {
+        "text": "First name",
+        "why_needed": "Shows the minimal identity request.",
+        "where": "Scene 3 read-only signup excerpt."
+      },
+      {
+        "text": "Sara",
+        "why_needed": "Connects the historical signup to the final business receipt.",
+        "where": "Scene 3 fixture value and scene 8 receipt."
+      },
+      {
+        "text": "Phone",
+        "why_needed": "Shows the one contact used by this historical fixture, not a messaging channel.",
+        "where": "Scene 3 read-only signup excerpt."
+      },
+      {
+        "text": "+12025550142",
+        "why_needed": "Uses Sara’s actual fictional fixture contact rather than inventing another identity.",
+        "where": "Scene 3 read-only fixture value only."
+      },
+      {
+        "text": "Create my card",
+        "why_needed": "Shows the single signup commitment in the historical replay.",
+        "where": "Scene 3 depicted action; it is not an operative signup button on this page."
+      },
+      {
+        "text": "Design Lab · Apple Wallet concept",
+        "why_needed": "Identifies the coded card as a platform representation, not native Wallet.",
+        "where": "Immediately above the card in scenes 4 to 7 and corresponding stills."
+      },
+      {
+        "text": "No pass is issued.",
+        "why_needed": "Prevents the card’s appearance from implying issuance or saving.",
+        "where": "Immediately below every public Wallet concept."
+      },
+      {
+        "text": "VISITS",
+        "why_needed": "Labels the supported store-card primary field.",
+        "where": "Public Apple concept."
+      },
+      {
+        "text": "0 of 5",
+        "why_needed": "Shows that signup itself counted no visit.",
+        "where": "Scene 4 primary value."
+      },
+      {
+        "text": "1 of 5",
+        "why_needed": "Shows the first qualifying visit.",
+        "where": "Scene 5 primary value."
+      },
+      {
+        "text": "2 of 5",
+        "why_needed": "Shows the second distinct counted day.",
+        "where": "First cut of scene 6."
+      },
+      {
+        "text": "3 of 5",
+        "why_needed": "Shows the September 13 historical state.",
+        "where": "Second cut of scene 6."
+      },
+      {
+        "text": "4 of 5",
+        "why_needed": "Matches Sara’s baseline business fixture.",
+        "where": "Third cut of scene 6 and entry to scene 7."
+      },
+      {
+        "text": "5 of 5",
+        "why_needed": "Shows the example continuation meeting the requirement.",
+        "where": "Scene 7 after its depicted counted event."
+      },
+      {
+        "text": "STATUS",
+        "why_needed": "Separates progress from reward availability.",
+        "where": "Public Apple concept."
+      },
+      {
+        "text": "Collecting",
+        "why_needed": "Names the pre-reward state.",
+        "where": "Scenes 4 to 6 and the pre-event state of scene 7."
+      },
+      {
+        "text": "+1 visit",
+        "why_needed": "Makes the fifth counted action explicit.",
+        "where": "Scene 7 business action strip before the replayed commit."
+      },
+      {
+        "text": "Visit counted",
+        "why_needed": "Identifies the qualifying event rather than a card animation.",
+        "where": "Scene 7 strip after the replayed commit; replaces +1 visit."
+      },
+      {
+        "text": "Reward ready",
+        "why_needed": "Names the earned, unredeemed reward.",
+        "where": "Scene 7 Wallet status and scene 8 business receipt."
+      },
+      {
+        "text": "5 of 5 visits",
+        "why_needed": "Keeps the final business receipt independently understandable after the Wallet cut.",
+        "where": "Scene 8."
+      },
+      {
+        "text": "Wallet update · simulated",
+        "why_needed": "Names the result without implying delivery or a customer messaging channel.",
+        "where": "Scene 8 business receipt, never in an operating-system notification shape."
+      },
+      {
+        "text": "Open loyalty preview",
+        "why_needed": "Opens the working product at readable scale.",
+        "where": "Primary action in scene 8."
+      },
+      {
+        "text": "Get started",
+        "why_needed": "Offers the public onboarding entrance while respecting the isolated Lab.",
+        "where": "Secondary action in scene 8."
+      },
+      {
+        "text": "Morning loop · Story campaign",
+        "why_needed": "Explains the named acquisition source when requested.",
+        "where": "From Jasmine disclosure only."
+      },
+      {
+        "text": "First known source stays attached.",
+        "why_needed": "Explains why the source survives the sequence.",
+        "where": "Source disclosure."
+      },
+      {
+        "text": "Replay leaves the business demo unchanged.",
+        "why_needed": "Explains why the working preview retains its baseline rather than inheriting playback.",
+        "where": "Source disclosure."
+      },
+      {
+        "text": "Business preview",
+        "why_needed": "Names the Get started handoff without pretending onboarding has begun.",
+        "where": "Get started sheet."
+      },
+      {
+        "text": "No account is created.",
+        "why_needed": "Makes the public CTA’s Lab boundary explicit.",
+        "where": "Get started sheet."
+      },
+      {
+        "text": "Design Lab · Fictional preview",
+        "why_needed": "Identifies the CTA handoff as a preview.",
+        "where": "Get started sheet."
+      },
+      {
+        "text": "Media unavailable.",
+        "why_needed": "Reports an actual asset-loading failure without inventing replacement campaign media.",
+        "where": "Failed Story or artwork region."
+      },
+      {
+        "text": "Try again",
+        "why_needed": "Retries the failed local asset load.",
+        "where": "Media-failure state only."
+      },
+      {
+        "text": "Continue sequence",
+        "why_needed": "Allows the coded product story to remain inspectable when campaign media fails.",
+        "where": "Story failure state only."
+      },
+      {
+        "text": "Outside this preview",
+        "why_needed": "Preserves the meaning of unimplemented public destinations.",
+        "where": "Shared shell boundary notice when required."
+      },
+      {
+        "text": "This destination is outside the V3 lab.",
+        "why_needed": "Explains why the Lab does not navigate to production.",
+        "where": "Shared shell boundary notice."
+      },
+      {
+        "text": "Close",
+        "why_needed": "Dismisses a sheet or shell boundary notice.",
+        "where": "Source disclosure, Get started sheet and boundary notice."
+      }
+    ],
+    "honest_states": [
+      "Initial rest: the Story is a still image. Nothing plays or records a campaign click on page load.",
+      "The signup scene is a read-only editorial excerpt of Sara’s historical demo signup. It is not a functioning form and does not depict automatic consent. Full terms and the operative agreement belong to the working signup route, not this abbreviated public replay.",
+      "Signup produces zero visits in the replay. Its first visit is a separate, date-labelled scene.",
+      "The September 10 return is on a different America/Chicago business day. September 13 and September 16 are separate cuts, not digits counted up by a timer.",
+      "September 17 is an explicitly fictional continuation from the baseline. It earns a reward but never redeems it.",
+      "The final receipt says Wallet update · simulated. It does not claim a device changed, a notification was delivered or a pass was saved.",
+      "The public card uses a supported subset of Apple store-card fields. It is not a tiny screenshot of the complete business card and does not alter the full card specification on the working routes.",
+      "Unknown or failed media remains labelled absence. No Demo Roastery asset, Jasmine portrait or generated interface is substituted.",
+      "The source disclosure explains that the working business demo remains unchanged. Replay, route navigation and Back do not reset or mutate the business’s in-memory scenario.",
+      "Get started opens an honest Lab handoff, not authentication, account creation or a simulated production success."
+    ],
+    "two_second_read": "A creator brings someone in. The same source stays attached while visits become a reward. Open the working business preview next.",
+    "media": [
+      "Retained acquisition demonstration: preserve /uploads/seed/tapmart-recreate.jpg, /uploads/seed/tapmart-story.jpg and /uploads/seed/tapmart-car.jpg in their existing V2 public placements. Recreate and the photographed Story phone remain intact 4:5 images; the car may use the approved 3:2 crop at 50% 68%. These are campaign imagery, not Jasmine or Loopday fixture evidence. Do not reuse them as the Loyalty source.",
+      "Loyalty source: /design-lab/story-loopday-01.jpg, verified as the matched Loopday 9:16 creative. Show the complete asset without a phone bezel, perspective extraction, overlay copy or play symbol on the image. Phone display 246×437px at 390; 234×416px at 320; desktop 300×533px. Reserve dimensions. Transcribe and count intrinsic lettering during media-manifest review; do not claim inspection from this specification.",
+      "Wallet artwork: /design-lab/reference-loopday-01.jpg. In a 375:123 strip, reserve the left 62% as solid #18231D for the primary field and place the photograph in the right 38%, object-fit cover. Start at object-position 50% 50%, then verify and record a subject-safe crop. No gradient, face removal, global grade or invented logo overlay.",
+      "Coded Loopday mark: 40×40 view box; a 3px open circular stroke centered at 20,20 with radius 13 and a 40-degree opening toward the lower right. The final 7px tangent is brick #B73E28; the remainder is paper on ink. Render at 28px on the pass and 40px on the signup excerpt. It is a brand mark, not a stamp or progress indicator.",
+      "Coded public Apple store-card concept: 375px reference width and approximately 500px content-led height, 12px outer radius, flat #18231D, paper values and #C4CDBF labels. Header contains the loop mark and Loopday Coffee. Primary field is VISITS with the full value. Two lower supported fields show the reward value Free coffee with no redundant label, and STATUS with Collecting or Reward ready. A black-on-white member QR occupies the lower area. This public field selection intentionally omits the MEMBER field and visible member ID; neither is essential to the public decision. The full working card retains them. No custom strokes, buttons, source attribution or notification UI are printed on the pass.",
+      "Public pass sizing: 358px wide at 390, 296px at 320, 375px on tablet and desktop. Preserve 16px minimum field text, 13px labels and a 32px primary value rather than scaling the entire DOM. Header padding 20px, field-group gaps 20px, QR white square 184px at 390 and 160px at 320. Let height grow at text zoom.",
+      "Coded member QR: generate a real QR at error correction M from the opaque fixture payload tapmart-demo-member:loopday:q7n4k9r2m6t8. Use black square modules, integer raster alignment or crisp vector paths, four white modules of quiet zone on every side and no logo. This is the same token in all historical scenes, contains no contact or source information, and performs no action when displayed. It is not a URL, signup QR or real Wallet credential.",
+      "Coded signup excerpt: square-edged paper surface, loop mark, business, reward and fixed rule followed by two read-only field representations and a depicted ink action. Use real text and layout, not a screenshot. It is an editorial selection from the actual signup, not a separate shortened signup implementation.",
+      "Coded final business receipt: open paper working band, not a Wallet pass or notification toast. Sara sits above five equal progress strokes, then 5 of 5 visits, Reward ready, Free coffee and Wallet update · simulated. Five strokes are 4px high with 8px gaps; all are ink after the final depicted event. No enclosing status card, green glow or celebration.",
+      "Coded acquisition seam: one straight 2px #C4CDBF line attached to the outside source label, with a 12px brick terminal. On desktop it connects the stable source datum to the current object boundary. On phone it is a short horizontal rule above the scene. It is a relationship cue, never a metric or progress bar."
+    ],
+    "states": [
+      "0, Chapter entry: retain the existing marketplace demonstration. Its action band ends before the new sequence begins. There is no additional Loyalty feature-grid introduction.",
+      "1, Source, 1000ms narrative weight: Get attention.; intact Loopday Story; From Jasmine; adjacent Join Loopday. Initial rest exposes Play sequence. Nothing is playing inside the photograph.",
+      "2, Handoff, 450ms: the same source remains visible. A single small tap indication touches the depicted Join Loopday action; it cuts to the signup excerpt. No browser, Instagram interface or campaign-posting state is fabricated.",
+      "3, Historical signup, 1100ms: Turn them into customers.; Loopday Coffee; Free coffee; 5 visits; fixed daily rule; First name / Sara; Phone / +12025550142; depicted Create my card. The scene begins filled from the replay record. There is no typing or consent animation. Total authored visible words: 29.",
+      "4, Distinct member card, 650ms: show the Apple concept with 0 of 5 and Collecting. Keep From Jasmine outside it. Date is 2026-09-08. The card’s arrival depicts a demo card representation, not an Add to Wallet action. Total authored visible words: 26.",
+      "5, First counted visit, 800ms: same card, QR and source; primary becomes 1 of 5 on 2026-09-08. Signup and first visit remain separate events even though they share a date.",
+      "6, Returns, 1600ms: three discrete historical cuts: 2026-09-10 / 2 of 5; 2026-09-13 / 3 of 5; 2026-09-16 / 4 of 5. Allocate 534ms, 533ms and 533ms. Never interpolate the value or imply multiple same-day awards.",
+      "7, Next visit, 600ms: date becomes 2026-09-17. A separate business strip shows +1 visit, then Visit counted. The replayed event changes the supported field to 5 of 5 and STATUS to Reward ready together. Identity and QR do not move. Total authored visible words at the fullest state: 29.",
+      "8, Return receipt, 1100ms then indefinite rest: cut from the native concept to the business receipt for the same earned instance. Bring them back.; Sara; five completed strokes; 5 of 5 visits; Reward ready; Free coffee; Wallet update · simulated. From Jasmine remains fixed. Reveal Open loyalty preview and Get started. Total authored visible words: 26. No redemption occurs.",
+      "Paused: preserve the exact scene and progress position indefinitely. Show no extra paused banner; the play/pause control communicates the state.",
+      "Scrubbing: replace scenes from immutable replay snapshots. Moving backwards does not visually undo a real transaction and writes no event.",
+      "Source disclosure: replace the stage content with a short source explanation while preserving its outer dimensions. Pause playback. Show the named campaign, attribution rule, replay-store boundary and Open business preview.",
+      "Get started: pause playback and open the short Business preview handoff with the explicit no-account statement and Open business preview.",
+      "Media failure: preserve the source, scene dimensions and chapter controls. Show Media unavailable. with Try again and Continue sequence. A failed Wallet strip retains the functional coded card on solid brand colour.",
+      "Reduced motion: show the same scenes as ordinary static sections. Scene 6 becomes three separate date-labelled stills. No playback, automatic scene advancement or sticky stage remains."
+    ],
+    "large_desktop": [
+      "Keep the public maximum at 1600px and this narrative composition at 1280px. At 1920 the stage is centered with approximately 320px outside its narrative bounds.",
+      "The sticky stage may grow from 720px to 800px high. The card remains 375px wide and the Story 300px wide; neither becomes a wall-sized product prop.",
+      "Increase the act headline from 64px to 72px only in scenes that have a headline. Keep UI type, QR, source label and controls unchanged.",
+      "Use the extra space as an empty right shoulder and a longer acquisition seam. Do not add source metrics, a second phone, customer rows or simultaneous old and new cards.",
+      "The stage still shows one scene. Do not use the additional width to expose all three acts at once and break the copy budget."
+    ],
+    "desktop": [
+      {
+        "size": "72px shared header; existing business chapter spacing retained.",
+        "motion": "Existing public anchor behaviour only.",
+        "content": "At 1440 retain the as-built header and dark business chapter. Public content maximum 1376px. Keep the people, car, creation and review demonstration in place. The Loyalty sequence begins after its complete action band and before Monthly Content returns to paper. Replace the existing empty closing shoulder and duplicate preview ending, not the opening marketplace.",
+        "region": "Existing site and insertion boundary",
+        "state": "Unchanged V2 public shell carried into V3."
+      },
+      {
+        "size": "Native-scroll region 160svh; sticky stage maximum 720px high; top offset 88px.",
+        "motion": "Native scroll maps monotonically to the eight-scene replay. No wheel interception or scroll lock.",
+        "content": "Narrative width 1280px, centered. Ink background extends edge to edge. Stage interior uses an asymmetric 12-column alignment: source and act occupy columns 1 to 4; the active object occupies columns 6 to 9; columns 10 to 12 remain an intentional empty shoulder. No dividing panel, bento boxes or second device.",
+        "region": "Narrative stage",
+        "state": "One active replay scene."
+      },
+      {
+        "size": "24px upper context band; source line 44px target; act block maximum 360px wide.",
+        "motion": "From Jasmine and the context label remain fixed. Only the short terminal extends when the related object changes.",
+        "content": "Design Lab · Fictional replay uses DM Sans 12/18 in #C4CDBF. From Jasmine is DM Sans 14/20 paper, underlined on focus or hover. Act headlines use Bricolage Grotesque 64/64, paper, tracking -0.04em. Headlines appear only in scenes 1 to 3 and 8; Wallet scenes use that space for the date, not an additional slogan.",
+        "region": "Source datum and editorial rail",
+        "state": "Persistent source; scene-specific act."
+      },
+      {
+        "size": "Story 300×533px; adjacent action band 44px high.",
+        "motion": "Scene 2 uses one small tap indication in the coded band, followed by a cut. The photograph does not animate as video.",
+        "content": "The intact 9:16 Loopday Story sits directly on ink with square corners. Join Loopday is a paper band below it with ink 14px action text. It is replay content, not an Instagram button. No portrait of Jasmine, follower count, fake handle or performance figure appears.",
+        "region": "Source scenes",
+        "state": "Scenes 1 and 2."
+      },
+      {
+        "size": "Signup excerpt 375px wide, approximately 470px high.",
+        "motion": "Immediate filled replay state with a short opacity cut; no typing, focus simulation or checkbox movement.",
+        "content": "Paper surface with square corners and 24px inner spacing. Business 18/24 DM Sans 600; Free coffee 28/32 Bricolage; rule 13/18. Field labels 13px, values 16px, 48px field height, 1px line boundaries and 4px radius. Depicted action is ink with paper text. Read-only form content is not keyboard focusable.",
+        "region": "Signup scene",
+        "state": "Scene 3; historical replay excerpt."
+      },
+      {
+        "size": "375px card; approximately 500px card height plus adjacent platform and issuance labels.",
+        "motion": "Card arrival moves 16px once. Later values crossfade in place; the card and QR remain stationary.",
+        "content": "The public Apple object uses the precise supported-field subset specified in media. Platform label is 12/18 above; No pass is issued. is 12/18 below. Date uses 13px tabular DM Sans outside the pass. The source seam terminates at the card boundary, never overlays its fields or QR. Scene 7 adds a 44px business strip outside the pass, not a native action on it.",
+        "region": "Wallet and dated return scenes",
+        "state": "Scenes 4 to 7."
+      },
+      {
+        "size": "Receipt 440px wide; 48px separation before the final action band.",
+        "motion": "A 180ms cut changes the viewpoint from customer card to business receipt. The earned state does not change during the cut.",
+        "content": "Open paper receipt band with 24px padding and no oversized rounded enclosure. Sara 20/26; progress text 24/28 tabular; Reward ready 28/32 Bricolage; Free coffee 18/24; Wallet update · simulated 13/18 muted. Open loyalty preview is the single filled paper-on-ink inverse action in the chapter; Get started is underlined paper. Keep the final state still.",
+        "region": "Business-side resolution",
+        "state": "Scene 8."
+      },
+      {
+        "size": "44px control row; scrub track 280px wide within a 44px-high target.",
+        "motion": "Only the playhead moves continuously. Scene progress never animates product counts.",
+        "content": "Controls sit below the active object on one fixed baseline. Use the existing V3 Phosphor regular previous, play/pause and next icons, 20px within 44px targets. Eight plain 2px track segments indicate narrative position; the active segment is paper and the others #C4CDBF. No numeric progress percentage, elapsed-time counter or visible extra labels. Play sequence text appears beside its icon only at initial rest.",
+        "region": "Playback and scrubbing",
+        "state": "All ordinary-motion scenes."
+      }
+    ],
+    "small_phone": [
+      "Use 12px outside padding, producing 296px content width. Public header remains 56px with the existing 44px targets.",
+      "Let the sequence grow to approximately 720 to 780px rather than fitting it inside the 568px viewport. Scrolling is ordinary page scrolling; the controls are not pinned over the card.",
+      "Story becomes 234×416px, centered. The Apple card is 296px wide with a minimum 160px QR white square and at least 144px code including its quiet zone.",
+      "Do not scale typography as a screenshot. Preserve 16px field values, 13px labels and 32px primary progress; allow a taller pass and wrapped business name if needed.",
+      "Context and source may occupy two short rows. Keep their order and do not truncate either truth label.",
+      "Final actions stack at full width with 12px separation. Source disclosure and Get started use full-width sheets; no miniature desktop inspector.",
+      "No decorative device frame is present at any phone size."
+    ],
+    "tablet": [
+      "This is a public page, so do not introduce the business app’s 80px rail. Retain the public desktop navigation from 768px.",
+      "Use 32px outer padding. At 768 to 1023 retain ordinary document flow and tap-through controls; do not enable the desktop sticky-scroll mapping.",
+      "Compose a narrow source/act rail of approximately 220px beside a 375px object when space permits. At 768 with enlarged text, stack the rail above the object rather than squeezing the card.",
+      "The Story remains 270×480px and the pass remains at most 375px wide. Tablet width does not justify showing two Wallet platforms.",
+      "The source disclosure becomes a 400px anchored working panel, or a full-width in-flow replacement under text zoom. It must not cover the QR or leave autoplay running behind it."
+    ],
+    "accessibility": [
+      "Use a named section and figure for the Loyalty replay. Do not expose the depicted signup inputs or depicted action bands as interactive controls.",
+      "Provide accessible names for icon controls: Previous frame, Play sequence, Pause sequence, Next frame and Replay sequence. They are accessible-only names, not additional visible tooltip copy.",
+      "The scrubber is a labelled range control with the accessible name Sequence position. Arrow keys move through the eight main scenes; Home and End select the first and last. A separate scene description announces the three dated cuts within scene 6.",
+      "After an explicit Next, Previous or scrub action, politely announce the resulting scene once. Do not announce every timer tick or all decorative transitions during playback.",
+      "The scene descriptions explain that this is Sara’s fictional historical signup, that consent is not being performed, that signup counts no visit, and that the final continuation does not mutate the business demo.",
+      "Treat the QR as an image with the accessible name Fictional member QR for Sara. Supply an adjacent accessible description that it is not a signup code or real Wallet credential. Do not expose its modules as individual elements.",
+      "Use semantic dates with visible compact ISO values and accessible full dates. Dates are in 2026 and the business calendar is America/Chicago.",
+      "Source details and Get started pause playback, trap focus only when modal, support Escape and browser Back, and restore focus to their trigger. Do not resume playback automatically after closing.",
+      "All controls have at least 44×44px targets. Focus is a 2px paper outline with 3px offset on ink and a 2px brick outline on paper.",
+      "Source continuity is communicated by the From Jasmine text, not only the brick terminal. Completed progress has both the five strokes and its numeric value.",
+      "At 200% text zoom, disable fixed stage heights and sticky composition when content would overflow. Use the ordinary-flow composition; never clip the issuance note or controls.",
+      "No flashing, sound, vibration, autoplayed video, simulated camera permission or animation-dependent instruction is used."
+    ],
+    "motion": [
+      {
+        "explains": "The three business acts are one source-preserving story, not three unrelated feature cards.",
+        "trigger": "Native scroll through the sequence at widths of at least 1024px.",
+        "reduced_motion": "Remove sticky positioning and scroll mapping. Render the same scenes as static sections.",
+        "name": "Source-preserving scroll cut",
+        "duration_ms": "Scroll-driven; scene weights total 7300ms.",
+        "easing": "Linear mapping from native scroll to narrative position.",
+        "what_moves": "The active scene changes inside the bounded stage. Source label and context stay fixed. Media translates by at most 24px at a handoff. The pass never stretches between unrelated shapes. No wheel interception, forced waiting or event mutation."
+      },
+      {
+        "explains": "Playback is a deliberate replay rather than a live product process.",
+        "trigger": "Play sequence or the play control after pausing.",
+        "reduced_motion": "Remove timed playback. Previous and Next become native links to static scenes.",
+        "name": "One deliberate run",
+        "duration_ms": "7300 total, then indefinite rest.",
+        "easing": "Scene holds are linear; transitions use their individual easing.",
+        "what_moves": "The narrative playhead advances through the specified scene weights once. Pause remains operable. The final receipt rests without looping. Pointer interaction, disclosure opening, tab hiding, leaving the stage or scroll input pauses timed playback."
+      },
+      {
+        "explains": "A creator campaign leads to the signup; it does not become a posted or approved campaign state.",
+        "trigger": "Scene 1 to scene 2.",
+        "reduced_motion": "Show the source and signup as separate stills with no tap indication.",
+        "name": "The acquisition handoff",
+        "duration_ms": "450",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_moves": "An 8px paper tap indication touches the depicted Join Loopday band once and disappears. Cut to the filled signup excerpt. No fake pointer traverses the page and no consent checkbox changes."
+      },
+      {
+        "explains": "The signup has a distinct member-card representation, initially with zero visits.",
+        "trigger": "Historical signup scene to scene 4.",
+        "reduced_motion": "Show the card immediately with the same adjacent truth labels.",
+        "name": "Card arrives, source stays",
+        "duration_ms": "320",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_moves": "The card enters from 16px below with opacity. From Jasmine and both concept truth labels remain stationary. Nothing flies into a system Wallet, flips in 3D or triggers a save receipt."
+      },
+      {
+        "explains": "A particular counted day changed the supported Wallet field.",
+        "trigger": "Each dated replay event in scenes 5 to 7.",
+        "reduced_motion": "Replace the complete date, value and state immediately.",
+        "name": "Dates, not a counter",
+        "duration_ms": "120 per field replacement",
+        "easing": "linear",
+        "what_moves": "Crossfade complete values in a reserved numeric area. Date and value change together. Never roll digits, count from zero or animate progress during an uncounted interval. The QR and brand remain fixed."
+      },
+      {
+        "explains": "The fifth qualifying event earned a reward; no redemption or delivery followed.",
+        "trigger": "The explicit September 17 replayed event.",
+        "reduced_motion": "Show 5 of 5 and Reward ready together, then the final receipt as a separate still.",
+        "name": "The return becomes a receipt",
+        "duration_ms": "220 progress emphasis; 140 status replacement; 180 final viewpoint cut.",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_moves": "The Wallet field changes without a custom native progress animation. The next scene cuts to the business receipt, where five confirmed app strokes are visible. There is no confetti, green flash, card shredding or notification toast."
+      },
+      {
+        "explains": "The source explanation is temporary information, not another narrative frame.",
+        "trigger": "From Jasmine or Get started.",
+        "reduced_motion": "Immediate appearance with correct focus transfer.",
+        "name": "Quiet disclosure",
+        "duration_ms": "180 opening; 140 closing",
+        "easing": "cubic-bezier(0.2, 0, 0, 1)",
+        "what_moves": "On phone, a sheet moves no more than 16px. On desktop, source content replaces the stage’s editorial region or opens the specified working panel. Background objects remain stationary and playback stops."
+      }
+    ],
+    "phone": [
+      {
+        "size": "56px public header; existing page sections retain their as-built heights.",
+        "motion": "Native page scrolling.",
+        "content": "At 390 preserve TapMart, Sign in and Menu. Keep the photography-first hero and existing earning and marketplace demonstrations. Insert Loyalty only after the business demonstration’s complete action band. The surrounding chapter stays #18231D and returns to paper at Monthly Content.",
+        "region": "Site shell and chapter insertion",
+        "state": "Existing V2 public composition carried forward."
+      },
+      {
+        "size": "358px content width; approximately 690 to 740px stage height in normal flow.",
+        "motion": "No scroll pinning. Tap-through and deliberate playback only.",
+        "content": "Use 16px page padding. Reserve a stable stage envelope so scene changes do not move the document. At enlarged text, let it grow. The top context/source band is followed by one active object and a 44px control row. No phone bezel, notch, clock or browser bar.",
+        "region": "Sequence envelope",
+        "state": "All ordinary-motion scenes."
+      },
+      {
+        "size": "24px context row, with an additional 24px source row only when wrapping requires it.",
+        "motion": "None; the source is the stationary datum.",
+        "content": "Design Lab · Fictional replay is 12/18 DM Sans in #C4CDBF. From Jasmine is 13/18 paper with a 44px tap target. A short 2px rule with a 12px brick terminal sits below. Do not add a separate Loyalty title, three-act tab row or explanatory paragraph.",
+        "region": "Persistent context and acquisition seam",
+        "state": "Every scene."
+      },
+      {
+        "size": "Headline up to two lines; 246×437px Story; 44px depicted action band.",
+        "motion": "Static image in scene 1; single handoff indication in scene 2.",
+        "content": "Get attention. uses Bricolage 36/38, paper. Center the complete Story in the available width, square corners. Join Loopday sits in a solid adjacent paper band. Playback invitation sits outside the photograph. Preserve embedded creative lettering exactly.",
+        "region": "Source",
+        "state": "Scenes 1 and 2."
+      },
+      {
+        "size": "358px-wide signup excerpt; content-led height approximately 470 to 500px.",
+        "motion": "A short scene cut, not animated typing.",
+        "content": "Turn them into customers. is 32/34 and may wrap. Below it, the actual coded signup excerpt shows loop mark, business, reward, requirement, daily rule and the two fixed fixture fields. Paper surface, 20px inner padding, 16px field values, 48px field height. The depicted Create my card action is not focusable or clickable.",
+        "region": "Signup",
+        "state": "Scene 3."
+      },
+      {
+        "size": "358px pass width; approximately 480 to 520px content-led pass height; labels outside.",
+        "motion": "Card arrives once; subsequent values replace in place.",
+        "content": "Remove the editorial act headline for these scenes. The platform label immediately precedes the card; No pass is issued. immediately follows. Keep the compact date outside the pass. Use the specified system-font native field subset, actual brand artwork and a 184px QR white square. The source line remains outside the pass.",
+        "region": "Card and historical visits",
+        "state": "Scenes 4 to 6."
+      },
+      {
+        "size": "Same pass bounds, with a 44px business strip below the date.",
+        "motion": "Only the confirmed field replacement and status change.",
+        "content": "On 2026-09-17, show +1 visit outside the pass, replacing it with Visit counted at the replayed event. The card changes to 5 of 5 and Reward ready together. Do not append an extra reward modal or change the QR.",
+        "region": "Fifth visit",
+        "state": "Scene 7."
+      },
+      {
+        "size": "358px-wide open receipt; 48px primary action and 44px secondary action.",
+        "motion": "One viewpoint cut, then still.",
+        "content": "Bring them back. leads at 36/38. Receipt uses Sara at 20/26, five 4px progress strokes with 8px gaps, 5 of 5 visits at 24/28, Reward ready at 28/32 and Free coffee at 18/24. Wallet update · simulated is a quiet 13/18 receipt line. Open loyalty preview is filled; Get started is underlined. No additional summary, metric or promise.",
+        "region": "Business receipt and next action",
+        "state": "Scene 8."
+      },
+      {
+        "size": "44px control row; flexible scrub track between fixed 44px targets.",
+        "motion": "Playhead only.",
+        "content": "Previous, play/pause and next are Phosphor regular icons with accessible names. Eight straight segments form the narrative scrubber. Avoid visible elapsed time, percentages and frame numbers. Initial Play sequence text is removed after playback begins; subsequent icon controls retain stable positions and accessible names.",
+        "region": "Playback controls",
+        "state": "Initial, playing, paused, scrubbed and final."
+      },
+      {
+        "size": "Full-width sheet with 16px padding; height follows content.",
+        "motion": "Quiet disclosure motion; playback paused.",
+        "content": "From Jasmine opens the short source explanation. Get started opens Business preview, Design Lab · Fictional preview, No account is created., Open business preview and Close. Use 28px titles, 16/24 body and 44px actions. Browser Back closes the sheet before leaving the page.",
+        "region": "On-demand working layers",
+        "state": "Source disclosure or CTA handoff."
+      }
+    ],
+    "on_demand": [
+      "From Jasmine opens the source explanation containing Morning loop · Story campaign, First known source stays attached., Replay leaves the business demo unchanged. and Open business preview. Pause first; preserve the active frame on close.",
+      "Play sequence runs once. Previous and Next expose every main scene without requiring animation; the scrubber exposes arbitrary narrative positions. At the last frame the play control becomes Replay sequence through its accessible name, with no additional visible caption.",
+      "On desktop, explicit playback temporarily owns the stage. The first deliberate scroll pauses it. Re-anchor native mapping at the current scene and current scroll position so resuming scroll does not snap backwards; maintain monotonic mapping to the remaining track endpoints.",
+      "Open business preview navigates to /design-lab-v3/business. Open loyalty preview navigates to /design-lab-v3/business/loyalty. Neither copies replay state into the business provider.",
+      "Get started opens the short Lab handoff. Its Open business preview action enters the working business concept; no account, session or production route is created.",
+      "The complete signup, consent, terms, card Details, platform choice, member identity and program controls are inspected in the working V3 product, not expanded into this public story.",
+      "No extra content appears on hover. Hover and focus may underline From Jasmine and emphasize a control boundary, but must not add unscripted tooltips or increase the scene’s word count.",
+      "With reduced motion, all scenes are ordinary still sections. Previous and Next are native section links; playback and scrubbing are removed rather than becoming misleading disabled controls."
+    ],
+    "fixture_data": [
+      "Business: Loopday Coffee, Austin; program Loopday Rewards; visits target 5; reward Free coffee; one counted qualifying visit per America/Chicago business day.",
+      "Source: fictional creator Jasmine; campaign Morning loop; type STORY; fixture registry link-jasmine-story. The matched Story asset is not evidence of a real Instagram post.",
+      "Historical member: Sara, LD-001, contact +12025550142. The replay’s member QR uses opaque code q7n4k9r2m6t8 and never contains her contact or acquisition metadata.",
+      "September 8, 2026, 8:50 AM CDT: historical signup snapshot with the recorded demo agreement; zero visits. The public excerpt does not perform agreement or enrollment.",
+      "Counted historical visit dates: September 8, September 10, September 13 and September 16, 2026. September 16 is at 4:20 PM CDT. Do not invent precise times for the other visit cuts.",
+      "Visible replay dates are 2026-09-08, 2026-09-10, 2026-09-13, 2026-09-16 and 2026-09-17. Their screen-reader equivalents use full dates.",
+      "The September 17, 2026, 10:00 AM CDT continuation is confined to the replay: one counted visit, one reward unlock, five lifetime counted visits, one ready reward and zero redemptions for Sara.",
+      "Scene 8 depicts the same earned instance as scene 7. Changing viewpoints creates no additional event. Wallet update is represented as simulated, with no platform delivery state.",
+      "The working business baseline remains 10 Members, 6 Repeat visitors, 1 Rewards ready and 2 Rewards redeemed. Its Sara remains 4 of 5 until a deliberate action in the business recording flow.",
+      "The source baseline remains Jasmine: 4 joined, 3 came back, 1 unique member redeemed. None of these counts is displayed as a fabricated animated marketing metric.",
+      "Public replay snapshots are immutable and held in a separate store. Reload resets playback; route changes preserve the working business provider according to the V3 contract."
+    ],
+    "truth_labels": [
+      "Use Design Lab · Fictional replay as this surface’s compact persistent context. It replaces a duplicated fictional-preview plus simulated-sequence caption; do not stack both. Replay is the action-local simulation label.",
+      "The retained business chapter entrance still uses Fictional product preview. The new sequence does not remove the surrounding site’s provenance.",
+      "Every Wallet scene and still has Design Lab · Apple Wallet concept immediately above and No pass is issued. immediately below. These labels are outside the pass and cannot scroll away within a cropped card viewer.",
+      "The final business receipt uses Wallet update · simulated. It is typography in the business working band, never a mock lock-screen notification.",
+      "There is no Add to Wallet action in this replay. The card’s appearance cannot produce an added, saved or issued receipt.",
+      "The source disclosure explicitly states that replay leaves the business demo unchanged.",
+      "Get started is labelled as a fictional preview and states No account is created. Unimplemented shell destinations retain the existing Outside this preview boundary."
+    ]
+  }
+}

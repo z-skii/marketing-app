@@ -1,0 +1,1421 @@
+{
+  "screen": "Create program",
+  "route": "/design-lab-v3/business/loyalty/create",
+  "when": "2026-09-17T02:50:51.789Z",
+  "author": "director",
+  "spec": {
+    "acceptance": [
+      "Capture the real React/CSS at 320×568, 390×844, 768×1024, 1023×900, 1440×900 and 1920×1080. Capture every step, both program kinds, both Wallet concepts, draft exit, launch success and launch failure.",
+      "Count visible words in each default phone first viewport, including the fixed action area. Each must stay below 40. Do not count punctuation-only separators as words. The Card composition is designed for 39 words, not claimed measured.",
+      "No authored explanatory block contains 18 or more words. Keep material rules readable. Report validation, expanded documents and user-entered terms separately; never conceal them or shrink type to meet the baseline count.",
+      "This route contains no public-site sequence. Do not import that sequence or claim its separate under-30-word target has been checked here.",
+      "Program exposes exactly Visits and Points. Changing kind preserves the reward name and maintains separate remembered requirements, initially 5 and 100.",
+      "Direct entry to a later step returns to the earliest incomplete prerequisite. A live program blocks creation until an explicit Design Lab scenario replacement.",
+      "Card controls change the actual coded preview. Reward title and reward name are the same draft field. Platform selection never changes the program kind.",
+      "Inspect the Loopday asset before accepting its crop. Record source dimensions and crop positions in the V3 media manifest. Missing media never silently becomes another cafe's photograph.",
+      "Scan exported QR artwork with an ordinary reader. Draft QR payloads are explicitly non-enrollment specimen text; launched QR payloads use the current origin and V3 signup route.",
+      "A launch creates one local simulated program with zero members. It produces no SIGNUP, WALLET_ADDED, issued pass, notification or production request.",
+      "Draft signup inspection and Wallet-choice inspection create no working members, counter events or saved-Wallet projections.",
+      "Verify copy success only after clipboard success. Downloads must contain the actual QR and visible demo label. Browser printing occurs only after Print demo.",
+      "Test Back, Close, browser Back, reload, failed draft save, failed launch, invalid inputs, missing artwork and clipboard rejection without losing uncommitted form values.",
+      "Test keyboard-only operation, focus restoration, 200% text zoom, reduced motion and safe-area clearance. No essential action may depend on dragging, hover or animation.",
+      "Approve only after browser captures and event assertions reconcile. This specification is approval to build the isolated surface, not approval of an unseen implementation."
+    ],
+    "signature_moment": "The return becomes an object before it becomes administration: five quiet strokes establish the rule, the same rule inhabits a recognizable Wallet card, and that card hands off to one counter QR. TapMart-specific continuity replaces a generic form wizard. Nothing deliberately defective is added to satisfy the schema's wording.",
+    "visible_copy": [
+      {
+        "text": "Create program",
+        "why_needed": "Names the focused task on desktop and its accessible page title.",
+        "where": "Desktop task header; document title."
+      },
+      {
+        "text": "Design Lab · Fictional preview",
+        "why_needed": "Identifies the entire task as fictional and opens scenario controls.",
+        "where": "Persistent task context, all five steps and launch result."
+      },
+      {
+        "text": "Program",
+        "why_needed": "Names the kind-selection step.",
+        "where": "Step 1 title; desktop step navigation."
+      },
+      {
+        "text": "Reward",
+        "why_needed": "Names the reward-definition step and the card-back reward field.",
+        "where": "Step 2 title; desktop step navigation; card Details."
+      },
+      {
+        "text": "Card",
+        "why_needed": "Names the card-design step.",
+        "where": "Step 3 title; desktop step navigation."
+      },
+      {
+        "text": "Signup",
+        "why_needed": "Names inspection of the customer acquisition experience.",
+        "where": "Step 4 title; desktop step navigation."
+      },
+      {
+        "text": "Launch",
+        "why_needed": "Names the final review step.",
+        "where": "Step 5 title; desktop step navigation."
+      },
+      {
+        "text": "1 of 5",
+        "why_needed": "Gives phone task position without a five-label navigation row.",
+        "where": "Phone step header; numeral changes to 2, 3, 4 or 5 for the corresponding step."
+      },
+      {
+        "text": "Back",
+        "why_needed": "Returns one step while retaining the draft.",
+        "where": "Accessible name of header icon; expanded overlay return action."
+      },
+      {
+        "text": "Close",
+        "why_needed": "Exits an inspection layer or begins draft-exit handling.",
+        "where": "Accessible name of header icon; overlay close control."
+      },
+      {
+        "text": "Continue",
+        "why_needed": "Validates and advances steps 1 to 4.",
+        "where": "Task action area."
+      },
+      {
+        "text": "Save draft",
+        "why_needed": "Stores the current draft in local memory without launching.",
+        "where": "End of each step's content; desktop action area."
+      },
+      {
+        "text": "Loopday Coffee",
+        "why_needed": "Identifies the business whose program is being created.",
+        "where": "Brand object; business-name input; Wallet issuer identity; signup and QR artwork."
+      },
+      {
+        "text": "Visits",
+        "why_needed": "Selects the visits program and labels Google's visits balance.",
+        "where": "Step 1 choice; Google concept."
+      },
+      {
+        "text": "One visit per qualifying purchase.",
+        "why_needed": "Explains the visits award before selection.",
+        "where": "Step 1 Visits choice."
+      },
+      {
+        "text": "Points",
+        "why_needed": "Selects the points program and labels Google's points balance.",
+        "where": "Step 1 choice; Google concept."
+      },
+      {
+        "text": "One point per qualifying purchase.",
+        "why_needed": "Explains the fixed points award.",
+        "where": "Step 1 Points choice; points rule review."
+      },
+      {
+        "text": "One qualifying purchase counts per day.",
+        "why_needed": "Makes the daily counting restriction visible before proceeding.",
+        "where": "Steps 1 and 2; points signup preview; launch rule review."
+      },
+      {
+        "text": "5 visits → Free coffee",
+        "why_needed": "Shows the complete draft rule as one readable object.",
+        "where": "Visits rule preview in steps 2, 4 and 5; number and reward name follow the draft."
+      },
+      {
+        "text": "100 points → Free coffee",
+        "why_needed": "Shows the complete points rule without implying monetary value.",
+        "where": "Points rule preview in steps 2, 4 and 5; number and reward name follow the draft."
+      },
+      {
+        "text": "Reward name",
+        "why_needed": "Labels the reward definition.",
+        "where": "Step 2 input."
+      },
+      {
+        "text": "Free coffee",
+        "why_needed": "Names the fixture reward.",
+        "where": "Reward input, card reward field, signup, launch and printable QR artwork."
+      },
+      {
+        "text": "Visits to reward",
+        "why_needed": "Labels the required number of qualifying visits.",
+        "where": "Step 2 visits input."
+      },
+      {
+        "text": "Points to reward",
+        "why_needed": "Labels the required points balance.",
+        "where": "Step 2 points input."
+      },
+      {
+        "text": "Terms",
+        "why_needed": "Provides access to optional business terms and full customer terms.",
+        "where": "Step 2 disclosure and textarea; card Details; launch review."
+      },
+      {
+        "text": "Optional",
+        "why_needed": "Prevents the terms field from appearing required.",
+        "where": "Step 2 Terms disclosure."
+      },
+      {
+        "text": "Add terms",
+        "why_needed": "Reveals the optional textarea without filling the default screen with legal editing.",
+        "where": "Collapsed Step 2 Terms disclosure."
+      },
+      {
+        "text": "Enter a reward name.",
+        "why_needed": "Explains a blocked reward step.",
+        "where": "Reward-name validation."
+      },
+      {
+        "text": "Enter 2 to 50 visits.",
+        "why_needed": "Provides the supported visits requirement range.",
+        "where": "Visits validation."
+      },
+      {
+        "text": "Enter 2 to 10,000 points.",
+        "why_needed": "Provides the supported points requirement range.",
+        "where": "Points validation."
+      },
+      {
+        "text": "Use a whole number.",
+        "why_needed": "Rejects fractional requirements.",
+        "where": "Requirement validation."
+      },
+      {
+        "text": "Use 40 characters or fewer.",
+        "why_needed": "Keeps reward and business names within the reviewed card treatment.",
+        "where": "Reward-name, reward-title and business-name validation."
+      },
+      {
+        "text": "Use 280 characters or fewer.",
+        "why_needed": "Explains the optional terms field limit.",
+        "where": "Terms validation."
+      },
+      {
+        "text": "Design Lab · Apple Wallet concept",
+        "why_needed": "Identifies a coded representation, not a native or issued pass; opens platform selection.",
+        "where": "Immediately above every Apple specimen; accessible platform-menu trigger."
+      },
+      {
+        "text": "Design Lab · Google Wallet concept",
+        "why_needed": "Identifies a coded representation, not a native or issued card; opens platform selection.",
+        "where": "Immediately above every Google specimen; accessible platform-menu trigger."
+      },
+      {
+        "text": "No pass is issued.",
+        "why_needed": "Prevents preview, launch and screenshot states from implying issuance.",
+        "where": "Immediately below each Wallet specimen; launch result."
+      },
+      {
+        "text": "Example member · Sara",
+        "why_needed": "Separates designer specimen progress from working membership.",
+        "where": "Below the card truth note in Step 3."
+      },
+      {
+        "text": "Example member · Tess",
+        "why_needed": "Identifies a zero-progress signup specimen without enrolling someone.",
+        "where": "Step 4 Wallet-choice inspection."
+      },
+      {
+        "text": "Apple Wallet",
+        "why_needed": "Selects the Apple representation.",
+        "where": "Platform menu; desktop card-control platform tabs."
+      },
+      {
+        "text": "Google Wallet",
+        "why_needed": "Selects the Google representation.",
+        "where": "Platform menu; desktop card-control platform tabs."
+      },
+      {
+        "text": "Card controls",
+        "why_needed": "Jumps from the phone's object-first view to its editing controls.",
+        "where": "Step 3 phone action area; heading of the controls section."
+      },
+      {
+        "text": "Details",
+        "why_needed": "Inspects supported back fields outside the pass front.",
+        "where": "Wrapper action below a Wallet specimen."
+      },
+      {
+        "text": "Logo",
+        "why_needed": "Labels the local logo preview.",
+        "where": "Card controls."
+      },
+      {
+        "text": "Change logo",
+        "why_needed": "Chooses a local image for the preview, not a production upload.",
+        "where": "Logo control."
+      },
+      {
+        "text": "Local preview only.",
+        "why_needed": "States the boundary of image selection.",
+        "where": "Logo and artwork chooser."
+      },
+      {
+        "text": "Business name",
+        "why_needed": "Edits Wallet issuer-facing identity.",
+        "where": "Card controls."
+      },
+      {
+        "text": "Program name",
+        "why_needed": "Edits Google's program identity independently of the business name.",
+        "where": "Card controls; retained when Apple is selected."
+      },
+      {
+        "text": "Loopday Rewards",
+        "why_needed": "Provides the fixture Google program name.",
+        "where": "Program-name input; Google card header."
+      },
+      {
+        "text": "Card colour",
+        "why_needed": "Edits the pass background.",
+        "where": "Card controls."
+      },
+      {
+        "text": "Text colour",
+        "why_needed": "Edits supported value text.",
+        "where": "Card controls."
+      },
+      {
+        "text": "Label colour",
+        "why_needed": "Edits Apple's supported field-label colour.",
+        "where": "Apple card controls only."
+      },
+      {
+        "text": "#18231D",
+        "why_needed": "Shows the exact default background colour.",
+        "where": "Card-colour field and preset."
+      },
+      {
+        "text": "#F7F4EB",
+        "why_needed": "Shows the exact default value-text colour.",
+        "where": "Text-colour field and preset."
+      },
+      {
+        "text": "#C4CDBF",
+        "why_needed": "Shows the exact default Apple label colour.",
+        "where": "Label-colour field and preset."
+      },
+      {
+        "text": "Google Wallet controls text colours.",
+        "why_needed": "Prevents a web preview control from promising unsupported Google field styling.",
+        "where": "Google colour controls; Text colour is read-only here and Label colour is absent."
+      },
+      {
+        "text": "Artwork",
+        "why_needed": "Labels the source photograph and its treatment.",
+        "where": "Card controls."
+      },
+      {
+        "text": "Change image",
+        "why_needed": "Selects replacement local artwork.",
+        "where": "Artwork control."
+      },
+      {
+        "text": "Remove artwork",
+        "why_needed": "Produces a valid solid-colour card rather than requiring photography.",
+        "where": "Artwork control when an image exists."
+      },
+      {
+        "text": "Crop",
+        "why_needed": "Opens platform-specific artwork positioning.",
+        "where": "Artwork control; crop layer title."
+      },
+      {
+        "text": "Reward title",
+        "why_needed": "Edits the same reward-name draft value from the design step.",
+        "where": "Card controls."
+      },
+      {
+        "text": "Use brand defaults",
+        "why_needed": "Restores fixture brand fields without touching the reward rule.",
+        "where": "End of card controls."
+      },
+      {
+        "text": "Brand defaults restored.",
+        "why_needed": "Confirms a reversible local reset.",
+        "where": "Inline card-controls receipt."
+      },
+      {
+        "text": "Undo",
+        "why_needed": "Restores the immediately preceding brand-control snapshot.",
+        "where": "Brand-defaults receipt."
+      },
+      {
+        "text": "Preview state",
+        "why_needed": "Separates inspectable specimen states from real events.",
+        "where": "Card controls."
+      },
+      {
+        "text": "Collecting",
+        "why_needed": "Shows ordinary specimen progress.",
+        "where": "Preview-state control; Apple STATUS; Google Details."
+      },
+      {
+        "text": "Reward ready",
+        "why_needed": "Inspects an earned-state representation without issuing an earned reward.",
+        "where": "Preview-state control; Apple STATUS; Google Details."
+      },
+      {
+        "text": "Reward redeemed",
+        "why_needed": "Inspects the post-redemption representation.",
+        "where": "Preview-state control; Apple STATUS; Google Details."
+      },
+      {
+        "text": "Updated offer",
+        "why_needed": "Inspects optional pass content without replacing reward status.",
+        "where": "Preview-state control."
+      },
+      {
+        "text": "Examples do not change members.",
+        "why_needed": "Explains the specimen selector's consequence.",
+        "where": "Below Preview state, on demand."
+      },
+      {
+        "text": "Enter a business name.",
+        "why_needed": "Blocks a card without issuer identity.",
+        "where": "Card validation."
+      },
+      {
+        "text": "Enter a program name.",
+        "why_needed": "Blocks an unnamed Google program.",
+        "where": "Card validation."
+      },
+      {
+        "text": "Use 20 characters or fewer.",
+        "why_needed": "Keeps Google's program name within the reviewed design limit.",
+        "where": "Program-name validation."
+      },
+      {
+        "text": "Use a six-digit hex colour.",
+        "why_needed": "Explains an invalid colour entry.",
+        "where": "Colour validation."
+      },
+      {
+        "text": "Text needs more contrast.",
+        "why_needed": "Blocks unreadable Apple values or an unreadable chosen background treatment.",
+        "where": "Colour validation."
+      },
+      {
+        "text": "Labels need more contrast.",
+        "why_needed": "Blocks unreadable Apple field labels.",
+        "where": "Label-colour validation."
+      },
+      {
+        "text": "JPG, PNG or WebP · up to 5 MB.",
+        "why_needed": "States accepted local image formats before selection.",
+        "where": "Image chooser."
+      },
+      {
+        "text": "Choose a JPG, PNG or WebP image.",
+        "why_needed": "Explains an unsupported local file.",
+        "where": "Image validation."
+      },
+      {
+        "text": "Choose an image under 5 MB.",
+        "why_needed": "Explains an oversized local file.",
+        "where": "Image validation."
+      },
+      {
+        "text": "Couldn’t read this image.",
+        "why_needed": "Preserves the last valid image after decoding failure.",
+        "where": "Image validation."
+      },
+      {
+        "text": "Media unavailable.",
+        "why_needed": "Identifies an absent fixture image without inventing a substitute.",
+        "where": "Brand-artwork or card-artwork fallback."
+      },
+      {
+        "text": "Drag the image, or use the controls.",
+        "why_needed": "Provides a non-dragging crop alternative.",
+        "where": "Crop layer."
+      },
+      {
+        "text": "Horizontal position",
+        "why_needed": "Labels keyboard-operable crop positioning.",
+        "where": "Crop layer."
+      },
+      {
+        "text": "Vertical position",
+        "why_needed": "Labels keyboard-operable crop positioning.",
+        "where": "Crop layer."
+      },
+      {
+        "text": "Zoom",
+        "why_needed": "Labels bounded crop magnification.",
+        "where": "Crop layer."
+      },
+      {
+        "text": "Apply crop",
+        "why_needed": "Commits only the active platform's crop.",
+        "where": "Crop layer."
+      },
+      {
+        "text": "Cancel",
+        "why_needed": "Leaves the preceding state unchanged.",
+        "where": "Crop, scenario, reset and confirmation layers."
+      },
+      {
+        "text": "VISITS",
+        "why_needed": "Labels Apple's supported primary visit field.",
+        "where": "Apple visits specimen."
+      },
+      {
+        "text": "POINTS",
+        "why_needed": "Labels Apple's supported primary points field.",
+        "where": "Apple points specimen."
+      },
+      {
+        "text": "3 of 5",
+        "why_needed": "Shows the default visits design specimen, not the live member's current value.",
+        "where": "Apple primary field; numbers change with the selected specimen state and requirement."
+      },
+      {
+        "text": "82 of 100",
+        "why_needed": "Shows the alternative points specimen.",
+        "where": "Apple primary field in points creation."
+      },
+      {
+        "text": "REWARD",
+        "why_needed": "Labels Apple's reward field.",
+        "where": "Apple specimen."
+      },
+      {
+        "text": "MEMBER",
+        "why_needed": "Labels Apple's specimen identity.",
+        "where": "Apple specimen."
+      },
+      {
+        "text": "STATUS",
+        "why_needed": "Labels Apple's reward state.",
+        "where": "Apple specimen."
+      },
+      {
+        "text": "Sara",
+        "why_needed": "Names the historical designer specimen.",
+        "where": "Step 3 Wallet member field."
+      },
+      {
+        "text": "LD-001",
+        "why_needed": "Shows the readable specimen ID separately from its opaque QR payload.",
+        "where": "Step 3 Wallet specimen and Details."
+      },
+      {
+        "text": "3/5",
+        "why_needed": "Uses a compact Google loyalty-balance representation.",
+        "where": "Google visits specimen; numbers follow the selected specimen."
+      },
+      {
+        "text": "82/100",
+        "why_needed": "Uses a compact Google points-balance representation.",
+        "where": "Google points specimen."
+      },
+      {
+        "text": "Rewards",
+        "why_needed": "Labels Google's supported secondary balance.",
+        "where": "Google specimen; quantity is 0 or 1 in this creation inspection."
+      },
+      {
+        "text": "Member",
+        "why_needed": "Labels Google's specimen identity.",
+        "where": "Google specimen."
+      },
+      {
+        "text": "Member ID",
+        "why_needed": "Distinguishes readable identity from the QR's encoded value.",
+        "where": "Google specimen; both platforms' Details."
+      },
+      {
+        "text": "Requirement",
+        "why_needed": "Explains the rule in supported card details.",
+        "where": "Both platforms' Details."
+      },
+      {
+        "text": "5 visits = Free coffee",
+        "why_needed": "Provides the visits requirement in a supported details field.",
+        "where": "Card Details; number and reward name follow the draft."
+      },
+      {
+        "text": "100 points = Free coffee",
+        "why_needed": "Provides the points requirement in a supported details field.",
+        "where": "Card Details; number and reward name follow the draft."
+      },
+      {
+        "text": "Offer",
+        "why_needed": "Separates optional offer content from earned reward status.",
+        "where": "Updated-offer Details."
+      },
+      {
+        "text": "Afternoon coffee",
+        "why_needed": "Provides the supplied offer-title specimen.",
+        "where": "Updated-offer Details only."
+      },
+      {
+        "text": "Ask us what’s pouring after 2 PM.",
+        "why_needed": "Demonstrates where business-authored Wallet content would appear.",
+        "where": "Updated-offer Details only."
+      },
+      {
+        "text": "Wallet update preview.",
+        "why_needed": "Identifies the offer as inspected Wallet content rather than a sent message.",
+        "where": "Updated-offer Details wrapper."
+      },
+      {
+        "text": "Apple Wallet shows it on the card; Google Wallet may notify.",
+        "why_needed": "Explains the relevant platform difference without promising delivery.",
+        "where": "Updated-offer Details wrapper."
+      },
+      {
+        "text": "Nothing was sent.",
+        "why_needed": "Closes any implication that selecting an offer specimen delivered an update.",
+        "where": "Updated-offer Details wrapper."
+      },
+      {
+        "text": "Counter QR",
+        "why_needed": "Identifies the acquisition code, not a member card.",
+        "where": "Step 4 object label and source choice."
+      },
+      {
+        "text": "Creator link",
+        "why_needed": "Selects the known Jasmine source-aware inspection.",
+        "where": "Step 4 source choice."
+      },
+      {
+        "text": "Signup source",
+        "why_needed": "Labels the preview-only source selection.",
+        "where": "Step 4 source controls."
+      },
+      {
+        "text": "Demo QR · activates after launch.",
+        "why_needed": "Prevents the pre-launch coded QR from appearing usable for enrollment.",
+        "where": "Immediately below the QR in steps 4 and 5."
+      },
+      {
+        "text": "Preview signup",
+        "why_needed": "Opens the short customer page without enrolling into a draft.",
+        "where": "Step 4 phone action area; desktop preview action."
+      },
+      {
+        "text": "Signup preview · not live",
+        "why_needed": "Keeps the embedded or opened customer page explicitly non-enrolling.",
+        "where": "Customer inspection header."
+      },
+      {
+        "text": "Launch before joining.",
+        "why_needed": "Explains the disabled signup commit.",
+        "where": "Immediately above the disabled Create my card action."
+      },
+      {
+        "text": "Join at the counter.",
+        "why_needed": "Acknowledges the selected counter acquisition example.",
+        "where": "Counter signup inspection."
+      },
+      {
+        "text": "From Jasmine’s Story.",
+        "why_needed": "Shows that a known creator source survives the signup handoff.",
+        "where": "Creator-link signup inspection."
+      },
+      {
+        "text": "Collect 5 visits. Your next coffee is free.",
+        "why_needed": "States the customer reward promise before the form.",
+        "where": "Visits signup inspection; launched QR download and printout."
+      },
+      {
+        "text": "Collect 100 points. Your next coffee is free.",
+        "why_needed": "States the points reward promise without a spend calculation.",
+        "where": "Points signup inspection; launched QR download and printout."
+      },
+      {
+        "text": "One qualifying purchase per visit. One counted visit per day.",
+        "why_needed": "Discloses the material visits restriction before signup.",
+        "where": "Visits signup inspection."
+      },
+      {
+        "text": "First name",
+        "why_needed": "Shows the only required name field.",
+        "where": "Read-only signup inspection."
+      },
+      {
+        "text": "Email",
+        "why_needed": "Shows the initially selected lookup contact.",
+        "where": "Read-only signup inspection."
+      },
+      {
+        "text": "Phone",
+        "why_needed": "Shows the alternative lookup contact.",
+        "where": "Phone-mode signup inspection."
+      },
+      {
+        "text": "Country code",
+        "why_needed": "Makes the phone country explicit.",
+        "where": "Phone-mode signup inspection."
+      },
+      {
+        "text": "United States +1",
+        "why_needed": "Provides the fixture country without inferring device location.",
+        "where": "Phone-mode signup inspection."
+      },
+      {
+        "text": "Use phone",
+        "why_needed": "Inspects the alternative one-contact form.",
+        "where": "Email-mode signup inspection."
+      },
+      {
+        "text": "Use email",
+        "why_needed": "Returns to the initial one-contact form.",
+        "where": "Phone-mode signup inspection."
+      },
+      {
+        "text": "Used to find your card at the counter. No texts or emails.",
+        "why_needed": "Explains contact collection without suggesting a messaging channel.",
+        "where": "Below the signup contact field."
+      },
+      {
+        "text": "I agree to the demo program terms and privacy notice.",
+        "why_needed": "Shows the required agreement that a live signup would need.",
+        "where": "Unchecked, disabled agreement in draft signup inspection."
+      },
+      {
+        "text": "program terms",
+        "why_needed": "Opens the demo program document before commitment.",
+        "where": "Link within the signup agreement."
+      },
+      {
+        "text": "privacy notice",
+        "why_needed": "Opens the data-use explanation.",
+        "where": "Link within the signup agreement."
+      },
+      {
+        "text": "Create my card",
+        "why_needed": "Shows the eventual signup action without enabling draft enrollment.",
+        "where": "Disabled signup-inspection action."
+      },
+      {
+        "text": "Preview Wallet choices",
+        "why_needed": "Inspects the next customer step without bypassing the draft guard.",
+        "where": "Outside the customer form, in the inspection wrapper."
+      },
+      {
+        "text": "Tess",
+        "why_needed": "Provides a clearly fictional signup specimen.",
+        "where": "Read-only first-name field; Step 4 Wallet specimen."
+      },
+      {
+        "text": "tess@example.test",
+        "why_needed": "Provides the fictional contact specimen.",
+        "where": "Read-only email field."
+      },
+      {
+        "text": "Your demo card",
+        "why_needed": "Names the inspected post-signup state without claiming actual enrollment.",
+        "where": "Step 4 Wallet-choice inspection."
+      },
+      {
+        "text": "LD-011",
+        "why_needed": "Gives the signup specimen a readable example ID.",
+        "where": "Step 4 Wallet-choice specimen only."
+      },
+      {
+        "text": "Add to Apple Wallet",
+        "why_needed": "Inspects the explicitly simulated Apple handoff.",
+        "where": "Step 4 Wallet-choice inspection."
+      },
+      {
+        "text": "Add to Google Wallet",
+        "why_needed": "Inspects the explicitly simulated Google handoff.",
+        "where": "Step 4 Wallet-choice inspection."
+      },
+      {
+        "text": "Simulated actions. No pass is issued.",
+        "why_needed": "Qualifies both Wallet actions at their point of use.",
+        "where": "Immediately adjacent to the two Wallet-choice actions."
+      },
+      {
+        "text": "Apple Wallet add simulated.",
+        "why_needed": "Names the inspected action honestly.",
+        "where": "Apple-choice specimen receipt."
+      },
+      {
+        "text": "Google Wallet add simulated.",
+        "why_needed": "Names the inspected action honestly.",
+        "where": "Google-choice specimen receipt."
+      },
+      {
+        "text": "Nothing was added to your device.",
+        "why_needed": "Explicitly denies a real device save.",
+        "where": "Both simulated-add receipts."
+      },
+      {
+        "text": "Done",
+        "why_needed": "Returns from a specimen receipt or details inspection.",
+        "where": "Inspection-layer action."
+      },
+      {
+        "text": "Demo program terms",
+        "why_needed": "Identifies non-production legal content.",
+        "where": "Terms inspection title."
+      },
+      {
+        "text": "One qualifying purchase earns one visit.",
+        "why_needed": "Defines the visits award.",
+        "where": "Terms inspection and card Details."
+      },
+      {
+        "text": "One qualifying purchase earns one point.",
+        "why_needed": "Defines the points award.",
+        "where": "Points terms inspection and card Details."
+      },
+      {
+        "text": "One qualifying purchase counts per business day.",
+        "why_needed": "Makes the business-day boundary explicit.",
+        "where": "Terms inspection and launch Terms disclosure."
+      },
+      {
+        "text": "America/Chicago",
+        "why_needed": "Identifies the program's fixed fixture counting timezone.",
+        "where": "Terms inspection, adjacent to the business-day rule."
+      },
+      {
+        "text": "Collect 5 visits for one free barista-made coffee on a later purchase.",
+        "why_needed": "Discloses when the fixture reward may be used.",
+        "where": "Visits terms inspection; number follows the requirement."
+      },
+      {
+        "text": "Collect 100 points for one free barista-made coffee on a later purchase.",
+        "why_needed": "Discloses the points reward's use condition.",
+        "where": "Points terms inspection; number follows the requirement."
+      },
+      {
+        "text": "Redeeming a reward does not earn a visit.",
+        "why_needed": "Prevents redemption from appearing to count toward another visits reward.",
+        "where": "Visits terms inspection."
+      },
+      {
+        "text": "Redeeming a reward does not earn a point.",
+        "why_needed": "Prevents redemption from appearing to award points.",
+        "where": "Points terms inspection."
+      },
+      {
+        "text": "Earned rewards have no expiry in this example.",
+        "why_needed": "Discloses the fixture expiry rule.",
+        "where": "Terms inspection."
+      },
+      {
+        "text": "Additional counted visits are kept toward your next reward.",
+        "why_needed": "Explains retention of progress while a reward waits.",
+        "where": "Visits terms inspection."
+      },
+      {
+        "text": "Additional points are kept toward your next reward.",
+        "why_needed": "Explains retention of points while a reward waits.",
+        "where": "Points terms inspection."
+      },
+      {
+        "text": "These are demo terms, not a live program agreement.",
+        "why_needed": "Prevents the document from being mistaken for production terms.",
+        "where": "Terms inspection footer."
+      },
+      {
+        "text": "Demo privacy notice",
+        "why_needed": "Identifies the privacy explanation as a demo document.",
+        "where": "Privacy inspection title."
+      },
+      {
+        "text": "This Design Lab keeps preview details in memory. Nothing is sent to a server.",
+        "why_needed": "Explains the creation preview's actual data boundary.",
+        "where": "Privacy inspection."
+      },
+      {
+        "text": "Businesses see masked contacts; creators see counts only.",
+        "why_needed": "States the intended privacy boundary.",
+        "where": "Privacy inspection."
+      },
+      {
+        "text": "No contact details appear on the Wallet card.",
+        "why_needed": "Explains the card's identity treatment.",
+        "where": "Privacy inspection."
+      },
+      {
+        "text": "Ready to launch",
+        "why_needed": "Distinguishes final review from simulated live status.",
+        "where": "Step 5 pre-launch summary."
+      },
+      {
+        "text": "Draft",
+        "why_needed": "States that the program is not yet available even within the working scenario.",
+        "where": "Step 5 pre-launch status; draft exit."
+      },
+      {
+        "text": "Launch demo program",
+        "why_needed": "Names the only program-status commit and qualifies it as simulated.",
+        "where": "Step 5 primary action."
+      },
+      {
+        "text": "Live · simulated",
+        "why_needed": "Confirms the local launch without implying a production program.",
+        "where": "Launch result status."
+      },
+      {
+        "text": "This program exists only in the Design Lab.",
+        "why_needed": "Explains simulated live status at the status decision.",
+        "where": "Live-status disclosure."
+      },
+      {
+        "text": "0 members",
+        "why_needed": "Makes clear that launch and design specimens enrolled nobody.",
+        "where": "Launch result."
+      },
+      {
+        "text": "Open loyalty",
+        "why_needed": "Leaves creation for the zero-member overview or saved-draft overview.",
+        "where": "Launch result primary action; draft-saved result."
+      },
+      {
+        "text": "Demo QR · Design Lab only",
+        "why_needed": "Keeps downloaded, printed and screenshot acquisition objects honest.",
+        "where": "Launched QR, download artwork and printout."
+      },
+      {
+        "text": "/design-lab-v3/join/loopday-counter",
+        "why_needed": "Shows the exact local signup destination without inventing a production domain.",
+        "where": "Launch-result link field."
+      },
+      {
+        "text": "Copy demo link",
+        "why_needed": "Copies the current-origin V3 signup URL after local launch.",
+        "where": "Launch result."
+      },
+      {
+        "text": "Demo link copied.",
+        "why_needed": "Confirms actual clipboard success only.",
+        "where": "Inline link receipt."
+      },
+      {
+        "text": "Couldn’t copy the demo link.",
+        "why_needed": "Distinguishes clipboard rejection from success.",
+        "where": "Link error."
+      },
+      {
+        "text": "Select link",
+        "why_needed": "Provides a manual-copy fallback.",
+        "where": "Clipboard-error action."
+      },
+      {
+        "text": "Download demo QR",
+        "why_needed": "Downloads labelled acquisition artwork, not a Wallet pass.",
+        "where": "Launch result."
+      },
+      {
+        "text": "Couldn’t download the demo QR.",
+        "why_needed": "Keeps download failure visible without claiming a file was saved.",
+        "where": "Download error."
+      },
+      {
+        "text": "Preview printout",
+        "why_needed": "Inspects the labelled A5 concept before invoking printing.",
+        "where": "Launch result."
+      },
+      {
+        "text": "Demo printout",
+        "why_needed": "Identifies the print inspection.",
+        "where": "Print layer title."
+      },
+      {
+        "text": "Print demo",
+        "why_needed": "Deliberately invokes the browser's print dialog.",
+        "where": "Print inspection action."
+      },
+      {
+        "text": "Scan to join",
+        "why_needed": "Tells the customer what the acquisition QR does.",
+        "where": "Download artwork and printout."
+      },
+      {
+        "text": "Open signup",
+        "why_needed": "Opens the launched program's real local signup route in the same fixture provider.",
+        "where": "Launch result."
+      },
+      {
+        "text": "Another browser starts its own demo.",
+        "why_needed": "Explains the cross-device fixture limitation.",
+        "where": "Expanded link details; print inspection outside the printed artwork."
+      },
+      {
+        "text": "Link details",
+        "why_needed": "Reveals the local-origin and cross-browser limitation only when relevant.",
+        "where": "Launch-result disclosure."
+      },
+      {
+        "text": "Couldn’t launch the demo program.",
+        "why_needed": "Identifies a failed local commit while preserving the draft.",
+        "where": "Step 5 launch-error state."
+      },
+      {
+        "text": "Try again",
+        "why_needed": "Retries the failed local operation without duplicating a program.",
+        "where": "Launch, draft-save and download errors."
+      },
+      {
+        "text": "Keep draft",
+        "why_needed": "Saves in-memory work and exits intentionally.",
+        "where": "Dirty-exit confirmation."
+      },
+      {
+        "text": "Discard demo draft",
+        "why_needed": "Explicitly discards only this local creation draft.",
+        "where": "Dirty-exit confirmation."
+      },
+      {
+        "text": "Keep editing",
+        "why_needed": "Cancels exiting and restores the current field.",
+        "where": "Dirty-exit confirmation."
+      },
+      {
+        "text": "Draft saved in this preview.",
+        "why_needed": "Confirms in-memory saving without promising persistence.",
+        "where": "Save receipt."
+      },
+      {
+        "text": "Reload resets this demo.",
+        "why_needed": "Discloses the persistence boundary at saving and lab reset decisions.",
+        "where": "Draft-exit layer; saved receipt; Design Lab panel."
+      },
+      {
+        "text": "Couldn’t save the demo draft.",
+        "why_needed": "Keeps failed saving distinct from a saved draft.",
+        "where": "Draft-save error."
+      },
+      {
+        "text": "Continue setup",
+        "why_needed": "Resumes the locally saved draft at its first incomplete step.",
+        "where": "Saved-draft result."
+      },
+      {
+        "text": "Complete this step first.",
+        "why_needed": "Explains a redirected invalid deep link.",
+        "where": "Earliest incomplete step after direct entry."
+      },
+      {
+        "text": "Loopday already has a live program.",
+        "why_needed": "Enforces one active program instead of silently creating another.",
+        "where": "Creation-route live-program guard."
+      },
+      {
+        "text": "View program",
+        "why_needed": "Takes the business to its existing simulated program.",
+        "where": "Live-program guard."
+      },
+      {
+        "text": "Demo scenarios",
+        "why_needed": "Names fixture replacement controls, outside the product hierarchy.",
+        "where": "Design Lab panel."
+      },
+      {
+        "text": "Live program",
+        "why_needed": "Selects the seeded working program and consequently exercises the creation guard.",
+        "where": "Design Lab scenario list."
+      },
+      {
+        "text": "No program",
+        "why_needed": "Starts this five-step task without pretending a second program is allowed.",
+        "where": "Design Lab scenario list."
+      },
+      {
+        "text": "Live · no members",
+        "why_needed": "Selects the zero-member live fixture.",
+        "where": "Design Lab scenario list."
+      },
+      {
+        "text": "Points · 82 of 100",
+        "why_needed": "Selects the replacement points fixture, not another active program.",
+        "where": "Design Lab scenario list."
+      },
+      {
+        "text": "Points · 99 of 100",
+        "why_needed": "Selects the points-unlock QA context.",
+        "where": "Design Lab scenario list."
+      },
+      {
+        "text": "Same-day visit",
+        "why_needed": "Preserves the shared V3 QA scenario entrance.",
+        "where": "Design Lab scenario list."
+      },
+      {
+        "text": "Wallet not added",
+        "why_needed": "Preserves the shared V3 unsaved-Wallet QA context.",
+        "where": "Design Lab scenario list."
+      },
+      {
+        "text": "Google limit reached",
+        "why_needed": "Preserves the shared platform-limit QA context.",
+        "where": "Design Lab scenario list."
+      },
+      {
+        "text": "Recording error",
+        "why_needed": "Preserves the shared recording-failure QA context.",
+        "where": "Design Lab scenario list."
+      },
+      {
+        "text": "Change demo state?",
+        "why_needed": "Requires explicit approval before replacing local working state.",
+        "where": "Scenario confirmation."
+      },
+      {
+        "text": "This resets local changes.",
+        "why_needed": "States the consequence of scenario replacement or reset.",
+        "where": "Scenario and reset confirmation."
+      },
+      {
+        "text": "Change state",
+        "why_needed": "Commits the chosen fixture replacement.",
+        "where": "Scenario confirmation."
+      },
+      {
+        "text": "Reset demo",
+        "why_needed": "Restores the selected scenario's initial in-memory state.",
+        "where": "Design Lab panel; reset confirmation action."
+      },
+      {
+        "text": "Reset demo?",
+        "why_needed": "Requires confirmation before losing local changes.",
+        "where": "Reset confirmation title."
+      },
+      {
+        "text": "Fail next launch",
+        "why_needed": "Makes the creation failure test explicit rather than inventing random failures.",
+        "where": "Creation-only Design Lab QA checkbox."
+      },
+      {
+        "text": "Fail next draft save",
+        "why_needed": "Makes the draft-save failure test explicit.",
+        "where": "Creation-only Design Lab QA checkbox."
+      }
+    ],
+    "honest_states": [
+      "Initial creation is the No program replacement context. Brand defaults are available, but no live card, usable acquisition link or member exists.",
+      "A Draft scenario resumes a visits draft with reward and requirement completed; Card is the first incomplete step. Last completed step is stored locally, not inferred from the URL.",
+      "Direct entry while the seeded program is live shows only the live-program guard and View program. The lab selector is the explicit route to blank creation.",
+      "Pre-launch QR codes encode draft specimen text, not an enrollment URL. Their label states that activation follows launch.",
+      "Card states are examples. Default Sara at 3 of 5 references the September 13 specimen, not her September 17 working balance of 4 of 5.",
+      "Signup inspection is non-enrolling. Its form commit remains disabled. Wallet-choice inspection uses a separate zero-progress specimen, not a newly created working member.",
+      "Successful launch is Live · simulated with zero members. The source registry becomes usable only inside the local working scenario.",
+      "Draft saving persists across V3 route changes, not reload. Failures preserve values and do not advance completion status.",
+      "A missing photograph becomes a labelled plain fallback. A removed photograph becomes an intentional solid-colour card without an error label.",
+      "Updated offer inspects pass details, preserves the chosen reward state and sends nothing.",
+      "No business navigation, fake browser chrome, native Wallet sheet, pass-issued state, delivery claim, contact marketing channel or creator member access appears."
+    ],
+    "two_second_read": "Choose the rule. See the actual card. Put its signup QR on the counter, entirely simulated here.",
+    "media": [
+      "Brand artwork: /design-lab/reference-loopday-01.jpg only. Read intrinsic dimensions and reserve them. Step 1 phone uses a 358×104 horizontal composition: solid ink on the left, a 132×104 contained photograph on the right. Desktop uses a 476×317 stage with the source contained against ink. No colour grade, gradient, generated replacement or inferred identity. Containment is the safe initial treatment until the manifest crop is inspected.",
+      "Coded Loopday loop mark: 48×48 reference box, circle centre 24,24, radius 16, 3px stroke, no fill, butt ends. Leave the clockwise sector from 0° to 45° open, with 0° at the right. Extend the right endpoint vertically downward by 6px in brick #B73E28. The remaining arc is ink on paper and paper on ink. Use 32×32 in card headers and 40×40 in the brand object. It is artwork, never a completion badge.",
+      "Coded rule marks: five 2px horizontal strokes with 8px gaps, sharing a straight datum. In Step 1 they are equal outlined/ink marks with no earned-state semantics. In Step 2 the complete requirement is represented by the adjacent rule string, not by a fictitious member balance. Do not render 100 points as 100 tiny marks.",
+      "Apple concept: coded store-card representation at a 375×520 reference size; 12px boundary radius, no outer SaaS container or shadow. Reference vertical allocation: 64px logo header, 123px strip, 88px combined fields, 24px space, 164px QR, 8px gap, 18px readable ID, 31px bottom space. Height grows for wrapping. Do not scale the text with the card width.",
+      "Apple strip: 375:123. Left 225px is solid card colour with the one primary label/value. Right 150px contains the Loopday photograph using its separately stored Apple crop. No text crosses photography. At narrow widths the primary zone remains at least 60% of the strip. With removed artwork the entire strip is solid colour.",
+      "Apple fields: system font; logo text 16px/20 semibold, primary label 11px/16 medium, primary value 32px/36 semibold, secondary labels 11px/16 and values 16px/20. Primary is VISITS or POINTS. The three combined secondary/auxiliary fields are REWARD, MEMBER and STATUS. Their values may wrap. No additional front field, progress widget or front action is added.",
+      "Google concept: coded loyalty representation, 375px reference width and approximately 550 to 580px content-led height, 12px boundary radius. Top identity uses a 36px circular logo crop, Loopday Rewards at 20px/24 and Loopday Coffee at 13px/18. Follow with a full-width 3:1 hero, then a two-column Visits or Points / Rewards balance row, Member and Member ID fields, and the QR. Use system typography. Requirement, status, terms and offer are Details content, not an invented Apple-style auxiliary row.",
+      "Google colour treatment: apply the selected background hex. Approximate platform-controlled readable text in the concept; do not promise independent label or value colour controls. The Apple text and label settings remain stored when switching platforms.",
+      "Specimen member QR: valid QR, version 4, error correction M, 33×33 encoded modules plus a four-module quiet zone on every edge; render the full 41×41 grid at 164×164 CSS pixels. Black modules on white, no logo, rounding, animated modules or caption inside the quiet zone. Sara payload is tapmart-v3:specimen:loopday:sara; Tess payload is tapmart-v3:specimen:loopday:tess. Counter recording must reject both specimen payloads.",
+      "Draft acquisition QR: valid coded QR encoding tapmart-v3:draft:loopday. It is explicitly not an enrollment link. Render black on white with four-module quiet zones, error correction M, square modules and integer module sizing. Target complete symbol size 246px at 390, at least 205px at 320, and 328px on desktop; select the nearest whole-module size that fits.",
+      "Launched acquisition QR: regenerate only after local launch. Payload is the current origin followed by /design-lab-v3/join/loopday-counter. Choose the smallest sufficient QR version at error correction M, preserve four-module quiet zones and use integer module sizing. Never reuse either specimen-member payload. Show the exact relative path as selectable text outside the code.",
+      "Downloaded QR concept: self-contained SVG artwork, 1080×1350, paper background, Loopday mark, business name, reward, current numeric rule, QR, Scan to join and Demo QR · Design Lab only. QR complete-symbol target is 574px, rounded down to an integer module multiple. Filename is loopday-demo-qr.svg. It contains no external image dependency and no Wallet badge.",
+      "Print concept: A5 portrait, 148×210mm, white background, 16mm page margins. Brand and reward occupy the top 42mm; the rule follows. Centre a complete QR at least 61.5mm square with its quiet zone. Scan to join and Demo QR · Design Lab only sit below. Hide inspection controls from print. Do not create a print-order service.",
+      "No other supplied photo, creator portrait, Story creative, screenshot, illustration or operating-system badge is needed on this surface. Wallet actions are exact text buttons because no official badge asset is included."
+    ],
+    "states": [
+      "0, Route guard. Resolve the local scenario before drawing a specimen. Existing live program: show Loopday already has a live program. and View program. No program: begin Program. Draft: resume the first incomplete step. Invalid later-step links return to the earliest incomplete prerequisite with Complete this step first.",
+      "1, Program. Visits is selected initially. Two operable unboxed choices show the award sentence. The daily rule remains visible. Continue records the selection as locally complete; it does not create a program record.",
+      "2, Reward. Show the complete rule above editable reward name and numeric requirement. Terms starts collapsed and empty. Visits accepts integers 2 to 50; points accepts 2 to 10,000 with a fixed award of one. Invalid Continue focuses the first error without clearing values.",
+      "3, Card. Apple is initially selected. Show the branded coded specimen before controls on phone and beside them on desktop. Changing a valid field updates the preview; invalid colour syntax retains the last valid preview and exposes the field error.",
+      "3a, Card controls. Local logo and image selection, platform-specific crop, business name, Google program name, supported colours and the shared reward title are editable. Use brand defaults is reversible through Undo and never changes kind, requirement, reward name or terms.",
+      "3b, Card inspection. Collecting is the default. Reward ready changes specimen progress to the requirement and ready quantity to one. Reward redeemed shows zero progress and zero ready quantity. Updated offer preserves the preceding progress/status and opens Details to show the offer. No specimen selection emits working events.",
+      "3c, Card Details. An external wrapper reveals supported back/details fields. No flipping pass, native menu imitation or actionable pass front. Closing returns focus to Details or the selector that opened it.",
+      "4, Signup. The counter acquisition object leads. Counter QR is the initial source; Creator link selects the registered Jasmine example for inspection only. Phone uses Preview signup; desktop shows the readable customer inspection beside the QR.",
+      "4a, Customer inspection. Show the short customer form with Tess and fictional contact as read-only values. Email/phone switching changes the inspected field, not data collection. Agreement is unchecked and disabled. Create my card is disabled with Launch before joining. Legal links remain operable.",
+      "4b, Wallet-choice inspection. Preview Wallet choices opens a distinct Tess specimen at zero progress, with both simulated Wallet actions. Opening either shows the matching concept and simulated-add receipt. This does not add Tess or change any saved-Wallet projection.",
+      "5, Launch review. Show the current business, current numeric rule, Draft, the non-enrollment draft QR and the daily rule. Terms is available before commitment. Design-state examples do not become member counts or launch progress.",
+      "5a, Launch commit. Disable activation immediately. Commit one local program and activate the counter/source registry together. Success replaces the draft QR payload with the V3 signup URL and shows Live · simulated, 0 members and No pass is issued. No artificial loading delay is added.",
+      "5b, Launch result. QR is the leading object. Open loyalty is primary. Copy demo link, Download demo QR, Preview printout and Open signup are secondary. Opening signup stays in the same provider and can now reach the separate working signup surface.",
+      "5c, Launch failure. Keep Draft, the inactive QR and every input. Show Couldn’t launch the demo program. and Try again. Retry uses the same launch operation identity; no duplicate program is possible.",
+      "6, Draft save and exit. Save draft validates entered field syntax but does not require later steps. Close with meaningful changes opens Keep draft, Discard demo draft and Keep editing. Keep draft saves locally and returns to the originating Loyalty surface. Failed saving keeps the layer and draft intact.",
+      "7, Inspection tools. Platform menu, crop, documents, printout and Design Lab controls are reversible layers. Browser Back closes the top layer before changing a wizard step. Changing step preserves the draft and invalidates only downstream completion that depends on an edited value."
+    ],
+    "large_desktop": [
+      "At 1920, cap the focused task at 1280px and centre it; outer margins are 320px. Do not reintroduce a business sidebar or add a preview dashboard.",
+      "Use twelve columns with 24px gaps. The card spread becomes approximately 519px for the specimen side and 737px for controls, but the Wallet itself stays at 375px reference width.",
+      "The Step 1 artwork stage may grow to 519×346. App titles remain 36px, not public-display size.",
+      "QR complete-symbol size remains approximately 328px. Add breathing room around the acquisition object rather than enlarging it into a poster-sized interface.",
+      "The full five-label step navigation remains a single plain row. No additional progress percentages, member counts or decorative previews appear."
+    ],
+    "desktop": [
+      {
+        "size": "1440 viewport; centred 1176px task width with 132px outer margins; 72px header and 56px step row.",
+        "motion": "Immediate step selection; 100ms content opacity only after valid navigation.",
+        "content": "Focused creation replaces the business sidebar. Header: Back icon at left, Create program in 28px Bricolage, Design Lab context and Close at right. Beneath, five plain 14px step labels share one line; current step has a 2px ink underline. Completed steps have a small check and remain buttons; future incomplete steps cannot bypass validation. Paper canvas, 1px line separators, no enclosing panel.",
+        "region": "Shared task shell",
+        "state": "All creation steps."
+      },
+      {
+        "size": "Main starts 32px below the step row; left 476px, 24px gap, right 676px; minimum working deck 480px.",
+        "motion": "Radio selection changes immediately; no media animation.",
+        "content": "Step 1 is a brand-and-rule spread, not two option cards. Left: contained Loopday photograph on ink, loop mark and business in a solid band. Right: Program at 36px, then two 112px unboxed radio choices separated by a hairline. Visits has five straight marks; Points has a single fixed-award numeric token, not a progress meter. Choice title 24px, explanation 16px. Daily rule below with 24px separation. Continue is 160×48 at the right edge; Save draft is quiet text alongside.",
+        "region": "Program composition",
+        "state": "Visits selected by default; Points alternative uses the same layout."
+      },
+      {
+        "size": "Left 476px rule composition; right 676px form; inputs 52px tall, maximum readable form width 560px.",
+        "motion": "Rule values replace immediately on valid input; no earned-progress animation.",
+        "content": "Left: Loopday mark, current rule at 36px/42 and the five-stroke datum for visits. A 476×160 artwork fragment below anchors the brand without resembling a live card. Right: Reward heading, reward-name input, requirement input and visible daily restriction. Use 24px between field groups. Terms is a 56px disclosure; expanded textarea is 144px minimum. Error text sits directly below its field. Footer actions align to the form, not the artwork.",
+        "region": "Reward composition",
+        "state": "Default Free coffee with 5 visits; points substitutes 100 and its fixed award."
+      },
+      {
+        "size": "Left 476px; right 676px. Card width 375px. Controls use a 568px inner measure. Page remains one natural scroll.",
+        "motion": "Supported fields crossfade over 120ms after valid edits; platform change cuts between distinct templates.",
+        "content": "Left starts with the exact platform-concept label, then the card, No pass is issued., Example member · Sara and Details. It can remain sticky 24px below the step row only when its complete wrapper fits the viewport; otherwise ordinary flow. Right starts with Apple Wallet / Google Wallet text tabs. Then Logo, identity fields, colours, artwork, Reward title and Preview state. Pair only related short controls: two identity inputs and colour entries. No bento boxes. Continue and Save draft sit at the end of the editing column.",
+        "region": "Card design spread",
+        "state": "Apple collecting specimen initially; Google, ready, redeemed, offer and validation variants."
+      },
+      {
+        "size": "Left 476px acquisition composition; right 676px inspection region with a 440px readable customer column.",
+        "motion": "Source acknowledgement replaces over 100ms. No enrollment animation.",
+        "content": "Left: Counter QR label, Loopday brand, current rule, draft QR, activation note and the two source choices. Right: Signup preview · not live, followed by the actual customer preview at 100% type size with no device frame. It is visibly a draft inspection, not a working join route. Preview Wallet choices remains outside the form. Task Continue sits below both columns on a shared baseline; it never resembles the customer's Create my card action.",
+        "region": "Signup inspection spread",
+        "state": "Counter preview initially; Jasmine creator-link alternative and zero-progress Wallet-choice layer."
+      },
+      {
+        "size": "Left 476px with approximately 328px complete QR; right 676px summary and actions; minimum deck 500px.",
+        "motion": "Launch result changes only after local commit; no count-up or pass-flight animation.",
+        "content": "Left: Loopday mark, business and large QR on white, resting directly on paper. Before launch the draft activation caption is attached. Right: Ready to launch at 36px, current rule at 28px, Draft, fixed daily restriction and Terms disclosure. Launch demo program is the single filled 48px action. After success replace the review with Live · simulated, 0 members, No pass is issued., selectable local path and utility actions. Open loyalty becomes filled; link/QR tools remain text actions in a vertical working list.",
+        "region": "Launch and result composition",
+        "state": "Pre-launch Draft; local success; retained Draft on failure."
+      },
+      {
+        "size": "560px right working drawer; crop may use a centred 760px inspection layer; documents maximum 560px text width.",
+        "motion": "240ms entry from 32px right; 180ms close; scrim fades in 160ms.",
+        "content": "Drawers use surface #FFFEF9, 8px exposed corners, 24px padding and one restrained modal shadow. Header has the named inspection title and Close. Crop shows the real image and mask, followed by labelled keyboard sliders. Details is a plain definition list with 16px/24 text and 24px between groups. Exit confirmation is compact and does not obscure the draft identity.",
+        "region": "On-demand working layers",
+        "state": "Details, crop, terms, privacy, exit, scenarios and print inspection."
+      }
+    ],
+    "small_phone": [
+      "At 320 use 12px side padding, yielding 296px content width. Keep 16px body text, 14px action labels and 44px targets.",
+      "The shared header remains 56px. Back and Close remain icon-only with accessible names; do not replace them with narrower text controls.",
+      "The Step 1 brand strip becomes 296×88. Choices remain unboxed and may grow vertically; do not shrink their explanations.",
+      "The card is 296px wide with content-led height. Keep its member QR at 164px and allow field values to wrap. The Apple strip becomes approximately 97px high. Never scale the whole card as a bitmap.",
+      "Card truth label remains above the object and No pass is issued. remains immediately below. The lower card, Details and editing controls are reached through ordinary scroll, not an internal miniature viewport.",
+      "The phone action area can use two rows when necessary. Card controls and Continue remain separate targets; no control is compressed below 44px.",
+      "Acquisition QR uses the largest integer-module square fitting within 246px and never falls below a 205px complete symbol for the supplied short draft payload.",
+      "Optional terms, source controls and launch utilities wrap naturally. The visible signup path uses overflow-wrap rather than truncation.",
+      "At 320×568 not every object fits above the fold. Preserve readable scale and action access; do not remove the QR quiet zone or material rules to force a screenshot."
+    ],
+    "tablet": [
+      "This focused task continues to cover business navigation, including the ordinary 80px rail. It is not an overview/list route.",
+      "At 768 to 1023 use 24px outer padding and eight columns with 20px gutters. Keep the full five-step text row only if it fits at normal text size; at 200% text zoom use the phone current-step header.",
+      "Program can pair a three-column brand object with five-column choices. Reward uses a compact rule band above a maximum 600px form.",
+      "Card design is sequential at 768: centred 375px specimen followed by a maximum 600px controls section. At 900 to 1023 it may pair a 375px specimen with the remaining controls width only when every input retains at least 280px.",
+      "Signup uses QR first and customer inspection below at 768. At wider tablet sizes a 280px acquisition column and a 440px customer column may sit side by side with the full gap.",
+      "Launch can use a 280px QR column beside its summary from 900px; below that, remain sequential. Do not squeeze the Wallet into a 220px preview.",
+      "Working layers become 480px right drawers. Crop and print inspection may occupy the viewport with 24px margins."
+    ],
+    "accessibility": [
+      "Use the as-built V2 Phosphor regular icon set only. Back and Close have explicit accessible names; no second icon library is introduced.",
+      "Program choices are one radio group. Entire rows are operable. Selected state uses a filled radio and text emphasis, not colour alone.",
+      "Step navigation is an ordered list with aria-current=step. Completed steps are buttons; incomplete future steps cannot silently discard or bypass validation.",
+      "All fields have persistent visible labels. Requirement inputs use numeric input mode but permit editing an empty intermediate value. Validate on Continue and after a previously invalid field is edited.",
+      "Errors use a 2px danger border and exact adjacent text. Focus the first invalid field and associate its error through the accessible description.",
+      "Use 4.5:1 minimum contrast for card labels and values despite larger primary values. The QR always remains black on white regardless of chosen brand colours.",
+      "Platform concept labels, No pass is issued. and example-member labels belong to the specimen's accessible description. The card front is not a collection of interactive fake native fields.",
+      "Treat the QR as one graphic with an accessible description identifying specimen or acquisition purpose. Its data is available through Details or the separate signup link, not through an unreadable module-by-module announcement.",
+      "Crop supports keyboard sliders: horizontal and vertical position 0 to 100 in single-unit increments; zoom 1 to 3 in 0.05 increments. Dragging is optional.",
+      "Modal layers trap focus, support Escape and browser Back, mark the background inert and restore the opener. Closing a dirty task opens the explicit exit decision.",
+      "After step navigation focus the step title. After launch focus Live · simulated; announce the final status once. Clipboard success and errors use one polite live region.",
+      "Fixed action areas include safe-area padding and matching document clearance. At 200% zoom use ordinary document-flow actions if a fixed footer would obscure inputs or leave less than 240px of usable content.",
+      "File selection invokes the browser's native chooser only after Change logo or Change image. Browser-owned chooser and print-dialog wording is not fabricated in the React surface."
+    ],
+    "motion": [
+      {
+        "explains": "The business moved to another part of the same draft.",
+        "trigger": "Valid Continue, Back or a completed-step selection.",
+        "reduced_motion": "Immediate content replacement and focus transfer.",
+        "name": "One draft, next step",
+        "duration_ms": "100",
+        "easing": "linear",
+        "what_moves": "Only the newly available step content fades in. Header and action datum stay fixed. No horizontal wizard carousel or artificial loading interval."
+      },
+      {
+        "explains": "A valid design edit changed the specimen, not a member's earned balance.",
+        "trigger": "Valid card text or colour input.",
+        "reduced_motion": "Replace the supported field or colour immediately.",
+        "name": "Design follows the field",
+        "duration_ms": "120",
+        "easing": "linear",
+        "what_moves": "The complete changed field crossfades in place. Colour changes are immediate. Invalid entries retain the last valid representation and show their error. QR and member identity never animate."
+      },
+      {
+        "explains": "Apple and Google have different supported layouts.",
+        "trigger": "Platform selection.",
+        "reduced_motion": "Immediate template replacement.",
+        "name": "Platform, not a reskin",
+        "duration_ms": "100",
+        "easing": "linear",
+        "what_moves": "Cut with a short opacity transition between complete coded templates. Do not morph Apple fields into invented Google native controls. Preserve the preview column's scroll anchor."
+      },
+      {
+        "explains": "This is a reversible inspection or editing task inside creation.",
+        "trigger": "Details, Crop, Preview signup, Preview Wallet choices, Close with changes or Design Lab.",
+        "reduced_motion": "Open immediately with focus transfer and an inert background.",
+        "name": "Working layer",
+        "duration_ms": "240 opening; 180 closing",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_moves": "Phone layer enters from 24px below its final position; desktop drawer enters from 32px right. Scrim fades over 160ms. The underlying draft does not scale or blur."
+      },
+      {
+        "explains": "The inspected customer handoff has a distinct, zero-progress example card.",
+        "trigger": "Preview Wallet choices.",
+        "reduced_motion": "Show the specimen immediately with unchanged truth labels.",
+        "name": "Example card arrives",
+        "duration_ms": "320",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_moves": "Only the Tess specimen enters from 16px below and fades to rest. It never flies into a device Wallet or suggests that enrollment occurred."
+      },
+      {
+        "explains": "The local draft became a simulated live program, while issuance and enrollment remain separate.",
+        "trigger": "Successful atomic launch commit.",
+        "reduced_motion": "Replace Draft with Live · simulated and reveal the tools immediately.",
+        "name": "QR becomes the next action",
+        "duration_ms": "180",
+        "easing": "linear",
+        "what_moves": "The status and adjacent action region crossfade. Replace the complete QR graphic in one paint after changing its payload; never interpolate or sweep its modules. Failure causes no success motion."
+      }
+    ],
+    "phone": [
+      {
+        "size": "390px wide; 16px page padding; 358px content. Header 56px, context row 24px with 8px separation.",
+        "motion": "Header and context remain stable across steps.",
+        "content": "Focused task covers the business bottom bar. Header has 44px Back at left, current step in 28px Bricolage, position in 13px DM Sans, and 44px Close at right. Back and Close are icons with accessible names, not additional visible words. Design Lab · Fictional preview is a quiet operable context line beneath. Paper canvas; no repeated Create program headline.",
+        "region": "Shared top, all steps",
+        "state": "Current step and position change; the fictional context persists."
+      },
+      {
+        "size": "Fixed action area 76px plus safe-area inset; matching content clearance 100px plus inset.",
+        "motion": "Action changes immediately with valid step state.",
+        "content": "Solid paper, 1px top separator, 16px horizontal padding. Continue is a 48px ink action; Step 3 additionally has Card controls as a quiet 44px anchor, and Step 4 has Preview signup. Step 5 substitutes Launch demo program; success substitutes Open loyalty. Save draft lives at the end of the scroll content, not as another permanent first-screen label.",
+        "region": "Shared task action datum",
+        "state": "State-dependent single primary action; disabled only during an actual local commit."
+      },
+      {
+        "size": "Brand strip 358×104; 24px gap; two choice rows at least 100px each; rule line below.",
+        "motion": "Selection is immediate; photograph is still.",
+        "content": "Show the brand first: ink strip with loop mark and Loopday Coffee on the left, contained real photograph on the right. Then Visits and Points as full-width unboxed radio rows. Title 22px/26 semibold, explanation 16px/24. Selected row gets a filled radio and a 2px ink underline at its bottom, not a tinted card. The universal daily rule is 13px/18 muted with 24px top space. Initial first viewport is approximately 32 words.",
+        "region": "Step 1, Program",
+        "state": "Visits selected; Points alternate."
+      },
+      {
+        "size": "Rule object approximately 96px; fields 52px; 24px field-group spacing; Terms disclosure 56px.",
+        "motion": "Valid numeric edits replace the rule; no stroke-filling reward animation.",
+        "content": "The rule leads in 28px/32 tabular DM Sans, paired with five straight marks for visits. Reward name follows, then requirement. Input values are 18px; labels 13px. The fixed daily restriction remains adjacent to the requirement. Terms / Optional / Add terms is a quiet disclosure, collapsed by default. Its textarea opens beneath rather than replacing material rules. Errors grow the document naturally.",
+        "region": "Step 2, Reward",
+        "state": "Free coffee, 5 visits, no optional terms; points substitutes 100 and the fixed one-point award."
+      },
+      {
+        "size": "Platform-concept trigger 44px; specimen 358px wide and approximately 514px tall for Apple; truth note 18px; example caption 18px; Details target 44px.",
+        "motion": "Only valid field replacement and platform cuts; no rotating card.",
+        "content": "Start with the exact concept label as the platform-menu trigger, with a small chevron. Do not duplicate Apple Wallet / Google Wallet tabs above it. Card sits directly on paper and uses the precise coded template. Immediately below are No pass is issued., Example member · Sara and Details. Default first-screen copy is planned at 39 words including Card controls and Continue. Editing controls follow naturally below the object, not inside it.",
+        "region": "Step 3, Object-first card",
+        "state": "Apple collecting specimen, 3 of 5; platform and inspection variants retain truth labels."
+      },
+      {
+        "size": "Full 358px controls width; 52px inputs; 24px groups; at least 32px after the specimen wrapper.",
+        "motion": "No expanding accordion animation is required; layout changes immediately and preserves the anchor.",
+        "content": "Card controls anchor lands on the section heading. Order: logo; business name; program name; supported colours; artwork; reward title; preview state; Use brand defaults; Save draft. Colour controls are swatch plus editable hex text, not an OS colour-dialog imitation. The thumbnail is 104×80 with adjacent text actions. Preview states are a select menu, not four permanent pills. Apple and Google switch through the concept-label menu. Entering an error never auto-scrolls away from its field.",
+        "region": "Step 3, Editing below the card",
+        "state": "Editable local brand controls; colour, image, crop and field-validation states."
+      },
+      {
+        "size": "Brand/rule band approximately 80px; centred draft QR approximately 246px complete symbol; caption 18px; source controls 56px minimum.",
+        "motion": "Source acknowledgement changes only after selection.",
+        "content": "Counter QR is the leading acquisition object, not a tiny card thumbnail. Above it show Loopday Coffee and the compact current rule. Below: Demo QR · activates after launch. Signup source follows as two underlined text choices, Counter QR and Creator link. The default screen does not squeeze a customer form and two Wallet buttons around the QR. Preview signup opens that customer inspection at readable scale; Continue advances the business task.",
+        "region": "Step 4, Acquisition first",
+        "state": "Counter example initially; Jasmine creator-link preview on demand."
+      },
+      {
+        "size": "Full-height inspection; 16px margins; customer column 358px; natural document scroll, no sticky customer commit.",
+        "motion": "Working-layer entry; no automated typing, consent or enrollment.",
+        "content": "Top inspection bar says Signup preview · not live with Back and Close. Customer content: loop mark, business, selected source acknowledgement, Free coffee, full numeric rule, daily restriction, first name and one contact. Read-only Tess details demonstrate the short form. Contact-mode control and legal links work; agreement and Create my card remain disabled. Launch before joining. sits adjacent to the disabled commit. Preview Wallet choices is clearly outside the customer form, after a separator.",
+        "region": "Step 4a, Short signup inspection",
+        "state": "Non-enrolling draft preview; email and phone alternatives; terms and privacy layers."
+      },
+      {
+        "size": "358px specimen width; zero-progress card followed by two 48px actions and adjacent simulation note.",
+        "motion": "Example card arrives once; simulated-add receipt replaces only the wrapper action region.",
+        "content": "Your demo card and Example member · Tess identify the inspected next step. Card progress is zero. Add to Apple Wallet and Add to Google Wallet are equal text-labelled actions, never forged badges. Simulated actions. No pass is issued. stays adjacent. Selecting a platform shows its concept label, exact simulated-add receipt and Nothing was added to your device. Done returns to the draft signup inspection.",
+        "region": "Step 4b, Wallet-choice inspection",
+        "state": "Zero-progress specimen; Apple or Google inspected add, with no working save."
+      },
+      {
+        "size": "Summary approximately 136px; draft QR approximately 246px; current rule and status remain outside the QR.",
+        "motion": "No preview animation before commit.",
+        "content": "Ready to launch in 28px Bricolage. Loopday Coffee, current rule and Draft follow. Large draft QR leads the remainder, with activation note immediately attached. The daily restriction is visible before Launch demo program. Terms expands below. Do not show the designer's 3-of-5 specimen here, a fake member count, or a second card beside the QR.",
+        "region": "Step 5, Final review",
+        "state": "Valid draft, ready for one explicit simulated launch."
+      },
+      {
+        "size": "Same QR bounds as review; status 28px; utility actions at least 44px each; link wraps within 358px.",
+        "motion": "180ms status/action settle only after commit; QR payload changes in one paint.",
+        "content": "Live · simulated replaces the review title. Keep the brand and numeric rule. Show the now-active local acquisition QR, Demo QR · Design Lab only, 0 members and No pass is issued. The selectable relative path and Copy demo link follow. Download demo QR, Preview printout and Open signup are separated working actions below, not a row of four tiny buttons. Open loyalty is the single fixed primary action. Status and Link details disclose limitations on demand.",
+        "region": "Step 5a, Launch result",
+        "state": "Local simulated live program with zero enrolled members."
+      },
+      {
+        "size": "Compact error band grows the current step; exit and QA layers use full-width sheets with 16px padding.",
+        "motion": "Failure text appears without success motion; working sheets use the defined layer motion.",
+        "content": "Launch failure retains the draft QR and values, adds the exact error above Try again and never shows Live. Draft exit uses Draft as its title, Reload resets this demo. as the consequence, and the three explicit decisions. Live-program guard uses the loop mark, one sentence and View program, without the wizard's card or QR.",
+        "region": "Exceptions and exit",
+        "state": "Launch failure, save failure, dirty exit, deep-link validation and existing-live-program guard."
+      }
+    ],
+    "on_demand": [
+      "Back moves to the preceding validated step without clearing input. At Program it returns to the originating Loyalty surface, using the dirty-exit decision when necessary.",
+      "Close opens the draft decision only after meaningful changes. Save draft at the end of a step gives an inline in-memory receipt; Keep draft saves and exits.",
+      "Terms in Reward opens the optional textarea. The daily rule is never hidden inside it. Full fixed customer terms remain available in signup inspection and final review.",
+      "The platform-concept label opens Apple Wallet / Google Wallet selection. On desktop these same choices are also plain text tabs in the editing column; they are not additional card-front fields.",
+      "Card controls on phone scrolls to the editing heading using a native anchor. No guided tour, mandatory next tooltip or artificial blank space is inserted to make the preview fit.",
+      "Change logo and Change image open a local chooser. Accepted images are decoded in memory. Failures leave the last valid image intact. No upload receipt or production Brand Kit change is shown.",
+      "Crop opens the actual active-platform image window: Apple's photographic portion is 150:123; Google's hero is 3:1. Position and zoom are stored separately per platform. Initial placement contains the full source when a safe crop has not been verified.",
+      "Use brand defaults restores logo, business identity, Google program name, artwork and colour settings. Undo restores the prior brand-control snapshot. It never resets the reward or optional terms.",
+      "Preview state changes only the isolated specimen. Updated offer opens Details automatically so the actual location of the offer is visible; it does not replace Reward ready with an advertisement.",
+      "Details opens a plain wrapper drawer with Reward, Requirement, Terms and Member ID. Offer appears only in the selected offer example. Phone and email are never printed there.",
+      "Preview signup opens the draft customer inspection on phone. Desktop presents the same content beside the acquisition QR. Selecting Creator link changes the acknowledgement to From Jasmine’s Story.; it does not record a campaign click or grant working attribution.",
+      "Preview Wallet choices is a wrapper-only inspection entrance. It bypasses neither the disabled signup commit nor the one-live-program rule.",
+      "After launch, Live · simulated opens its explanation. Link details explains the cross-browser fixture boundary. Neither note is buried in a global footer.",
+      "Preview printout opens a labelled A5 composition. Print demo alone invokes browser printing. Download demo QR produces a labelled local SVG; no pass package or save JWT is generated.",
+      "Design Lab opens the shared scenario list, Reset demo and the two explicit creation-failure toggles. Scenario replacement requires Change demo state? and This resets local changes. It is never an ordinary owner setting.",
+      "No hover-only explanation is required. Hover can underline an existing action; all information is available by tap and keyboard."
+    ],
+    "fixture_data": [
+      "Business is Loopday Coffee, fictional Austin coffee shop. Program name defaults to Loopday Rewards. Timezone is America/Chicago. Lab clock remains September 17, 2026, 10:00 AM CDT.",
+      "Fresh creation has kind visits, target 5, reward Free coffee, optional terms empty, logo open-loop, background #18231D, Apple value text #F7F4EB, Apple labels #C4CDBF and /design-lab/reference-loopday-01.jpg artwork.",
+      "Points is a replacement kind in this draft, not a second program: target 100, fixed one point per qualifying purchase, maximum one counted qualifying purchase per business day.",
+      "Reward name and Reward title reference one value. Reward and business names allow 1 to 40 trimmed characters; Google program name allows 1 to 20. Optional terms allow 0 to 280. Do not silently truncate visible requirements, errors or card state.",
+      "Designer specimen: Sara, readable ID LD-001, visits example 3 of 5. It corresponds to the historical September 13 representation, not the working September 17 member projection. No contact appears on the card.",
+      "For a custom visits target, collecting specimen progress is the smaller of 3 and target minus 1. For points it is the smaller of 82 and target minus 1. Ready reaches the selected target; redeemed has zero next-cycle progress. These are generated examples, not events.",
+      "Signup specimen: Tess, tess@example.test; phone-mode fixture +12025550163; readable example ID LD-011. All progress is zero. The form is read-only and cannot enroll. Its specimen QR is different from Sara's and from acquisition QR payloads.",
+      "Known source inspection uses Jasmine, Morning loop, STORY and the fixture registry's loopday-jasmine-story entry. Counter inspection uses BUSINESS_QR and loopday-counter. Merely inspecting either creates no first-touch record.",
+      "Draft scenario has Program and Reward completed using the defaults; Card is incomplete. No working member or usable enrollment URL exists.",
+      "Successful launch produces one simulated live Loopday program, one reward definition, zero members and zero rewards. All member counts, source results and saved-Wallet counts start at zero.",
+      "Local launch activates /design-lab-v3/join/loopday-counter in the same in-memory scenario. Copy builds an absolute URL from the current origin. Another browser has its own fixture state; cross-device persistence is not simulated.",
+      "Changing a completed requirement or kind invalidates downstream review completion while retaining compatible branding. It never mutates the seeded working cohort or migrates points into visits.",
+      "All app-authored visible wording is closed by visible_copy. Numeric values, selected names and dates may follow data. User-entered field contents are rendered verbatim as input, not supplemented with engineer-invented helper sentences."
+    ],
+    "truth_labels": [
+      "Design Lab · Fictional preview is a visible, persistent task-context control, not a distant footer.",
+      "Every Apple specimen has Design Lab · Apple Wallet concept immediately above it. Every Google specimen has the corresponding exact Google label. No pass is issued. is immediately below.",
+      "Step 3 adds Example member · Sara. Step 4's zero-progress card adds Example member · Tess. Neither uses the working member store.",
+      "Draft acquisition QR labels say Demo QR · activates after launch. The encoded payload is draft specimen text, so the label is technically true.",
+      "The customer inspection says Signup preview · not live. Launch before joining. is adjacent to its disabled Create my card action.",
+      "Both Wallet-choice actions have Simulated actions. No pass is issued. at the decision. Receipts explicitly say the platform add was simulated and nothing was added to the device.",
+      "Launch itself says Launch demo program. Success says Live · simulated and 0 members, never Pass issued, Wallet added or Signup complete.",
+      "Downloaded and printed acquisition artwork always includes Demo QR · Design Lab only. That label survives outside the app capture.",
+      "Updated-offer inspection is labelled Wallet update preview., explains the platform distinction and says Nothing was sent. It contains no SMS, email, customer-app push or delivered/read state.",
+      "Saving says Draft saved in this preview. and discloses that reload resets the demo. No backend persistence is implied."
+    ]
+  }
+}

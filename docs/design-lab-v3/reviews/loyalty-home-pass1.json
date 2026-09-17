@@ -1,0 +1,199 @@
+{
+  "screen": "Loyalty Home",
+  "pass": 1,
+  "final": false,
+  "shots": [
+    "loyalty-home-m-full.png",
+    "loyalty-home-d.png",
+    "home-states-m-none.png",
+    "home-states-d-live-empty.png",
+    "home-states-m-draft.png"
+  ],
+  "when": "2026-09-17T03:17:05.016Z",
+  "reviewer": "director",
+  "review": {
+    "why_better_than_production": "This gives the shop a visible return loop alongside advertising: who joined, who returned, whose reward is ready, and which source those members joined from. The screenshots make daily counter work and source-linked returns understandable without inventing sales or revenue. The working event logic is not yet proven by these captures.",
+    "spec_was_wrong": [
+      "The desktop vertical coordinates were too prescriptive. Keep the build’s compact recent/program starting position near y260 rather than moving it down to y296. Use content-led spacing so the working actions and their Wallet caption can fit together at 1440×900.",
+      "The phone header instructions only allowed wrapping at text zoom. At 320px, also permit a second action row whenever Create program or Continue setup cannot fit beside the back target and title at their specified sizes. Never truncate or shrink those controls."
+    ],
+    "keep": [
+      "Warm paper, green-black typography, square photography and restrained underlined actions.",
+      "Four unboxed counts in the correct order, showing 10, 6, 1 and 2.",
+      "June, Ben and Imani with compact 0/5, 1/5 and 2/5 progress and no contact or source sublines.",
+      "The desktop eight-column recent list beside the four-column program object.",
+      "Five primary business destinations with Business selected and lime reserved for campaign Create.",
+      "Honest no-program and live-zero compositions: no specimen customers, invented results or disabled dashboard clutter.",
+      "The state-dependent Create program, Continue setup, View QR and Add visit actions.",
+      "Jasmine’s visible 4/3/1 relationship, external count labels and absence of revenue claims."
+    ],
+    "quality_bar": [
+      {
+        "question": "Does this feel like a premium modern product?",
+        "answer": "partly",
+        "note": "The open layout and disciplined customer rows are strong. Chunky multicolour bars, a badge-like logo and duplicate Lab chrome dilute the finish."
+      },
+      {
+        "question": "Does it explain itself without paragraphs?",
+        "answer": "yes",
+        "note": "Counts, progress, Free coffee and Add visit communicate the job immediately. Empty states are equally concise."
+      },
+      {
+        "question": "Does it feel like a consumer platform, not business software?",
+        "answer": "partly",
+        "note": "Photography and simple names avoid CRM styling. The three differently coloured chart bars pull attribution back toward an analytics dashboard."
+      },
+      {
+        "question": "Is it memorable?",
+        "answer": "partly",
+        "note": "The return story is distinctive, but the intended open-loop artwork and thin return descent have not survived implementation."
+      },
+      {
+        "question": "Does motion improve understanding?",
+        "answer": "partly",
+        "note": "No motion strip or interaction recording was supplied. Static captures cannot establish motion quality."
+      },
+      {
+        "question": "Does each earning type feel different?",
+        "answer": "partly",
+        "note": "Only a Story acquisition label appears here. Recreate, Story and Car earning compositions are outside these captures."
+      },
+      {
+        "question": "Is business discovery exciting?",
+        "answer": "partly",
+        "note": "This is the operational Loyalty destination, not marketplace discovery. Its preservation must be reviewed on Business Home."
+      },
+      {
+        "question": "Is Profile identity, not settings?",
+        "answer": "partly",
+        "note": "Neither Business Profile nor Personal Profile is shown."
+      },
+      {
+        "question": "Does the website make someone keep scrolling?",
+        "answer": "partly",
+        "note": "No public website capture is included; the long phone overview is not evidence of the public sequence."
+      },
+      {
+        "question": "Is it significantly stronger than current production?",
+        "answer": "partly",
+        "note": "The visible membership-to-return proposition is stronger. Complete workflow improvement and production comparison cannot be established from this overview alone."
+      }
+    ],
+    "scores": {
+      "motion_understanding": 5,
+      "slop_risk": 3,
+      "text_discipline": 8,
+      "natural_part_of_tapmart": 8,
+      "attribution_honest_power": 7,
+      "memorable": 6,
+      "quick_to_understand": 9,
+      "self_explaining": 8,
+      "business_value": 8,
+      "wallet_realism": 5,
+      "truthfulness": 8,
+      "consumer_not_software": 7,
+      "premium": 7
+    },
+    "fixes": [
+      {
+        "priority": 1,
+        "change": "Replace the filled three-colour bars with 3px ink rules in 48px lanes. Give every positive rule a 12px brick terminal included within its measured length. Remove the lime fill and outline entirely. Preserve the 4:3:1 proportions and fixed external label column.",
+        "why": "This is the signature object. The current chart assigns unsupported colour meanings and uses lime outside its functional role.",
+        "where": "Joined from, phone and desktop"
+      },
+      {
+        "priority": 2,
+        "change": "Remove the extra phone identity-and-utilities row on this route. Start with the 56px Back / Loyalty / primary-action header, followed by the 40px fictional-context strip. Use text-only Add visit without the extra plus. Restore the 32px count-region padding and section rhythm needed to place the program artwork near y672 at 390px.",
+        "why": "The overview inherits an unnecessary marketplace header. Removing it must not collapse the intended breathing room or pull program copy into the first screen.",
+        "where": "Phone live, no-program and draft headers"
+      },
+      {
+        "priority": 3,
+        "change": "Rebuild the 2:1 artwork band with a solid ink left 28% containing the 48px open-loop mark and the photograph in the right 72%. Remove the circular logo badge over the photograph. For no-program, use the 64px ink-stroke loop directly on paper, without a filled disc.",
+        "why": "The current badge looks like a stamped G and replaces the intended branded object with a generic photo overlay.",
+        "where": "Live and draft program artwork; no-program illustration"
+      },
+      {
+        "priority": 4,
+        "change": "Make Design Lab · Fictional preview the single operable Lab entrance, at 13/18 with a disclosure chevron and a 44px target. Remove the floating pill on this surface.",
+        "why": "Two Lab entrances repeat context, add an oversized capsule and shadow, and let QA chrome overlap the program photograph.",
+        "where": "All supplied states, phone and desktop"
+      },
+      {
+        "priority": 5,
+        "change": "Set the supplied draft scenario to Program and Reward completed, display Last completed: Reward, and have Continue setup and Preview card open the Card step. Derive the caption from that same saved-step state.",
+        "why": "The capture says Last completed: Program, contradicting the specified fixture and its resume position. This must be a state correction, not merely a label replacement.",
+        "where": "Draft phone state and its destination actions"
+      },
+      {
+        "priority": 6,
+        "change": "On phone, place the measured descent immediately after Jasmine and Story campaign, then put View attribution below the three lanes. On desktop, retain the identity beside the descent but set external labels to 16/24.",
+        "why": "The phone currently offers the drill-down before showing the evidence. Desktop labels are visibly too small relative to the count and source hierarchy.",
+        "where": "Joined from responsive composition"
+      },
+      {
+        "priority": 7,
+        "change": "Restore a separate desktop back control with accessible name Back to Business Home. Keep Business in the breadcrumb linked to Business Profile. Set the Loyalty title to Bricolage Grotesque 600 at 36/41 and retain DM Sans for counts and UI.",
+        "why": "The desktop capture has no explicit return-to-marketplace control, and the title is smaller than the specified hierarchy. The breadcrumb and back action have different destinations.",
+        "where": "Desktop page header"
+      },
+      {
+        "priority": 8,
+        "change": "Keep Send update and Wallet update · once a day together as one action group. After correcting the descent lanes, tighten excess source-section spacing rather than shrinking text so the complete group is visible at 1440×900. Preserve the live-zero no-audience explanation.",
+        "why": "The live desktop capture exposes Send update at the viewport edge while leaving its material channel-and-limit caption below the crop.",
+        "where": "Desktop working-action row"
+      }
+    ],
+    "two_second_read": "Ten members, six repeat visitors, one reward ready and two redeemed. Add a visit. Further down, Jasmine’s Story source has four members, three returns and one redeemer.",
+    "verdict": "fix",
+    "spec_drift": [
+      "Phone adds a full Loopday Coffee identity/search/messages/notifications row above the specified Loyalty header. Remove that row on Loyalty Home.",
+      "Attribution uses approximately 20px-high phone bars and 28px-high desktop bars in ink, brick and lime. Replace them with uniform 3px ink rules and brick terminals.",
+      "The program photograph occupies the full artwork band with a circular overlaid mark. Restore the 28% solid brand area and 72% photograph split.",
+      "The absent-program mark is white inside a filled circular badge. Render the open ink loop directly on paper.",
+      "The phone places View attribution above the descent instead of after it. Move it below the third lane.",
+      "A floating Design Lab pill duplicates the fictional-context label. Consolidate into the context control and restore its disclosure affordance.",
+      "The draft displays Last completed: Program rather than Last completed: Reward. Correct the saved fixture and Card-step resume behavior together.",
+      "The desktop header omits the separate back control, and its title appears approximately 32px rather than 36px. Restore both.",
+      "Desktop source labels are approximately secondary-fact size rather than the specified 16/24. Increase them without moving labels inside the rules."
+    ],
+    "loyalty_bar": [
+      {
+        "question": "Does this feel like a natural part of TapMart?",
+        "answer": "yes",
+        "note": "The paper canvas, familiar navigation, selected Business destination and editorial program object establish continuity. The duplicated phone header still needs correction."
+      },
+      {
+        "question": "Does it strengthen the business value proposition?",
+        "answer": "yes",
+        "note": "The page connects acquisition to members, repeat activity and reward use instead of stopping at campaign attention."
+      },
+      {
+        "question": "Can a business understand it quickly?",
+        "answer": "yes",
+        "note": "Four plain-language counts and one dominant counter action are clear. No-program and live-zero also identify the next useful action."
+      },
+      {
+        "question": "Does it feel consumer quality rather than SaaS admin?",
+        "answer": "partly",
+        "note": "Unboxed metrics, photography and compact customer rows work. The coloured bar chart and floating Lab capsule weaken the consumer finish."
+      },
+      {
+        "question": "Does attribution feel powerful without becoming fake analytics?",
+        "answer": "partly",
+        "note": "4 Joined, 3 Came back and 1 Redeemed are legible and restrained, with no sales claims. Definitions, unique-member semantics and event reconciliation remain untested; the visual descent needs restoration."
+      }
+    ],
+    "remaining_risks": [
+      "Scores use a 0 to 10 scale, with lower slop risk better. Motion understanding and Wallet realism are neutral placeholders because neither motion nor Wallet concepts appear in these captures.",
+      "Only 390px phone and 1440px desktop examples are supplied. Approval still requires 320, 768, 1023 and 1920px captures plus the remaining state combinations.",
+      "No Wallet card is shown, correctly for this surface. Do not add a miniature pass to improve its score; review platform realism on View program.",
+      "Visible baseline counts reconcile with the supplied fixture, but screenshots cannot prove projections, idempotency, same-day handling, reward-version retention or redemption semantics.",
+      "Count definitions, Live · simulated disclosure, Lab confirmation, routing, browser Back and restored scroll/focus need interaction evidence.",
+      "Points, daily update allowance, recording failure, missing media and local-state error states are not shown.",
+      "Measure first-screen words from actual viewport captures after the header correction. Do not infer an exact acceptance count from a full-page image or its fixed-layer placement.",
+      "Verify the photograph source and revised crop in the media manifest. The current milk-pour subject reads clearly, but the specified split crop is not yet captured.",
+      "Keyboard use, 200% text zoom, contrast, touch targets and reduced motion remain unverified. No fixed-bottom-bar placement in the full-page capture is treated as a product defect."
+    ]
+  }
+}

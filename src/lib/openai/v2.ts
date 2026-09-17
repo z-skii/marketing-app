@@ -25,10 +25,10 @@ export const V2_DIR = path.join(ROOT, "docs", "design-lab-v2");
 const SCREENS_DIR = path.join(V2_DIR, "screens");
 const REVIEWS_DIR = path.join(V2_DIR, "reviews");
 
-const S = (description?: string) => (description ? { type: "string", description } : { type: "string" });
-const L = (description?: string) => ({ type: "array", items: { type: "string" }, ...(description ? { description } : {}) });
-const obj = (properties: Record<string, unknown>, description?: string) => ({ type: "object", additionalProperties: false, properties, required: Object.keys(properties), ...(description ? { description } : {}) });
-const SCORE = { type: "integer", minimum: 0, maximum: 10 };
+export const S = (description?: string) => (description ? { type: "string", description } : { type: "string" });
+export const L = (description?: string) => ({ type: "array", items: { type: "string" }, ...(description ? { description } : {}) });
+export const obj = (properties: Record<string, unknown>, description?: string) => ({ type: "object", additionalProperties: false, properties, required: Object.keys(properties), ...(description ? { description } : {}) });
+export const SCORE = { type: "integer", minimum: 0, maximum: 10 };
 
 // ------------------------------------------------------------ the screens
 
@@ -139,7 +139,7 @@ export const V2_DIRECTIONS_SCHEMA: JsonSchema = {
   }),
 };
 
-const REGION = obj({ region: S(), size: S("Height or size at this viewport."), content: S("Exactly what is in it: media, type roles, sizes, colours, spacing, actions."), motion: S("What moves here and how, or none."), state: S("The honest fixture state shown.") });
+export const REGION = obj({ region: S(), size: S("Height or size at this viewport."), content: S("Exactly what is in it: media, type roles, sizes, colours, spacing, actions."), motion: S("What moves here and how, or none."), state: S("The honest fixture state shown.") });
 
 export const V2_SCREEN_SCHEMA: JsonSchema = {
   name: "tapmart_v2_screen",
@@ -183,27 +183,27 @@ export const V2_REVIEW_SCHEMA: JsonSchema = {
 
 // ------------------------------------------------------------- material
 
-async function read(rel: string): Promise<string> {
+export async function read(rel: string): Promise<string> {
   try { return await readFile(path.join(ROOT, rel), "utf8"); } catch { return `(${rel} missing)`; }
 }
 
 /** The product truth sections of the brain, without its Frame Shift visual sections. */
-async function productTruth(): Promise<string> {
+export async function productTruth(): Promise<string> {
   const brain = await read("docs/TAPMART_PRODUCT_BRAIN.md");
   const start = brain.indexOf("## What TapMart is");
   const end = brain.indexOf("## Public website");
   return start >= 0 ? brain.slice(start, end > start ? end : undefined) : brain;
 }
 
-async function pushImage(content: InputPart[], source: string | null | undefined, caption: string, detail: "high" | "low" = "high") {
+export async function pushImage(content: InputPart[], source: string | null | undefined, caption: string, detail: "high" | "low" = "high") {
   if (!source) return;
   const img = await loadImage(source);
   if (img) content.push(textPart(caption), imagePart(img, detail));
 }
 
-const WHO = "You are TapMart's CREATIVE DIRECTOR, PRODUCT DESIGNER, UX ARCHITECT and ART DIRECTOR (Astra). Claude Code is the engineer: it builds exactly what you specify as real React and CSS in an isolated Design Lab. You design, direct, judge and approve; you never write code.";
+export const WHO = "You are TapMart's CREATIVE DIRECTOR, PRODUCT DESIGNER, UX ARCHITECT and ART DIRECTOR (Astra). Claude Code is the engineer: it builds exactly what you specify as real React and CSS in an isolated Design Lab. You design, direct, judge and approve; you never write code.";
 
-const NO_SLOP = "Do not chase 'futuristic': no random gradients, no AI purple, no neon everywhere, no glass everywhere, no floating blobs, no meaningless 3D, no huge rounded SaaS cards, no generic bento grids, no fake analytics, no fake product states. Real media does the work; the final UI is real coded UI.";
+export const NO_SLOP = "Do not chase 'futuristic': no random gradients, no AI purple, no neon everywhere, no glass everywhere, no floating blobs, no meaningless 3D, no huge rounded SaaS cards, no generic bento grids, no fake analytics, no fake product states. Real media does the work; the final UI is real coded UI.";
 
 function directionsInstructions(brief: string, study: string, truth: string, inventory: string): string {
   return [
@@ -256,7 +256,7 @@ export async function runV2Directions(o: V2Options = {}): Promise<{ data: Record
 
 // ------------------------------------------------------------- screen
 
-async function chosenSystemText(): Promise<{ chosen: string; system: string; direction: string }> {
+export async function chosenSystemText(): Promise<{ chosen: string; system: string; direction: string }> {
   const d = JSON.parse(await readFile(path.join(V2_DIR, "directions.json"), "utf8")).directions as Record<string, unknown>;
   const chosen = d.chosen as { name: string };
   const dir = (d.directions as { name: string }[]).find((x) => x.name === chosen.name) ?? null;
@@ -309,7 +309,7 @@ export async function runV2Screen(key: V2ScreenKey, o: V2Options & { phone?: str
 
 // ------------------------------------------------------------- review
 
-const QUALITY_QUESTIONS = [
+export const QUALITY_QUESTIONS = [
   "Does this feel like a premium modern product?", "Does it explain itself without paragraphs?", "Does it feel like a consumer platform, not business software?", "Is it memorable?",
   "Does motion improve understanding?", "Does each earning type feel different?", "Is business discovery exciting?", "Is Profile identity, not settings?",
   "Does the website make someone keep scrolling?", "Is it significantly stronger than current production?",
@@ -361,7 +361,7 @@ export async function runV2Review(i: V2ReviewInput, o: V2Options = {}): Promise<
 
 // ------------------------------------------------------------ markdown
 
-const bullets = (arr: unknown): string[] => Array.isArray(arr) ? arr.map((x) => `- ${typeof x === "string" ? x : JSON.stringify(x)}`) : [];
+export const bullets = (arr: unknown): string[] => Array.isArray(arr) ? arr.map((x) => `- ${typeof x === "string" ? x : JSON.stringify(x)}`) : [];
 
 function directionsMarkdown(d: Record<string, unknown>): string {
   const lines = ["# TapMart V2: the directions", "", "Explored and chosen by Astra, TapMart's design director. Source: directions.json.", "", "## Founder read", "", String(d.founder_read), "", "## Artec lessons", "", ...bullets(d.artec_lessons), "", "## Heaviness diagnosis", "", ...bullets(d.heaviness_diagnosis), ""];
@@ -384,13 +384,13 @@ function directionsMarkdown(d: Record<string, unknown>): string {
   return lines.join("\n");
 }
 
-function screenMarkdown(name: string, s: Record<string, unknown>): string {
+export function screenMarkdown(name: string, s: Record<string, unknown>): string {
   const regions = (arr: unknown) => bullets(((arr as Record<string, string>[]) ?? []).map((r) => `**${r.region}** (${r.size}): ${r.content} Motion: ${r.motion}. State: ${r.state}`));
   const lines = [`# V2 art direction: ${name}`, "", "By Astra, TapMart's design director.", "", `**Two seconds.** ${s.two_second_read}`, "", `**Signature.** ${s.signature_moment}`, "", "## Phone (390)", "", ...regions(s.phone), "", "## Small phone (320)", "", ...bullets(s.small_phone), "", "## Tablet", "", ...bullets(s.tablet), "", "## Desktop (1440)", "", ...regions(s.desktop), "", "## Large desktop", "", ...bullets(s.large_desktop), "", "## Earning types", "", ...bullets(s.earning_types), "", "## Visible copy", "", ...bullets(((s.visible_copy as { where: string; text: string; why_needed: string }[]) ?? []).map((c) => `${c.where}: "${c.text}" (${c.why_needed})`)), "", "## On demand", "", ...bullets(s.on_demand), "", "## Media", "", ...bullets(s.media), "", "## Motion", "", ...bullets(((s.motion as Record<string, string>[]) ?? []).map((m) => `${m.name}: ${m.trigger}; ${m.what_moves}; ${m.duration_ms}ms ${m.easing}; explains ${m.explains}; reduced motion: ${m.reduced_motion}`)), "", "## Removed", "", ...bullets(s.removed), "", "## Moved to settings", "", ...bullets(s.moved_to_settings), "", "## Honest states", "", ...bullets(s.honest_states), "", "## Accessibility", "", ...bullets(s.accessibility), "", "## Fixture data", "", ...bullets(s.fixture_data), "", "## Acceptance", "", ...bullets(s.acceptance), ""];
   return lines.join("\n");
 }
 
-function reviewMarkdown(name: string, i: V2ReviewInput, r: Record<string, unknown>): string {
+export function reviewMarkdown(name: string, i: V2ReviewInput, r: Record<string, unknown>): string {
   const scores = r.scores as Record<string, number>;
   const lines = [`# V2 review: ${name}, pass ${i.pass}${i.final ? " (final)" : ""}`, "", "Reviewer: Astra, TapMart's design director.", "", `Captures: ${i.shots.map((s) => path.basename(s)).join(", ")}`, "", `**Verdict: ${r.verdict}.** ${r.two_second_read}`, "", "## The ten questions", "", ...bullets(((r.quality_bar as { question: string; answer: string; note: string }[]) ?? []).map((q) => `${q.question} **${q.answer}**. ${q.note}`)), "", "## Scores", "", ...bullets(Object.entries(scores ?? {}).map(([k, v]) => `${k.replace(/_/g, " ")}: ${v}`)), "", "## Spec drift", "", ...bullets(r.spec_drift), "", "## Spec was wrong", "", ...bullets(r.spec_was_wrong), "", "## Fixes", "", ...bullets(([...((r.fixes as { priority: number; change: string; where: string; why: string }[]) ?? [])].sort((a, b) => a.priority - b.priority)).map((f) => `${f.priority}. ${f.change} (${f.where}): ${f.why}`)), "", "## Keep", "", ...bullets(r.keep), "", `## Why better than production`, "", String(r.why_better_than_production), "", "## Remaining risks", "", ...bullets(r.remaining_risks), ""];
   return lines.join("\n");

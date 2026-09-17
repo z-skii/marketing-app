@@ -1,0 +1,1377 @@
+{
+  "screen": "Members, member detail and recording",
+  "route": "/design-lab-v3/business/loyalty/members",
+  "when": "2026-09-17T02:49:48.933Z",
+  "author": "director",
+  "spec": {
+    "acceptance": [
+      "Capture the real React/CSS at 320×568, 390×844, 768×1024, 1023×900, 1440×900 and 1920×1080. Approval follows captures, not this specification.",
+      "At 390×844, the default member list exposes seven readable rows, with all ten records available by ordinary scrolling. Count all visible words, including navigation and truth labels; the first screen must remain below 40 words.",
+      "Measure the default member detail and initial scanner separately against the same first-screen limit. No logged-in prose block contains eighteen or more words. Do not shrink text, truncate consequences or conceal errors to meet this.",
+      "This surface contains no public sequence. Do not add one to satisfy the separate public word-count target.",
+      "Desktop is a 440px roster beside a substantial member composition, not a stretched phone list or a spreadsheet.",
+      "Sara belongs to Jasmine’s Morning loop Story campaign. Do not adopt the conflicting Maya example in the request; Maya owns the Counter pour Recreate source.",
+      "The baseline reconciles to 10 members, 6 repeat visitors, 1 ready reward, 2 redemption events and 28 counted visits.",
+      "Counting Sara’s September 17 visit produces 5 of 5, a ready reward and totals 10, 6, 2, 2. Redeeming it produces 0 of 5 and totals 10, 6, 1, 3.",
+      "Jasmine’s unique-member attribution changes from 4 joined, 3 came back, 1 redeemed to 4, 3, 2 only after Sara redeems.",
+      "A fresh same-day counting attempt appends one zero-delta event. Replaying the same request key appends nothing. Neither changes Wallet content or recent-customer ordering.",
+      "Recognition alone never counts a visit. The second same-day scan followed by its counting action produces the explicit unchanged receipt.",
+      "An ordinary Noah visit changes 3 of 5 to 4 of 5. The points fixtures change 82 to 83 and 99 to 100 through a fixed one-point award.",
+      "Earned rewards survive navigation. Additional progress accumulated while a reward waits survives redemption of that reward.",
+      "No camera permission, fake camera feed, production request, real Wallet save, notification delivery or production session change occurs.",
+      "Contacts remain masked outside the search input. No full-contact reveal, export or creator-accessible customer route exists.",
+      "The requested individual Send update and Block actions resolve to honest capability boundaries. The approved V3 scope prohibits individual messaging and leaves blocking for later.",
+      "Test mouse, touch, keyboard, screen reader, browser Back, 200% text zoom and reduced motion. Check focus restoration after every sheet, confirmation and counter exit.",
+      "Verify every visible implementation string against this inventory. Names, numbers, dates, entered search values and masked fixture contacts are data exceptions; additional helper copy is not."
+    ],
+    "signature_moment": "The acquisition thread survives the counter transaction: Sara’s fourth mark becomes a fifth, then a redeemed reward, while Joined from Jasmine stays attached. A standalone loyalty product would not connect that return to its original TapMart campaign.",
+    "visible_copy": [
+      {
+        "text": "Members",
+        "why_needed": "Names the roster and the return destination from a member.",
+        "where": "List title; detail back link; member-count drill-down destination."
+      },
+      {
+        "text": "Design Lab · Fictional preview",
+        "why_needed": "Identifies every business record and action as fictional.",
+        "where": "Persistent context control on list, detail and recording."
+      },
+      {
+        "text": "Add visit",
+        "why_needed": "Starts counter work without recording anything merely by opening it.",
+        "where": "Visits list primary action; collecting detail primary action; recording title."
+      },
+      {
+        "text": "Add points",
+        "why_needed": "Identifies the points alternative without presenting an arbitrary balance editor.",
+        "where": "Points list, detail and recording title."
+      },
+      {
+        "text": "Scan",
+        "why_needed": "Chooses simulated QR recognition.",
+        "where": "Desktop roster header action; recording mode control."
+      },
+      {
+        "text": "Search",
+        "why_needed": "Chooses member lookup instead of QR recognition.",
+        "where": "Recording mode control; inherited desktop utility."
+      },
+      {
+        "text": "Search members",
+        "why_needed": "Makes roster lookup discoverable and provides an unknown-QR recovery action.",
+        "where": "Roster input empty value and accessible label; unknown-QR action."
+      },
+      {
+        "text": "Name, phone or email",
+        "why_needed": "Explains which identifiers the local counter lookup accepts.",
+        "where": "Visible recording-search field label."
+      },
+      {
+        "text": "All",
+        "why_needed": "Removes the member-status filter.",
+        "where": "Roster filter."
+      },
+      {
+        "text": "Repeat visitors",
+        "why_needed": "Filters members with counted activity on distinct business days.",
+        "where": "Roster filter; incoming repeat-filter heading."
+      },
+      {
+        "text": "Reward ready",
+        "why_needed": "Identifies an earned, unconsumed reward rather than ordinary progress.",
+        "where": "Roster filter and rows; member detail; successful unlock; Wallet status and history."
+      },
+      {
+        "text": "Rewards redeemed",
+        "why_needed": "Distinguishes a redemption-event view from a unique-member list.",
+        "where": "Heading for view=redemptions."
+      },
+      {
+        "text": "Visits",
+        "why_needed": "Supplies the unit for compact roster fractions.",
+        "where": "Roster numeric-column heading; Google concept balance label."
+      },
+      {
+        "text": "Points",
+        "why_needed": "Supplies the unit in the replacement points scenario.",
+        "where": "Roster numeric-column heading; Google concept balance label."
+      },
+      {
+        "text": "4/5",
+        "why_needed": "Shows a member’s progress compactly without repeating the unit in every row.",
+        "where": "Collecting roster rows; Google visits balance. Numerals vary from data."
+      },
+      {
+        "text": "82/100",
+        "why_needed": "Shows the points balance against its requirement.",
+        "where": "Points roster row and Google points balance. Numerals vary from data."
+      },
+      {
+        "text": "No visits yet",
+        "why_needed": "Distinguishes enrollment from a first counted visit.",
+        "where": "Zero-visit roster rows and expanded member progress."
+      },
+      {
+        "text": "No points yet",
+        "why_needed": "Distinguishes enrollment from a qualifying points purchase.",
+        "where": "Zero-progress points state."
+      },
+      {
+        "text": "Reward redeemed",
+        "why_needed": "Identifies completed reward use without implying payment.",
+        "where": "Lena’s row and detail; redemption result; history; Wallet status."
+      },
+      {
+        "text": "No members match.",
+        "why_needed": "Distinguishes an empty query result from a loading or system error.",
+        "where": "Roster and counter search."
+      },
+      {
+        "text": "Try another name or contact.",
+        "why_needed": "Gives the next useful action after an unsuccessful lookup.",
+        "where": "Below the empty-search heading."
+      },
+      {
+        "text": "Clear search",
+        "why_needed": "Restores the roster without editing the query character by character.",
+        "where": "Nonempty search input control."
+      },
+      {
+        "text": "Clear filters",
+        "why_needed": "Removes an incoming source or status restriction.",
+        "where": "Filtered-list context."
+      },
+      {
+        "text": "No members yet.",
+        "why_needed": "States the live-zero membership condition.",
+        "where": "Unfiltered empty roster."
+      },
+      {
+        "text": "View QR",
+        "why_needed": "Routes an empty program to customer acquisition rather than counter recording.",
+        "where": "Live-zero roster primary action."
+      },
+      {
+        "text": "No rewards ready.",
+        "why_needed": "Explains a genuinely empty ready-reward filter.",
+        "where": "Ready-filter empty result with no query."
+      },
+      {
+        "text": "No repeat visitors yet.",
+        "why_needed": "Explains a genuinely empty repeat filter.",
+        "where": "Repeat-filter empty result with no query."
+      },
+      {
+        "text": "No redemptions yet.",
+        "why_needed": "Explains an empty redemption-event view.",
+        "where": "view=redemptions empty state."
+      },
+      {
+        "text": "This member isn’t in this program.",
+        "why_needed": "Prevents an invalid member URL from exposing a guessed identity.",
+        "where": "Invalid or other-program member deep link."
+      },
+      {
+        "text": "Back to members",
+        "why_needed": "Recovers from an invalid member route.",
+        "where": "Invalid-member state."
+      },
+      {
+        "text": "Loyalty",
+        "why_needed": "Names the parent tool.",
+        "where": "Desktop breadcrumb; no-program and draft guard."
+      },
+      {
+        "text": "Turn visits into rewards.",
+        "why_needed": "Explains the next decision when no program exists.",
+        "where": "No-program guard instead of an empty member directory."
+      },
+      {
+        "text": "Create program",
+        "why_needed": "Starts setup when member operations have no program.",
+        "where": "No-program guard."
+      },
+      {
+        "text": "Draft",
+        "why_needed": "Prevents a draft from appearing enrollable.",
+        "where": "Draft guard."
+      },
+      {
+        "text": "Continue setup",
+        "why_needed": "Returns to the saved in-memory creation step.",
+        "where": "Draft guard."
+      },
+      {
+        "text": "Sara",
+        "why_needed": "Identifies the default inspected and scanned fixture member.",
+        "where": "Default detail, scanner sample and recognition. Other names come from fixture data."
+      },
+      {
+        "text": "••42",
+        "why_needed": "Helps staff distinguish the member without exposing full contact details.",
+        "where": "Sara’s detail and recognition. Other masks come from fixture data."
+      },
+      {
+        "text": "4 of 5 visits",
+        "why_needed": "Makes the remaining requirement explicit at the counting decision.",
+        "where": "Member detail, recognition and receipt. Numerals vary from data."
+      },
+      {
+        "text": "82 of 100 points",
+        "why_needed": "Makes the points requirement explicit.",
+        "where": "Points detail, recognition and receipt. Numerals vary from data."
+      },
+      {
+        "text": "Free coffee",
+        "why_needed": "Names the reward being earned or consumed.",
+        "where": "Detail, recording, redemption records and Wallet concepts."
+      },
+      {
+        "text": "1 reward ready",
+        "why_needed": "Quantifies an earned instance when quantity needs explanation.",
+        "where": "Expanded reward details."
+      },
+      {
+        "text": "2 rewards ready",
+        "why_needed": "Distinguishes multiple earned instances from a new reward tier.",
+        "where": "Multiple-ready-instance state; the number may vary."
+      },
+      {
+        "text": "1 visit toward your next reward.",
+        "why_needed": "Makes retained progress visible while another reward waits.",
+        "where": "Additional-progress state and Wallet details."
+      },
+      {
+        "text": "2 visits toward your next reward.",
+        "why_needed": "Supplies the plural form for retained progress.",
+        "where": "Additional-progress state; the number may vary."
+      },
+      {
+        "text": "1 point toward your next reward.",
+        "why_needed": "Explains retained points after an earned instance has been set aside.",
+        "where": "Points additional-progress state."
+      },
+      {
+        "text": "2 points toward your next reward.",
+        "why_needed": "Supplies the plural form for retained points.",
+        "where": "Points additional-progress state; the number may vary."
+      },
+      {
+        "text": "Redeem",
+        "why_needed": "Opens explicit confirmation for a particular ready reward.",
+        "where": "Ready detail and recording result."
+      },
+      {
+        "text": "Joined from",
+        "why_needed": "Names the preserved acquisition source.",
+        "where": "Member detail source thread; source disclosure."
+      },
+      {
+        "text": "Jasmine",
+        "why_needed": "Identifies Sara’s actual fictional acquisition source.",
+        "where": "Default source thread and source-filter context."
+      },
+      {
+        "text": "Morning loop · Story campaign",
+        "why_needed": "Distinguishes the campaign and acquisition kind.",
+        "where": "Jasmine source thread."
+      },
+      {
+        "text": "Counter pour · Recreate campaign",
+        "why_needed": "Identifies Maya’s source without conflating it with Jasmine’s Story.",
+        "where": "Noah and Lena source thread."
+      },
+      {
+        "text": "Around Austin · Car campaign",
+        "why_needed": "Identifies Luca’s campaign-specific acquisition.",
+        "where": "Luca source thread."
+      },
+      {
+        "text": "Counter QR",
+        "why_needed": "Names a known business acquisition mechanism, not a member code.",
+        "where": "Imani and Ben source thread."
+      },
+      {
+        "text": "Direct signup",
+        "why_needed": "Identifies June’s untracked signup entry.",
+        "where": "June source thread."
+      },
+      {
+        "text": "Source not tracked",
+        "why_needed": "Avoids presenting untracked acquisition as proven organic discovery.",
+        "where": "Direct-signup source thread and disclosure."
+      },
+      {
+        "text": "Source details",
+        "why_needed": "Names the acquisition disclosure.",
+        "where": "Opened source sheet."
+      },
+      {
+        "text": "The first known signup source stays attached.",
+        "why_needed": "Explains why a later visit or link cannot reassign the member.",
+        "where": "Source disclosure."
+      },
+      {
+        "text": "Later visits and links do not replace it.",
+        "why_needed": "Clarifies attribution preservation.",
+        "where": "Separate paragraph in source disclosure."
+      },
+      {
+        "text": "Link recorded",
+        "why_needed": "Identifies the seeded link attribution evidence without claiming a verified sale.",
+        "where": "Known creator-link source disclosure."
+      },
+      {
+        "text": "QR recorded",
+        "why_needed": "Identifies a known acquisition QR.",
+        "where": "Counter and car source disclosure."
+      },
+      {
+        "text": "Source link",
+        "why_needed": "Labels the immutable fixture link identifier.",
+        "where": "Source disclosure."
+      },
+      {
+        "text": "Source QR",
+        "why_needed": "Labels the acquisition QR identifier separately from the member QR.",
+        "where": "Source disclosure."
+      },
+      {
+        "text": "Joined",
+        "why_needed": "Labels the actual enrollment timestamp.",
+        "where": "Source disclosure and history."
+      },
+      {
+        "text": "First touch",
+        "why_needed": "Labels a separately known acquisition timestamp.",
+        "where": "Source disclosure only when fixture evidence exists."
+      },
+      {
+        "text": "Not recorded",
+        "why_needed": "Avoids inventing a first-touch time or last visit.",
+        "where": "Missing optional evidence in expanded details."
+      },
+      {
+        "text": "Wallet",
+        "why_needed": "Separates card state from reward and membership state.",
+        "where": "Member detail disclosure row."
+      },
+      {
+        "text": "Apple Wallet · simulated",
+        "why_needed": "Names the saved-platform projection without claiming a real pass exists.",
+        "where": "Member Wallet summary."
+      },
+      {
+        "text": "Google Wallet · simulated",
+        "why_needed": "Names the alternative saved-platform projection.",
+        "where": "Member Wallet summary."
+      },
+      {
+        "text": "Both Wallets · simulated",
+        "why_needed": "Represents one member with two platform projections.",
+        "where": "Imani Wallet summary."
+      },
+      {
+        "text": "Wallet not added",
+        "why_needed": "Keeps membership valid without claiming a device update.",
+        "where": "Ava and Ben detail; unsaved-Wallet counter receipt."
+      },
+      {
+        "text": "View demo card",
+        "why_needed": "Opens a read-only platform concept for a saved-Wallet fixture.",
+        "where": "Member Wallet summary."
+      },
+      {
+        "text": "Show demo card",
+        "why_needed": "Provides a usable demo member QR without claiming Wallet was added.",
+        "where": "Unsaved-Wallet member detail."
+      },
+      {
+        "text": "History",
+        "why_needed": "Reveals the event evidence after the immediate counter decision.",
+        "where": "Member detail disclosure."
+      },
+      {
+        "text": "Last visit",
+        "why_needed": "Labels the latest counted activity, excluding uncounted attempts.",
+        "where": "Expanded history summary."
+      },
+      {
+        "text": "Lifetime visits",
+        "why_needed": "Distinguishes all counted visits from current-cycle progress.",
+        "where": "Expanded history summary."
+      },
+      {
+        "text": "Counted purchases",
+        "why_needed": "Provides the points equivalent without claiming spend.",
+        "where": "Expanded points history summary."
+      },
+      {
+        "text": "Visit counted",
+        "why_needed": "Names a committed positive visit event.",
+        "where": "History event label."
+      },
+      {
+        "text": "Point added",
+        "why_needed": "Names one committed positive points event.",
+        "where": "Points history event label."
+      },
+      {
+        "text": "Not counted · same day",
+        "why_needed": "Keeps an uncounted attempt visible without inflating progress.",
+        "where": "History event label."
+      },
+      {
+        "text": "Came back",
+        "why_needed": "Identifies the second distinct counted business day.",
+        "where": "Expanded qualifying-history event."
+      },
+      {
+        "text": "Member actions",
+        "why_needed": "Groups uncommon capabilities away from counting.",
+        "where": "Overflow accessible name and opened action-sheet heading."
+      },
+      {
+        "text": "Send update",
+        "why_needed": "Exposes the requested action without silently sending an individual message.",
+        "where": "Member actions; opens the capability-boundary sheet."
+      },
+      {
+        "text": "Wallet update",
+        "why_needed": "Names the only supported member-message medium.",
+        "where": "Update boundary heading and update receipt details."
+      },
+      {
+        "text": "Wallet updates are program-wide.",
+        "why_needed": "Prevents a member context from implying individual targeting.",
+        "where": "Update boundary."
+      },
+      {
+        "text": "Individual Wallet updates aren’t available.",
+        "why_needed": "States the approved V3 limitation before any handoff.",
+        "where": "Update boundary."
+      },
+      {
+        "text": "View Wallet updates",
+        "why_needed": "Offers the implemented program-level destination without carrying a recipient.",
+        "where": "Update boundary; navigates to the V3 updates route."
+      },
+      {
+        "text": "Block",
+        "why_needed": "Acknowledges the requested capability without fabricating a blocked-member state.",
+        "where": "Member actions; opens an unavailable-capability explanation."
+      },
+      {
+        "text": "Member blocking isn’t available in this preview.",
+        "why_needed": "Prevents a false claim that counter or card access has been revoked.",
+        "where": "Block boundary sheet."
+      },
+      {
+        "text": "Scanner simulation",
+        "why_needed": "Locally distinguishes the coded scanner from camera capture.",
+        "where": "Directly above the scanner aperture."
+      },
+      {
+        "text": "No camera is used.",
+        "why_needed": "Makes the absence of camera access unambiguous.",
+        "where": "Directly below the initial scanner aperture."
+      },
+      {
+        "text": "Sample member",
+        "why_needed": "Makes fixture recognition deliberate and repeatable.",
+        "where": "Scanner-only lab helper."
+      },
+      {
+        "text": "Simulate scan",
+        "why_needed": "Initiates recognition without pretending to operate a camera.",
+        "where": "Initial scanner primary action."
+      },
+      {
+        "text": "Unknown QR",
+        "why_needed": "Selects the invalid-code QA sample.",
+        "where": "Sample-member selector."
+      },
+      {
+        "text": "Other-program QR",
+        "why_needed": "Tests program-boundary rejection.",
+        "where": "Sample-member selector."
+      },
+      {
+        "text": "This QR isn’t a Loopday member card.",
+        "why_needed": "Rejects an unknown or other-program code without guessing an identity.",
+        "where": "Scanner rejection state."
+      },
+      {
+        "text": "Try another QR",
+        "why_needed": "Returns to the scanner while preserving the parent task.",
+        "where": "Scanner rejection state."
+      },
+      {
+        "text": "+1 visit",
+        "why_needed": "Makes the single counted increment explicit at commitment.",
+        "where": "Recognized visits member action."
+      },
+      {
+        "text": "1 point",
+        "why_needed": "Shows the fixed award before a points commitment.",
+        "where": "Recognized points member."
+      },
+      {
+        "text": "Per qualifying purchase",
+        "why_needed": "Explains the fixed one-point award without a spend calculation.",
+        "where": "Beside the points award."
+      },
+      {
+        "text": "Add 1 point",
+        "why_needed": "Commits exactly one qualifying points event.",
+        "where": "Recognized points member action."
+      },
+      {
+        "text": "View member",
+        "why_needed": "Reveals source and history without putting them before the counting action.",
+        "where": "Recognized member and counter receipts."
+      },
+      {
+        "text": "Visit counted.",
+        "why_needed": "Confirms a successful local visit commit.",
+        "where": "Ordinary visits result."
+      },
+      {
+        "text": "Point added.",
+        "why_needed": "Confirms a successful local one-point commit.",
+        "where": "Ordinary points result."
+      },
+      {
+        "text": "Wallet update simulated",
+        "why_needed": "Separates changed fixture content from real Wallet delivery.",
+        "where": "Committed progress and redemption receipts for saved-Wallet members."
+      },
+      {
+        "text": "Nothing was sent.",
+        "why_needed": "Clarifies the delivery boundary at its point of inspection.",
+        "where": "Expanded Wallet-update receipt."
+      },
+      {
+        "text": "Already counted today.",
+        "why_needed": "Explains why a fresh same-day attempt earned no progress.",
+        "where": "Same-day result."
+      },
+      {
+        "text": "2 of 5 visits · unchanged",
+        "why_needed": "Makes the no-op explicit rather than relying on an unchanged number.",
+        "where": "Same-day visits receipt; numerals vary from the member’s state."
+      },
+      {
+        "text": "82 of 100 points · unchanged",
+        "why_needed": "Makes the points no-op explicit.",
+        "where": "Same-day points receipt; numerals vary from state."
+      },
+      {
+        "text": "One visit counts per day.",
+        "why_needed": "Explains the counting rule at the rejected attempt.",
+        "where": "Same-day visits receipt."
+      },
+      {
+        "text": "One qualifying purchase counts per day.",
+        "why_needed": "Explains the equivalent points rule.",
+        "where": "Same-day points receipt."
+      },
+      {
+        "text": "Last counted today at 9:10 AM.",
+        "why_needed": "Provides Imani’s evidence on demand.",
+        "where": "Expanded same-day receipt; the time varies from fixture data."
+      },
+      {
+        "text": "Visit wasn’t counted.",
+        "why_needed": "Distinguishes a failed commit from a same-day rejection.",
+        "where": "Visits recording-error state."
+      },
+      {
+        "text": "Point wasn’t added.",
+        "why_needed": "Distinguishes a failed points commit from an unchanged daily allowance.",
+        "where": "Points recording-error state."
+      },
+      {
+        "text": "Try again",
+        "why_needed": "Retries the retained request without a second event key.",
+        "where": "Recording and redemption failure."
+      },
+      {
+        "text": "Redeem Free coffee?",
+        "why_needed": "Names the exact reward about to be consumed.",
+        "where": "Redemption confirmation."
+      },
+      {
+        "text": "Use one ready reward. This does not add a visit.",
+        "why_needed": "Explains the consequence before commitment.",
+        "where": "Visits redemption confirmation."
+      },
+      {
+        "text": "Use one ready reward. This does not add a point.",
+        "why_needed": "Explains the points consequence before commitment.",
+        "where": "Points redemption confirmation."
+      },
+      {
+        "text": "Cancel",
+        "why_needed": "Leaves the earned reward untouched.",
+        "where": "Redemption and lab-state confirmations."
+      },
+      {
+        "text": "Redeem reward",
+        "why_needed": "Consumes the selected earned instance explicitly.",
+        "where": "Redemption confirmation primary action."
+      },
+      {
+        "text": "Reward wasn’t redeemed.",
+        "why_needed": "Preserves the ready state after a failed local commit.",
+        "where": "Redemption-error state."
+      },
+      {
+        "text": "This reward is no longer ready.",
+        "why_needed": "Prevents a stale action from consuming an already-used instance.",
+        "where": "Stale redemption guard."
+      },
+      {
+        "text": "Done",
+        "why_needed": "Completes counter work and returns to its origin.",
+        "where": "Counter results, explanations and read-only card."
+      },
+      {
+        "text": "Next customer",
+        "why_needed": "Clears the recognized identity while retaining Scan or Search mode.",
+        "where": "Counter results."
+      },
+      {
+        "text": "Back",
+        "why_needed": "Returns one task step without resetting fixture state.",
+        "where": "Focused task and disclosure controls."
+      },
+      {
+        "text": "Close",
+        "why_needed": "Exits the top layer and restores its trigger.",
+        "where": "Counter, sheets, confirmations and card wrapper."
+      },
+      {
+        "text": "Details",
+        "why_needed": "Reveals Wallet limitations, terms or receipt evidence only when requested.",
+        "where": "Wallet concept wrapper; counter receipt disclosure."
+      },
+      {
+        "text": "Notification limit reached.",
+        "why_needed": "Explains why another Google notification request is not simulated.",
+        "where": "Google-limit receipt details."
+      },
+      {
+        "text": "Card content still updates.",
+        "why_needed": "Separates content mutation from notification allowance.",
+        "where": "Google-limit receipt details."
+      },
+      {
+        "text": "Apple Wallet",
+        "why_needed": "Selects the Apple representation outside the pass.",
+        "where": "Read-only card platform control."
+      },
+      {
+        "text": "Google Wallet",
+        "why_needed": "Selects the Google representation outside the card.",
+        "where": "Read-only card platform control."
+      },
+      {
+        "text": "Design Lab · Apple Wallet concept",
+        "why_needed": "Locally identifies the native-layout approximation.",
+        "where": "Immediately above every Apple card."
+      },
+      {
+        "text": "Design Lab · Google Wallet concept",
+        "why_needed": "Locally identifies the different Google approximation.",
+        "where": "Immediately above every Google card."
+      },
+      {
+        "text": "No pass is issued.",
+        "why_needed": "Prevents a card preview from implying real distribution.",
+        "where": "Immediately below every native Wallet concept."
+      },
+      {
+        "text": "Loopday Coffee",
+        "why_needed": "Identifies the business and card issuer fixture.",
+        "where": "Sidebar identity; card logo text; counter desktop standby composition."
+      },
+      {
+        "text": "Loopday Rewards",
+        "why_needed": "Identifies the Google loyalty program.",
+        "where": "Google card header."
+      },
+      {
+        "text": "VISITS",
+        "why_needed": "Labels the Apple primary visits field.",
+        "where": "Apple card strip."
+      },
+      {
+        "text": "POINTS",
+        "why_needed": "Labels the Apple primary points field.",
+        "where": "Apple points card strip."
+      },
+      {
+        "text": "4 of 5",
+        "why_needed": "Shows progress using a supported Apple field.",
+        "where": "Apple primary value; numerals vary from current state."
+      },
+      {
+        "text": "82 of 100",
+        "why_needed": "Shows points using the same supported field structure.",
+        "where": "Apple points primary value; numerals vary from state."
+      },
+      {
+        "text": "REWARD",
+        "why_needed": "Labels the Apple reward value.",
+        "where": "Apple secondary field."
+      },
+      {
+        "text": "MEMBER",
+        "why_needed": "Labels the first name without exposing contact details.",
+        "where": "Apple secondary field."
+      },
+      {
+        "text": "STATUS",
+        "why_needed": "Distinguishes collecting, ready and redeemed states.",
+        "where": "Apple auxiliary field."
+      },
+      {
+        "text": "Collecting",
+        "why_needed": "Describes an unfinished reward cycle.",
+        "where": "Apple status and Google details."
+      },
+      {
+        "text": "Rewards",
+        "why_needed": "Labels Google’s ready-instance balance.",
+        "where": "Google card balance row."
+      },
+      {
+        "text": "Member",
+        "why_needed": "Labels the Google first-name field.",
+        "where": "Google card."
+      },
+      {
+        "text": "Member ID",
+        "why_needed": "Labels a readable identifier distinct from the opaque QR payload.",
+        "where": "Google card and card details."
+      },
+      {
+        "text": "LD-001",
+        "why_needed": "Provides Sara’s readable fixture identifier.",
+        "where": "Member QR caption and Wallet cards; other identifiers come from data."
+      },
+      {
+        "text": "Reward",
+        "why_needed": "Labels the earned benefit in card details.",
+        "where": "Wallet details."
+      },
+      {
+        "text": "Requirement",
+        "why_needed": "Labels the applicable reward-version rule.",
+        "where": "Wallet details."
+      },
+      {
+        "text": "5 visits = Free coffee",
+        "why_needed": "States the Google requirement in a supported text module.",
+        "where": "Google details and reward disclosure."
+      },
+      {
+        "text": "100 points = Free coffee",
+        "why_needed": "States the points requirement without monetary conversion.",
+        "where": "Points card details."
+      },
+      {
+        "text": "Terms",
+        "why_needed": "Reveals the complete fixture rule at inspection.",
+        "where": "Reward and card details."
+      },
+      {
+        "text": "One qualifying purchase earns one visit.",
+        "why_needed": "Defines a counted visit.",
+        "where": "Terms."
+      },
+      {
+        "text": "A maximum of one visit counts per business day.",
+        "why_needed": "Defines the daily cap.",
+        "where": "Visits terms."
+      },
+      {
+        "text": "One point per qualifying purchase.",
+        "why_needed": "Defines the fixed points award.",
+        "where": "Points terms."
+      },
+      {
+        "text": "Collect five visits for one free barista-made coffee on a later purchase.",
+        "why_needed": "States the reward’s material redemption condition.",
+        "where": "Visits terms."
+      },
+      {
+        "text": "Collect 100 points for one free barista-made coffee on a later purchase.",
+        "why_needed": "States the points redemption condition.",
+        "where": "Points terms."
+      },
+      {
+        "text": "Redeeming a reward does not earn a visit.",
+        "why_needed": "Prevents double-credit expectations.",
+        "where": "Visits terms."
+      },
+      {
+        "text": "Redeeming a reward does not earn a point.",
+        "why_needed": "Prevents points credit from redemption itself.",
+        "where": "Points terms."
+      },
+      {
+        "text": "Earned rewards have no expiry in this example.",
+        "why_needed": "Explains the fixture’s reward lifecycle.",
+        "where": "Terms."
+      },
+      {
+        "text": "Additional counted visits are kept toward your next reward.",
+        "why_needed": "Explains preservation of later progress.",
+        "where": "Visits terms."
+      },
+      {
+        "text": "Additional points are kept toward your next reward.",
+        "why_needed": "Explains preservation of later points.",
+        "where": "Points terms."
+      },
+      {
+        "text": "These are demo terms, not a live program agreement.",
+        "why_needed": "Prevents legal or production confusion.",
+        "where": "Terms closing paragraph."
+      },
+      {
+        "text": "Offer",
+        "why_needed": "Separates optional content from reward entitlement.",
+        "where": "Card details only when an offer exists."
+      },
+      {
+        "text": "Afternoon coffee",
+        "why_needed": "Names the supplied optional offer fixture.",
+        "where": "Offer details, never as replacement reward status."
+      },
+      {
+        "text": "Ask us what’s pouring after 2 PM.",
+        "why_needed": "Shows the supplied offer content without creating a coupon.",
+        "where": "Apple back field or Google details."
+      },
+      {
+        "text": "Program artwork",
+        "why_needed": "Prevents the desktop standby photograph from resembling a camera feed.",
+        "where": "Desktop recording before recognition."
+      },
+      {
+        "text": "5 visits",
+        "why_needed": "Identifies the program rule before any member is recognized.",
+        "where": "Desktop recording standby."
+      },
+      {
+        "text": "Media unavailable",
+        "why_needed": "Provides an honest asset failure rather than substituting unrelated imagery.",
+        "where": "Artwork fallback."
+      },
+      {
+        "text": "TapMart",
+        "why_needed": "Identifies the application shell.",
+        "where": "Desktop sidebar."
+      },
+      {
+        "text": "Home",
+        "why_needed": "Preserves the marketplace destination.",
+        "where": "Business navigation."
+      },
+      {
+        "text": "Content",
+        "why_needed": "Preserves the separate Monthly Content destination.",
+        "where": "Business navigation."
+      },
+      {
+        "text": "Create",
+        "why_needed": "Preserves campaign creation rather than adding a Loyalty navigation item.",
+        "where": "Phone navigation and tablet rail."
+      },
+      {
+        "text": "Create campaign",
+        "why_needed": "Makes the desktop creation scope explicit.",
+        "where": "Desktop sidebar."
+      },
+      {
+        "text": "Campaigns",
+        "why_needed": "Preserves the campaign-management destination.",
+        "where": "Business navigation."
+      },
+      {
+        "text": "Business",
+        "why_needed": "Remains the selected parent destination for Loyalty.",
+        "where": "Navigation and desktop breadcrumb."
+      },
+      {
+        "text": "Messages",
+        "why_needed": "Preserves the inherited business utility, not a customer-message channel.",
+        "where": "Desktop sidebar."
+      },
+      {
+        "text": "Notifications",
+        "why_needed": "Preserves the inherited business utility.",
+        "where": "Desktop sidebar."
+      },
+      {
+        "text": "Personal",
+        "why_needed": "Names the isolated Personal-mode preview.",
+        "where": "Identity-switcher disclosure."
+      },
+      {
+        "text": "Add business",
+        "why_needed": "Preserves the switcher’s production-intent action.",
+        "where": "Identity-switcher disclosure; opens the preview boundary."
+      },
+      {
+        "text": "Outside this preview",
+        "why_needed": "Names an unimplemented destination without inventing its state.",
+        "where": "Inherited navigation boundary."
+      },
+      {
+        "text": "This destination is outside the V3 lab.",
+        "why_needed": "Explains why navigation cannot proceed.",
+        "where": "Preview-boundary explanation."
+      },
+      {
+        "text": "Design Lab",
+        "why_needed": "Names the scenario controls separately from product actions.",
+        "where": "Lab-panel heading."
+      },
+      {
+        "text": "Live program",
+        "why_needed": "Restores the supplied ten-member cohort.",
+        "where": "Lab scenario selector."
+      },
+      {
+        "text": "No program",
+        "why_needed": "Tests the setup guard.",
+        "where": "Lab scenario selector."
+      },
+      {
+        "text": "Live · no members",
+        "why_needed": "Tests a launched but empty program.",
+        "where": "Lab scenario selector."
+      },
+      {
+        "text": "Points · 82 of 100",
+        "why_needed": "Tests an ordinary one-point increment.",
+        "where": "Lab scenario selector."
+      },
+      {
+        "text": "Points · 99 of 100",
+        "why_needed": "Tests the points unlock boundary.",
+        "where": "Lab scenario selector."
+      },
+      {
+        "text": "Same-day visit",
+        "why_needed": "Selects Imani’s unchanged-attempt case.",
+        "where": "Lab scenario selector."
+      },
+      {
+        "text": "Google limit reached",
+        "why_needed": "Tests content updates without another notifying request.",
+        "where": "Lab scenario selector."
+      },
+      {
+        "text": "Recording error",
+        "why_needed": "Tests a retained, uncommitted request.",
+        "where": "Lab scenario selector."
+      },
+      {
+        "text": "Reset demo",
+        "why_needed": "Restores the selected scenario’s seed explicitly.",
+        "where": "Lab panel."
+      },
+      {
+        "text": "Demo time",
+        "why_needed": "Identifies the fixture clock rather than a live timestamp.",
+        "where": "Lab panel."
+      },
+      {
+        "text": "Advance demo day",
+        "why_needed": "Allows another qualifying day without a hidden timer.",
+        "where": "Lab panel."
+      },
+      {
+        "text": "Change demo state?",
+        "why_needed": "Confirms replacement of in-memory changes.",
+        "where": "Scenario-change and reset confirmation."
+      },
+      {
+        "text": "This resets local changes.",
+        "why_needed": "States the consequence of scenario replacement.",
+        "where": "Scenario-change and reset confirmation."
+      },
+      {
+        "text": "Change state",
+        "why_needed": "Commits the explicit fixture replacement.",
+        "where": "Scenario-change and reset confirmation."
+      }
+    ],
+    "honest_states": [
+      "Only the V3 in-memory provider supplies members, events and projections. Reload resets it; route changes do not.",
+      "The default member is Sara at 4 of 5, not the designer’s historical 3-of-5 specimen.",
+      "Ready rewards are earned instances. Their state is not inferred solely from a displayed fraction.",
+      "Ava and June have enrolled without a visit. Ben has a visit without Wallet. Neither condition is treated as incomplete membership.",
+      "Same-day attempts use America/Chicago calendar days. A recognition is not a counted visit; an explicit counting attempt is required.",
+      "A failed commit retains the member, input and idempotency key. No progress animation, unlock, history event or Wallet receipt appears.",
+      "A successful fixture update is not a delivered Wallet update. Unsaved-Wallet members receive no simulated device-update receipt.",
+      "The Google-limit scenario updates card content but requests no additional notification. Apple ordinary progress changes remain silent content updates.",
+      "Source attribution is preserved from the first known acquisition. Counter activity never reassigns Sara to Counter QR.",
+      "No business Contact action, full-contact reveal, customer export, individual Wallet update or working Block mutation is introduced.",
+      "An unknown member route and an unknown QR are errors, not empty directories.",
+      "A no-program or draft context routes the user toward setup; it does not display ten specimen members."
+    ],
+    "two_second_read": "Find the name. See the remaining visit. Count once. If the reward is ready, redeem it without losing the member or source.",
+    "media": [
+      "No portraits appear in the roster or member detail. In particular, /design-lab/portrait-imani-01.jpg is a creator asset, not a portrait of member Imani.",
+      "Program artwork uses only /design-lab/reference-loopday-01.jpg. Record intrinsic dimensions and reviewed crop in the V3 manifest before use. Desktop scanner standby: 592×320 maximum, object-fit cover, initial object-position 50% 50%; preserve the photographed subject. Card strips use the separate crop below. If unavailable, show the plain Media unavailable fallback.",
+      "Coded loop mark: 32×32 viewBox; open 270-degree circular path centered at 16,16, radius 10, 2px paper stroke with butt ends. A 6px brick terminal continues the lower-right tangent. No enclosing badge, stamp texture or animation. Render 28px in Apple header and within a 40px circular Google logo field.",
+      "Coded app progress: five equal 4px-high horizontal strokes across the available progress width, separated by 8px. Completed strokes are #18231D; remaining strokes have a 1px #58625B outline and paper interior. The current newly earned stroke temporarily receives a 12px #B73E28 terminal after commit. No circles, numbered stamps or unsupported native Wallet progress controls. The numeric sentence provides the accessible value.",
+      "Points progress uses one straight 4px track with a mathematically proportional ink fill, not 100 tiny stamps. Its complete numeric balance remains the primary value. A ready instance fills the current requirement; retained next-cycle credits are separate details.",
+      "Coded member QR: actual SVG QR, fixed version 2, error correction M, 25×25 data modules with a four-module quiet zone on every side. Encode TMV3:M: followed by the member’s twelve-character opaque fixture code. Render at 165×165 CSS pixels: 33 total modules at 5px each. Black #000000 modules, white #FFFFFF background, no logo, corner rounding, colour tint or overlaid scan line. Snap its origin to whole CSS pixels. The readable LD identifier is a separate 13px caption.",
+      "The acquisition QR is never rendered on these member surfaces. View QR navigates to the separate signup-QR route. No membership QR is reused as a signup link.",
+      "Coded scanner: 264×264 paper aperture at 390 and desktop; 244×244 at 320. Four 24px corner brackets use 2px ink strokes. The idle center is empty paper with a single 20px regular scan icon; no photograph, noise, video, camera chrome or pulsing laser. The scanner is labelled directly, not through a distant footer.",
+      "On recognition, the aperture becomes a member identification area of the same bounds: first name and masked suffix along its top; 165px member QR centered below; readable ID below the QR. The central result has an opaque paper backing. A one-time recognition sweep may remain visible only in the outer 8px gutters, never across the QR or text.",
+      "Apple concept: 375px reference width, approximately 520px content-led height, 12px outer radius, solid #18231D, system typography. Header has the loop and Loopday Coffee. A 375:123 strip uses a solid ink left 58% reading area and the Loopday photo in the right 42%; no gradient. Primary VISITS or POINTS sits in the solid area. Below are exactly three combined secondary/auxiliary fields: REWARD, MEMBER and STATUS. QR is 165px on white with LD identifier below. No on-pass button.",
+      "Google concept: 375px reference width, approximately 560px content-led height, 12px outer radius and solid #18231D. Circular loop logo, Loopday Rewards, then Loopday Coffee. A 3:1 hero uses the verified Loopday crop with no text overlay. Visits or Points and Rewards balances sit side by side below. Member and Member ID follow, then the 165px QR. Requirement, state, terms and optional offer are in Details, not invented native controls.",
+      "Phone native concepts use 358px width at 390 and 296px at 320. Adapt layout rather than scaling all text; keep body values at least 16px and QR at 165px. Wrapper platform labels, No pass is issued., Details and Close remain outside the card.",
+      "All shell and action icons reuse the as-built V2 Phosphor regular set: 20px, 1.75px-equivalent optical stroke; navigation 22px. Do not introduce Lucide or another library on this V3 surface."
+    ],
+    "states": [
+      "01, Roster, default: All selected, ten records, compact progress, no contacts, portraits, source paragraphs or engagement scores. On desktop Sara is the initial read-only inspected member; phone remains a list.",
+      "02, Roster lookup and filters: query matches normalized first name, phone or email locally. All, Repeat visitors and Reward ready are mutually exclusive status filters; an incoming source filter intersects them. Clear filters removes the source/status restriction. Typing does not change focus or create events.",
+      "03, Roster empty/error variants: distinguish no members, no query matches, no ready rewards, no repeat visitors and invalid member URL. A live-zero program offers View QR. No-program and draft contexts show their setup guards.",
+      "04, Redemption-event view: view=redemptions shows individual reward-use events, newest first. A member can appear more than once if they have multiple redemption events. This is not labelled as a unique-member total.",
+      "05, Member detail, collecting: first name and mask; current progress; five strokes or one points line; reward; primary Add visit or Add points; preserved source thread; Wallet summary; collapsed History. Sara starts at 4 of 5.",
+      "06, Member detail, zero/ready/redeemed: zero retains Add visit; ready makes Redeem primary and Add visit secondary; redeemed retains its status until the next counted activity and allows Add visit. A ready instance and additional progress can coexist.",
+      "07, Member disclosures: source opens immutable evidence; Wallet opens the current read-only concept; History expands counted and uncounted events. Member actions exposes only the honest Send update and Block boundaries.",
+      "08, Recording entry: Scan is default unless the last explicitly used mode was Search. A member query parameter is honored only following an explicit staff action. Opening the counter performs no recording.",
+      "09, Scanner idle: labelled empty coded aperture, Sample member selector, Simulate scan and No camera is used. The default sample is Sara.",
+      "10, Search mode: aperture and sample selector are replaced by the labelled input and local results. Results contain first name, masked contact and progress. Selecting one enters the same recognition state as scanning.",
+      "11, Recognition: member identity and QR are stable; progress and Free coffee precede +1 visit. Points shows 1 point, Per qualifying purchase and Add 1 point. The action is usable immediately, before the recognition animation ends.",
+      "12, Ordinary counted result: commit the event and derived state atomically; replace the action with Visit counted. or Point added.; update the final value once. Show Wallet update simulated only for saved-Wallet projections. Done, Next customer and View member remain.",
+      "13, Reward unlock: qualifying activity creates an earned instance. The last stroke completes and Reward ready replaces the ordinary caption. Redeem becomes available immediately. It never activates automatically.",
+      "14, Same-day result: an explicit fresh counting attempt appends a zero-delta event and shows Already counted today., the unchanged value and the daily rule. No progress movement, reward mutation, Wallet update or recent-list reorder occurs.",
+      "15, Unknown QR: reject the sample without displaying a person. Search members changes mode; Try another QR restores the scanner.",
+      "16, Recording failure: show the failure in the action region, retain member and request key, and offer Try again. The QA scenario fails the first commit only; the deliberate retry can succeed.",
+      "17, Redemption confirmation: bind to one ready earned-instance ID, show the exact reward and no-visit consequence, then Cancel or Redeem reward. Repeated activation of the same request is idempotent.",
+      "18, Redemption complete: consume only that instance’s attached credits, append the redemption event and display Reward redeemed. Retain next-cycle progress and any other ready instances. Wallet and source identity remain.",
+      "19, Redemption error/stale state: failed mutation leaves the ready instance unchanged. An already-consumed instance returns This reward is no longer ready. rather than creating a second event.",
+      "20, Next customer: clear recognized identity, result receipt and request key; return to the selected Scan or Search mode. Clear the search query for privacy. Keep the current demo day.",
+      "21, Focused exit: Done or Close returns to the exact originating roster/detail position. Browser Back first closes a confirmation or disclosure, then the counter. Fixture state remains.",
+      "22, Lab scenarios: replacement contexts are explicit and confirmed. Advance demo day changes the business calendar day without resetting progress. No hidden clock progression or automatic replay occurs."
+    ],
+    "large_desktop": [
+      "At 1920, retain the 200px sidebar and center a 1280px content area beside it. Outer breathing room increases; no additional members, columns, metrics or permanent inspectors appear.",
+      "Keep the roster at 440px. The detail region grows to 816px with a 24px gutter. Cap its main reading/action column at 480px; place the 165px member QR in the remaining right shoulder.",
+      "Display progress numerals at 48px, not larger. Native Wallet concepts remain 375px wide.",
+      "Recording remains a 560px working pane paired with a read-only 696px context region. Center the card in that context region; do not stretch it.",
+      "Dialogs retain their 400px confirmation and 480px disclosure maxima."
+    ],
+    "desktop": [
+      {
+        "size": "200px fixed sidebar; 32px main outer padding; 1176px content width at 1440.",
+        "motion": "Immediate selected-state change; no sliding navigation indicator.",
+        "content": "Paper shell with TapMart, Loopday Coffee switcher and the inherited five destinations. Business is selected with ink and a 2px underline. Campaign Create alone uses lime. Search, Messages and Notifications remain labelled at the bottom. Main breadcrumb is Business / Loyalty, 13px muted, with the member surface below.",
+        "region": "Application shell",
+        "state": "All roster and detail states; omitted inside customer card wrapper."
+      },
+      {
+        "size": "56px title row, then 32px context row; 24px below.",
+        "motion": "None.",
+        "content": "Members in 36px Bricolage 600 at left. Scan is a quiet 44px underlined action at right, opening the unselected counter. Design Lab · Fictional preview sits below at 12px. The inspected member’s Add visit is the sole filled product action in the split composition.",
+        "region": "Roster heading",
+        "state": "Default visits roster; Add points replaces the counting action in points."
+      },
+      {
+        "size": "440px wide; input 48px; filters 44px; rows 72px minimum.",
+        "motion": "Results replace immediately, with no loading animation or automatic scroll.",
+        "content": "Left roster column. Search members spans the width. All / Repeat visitors / Reward ready form an underlined filter row with 16px gaps. Visits is right-aligned above numeric progress. Rows have 18px DM Sans 600 first names, 16px tabular fractions or 13px state labels, a quiet chevron and 1px separators. No contact column. Sara’s inspected row has a 2px ink left edge and a short brick terminal, not a filled selection card.",
+        "region": "Member roster",
+        "state": "Default order: Mina, Sara, Noah, Imani, Ben, Luca, Theo, Ava, June, Lena."
+      },
+      {
+        "size": "712px wide after a 24px gutter; 32px internal separation from a single vertical hairline.",
+        "motion": "Explicit row selection replaces detail with a 100ms opacity transition. No sliding sheets within the split view.",
+        "content": "Sara is the initial read-only inspection on a desktop root entry; this performs no mutation or recording preselection. Identity is 40px Bricolage with the 13px mask below. A 440px main column carries 48px tabular progress, strokes, Free coffee and 48px Add visit. A 165px QR occupies the right shoulder with its readable ID. Source starts 32px below the action, aligned to the same datum as the first progress stroke. Wallet and History remain compact disclosure rows, not an expanded CRM.",
+        "region": "Member inspection",
+        "state": "Sara collecting; explicit selection and member deep links replace the member."
+      },
+      {
+        "size": "Same 712px region; allow content height to grow.",
+        "motion": "Confirmed progress and redemption motions only.",
+        "content": "Ready state leads with Reward ready, then Free coffee; Redeem is filled and Add visit is underlined beside it. Keep the current-cycle fraction and progress visible. Additional credits receive their own short line below, never a reset. Redeemed state shows Reward redeemed above the retained numeric progress. Zero state uses 0 of 5 visits and reveals No visits yet in progress details.",
+        "region": "Inspection variants",
+        "state": "Mina ready; Lena redeemed; Ava and June zero; additional-progress QA."
+      },
+      {
+        "size": "Full main content composition: 592px context, 24px gap, 560px working pane.",
+        "motion": "Counter entry uses a 32px-to-rest, 240ms pane motion. The surrounding business navigation is inert while this focused task is open.",
+        "content": "Record route is a focused task rather than a narrow modal floating over a dashboard. Left: before recognition, the matched program photograph, Program artwork, Loopday Coffee, Free coffee and 5 visits. After recognition, replace it with the member’s current saved-platform concept, at 375px, with adjacent truth labels. Unsaved-Wallet members get a plain coded member QR and Wallet not added, not a supposedly updated native card. Right: 560px surface with 32px padding, task header, lab context, Scan/Search, centered aperture or search, progress and action area. Close restores the preserved origin.",
+        "region": "Counter working composition",
+        "state": "Scan, search, recognition, counted result, same-day result and error."
+      },
+      {
+        "size": "400px confirmation; 480px right disclosure drawer; content height up to viewport minus 64px.",
+        "motion": "Working-sheet motion; background remains still.",
+        "content": "Redemption is a compact centered surface with 28px title, 16px consequence, Cancel and ink Redeem reward. Source, Wallet receipt and Member actions use a 480px right drawer. History expands in the detail column rather than opening a second permanent pane. Boundary explanations never display a recipient field or a false blocked status.",
+        "region": "On-demand layers",
+        "state": "Redemption, source evidence, action boundaries and lab controls."
+      }
+    ],
+    "small_phone": [
+      "At 320, use 12px page padding and a 296px content width. Keep the normal 56px header and 64px business bar plus safe area.",
+      "List title is 28px. Back is a 44px icon target; Add visit remains a 44px-high labelled action. Do not abbreviate the action.",
+      "Keep the compact roster fractions and 72px rows. The three filters fit in one row using 14px text and 12px gaps; if text zoom prevents this, let the row scroll horizontally with visible focus, never shrink labels.",
+      "Member detail progress becomes 28px with a 36px line height. Source campaign text may wrap. The primary action becomes full-width.",
+      "The scanner aperture is 244px square. Header, lab context, modes, aperture, truth note and action remain ordinary vertical flow; no viewport-fit clipping is permitted.",
+      "The member QR remains 165px. Native concepts are 296px wide with adapted field layout, not a uniformly shrunken 375px card.",
+      "Counter receipts can extend below the first viewport. Done and Next customer remain reachable by scrolling and are never overlaid by a fixed footer.",
+      "Full-height sheets use 12px gutters and 16px internal group spacing. At 200% text zoom, confirmations stack Cancel and Redeem reward vertically."
+    ],
+    "tablet": [
+      "From 768 to 1023, retain the 80px labelled rail, 24px main padding, eight-column alignment and 20px gutters.",
+      "Do not squeeze the desktop roster/detail split into this range. Roster and explicit member detail are separate full-width states with preserved scroll and Back behavior.",
+      "Roster rows use the available width but keep name and progress in a readable maximum 640px region. Search and filters align to those same edges.",
+      "Detail uses a main progress/action column and, when at least 600px of main width is available, a 165px QR shoulder. Source and history remain below the decision.",
+      "Recording is one focused 560px-maximum task column centered in the main area. Omit the desktop artwork/Wallet companion rather than rendering two small columns.",
+      "Disclosures use a 480px right drawer. Redemption remains a 400px confirmation. The counter task covers the rail only when necessary for text zoom or viewport height."
+    ],
+    "accessibility": [
+      "Use semantic navigation, a search form, a list of member links, real buttons and disclosure controls. Do not build the roster as an ARIA data grid.",
+      "Every icon-only Back, Close, Clear search and Member actions control has the exact accessible name in the copy inventory and a minimum 44×44px target.",
+      "A compact 4/5 roster value is announced as 4 of 5 visits; the visible Visits heading remains. Decorative strokes and QR modules are hidden from assistive technology.",
+      "Expose progress with an accessible numeric value and requirement. Ready-instance quantity is announced separately from next-cycle progress.",
+      "Use the readable member ID as the QR’s accessible identifier. Never expose the opaque QR payload or full contact as alternative text.",
+      "Use 2px brick focus outlines with 3px offset on light surfaces and paper focus outlines on ink. Selected filters also have aria-pressed; Business has aria-current.",
+      "Names and campaign names may wrap. Requirements, reward states, errors and action consequences never truncate.",
+      "Search-result updates are announced politely as a numeric result count without moving focus. Do not announce every keystroke or expose full matching contacts.",
+      "On scan recognition, move focus to the member summary and make the counting action immediately next in reading order. After commit, announce one complete result, not each changed field.",
+      "Redemption confirmation traps focus and starts on its heading. Cancel returns to Redeem; completion returns to the result’s Done control.",
+      "Browser Back and Escape close the top disclosure or confirmation first. Returning from the counter restores the exact originating link and scroll anchor.",
+      "Keep forms usable with the software keyboard open. No fixed counter action can cover search results or error text.",
+      "At 200% text zoom, permit reflow and longer page height. At effective phone widths, drop desktop companions and preserve all material copy.",
+      "Member routes remain business-only in the isolated route model. Personal and creator previews expose no member identity, QR, contact or individual event timestamp."
+    ],
+    "motion": [
+      {
+        "explains": "The user selected another record; no event or loading process is implied.",
+        "trigger": "Explicit member selection or filter change.",
+        "reduced_motion": "Immediate replacement with focus and scroll behavior unchanged.",
+        "name": "Record selection",
+        "duration_ms": "100",
+        "easing": "linear",
+        "what_moves": "Only the newly available detail content crossfades. Selection changes immediately. Rows do not reorder through animation."
+      },
+      {
+        "explains": "Counter work and evidence are temporary tasks inside the same business context.",
+        "trigger": "Open or close recording, a disclosure or a confirmation.",
+        "reduced_motion": "Immediate appearance and focus transfer.",
+        "name": "Working surface",
+        "duration_ms": "240 opening; 180 closing",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_moves": "Phone layer moves from 24px below rest; desktop pane from 32px right of rest. Scrim fades over 160ms where a modal scrim exists. Background content does not scale."
+      },
+      {
+        "explains": "The selected demo code was recognized, not captured by a camera.",
+        "trigger": "Simulate scan.",
+        "reduced_motion": "Show the recognized member and settled outline immediately.",
+        "name": "Counter recognition",
+        "duration_ms": "320 sweep; 160 bracket settle",
+        "easing": "linear sweep; cubic-bezier(0.2, 0, 0, 1) settle",
+        "what_moves": "One 1px ink line crosses the aperture once. The recognized member appears immediately on an opaque center layer, leaving only the gutter ends of the sweep visible. Brackets settle into a quiet outline. QR and counting action never wait for animation."
+      },
+      {
+        "explains": "A committed event changed the member’s measured progress.",
+        "trigger": "Successful local VISIT or POINTS_ADDED transaction.",
+        "reduced_motion": "Replace progress immediately and announce the final result once.",
+        "name": "Progress takes its place",
+        "duration_ms": "220 app stroke; 120 numeric field",
+        "easing": "cubic-bezier(0.2, 0, 0, 1)",
+        "what_moves": "Fill only the newly earned stroke, or the exact added fraction of the points line. Crossfade the complete old number to the complete new number. Native Wallet mirrors update supported text fields only."
+      },
+      {
+        "explains": "The final qualifying event created a ready earned reward.",
+        "trigger": "REWARD_UNLOCKED committed with the qualifying event.",
+        "reduced_motion": "Show the final value, Reward ready and Redeem immediately.",
+        "name": "The return unlocks",
+        "duration_ms": "360 total; action immediate",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_moves": "Complete the final app stroke over 220ms, then crossfade the nearby status over 140ms. Name, source thread and QR remain stationary. No confetti, shake, glow or full-screen celebration."
+      },
+      {
+        "explains": "One earned instance was consumed, not the member or unrelated progress.",
+        "trigger": "Confirmed REWARD_REDEEMED transaction.",
+        "reduced_motion": "Replace state immediately and focus Done.",
+        "name": "Redeem and keep the thread",
+        "duration_ms": "240",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_moves": "The consumed instance’s action settles into Reward redeemed. Crossfade the retained progress and ready quantity once. Do not move or replace the QR."
+      },
+      {
+        "explains": "A no-op or failure is not a successful progress event.",
+        "trigger": "Same-day rejection, invalid QR or failed commit.",
+        "reduced_motion": "Identical immediate state.",
+        "name": "No false progress",
+        "duration_ms": "0",
+        "easing": "none",
+        "what_moves": "Nothing moves. An explicit text result appears in the reserved action/receipt region."
+      }
+    ],
+    "phone": [
+      {
+        "size": "56px header; 32px context row; 16px page gutters.",
+        "motion": "None.",
+        "content": "Back icon at left returns to Loyalty; Members is 28px Bricolage 600; Add visit is the 44px-high ink action at right. Directly below, Design Lab · Fictional preview is a quiet 12px operable context label. Use paper canvas, ink text and no header shadow.",
+        "region": "Roster header",
+        "state": "Default visits roster; points changes action; live-zero replaces it with View QR."
+      },
+      {
+        "size": "48px search at y104; 12px gap; 44px filter row; 16px gap; 18px unit heading.",
+        "motion": "Immediate local filtering.",
+        "content": "Search members is the input’s empty text and accessible label; no duplicate heading. All, Repeat visitors and Reward ready use 14px DM Sans 600 with a 2px selected underline. Visits sits right above fractions. Source-filter context appears only for an incoming source query and can wrap with Clear filters.",
+        "region": "Roster lookup",
+        "state": "Default, query, status filter and source-filter views."
+      },
+      {
+        "size": "Rows start approximately y250; each is 72px minimum; 358px width.",
+        "motion": "None; no animated ranking or arrival ticker.",
+        "content": "Each entire row is a member link. First name is 18px DM Sans 600, left. Progress is 16px tabular, right, followed by a quiet 16px chevron. Mina shows Reward ready, collecting members show compact fractions, Ava and June show No visits yet, Lena shows Reward redeemed. Use 1px bottom separators, no row boxes. All ten records stay in the document.",
+        "region": "Roster",
+        "state": "Mina, Sara, Noah, Imani, Ben, Luca, Theo, Ava, June, Lena."
+      },
+      {
+        "size": "64px plus safe-area bottom bar; 88px plus safe-area content clearance.",
+        "motion": "Immediate navigation.",
+        "content": "Home, Content, Create, Campaigns, Business remain visible at all phone widths. Business is selected. Create retains its contained 32px lime disc within a 44px target. No sixth Loyalty destination.",
+        "region": "Business navigation",
+        "state": "Roster and member detail; hidden during focused recording and native-card inspection."
+      },
+      {
+        "size": "56px header; 32px context; identity begins after 16px, approximately 64px high.",
+        "motion": "Route entry crossfade only.",
+        "content": "Header has the Members back link and a 44px Member actions overflow. No duplicated member name in the header. Sara is 32px Bricolage; ••42 is 13px muted beneath. Do not display joined date, email, source caption or avatar inside identity.",
+        "region": "Member identity",
+        "state": "Sara collecting; all member variants use the same structure."
+      },
+      {
+        "size": "Approximately 116px progress group; 16px gap to 48px primary action.",
+        "motion": "Confirmed progress and redemption motions only.",
+        "content": "4 of 5 visits is 32px DM Sans 600, line height 40. Five strokes span 358px, 12px below the number. Free coffee is 18px, 16px below strokes. Add visit spans the width. A ready member instead leads with Reward ready and exposes Redeem primary, Add visit secondary. Points uses the precise proportional line and fixed award flow.",
+        "region": "Member decision",
+        "state": "Collecting, zero, ready, redeemed and retained-extra-progress variants."
+      },
+      {
+        "size": "32px after the action; source approximately 88px; Wallet approximately 76px; History row 52px.",
+        "motion": "Disclosures use working-surface motion; History expands without scrolling the source away.",
+        "content": "Joined from is 13px muted over Jasmine and Morning loop · Story campaign. A straight 2px ink source edge with a 12px brick terminal aligns to the first progress stroke; it is not a metric bar. Entire source is operable. Wallet shows only its simulated platform state and View demo card or Show demo card. History is collapsed initially. Source, Wallet and History use open paper with separators, never rounded cards.",
+        "region": "The preserved thread",
+        "state": "Default detail; source and Wallet values follow the member."
+      },
+      {
+        "size": "Full-height focused route; 56px header, 32px lab row, 44px modes; 264px aperture.",
+        "motion": "One recognition sweep after a deliberate action; no idle movement.",
+        "content": "Header title Add visit with Back and Close icon targets. Business bar is covered. Scan and Search sit below the lab context. Scanner simulation labels the square. No camera is used. follows it. Sample member is a lab-only selector, default Sara. Simulate scan is the single ink action. The scanner has no real media.",
+        "region": "Counter scanner",
+        "state": "Idle and unknown-QR recovery."
+      },
+      {
+        "size": "Same header and modes; 48px input; results 76px minimum.",
+        "motion": "None.",
+        "content": "Name, phone or email is a persistent visible field label. Results show name, masked contact and progress; no source or Wallet platform appears here. Empty search shows No members match. and Try another name or contact. The software keyboard may scroll the page; no sticky footer covers results.",
+        "region": "Counter search",
+        "state": "Search mode, matching and empty results."
+      },
+      {
+        "size": "264px stable identification area; 24px gap to progress; 48px primary action; reserved 48px receipt region.",
+        "motion": "Recognition does not delay the action. Progress changes only after commit.",
+        "content": "The former aperture holds Sara and ••42 at its top, the 165px QR beneath, then LD-001. Below are 4 of 5 visits, five strokes, Free coffee and +1 visit. The receipt region is reserved so the QR and action datum do not jump. View member, Done and Next customer use a wrapping row of 44px targets beneath. Before a result, Done is the quiet exit; Next customer appears after a result.",
+        "region": "Recognized customer",
+        "state": "Ready to count; points substitutes the fixed one-point award."
+      },
+      {
+        "size": "Same stable identification and progress regions; allow receipt height to grow.",
+        "motion": "Use committed-result motions; no movement for same-day or failed states.",
+        "content": "Ordinary result replaces the count button with Visit counted. and the final value. Unlock exposes Reward ready and Redeem in the same action region. Same-day shows the unchanged value and daily rule; Details reveals last-counted time. Failure shows its error and Try again without changing progress. Saved-Wallet receipts say Wallet update simulated; others say Wallet not added.",
+        "region": "Counter result",
+        "state": "Ordinary count, unlock, same-day, Wallet not added, Google cap and failure."
+      },
+      {
+        "size": "Bottom confirmation sheet, 358px inner width; content-led height, minimum 220px.",
+        "motion": "Working-surface entry, then redeem-and-retain result.",
+        "content": "Redeem Free coffee? in 28px Bricolage. The exact consequence is a separate 16px paragraph. Cancel is underlined and Redeem reward is ink, both 48px high. Confirmation binds to one earned instance. After commit, close only the confirmation; the counter or detail displays Reward redeemed and retained progress.",
+        "region": "Redemption",
+        "state": "Confirm, cancel, success, failure and stale-instance guard."
+      },
+      {
+        "size": "Full-height sheet with 16px gutters and independent scrolling.",
+        "motion": "Working-surface entry; no decorative card motion.",
+        "content": "Source, History evidence, Member actions, lab controls and capability boundaries use ordinary text and separators. Native-card inspection instead opens the V3 card route, with no business navigation, one readable platform concept, its adjacent truth labels and external Details / Close actions.",
+        "region": "On-demand inspection",
+        "state": "Source evidence, event history, action boundaries, Lab and read-only card."
+      }
+    ],
+    "on_demand": [
+      "Roster query begins when the input receives focus. Match trimmed, case-folded names, normalized phone digits and lowercased email. Results never expose the matched full contact.",
+      "Selecting a roster member opens /design-lab-v3/business/loyalty/members/:memberId. Desktop replaces the inspected region; phone and tablet open the full detail. Preserve list query, filters and scroll.",
+      "Incoming filter=repeat|ready|redeemed and source=<fixture-source-id> remain views of the same cohort. view=redemptions switches to events; do not silently interpret an event total as unique people.",
+      "Tapping the source thread opens Source details: human source, campaign, named acquisition link or QR, Joined timestamp, recorded first-touch evidence when available and the two short preservation explanations. It does not expose a creator profile with customer data.",
+      "Tapping History expands the latest counted visit, lifetime count and chronological event list. Each event starts with its concise label and date; tapping an event exposes its actual time. Same-day attempts remain visibly zero-delta history.",
+      "Tapping Free coffee or the progress summary opens reward details and the applicable version’s terms. Retained progress and ready-instance quantity appear here when relevant.",
+      "View demo card opens /design-lab-v3/card/:memberCode with the member’s saved platform selected. Show demo card opens the same read-only wrapper without changing Wallet state. This surface has no Add to Wallet action.",
+      "The card wrapper’s Details reveals Reward, Requirement, Terms, Member ID and Offer only if present. It never reveals phone or email. Platform switching changes representation, not saved-platform state.",
+      "Tapping Member actions opens Send update and Block. Send update opens the program-wide boundary, then optionally View Wallet updates at /design-lab-v3/business/loyalty/updates with no member recipient parameter. Block opens its unavailable explanation and changes nothing.",
+      "Add visit or Add points from a detail opens /design-lab-v3/business/loyalty/record?member=<fixture-id>. Global roster Add visit or Scan opens unselected Scan mode.",
+      "Simulate scan resolves Sample member immediately. Unknown QR and Other-program QR produce the same boundary error, never a guessed identity.",
+      "View member from recording preserves the counter session and opens the recognized member detail. Browser Back returns to that result rather than counting again.",
+      "Details on a same-day receipt reveals the actual last-counted time. Details on a Wallet receipt reveals Nothing was sent.; the Google-cap case adds its two explicit allowance statements.",
+      "Redeem opens only the compact earned-instance confirmation. There is no celebratory modal and no automatic reward consumption.",
+      "The Design Lab context opens the scenario selector, Reset demo and Demo time. Scenario changes and resets require confirmation. Advance demo day increments the America/Chicago calendar date while retaining 10:00 AM and existing events.",
+      "Inherited unimplemented shell actions open Outside this preview. They never reach production or fabricate business messaging, settings or campaign states."
+    ],
+    "fixture_data": [
+      "Business: Loopday Coffee, Austin. Program: Loopday Rewards, visits, Free coffee, target 5, America/Chicago. Clock: September 17, 2026, 10:00 AM CDT. Staff actor: a fixed V3 demo staff record. No clock ticks automatically.",
+      "LD-001 Sara; opaque code 7K2N8R4C6T9Q; +12025550142 shown ••42. Joined Sep 8 at 8:50 AM. Counted Sep 8, 10, 13 at 9:00 AM and Sep 16 at 4:20 PM. Current 4/5, lifetime 4, returned yes, ready 0, redeemed 0. Jasmine / Morning loop / STORY / link-jasmine-story. Apple simulated.",
+      "LD-002 Mina; opaque code 3P8W5H2D9V6B; mina@example.test shown •••@example.test. Joined Sep 1 at 8:50 AM. Counted Sep 1, 4, 8, 12, 16 at 9:00 AM. Current 5/5, lifetime 5, returned yes, ready 1, redeemed 0. Jasmine / Morning loop / STORY / link-jasmine-story. Google simulated.",
+      "LD-003 Theo; opaque code 9F4Q7M2X8C5R; +12025550108 shown ••08. Joined Aug 27 at 8:50 AM. Counted Aug 27, 29, 31, Sep 2, 4 at 9:00 AM; redeemed Sep 5 at 9:00 AM; counted Sep 9 at 9:00 AM. Current 1/5, lifetime 6, returned yes, ready 0, redeemed 1. Jasmine source. Apple simulated.",
+      "LD-004 Ava; opaque code 5T8B3N6K2W9H; ava@example.test shown •••@example.test. Joined Sep 17 at 8:40 AM. Current 0/5, no counted events, returned no, ready 0, redeemed 0. Jasmine source. Wallet not added.",
+      "LD-005 Noah; opaque code 2C7R9P4V6M8D; noah@example.test shown •••@example.test. Joined Sep 3 at 8:50 AM. Counted Sep 3, 7, 14 at 9:00 AM. Current 3/5, lifetime 3, returned yes, ready 0, redeemed 0. Maya / Counter pour / RECREATE / link-maya-recreate. Google simulated.",
+      "LD-006 Lena; opaque code 8H3W6F9Q2T5N; +12025550126 shown ••26. Joined Sep 2 at 8:50 AM. Counted Sep 2, 5, 8, 11, 14 at 9:00 AM; redeemed Sep 15 at 9:00 AM. Current 0/5, lifetime 5, returned yes, ready 0, redeemed 1, status Reward redeemed. Maya source. Apple simulated.",
+      "LD-007 Luca; opaque code 4V9D2K7B5R8P; luca@example.test shown •••@example.test. Joined Sep 16 at 8:50 AM; counted Sep 16 at 9:00 AM. Current 1/5, lifetime 1, returned no, ready 0, redeemed 0. Eli / Around Austin / CAR / qr-eli-car. Google simulated.",
+      "LD-008 Imani; opaque code 6M2Q8T3H9C5W; +12025550117 shown ••17. Joined Sep 15 at 8:50 AM. Counted Sep 15 at 9:00 AM and Sep 17 at 9:10 AM; uncounted same-day attempt Sep 17 at 9:45 AM. Current 2/5, lifetime 2, returned yes, ready 0, redeemed 0. Counter QR / BUSINESS_QR / qr-loopday-counter. Both Wallets simulated.",
+      "LD-009 Ben; opaque code 9N5P3V8R2F6K; +12025550109 shown ••09. Joined Sep 17 at 9:20 AM; counted at 9:30 AM. Current 1/5, lifetime 1, returned no, ready 0, redeemed 0. Counter QR source. Wallet not added.",
+      "LD-010 June; opaque code 2W6C9H4M7Q8T; june@example.test shown •••@example.test. Joined Sep 17 at 9:55 AM. Current 0/5, no counter events, returned no, ready 0, redeemed 0. Direct signup / ORGANIC / confidence none. Apple simulated.",
+      "Do not invent missing first-touch timestamps. The immutable signup source and acquisition identifier are known; First touch says Not recorded unless a separate trustworthy fixture link event exists.",
+      "Default roster sort: ready-instance count descending, then current progress descending, then first name. Result: Mina, Sara, Noah, Imani, Ben, Luca, Theo, Ava, June, Lena. This is a working order, not a customer-value ranking.",
+      "Baseline projections: 10 members, 6 repeat visitors, 1 ready instance, 2 redemptions, 28 counted visits, 3 unlocks. Eight members have a simulated Wallet; five Apple projections and four Google projections represent nine cards.",
+      "Redemption-event view initially contains Lena on Sep 15 at 9:00 AM and Theo on Sep 5 at 9:00 AM. Both events use Free coffee and their preserved reward-version ID.",
+      "Jasmine source: 4 joined, 3 returned, 1 unique redeemer. Maya: 2, 2, 1. Counter QR: 2, 1, 0. Eli: 1, 0, 0. Direct signup: 1, 0, 0.",
+      "Sara’s deliberate Sep 17 count appends VISIT +1 and REWARD_UNLOCKED atomically. Her ready instance binds to those five counted credits. Redemption appends one REWARD_REDEEMED and consumes only those credits.",
+      "Preservation QA: unlock Sara on Sep 17; Advance demo day; count one visit Sep 18 before redemption. Redeem the first instance. Sara retains 1 of 5, six lifetime visits and one redemption.",
+      "Same-day QA uses Imani. A fresh counting request at the demo clock appends a zero-delta same_day event. Reusing its idempotency key returns the same receipt without another event.",
+      "Points · 82 of 100 replaces the cohort with Sara alone in one points program. Seed one counted one-point purchase daily from Jun 27 through Sep 16, 2026, at 9:00 AM. Joined Jun 27 at 8:50 AM. Current 82/100, repeat yes, ready 0, redeemed 0, Apple simulated. Sep 17 becomes 83.",
+      "Points · 99 of 100 replaces that context with one counted one-point purchase daily from Jun 10 through Sep 16. Joined Jun 10 at 8:50 AM. Sep 17 unlocks at 100. No visits-program records are mixed into this cohort.",
+      "Wallet not added scenario retains the visits cohort and selects Ava for an ordinary first count. Ben separately tests an unchanged same-day attempt without Wallet.",
+      "Google limit reached is an explicit replacement context: Sara has Google simulated. Seed notifying requests Sep 16 at 3:00 PM for a business update, Sep 16 at 4:20 PM for counted progress, and Sep 17 at 9:00 AM for a business update. The Sep 17 10:00 AM unlock changes content without another notifying request.",
+      "Recording error is a one-shot local commit failure with no appended event. Try again retains the request key and deliberately retries. No artificial network spinner or latency is added.",
+      "Unknown QR encodes TMV3:X:UNKNOWN. Other-program QR encodes TMV3:O:3D7K9M2P5R8T. Neither resolves to a Loopday identity."
+    ],
+    "truth_labels": [
+      "Design Lab · Fictional preview is visible immediately below every business task header and opens the Lab controls.",
+      "Scanner simulation is directly above the coded aperture; No camera is used. is directly below it before recognition.",
+      "Sample member belongs visibly to the lab helper, not to a supposed production scanner setting.",
+      "Every native card has its exact Design Lab platform-concept label immediately above and No pass is issued. immediately below.",
+      "Every committed saved-Wallet progress or redemption receipt says Wallet update simulated. Details says Nothing was sent.",
+      "Wallet not added replaces the update receipt for Ava and Ben. Their membership and reward actions remain usable.",
+      "No global disclaimer substitutes for the same-day unchanged label, failed-commit error, Google allowance explanation or unavailable-capability boundary.",
+      "The desktop standby photo is labelled Program artwork. It never occupies a camera-feed treatment.",
+      "Neither Send update nor Block creates an individual message or blocked state. Their local explanations appear before any optional navigation.",
+      "No screen uses Issued, Delivered, Read, revenue, customer value, live activity or a guaranteed notification appearance."
+    ]
+  }
+}
