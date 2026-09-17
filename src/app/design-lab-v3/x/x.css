@@ -1,0 +1,167 @@
+/*
+  TapMart V3 material system (docs/design-lab-v3/EXPERIENCE_DIRECTION.md,
+  Material system; per-surface specs in docs/design-lab-v3/screens/x-*.md).
+  Scoped under .v3 and layered over the V2 primitives: the V2 tokens are
+  re-pointed here so every V3 surface, including the approved Loyalty
+  foundation, renders in the V3 language. Canvas, opaque working paper,
+  two lens recipes used only on controls, one grip for primary actions.
+  Glass is a thin control material between the person and something they
+  are inspecting; content is opaque or uncovered.
+*/
+.v3 {
+  --v3-canvas: #F6F7F5; --v3-paper: #FFFFFF; --v3-ink: #17221E; --v3-muted: #59655D; --v3-line: #DCE2DE;
+  --v3-stage-dark: #142019; --v3-create: #D5E85A; --v3-focus: #315E49;
+  --v3-success: #236444; --v3-warning: #835400; --v3-danger: #B3261E;
+  --loopday-paper: #F7F4EB; --loopday-ink: #18231D; --loopday-terminal: #B73E28; --loopday-label: #C4CDBF;
+  --v3-open: 440ms; --v3-ease-open: cubic-bezier(0.16, 1, 0.3, 1);
+  --v3-settle: 220ms; --v3-ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --v3-reveal: 160ms; --v3-ease-reveal: cubic-bezier(0.2, 0, 0, 1);
+  --v3-return: 280ms; --v3-ease-return: cubic-bezier(0.22, 1, 0.36, 1);
+  --v3-shadow-float: 0 16px 48px rgba(43, 67, 54, 0.10);
+  --v3-shadow-lens: 0 8px 28px rgba(46, 74, 60, 0.09);
+  --v3-shadow-pass: 0 10px 30px rgba(35, 60, 44, 0.12);
+
+  /* V2 tokens re-pointed to the V3 material system */
+  --v2-paper: var(--v3-canvas); --v2-surface: var(--v3-paper); --v2-ink: var(--v3-ink); --v2-muted: var(--v3-muted);
+  --v2-line: var(--v3-line); --v2-soft: #ECEFEC; --v2-accent: var(--v3-focus); --v2-lime: var(--v3-create);
+  --v2-success: var(--v3-success); --v2-warning: var(--v3-warning); --v2-danger: var(--v3-danger);
+  --v2-inverse-muted: #C4CDBF; --v2-scrim: rgba(20, 32, 25, 0.30);
+  --v2-r-control: 12px; --v2-r-sheet: 18px;
+  --v2-ease-out: var(--v3-ease-open); --v2-ease-std: var(--v3-ease-reveal);
+  --v2-t-open: var(--v3-open); --v2-t-close: var(--v3-return); --v2-t-sheet: 320ms; --v2-t-sheet-close: 280ms; --v2-t-settle: 220ms;
+  --v2-shadow-sheet: var(--v3-shadow-float); --v2-shadow-frame: var(--v3-shadow-float);
+  --v2-font-display: var(--v2-font-ui);
+  background: var(--v3-canvas); color: var(--v3-ink);
+  font-family: var(--v2-font-ui), "DM Sans", system-ui, sans-serif;
+}
+
+/* ------------------------------------------------------------ typography */
+.v3 .t-display { font-family: inherit; font-weight: 500; font-size: 52px; line-height: 1.04; letter-spacing: -0.045em; }
+.v3 .t-verb { font-family: inherit; font-weight: 500; font-size: 32px; line-height: 1.1; letter-spacing: -0.03em; }
+.v3 .t-title { font-family: inherit; font-weight: 500; font-size: 28px; line-height: 32px; letter-spacing: -0.03em; }
+.v3 .t-name { font-family: inherit; font-weight: 500; font-size: 32px; line-height: 38px; letter-spacing: -0.03em; }
+.v3 .sheet-bar .sheet-title { font-family: inherit; font-weight: 500; font-size: 28px; line-height: 32px; letter-spacing: -0.03em; }
+.v3 .money { font-size: 36px; line-height: 40px; letter-spacing: -0.03em; }
+.v3 .money-metric { font-size: 32px; line-height: 38px; }
+.v3 .money-balance { font-size: 48px; line-height: 52px; }
+@media (max-width: 359px) { .v3 .t-display { font-size: 44px; } .v3 .money { font-size: 32px; line-height: 36px; } .v3 .t-verb { font-size: 30px; } .v3 .t-name { font-size: 28px; line-height: 34px; } }
+@media (min-width: 768px) { .v3 .t-display { font-size: 64px; } }
+@media (min-width: 1024px) {
+  .v3 .t-display { font-size: 76px; line-height: 1.02; } .v3 .t-verb { font-size: 44px; } .v3 .t-title { font-size: 32px; line-height: 38px; } .v3 .t-name { font-size: 44px; line-height: 50px; }
+  .v3 .sheet-bar .sheet-title { font-size: 32px; line-height: 38px; }
+  .v3 .money { font-size: 44px; line-height: 48px; } .v3 .money-metric { font-size: 40px; line-height: 46px; } .v3 .money-balance { font-size: 72px; line-height: 76px; }
+}
+@media (min-width: 1600px) { .v3 .t-display { font-size: 88px; } }
+.v3 :focus-visible { outline: 2px solid var(--v3-focus); outline-offset: 3px; border-radius: 4px; }
+.v3 .on-ink :focus-visible, .v3 .x-dark :focus-visible { outline-color: #fff; }
+
+/* --------------------------------------------------------------- controls */
+/* Grip: the primary action. Ink, 12px, a thin top highlight, no shadow unless it floats. Press scales the control only. */
+.v3 .btn { border-radius: 12px; transition: background-color 100ms linear, transform 100ms cubic-bezier(0.2, 0, 0, 1); }
+.v3 .btn:active { transform: scale(0.98); transition-duration: 100ms; }
+.v3 .btn-primary { background: var(--v3-ink); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16); }
+.v3 .btn-primary:hover { background: #22302A; }
+.v3 .btn-primary:active { transform: scale(0.98); }
+.v3 .on-ink .btn-primary, .v3 .x-dark .btn-primary { background: #fff; color: var(--v3-ink); box-shadow: none; }
+.v3 .btn-float { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 5px 14px rgba(35, 60, 44, 0.14); }
+.v3 .btn-lime { background: var(--v3-create); color: var(--v3-ink); }
+.v3 .btn-line { border-radius: 12px; }
+.v3 .icon-btn { border-radius: 12px; }
+.v3 .chip { border-radius: 8px; }
+.v3 .link { text-decoration-thickness: 1px; }
+/* The V2 earning edge becomes a plain hairline in V3: the brick terminal is Loopday's, not TapMart's. */
+.v3 .edge { height: 1px; background: var(--v3-line); }
+.v3 .edge::after, .v3 .edge-v::after, .v3 .op-car .op-band::after { display: none; }
+.v3 .descent-ledge::after { display: none; }
+.v3 .disclosure summary::before { color: var(--v3-ink); }
+.v3 .steps li::before { color: var(--v3-ink); }
+.v3 .media { background: #ECEFEC; }
+.v3 .media img.fit-contain { background: var(--v3-paper); }
+.v3 .badge { background: var(--v3-ink); }
+
+/* ------------------------------------------------------------- materials */
+/* Light lens (z40): controls over content. Real backdrop blur, a masked 1px edge stroke, an inset top highlight, a green grey shadow. */
+.v3 .lens { position: relative; background: rgba(255, 255, 255, 0.58); -webkit-backdrop-filter: blur(16px) saturate(1.16); backdrop-filter: blur(16px) saturate(1.16); border-radius: 18px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74), var(--v3-shadow-lens); }
+.v3 .lens::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.16) 48%, rgba(223, 234, 225, 0.64) 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.v3 .lens-rail { border-radius: 14px; }
+/* Dark lens (z40): only for controls over the public dark media stage. */
+.v3 .lens-dark { background: rgba(22, 34, 27, 0.64); -webkit-backdrop-filter: blur(16px) saturate(1.12); backdrop-filter: blur(16px) saturate(1.12); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 8px 28px rgba(10, 28, 17, 0.22); }
+.v3 .lens-dark::before { background: linear-gradient(180deg, rgba(255, 255, 255, 0.36) 0%, rgba(235, 246, 237, 0.26) 30%, rgba(235, 246, 237, 0.26) 100%); }
+/* Opaque substitutes: reduced transparency, no filter support. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .v3 .lens { background: #fff; } .v3 .lens-dark { background: #17221E; } }
+@media (prefers-reduced-transparency: reduce) { .v3 .lens { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; } .v3 .lens-dark { background: #17221E; -webkit-backdrop-filter: none; backdrop-filter: none; } }
+.v3[data-lens="opaque"] .lens, .v3 .x-root[data-lens="opaque"] .lens { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.v3[data-lens="opaque"] .lens-dark, .v3 .x-root[data-lens="opaque"] .lens-dark { background: #17221E; -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* Working paper (z20): opaque reading and task surfaces. */
+.v3 .paper { background: var(--v3-paper); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9); }
+.v3 .paper-float { background: var(--v3-paper); box-shadow: var(--v3-shadow-float); }
+/* Sheets and previews: opaque working paper, 24px top corners on phone, 18px exposed corners on desktop drawers. */
+.v3 .sheet-body { border-radius: 24px 24px 0 0; box-shadow: var(--v3-shadow-float); background: var(--v3-paper); }
+.v3 .sheet::backdrop, .v3 .preview::backdrop, .v3 .notice::backdrop { background: rgba(20, 32, 25, 0.30); }
+@media (min-width: 768px) { .v3 .sheet-body { border-radius: 18px 0 0 18px; } .v3 .sheet-menu .sheet-body { border-radius: 18px; } }
+.v3 .notice-body { border-radius: 18px; }
+.v3 .preview-body { background: var(--v3-paper); }
+.v3 .preview-stage { background: var(--v3-paper); }
+.v3 .preview-media { background: var(--v3-paper); }
+.v3 .preview-bar { background: var(--v3-paper); }
+@media (min-width: 768px) { .v3 .preview-pane { background: var(--v3-paper); border-radius: 18px 0 0 18px; box-shadow: var(--v3-shadow-float); } }
+.v3 .viewer { background: var(--v3-stage-dark); } .v3 .viewer::backdrop { background: var(--v3-stage-dark); }
+.v3 .viewer .icon-btn { color: #fff; }
+.v3 .sheet-row { border-top-color: var(--v3-line); }
+.v3 .settle { animation-duration: var(--v3-settle); animation-timing-function: var(--v3-ease-settle); }
+
+/* --------------------------------------------------------- lab and motion */
+.v3 .x-labstrip { display: flex; align-items: center; gap: 4px 16px; flex-wrap: wrap; min-height: 44px; }
+.v3 .x-labstrip .lab-entrance { font-size: 12px; line-height: 16px; }
+.v3 .x-labstrip-right { margin-left: auto; display: inline-flex; align-items: center; }
+.v3 .x-motion { display: inline-flex; align-items: center; gap: 12px; }
+.v3 .x-pause { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--v3-ink); font-size: 12px; line-height: 16px; font-weight: 600; }
+.v3 .x-reduced-label { font-size: 12px; line-height: 16px; }
+.v3 .on-ink .x-pause, .v3 .x-dark .x-pause { color: #fff; } .v3 .on-ink .x-labstrip .lab-entrance, .v3 .x-dark .x-labstrip .lab-entrance { color: var(--v2-inverse-muted); }
+/* Pause freezes presentation animations in place. Transitions for state changes still run. */
+.x-root[data-motion="paused"] .v3 *, .v3 .x-root[data-motion="paused"] * { animation-play-state: paused !important; }
+/* Reduced motion: remove introductory motion, keep state changes immediate. */
+@media (prefers-reduced-motion: reduce) { .v3 *, .v3 *::before, .v3 *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+
+/* ------------------------------------------------------ app floating bar */
+/* Phone: the four or five destinations on one 64px light lens inset 12px; 104px plus safe area content clearance. */
+@media (max-width: 767px) {
+  .v3 .x-shell .tabbar { left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); height: 64px; padding-bottom: 0; border-top: 0; background: rgba(255, 255, 255, 0.58); -webkit-backdrop-filter: blur(16px) saturate(1.16); backdrop-filter: blur(16px) saturate(1.16); border-radius: 18px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74), var(--v3-shadow-lens); overflow: hidden; }
+  .v3 .x-shell .tabbar::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.16) 48%, rgba(223, 234, 225, 0.64) 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  .v3 .x-shell .tabbar a, .v3 .x-shell .tabbar button { height: 64px; color: var(--v3-muted); }
+  .v3 .x-shell .tabbar a[aria-current="page"] { color: var(--v3-ink); }
+  .v3 .x-shell .tabbar .create .disc { width: 28px; height: 28px; }
+  .v3 .x-shell .phone-main, .v3 .x-shell .desk-main { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .v3 .x-shell .tabbar { background: #fff; } }
+  @media (prefers-reduced-transparency: reduce) { .v3 .x-shell .tabbar { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; } }
+}
+.v3 .rail { background: var(--v3-canvas); border-right-color: var(--v3-line); }
+.v3 .phone { background: var(--v3-canvas); }
+/* A full-height task covers the phone bar: the dialog sits above it (native top layer) and the bar stops filtering. */
+.v3 .x-shell:has(dialog[open]) .tabbar { -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* ------------------------------------------------------- shared sequence */
+/* Presentation controls under an object: Previous, Play or Next, Replay, Steps. Ordinary flow, 44px targets, no scrubber. */
+.v3 .x-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; min-height: 44px; margin-top: 16px; }
+.v3 .x-controls .icon-btn { width: 44px; height: 44px; }
+.v3 .x-controls .link { min-height: 44px; display: inline-flex; align-items: center; gap: 6px; }
+.v3 .x-controls .x-steps-trigger { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin-left: auto; }
+.v3 .x-frame-label { font-size: 13px; line-height: 18px; color: var(--v3-muted); font-weight: 500; }
+.v3 .x-dark .x-frame-label, .v3 .on-ink .x-frame-label { color: var(--v2-inverse-muted); }
+.v3 .x-steps-list { display: flex; flex-direction: column; margin-top: 8px; }
+.v3 .x-steps-list button { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; padding: 0 16px; margin: 0 -16px; border-top: 1px solid var(--v3-line); text-align: left; }
+.v3 .x-steps-list button[aria-current="true"] { font-weight: 600; }
+.v3 .x-steps-list button:disabled { color: var(--v3-muted); }
+/* Reveal and settle helpers */
+.v3 .x-reveal { animation: x-reveal var(--v3-reveal) var(--v3-ease-reveal) both; }
+@keyframes x-reveal { from { opacity: 0; } to { opacity: 1; } }
+.v3 .x-settle { animation: x-settle var(--v3-settle) var(--v3-ease-settle) both; }
+@keyframes x-settle { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.v3 .x-open { animation: x-open var(--v3-open) var(--v3-ease-open) both; }
+@keyframes x-open { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.v3 .x-arrive { animation: x-arrive 320ms var(--v3-ease-return) both; }
+@keyframes x-arrive { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.v3 .x-recede { opacity: 0.38; transition: opacity var(--v3-reveal) var(--v3-ease-reveal); }
+/* Optical rim: an aria-hidden copy of the same static image, clipped to a 6 to 8px inner rim of a lens rail, scaled 1.015, displaced 1.5px, blurred 0.5px, opacity 0.34. Only on the three controlled public stages. */
+.v3 .x-rim { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; padding: 7px; }
+.v3 .x-rim img { position: absolute; width: 100%; height: 100%; object-fit: cover; transform: scale(1.015) translate(1.5px, 0); filter: blur(0.5px); opacity: 0.34; }

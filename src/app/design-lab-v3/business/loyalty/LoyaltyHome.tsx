@@ -41,7 +41,7 @@ export function LoyaltyHome() {
   const usedToday = state.updates.some((u) => (u.kind === "offer" || u.kind === "promotion" || u.kind === "milestone") && u.at.startsWith(todayKey(state)));
   const lastUpdate = state.updates[0] ?? null;
   const primary = status === "none" && !draft ? { href: "/design-lab-v3/business/loyalty/create", label: "Create program" } : status !== "live" && draft ? { href: "/design-lab-v3/business/loyalty/create?step=card", label: "Continue setup" } : c.members === 0 ? { href: "/design-lab-v3/business/loyalty/qr", label: "View QR" } : { href: "/design-lab-v3/business/loyalty/record", label: points ? "Add points" : "Add visit" };
-  const artwork = (design: typeof p.card) => <span className="loy-program-art"><span className="loy-program-solid" style={{ background: design.bg, color: design.fg }}><Logo design={design} size={48} /></span><span className="media loy-program-photo">{design.artwork && <Img src={design.artwork} alt="" position={design.artworkPosition} />}</span></span>;
+  const artwork = (design: typeof p.card) => <Link href="/design-lab-v3/business/loyalty/program" className="loy-program-art media" aria-label="View program">{design.artwork ? <Img src={design.artwork} alt="" position={design.artworkPosition} /> : <span className="loy-program-solid" style={{ background: design.bg, color: design.fg }}><Logo design={design} size={48} /></span>}</Link>;
   return (
     <div className="loy loy-home" data-status={status === "live" ? (c.members === 0 ? "live-empty" : "live") : draft ? "draft" : "none"}>
       <LoyaltyHead title="Loyalty" action={<Link href={primary.href} className="btn btn-primary loy-primary">{primary.label}</Link>} />
@@ -80,7 +80,7 @@ export function LoyaltyHome() {
                   <div className="loy-sec-head"><h3 className="t-object">Recent customers</h3><span className="t-fact">{unit}</span></div>
                   <ul className="loy-recent-list">
                     {recent.map((m) => (
-                      <li key={m.id}><Link href={`/design-lab-v3/business/loyalty/members/${m.id}`} className="loy-recent-row obj"><span className="t-object">{m.firstName}</span><span className="loy-recent-val t-object">{m.ready > 0 ? "Reward ready" : m.redeemed > 0 && m.progress === 0 ? "Redeemed" : `${m.progress}/${p.requirement}`}</span><CaretRight size={20} aria-hidden /></Link></li>
+                      <li key={m.id}><Link href={`/design-lab-v3/business/loyalty/members/${m.id}`} className="loy-recent-row obj"><span className="t-object">{m.firstName}</span><span className="loy-recent-val t-object">{m.ready > 0 ? "Reward ready" : m.redeemed > 0 && m.progress === 0 ? "Redeemed" : `${m.progress} / ${p.requirement}`}</span><CaretRight size={20} aria-hidden /></Link></li>
                     ))}
                   </ul>
                 </>
@@ -89,6 +89,7 @@ export function LoyaltyHome() {
             <section className="loy-program obj">
               {artwork(p.card)}
               <div className="loy-program-facts">
+                <span className="loy-brand-mark loy-program-mark" style={{ color: "var(--v3-ink)" }}><Logo design={p.card} size={28} /></span>
                 <span className="loy-program-row"><span><span className="t-object" style={{ display: "block" }}>{p.reward.name}</span><span className="t-fact">{p.requirement} {points ? "points" : "visits"}</span></span>
                   <Sheet title="Live · simulated" variant="menu" triggerClass="link link-plain t-fact-ink loy-live" trigger="Live">
                     <p className="t-body" style={{ marginTop: 8 }}>This program exists only in the Design Lab.</p>

@@ -24,9 +24,8 @@ export const BUSINESS_TABS_V3: Tab[] = [
 
 export function SwitcherV3({ className = "identity" }: { className?: string }) {
   const rows = [
-    { key: "Personal", name: "Maya Chen", mode: "Personal" as const, href: "/design-lab-v2/home", avatar: "/design-lab/portrait-maya-01.jpg", initials: "MC" },
+    { key: "Personal", name: "Maya Chen", mode: "Personal" as const, href: "/design-lab-v3/home", avatar: "/design-lab-v3/m/portrait-maya-480.jpg", initials: "MC" },
     { key: "Business", name: business.name, mode: "Business" as const, href: "/design-lab-v3/business", avatar: null, initials: business.initials },
-    { key: "Spurroom", name: "Spurroom Bikes", mode: "Business" as const, href: "/design-lab-v2/business", avatar: null, initials: "SB" },
   ];
   const me = rows[1];
   return (
@@ -45,7 +44,7 @@ export function SwitcherV3({ className = "identity" }: { className?: string }) {
 /** The business shell: phone header and tab bar, tablet rail, desktop sidebar; the page body in `.desk-main`. */
 export function BusinessShell({ title, children, header, mainClass = "", active = "Home", bare = false }: { title: string; children: ReactNode; header?: ReactNode; mainClass?: string; active?: "Home" | "Business"; bare?: boolean }) {
   return (
-    <div className="desk">
+    <div className="desk x-shell">
       <Rail mode="Business" active={active} identity={<SwitcherV3 />} tabs={BUSINESS_TABS_V3} />
       <div className="phone">
         <h1 className="v2-sr">{title}</h1>

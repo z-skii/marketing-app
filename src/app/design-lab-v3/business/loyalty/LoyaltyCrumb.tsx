@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, CaretRight } from "@phosphor-icons/react";
 import type { ReactNode } from "react";
 import { LabEntrance } from "../../LabControl";
+import { PauseControl } from "../../x/motion";
 
 /**
  * The Loyalty page head. Phone: a 56px row with Back, the title and the
@@ -23,7 +24,7 @@ export function LoyaltyHead({ title, here, action, backHref = "/design-lab-v3/bu
         <Link href={backHref} className="icon-btn loy-back-btn" aria-label={here ? "Back to Loyalty" : "Back to Business Home"}><ArrowLeft size={20} /></Link>
         <Link href={backHref} className="link t-action loy-back-desk" aria-label={here ? "Back to Loyalty" : "Back to Business Home"}><ArrowLeft size={16} aria-hidden />Back</Link>
         <h2 className="t-title loy-title">{title}</h2>
-        <span className="loy-context"><LabEntrance /></span>
+        <span className="loy-context"><LabEntrance /><PauseControl /></span>
         {action && <span className="loy-headaction">{action}</span>}
       </div>
     </div>
