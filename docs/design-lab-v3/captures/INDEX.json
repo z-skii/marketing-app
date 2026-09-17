@@ -2,7 +2,7 @@
   "verified": "2026-09-17",
   "note": "Every file below was opened and fully decoded after saving. Paths are repository relative and stable; no scratchpad or temporary path is referenced by the V3 package.",
   "total": 189,
-  "unreadable": 3,
+  "unreadable": 0,
   "files": [
     {
       "file": "docs/design-lab-v3/captures/INDEX.json",
@@ -1149,10 +1149,9 @@
     },
     {
       "file": "docs/design-lab-v3/recordings/09-creator-interaction-d.webm",
-      "kind": "unknown",
-      "size_kb": 0,
-      "readable": false,
-      "error": "webm too small"
+      "kind": "video",
+      "size_kb": 864,
+      "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/09-creator-interaction-m-strip.png",
@@ -1189,10 +1188,9 @@
     },
     {
       "file": "docs/design-lab-v3/recordings/10-vehicle-interaction-m.webm",
-      "kind": "unknown",
-      "size_kb": 0,
-      "readable": false,
-      "error": "webm too small"
+      "kind": "video",
+      "size_kb": 584,
+      "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/11-loyalty-visit-reward-d-strip.png",
@@ -1203,10 +1201,9 @@
     },
     {
       "file": "docs/design-lab-v3/recordings/11-loyalty-visit-reward-d.webm",
-      "kind": "unknown",
-      "size_kb": 0,
-      "readable": false,
-      "error": "webm too small"
+      "kind": "video",
+      "size_kb": 574,
+      "readable": true
     },
     {
       "file": "docs/design-lab-v3/recordings/11-loyalty-visit-reward-m-strip.png",
