@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { MagnifyingGlass, X } from "@phosphor-icons/react";
 import { Marks } from "../../../Progress";
+import { useOrigin } from "../../../useOrigin";
+import { cardUrl } from "../../../wallet/Cards";
 import { QR } from "../../../qr";
 import { type Member } from "../../../fixtures";
 import { progressLabel, useLoyalty } from "../../../store";
@@ -19,6 +21,7 @@ import { LabEntrance } from "../../../LabControl";
  * identity, the member QR and the readable member ID beside +1 visit.
  */
 export function Record({ preset }: { preset: string | null }) {
+  const origin = useOrigin();
   const { state } = useLoyalty();
   const p = state.program;
   const points = p.kind === "points";
@@ -75,7 +78,7 @@ export function Record({ preset }: { preset: string | null }) {
       ) : (
         <section className={`record-found settle${m.ready > 0 ? " is-ready" : ""}`} aria-live="polite">
           <div className="record-found-grid">
-            <span className="record-found-qr"><QR value={m.code} size={165} label={`${m.firstName}’s member QR`} ink="#111" paper="#fff" quiet={4} /><span className="t-fact">{m.memberId}</span></span>
+            <span className="record-found-qr"><QR value={cardUrl(origin, m.code)} size={165} label={`${m.firstName}’s member QR`} ink="#111" paper="#fff" quiet={4} /><span className="t-fact">{m.memberId}</span></span>
             <div className="record-found-id">
               <h2 className="t-name">{m.firstName}</h2>
               <span className="t-fact">{m.contactMasked}</span>

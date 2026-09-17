@@ -138,7 +138,7 @@ function directionInstructions(m: Awaited<ReturnType<typeof experienceMaterial>>
     "This job is the V3 EXPERIENCE DIRECTION: the whole TapMart redesign, not a Loyalty feature. The founder approved the Loyalty concept and architecture to keep, then said the earlier Open Cut direction did not capture the material quality they meant and that V3 must reach the benchmark they pointed to (Artec, studied live, pasted below). Decide the thesis, the material system, the three wow moments, the two worlds answer for the homepage, the user and business stories, Loyalty's permanent placement with reasoning, the settings architecture, the text budgets and the hierarchy of each of the five surfaces.",
     "Rules. The website behaves like a product experience, never headline, paragraph, screenshot. Show, do not explain. Product and motion together; no decorative animation. Material is a real, rationed thing: transparent depth, layered surfaces, refraction, controlled blur, content moving beneath material, subtle highlights, physical hierarchy, restrained tinted shadows, responsive materials, excellent easing. Not blur plus border plus radius on everything. Before a card, ask whether it needs to be one. Recreate, Story and Car must feel physically different. Loyalty is not automatically a bottom navigation item; give the reasoning. Every surface has a visible word budget. Nothing fake: no invented metrics, no fake states, fixture media only.",
     "Keep everything that was approved in the Loyalty concept: the architecture, first touch attribution, the member model, visits and points, unlock and redemption, the QR flows, the Wallet concepts, the privacy model, aggregate creator attribution and the event history. Restyle its surfaces into the V3 language; do not redesign its logic.",
-    "You have full authority over the design. Where the V2 system (pasted) is right, keep it; where it is not the material the founder means, replace it and say so. Return the JSON only.",
+    "You have full authority over the design. Where the V2 system (pasted) is right, keep it; where it is not the material the founder means, replace it and say so. You may search the current web to verify a product, design or platform detail (for example current Apple material guidance, Wallet pass behaviour, or how a benchmark site actually moves); the live Artec study pasted below is primary evidence and web results never replace it. Return the JSON only.",
     NO_SLOP,
     "=== THE EXPERIENCE BRIEF ===", m.brief, "=== END ===",
     "=== THE LIVE ARTEC STUDY ===", m.artec, "=== END ===",
@@ -163,7 +163,7 @@ export async function runV3XDirection(o: V2Options & { captures?: string[] } = {
   await mkdir(V3_DIR, { recursive: true });
   const res = await respond<Record<string, unknown>>({
     model: r.model, effort: r.effort, instructions: directionInstructions(m, sys), content, schema: V3X_DIRECTION_SCHEMA,
-    maxOutputTokens: 60000, maxWaitMs: 60 * 60_000, dryRun: o.dryRun, resumeId,
+    maxOutputTokens: 60000, maxWaitMs: 60 * 60_000, dryRun: o.dryRun, resumeId, webSearch: true,
     onSubmitted: (id) => { void writeFile(pendingPath, JSON.stringify({ id, when: new Date().toISOString() })); },
     onProgress: o.onProgress,
   });
@@ -224,7 +224,7 @@ export async function runV3XScreen(key: V3XKey, o: V2Options & { phone?: string 
     ...(key === "business-loyalty" || key === "business-home" ? ["=== THE APPROVED LOYALTY DIRECTION ===", m.loyaltyDirection, "=== END ==="] : []),
     "=== AVAILABLE MEDIA ===", V3_MEDIA.map((x) => `${x.path}: ${x.what}`).join("\n"), "=== END ===",
   ].join("\n\n");
-  const res = await respond<Record<string, unknown>>({ model: r.model, effort: r.effort, instructions, content, schema: V3X_SCREEN_SCHEMA, maxOutputTokens: 40000, maxWaitMs: 40 * 60_000, dryRun: o.dryRun, onProgress: o.onProgress });
+  const res = await respond<Record<string, unknown>>({ model: r.model, effort: r.effort, instructions, content, schema: V3X_SCREEN_SCHEMA, maxOutputTokens: 40000, maxWaitMs: 40 * 60_000, dryRun: o.dryRun, webSearch: true, onProgress: o.onProgress });
   if (o.dryRun) return { data: null, usage: [res.usage], files: [] };
   await mkdir(SCREENS_DIR, { recursive: true });
   res.data = noDashes(res.data);

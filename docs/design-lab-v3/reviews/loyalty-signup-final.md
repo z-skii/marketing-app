@@ -1,0 +1,20 @@
+# V3 final verification: Customer signup and Wallet card
+
+Reviewer: Astra. Verdict: **BLOCKER**. Captures: join-m-full.png, join-m-card.png, join-m-apple.png, join-d-google.png, card-m-apple-ready.png, card-m-google-updated.png, join-errors-m.png.
+
+**Two second read.** Five qualifying visits earn a free coffee. Join with a name and one contact, then keep your own demo member card.
+
+## Confirmed
+- Signup presents the reward, daily counting rule, one contact field and unchecked consent in a continuous, readable document.
+- Validation errors sit beside the relevant fields and agreement without breaking the layout.
+- Tess’s new Apple card correctly shows 0 of 5 visits and Collecting.
+- Apple and Google have distinct, legible card compositions with adjacent concept and simulation labels.
+- Sara’s ready specimen shows 5 of 5, Reward ready, its example date and the preserved Jasmine source.
+- No contact details, staff Redeem action or fabricated operating-system save sheet appear on the card fronts.
+
+## Blockers
+- **Member QR areas in captures 2 to 6: join-m-card.png, join-m-apple.png, join-d-google.png, card-m-apple-ready.png and card-m-google-updated.png..** The rendered member QR symbols are too low-capacity to contain the specified member-route payload. Why it blocks: The visible symbols have 21×21 modules, a version-1 QR. At error correction M, that cannot contain the required current-origin URL plus /design-lab-v3/card/ and the long opaque member code. This is a capacity issue visible in the captures, not a claim that the payload was decoded. The member QR is a required working identifier, not decorative artwork. Fix: Generate genuine QR matrices from each member’s complete V3 demo card URL using error correction M and automatic version selection. Retain the current displayed footprint, four-module quiet zone and identical payload across that member’s platforms and specimen states.
+
+## Notes, not blockers
+
+**For the founder.** The visual surface is resolved. One functional identity defect remains: the displayed member QRs cannot encode the required demo member URLs. Fix the QR generation without changing the surrounding design.

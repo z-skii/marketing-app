@@ -32,6 +32,7 @@ export function CounterActions({ m, wide = false, label, onDone }: { m: Member; 
           <span className="t-object">Already counted today.</span>
           <span className="t-fact-ink">{m.progress} of {p.requirement} {unitWord} · unchanged</span>
           <span className="t-fact">{points ? "One qualifying purchase counts per day." : "One visit counts per day."}</span>
+          {m.lastCountedAt && <details className="disclosure"><summary className="t-action">Details</summary><span className="t-fact" style={{ display: "block", marginTop: 8 }}>Last counted today at {fmtTime(m.lastCountedAt)}.</span></details>}
         </div>
       ) : mine && (r?.type === "visit" || r?.type === "points") ? (
         <div className="counter-result">

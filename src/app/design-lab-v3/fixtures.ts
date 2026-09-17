@@ -123,7 +123,6 @@ export function buildStory(requirement = 5): { members: Member[]; events: Loyalt
   for (const s of SEEDS) {
     const id = `ld-${String(s.n).padStart(3, "0")}`; const memberId = `LD-${String(s.n).padStart(3, "0")}`;
     events.push(ev("SIGNUP", id, s.joinedAt, `Joined · ${SOURCES[s.source].label}`));
-    if (SOURCES[s.source].confidence === "link") events.push(ev("CAMPAIGN_CLICK", id, s.joinedAt, `${SOURCES[s.source].linkCode}`, false));
     const walletAt = s.wallet === "none" ? null : new Date(new Date(s.joinedAt).getTime() + 3 * 60_000).toISOString();
     if (s.wallet === "apple" || s.wallet === "both") events.push(ev("WALLET_ADDED", id, walletAt!, "Apple Wallet · simulated", false));
     if (s.wallet === "google" || s.wallet === "both") events.push(ev("WALLET_ADDED", id, walletAt!, "Google Wallet · simulated", false));

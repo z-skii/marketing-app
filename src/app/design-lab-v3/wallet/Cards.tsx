@@ -1,5 +1,8 @@
+"use client";
+
 import type { CSSProperties } from "react";
 import { QR } from "../qr";
+import { useOrigin } from "../useOrigin";
 import { Img } from "../../design-lab-v2/Img";
 import type { CardDesign, Program } from "../fixtures";
 
@@ -18,7 +21,7 @@ import type { CardDesign, Program } from "../fixtures";
 
 export type CardState = "collecting" | "ready" | "redeemed" | "updated";
 
-export type CardData = { design: CardDesign; program: Program; firstName: string; memberId: string; code: string; progress: number; ready: number; state: CardState; offer?: { title: string; body: string } | null; publicSubset?: boolean };
+export type CardData = { design: CardDesign; program: Program; firstName: string; memberId: string; code: string; qr?: string; progress: number; ready: number; state: CardState; offer?: { title: string; body: string } | null; publicSubset?: boolean };
 
 export function Logo({ design, size = 28, style, className = "" }: { design: CardDesign; size?: number; style?: CSSProperties; className?: string }) {
   if (design.logo === "initial") return <span className={`wc-logo wc-logo-initial ${className}`} style={{ width: size, height: size, fontSize: Math.round(size * 0.5), ...style }} aria-hidden>{design.businessName.trim()[0] ?? "L"}</span>;
@@ -31,11 +34,15 @@ export function Logo({ design, size = 28, style, className = "" }: { design: Car
   );
 }
 
+/** The payload every member QR carries: that member's own demo card address, so the counter scanner and the card agree. */
+export const cardUrl = (origin: string, code: string) => `${origin}/design-lab-v3/card/${code}`;
+
 const unit = (p: Program) => (p.kind === "visits" ? "Visits" : "Points");
 const QR_PX = 176;
 
 /** Apple Wallet store card concept. */
 export function AppleCard({ d, width = 375, className = "" }: { d: CardData; width?: number; className?: string }) {
+  const origin = useOrigin();
   const { design, program: p } = d;
   const primary = d.state === "ready" ? `${p.requirement} of ${p.requirement}` : `${d.progress} of ${p.requirement}`;
   const status = d.state === "ready" ? "Reward ready" : d.state === "redeemed" ? "Reward redeemed" : "Collecting";
@@ -56,13 +63,14 @@ export function AppleCard({ d, width = 375, className = "" }: { d: CardData; wid
         )}
         <span className="wc-field wc-field-wide"><span className="wc-label">Status</span><span className="wc-value">{status}</span></span>
       </div>
-      <div className="wc-apple-code"><span className="wc-qr" style={{ width: Math.round(QR_PX * scale), height: Math.round(QR_PX * scale) }}><QR value={d.code} size={Math.round(QR_PX * scale)} label="" ink="#111" paper="#fff" quiet={4} /></span>{!d.publicSubset && <span className="wc-code-alt">{d.memberId}</span>}</div>
+      <div className="wc-apple-code"><span className="wc-qr" style={{ width: Math.round(QR_PX * scale), height: Math.round(QR_PX * scale) }}><QR value={d.qr ?? cardUrl(origin, d.code)} size={Math.round(QR_PX * scale)} label="" ink="#111" paper="#fff" quiet={4} /></span>{!d.publicSubset && <span className="wc-code-alt">{d.memberId}</span>}</div>
     </div>
   );
 }
 
 /** Google Wallet loyalty card concept. */
 export function GoogleCard({ d, width = 375, className = "" }: { d: CardData; width?: number; className?: string }) {
+  const origin = useOrigin();
   const { design, program: p } = d;
   const balance = d.state === "ready" ? `${p.requirement}/${p.requirement}` : `${d.progress}/${p.requirement}`;
   const rewards = d.state === "ready" ? String(Math.max(1, d.ready)) : "0";
@@ -82,7 +90,7 @@ export function GoogleCard({ d, width = 375, className = "" }: { d: CardData; wi
         <span className="wc-field"><span className="wc-label">Member</span><span className="wc-value">{d.firstName}</span></span>
         <span className="wc-field wc-field-right"><span className="wc-label">Member ID</span><span className="wc-value">{d.memberId}</span></span>
       </div>
-      <div className="wc-google-code"><span className="wc-qr" style={{ width: Math.round(QR_PX * scale), height: Math.round(QR_PX * scale) }}><QR value={d.code} size={Math.round(QR_PX * scale)} label="" ink="#111" paper="#fff" quiet={4} /></span></div>
+      <div className="wc-google-code"><span className="wc-qr" style={{ width: Math.round(QR_PX * scale), height: Math.round(QR_PX * scale) }}><QR value={d.qr ?? cardUrl(origin, d.code)} size={Math.round(QR_PX * scale)} label="" ink="#111" paper="#fff" quiet={4} /></span></div>
     </div>
   );
 }

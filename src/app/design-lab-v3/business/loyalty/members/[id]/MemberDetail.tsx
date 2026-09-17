@@ -5,6 +5,8 @@ import { DotsThree } from "@phosphor-icons/react";
 import { Sheet } from "../../../../../design-lab-v2/Sheet";
 import { Marks } from "../../../../Progress";
 import { QR } from "../../../../qr";
+import { useOrigin } from "../../../../useOrigin";
+import { cardUrl } from "../../../../wallet/Cards";
 import { fmtDayYear, fmtTime } from "../../../../fixtures";
 import { progressLabel, useLoyalty } from "../../../../store";
 import { LoyaltyHead } from "../../LoyaltyCrumb";
@@ -15,6 +17,7 @@ const HISTORY: Record<string, string> = { SIGNUP: "Joined", VISIT: "Visit counte
 
 /** Identity, progress, the full width counter action, then Joined from, Wallet and a collapsed History. `embedded` renders inside the desktop roster split. */
 export function MemberDetail({ id, embedded = false }: { id: string; embedded?: boolean }) {
+  const origin = useOrigin();
   const { state } = useLoyalty();
   const m = state.members.find((x) => x.id === id);
   const p = state.program;
@@ -37,7 +40,7 @@ export function MemberDetail({ id, embedded = false }: { id: string; embedded?: 
         <span className="mem-progress-big">{progressLabel(m, p)}</span>
         <Marks m={m} p={p} size="l" live={live} />
         <span className="t-fact-ink">{p.reward.name}{m.ready > 0 && m.progress > 0 ? ` · ${m.progress} ${points ? "points" : "visits"} toward your next reward` : m.ready > 1 ? ` · ${m.ready} ready` : ""}</span>
-        <span className="mem-qr"><QR value={m.code} size={165} label={`${m.firstName}’s member QR`} ink="#111" paper="#fff" quiet={4} /></span>
+        <span className="mem-qr"><QR value={cardUrl(origin, m.code)} size={165} label={`${m.firstName}’s member QR`} ink="#111" paper="#fff" quiet={4} /></span>
       </section>
       <CounterActions m={m} wide />
       <section className="mem-source-block obj">
@@ -56,6 +59,7 @@ export function MemberDetail({ id, embedded = false }: { id: string; embedded?: 
       <section className="mem-wallet-block">
         <span className="t-fact">Wallet</span>
         <WalletMark w={m.wallet} long />
+        <Link href={`/design-lab-v3/card/${m.code}`} className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center", alignSelf: "flex-start" }}>{m.wallet === "none" ? "Show demo card" : "View demo card"}</Link>
       </section>
       <details className="disclosure mem-history-block">
         <summary className="t-action">History</summary>

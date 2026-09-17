@@ -89,7 +89,7 @@ export function Sequence() {
   const go = (f: number) => { setPlaying(false); setStarted(true); const n = Math.max(0, Math.min(FRAMES.length - 1, f)); setFrame(n); setDayIx(n === 5 ? 1 : n >= 6 ? 3 : 0); };
   const f = FRAMES[frame];
   const visits = frame <= 3 ? 0 : frame === 4 ? 1 : frame === 5 ? DAYS[dayIx]?.n ?? 2 : 5;
-  const card: CardData = { design: liveProgram.card, program: liveProgram, firstName: "Sara", memberId: "LD-001", code: "LMQ-7K2P-SARA", progress: frame >= 6 ? 5 : visits, ready: frame >= 6 ? 1 : 0, state: frame >= 6 ? "ready" : "collecting", publicSubset: true };
+  const card: CardData = { design: liveProgram.card, program: liveProgram, firstName: "Sara", memberId: "LD-001", code: "LMQ-7K2P-SARA", qr: "tapmart-demo-member:loopday:q7n4k9r2m6t8", progress: frame >= 6 ? 5 : visits, ready: frame >= 6 ? 1 : 0, state: frame >= 6 ? "ready" : "collecting", publicSubset: true };
   const date = frame === 4 ? "2026-09-08" : frame === 5 ? DAYS[dayIx].iso : frame >= 6 ? "2026-09-17" : null;
   const bandLabel = frame === 4 ? "First visit" : frame === 5 ? DAYS[dayIx].label : frame === 6 ? "Visit counted" : null;
 

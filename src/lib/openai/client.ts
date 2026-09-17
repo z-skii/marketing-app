@@ -75,6 +75,8 @@ export type RespondOptions = {
   resumeId?: string | null;
   /** Called with the response id as soon as it is accepted, so a caller can persist it for resume. */
   onSubmitted?: (id: string) => void;
+  /** Let the model search the current web while it works (design and research jobs, never reviews of captures). */
+  webSearch?: boolean;
 };
 
 export type RespondResult<T> = { data: T; usage: Usage; responseId: string | null; request?: Record<string, unknown> };
@@ -90,6 +92,7 @@ export async function respond<T>(o: RespondOptions): Promise<RespondResult<T>> {
     text: { format: { type: "json_schema", name: o.schema.name, schema: o.schema.schema, strict: true } },
     max_output_tokens: o.maxOutputTokens ?? 20000,
   };
+  if (o.webSearch) body.tools = [{ type: "web_search" }];
   if (supportsReasoning(o.model)) body.reasoning = { effort: o.effort };
   else body.temperature = 0.2;
   if (o.dryRun) return { data: null as T, usage: { model: o.model }, responseId: null, request: body };
