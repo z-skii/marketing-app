@@ -1,0 +1,862 @@
+{
+  "screen": "Business Home",
+  "route": "/design-lab-v3/business",
+  "when": "2026-09-17T06:33:20.653Z",
+  "author": "director",
+  "spec": {
+    "acceptance": [
+      "Capture the rebuilt /design-lab-v3/business at 390×844 and 1440×900, plus full-page captures. These must be actual React/CSS browser captures, not assembled artwork.",
+      "At 390, Maya's intact portrait, two ownership-matched work samples, name, View person and Request are readable before scrolling. The beginning of Eli's photograph invites continuation; Loyalty is not in the first viewport.",
+      "The first 390×844 viewport contains no more than 35 visible words, including navigation, context, motion control, conditional identities, attention counts and readable lettering inside media. Report the measured total; this specification is not a measurement.",
+      "At 1440, the opening is an asymmetrical portrait/work spread beside an independently placed vehicle, not three media objects forced onto a shared bottom line. Nora and Eli's lower person compositions are visible at readable scale.",
+      "Verify every portrait, work sample, vehicle, connected handle, attention count and asking rate against its own fixture record. Missing ownership evidence blocks the affected object rather than authorizing substitution.",
+      "Record creator expansion, selection of both Maya work samples, Request, both supported request types, validation, the review boundary, Close and browser Back. No recorded frame may imply acceptance or a live send.",
+      "Record Eli's intact photograph opening, the separate placement plan, selected Rear doors zone, US$240 /month Asking rate, offer requirements and return. No wrap overlay, rotation control or photographic reconstruction is permitted.",
+      "Record For you, People and Cars. Loyalty remains between the completed lead-result group and the continuation, never above discovery, inside a person composition or inside the filtered results collection.",
+      "Record both Loyalty entrances: the Home strip directly, and Business Profile's first operational row. Preserve the five Business destinations and select Business on Loyalty routes.",
+      "Test the no-program, draft and live-zero strip states without moving the strip's structural position or displaying seeded member counts in those states.",
+      "Close and browser Back restore the exact filter, originating record, selected work, scroll anchor and focus. Request input is retained until deliberately discarded.",
+      "Verify keyboard operation, 44px targets, visible focus, 200% text zoom, 320×568, 768×1024, 1023×900 and 1920×1080. Names, rates, requirements and errors must not truncate.",
+      "Record reduced motion and opaque-material fallback. Product actions remain immediate; the same information and return behavior remain available without choreography.",
+      "Report actual media weight, LCP, CLS, interaction-to-next-paint, animation frame timings and long tasks on named hardware/browser/network conditions. Do not report performance targets as achieved results.",
+      "After the last fixes, Astra reviews the captures and recordings against the nine experience questions, including this surface's contribution to the car moment. Then stop for human approval; this direction does not approve the finished build."
+    ],
+    "first_question": "Who or what can grow my business?",
+    "object_kinds": [
+      {
+        "physical_difference": "A substantial 4:5 human portrait beside two smaller, differently proportioned authored images. Uncovered media, 4px portrait corners, no enclosing outline or shared shadow. Selecting work changes the inspected work, not the person's identity.",
+        "kind": "Open portrait-and-work selection spread",
+        "media": "/design-lab/portrait-maya-01.jpg and exactly two Maya-owned work records resolved through their relationship manifests. Do not guess work filenames or use the business-owned reference as Maya's work."
+      },
+      {
+        "physical_difference": "A broad, intact 3:2 photograph with an opaque rate-and-action band beneath it. It opens horizontally into a larger photographic stage, unlike the person composition.",
+        "kind": "Vehicle photographic field",
+        "media": "/design-lab/vehicle-eli-01.jpg and Eli's existing rear-door US$240/month asking-rate record."
+      },
+      {
+        "physical_difference": "A clearly labelled, flat placement drawing beside the photograph on desktop and below it on phone. The supported rear-door zone is selectable; its rate belongs to that zone. It is never painted onto the car.",
+        "kind": "Two-dimensional placement plan",
+        "media": "/design-lab/placement-rear-doors.svg, after verifying its mapping to Eli's supported placement."
+      },
+      {
+        "physical_difference": "A shallow, open band between two 1px separators. One 56px artwork fragment, two counts and one quiet action. No panel fill, elevation, QR miniature or Wallet screenshot.",
+        "kind": "Loyalty operational strip",
+        "media": "The approved Loopday program artwork and loop mark; counts projected from the current local Loyalty event model."
+      },
+      {
+        "physical_difference": "Smaller portrait, one authored work image and a compact identity/action group arranged directly on the canvas. These are individually inspectable people, not repeated database rows.",
+        "kind": "Finite person continuation",
+        "media": "Nora's own portrait and work on phone; Nora's and Eli's own portrait/work records on desktop. Additional records appear only through a real fixture continuation."
+      },
+      {
+        "physical_difference": "Opaque, readable task surfaces with a compact material header only when content scrolls beneath it. Phone tasks cover navigation; desktop request composition uses a 480px right drawer. Field groups grow naturally.",
+        "kind": "Focused request and offer working surfaces",
+        "media": "Real coded existing request and vehicle-offer previews, retaining selected-person or selected-vehicle identity. No generated interface image."
+      },
+      {
+        "physical_difference": "A restrained translucent foreground containing five labelled destinations. Actual feed media can pass beneath it. The desktop equivalent is an opaque sidebar, not glass.",
+        "kind": "Functional navigation material",
+        "media": "Coded navigation using the existing bundled app icon family; no second icon library."
+      }
+    ],
+    "truth": [
+      "This is an isolated fictional preview under /design-lab-v3. No production session, database, request, offer, payment or notification is changed.",
+      "The supplied screenshots are functionality inventory, not composition or material approval. No new repository inspection, capture or performance result is claimed here.",
+      "Maya's default disconnected Instagram state produces no Instagram handle or connected icon. A TapMart handle must not masquerade as a connected Instagram identity.",
+      "Person work is ownership-matched. A photographed latte or business reference does not become Maya's submission through visual adjacency.",
+      "US$240 /month is Eli's asking rate for Rear doors. It is neither a full-wrap quote, an accepted offer nor the US$300/month Personal campaign opportunity.",
+      "Request opens composition. It does not select Maya for a campaign, send an invitation or imply she accepted. The local review boundary remains explicit.",
+      "The live Loyalty strip initially projects 10 members and 6 who came back from the approved local model. It updates only when that working model changes, never because discovery media animates.",
+      "Loyalty permanently belongs to Business → Loyalty. Home supplies a discovery entrance, not a sixth destination, fourth campaign type or alternate ownership architecture.",
+      "Filter order is matched lead inventory, Loyalty strip, matched continuation. If a filter excludes a lead record, collapse that record's slot rather than keeping a nonmatching result or an empty spacer. Whenever a lead car is present, its entire action band precedes Loyalty.",
+      "Phone initial scope is Maya, Eli's vehicle and Nora. Desktop adds Eli as an independently inspectable person. Do not repeat records or expand the scope merely to fill space.",
+      "Use September 17, 2026, 10:00 AM CDT as the existing Loyalty fixture clock. Viewing this marketplace never advances that clock.",
+      "All brace expressions below are data bindings, never literal UI. Resolve their ownership, values and visible text before capture; unsupported optional facts are absent."
+    ],
+    "two_second_read": "Maya's face and work lead. A real car placement follows. Choose a person or inspect a vehicle; manage returning customers after discovery.",
+    "thesis": "Business Home is an open selection spread, not a directory: Maya is encountered at human scale through her portrait and authored work, while Eli's vehicle occupies a separate photographic field with a precisely scoped asking rate. Unequal proportions and object-specific openings replace the current compact, shared-baseline inventory. The bright canvas stays uncovered; depth appears only at navigation and active inspection controls. Loyalty remains a quiet operational strip after the completed lead discovery spread, connecting acquisition to return without taking over the marketplace.",
+    "copy_budget": {
+      "every_visible_string": [
+        "Loopday Coffee",
+        "Design Lab · Fictional preview",
+        "Pause motion",
+        "Resume motion",
+        "Austin",
+        "For you",
+        "People",
+        "Cars",
+        "Nearby",
+        "Maya Chen",
+        "{maya.connected_instagram_handle}",
+        "View person",
+        "Request",
+        "Eli’s car",
+        "US$240",
+        "/month",
+        "Rear doors",
+        "Asking rate",
+        "View",
+        "Loyalty",
+        "{loyalty.members} members · {loyalty.repeat_visitors} came back",
+        "Open loyalty",
+        "Nora Vale",
+        "{nora.connected_instagram_handle}",
+        "Eli Moss",
+        "Round Rock",
+        "{eli.connected_instagram_handle}",
+        "More",
+        "Home",
+        "Content",
+        "Create",
+        "Campaigns",
+        "Business",
+        "TapMart",
+        "Create campaign",
+        "Search",
+        "Messages",
+        "Notifications",
+        "{actual_content_attention_count}",
+        "{actual_campaign_review_count}",
+        "Back",
+        "Close",
+        "Work",
+        "Previous",
+        "Next",
+        "{work.campaign_name}",
+        "{work.supported_review_state}",
+        "{person.supported_eligibility_text}",
+        "{person.supported_completed_work_fact}",
+        "{person.supported_review_text}",
+        "Recreate a Reel",
+        "Instagram Story ads",
+        "Car advertising",
+        "Pay",
+        "Deadline",
+        "Deliverables",
+        "Terms",
+        "Review request",
+        "Request preview",
+        "Nothing will be sent.",
+        "{request.bound_field_value}",
+        "{request.required_type_specific_label}",
+        "{request.material_disclosure}",
+        "{request.validation_message}",
+        "Keep editing",
+        "Discard draft",
+        "Discard this draft?",
+        "Placement plan",
+        "Offer",
+        "Placement",
+        "Dates",
+        "Monthly pay",
+        "Review offer",
+        "Offer preview",
+        "{offer.bound_field_value}",
+        "{offer.required_requirement_label}",
+        "{offer.material_disclosure}",
+        "{offer.validation_message}",
+        "Turn visits into rewards.",
+        "Create program",
+        "Draft · Free coffee",
+        "Continue setup",
+        "View QR",
+        "Personal",
+        "Add business",
+        "Outside this preview",
+        "This destination is outside the V3 lab.",
+        "Media unavailable",
+        "Try again",
+        "No matches",
+        "Choose another filter.",
+        "Choose city",
+        "{city_option}",
+        "Live program",
+        "No program",
+        "Draft",
+        "Live · no members",
+        "Points · 82 of 100",
+        "Points · 99 of 100",
+        "Same-day visit",
+        "Wallet not added",
+        "Google limit reached",
+        "Recording error",
+        "Reset demo",
+        "Change demo state?",
+        "This resets local changes.",
+        "Cancel",
+        "Change state"
+      ],
+      "target": "Hard maximum: 35 visible words in the first 390×844 viewport at default text size, after fonts and images settle. The specified default has a planned 24 UI words before any readable image lettering, verified optional handle or supported attention count; this is an inventory calculation, not a rendered result. Aim for 27 to 33 only when real bound content earns those words. Do not add filler to reach that target. Full initial inventory retains the direction's 65 to 90 phone and 80 to 110 desktop pressure targets; report actual totals even when lower. Count repeated occurrences, controls, money, notices and legible media lettering. Measure filters, expanded tasks, errors, paused and reduced-motion states separately. Required disclosures and 200% text zoom are not capped."
+    },
+    "states": [
+      {
+        "visible_strings": [
+          "Loopday Coffee",
+          "Design Lab · Fictional preview",
+          "Pause motion",
+          "Austin",
+          "For you",
+          "People",
+          "Cars",
+          "Nearby",
+          "Maya Chen",
+          "View person",
+          "Request",
+          "Home",
+          "Content",
+          "Create",
+          "Campaigns",
+          "Business"
+        ],
+        "state": "Default phone first viewport",
+        "what_changes": "For you and Home are selected. Maya has no disconnected-state replacement label. Her two work samples are visible. Eli's photograph begins below her completed action band; its text and Loyalty remain farther down in ordinary flow."
+      },
+      {
+        "visible_strings": [
+          "For you",
+          "People",
+          "Cars",
+          "Nearby",
+          "{matched_person.name}",
+          "{matched_person.connected_instagram_handle}",
+          "View person",
+          "Request",
+          "Eli’s car",
+          "US$240",
+          "/month",
+          "Rear doors",
+          "Asking rate",
+          "View",
+          "Loyalty",
+          "{loyalty.members} members · {loyalty.repeat_visitors} came back",
+          "Open loyalty"
+        ],
+        "state": "Marketplace filters",
+        "what_changes": "People renders Maya, then the strip, then the eligible person continuation. Cars renders Eli's complete vehicle composition, then the strip, then only supported matching continuation. Nearby uses the selected fixture city without requesting device location. Each filter retains its own scroll anchor. No-result inventory shows No matches and Choose another filter. before the strip; it does not fabricate a result."
+      },
+      {
+        "visible_strings": [
+          "Back",
+          "Close",
+          "Design Lab · Fictional preview",
+          "Pause motion",
+          "{person.name}",
+          "{person.connected_instagram_handle}",
+          "Work",
+          "Previous",
+          "Next",
+          "Request",
+          "{work.campaign_name}",
+          "{work.supported_review_state}",
+          "{person.supported_eligibility_text}",
+          "{person.supported_completed_work_fact}",
+          "{person.supported_review_text}"
+        ],
+        "state": "Person inspection",
+        "what_changes": "The same portrait and selected work become a larger open composition. Keep identity visible while inspecting work. Actual eligibility, completed work and reviews appear below the media, only when supplied. No empty rating object or administrative inspector appears."
+      },
+      {
+        "visible_strings": [
+          "Back",
+          "Close",
+          "Request",
+          "{person.name}",
+          "Recreate a Reel",
+          "Instagram Story ads",
+          "Pay",
+          "Deadline",
+          "Deliverables",
+          "Terms",
+          "{request.bound_field_value}",
+          "{request.required_type_specific_label}",
+          "{request.material_disclosure}",
+          "Review request",
+          "{request.validation_message}"
+        ],
+        "state": "Request composition",
+        "what_changes": "Use the existing working request model. The person is fixed; type selection contains only Recreate and Story. Required fields, financial basis, deadlines, rights and type-specific obligations remain visible before review. Do not prefill US$75 from an unrelated public opportunity. Missing required data blocks review."
+      },
+      {
+        "visible_strings": [
+          "Back",
+          "Close",
+          "Request preview",
+          "{person.name}",
+          "{request.bound_field_value}",
+          "{request.required_type_specific_label}",
+          "{request.material_disclosure}",
+          "Nothing will be sent.",
+          "Keep editing"
+        ],
+        "state": "Request review boundary",
+        "what_changes": "Render the complete supplied request review on opaque paper. This is the recording endpoint, not Request sent or Accepted. The live-send boundary is not an enabled action. Back preserves the draft; closing a dirty draft requires Discard this draft? with Keep editing and Discard draft."
+      },
+      {
+        "visible_strings": [
+          "Back",
+          "Close",
+          "Design Lab · Fictional preview",
+          "Pause motion",
+          "Eli’s car",
+          "Placement plan",
+          "Rear doors",
+          "US$240",
+          "/month",
+          "Asking rate",
+          "Offer"
+        ],
+        "state": "Vehicle inspection",
+        "what_changes": "Open the intact photograph and separate placement plan. Rear doors is the only selectable zone unless further zones are backed by the same vehicle fixture. The asking rate occupies opaque paper immediately beside the selected zone, outside the lens control rail."
+      },
+      {
+        "visible_strings": [
+          "Back",
+          "Close",
+          "Offer",
+          "Eli’s car",
+          "Placement",
+          "Rear doors",
+          "Dates",
+          "Monthly pay",
+          "Terms",
+          "{offer.bound_field_value}",
+          "{offer.required_requirement_label}",
+          "{offer.material_disclosure}",
+          "Review offer",
+          "{offer.validation_message}",
+          "Offer preview",
+          "Nothing will be sent."
+        ],
+        "state": "Vehicle offer and review",
+        "what_changes": "Retain the selected vehicle and supported placement. The existing offer requirements include real dates, duration, monthly basis, installation, applicable costs, proof and removal obligations where supplied. Asking rate remains distinct from entered offer pay. Review cannot fabricate a sent or accepted offer."
+      },
+      {
+        "visible_strings": [
+          "Loyalty",
+          "{loyalty.members} members · {loyalty.repeat_visitors} came back",
+          "Open loyalty"
+        ],
+        "state": "Live Loyalty strip",
+        "what_changes": "The baseline resolves to 10 members · 6 came back. Render current projections, not separately authored display numbers. No Live badge or reward count is added to this marketplace strip."
+      },
+      {
+        "visible_strings": [
+          "Loyalty",
+          "Turn visits into rewards.",
+          "Create program",
+          "Draft · Free coffee",
+          "Continue setup",
+          "0 members · 0 came back",
+          "View QR"
+        ],
+        "state": "Alternate Loyalty strip states",
+        "what_changes": "Render only the applicable branch: no program uses the brand mark, Turn visits into rewards. and Create program; draft uses Draft · Free coffee and Continue setup; live-zero uses 0 members · 0 came back and View QR. Preserve the same open strip and insertion slot. Never show seeded counts in these branches."
+      },
+      {
+        "visible_strings": [
+          "Resume motion"
+        ],
+        "state": "Paused or reduced motion",
+        "what_changes": "Pause changes only the motion-control label and presentation behavior. Under reduced motion, default to stationary presentation. All discovery, request, vehicle and return actions remain fully usable; no workflow state is withheld."
+      },
+      {
+        "visible_strings": [
+          "Media unavailable",
+          "Try again",
+          "Outside this preview",
+          "This destination is outside the V3 lab.",
+          "Close"
+        ],
+        "state": "Unavailable media or destination",
+        "what_changes": "A failed image retains its reserved dimensions and identity, with a plain labelled fallback. Retry appears only when supported. Missing media blocks media-dependent inspection, not unrelated navigation. Unsupported destinations open the inherited explicit notice rather than production."
+      }
+    ],
+    "engineering_notes": [
+      "Use real React/CSS and existing V3 local providers. Keep all implementation and evidence isolated to V3; leave production and V2 untouched. Inspect actual repository paths before updating FILE_MAP.md.",
+      "Resolve exact work filenames, ownership, image dimensions, subject-safe crops, connected states and rate scope in docs/design-lab-v3/MEDIA_MANIFEST.json before implementation approval. The wildcard inventories are not asset-selection permission.",
+      "Typography is bundled DM Sans. Lead person name: 28px/32px, weight 500, tracking -0.03em on phone; 32px/36px on desktop. Money: 36px/40px phone, 44px/48px desktop, weight 600, tabular numerals. Actions: 14px/20px at 600. Facts: 13px/18px. Navigation and lab context: at least 12px/16px. Forms and obligations: 16px/24px.",
+      "Ink is #17221E; secondary text is #59655D at full opacity. Focus is a 2px #315E49 outline with 3px offset on light surfaces. The selected filter has a 2px ink underline and a programmatic selected state, not color alone.",
+      "Base order: canvas z0, media z10, opaque reading surfaces z20, navigation lens z40, floating controls z50. Modal scrim is z60; lift the complete active working-paper task into z70 and its compact header into z80. Base navigation becomes inert and visually covered during full-height tasks.",
+      "No nested backdrop filters. Maximum two active lens regions on phone and three on desktop; target visible blur area below 20% of the viewport. This surface normally has one. Desktop sidebar, rate bands, Loyalty and person media never use blur.",
+      "Use the genuine backdrop lens for active controls. The source-image optical-rim duplication technique is reserved for the controlled public stages, not added to this marketplace. No pointer-following highlight is needed here.",
+      "Snapshot start and end geometry once per transition. Animate transform and opacity on bounded media/control layers; preserve the image's proportions within its moving viewport. Do not interpolate layout dimensions every frame or perform repeated layout reads during animation.",
+      "The car's expansion must preserve the entire vehicle and original geometry. Use a supported composited clipping approach; if the browser cannot maintain frame performance, use a transform/opacity reveal rather than repainting a large mask on every frame. No WebGL.",
+      "Serve responsive derivatives of the verified originals with intrinsic dimensions reserved. Phone targets are approximately 452px-wide lead portrait, 232px-wide work crops and 716 to 780px-wide vehicle image for 2× rendering; desktop selects larger derivatives only where displayed size warrants them. Preserve full-resolution sources for deliberate inspection.",
+      "Prioritize the lead portrait; eagerly resolve both adjacent work samples. Lazy-load continuation media and larger inspection derivatives. Target initial phone route media at or below 350KB where source quality permits; report any quality-driven exception. There is no autoplay video requirement.",
+      "Navigation and action state update on input, not after animation. Off-screen presentation stops. Mid-transition Close retargets the current visual state; it must not wait for the opening sequence to finish.",
+      "Store filter, selected work, originating record, scroll anchor and focus target independently from presentation progress. Browser Back closes the deepest viewer or task before leaving the parent route. Preserve local drafts and scenario state across route changes.",
+      "Use accessible icon-only Search, Messages and Notifications on phone, with 44px targets. All five primary navigation labels remain printed. Reuse the actual bundled icon set after repository inspection instead of introducing a competing family.",
+      "At 320 and 200% text zoom, let identity, controls and forms grow vertically. If the portrait/work pair cannot remain useful, place the selected work beneath the portrait. Never reduce required type, crop text or preserve the word budget through clipping.",
+      "Write actual visible-text counts to TEXT_COUNTS.md, material implementation to MATERIAL_SYSTEM.md and measured performance to PERFORMANCE.md. Extend REPORT.md with the real capture and recording paths only after the files exist."
+    ],
+    "interactions": [
+      {
+        "trigger": "Select For you, People, Cars or Nearby by pointer or keyboard.",
+        "reduced_motion": "Immediate result replacement; no translation or fade.",
+        "name": "Filter the marketplace, not Loyalty",
+        "duration_ms": "0 for selection; 160 for available-result opacity replacement",
+        "returns": "Maintain a separate anchor per filter. Selection stays focused. Returning from an object restores the filter and its originating record. A needed city choice returns focus to Nearby.",
+        "easing": "cubic-bezier(0.2,0,0,1)",
+        "what_moves": "Only entering and leaving result media changes opacity. The Loyalty strip participates in normal layout after the completed lead group; it does not animate as a result or remain pinned to a screen coordinate.",
+        "recorded": "Required in 06-business-discovery-{390,1440}.webm. Show For you, People and Cars at rest, with the complete action band and strip boundary visible in each applicable composition."
+      },
+      {
+        "trigger": "Tap a person's portrait, a work sample or View person.",
+        "reduced_motion": "Open the same identity-and-work layout immediately, preserving the selected sample.",
+        "name": "Choose a person through their work",
+        "duration_ms": "440 opening; 280 return",
+        "returns": "Close, Escape or browser Back restores the exact media source and feed anchor. Focus returns to the actual invoking portrait, work button or View person control.",
+        "easing": "Open cubic-bezier(0.16,1,0.3,1); return cubic-bezier(0.22,1,0.36,1)",
+        "what_moves": "The selected authored image grows into the inspection position while the same portrait takes the identity position. The other work sample recedes through opacity, not a rotating carousel. The page never turns into an ID-and-metadata inspector.",
+        "recorded": "Required in 09-creator-request-{390,1440}.webm. Capture source rest, mid-expansion, expanded identity/work, both work selections and exact return."
+      },
+      {
+        "trigger": "Select another supplied work sample or use Previous and Next in person inspection.",
+        "reduced_motion": "Replace the selected image immediately; keep all identity information stationary.",
+        "name": "Inspect authored work",
+        "duration_ms": "160",
+        "returns": "Work navigation remains inside the person layer. Closing a dedicated asset view returns to the selected sample; closing the person returns to the originating feed control.",
+        "easing": "cubic-bezier(0.2,0,0,1)",
+        "what_moves": "Replace distinct image layers through opacity. Do not morph one photograph into another. Portrait, name and Request remain fixed within the person composition.",
+        "recorded": "Included in recording 09. Prove that both samples retain Maya's ownership and that no new campaign status appears when a sample is selected."
+      },
+      {
+        "trigger": "Request from the feed or person inspection.",
+        "reduced_motion": "Show the working sheet immediately and transfer focus to its heading.",
+        "name": "Compose an invitation",
+        "duration_ms": "320 opening; 160 scrim reveal; 280 return",
+        "returns": "Return to the invoking person context, not the top of Home. Back from review preserves fields. Dirty dismissal opens Discard this draft?; cancellation returns focus to Keep editing.",
+        "easing": "Open cubic-bezier(0.16,1,0.3,1); return cubic-bezier(0.22,1,0.36,1)",
+        "what_moves": "Opaque phone paper enters from 24px below; the desktop 480px drawer enters from 32px right. The person's identity remains visible in the task and, on desktop, in the background composition. No sending animation is present.",
+        "recorded": "Required in recording 09. Include type choice, a validation error, completed review and Nothing will be sent. Stop before any live-send boundary."
+      },
+      {
+        "trigger": "Tap Eli's photograph, Rear doors or View.",
+        "reduced_motion": "Open the full photograph, labelled plan, selected zone, rate and Offer immediately.",
+        "name": "One part of a real car",
+        "duration_ms": "440 photo opening; 240 plan reveal; 160 zone reveal; 220 rate alignment; 280 return",
+        "returns": "Close, Escape or browser Back restores Eli's exact feed anchor, filter and invoking control. Reverse the composition in 280ms without a mandatory pause.",
+        "easing": "Open cubic-bezier(0.16,1,0.3,1); reveal cubic-bezier(0.2,0,0,1); settle cubic-bezier(0.2,0.8,0.2,1); return cubic-bezier(0.22,1,0.36,1)",
+        "what_moves": "At t0 to 440 the photograph opens into its wider stage with at most 40px image-plane translation. At t440 to 680 the independent plan becomes visible. At t680 to 840 the rear-door fill reveals; at t680 to 900 the opaque US$240 /month Asking rate line aligns by 12px with that zone. Controls work from t0.",
+        "recorded": "Required in 10-vehicle-offer-{390,1440}.webm. Capture intact source photograph, expanded photograph, separate plan, final zone/rate relationship, offer entrance and return."
+      },
+      {
+        "trigger": "Offer from the vehicle inspection.",
+        "reduced_motion": "Show the existing offer task immediately with the selected vehicle and placement preserved.",
+        "name": "Inspect an offer before commitment",
+        "duration_ms": "320 opening; 280 return",
+        "returns": "Back returns to the same zone inspection. Closing a dirty task requires deliberate discard. Closing inspection then restores the original vehicle control.",
+        "easing": "Open cubic-bezier(0.16,1,0.3,1); return cubic-bezier(0.22,1,0.36,1)",
+        "what_moves": "Opaque working paper enters while the vehicle remains the contextual source. The asking rate does not animate into an accepted monthly price. Review is a separate readable state.",
+        "recorded": "Included in recording 10. Show dates, selected placement, monthly pay and all bound obligations, then the explicit preview-only endpoint."
+      },
+      {
+        "trigger": "Open loyalty, Create program, Continue setup or View QR on the applicable strip.",
+        "reduced_motion": "Immediate route change.",
+        "name": "Enter the business's return tool",
+        "duration_ms": "0",
+        "returns": "Browser Back restores the same marketplace filter and strip anchor. On the Loyalty route, Business is selected. No marketplace inspection changes member counts.",
+        "easing": "none",
+        "what_moves": "Nothing animates inside the strip. Navigate directly to the existing state-appropriate V3 Loyalty route without a promotional intermediate panel.",
+        "recorded": "Required in 12-loyalty-placement-{390,1440}.webm. Include direct Home entry and Business Profile entry with the unchanged navigation visible."
+      },
+      {
+        "trigger": "Pause motion or Resume motion.",
+        "reduced_motion": "Default to stationary presentation; resuming does not override the operating-system reduced-motion preference.",
+        "name": "Stop presentation, retain function",
+        "duration_ms": "0",
+        "returns": "Focus remains on the same control. Resume continues an eligible presentation without replaying entrances or changing fixture state.",
+        "easing": "none",
+        "what_moves": "Pause freezes presentation at its current position. Subsequent necessary product actions resolve immediately to a usable stationary layout. It does not freeze form validation, navigation or confirmed local state.",
+        "recorded": "Required in 19-reduced-motion-{390,1440}.webm and 20-pause-keyboard-back-390.webm, including a pause during person or car opening."
+      },
+      {
+        "trigger": "Activate identity, Design Lab, Create, or an unimplemented utility destination.",
+        "reduced_motion": "Immediate menu or notice with focus transfer.",
+        "name": "Preserve the existing app architecture",
+        "duration_ms": "320 task opening; 280 return; navigation selection immediate",
+        "returns": "Dismissal restores the invoking control. Identity changes affect the isolated preview only. Scenario replacement uses the approved confirmation before resetting local changes.",
+        "easing": "Open cubic-bezier(0.16,1,0.3,1); return cubic-bezier(0.22,1,0.36,1)",
+        "what_moves": "Only the focused menu, sheet or notice enters. Create retains exactly Recreate a Reel, Instagram Story ads and Car advertising. Unsupported actions open the inherited Outside this preview notice.",
+        "recorded": "Include architecture checks in recordings 06 and 12, and keyboard/focus checks in recording 20. No production navigation or session change is permitted."
+      }
+    ],
+    "wow_moment": "This surface carries the working-preview version of One part of a real car. Its proof is the photograph-to-plan-to-rate relationship, not zoom magnitude: Eli's untouched vehicle expands over 440ms, the separate rear-door diagram opens over 240ms, the supported zone fills over 160ms, and the US$240 /month Asking rate line settles 12px into that zone's opaque reading position over 220ms. On phone the plan is below the photograph; on desktop it is beside it. Offer is available throughout. There is no fake wrap, car extraction, rotation, rate count-up or optical distortion of text. The final composition rests completely still; return takes 280ms and restores the exact source anchor.",
+    "desktop": {
+      "grid": "At 1440×900 retain the opaque 200px sidebar. Main content runs x232 to 1408: 1176px, twelve 76px columns with eleven 24px gutters. The lead person occupies columns 1 to 8, width 776px; Eli's vehicle occupies columns 9 to 12, width 376px. Do not align their media bottoms. Main header and filter controls occupy y24 to 112; the first portrait starts at y144. At 768 to 1023 retain the 80px labelled rail, 24px main padding and eight-column composition; at 1920 cap app content at 1280px. Coordinates describe the default font/data state, not fixed-height clipping contracts.",
+      "regions": [
+        {
+          "placement": "x0 to 200, full viewport height. Wordmark and business switcher at the top; destinations below; utilities at the bottom.",
+          "material": "Canvas z0: #F6F7F5, opacity 1, blur 0, saturation 1, shadow none, radius 0. Optional exposed 1px #DCE2DE right divider. Create campaign alone uses #D5E85A with #17221E text.",
+          "content": [
+            "TapMart",
+            "Loopday Coffee",
+            "Home",
+            "Content",
+            "{actual_content_attention_count}",
+            "Create campaign",
+            "Campaigns",
+            "{actual_campaign_review_count}",
+            "Business",
+            "Search",
+            "Messages",
+            "Notifications"
+          ],
+          "name": "Persistent Business sidebar",
+          "action": "Preserve existing five destinations, business identity switcher and utility behavior. Home is selected. No Loyalty child, sixth item or Home Settings gear.",
+          "motion": "Selection is immediate. No moving selection capsule, badge pulse or sidebar blur.",
+          "object": "Opaque navigation rail, not a floating panel."
+        },
+        {
+          "placement": "x232 to 1408, y24 to 112. Context and motion at the upper left; Austin aligned to the upper right. Filters form one plain row beneath.",
+          "material": "Canvas z0: #F6F7F5, blur 0, saturation 1, border none, highlight none, shadow none, radius 0.",
+          "content": [
+            "Design Lab · Fictional preview",
+            "Pause motion",
+            "Austin",
+            "For you",
+            "People",
+            "Cars",
+            "Nearby"
+          ],
+          "name": "Context and discovery controls",
+          "action": "Design Lab opens the inherited scenario selector. Austin opens the city choice. Filters change matching marketplace inventory.",
+          "motion": "Immediate selected underline; only available result media receives the 160ms opacity replacement.",
+          "object": "Two lightweight control lines on the canvas, not a toolbar card."
+        },
+        {
+          "placement": "Columns 1 to 8. Portrait x232 y144, 280×350. First work x536 y216, 224×224 reviewed crop. Second work x784 y168, 224×280 reviewed crop. Identity begins x232 y510; actions sit toward the right at y524. All crop choices require manifest approval.",
+          "material": "Media z10: original colors, opacity 1, blur 0, saturation 1, border none, shadow none; portrait radius 4px, work radius 0. Identity remains on #F6F7F5. Request uses Grip: #17221E, radius 12px, inset highlight 0 1px 0 rgba(255,255,255,0.16), no floating shadow.",
+          "content": [
+            "Maya Chen",
+            "{maya.connected_instagram_handle}",
+            "View person",
+            "Request"
+          ],
+          "name": "Maya at human scale",
+          "action": "Each media object opens the same person with the appropriate work selected. View person inspects; Request opens the composer. Optional connected identity is omitted in the default disconnected fixture.",
+          "motion": "No entrance stagger or hover zoom. The deliberate 440ms person expansion moves the selected work and preserves portrait identity.",
+          "object": "Asymmetric portrait/work spread, not a common-bottom-line triptych or creator card."
+        },
+        {
+          "placement": "Columns 9 to 12, x1032. Photograph starts y208 at 376×250.7. The opaque text/action band begins 16px below and ends by approximately y584.",
+          "material": "Media z10: original colors, opacity 1, blur 0, saturation 1, radius 0, border and shadow none. Rate band is opaque #F6F7F5, z20, radius 0, no shadow. View uses #17221E with 12px radius.",
+          "content": [
+            "US$240",
+            "/month",
+            "Asking rate",
+            "Eli’s car",
+            "Rear doors",
+            "View"
+          ],
+          "name": "Independent car field and scoped rate",
+          "action": "Photograph, Rear doors and View open the supported vehicle inspection. Rear doors is an operable text control, not an unsupported zone menu.",
+          "motion": "No idle motion. Open through the car-specific 440/240/160/220ms sequence.",
+          "object": "Wide photographic inventory with a separate rate-and-action band."
+        },
+        {
+          "placement": "x232 to 1408, approximately y616 to 720, below both completed lead action bands. Artwork is 56×56 at the left; title/counts follow; the quiet action aligns to the far right.",
+          "material": "Canvas z0: #F6F7F5 with 1px #DCE2DE top and bottom separators; blur 0, saturation 1, radius 0, highlight none, shadow none. Artwork keeps approved Loopday colors.",
+          "content": [
+            "Loyalty",
+            "{loyalty.members} members · {loyalty.repeat_visitors} came back",
+            "Open loyalty"
+          ],
+          "name": "Full-width operational strip",
+          "action": "Open the state-appropriate Loyalty route directly. Alternate states replace only the applicable copy, artwork and action.",
+          "motion": "Stationary. No promotional pulse, count-up, hover elevation or delayed reveal.",
+          "object": "104px separator-defined strip; explicitly not a card."
+        },
+        {
+          "placement": "Two 576px open groups at x232 and x832, approximately y752 to 892. Each uses a 112×140 portrait, a separate 128px-wide authored image and a readable identity/action group. Keep Nora left and Eli right.",
+          "material": "Media z10 at original color, blur 0, saturation 1, border none, shadow none; portrait radius 4px, work radius 0. Text on #F6F7F5. Filled Request controls use #17221E and 12px radius.",
+          "content": [
+            "Nora Vale",
+            "{nora.connected_instagram_handle}",
+            "View person",
+            "Request",
+            "Eli Moss",
+            "Round Rock",
+            "{eli.connected_instagram_handle}",
+            "View person",
+            "Request",
+            "More"
+          ],
+          "name": "Finite independent people",
+          "action": "Each person opens their own identity and work; their Request binds that person. More appears only when the actual permitted fixture continuation exists.",
+          "motion": "No looping arrival or decorative stagger. Each person uses the same ownership-preserving expansion behavior, with their own media.",
+          "object": "Two smaller portrait/work arrangements, not CRM rows or equal enclosing tiles."
+        },
+        {
+          "placement": "On demand within the 1176px main area. Person inspection uses four columns for identity and eight for selected work. Vehicle inspection uses a 776px photo stage and a separate 376px plan/rate region. Request uses a 480px right drawer; vehicle offer uses the inherited focused 560px pane.",
+          "material": "Working paper: #FFFFFF, blur 0, saturation 1, exposed 1px #DCE2DE dividers, 18px exposed drawer corners, inset 0 1px 0 rgba(255,255,255,0.9), floating shadow 0 16px 48px rgba(43,67,54,0.10). Scrim rgba(20,32,25,0.30), blur 0. A compact scrolling inspection header may use the light lens; media, fields and rate remain opaque.",
+          "content": [
+            "Back",
+            "Close",
+            "Design Lab · Fictional preview",
+            "Pause motion",
+            "{person.name}",
+            "Work",
+            "Previous",
+            "Next",
+            "Request",
+            "Eli’s car",
+            "Placement plan",
+            "Rear doors",
+            "US$240",
+            "/month",
+            "Asking rate",
+            "Offer",
+            "{active_task.visible_strings}"
+          ],
+          "name": "Active inspection and commitment layers",
+          "action": "Only the selected person's, vehicle's or task's content is rendered. Expand the active task's exact string inventory from the states above, including all supplied requirements and errors.",
+          "motion": "Object-specific openings; 280ms return. The active task can be closed during any transition.",
+          "object": "Large media inspection with separate working paper, never a generic permanent record inspector."
+        }
+      ]
+    },
+    "removed": [
+      "The inherited warm global paper, heavy display treatment, square-everything rule and brick earning-edge signature.",
+      "The compact shared-bottom-line portrait/work/car arrangement shown by the inventory capture.",
+      "Any enclosing creator card, common metadata footer, repeated shadow or equal-height media shell.",
+      "Follower strings, verification-method text, review summaries and approval metadata beside every portrait.",
+      "A disconnected Instagram handle, fabricated connected icon, unsupported rating or invented completed-work claim.",
+      "Billing, campaign-credit, plan, shoot, revenue, connection recovery and brand-research panels on Home.",
+      "Loyalty above Maya, a glass Loyalty promotion, four retention metrics in discovery, a sixth destination or a Loyalty entry inside Create.",
+      "Any assumption that Eli's US$240/month asking rate applies to a full wrap or equals a campaign opportunity.",
+      "Car rotation controls, background removal, invented views, painted-on placements and decorative vehicle motion.",
+      "Automatic request sending, acceptance, offer success, campaign assignment or count changes caused by playback.",
+      "Fake live arrival, endless roster recycling, duplicated people, hover-only access and motion-delayed controls.",
+      "A Settings gear on Business Home. The single administrative gear remains on Business Profile."
+    ],
+    "phone": {
+      "first_viewport_words": "35 words maximum at 390×844, inclusive of all visible UI and readable image lettering. Planned default UI inventory: 24 words, with no disconnected Instagram handle and no unsupported attention badge. Maya's complete selection/action composition must fit above the floating navigation in both zero-inset and safe-area conditions. Do not alter media content or hide truthful labels to manufacture the count.",
+      "regions": [
+        {
+          "y_from": "0",
+          "material": "Canvas z0: #F6F7F5, opacity 1, blur 0, saturation 1, border none, highlight none, shadow none, radius 0.",
+          "content": [
+            "Loopday Coffee"
+          ],
+          "name": "Business identity and utilities",
+          "action": "Business identity opens the isolated identity switcher. Search, Messages and Notifications are accessible icon controls with 44×44 targets; no printed utility labels on phone.",
+          "height": "56px minimum; grows for text zoom",
+          "motion": "None at rest. Identity and destination state change immediately.",
+          "object": "Uncovered app header, not floating material."
+        },
+        {
+          "y_from": "56",
+          "material": "Canvas z0: #F6F7F5, blur 0, saturation 1, border none, highlight none, shadow none, radius 0.",
+          "content": [
+            "Design Lab · Fictional preview",
+            "Pause motion"
+          ],
+          "name": "Fictional context and motion control",
+          "action": "The context opens the inherited Lab scenarios. Pause motion remains reachable without Settings.",
+          "height": "44px minimum",
+          "motion": "Only the control label changes to Resume motion when paused.",
+          "object": "Compact inline control band."
+        },
+        {
+          "y_from": "100",
+          "material": "Canvas z0: #F6F7F5, blur 0, saturation 1, border none, highlight none, shadow none, radius 0. Selected filter uses a 2px #17221E underline.",
+          "content": [
+            "Austin",
+            "For you",
+            "People",
+            "Cars",
+            "Nearby"
+          ],
+          "name": "Local discovery",
+          "action": "Austin opens the city choice. Four filters operate on the same marketplace; no additional type toolbar or search field is added.",
+          "height": "68px; city line followed by a 44px target row",
+          "motion": "Selection is immediate; available results replace with 160ms opacity only.",
+          "object": "Plain city datum and filter line."
+        },
+        {
+          "y_from": "184 in the default state",
+          "material": "Media z10: original colors, opacity 1, blur 0, saturation 1, no border, no inset highlight, no shadow. Portrait radius 4px; work radius 0.",
+          "content": [],
+          "name": "Maya portrait and authored work",
+          "action": "Portrait opens Maya with the first work selected. Each work image opens Maya with that exact sample selected. Supply ownership-specific accessible names without printing extra captions.",
+          "height": "301px baseline: portrait x16, 226×282.5; upper work x258 y208, 116×116; lower work x258 y340, 116×145. Crops must be reviewed and may grow rather than damage the subject.",
+          "motion": "No initial stagger, parallax or hover zoom. On selection, the same media participates in the 440ms person expansion.",
+          "object": "Open human-scale portrait with two smaller, offset work surfaces. No card boundary."
+        },
+        {
+          "y_from": "501 baseline, 16px after the media composition",
+          "material": "Canvas z0: #F6F7F5, blur 0, saturation 1, no border, highlight, shadow or radius.",
+          "content": [
+            "Maya Chen",
+            "{maya.connected_instagram_handle}"
+          ],
+          "name": "Person identity",
+          "action": "Name may open the person. A verified connected handle may open its existing supported identity action; otherwise the entire handle line is absent.",
+          "height": "32px default; add natural 18px line height and 6px separation only for a genuinely connected handle",
+          "motion": "Stationary until deliberate person opening.",
+          "object": "Typography directly on the page; no metadata block."
+        },
+        {
+          "y_from": "549 baseline; follows identity by 16px",
+          "material": "Canvas remains #F6F7F5. Request uses Grip z50: #17221E, blur 0, saturation 1, border none, inset 0 1px 0 rgba(255,255,255,0.16), radius 12px, shadow none. View person is quiet ink text.",
+          "content": [
+            "View person",
+            "Request"
+          ],
+          "name": "One inspect action, one invitation action",
+          "action": "View person is left aligned with a 44px target. Request is a 148×44px filled control aligned to x226. Their meanings never merge.",
+          "height": "44px minimum",
+          "motion": "Control-only press response: 100ms down, 160ms return, maximum scale 0.98. Opening begins immediately.",
+          "object": "Open action band, not a repeated card footer."
+        },
+        {
+          "y_from": "625 baseline; 32px after Maya's completed action band",
+          "material": "Media z10: original vehicle image, opacity 1, blur 0, saturation 1, border none, inset highlight none, shadow none, radius 0.",
+          "content": [],
+          "name": "Eli's intact vehicle photograph",
+          "action": "The photograph opens Eli's vehicle inspection. It has no play, drag or rotate affordance.",
+          "height": "238.7px at x16, width 358px, 3:2. Reserve intrinsic dimensions before loading.",
+          "motion": "Still in the feed. Opening expands into the full-width phone inspection stage without stretching or removing vehicle geometry.",
+          "object": "Broad photographic field, independent of the person silhouette."
+        },
+        {
+          "y_from": "880 baseline; 16px after the photograph",
+          "material": "Opaque canvas reading surface z20: #F6F7F5, blur 0, saturation 1, border none, highlight none, shadow none, radius 0. View uses #17221E with a 12px radius.",
+          "content": [
+            "US$240",
+            "/month",
+            "Asking rate",
+            "Eli’s car",
+            "Rear doors",
+            "View"
+          ],
+          "name": "Rate scope and complete car action band",
+          "action": "Amount sits left; /month and Asking rate form an adjacent two-line basis. View is right aligned with a 44px target. Eli's name and the 44px Rear doors control occupy the following row. All actions open the same supported inspection.",
+          "height": "112px minimum; grows rather than wrapping the monetary basis into unreadable fragments",
+          "motion": "No amount animation. Zone and rate move together only inside the explicit inspection sequence.",
+          "object": "Plain monetary reading band, never a translucent badge."
+        },
+        {
+          "y_from": "1024 baseline; 32px after the complete car action band",
+          "material": "Canvas z0: #F6F7F5, blur 0, saturation 1, 1px #DCE2DE top and bottom separators, highlight none, shadow none, radius 0. Artwork retains approved Loopday brand colors.",
+          "content": [
+            "Loyalty",
+            "{loyalty.members} members · {loyalty.repeat_visitors} came back",
+            "Open loyalty"
+          ],
+          "name": "Loyalty after discovery",
+          "action": "A 56×56px artwork fragment sits at x16; text starts x88. Open loyalty is a quiet 44px action beneath the count line. Alternate state actions occupy this same position.",
+          "height": "132px at 390; may grow to 152px at 320",
+          "motion": "None. Do not pulse, count up or reveal it before the acquisition objects.",
+          "object": "Open separator-defined operational strip, not a promotional card."
+        },
+        {
+          "y_from": "1188 baseline; 32px after Loyalty",
+          "material": "Media z10 at original color, opacity 1, blur 0, saturation 1, no border or shadow; portrait radius 4px, work radius 0. Identity on #F6F7F5. Request uses #17221E and 12px radius.",
+          "content": [
+            "Nora Vale",
+            "{nora.connected_instagram_handle}",
+            "View person",
+            "Request"
+          ],
+          "name": "Nora's quieter independent composition",
+          "action": "Use Nora's own 184×230px portrait at x16 and one 158px-wide authored work image at x216, offset 24px downward. Name and the two distinct actions follow. Neither action can inherit Maya's selected work or request target.",
+          "height": "Approximately 338px without a connected-handle line; content-led",
+          "motion": "Same person-opening grammar, using Nora's source media. No automatic roster entrance.",
+          "object": "Smaller portrait/work spread, not a directory row."
+        },
+        {
+          "y_from": "32px after the last initial person action",
+          "material": "Canvas z0: #F6F7F5, blur 0, saturation 1, border none, highlight none, shadow none, radius 0.",
+          "content": [
+            "More"
+          ],
+          "name": "Finite continuation and navigation clearance",
+          "action": "Show More only when the approved local registry has additional records. On phone, Eli may be the next independently inspectable person when supported. Append real records; never recycle the initial set.",
+          "height": "44px action when present, followed by at least 104px plus safe-area content clearance",
+          "motion": "Explicitly appended media may reveal through 160ms opacity while preserving the current anchor. No live-arrival ticker.",
+          "object": "Quiet continuation control followed by functional empty clearance."
+        },
+        {
+          "y_from": "Fixed at viewport bottom, inset 12px; top is 768px with zero safe-area inset at 390×844",
+          "material": "Light lens z40: rgba(255,255,255,0.58); backdrop blur 16px, saturation 1.16; 1px masked 135deg edge from rgba(255,255,255,0.88) through rgba(255,255,255,0.16) to rgba(223,234,225,0.64); inset 0 1px 0 rgba(255,255,255,0.74); shadow 0 8px 28px rgba(46,74,60,0.09); radius 18px. Use opaque #FFFFFF if transparency or contrast fails.",
+          "content": [
+            "Home",
+            "Content",
+            "{actual_content_attention_count}",
+            "Create",
+            "Campaigns",
+            "{actual_campaign_review_count}",
+            "Business"
+          ],
+          "name": "Five-destination foreground navigation",
+          "action": "Five equal labelled targets across 366px. Home is selected. Create is a restrained lime #D5E85A plus inside its destination, not a protruding action button. Counts appear only from supported current records.",
+          "height": "64px plus safe-area inset",
+          "motion": "Actual feed content moves beneath the lens during ordinary scrolling. Selection is immediate. No bounce or moving capsule.",
+          "object": "One functional floating material bar."
+        },
+        {
+          "y_from": "0 when person or vehicle inspection is open",
+          "material": "Full-height working paper at modal z70: #FFFFFF, blur 0, saturation 1, radius 24px 24px 0 0, inset 0 1px 0 rgba(255,255,255,0.9), shadow 0 16px 48px rgba(43,67,54,0.10). Scrim z60 rgba(20,32,25,0.30), blur 0. A 56px scrolling control header alone may use the light lens at z80 with 14px radius.",
+          "content": [
+            "Back",
+            "Close",
+            "Design Lab · Fictional preview",
+            "Pause motion",
+            "{person.name}",
+            "Work",
+            "Previous",
+            "Next",
+            "Request",
+            "Eli’s car",
+            "Placement plan",
+            "Rear doors",
+            "US$240",
+            "/month",
+            "Asking rate",
+            "Offer",
+            "{active_inspection.bound_facts}"
+          ],
+          "name": "Object-specific inspection, on demand",
+          "action": "Render only the selected object branch. Person inspection keeps a 128px-wide identity portrait above a full-width selected work image, with actual facts below. Vehicle inspection uses an intact 390×260px photograph, then a separate 358px-wide SVG plan and opaque zone/rate group. Navigation is covered, not duplicated.",
+          "height": "100svh minimum; internal content scrolls naturally",
+          "motion": "Person uses the 440ms identity/work expansion. Vehicle uses the specified staged opening. Both return in 280ms and expose Back and Close immediately.",
+          "object": "Full-height media inspection with an opaque reading body, not a scaled phone mockup."
+        },
+        {
+          "y_from": "0 when request or offer composition is open",
+          "material": "Opaque working paper at z70: #FFFFFF, blur 0, saturation 1, 24px top corners, 1px #DCE2DE field boundaries, inset 0 1px 0 rgba(255,255,255,0.9), floating shadow 0 16px 48px rgba(43,67,54,0.10). Compact sticky header may use one light lens; form body never does.",
+          "content": [
+            "Back",
+            "Close",
+            "{active_task.title}",
+            "{selected_person_or_vehicle.name}",
+            "{active_task.field_labels}",
+            "{active_task.bound_values}",
+            "{active_task.material_disclosures}",
+            "{active_task.validation_messages}",
+            "{active_task.review_action}",
+            "Nothing will be sent."
+          ],
+          "name": "Focused working composer, on demand",
+          "action": "Expand the exact request or offer string inventory from the states above. Keep identity, required fields, errors and material consequences visible in readable groups. The explicit local-only review boundary replaces any live-send behavior.",
+          "height": "100svh; natural-height 16px/24px form content with keyboard and safe-area clearance",
+          "motion": "320ms sheet entrance from 24px below, 280ms return. No animation blocks input or review.",
+          "object": "Opaque full-height task sheet with one contextual identity, not another card stack."
+        }
+      ]
+    },
+    "on_demand": [
+      "Person inspection reveals only supported eligibility, completed-work facts, reviews and campaign context. Absence creates no empty badge or explanatory filler.",
+      "Request exposes the existing Story/Recreate type-specific requirements and complete review boundary. All exact field values, dates, financial bases and disclosures bind to the working fixture.",
+      "Vehicle inspection exposes the verified plan, supported zone and scope of the asking rate. Offer reveals actual booking requirements without inventing available dates, installation slots or accepted terms.",
+      "Business opens the supporting brand profile. Loyalty is its first operational row beneath identity; the single Settings gear remains there.",
+      "The existing Design Lab selector retains approved scenarios, Reset demo and the confirmation that scenario replacement resets local changes. It is not a product navigation destination.",
+      "The identity switcher contains Personal, the permitted business fixture and Add business. It changes only the isolated preview context and preserves each context's location.",
+      "Create retains exactly Recreate a Reel, Instagram Story ads and Car advertising. Open only implemented V3 previews; otherwise show the explicit inherited unavailable notice.",
+      "The live, no-program, draft and live-zero Loyalty entrances route directly to their existing working destinations. This surface does not redesign Loyalty's event model, program creation or counter.",
+      "Media provenance and implementation evidence belong in the V3 manifest and report, not repeated as captions beneath every person."
+    ]
+  }
+}
