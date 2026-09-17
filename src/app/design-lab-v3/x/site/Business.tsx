@@ -156,7 +156,7 @@ export function Review() {
         <div className="x-rv-object">
           {isWork ? <span className="media x-rv-media" key="work"><img src={M.mayaPour(800)} alt="Work: Maya Chen, Counter pour still for Loopday Coffee" width={800} height={1000} decoding="async" loading="lazy" /></span> : <span className="media x-rv-media x-rv-media-proof" key="proof"><img src={M.mayaPlacement()} alt="Proof: rear-door placement on Maya’s car, Spurroom Bikes" width={720} height={480} decoding="async" loading="lazy" /></span>}
         </div>
-        <div className="x-rv-rail lens lens-rail">
+        <div className="x-rv-rail x-rv-edge">
           <div className="tabs" role="tablist" aria-label="Record">
             <button type="button" role="tab" aria-selected={isWork} onClick={() => setTab("work")}>Work</button>
             <button type="button" role="tab" aria-selected={!isWork} onClick={() => setTab("proof")}>Proof</button>

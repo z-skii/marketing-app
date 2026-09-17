@@ -217,7 +217,7 @@ function RequestComposer({ p, onClose }: { p: Person; onClose: () => void }) {
             <fieldset className="x-composer-field"><legend className="t-fact">Type</legend>
               <div className="x-composer-types">
                 <button type="button" className="sheet-row" aria-pressed={type === "recreate"} onClick={() => setType("recreate")}><span>Recreate a Reel</span>{type === "recreate" && <Check size={20} aria-hidden />}</button>
-                <button type="button" className="sheet-row" aria-pressed={type === "story"} disabled={!p.instagram} onClick={() => setType("story")} style={{ opacity: p.instagram ? 1 : 0.5 }}><span>Instagram Story ads{!p.instagram && <span className="t-fact" style={{ display: "block" }}>Requires a connected Instagram account.</span>}</span>{type === "story" && <Check size={20} aria-hidden />}</button>
+                <button type="button" className="sheet-row" aria-pressed={type === "story"} disabled={!p.instagram} onClick={() => setType("story")}><span><span style={{ opacity: p.instagram ? 1 : 0.5 }}>Instagram Story ads</span>{!p.instagram && <span className="t-fact" style={{ display: "block" }}>Requires a connected Instagram account.</span>}</span>{type === "story" && <Check size={20} aria-hidden />}</button>
               </div>
               {tried && errors.type && <span className="join-error">{errors.type}</span>}
             </fieldset>

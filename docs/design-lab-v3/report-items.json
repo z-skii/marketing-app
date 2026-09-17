@@ -124,7 +124,9 @@
         "docs/design-lab-v3/captures/states/loop-card-m.png",
         "docs/design-lab-v3/captures/states/loop-sep16-d.png",
         "docs/design-lab-v3/captures/states/loop-reward-m.png",
-        "docs/design-lab-v3/captures/states/loop-attribution-d.png"
+        "docs/design-lab-v3/captures/states/loop-attribution-d.png",
+        "docs/design-lab-v3/captures/states/loop-sep10-m.png",
+        "docs/design-lab-v3/captures/states/loop-after-preview-d.png"
       ]
     },
     {
@@ -171,7 +173,12 @@
       "files": [
         "docs/design-lab-v3/captures/user-profile-m.png",
         "docs/design-lab-v3/captures/user-profile-m-full.png",
-        "docs/design-lab-v3/captures/user-profile-public-m-full.png"
+        "docs/design-lab-v3/captures/user-profile-public-m-full.png",
+        "docs/design-lab-v3/recordings/12-profile-interaction-m.webm",
+        "docs/design-lab-v3/recordings/12-profile-interaction-m-strip.png"
+      ],
+      "states": [
+        "docs/design-lab-v3/captures/states/profile-gallery-gutter-m.png"
       ]
     },
     {
@@ -181,7 +188,9 @@
       "files": [
         "docs/design-lab-v3/captures/user-profile-d.png",
         "docs/design-lab-v3/captures/user-profile-d-full.png",
-        "docs/design-lab-v3/captures/user-profile-public-d.png"
+        "docs/design-lab-v3/captures/user-profile-public-d.png",
+        "docs/design-lab-v3/recordings/12-profile-interaction-d.webm",
+        "docs/design-lab-v3/recordings/12-profile-interaction-d-strip.png"
       ]
     },
     {

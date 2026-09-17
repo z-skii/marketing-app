@@ -34,7 +34,7 @@ const RC: Frame[] = [
   { key: "creator", label: "Creator version", dur: 1600 },
   { key: "submit", label: "Submit", dur: 1800 },
   { key: "approved", label: "Approved example", dur: 1800 },
-  { key: "earnings", label: "Earnings", dur: 1600 },
+  { key: "approval", label: "Approval", dur: 1600 },
 ];
 
 /** Two separately authored layers under one hard boundary. Drag maps linearly; buttons expose one layer; reduced motion uses the buttons only. */
@@ -101,17 +101,15 @@ export function Recreate() {
       <div className="x-rc-under">{work("x-rc-work-under")}</div>
       <div className="x-rc-rail lens lens-rail" aria-label="Approval">
         <span className="x-rim" aria-hidden><img src={M.mayaPour(480)} alt="" /></span>
-        <span className="x-rc-rail-chip paper">
-          <span className="t-object">Approved</span>
-          <span className="t-fact-ink">Sep 10, 2026<span aria-hidden> · </span>{recreate.business}</span>
-          <span className="t-fact">Recorded example</span>
-        </span>
+        <span className="t-object">Approved</span>
+        <span className="t-fact-ink">Sep 10, 2026<span aria-hidden> · </span>{recreate.business}</span>
       </div>
+      <div className="x-rc-approve-note paper"><span className="t-fact">Recorded example. Approval credits earnings; payout is separate.</span></div>
     </div>
   );
   const Ledger = (
     <div className="x-rc-ledger">
-      {work("x-rc-work-small")}
+      {work("x-rc-work-under")}
       <div className="x-rc-ledger-lines paper">
         <span className="t-fact">Approval</span>
         <span className="t-object">Approval earns.</span>
@@ -147,7 +145,7 @@ const PO: Frame[] = [
   { key: "creative", label: "Creative", dur: 1400 },
   { key: "handoff", label: "Handoff preview", dur: 1600 },
   { key: "proof", label: "Proof", dur: 1600 },
-  { key: "earnings", label: "Earnings", dur: 1400 },
+  { key: "approval", label: "Approval", dur: 1400 },
 ];
 export function Post() {
   const { reduced } = useMotion();
@@ -207,7 +205,7 @@ export function Post() {
 
 // ---------------------------------------------------------------- Drive
 const DR: Frame[] = [
-  { key: "car", label: "Real car", dur: 1400 },
+  { key: "car", label: "Vehicle example", dur: 1400 },
   { key: "placement", label: "Placement", dur: 1600 },
   { key: "campaign", label: "Campaign", dur: 1600 },
   { key: "monthly", label: "Monthly opportunity", dur: 1400 },

@@ -72,22 +72,63 @@ The small differences between the two tables are the two measurement
 methods: the table above counts every visible word in the document, the
 first table separates content from controls inside one viewport only.
 
+## Public homepage by chapter, inclusive of media lettering
+
+Measured after the director's pass 2 with the same walker, region by
+region (the persistent navigation stack, the hero, each chapter, the
+footer) in the default state of every sequence. Lettering inside media is
+counted per visible occurrence: the Story creative carries four lexical
+words (Take a coffee break.) and appears in Post, Create and the Loyalty
+loop; the Spurroom placement proof (two words) appears only when Review's
+Proof tab is selected, so it is 0 in the default state.
+
+| Region | 390 words | 390 lettering | 1440 words | 1440 lettering |
+| --- | --- | --- | --- | --- |
+| Navigation and lab strip | 4 | 0 | 4 | 0 |
+| Lab strip | 6 | 0 | 6 | 0 |
+| Hero | 18 | 0 | 18 | 0 |
+| Recreate | 17 | 0 | 17 | 0 |
+| Post | 20 | 4 | 20 | 4 |
+| Drive | 34 | 0 | 34 | 0 |
+| Get paid | 29 | 0 | 29 | 0 |
+| Find people | 15 | 0 | 15 | 0 |
+| Find cars | 19 | 0 | 19 | 0 |
+| Create | 15 | 4 | 15 | 4 |
+| Review | 19 | 0 | 19 | 0 |
+| Monthly content | 13 | 0 | 13 | 0 |
+| Loyalty | 31 | 4 | 31 | 4 |
+| Footer | 10 | 0 | 10 | 0 |
+| Whole page | 250 | 12 | 250 | 12 |
+| Inclusive total | 262 | | 262 | |
+
+Sequence controls repeat by design (one operable player per act) and
+are counted where they appear. Expanded frames add their own words on
+demand: the Recreate submission preview adds the three requirement lines,
+the Drive campaign frame adds its obligations; those states are captured
+under captures/states and are not compressed to fit a discovery budget.
+
 ## Lettering inside media
 
 Audited by eye against the media manifest:
 
 | Image | Visible lettering | Words | Counted where visible |
 | --- | --- | --- | --- |
-| story-loopday-01.jpg | Take a coffee break. | 4 | Public Post, Create, Loyalty loop, User Home Story, User Profile work |
+| story-loopday-01.jpg | Take a coffee break. | 4 per occurrence | Public Post, Create, Loyalty loop (12 on the public page), User Home Story, User Profile work |
 | reference-loopday-01.jpg | none | 0 | |
 | vehicle-eli-01.jpg | none | 0 | |
 | vehicle-maya-01.jpg | none | 0 | |
 | portraits, work stills, delivered content | none | 0 | |
-| maya-spurroom-placement-01.jpg | Spurroom Bikes | 2 | Public Review proof, User Profile work 3 |
+| maya-spurroom-placement-01.jpg | Spurroom Bikes | 2 per occurrence | Public Review proof (Proof tab only), User Profile work 3 |
 
-Neither lettered image appears in a first viewport that is close to its
-ceiling: the Story creative enters the User Home first viewport only at
-its top edge, below the Recreate reading band.
+Inclusive app surface totals, lettering added per visible occurrence: User
+Home 62 words on phone (58 plus the Story creative) and 66 on desktop;
+User Profile owner 34 on phone and 38 on desktop (the Story and the
+Spurroom placement still), public view 29; Business Home and Loyalty carry
+no lettered media, so their totals are unchanged. First viewports: the
+Story lettering is below the fold on User Home at 390 (the first viewport
+stays 27 inclusive) and visible on the Profile at 390, which makes the
+owner first viewport 25 inclusive and the public view 20, both inside
+their budgets.
 
 ## States measured separately
 

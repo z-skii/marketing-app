@@ -33,16 +33,6 @@ export function useSequence(frames: readonly Frame[], opts: { stage?: RefObject<
     const io = new IntersectionObserver((es) => { if (!es[0].isIntersecting) setPlaying(false); }, { threshold: 0 });
     io.observe(el); return () => io.disconnect();
   }, [stage]);
-  const anchor = useCallback(() => {
-    const el = stage?.current; if (!el) return;
-    requestAnimationFrame(() => {
-      const r = el.getBoundingClientRect();
-      const top = window.innerWidth < 1024 ? 84 : 96;
-      // Only when the new object would sit above the viewport: a stage already in view is never moved under the finger.
-      if (r.top < top - 8) window.scrollTo({ top: window.scrollY + r.top - top, behavior: reduced ? "auto" : "smooth" });
-    });
-  }, [reduced, stage]);
-
   // timer for the current frame, pause aware
   useEffect(() => {
     if (!playing || reduced) return;
@@ -62,11 +52,18 @@ export function useSequence(frames: readonly Frame[], opts: { stage?: RefObject<
     };
   }, [playing, paused, reduced, frames, tick]);
 
-  const go = useCallback((n: number) => {
+  // Plain handlers: they read the stage ref on a click, so they are not memoized by hand (the compiler handles them).
+  const go = (n: number) => {
     const i = Math.max(0, Math.min(frames.length - 1, n));
     setPlaying(false); setStarted(true); setFrame(i); remaining.current = frames[i].dur; setTick((x) => x + 1);
-    anchor();
-  }, [frames, anchor]);
+    // Re-anchor beneath the navigation stack only when the new object would sit above the viewport; a stage in view is never moved under the finger.
+    const el = stage?.current;
+    if (el) requestAnimationFrame(() => {
+      const r = el.getBoundingClientRect();
+      const top = window.innerWidth < 1024 ? 128 : 136;
+      if (r.top < top - 8) window.scrollTo({ top: window.scrollY + r.top - top, behavior: reduced ? "auto" : "smooth" });
+    });
+  };
   const play = useCallback(() => {
     setStarted(true);
     setFrame((f) => { const s = f >= frames.length - 1 ? 0 : f; remaining.current = frames[s].dur; return s; });
@@ -74,8 +71,8 @@ export function useSequence(frames: readonly Frame[], opts: { stage?: RefObject<
   }, [frames]);
   const stop = useCallback(() => setPlaying(false), []);
   const replay = useCallback(() => { setFrame(0); remaining.current = frames[0].dur; setPlaying(true); setStarted(true); setTick((x) => x + 1); }, [frames]);
-  const next = useCallback(() => go(frame + 1), [go, frame]);
-  const prev = useCallback(() => go(frame - 1), [go, frame]);
+  const next = () => go(frame + 1);
+  const prev = () => go(frame - 1);
   const autoplay = useCallback(() => { if (autoplayed.current || reduced) return; autoplayed.current = true; play(); }, [play, reduced]);
   return { frame, playing, started, go, play, stop, replay, next, prev, autoplay, atEnd: frame >= frames.length - 1 };
 }

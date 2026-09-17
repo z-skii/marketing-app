@@ -9,7 +9,7 @@
     "longBlocks18plus": 0,
     "buttons": 71,
     "images": 22,
-    "pageHeight": 8582,
+    "pageHeight": 8571,
     "scrollWidth": 390,
     "clientWidth": 390
   },
@@ -23,7 +23,7 @@
     "longBlocks18plus": 0,
     "buttons": 71,
     "images": 22,
-    "pageHeight": 8999,
+    "pageHeight": 9079,
     "scrollWidth": 1440,
     "clientWidth": 1440
   },
@@ -37,7 +37,7 @@
     "longBlocks18plus": 0,
     "buttons": 74,
     "images": 24,
-    "pageHeight": 8559,
+    "pageHeight": 8548,
     "scrollWidth": 390,
     "clientWidth": 390
   },
@@ -51,7 +51,7 @@
     "longBlocks18plus": 0,
     "buttons": 74,
     "images": 24,
-    "pageHeight": 8811,
+    "pageHeight": 8891,
     "scrollWidth": 1440,
     "clientWidth": 1440
   },
@@ -233,7 +233,7 @@
     "longBlocks18plus": 1,
     "buttons": 19,
     "images": 1,
-    "pageHeight": 1579,
+    "pageHeight": 1589,
     "scrollWidth": 390,
     "clientWidth": 390
   },
@@ -247,7 +247,7 @@
     "longBlocks18plus": 1,
     "buttons": 25,
     "images": 1,
-    "pageHeight": 1017,
+    "pageHeight": 1027,
     "scrollWidth": 1440,
     "clientWidth": 1440
   },
@@ -299,11 +299,11 @@
     "viewport": "d",
     "words": 42,
     "textNodes": 17,
-    "firstScreenWords": 42,
+    "firstScreenWords": 39,
     "longBlocks18plus": 0,
     "buttons": 14,
     "images": 1,
-    "pageHeight": 907,
+    "pageHeight": 1004,
     "scrollWidth": 1440,
     "clientWidth": 1440
   },
@@ -345,7 +345,7 @@
     "longBlocks18plus": 0,
     "buttons": 7,
     "images": 1,
-    "pageHeight": 867,
+    "pageHeight": 877,
     "scrollWidth": 390,
     "clientWidth": 390
   },

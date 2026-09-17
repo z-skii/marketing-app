@@ -82,6 +82,8 @@ export function Loop() {
     const c = card(visits, ready);
     return (
       <div className={`x-lp-pass${arrive ? " x-arrive" : ""}`}>
+        {/* the customer stays named outside the pass: no Wallet field is invented */}
+        <span className="x-lp-member t-fact-ink">Sara<span aria-hidden> · </span>member LD-001</span>
         {iso && <span className="x-lp-date t-fact-ink"><time dateTime={iso}>{fmt(iso)}</time>{label && <span aria-hidden> · </span>}{label}</span>}
         <div className="wc-wrap">
           <PlatformLabel platform={platform} />
@@ -116,7 +118,7 @@ export function Loop() {
     if (i === 7) return Pass(5, true, "2026-09-17", "Example continuation", false);
     return Attribution;
   };
-  const shared = <div className="x-lp-head"><span className="x-lp-act t-verb">{ACT(f)}</span>{Source}<span className="t-note x-lp-sim">Design Lab · Simulated sequence</span></div>;
+  const shared = <div className="x-lp-head"><span className="x-lp-act t-verb">{ACT(f)}</span><span className="t-note x-lp-sim">Design Lab · Simulated sequence</span></div>;
   if (reduced) {
     return (
       <Chapter id="loyalty" verb="Loyalty">
@@ -132,7 +134,7 @@ export function Loop() {
     <Chapter id="loyalty" verb="Loyalty">
       <div className="x-lp" data-frame={f} data-act={ACT(f)} ref={stage}>
         {shared}
-        <div className="x-lp-object" aria-live="polite">{f === 0 && seq.playing ? Story(true) : render(f)}</div>
+        <div className="x-lp-object" aria-live="polite">{Source}{f === 0 && seq.playing ? Story(true) : render(f)}</div>
         <SeqControls seq={seq} frames={FR} playLabel="Play sequence">{WalletOptions}{f < 8 && <Link href="/design-lab-v3/business/loyalty" className="link t-action x-open-preview">Open loyalty preview</Link>}</SeqControls>
       </div>
     </Chapter>

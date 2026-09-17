@@ -121,13 +121,15 @@
 /* Pause freezes presentation animations in place. Transitions for state changes still run. */
 .x-root[data-motion="paused"] .v3 *, .v3 .x-root[data-motion="paused"] * { animation-play-state: paused !important; }
 /* Reduced motion: remove introductory motion, keep state changes immediate. */
-@media (prefers-reduced-motion: reduce) { .v3 *, .v3 *::before, .v3 *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+@media (prefers-reduced-motion: reduce) { .v3 *, .v3 *::before, .v3 *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } .v3 .mark[data-new="true"] { animation: none !important; transform: none !important; } }
 
 /* ------------------------------------------------------ app floating bar */
 /* Phone: the four or five destinations on one 64px light lens inset 12px; 104px plus safe area content clearance. */
 @media (max-width: 767px) {
   .v3 .x-shell .tabbar { left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); height: 64px; padding-bottom: 0; border-top: 0; background: rgba(255, 255, 255, 0.58); -webkit-backdrop-filter: blur(16px) saturate(1.16); backdrop-filter: blur(16px) saturate(1.16); border-radius: 18px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74), var(--v3-shadow-lens); overflow: hidden; }
   .v3 .x-shell .tabbar::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.16) 48%, rgba(223, 234, 225, 0.64) 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  .v3 .x-shell .tabbar::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.54) 8%, rgba(255, 255, 255, 0.54) 92%, rgba(255, 255, 255, 0) 100%); pointer-events: none; }
+  .v3 .x-shell .tabbar > * { position: relative; z-index: 1; }
   .v3 .x-shell .tabbar a, .v3 .x-shell .tabbar button { height: 64px; color: var(--v3-muted); }
   .v3 .x-shell .tabbar a[aria-current="page"] { color: var(--v3-ink); }
   .v3 .x-shell .tabbar .create .disc { width: 28px; height: 28px; }

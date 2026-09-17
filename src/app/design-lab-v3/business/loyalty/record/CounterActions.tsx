@@ -12,7 +12,8 @@ import { todayKey, useLoyalty } from "../../../store";
  * after an ordinary visit. Redeem asks once. The receipt distinguishes
  * fixture success from Wallet delivery.
  */
-export function CounterActions({ m, wide = false, label, onDone }: { m: Member; wide?: boolean; label?: string; onDone?: () => void }) {
+/** `compact`: the host already shows the status beneath the progress value, so results carry only the consequence lines. */
+export function CounterActions({ m, wide = false, compact = false, label, onDone }: { m: Member; wide?: boolean; compact?: boolean; label?: string; onDone?: () => void }) {
   const { state, dispatch } = useLoyalty();
   const p = state.program;
   const points = p.kind === "points";
@@ -29,21 +30,20 @@ export function CounterActions({ m, wide = false, label, onDone }: { m: Member; 
     <div className={`counter-actions${wide ? " counter-actions-wide" : ""}`} aria-live="polite">
       {mine && r?.type === "same-day" ? (
         <div className="counter-result">
-          <span className="t-object">Already counted today.</span>
+          {!compact && <span className="t-object">Already counted today.</span>}
           <span className="t-fact-ink">{m.progress} of {p.requirement} {unitWord} · unchanged</span>
           <span className="t-fact">{points ? "One qualifying purchase counts per day." : "One visit counts per day."}</span>
           {m.lastCountedAt && <details className="disclosure"><summary className="t-action">Details</summary><span className="t-fact" style={{ display: "block", marginTop: 8 }}>Last counted today at {fmtTime(m.lastCountedAt)}.</span></details>}
         </div>
       ) : mine && (r?.type === "visit" || r?.type === "points") ? (
         <div className="counter-result">
-          <span className="t-object">{points ? "Point added" : "Visit counted"}</span>
-          <span className="t-fact-ink">{m.progress} of {p.requirement} {unitWord}</span>
+          {!compact && <><span className="t-object">{points ? "Point added" : "Visit counted"}</span><span className="t-fact-ink">{m.progress} of {p.requirement} {unitWord}</span></>}
           <span className="t-fact">{walletLine}</span>
         </div>
       ) : mine && r?.type === "redeem" ? (
         <div className="counter-result">
-          <span className="t-object">Reward redeemed</span>
-          <span className="t-fact-ink">{m.progress} of {p.requirement} {unitWord}</span>
+          {!compact && <><span className="t-object">Reward redeemed</span><span className="t-fact-ink">{m.progress} of {p.requirement} {unitWord}</span></>}
+          {compact && <span className="t-fact-ink">Progress kept at {m.progress} of {p.requirement} {unitWord}.</span>}
           <span className="t-fact">{walletLine}</span>
         </div>
       ) : m.ready > 0 ? (

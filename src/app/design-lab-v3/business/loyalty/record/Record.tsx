@@ -78,13 +78,14 @@ export function Record({ preset }: { preset: string | null }) {
             <div className="record-found-id">
               <h2 className="t-title record-name">{m.firstName}</h2>
               <span className="t-fact">{m.contactMasked}</span>
-              <span className="mem-progress-big record-progress-value">{m.ready > 0 ? "Reward ready" : progressLabel(m, p)}</span>
-              {m.ready > 0 && <span className="t-fact-ink record-progress-n">{p.requirement} of {p.requirement} {points ? "points" : "visits"}</span>}
+              <span className="mem-progress-big record-progress-value">{m.ready > 0 ? `${p.requirement} of ${p.requirement}` : `${m.progress} of ${p.requirement}`} <span className="record-progress-unit">{points ? "points" : "visits"}</span></span>
+              {/* the status sits directly beneath the value; the result area below carries only the consequence */}
+              <span className="t-object record-status">{m.ready > 0 ? "Reward ready" : live && state.receipt?.type === "redeem" ? "Reward redeemed" : live && (state.receipt?.type === "visit" || state.receipt?.type === "points") ? (points ? "Point added" : "Visit counted") : live && state.receipt?.type === "same-day" ? "Already counted today" : progressLabel(m, p) === "No visits yet" ? "No visits yet" : "Collecting"}</span>
               <Marks m={m} p={p} size="l" live={live} />
               <span className="t-fact-ink">{p.reward.name}{points && m.ready === 0 ? " · 1 point per qualifying purchase" : ""}</span>
             </div>
           </div>
-          <CounterActions m={m} wide label={points ? "Add 1 point" : "+1 visit"} onDone={clear} />
+          <CounterActions m={m} wide compact label={points ? "Add 1 point" : "+1 visit"} onDone={clear} />
           <div className="record-found-foot">
             <Link href={`/design-lab-v3/business/loyalty/members/${m.id}`} className="link t-action">View member</Link>
             <button type="button" className="link t-action" onClick={clear}>Next customer</button>

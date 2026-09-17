@@ -13,7 +13,7 @@
 .v3 .wc-wrap > .settle { width: 100%; }
 .v3 .wc-apple { border-radius: 12px; }
 .v3 .wc-google { border-radius: 12px; font-family: "Google Sans", Roboto, var(--v2-font-ui), system-ui, sans-serif; }
-.v3 .wc .wc-label { display: block; font-size: 10px; line-height: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--wc-label); }
+.v3 .wc .wc-label { display: block; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--wc-label); }
 .v3 .wc-google .wc-label { text-transform: none; letter-spacing: 0; font-size: 12px; line-height: 16px; }
 .v3 .wc .wc-value { display: block; font-size: 16px; line-height: 20px; font-weight: 500; }
 .v3 .wc .wc-value-primary { font-size: 32px; line-height: 36px; font-weight: 600; letter-spacing: -0.01em; }
@@ -37,12 +37,12 @@
 .v3 .wc-apple-code { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 16px 18px; }
 .v3 .wc-qr { display: inline-block; background: #fff; border-radius: 4px; }
 .v3 .wc-qr svg { display: block; width: 100%; height: 100%; }
-.v3 .wc-code-alt { font-size: 12px; line-height: 16px; letter-spacing: 0.04em; color: var(--wc-label); }
+.v3 .wc-code-alt { font-size: 13px; line-height: 18px; letter-spacing: 0.04em; color: var(--wc-label); }
 .v3 .wc-google-head { display: flex; align-items: center; gap: 12px; height: 72px; padding: 0 16px; }
 .v3 .wc-google-logo { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #ffffff; }
 .v3 .wc-google-names { display: flex; flex-direction: column; min-width: 0; }
 .v3 .wc-google-program { font-size: 18px; line-height: 22px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.v3 .wc-google-issuer { font-size: 13px; line-height: 16px; color: var(--wc-label); }
+.v3 .wc-google-issuer { font-size: 13px; line-height: 18px; color: var(--wc-label); }
 .v3 .wc-google-hero { aspect-ratio: 3 / 1; background: #00000022; }
 .v3 .wc-google-hero img { width: 100%; height: 100%; object-fit: cover; }
 .v3 .wc-google-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px 0; }
@@ -261,6 +261,8 @@
 .v3 .record-name { font-size: 28px; line-height: 32px; }
 .v3 .record-progress-n { display: block; margin-top: -4px; }
 .v3 .record-progress-value { font-size: 36px; line-height: 40px; }
+.v3 .record-progress-unit { font-size: 16px; line-height: 24px; font-weight: 500; letter-spacing: 0; }
+.v3 .record-status { display: block; font-size: 28px; line-height: 32px; font-weight: 500; letter-spacing: -0.03em; }
 .v3 .qr-body { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; align-items: flex-start; }
 .v3 .qr-rule { font-size: 20px; line-height: 26px; }
 .v3 .qr-code { display: block; align-self: center; padding: 8px; background: #fff; }
@@ -269,12 +271,14 @@
 .v3 .qr-actions { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; margin-top: 8px; }
 .v3 .qr-actions .link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
 @media (min-width: 1024px) {
-  .v3 .record-page { display: grid; grid-template-columns: minmax(0, 1fr) 560px; min-height: 100dvh; background: var(--v2-paper); }
-  .v3 .record-context { display: block; min-width: 0; overflow: hidden; }
-  .v3 .record-context .desk { min-height: 100dvh; }
-  .v3 .record-pane { position: sticky; top: 0; align-self: start; height: 100dvh; overflow: auto; background: var(--v2-surface); border-left: 1px solid var(--v2-line); box-shadow: var(--v2-shadow-sheet); }
+  /* The task opens over the unchanged Home composition: a 560px pane at the right and a restrained scrim; Home stays still and inert beneath. */
+  .v3 .record-page { position: relative; min-height: 100dvh; background: var(--v2-paper); }
+  .v3 .record-context { display: block; min-width: 0; }
+  .v3 .record-context::after { content: ""; position: fixed; inset: 0; background: var(--v2-scrim); z-index: 4; }
+  .v3 .record-pane { position: fixed; top: 0; right: 0; width: 560px; height: 100dvh; overflow: auto; z-index: 5; background: var(--v2-surface); border-left: 1px solid var(--v2-line); box-shadow: var(--v2-shadow-sheet); animation: v2-sheet-right var(--v2-t-sheet) var(--v2-ease-out) both; }
   .v3 .record-pane .record, .v3 .record-pane .qr-task { max-width: none; padding: 24px 24px 48px; margin: 0; }
   .v3 .record-progress-value { font-size: 44px; line-height: 48px; }
+  .v3 .record-found-grid { grid-template-columns: 165px minmax(0, 1fr); }
 }
 .v3 .record-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; margin: 0 -4px; }
 .v3 .record-scan { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; align-items: flex-start; }
