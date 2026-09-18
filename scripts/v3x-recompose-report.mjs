@@ -68,6 +68,14 @@ async function experience(x) {
   }
   parts.push(`<h3>The director's passes</h3>${reviews.join("")}`);
   if (x.after_pass_2) parts.push(`<p><b>Applied after pass 2.</b> ${esc(x.after_pass_2)}</p>`);
+  if (x.finishing) parts.push(`<h3>The finishing pass</h3><p>${esc(x.finishing)}</p>`);
+  const fin = json(`reviews/${x.id}-final.json`);
+  if (fin) {
+    const v = fin.verification; const b = v.blocker;
+    parts.push(`<h3>Astra's final verification of the finished state</h3><p class="${b ? "pending" : "founder"}"><b class="v-${b ? "fix" : "ready"}">${b ? "SPECIFIC BLOCKER" : "READY"}</b> · ${esc(v.score)}/10 · ${esc(fin.when).slice(0, 16).replace("T", " ")} UTC · captures: ${fin.shots.map(esc).join(", ")}</p>
+      <p><i>Read.</i> ${esc(v.read)}</p>${b ? `<p><b>Where.</b> ${esc(b.where)}</p><p><b>What.</b> ${esc(b.what)}</p><p><b>Why.</b> ${esc(b.why)}</p>` : ""}
+      ${qa(v.six_questions)}${(v.notes ?? []).length ? `<p><i>Notes, not blockers.</i></p><ul>${v.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>` : ""}`);
+  } else parts.push(`<h3>Astra's final verification</h3><p class="pending">Not yet run.</p>`);
   if (x.truth) parts.push(`<p class="truth"><b>Truth.</b> ${esc(x.truth)}</p>`);
   return `<section class="item" id="${esc(x.id)}"><h2><span class="n">${esc(x.n)}</span> ${esc(x.title)}</h2>${parts.join("\n")}</section>`;
 }
@@ -86,6 +94,15 @@ function compareHtml() {
 }
 
 const exps = []; for (const x of REPORT.experiences) exps.push(await experience(x));
+/* The founder's table: final verdict per experience, and the scores before (current V3), after the first build (the comparison) and after the finishing pass (the final verification). */
+function verdictTable() {
+  const rows = REPORT.experiences.map((x) => {
+    const fin = json(`reviews/${x.id}-final.json`); const ce = cmp?.comparison?.experiences?.find((e) => e.experience === x.id);
+    const v = fin?.verification; const b = v?.blocker;
+    return `<tr><td>${esc(x.title)}</td><td>${ce ? esc(ce.current_v3.score) + "/10" : ""}</td><td>${ce ? esc(ce.recomposed.score) + "/10" : ""}</td><td>${v ? esc(v.score) + "/10" : ""}</td><td>${v ? `<b class="v-${b ? "fix" : "ready"}">${b ? "SPECIFIC BLOCKER" : "READY"}</b>${b ? `: ${esc(b.what)}` : ""}` : "<span class=\"pending\">not yet run</span>"}</td></tr>`;
+  });
+  return `<div class="box"><h3>Astra's final verdicts and the scores, before to after</h3><table><tr><th>Experience</th><th>Current V3</th><th>First build</th><th>Finished</th><th>Final verification</th></tr>${rows.join("")}</table><p class="small" style="margin:8px 0 0">Scores are the director's presentation judgements out of 10, on one scale across the three columns; the current V3 and first build columns come from the comparison, the finished column from the final verification of the recorded final state.</p></div>`;
+}
 const perf = REPORT.performance;
 const extra = []; for (const s of REPORT.sections ?? []) { const figs = []; for (const f of s.files ?? []) figs.push(figure(await embed(f.file, f.file.includes("-m") ? 520 : 1000), f.caption)); extra.push(`<section class="item" id="${esc(s.id)}"><h2><span class="n">${esc(s.n)}</span> ${esc(s.title)}</h2>${(s.paragraphs ?? []).map((p) => `<p>${esc(p)}</p>`).join("")}${s.list ? `<ul>${s.list.map((l) => `<li>${esc(l)}</li>`).join("")}</ul>` : ""}${figs.length ? `<div class="grid">${figs.join("")}</div>` : ""}</section>`); }
 
@@ -138,6 +155,7 @@ const html = `<!doctype html>
 </header>
 <div class="box"><h3>Status</h3><p style="margin:0">${esc(REPORT.status)}</p></div>
 <div class="box"><h3>What was kept and what changed</h3><ul>${REPORT.kept_and_changed.map((l) => `<li>${esc(l)}</li>`).join("")}</ul></div>
+${verdictTable()}
 ${exps.join("\n")}
 ${compareHtml()}
 <section class="item" id="performance"><h2><span class="n">6</span> Performance impact</h2>

@@ -22,7 +22,8 @@ import { useMotion } from "./motion";
  * Playback never submits, approves, redeems or advances the working clock:
  * it changes presentation state only.
  */
-export type Pose = { x?: number; y?: number; s?: number; r?: number; o?: number; ci?: [number, number, number, number]; d?: number };
+/** x, y offsets (px), s scale, r rotation (deg), o opacity, ci clip inset (%), d depth (unused by apply), b blur (px, depth of field for far planes). */
+export type Pose = { x?: number; y?: number; s?: number; r?: number; o?: number; ci?: [number, number, number, number]; d?: number; b?: number };
 export type Key = { at: number; pose: Pose; ease?: Ease };
 export type Track = Key[];
 export type Tracks = Record<string, Track>;
@@ -42,9 +43,9 @@ export const damped: Ease = (t) => 1 - (1 + 6 * t) * Math.exp(-6 * t);
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-const DEF: Required<Pose> = { x: 0, y: 0, s: 1, r: 0, o: 1, ci: [0, 0, 0, 0], d: 0 };
+const DEF: Required<Pose> = { x: 0, y: 0, s: 1, r: 0, o: 1, ci: [0, 0, 0, 0], d: 0, b: 0 };
 const full = (p: Pose): Required<Pose> => ({ ...DEF, ...p, ci: p.ci ?? DEF.ci });
-const mix = (a: Required<Pose>, b: Required<Pose>, t: number): Required<Pose> => ({ x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t), s: lerp(a.s, b.s, t), r: lerp(a.r, b.r, t), o: lerp(a.o, b.o, t), d: lerp(a.d, b.d, t), ci: [0, 1, 2, 3].map((i) => lerp(a.ci[i], b.ci[i], t)) as [number, number, number, number] });
+const mix = (a: Required<Pose>, b: Required<Pose>, t: number): Required<Pose> => ({ x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t), s: lerp(a.s, b.s, t), r: lerp(a.r, b.r, t), o: lerp(a.o, b.o, t), d: lerp(a.d, b.d, t), b: lerp(a.b, b.b, t), ci: [0, 1, 2, 3].map((i) => lerp(a.ci[i], b.ci[i], t)) as [number, number, number, number] });
 
 /** The pose of a track at progress p: holds before the first key and after the last; eases each segment. */
 export function poseAt(track: Track, p: number): Required<Pose> {
@@ -69,6 +70,7 @@ function apply(el: HTMLElement | SVGElement, p: Required<Pose>) {
   const c = p.ci; el.style.clipPath = c[0] || c[1] || c[2] || c[3] ? `inset(${r2(c[0])}% ${r2(c[1])}% ${r2(c[2])}% ${r2(c[3])}%)` : "";
   el.style.visibility = p.o <= 0.001 ? "hidden" : "";
   el.style.pointerEvents = p.o <= 0.001 ? "none" : "";
+  el.style.filter = p.b > 0.05 ? `blur(${r2(p.b)}px)` : "";
 }
 
 /** The stage: beneath the 120px navigation stack; pinned on desktop at most 796px tall; the phone composition slot is the rest of the first viewport. */

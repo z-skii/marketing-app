@@ -270,6 +270,50 @@ export async function runV3XRecomposeReview(i: RecomposeReviewInput, o: V2Option
   return { data: res.data, usage: [res.usage], files: [`${base}.json`, `${base}.md`], markdown: md };
 }
 
+export const VERIFY_SCHEMA: JsonSchema = {
+  name: "tapmart_v3_recomposition_verify",
+  schema: obj({
+    verdict: { type: "string", enum: ["ready", "blocker"] },
+    read: S("Two sentences: what the finished state is, as pixels, at phone and desktop."),
+    score: SCORE,
+    six_questions: QA,
+    blocker: { anyOf: [obj({ where: S("The capture and the place in it."), what: S("The one change that unblocks."), why: S("Why a professional would not ship it as is.") }), { type: "null" }] },
+    notes: L("Observations that are not blockers. Nothing here is a required change."),
+  }),
+};
+
+/** FINAL VERIFICATION of the finished state: READY, or exactly one SPECIFIC BLOCKER. Written to reviews/<key>-final.{json,md}. */
+export async function runV3XRecomposeVerify(i: { key: RecomposeKey; shots: string[]; notes?: string | null }, o: V2Options = {}): Promise<{ data: Record<string, unknown> | null; usage: Usage[]; files: string[]; markdown: string }> {
+  const say = o.onProgress ?? (() => {});
+  const def = RECOMPOSE_EXPERIENCES[i.key];
+  const r = route("screen_review_final", o.effort);
+  const [direction, m] = await Promise.all([recomposeText(), material()]);
+  const content: InputPart[] = [textPart([
+    `Experience: ${def.name} (${def.anchor}), FINAL VERIFICATION.`, `The brief asks: ${def.asks}`,
+    `Images in order: ${i.shots.map((s, n) => `${n + 1}. ${path.basename(s)}`).join("; ")}. Files ending in -strip are frame strips from real screen recordings, left to right in time; -m- files are the phone at 390px, -d- files the desktop at 1440px.`,
+    i.notes ? `Notes from the engineer: ${i.notes}` : "", "Answer with the JSON only.",
+  ].filter(Boolean).join("\n"))];
+  for (const s of i.shots) await pushImage(content, s, `CAPTURE ${path.basename(s)}:`);
+  say(`Verify ${def.name} (${r.effort})`);
+  const instructions = [
+    WHO,
+    "This job is the V3 RECOMPOSITION FINAL VERIFICATION. The founder approved the visual direction and asked for one finishing pass; these captures and recording strips are the finished state of that pass, recorded from the final code. You are verifying the actual finished state, not directing further polish. Return READY when a professional product designer would ship this experience as shown, or exactly one SPECIFIC BLOCKER: a defect visible in these pixels that a professional would not ship, named by where, what and why. A blocker is a defect (a collision, a clipped or hidden element, an unreadable state, a false claim, a broken handoff), not a preference. Everything else goes in notes and is not a required change. Score the experience out of 10 on the same scale as your comparison, so the founder can read before and after.",
+    NO_SLOP,
+    "=== YOUR RECOMPOSITION DIRECTION ===", direction, "=== END ===",
+    "=== THE RECOMPOSITION BRIEF ===", m.brief, "=== END ===",
+    `=== THE SIX QUESTIONS ===\n${SIX_QUESTIONS.map((q, n) => `${n + 1}. ${q}`).join("\n")}\n=== END ===`,
+  ].join("\n\n");
+  const res = await respond<Record<string, unknown>>({ model: r.model, effort: r.effort, instructions, content, schema: VERIFY_SCHEMA, maxOutputTokens: 20000, dryRun: o.dryRun, onProgress: o.onProgress });
+  if (o.dryRun) return { data: null, usage: [res.usage], files: [], markdown: "" };
+  await mkdir(REVIEWS_DIR, { recursive: true });
+  res.data = noDashes(res.data);
+  const base = path.join(REVIEWS_DIR, `${i.key}-final`);
+  const md = verifyMarkdown(def.name, i, res.data);
+  await writeFile(`${base}.json`, JSON.stringify({ experience: def.name, final: true, shots: i.shots.map((s) => path.basename(s)), when: new Date().toISOString(), reviewer: "director", verification: res.data }, null, 2));
+  await writeFile(`${base}.md`, md);
+  return { data: res.data, usage: [res.usage], files: [`${base}.json`, `${base}.md`], markdown: md };
+}
+
 export async function runV3XCompare(i: { before: string[]; after: string[]; notes?: string | null }, o: V2Options = {}): Promise<{ data: Record<string, unknown> | null; usage: Usage[]; files: string[]; markdown: string }> {
   const say = o.onProgress ?? (() => {});
   const r = route("screen_review_final", o.effort);
@@ -326,6 +370,17 @@ function reviewMarkdown(name: string, i: RecomposeReviewInput, r: Record<string,
     ...section("Drift", r.drift), ...section("Direction was wrong", r.direction_was_wrong),
     "## Fixes", "", ...((r.fixes as Record<string, unknown>[]) ?? []).map((f) => `- ${str(f.priority)}. **${str(f.where)}.** ${str(f.change)} Why: ${str(f.why)}`), "",
     ...section("Keep", r.keep),
+  ].join("\n");
+}
+
+function verifyMarkdown(name: string, i: { shots: string[] }, r: Record<string, unknown>): string {
+  const b = r.blocker as Record<string, unknown> | null;
+  return [
+    `# V3 recomposition final verification: ${name}`, "", `Reviewer: Astra. Verdict: **${str(r.verdict).toUpperCase()}**. Score: ${str(r.score)}/10. Captures: ${i.shots.map((s) => path.basename(s)).join(", ")}.`, "",
+    `**Read.** ${str(r.read)}`, "",
+    ...(b ? ["## The blocker", "", `**Where.** ${str(b.where)}`, "", `**What.** ${str(b.what)}`, "", `**Why.** ${str(b.why)}`, ""] : []),
+    "## The six questions", "", ...((r.six_questions as Record<string, unknown>[]) ?? []).map((q) => `- ${str(q.question)} **${str(q.answer).toUpperCase()}**. ${str(q.note)}`), "",
+    ...section("Notes, not blockers", r.notes),
   ].join("\n");
 }
 

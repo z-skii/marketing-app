@@ -40,7 +40,8 @@
  *   npm run creative -- v3x-review <key> --shot png [--shot png ...] [--pass 1] [--final] [--verify] [--density json]
  *   npm run creative -- v3x-recompose [--resume] [--capture png ...] [--strip png ...]   the recomposition direction (docs/design-lab-v3/recompose)
  *   npm run creative -- recompose-assets [--only id] [--tier final|fast] [--fix-rounds n] [--force] [--resume]   render the recomposition media briefs; rejected renders are not bound; --resume edits a rejected render per the director's last instructions
- *   npm run creative -- v3x-recompose-review <hero|recreate|drive|loyalty> --shot png [--shot png ...] [--pass n] [--final] [--notes ...]
+ *   npm run creative -- v3x-recompose-review <hero|recreate|drive|loyalty> --shot png [--shot png ...] [--pass n] [--final] [--verify] [--notes ...]
+ *       --verify is the FINAL VERIFICATION of the finished state: READY or one SPECIFIC BLOCKER, with a score; writes reviews/<key>-final.{json,md}
  *   npm run creative -- v3x-compare --before png ... --after png ... [--notes ...]   the current V3 against the recomposition on the six questions
  *   npm run creative -- reboot [--resume] [--skip-mockups] [--mockups 5] [--effort xhigh] [--out docs/reboot]
  *       The design reboot: Astra designs TapMart from a blank canvas (sees only
@@ -72,7 +73,7 @@ import { runRefine } from "@/lib/openai/reboot-refine";
 import { runV2Directions, runV2Review, runV2Screen, type V2ScreenKey } from "@/lib/openai/v2";
 import { runV3Direction, runV3Review, runV3Screen, type V3ScreenKey } from "@/lib/openai/v3";
 import { runV3XDirection, runV3XReview, runV3XScreen, type V3XKey } from "@/lib/openai/v3x";
-import { renderRecomposeAssets, runV3XCompare, runV3XRecompose, runV3XRecomposeReview, type RecomposeKey } from "@/lib/openai/v3x-recompose";
+import { renderRecomposeAssets, runV3XCompare, runV3XRecompose, runV3XRecomposeReview, runV3XRecomposeVerify, type RecomposeKey } from "@/lib/openai/v3x-recompose";
 
 type Flags = Record<string, string | string[] | boolean>;
 
@@ -316,8 +317,10 @@ async function main() {
     }
     case "v3x-recompose-review": {
       const [key] = pos;
-      if (!key || !list(flags, "shot").length) throw new Error("v3x-recompose-review needs <hero|recreate|drive|loyalty> --shot png [--shot png] [--pass n] [--final]");
-      const r = await runV3XRecomposeReview({ key: key as RecomposeKey, shots: list(flags, "shot"), pass: Number(str(flags, "pass", "1")), final: on(flags, "final"), notes: str(flags, "notes") || null }, { effort, dryRun, onProgress: log });
+      if (!key || !list(flags, "shot").length) throw new Error("v3x-recompose-review needs <hero|recreate|drive|loyalty> --shot png [--shot png] [--pass n] [--final] [--verify]");
+      const r = on(flags, "verify")
+        ? await runV3XRecomposeVerify({ key: key as RecomposeKey, shots: list(flags, "shot"), notes: str(flags, "notes") || null }, { effort, dryRun, onProgress: log })
+        : await runV3XRecomposeReview({ key: key as RecomposeKey, shots: list(flags, "shot"), pass: Number(str(flags, "pass", "1")), final: on(flags, "final"), notes: str(flags, "notes") || null }, { effort, dryRun, onProgress: log });
       if (dryRun) { log("Dry run: request built; nothing sent."); return; }
       process.stdout.write(r.markdown);
       log(`Usage ${JSON.stringify(totalUsage(r.usage))}`);

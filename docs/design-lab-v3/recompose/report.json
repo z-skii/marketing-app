@@ -1,14 +1,15 @@
 {
   "generated": "2026-09-18",
-  "subtitle": "The four recomposed core experiences of the public homepage, with the director's passes, the comparison against the current V3 and the measured performance impact. Nothing is migrated.",
-  "status": "Lab only. The V3 product architecture the founder approved is unchanged: the same routes, fixtures, amounts, dates, truth rules, Loyalty model, preview entrances, Pause motion and reduced motion. Only the presentation of four experiences was recomposed: the public hero, the Recreate sequence, the Drive sequence and the Business to Loyalty sequence. Story, Get paid, Find people, Find cars, Create, Review, Monthly content, User Home, Profile, Business Home and the Loyalty app screens were not touched. Waiting for the founder's approval before any further screen.",
+  "subtitle": "The four recomposed core experiences of the public homepage after the founder approved the visual direction and asked for one finishing pass: the finished state recorded from the final code, Astra's final verification of that state, the scores before to after, and the measured performance. Nothing is migrated.",
+  "status": "Lab only. The founder approved the visual direction (dark, spatial, glass and material language, motion concept) on the recomposition package and asked for one focused finishing pass on the four experiences. That pass is done and stopped: hero hierarchy, Recreate continuity, Drive integration, the Loyalty close, material refinement, a phone pass at 390px and media weight. The V3 product architecture is unchanged: the same routes, fixtures, amounts, dates, truth rules, Loyalty model, preview entrances, Pause motion and reduced motion. Story, Get paid, Find people, Find cars, Create, Review, Monthly content, User Home, Profile, Business Home and the Loyalty app screens were not touched. Waiting for the founder's approval before any further screen.",
   "kept_and_changed": [
     "Kept: one account, two modes, both audiences on one page through ?audience=earn|business, the Menu anchors, Sign in and every preview entrance (Open preview, View campaign, View person, Request, Open loyalty preview), the lab entrance and Pause motion, ordered stationary states under reduced motion, keyboard steps.",
     "Kept: every media binding in docs/design-lab-v3/MEDIA_MANIFEST.json. The reference stays Loopday's US$75 on approval opportunity; Counter pour stays Maya's own version approved Sep 10, 2026 with no ledger record; Latte take stays a separate recorded example under Get paid; Eli's US$240 asking rate stays separate from the Spurroom Bikes US$300 /month campaign; Jasmine stays a typographic source with no portrait; the loyalty preview keeps its 10, 6, 1, 2 baseline.",
     "Changed: the four experiences are pinned scenes driven by native scroll on desktop and tablet (no wheel interception, no snapping), stepped compositions in ordinary flow on phone, and stationary blocks per beat under reduced motion. One engine (src/app/design-lab-v3/x/Film.tsx) writes transform, opacity and clip to persistent elements once per animation frame.",
     "Changed: the navigation is the one persistent lens, dark over the hero substrate and light over the inspection substrate, 1200px maximum on desktop, with the lab and motion band beneath it. The hero substrate is #171B1D and the inspection substrate #E8ECEB, per the director's material system.",
     "Added: one generated lab photograph, the oxblood estate wagon, briefed by the director, rendered by the final image model and approved by the director after four rounds across three runs (scores 9, 9, 9, 9). It is an illustrative vehicle example bound to nothing but the public Drive and hero glimpse; vehicle-eli-01 keeps its listing, campaign example and proof bindings everywhere else.",
-    "Not built, per the direction: no Smart Vehicle concept, no generated creator, customer or cafe imagery, no new Story workflow, no counterfeit earned amount, no idle animation."
+    "Not built, per the direction: no Smart Vehicle concept, no generated creator, customer or cafe imagery, no new Story workflow, no counterfeit earned amount, no idle animation.",
+    "The finishing pass touched only the film engine, the three scene files and their styles, the media helpers and derivatives, the late image component, the director's verify job and the package tooling. The exact file list is in the last section."
   ],
   "experiences": [
     {
@@ -53,7 +54,8 @@
         "hero-pass2"
       ],
       "after_pass_2": "Terms text area kept clear of the reference (Loopday Coffee above US$75, Maya Chen fully exposed in the business lens); the navigation sits dark over the hero substrate and exchanges its backing only when the inspection substrate reaches it; the audience lines leave with the substrate so no white type sits on the light stage in reverse; the business sheet sits in contact with Maya's portrait and work on desktop.",
-      "truth": "Words in the hero besides navigation, actions and lab controls: Make money, Grow your business, Recreate (Campaign reference in the business lens), Loopday Coffee, US$75, On approval, Vehicle example, Loyalty, Take a coffee break. (the Story's own lettering), Maya Chen (business lens). The amount is the reference opportunity's conditional term. Nothing implies Maya made the reference or accepted the opportunity."
+      "truth": "Words in the hero besides navigation, actions and lab controls: Make money, Grow your business, Recreate (Campaign reference in the business lens), Loopday Coffee, US$75, On approval, Vehicle example, Loyalty, Take a coffee break. (the Story's own lettering), Maya Chen (business lens). The amount is the reference opportunity's conditional term. Nothing implies Maya made the reference or accepted the opportunity.",
+      "finishing": "One focal object. The reference and its attached terms are the only full contrast plane; the creator and the Story rest one tier back, the vehicle and the program object a tier further with a touch of depth of field, and Loopday's own photograph is the far context, dim and soft. The inactive audience line is brighter and has a focus ring. The phone hero is composed for 390px rather than compressed from the desktop: a 268px reference with the terms attached beneath it, the creator beside it, the Story peeking behind its corner and the vehicle as a glimpse; the business photograph, the program object and the vehicle label are not part of the phone composition and the photograph is never requested there."
     },
     {
       "n": 2,
@@ -113,7 +115,8 @@
         "recreate-pass2"
       ],
       "after_pass_2": "The approval provenance wraps inside its opaque backing at phone width and carries Maya's name; the money block no longer repeats her approval; the source thumbnail sits 14px from the work and the submission preview is in edge contact with the carrier; the lime creator label is a neutral opaque strip; the navigation stays light through the whole inspection stage.",
-      "truth": "US$75 is the reference opportunity's term, On approval. Counter pour is Maya Chen's own photograph, approved Sep 10, 2026, with no ledger record; the endpoint says Ledger example unavailable. Nothing is submitted, approved or credited by playback."
+      "truth": "US$75 is the reference opportunity's term, On approval. Counter pour is Maya Chen's own photograph, approved Sep 10, 2026, with no ledger record; the endpoint says Ledger example unavailable. Nothing is submitted, approved or credited by playback.",
+      "finishing": "The transformation stays on one carrier. The approval is now a physical pass: the lens enters at the work's lower edge, sweeps up over it and settles inset from the top before the record reads. The terms come out from beneath the approved work rather than fading in beside it, and they share the work's end scale so the sheet stays flush with the frame. The work keeps as much of its size at the end as the stage allows (the scale and rise are computed from the stage height) instead of a fixed reduction. No text was added."
     },
     {
       "n": 3,
@@ -173,7 +176,8 @@
         "drive-pass2"
       ],
       "after_pass_2": "Phone controls follow the active object (after the aperture in the first four beats, after the sheet in the last two) with no reserved gap; the phone rest state is the whole photograph, unshifted, with Vehicle example visible; the desktop campaign sheet is full size opaque paper revealed from its own edge with at most 48px of travel; the handle occlusion is confined to the handle and only present when the specimen is on the door; the phone sheet settles inline against the aperture without a floating shadow.",
-      "truth": "The photograph is an illustrative vehicle example, not Eli's listing, an accepted vehicle or installed proof. Rear doors is the only supported placement group. The specimen is a Placement preview, never an installation. US$300 /month is the Spurroom Bikes campaign opportunity in Austin, Oct 1 to Dec 31, 2026, paid on monthly approved proof; Eli's US$240 asking rate is not shown here."
+      "truth": "The photograph is an illustrative vehicle example, not Eli's listing, an accepted vehicle or installed proof. Rear doors is the only supported placement group. The specimen is a Placement preview, never an installation. US$300 /month is the Spurroom Bikes campaign opportunity in Austin, Oct 1 to Dec 31, 2026, paid on monthly approved proof; Eli's US$240 asking rate is not shown here.",
+      "finishing": "The placement is a decal on the real door, not an overlay: the specimen is mapped onto the door panel by a projective transform registered to the photograph (following the panel's slant and the wheel arch cut), the photograph's own paint is blended onto it so the door's shading and reflections carry across the decal, and its edge reads as vinyl. The rectangular handle occlusion is gone; the decal sits below the handle. The aperture is seated on the stage with a contact shadow. After the creative attaches, the camera pulls back: on desktop the aperture narrows from the right, the vehicle recedes to show the whole placement, and the campaign sheet opens in the freed column tied to the Rear doors row, so the sheet never covers the car; on phone the whole vehicle returns letterboxed and the sheet sits beneath the photograph, never over the wheels. The Vehicle example tag and the Placement preview lens step clear of the clipped bands. Steps and View campaign are reachable on every phone beat."
     },
     {
       "n": 4,
@@ -236,15 +240,15 @@
         "loyalty-pass1"
       ],
       "after_pass_2": "The member identity, the dated event and the reward state are separate lines in a natural height band; the phone pass is 334px wide with Loopday Coffee readable; the desktop pass stays opaque and moves 360px right and 24px down behind the reading plane; the ledges sit on a 78px rhythm from the source datum; the source advances before the card yields.",
-      "truth": "Public replay only: nothing joins, adds a visit, redeems or issues a pass. Sara's fifth visit is a labelled example continuation and no redemption is shown. The aggregates are the recorded fixture values; opening the loyalty preview shows its untouched 10, 6, 1, 2 baseline."
+      "truth": "Public replay only: nothing joins, adds a visit, redeems or issues a pass. Sara's fifth visit is a labelled example continuation and no redemption is shown. The aggregates are the recorded fixture values; opening the loyalty preview shows its untouched 10, 6, 1, 2 baseline.",
+      "finishing": "The close reconnects to the original campaign: the same Story creative that opened the chain returns beside the advanced Jasmine marker at attribution, so the finale reads campaign, source, dated returns, member card in one composition. The card yields whole beside the ledges on desktop and as a reduced card beneath them on phone, with no plane cutting through it. Nothing was turned into a chart."
     }
   ],
   "performance": {
     "paragraphs": [
-      "Same production build procedure as the V3 package (next build with DESIGN_LAB=1, served by next start on port 3200), Lighthouse run twice against the public homepage. The two runs are both shown; the current V3 rows are the ones recorded in docs/design-lab-v3/PERFORMANCE.md on the same machine class.",
-      "Desktop stays at 99 with LCP under one second and zero layout shift. The mobile preset is 83 to 85 against 83 before, with LCP 4.3 to 4.6 s against 4.7 s. The largest contentful paint is the Loopday reference in both versions; the recomposition preloads its 720px derivative with a high fetch priority, which is why LCP did not move up even though the hero now paints seven objects instead of one.",
-      "First load media on the mobile preset is 425KB over seven images against 237KB over three before. The hero composition itself is 300KB over six images (the reference, Maya's portrait, the Story creative, the 480px vehicle, Loopday's counter photograph and Maya's Counter pour at 800px for the Recreate handoff). The seventh image, 125KB, is the 960px Drive vehicle: it is declared lazy on the page, but on the short phone document the browser's lazy loading distance pulls it in before first paint. That puts the mobile first load 75KB over the 350KB media target the V3 package set; the desktop first load is 300KB. Total blocking time rose from 40 ms to 50 to 80 ms on the throttled preset, from the film engine's hydration; it is 0 ms on desktop.",
-      "Frame timing during native scroll is in each experience's recording section above: p50 16.7 ms on every desktop take, p95 16.7 to 33.3 ms, no frame over 50 ms. The pinned scenes animate transform, opacity and clip-path only; nothing loops at rest."
+      "Production build (next build with DESIGN_LAB=1, next start on port 3200), Lighthouse twice against the public homepage after the finishing pass, same procedure and machine class as the earlier rows.",
+      "Mobile first load media is 110KB over four images against 425KB over seven after the first build and 237KB over three in the current V3: the derivatives are AVIF, the business photograph is not requested on phone, and the Recreate work, the Drive vehicle and the Loyalty Story are requested only when their scene needs them. Desktop stays at 99 with LCP 0.9 s and zero layout shift; the mobile preset is 83 with LCP 4.5 s and 70 to 80 ms of blocking time. The mobile LCP did not move with the image weight: the largest contentful paint is the 47KB reference, and on the throttled preset the paint waits on the script and hydration, not on that file. The 2.5 s mobile target is still missed and is reported as missed.",
+      "Frame timing during native desktop scroll after the finishing pass: hero p50 16.7 ms, p95 33.4 ms, max 50 ms; Recreate p50 16.7, p95 33.3; Drive p50 16.7, p95 33.4, with 15 of 223 frames over 33 ms during the decal lighting and pull back; Loyalty p50 16.7, p95 16.8. No frame over 50 ms on any take."
     ],
     "columns": [
       "Run",
@@ -344,6 +348,62 @@
         "425KB / 7",
         "207KB",
         "866KB"
+      ],
+      [
+        "Finished, desktop, run 1",
+        "99",
+        "98",
+        "0.9 s",
+        "0.3 s",
+        "0.5 s",
+        "0",
+        "0 ms",
+        "0",
+        "110KB / 4",
+        "207KB",
+        "553KB"
+      ],
+      [
+        "Finished, desktop, run 2",
+        "99",
+        "98",
+        "0.9 s",
+        "0.3 s",
+        "0.5 s",
+        "0",
+        "0 ms",
+        "0",
+        "110KB / 4",
+        "207KB",
+        "553KB"
+      ],
+      [
+        "Finished, mobile, run 1",
+        "83",
+        "98",
+        "4.5 s",
+        "1.4 s",
+        "1.7 s",
+        "0",
+        "80 ms",
+        "",
+        "110KB / 4",
+        "207KB",
+        "553KB"
+      ],
+      [
+        "Finished, mobile, run 2",
+        "83",
+        "98",
+        "4.5 s",
+        "1.4 s",
+        "1.7 s",
+        "0",
+        "70 ms",
+        "",
+        "110KB / 4",
+        "207KB",
+        "553KB"
       ]
     ],
     "setup": "Setup: next build with DESIGN_LAB=1 served by next start on port 3200; Lighthouse against HeadlessChrome 141 on the session's Linux container (benchmarkIndex 2312 to 2536 on these runs, 1689 on the V3 package runs, so this machine measured slightly faster); mobile preset is simulated slow 4G with 4x CPU throttling, desktop preset has no throttle. Accessibility stays at 98 for the same reason as before: the production root layout's skip link, outside this lab. Measured 2026-09-18."
@@ -441,6 +501,26 @@
         "No flow, copy rule, amount, state or truth binding changed. US$75 remains On approval for the Counter pour; the Latte take is the only recorded earnings example; Eli's US$240 listing and the Spurroom US$300 /month campaign are separate records; Jasmine has no portrait.",
         "No fake 3D. The Drive moment is one photograph with coded layers: the aperture, the camera shift, the masked door zone, the specimen creative and the campaign sheet.",
         "No third director pass. Two passes per experience were run and applied; the comparison below is the closing judgement, per the brief's stop point."
+      ]
+    },
+    {
+      "n": 11,
+      "id": "files",
+      "title": "Exact files changed in the finishing pass",
+      "list": [
+        "src/app/design-lab-v3/x/Film.tsx (blur depth pose)",
+        "src/app/design-lab-v3/x/LateImg.tsx (new: an image requested only when its scene needs it)",
+        "src/app/design-lab-v3/x/media.ts (derivatives served as AVIF)",
+        "public/design-lab-v3/m/*.avif (32 new derivatives; the JPEG twins stay)",
+        "src/app/design-lab-v3/x/site/EarnFilm.tsx (hero tiers and phone composition, audience lines yield on the handoff, approval sweep, terms from beneath the work, persistent end frame)",
+        "src/app/design-lab-v3/x/site/DriveFilm.tsx (decal by projective transform, paint lighting, pull back, tie, sheet placement, label clearance)",
+        "src/app/design-lab-v3/x/site/LoopFilm.tsx (the Story returns at attribution)",
+        "src/app/design-lab-v3/x/film.css (scene styles for all of the above)",
+        "src/app/design-lab-v3/x/x.css (lens material: rim, refraction ring, contact shadow, bottom edge)",
+        "src/lib/openai/v3x-recompose.ts and scripts/creative.ts (the director's --verify job: READY or one SPECIFIC BLOCKER)",
+        "scripts/v3x-recompose-report.mjs and docs/design-lab-v3/recompose/report.json (the package)",
+        "docs/design-lab-v3/recompose/captures, recordings, reviews/*-final.* (fresh evidence and the four verifications)",
+        "docs/design-lab-v3/CHECKPOINT.md and PERFORMANCE.md (addenda)"
       ]
     }
   ]

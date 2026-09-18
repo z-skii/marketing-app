@@ -7,9 +7,10 @@ import { Img } from "../../../design-lab-v2/Img";
 import { homeOpportunities, businessPeople, money } from "../../../design-lab-v2/fixtures";
 import { liveProgram } from "../../fixtures";
 import { Logo } from "../../wallet/Cards";
+import { LateImg } from "../LateImg";
 import { M } from "../media";
 import { useMotion } from "../motion";
-import { FilmControls, Scene, damped, openEase, tl, useFilm, type Beat, type Film, type Tracks, type Viewport } from "../Film";
+import { FilmControls, Scene, damped, easeOut, openEase, tl, useFilm, type Beat, type Film, type Tracks, type Viewport } from "../Film";
 
 /**
  * Scene one of the film (RECOMPOSE_DIRECTION.md, hero and recreate, and
@@ -40,6 +41,8 @@ const [SUB0, SUB1] = seg(0.37, 0.52);
 const [APP0] = seg(0.52, 0.76);
 const [END0] = seg(0.76, 1);
 const THUMB1 = VER1 + 0.04;
+/** A 1x1 transparent GIF: the phone source of a picture whose photograph is not part of the phone composition, so it is never requested there. */
+const BLANK = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 export const EARN_BEATS: Beat[] = [
   { key: "hero", label: "TapMart", at: 0, dwell: 900 },
@@ -56,7 +59,7 @@ function build(vp: Viewport, aud: Audience): Tracks {
     ? { ref: tl(vp, 648, 174, 360, 450), portrait: tl(vp, biz ? 452 : 492, biz ? 330 : 320, 168, 210), work: tl(vp, 452, 556, 168, 210), story: tl(vp, 1000, 246, 190, 338), car: tl(vp, 420, 560, 440, 293), cartag: tl(vp, 432, 818, 108, 22), terms: biz ? tl(vp, 620, 612, 304, 96) : tl(vp, 760, 622, 304, 110), business: tl(vp, 80, 430, 390, 260), loyalty: tl(vp, 1084, 574, 324, 184), refW: 360, refH: 450 }
     : vp.tablet
       ? { ref: tl(vp, 262, 250, 300, 375), portrait: tl(vp, biz ? 100 : 150, biz ? 280 : 300, 140, 175), work: tl(vp, 100, 470, 140, 175), story: tl(vp, 560, 236, 150, 267), car: tl(vp, 300, 640, 380, 253), cartag: tl(vp, 312, 860, 108, 22), terms: tl(vp, 350, 623, 290, 96), business: tl(vp, -20, 470, 330, 220), loyalty: tl(vp, 530, 560, 220, 125), refW: 300, refH: 375 }
-      : { ref: tl(vp, 104, 262, 244, 305), portrait: tl(vp, 8, biz ? 262 : 290, 92, 115), work: tl(vp, 8, 386, 92, 115), story: tl(vp, 296, 262, 94, 167), car: tl(vp, 140, 630, 240, 160), cartag: tl(vp, 16, 708, 108, 22), terms: biz ? tl(vp, 16, 568, 274, 84) : tl(vp, 100, 556, 274, 100), business: tl(vp, -32, 420, 216, 144), loyalty: tl(vp, 8, biz ? 664 : 590, 124, 96), refW: 244, refH: 305 };
+      : { ref: tl(vp, 96, 262, 268, 335), portrait: tl(vp, 8, biz ? 292 : 318, 88, 110), work: tl(vp, 8, 410, 88, 110), story: tl(vp, 318, 236, 72, 128), car: tl(vp, 232, 640, 158, 105), cartag: tl(vp, 16, 708, 108, 22), terms: biz ? tl(vp, 16, 592, 274, 84) : tl(vp, 16, 592, 274, 100), business: tl(vp, -32, 420, 216, 144), loyalty: tl(vp, 8, 664, 124, 96), refW: 268, refH: 335 };
   // Recreate carrier: 416x520 on the stage's inspection datum on desktop; 326 wide centered on phone
   const W = vp.desktop ? 416 : vp.tablet ? 360 : 326;
   const Hc = W * 1.25;
@@ -66,24 +69,29 @@ function build(vp: Viewport, aud: Audience): Tracks {
   const thumbW = vp.desktop ? 80 : 64;
   const thumb = vp.desktop ? { x: carrier.x - W / 2 - 14 - thumbW / 2, y: carrier.y - Hc / 2 + 50 } : vp.tablet ? { x: carrier.x - W / 2 - 50 - thumbW / 2, y: carrier.y - Hc / 2 + 50 } : { x: carrier.x + W / 2 - 14 - thumbW / 2, y: carrier.y - Hc / 2 + 92 + thumbW * 1.25 / 2 };
   const thumbS = thumbW / P.refW;
-  const railY = carrier.y - Hc / 2 + 36;
+  const railY = carrier.y - Hc / 2 + (vp.desktop ? 44 : 54);
+  const railFrom = carrier.y + Hc / 2 - (vp.desktop ? 36 : 46) - 8;
   const sub = vp.desktop ? { x: carrier.x + W / 2 + 170, y: carrier.y + 40 } : vp.tablet ? { x: carrier.x + W / 2 + 150, y: carrier.y + 40 } : { x: 0, y: carrier.y + Hc / 2 + 16 + 100 };
   // the terms: attached to the work's lower edge; the work rises so the finished cup stays in view
-  const endS = vp.desktop ? 0.86 : vp.tablet ? 0.9 : 1;
-  const rise = vp.desktop ? 95 : vp.tablet ? 70 : 0;
   const endH = vp.desktop ? 190 : 176;
-  const end = { x: carrier.x, y: carrier.y - rise + Hc * endS / 2 + endH / 2 - 1 };
+  const endS = vp.phone ? 1 : Math.min(1, Math.max(0.8, (vp.stageH - 12 - 76 - endH) / (Hc + endH)));
+  const rise = vp.phone ? 0 : Math.max(0, carrier.y + (Hc * endS) / 2 + endH * endS - (vp.stageH / 2 - 76));
+  // the terms sheet shares the work's end scale so its edges stay flush with the frame
+  const end = { x: carrier.x, y: carrier.y - rise + Hc * endS / 2 + (endH * endS) / 2 - 1, s: endS };
   // handoff: supporting planes converge behind the advancing reference at different distances and are occluded by it before they leave; the terms retract beneath its lower edge
   const dx = carrier.x - P.ref.x; const dy = carrier.y - P.ref.y;
-  const behind = (from: { x: number; y: number }, k: number, s = 1) => [
-    { at: 0, pose: { ...from, s, o: 1 } },
-    { at: H * 0.7, pose: { x: from.x + dx * k + (carrier.x - from.x) * 0.55, y: from.y + dy * k + (carrier.y - from.y) * 0.55, s: s * 0.72, o: 1 }, ease: openEase },
-    { at: H, pose: { x: carrier.x + (from.x - carrier.x) * 0.12, y: carrier.y + (from.y - carrier.y) * 0.12, s: s * 0.5, o: 0 }, ease: openEase },
+  const behind = (from: { x: number; y: number }, k: number, s = 1, o = 1, b = 0) => [
+    { at: 0, pose: { ...from, s, o, b } },
+    { at: H * 0.7, pose: { x: from.x + dx * k + (carrier.x - from.x) * 0.55, y: from.y + dy * k + (carrier.y - from.y) * 0.55, s: s * 0.72, o, b: b * 0.5 }, ease: openEase },
+    { at: H, pose: { x: carrier.x + (from.x - carrier.x) * 0.12, y: carrier.y + (from.y - carrier.y) * 0.12, s: s * 0.5, o: 0, b: 0 }, ease: openEase },
   ];
+  const hidden = (from: { x: number; y: number }) => [{ at: 0, pose: { ...from, o: 0 } }];
   const refRest = { ...P.ref, s: 1 };
   return {
+    // the reference rises in place first and only then moves across, so it never crosses the audience lines; the lines have yielded by then
     ref: [
       { at: 0, pose: refRest },
+      ...(vp.phone ? [] : [{ at: H * 0.4, pose: { x: P.ref.x, y: P.ref.y + (carrier.y - P.ref.y) * 0.5, s: 1 + (refS - 1) * 0.4 }, ease: openEase }]),
       { at: H, pose: { ...carrier, s: refS }, ease: openEase },
       { at: VER0, pose: { ...carrier, s: refS } },
       // the hard reveal: the reference wipes away from the left, exposing Maya's registered version beneath
@@ -119,16 +127,20 @@ function build(vp: Viewport, aud: Audience): Tracks {
       { at: APP0 + 0.03, pose: { x: carrier.x, y: carrier.y + Hc / 2 - 20, o: 0 } },
     ],
     submission: [{ at: SUB0, pose: { ...sub, y: sub.y + 48, o: 0 } }, { at: SUB0 + 0.012, pose: { ...sub, y: sub.y + 36, o: 1 } }, { at: SUB0 + 0.06, pose: { ...sub, o: 1 }, ease: damped }, { at: SUB1, pose: { ...sub, o: 1 } }, { at: APP0, pose: { ...sub, y: sub.y + 24, o: 0 } }],
-    rail: [{ at: APP0, pose: { x: carrier.x, y: railY, o: 0 } }, { at: APP0 + 0.03, pose: { x: carrier.x, y: railY, o: 1 } }, { at: END0 + 0.04, pose: { x: carrier.x, y: railY, o: 1 } }, { at: END0 + 0.1, pose: { x: carrier.x, y: railY - rise + (carrier.y - railY) * (1 - endS), o: 1, s: endS }, ease: damped }],
-    railText: [{ at: APP0 + 0.03, pose: { x: carrier.x, y: railY, o: 0 } }, { at: APP0 + 0.07, pose: { x: carrier.x, y: railY, o: 1 } }, { at: END0 + 0.04, pose: { x: carrier.x, y: railY, o: 1 } }, { at: END0 + 0.1, pose: { x: carrier.x, y: railY - rise + (carrier.y - railY) * (1 - endS), o: 1, s: endS }, ease: damped }],
-    end: [{ at: END0 + 0.04, pose: { ...end, y: end.y + 48, o: 0 } }, { at: END0 + 0.05, pose: { ...end, y: end.y + 46, o: 1 } }, { at: END0 + 0.12, pose: { ...end, o: 1 }, ease: damped }],
+    // the approval passes over the work: the lens enters at the work's lower edge, sweeps up over it and settles inset from the top; the record reads once it rests
+    rail: [{ at: APP0, pose: { x: carrier.x, y: railFrom, o: 0 } }, { at: APP0 + 0.008, pose: { x: carrier.x, y: railFrom, o: 1 } }, { at: APP0 + 0.06, pose: { x: carrier.x, y: railY, o: 1 }, ease: openEase }, { at: END0 + 0.04, pose: { x: carrier.x, y: railY, o: 1 } }, { at: END0 + 0.1, pose: { x: carrier.x, y: railY - rise + (carrier.y - railY) * (1 - endS), o: 1, s: endS }, ease: damped }],
+    railText: [{ at: APP0 + 0.05, pose: { x: carrier.x, y: railY, o: 0 } }, { at: APP0 + 0.085, pose: { x: carrier.x, y: railY, o: 1 } }, { at: END0 + 0.04, pose: { x: carrier.x, y: railY, o: 1 } }, { at: END0 + 0.1, pose: { x: carrier.x, y: railY - rise + (carrier.y - railY) * (1 - endS), o: 1, s: endS }, ease: damped }],
+    // the terms come out from beneath the approved work: the sheet starts behind it and slides down out of its lower edge to its attached rest
+    end: [{ at: END0 + 0.04, pose: { ...end, y: end.y - endH / 2 - 72, o: 0 } }, { at: END0 + 0.05, pose: { ...end, y: end.y - endH / 2 - 70, o: 1 } }, { at: END0 + 0.13, pose: { ...end, o: 1 }, ease: damped }],
     endAmount: [{ at: END0 + 0.1, pose: { o: 0 } }, { at: END0 + 0.13, pose: { o: 1 } }],
-    portrait: behind(P.portrait, 0.35),
-    story: behind(P.story, 0.35),
-    car: behind(P.car, 0.35),
-    cartag: [{ at: 0, pose: { ...P.cartag, o: 1 } }, { at: H * 0.3, pose: { ...P.cartag, o: 0 } }],
-    business: behind(P.business, 0.15),
-    loyalty: behind(P.loyalty, 0.35),
+    // tiers: the creator and the Story are the near supporting objects; the vehicle and the program object sit one plane back; Loopday's own photograph is the far context
+    portrait: behind(P.portrait, 0.35, 1, biz ? 1 : 0.94),
+    story: behind(P.story, 0.35, 1, 0.9),
+    car: behind(P.car, 0.35, 1, 0.84, 0.6),
+    cartag: vp.phone ? hidden(P.cartag) : [{ at: 0, pose: { ...P.cartag, o: 1 } }, { at: H * 0.3, pose: { ...P.cartag, o: 0 } }],
+    business: vp.phone ? hidden(P.business) : behind(P.business, 0.15, 1, 0.55, 1.6),
+    loyalty: vp.phone ? hidden(P.loyalty) : behind(P.loyalty, 0.35, 1, 0.82, 0.6),
+    lines: [{ at: 0, pose: { o: 1 } }, { at: H * 0.25, pose: { o: 0 }, ease: easeOut }],
     terms: [{ at: 0, pose: { ...P.terms, o: 1 } }, { at: H * 0.8, pose: { x: carrier.x, y: carrier.y + Hc / 2 - 100, o: 1 }, ease: openEase }, { at: H, pose: { x: carrier.x, y: carrier.y, o: 1 } }, { at: H + 0.001, pose: { x: carrier.x, y: carrier.y, o: 0 } }],
   };
 }
@@ -167,7 +179,7 @@ function Stage({ aud, staticAt, choose }: { aud: Audience; staticAt: number | nu
     <div className={`x-scene-stage x-earn-stage${inHero ? " x-dark x-earn-hero" : ""}`} ref={stage} data-beat={beat} data-audience={aud} data-stage-tone={inHero ? "dark" : "inspection"}>
       <div className="x-field">
         {/* rear context: Loopday's own business photograph, then the program object, the vehicle example, the Story and the creator */}
-        <span className="x-obj x-plane x-plane-flat x-earn-business" data-film="business"><img src={M.contentCounter()} alt="Loopday Coffee, the counter, delivered photograph" width={800} height={533} decoding="async" fetchPriority="low" /></span>
+        <span className="x-obj x-plane x-plane-flat x-earn-business" data-film="business"><picture><source media="(max-width: 767px)" srcSet={BLANK} /><img src={M.contentCounter()} alt="Loopday Coffee, the counter, delivered photograph" width={800} height={533} decoding="async" fetchPriority="low" /></picture></span>
         <span className="x-obj x-earn-loyalty" data-film="loyalty">
           <span className="x-earn-loyalty-head"><span className="x-earn-loyalty-mark"><Logo design={liveProgram.card} size={16} /></span><span className="x-earn-loyalty-name">{liveProgram.card.businessName}</span></span>
           <span className="x-earn-loyalty-art"><Img src={M.reference4x5(720)} alt="" position="72% 50%" /></span>
@@ -178,7 +190,7 @@ function Stage({ aud, staticAt, choose }: { aud: Audience; staticAt: number | nu
         <span className="x-obj x-plane x-earn-story" data-film="story"><img src={M.story(480)} alt="Story creative, Loopday Coffee: Take a coffee break." width={480} height={853} decoding="async" fetchPriority="low" /></span>
         <span className="x-obj x-plane x-plane-r6 x-earn-portrait" data-film="portrait"><img src={M.portraitMaya(480)} alt={`${maya.name}, fictional creator`} width={480} height={600} decoding="async" fetchPriority="low" />{business && <span className="x-tag x-obj-tag">{maya.name}</span>}</span>
         {/* Maya's own Counter pour: beside her portrait in the business lens, the dominant work in Recreate, registered beneath the reference */}
-        <span className="x-obj x-plane x-plane-r6 x-plane-fore x-earn-work" data-film="work"><img src={M.mayaPour(800)} alt="Creator version: Maya Chen, Counter pour still" width={800} height={1000} decoding="async" loading="lazy" /></span>
+        <span className="x-obj x-plane x-plane-r6 x-plane-fore x-earn-work" data-film="work"><LateImg src={M.mayaPour(800)} srcSet={`${M.mayaPour(480)} 480w, ${M.mayaPour(800)} 800w`} sizes="(min-width: 1024px) 416px, 326px" when={business || beat >= 1} alt="Creator version: Maya Chen, Counter pour still" width={800} height={1000} /></span>
         {/* the reference: Loopday's reviewed 4:5 crop, the one object that travels into Recreate */}
         <Link href={preview} className="x-obj x-plane x-plane-r6 x-plane-fore x-earn-ref" data-film="ref" aria-label={`Open preview: ${recreate.title}, ${recreate.business}`}>
           <img src={M.reference4x5(720)} srcSet={`${M.reference4x5(720)} 720w, ${M.reference4x5(1080)} 1080w`} sizes="(min-width: 1024px) 416px, 326px" alt="" width={720} height={900} fetchPriority="high" decoding="async" />
@@ -211,7 +223,7 @@ function Stage({ aud, staticAt, choose }: { aud: Audience; staticAt: number | nu
       </div>
       <div className="x-stage-head">
         {inHero ? (
-          <div className="x-earn-lines" role="tablist" aria-label="Audience">
+          <div className="x-earn-lines" role="tablist" aria-label="Audience" data-film="lines" data-opacity-only>
             <button type="button" role="tab" aria-selected={!business} className="x-line x-line-1" onClick={() => choose("earn")}>Make money</button>
             <button type="button" role="tab" aria-selected={business} className="x-line x-line-2" onClick={() => choose("business")}>Grow your business</button>
           </div>

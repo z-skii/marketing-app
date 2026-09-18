@@ -122,3 +122,18 @@ What moved and why:
   the recorder scrolled each pinned scene): p50 16.7 ms on every take, p95
   16.7 to 33.3 ms, no frame over 50 ms. The scenes animate transform,
   opacity and clip-path only and nothing loops at rest.
+
+## Addendum, 2026-09-18, later: after the finishing pass
+
+Same procedure, two runs. Mobile first load media is 110KB over four
+images (AVIF derivatives; the business photograph is not requested on
+phone; the Recreate work, the Drive vehicle and the Loyalty Story load only
+when their scene needs them). Mobile LCP stayed at 4.5 s: the paint waits
+on the script and hydration on the throttled preset, not on the 47KB
+reference. Desktop 99, LCP 0.9 s, CLS 0.
+
+| Run | Perf | A11y | LCP | FCP | Speed index | CLS | TBT | Images | Scripts | Total transfer |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Public homepage, desktop, runs 1 and 2 | 99 | 98 | 0.9 s | 0.3 s | 0.5 s | 0 | 0 ms | 110KB / 4 | 207KB | 553KB |
+| Public homepage, mobile, runs 1 and 2 | 83 | 98 | 4.5 s | 1.4 s | 1.7 s | 0 | 70 to 80 ms | 110KB / 4 | 207KB | 553KB |
+

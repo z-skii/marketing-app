@@ -98,3 +98,30 @@ The founder decides whether this is the visual direction. The director's
 commands for this stage: `npm run creative -- v3x-recompose`,
 `recompose-assets`, `v3x-recompose-review <key> --shot ...` and
 `v3x-compare --before ... --after ...`.
+
+## Addendum, 2026-09-18, later: the finishing pass, verified READY, waiting for the founder
+
+The founder approved the visual direction and asked for one focused
+finishing pass on the four experiences. Done and stopped:
+
+- **Hero.** One focal object with depth tiers; the phone hero composed at
+  390px; the audience lines yield as the reference starts its handoff.
+- **Recreate.** The approval sweeps over the work; the terms come out from
+  beneath it and share its end scale; the frame persists to the end.
+- **Drive.** The specimen is a decal registered to the door by a
+  projective transform and lit by the photograph's own paint; the camera
+  pulls back and the campaign sheet opens beside the aperture, tied to
+  the Rear doors row, never over the car.
+- **Loyalty.** The Story creative returns beside Jasmine at attribution.
+- **Material and media.** Lens rim, refraction ring and contact shadow;
+  AVIF derivatives; later scene media requested only when needed. Mobile
+  first load media 110KB over four images (from 425KB); mobile LCP 4.5 s,
+  unchanged, still above the 2.5 s target.
+- **Astra's final verification of the recorded final state**
+  (`recompose/reviews/*-final.md`): hero READY 8/10 after one blocker
+  (the reference crossed Grow your business on the desktop handoff, fixed
+  and re-verified), Recreate READY 8/10, Drive READY 8/10, Business to
+  Loyalty READY 8/10. Before, from the comparison: 3, 4, 3, 5.
+
+Nothing migrates. The next screen waits for the founder.
+

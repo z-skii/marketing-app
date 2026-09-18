@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { Sheet } from "../../../design-lab-v2/Sheet";
 import { AppleCard, GoogleCard, Logo, PlatformLabel, type CardData } from "../../wallet/Cards";
 import { liveProgram } from "../../fixtures";
+import { LateImg } from "../LateImg";
 import { M } from "../media";
 import { FilmControls, Scene, openEase, tl, useFilm, type Beat, type Tracks, type Viewport } from "../Film";
 
@@ -17,7 +18,8 @@ import { FilmControls, Scene, openEase, tl, useFilm, type Beat, type Tracks, typ
  * example continuation. At the end the card yields the foreground and
  * the same marker advances onto the attribution datum, where the three
  * recorded aggregates (4 joined, 3 came back, 1 redeemed) open as ledges
- * from its underline. An independent replay: nothing here touches the
+ * from its underline, and the Story that opened the chain returns beside
+ * the source, so the close visibly reconnects to the original campaign. An independent replay: nothing here touches the
  * working Loyalty store, and the preview keeps its 10/6/1/2 baseline.
  */
 export const LOOP_BEATS: Beat[] = [
@@ -45,10 +47,10 @@ function build(vp: Viewport): Tracks {
   const cardW = vp.desktop ? 375 : vp.tablet ? 360 : 334;
   const cardH = Math.round(cardW * 1.6);
   const P = vp.desktop
-    ? { source: tl(vp, 156, 220, 300, 72), sourceEnd: tl(vp, 352, 242, 300, 72), story: tl(vp, 580, 200, 214, 380), link: tl(vp, 600, 596, 176, 74), signup: tl(vp, 512, 184, 350, 380), card: tl(vp, 500, 200, cardW, cardH), event: tl(vp, 940, 220, 300, 96), ledges: tl(vp, 352, 356, 760, 220), cardEnd: { dx: 480, dy: 24, s: 1 } }
+    ? { source: tl(vp, 156, 220, 300, 72), sourceEnd: tl(vp, 352, 242, 300, 72), story: tl(vp, 580, 200, 214, 380), link: tl(vp, 600, 596, 176, 74), signup: tl(vp, 512, 184, 350, 380), card: tl(vp, 500, 200, cardW, cardH), event: tl(vp, 940, 220, 300, 96), ledges: tl(vp, 352, 356, 760, 220), cardEnd: { dx: 480, dy: 24, s: 1 }, storyEnd: tl(vp, 248, 236, 88, 156), storyS: 88 / 214 }
     : vp.tablet
-      ? { source: tl(vp, 24, 140, 300, 72), sourceEnd: tl(vp, 24, 160, 300, 72), story: tl(vp, 277, 230, 214, 380), link: tl(vp, 296, 620, 176, 74), signup: tl(vp, 197, 220, 374, 380), card: tl(vp, 204, 230, cardW, cardH), event: tl(vp, 24, 224, 300, 96), ledges: tl(vp, 24, 300, 760, 220), cardEnd: { dx: 250, dy: 40, s: 0.6 } }
-      : { source: tl(vp, 16, 184, 358, 52), sourceEnd: tl(vp, 16, 184, 358, 52), story: tl(vp, 88, 300, 214, 380), link: tl(vp, 107, 690, 176, 74), signup: tl(vp, 16, 290, 358, 380), card: tl(vp, 28, 356, cardW, cardH), event: tl(vp, 16, 246, 358, 96), ledges: tl(vp, 16, 296, 358, 220), cardEnd: { dx: 109, dy: 9, s: 0.42 } };
+      ? { source: tl(vp, 24, 140, 300, 72), sourceEnd: tl(vp, 24, 160, 300, 72), story: tl(vp, 277, 230, 214, 380), link: tl(vp, 296, 620, 176, 74), signup: tl(vp, 197, 220, 374, 380), card: tl(vp, 204, 230, cardW, cardH), event: tl(vp, 24, 224, 300, 96), ledges: tl(vp, 24, 300, 760, 220), cardEnd: { dx: 250, dy: 40, s: 0.6 }, storyEnd: tl(vp, 340, 156, 80, 142), storyS: 80 / 214 }
+      : { source: tl(vp, 16, 184, 358, 52), sourceEnd: tl(vp, 16, 184, 358, 52), story: tl(vp, 88, 300, 214, 380), link: tl(vp, 107, 690, 176, 74), signup: tl(vp, 16, 290, 358, 380), card: tl(vp, 28, 356, cardW, cardH), event: tl(vp, 16, 246, 358, 96), ledges: tl(vp, 16, 296, 358, 220), cardEnd: { dx: 109, dy: 9, s: 0.42 }, storyEnd: tl(vp, 318, 186, 56, 100), storyS: 56 / 214 };
   // the name is set at its final size (40 phone, 48 desktop) and shown at 16px through a scale, so it stays crisp at the end
   const nameS = 16 / (vp.desktop ? 48 : 40);
   const nameGrow = (vp.desktop ? 52 : 44) + 12 - 24;
@@ -57,7 +59,8 @@ function build(vp: Viewport): Tracks {
     source: [{ at: 0, pose: { ...P.source } }, { at: 0.86, pose: { ...P.source } }, { at: 0.905, pose: { ...P.sourceEnd }, ease: openEase }],
     name: [{ at: 0, pose: { s: nameS } }, { at: 0.86, pose: { s: nameS } }, { at: 0.905, pose: { s: 1 }, ease: openEase }],
     sub: [{ at: 0, pose: { y: 0 } }, { at: 0.86, pose: { y: 0 } }, { at: 0.905, pose: { y: nameGrow }, ease: openEase }],
-    story: [{ at: 0, pose: { ...P.story, o: 1 } }, { at: 0.12, pose: { ...P.story, o: 1 } }, { at: 0.16, pose: { ...P.story, y: P.story.y - 24, s: 0.96, o: 0.6 }, ease: openEase }, { at: 0.24, pose: { ...P.story, y: P.story.y - 24, s: 0.96, o: 0.6 } }, { at: 0.28, pose: { ...P.story, y: P.story.y - 40, s: 0.92, o: 0 } }],
+    // the campaign creative opens the chain and returns at the close: the same Story object comes back beside the advanced source, so the attribution visibly reconnects to the original campaign
+    story: [{ at: 0, pose: { ...P.story, o: 1 } }, { at: 0.12, pose: { ...P.story, o: 1 } }, { at: 0.16, pose: { ...P.story, y: P.story.y - 24, s: 0.96, o: 0.6 }, ease: openEase }, { at: 0.24, pose: { ...P.story, y: P.story.y - 24, s: 0.96, o: 0.6 } }, { at: 0.28, pose: { ...P.story, y: P.story.y - 40, s: 0.92, o: 0 } }, { at: 0.905, pose: { ...P.storyEnd, y: P.storyEnd.y + 40, s: P.storyS, o: 0 } }, { at: 0.95, pose: { ...P.storyEnd, s: P.storyS, o: 1 }, ease: openEase }],
     link: [{ at: 0, pose: { ...P.link, o: 1 } }, { at: 0.12, pose: { ...P.link, o: 1 } }, { at: 0.15, pose: { ...P.link, y: P.link.y + 16, o: 0 } }],
     signup: [{ at: 0.12, pose: { ...P.signup, y: P.signup.y + 24, o: 0 } }, { at: 0.16, pose: { ...P.signup, o: 1 }, ease: openEase }, { at: 0.24, pose: { ...P.signup, o: 1 } }, { at: 0.27, pose: { ...P.signup, y: P.signup.y - 16, o: 0 } }],
     card: [{ at: 0.24, pose: { ...P.card, y: P.card.y + 16, o: 0 } }, { at: 0.28, pose: { ...P.card, o: 1 }, ease: openEase }, { at: 0.89, pose: { ...P.card, o: 1 } }, { at: 0.94, pose: { x: P.card.x + P.cardEnd.dx, y: P.card.y + P.cardEnd.dy, s: P.cardEnd.s, o: 1 }, ease: openEase }],
@@ -103,7 +106,7 @@ function Stage({ staticAt, platform, setPlatform }: { staticAt: number | null; p
           <span className="t-fact x-lp2-sub" data-film="sub" data-inplace>Morning loop<span aria-hidden> · </span>Story campaign</span>
         </div>
         {/* the campaign: the existing Loopday Story and its trusted link */}
-        <span className="x-obj x-plane x-lp2-story" data-film="story"><img src={M.story(480)} srcSet={`${M.story(480)} 480w, ${M.story(720)} 720w`} sizes="214px" alt="Loopday Story creative: Take a coffee break." width={480} height={853} decoding="async" loading="lazy" /></span>
+        <span className="x-obj x-plane x-lp2-story" data-film="story"><LateImg src={M.story(480)} srcSet={`${M.story(480)} 480w, ${M.story(720)} 720w`} sizes="214px" alt="Loopday Story creative: Take a coffee break." width={480} height={853} /></span>
         <span className="x-obj x-paper x-lp2-link" data-film="link"><span className="t-fact">Story</span><span className="t-action x-lp-join">Join Loopday</span><span className="t-fact">Trusted campaign link</span></span>
         {/* the customer: Sara's recorded signup replay, unchanged fields */}
         <div className="x-obj x-paper x-lp2-signup" data-film="signup">

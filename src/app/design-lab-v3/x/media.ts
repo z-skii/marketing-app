@@ -3,29 +3,31 @@
  * capture tooling from the originals under /design-lab and
  * /design-lab-v2/assets (docs/design-lab-v3/MEDIA_MANIFEST.json records
  * every source, crop and binding). Originals remain the inspection files.
+ * Derivatives are served as AVIF (the JPEG twins stay on disk for the
+ * documents and the inspection tooling).
  */
 const D = "/design-lab-v3/m";
 export const M = {
-  reference4x5: (w: 720 | 1080) => `${D}/reference-4x5-${w}.jpg`,
-  reference9x16: () => `${D}/reference-9x16-720.jpg`,
+  reference4x5: (w: 720 | 1080) => `${D}/reference-4x5-${w}.avif`,
+  reference9x16: () => `${D}/reference-9x16-720.avif`,
   referenceOriginal: "/design-lab/reference-loopday-01.jpg",
-  story: (w: 480 | 720) => `${D}/story-${w}.jpg`,
+  story: (w: 480 | 720) => `${D}/story-${w}.avif`,
   storyOriginal: "/design-lab/story-loopday-01.jpg",
-  vehicleEli: (w: 800 | 1200) => `${D}/vehicle-eli-${w}.jpg`,
+  vehicleEli: (w: 800 | 1200) => `${D}/vehicle-eli-${w}.avif`,
   vehicleEliOriginal: "/design-lab/vehicle-eli-01.jpg",
-  vehicleMaya: (w: 800 | 1200) => `${D}/vehicle-maya-${w}.jpg`,
+  vehicleMaya: (w: 800 | 1200) => `${D}/vehicle-maya-${w}.avif`,
   vehicleMayaOriginal: "/design-lab/vehicle-maya-01.jpg",
-  portraitMaya: (w: 480 | 720) => `${D}/portrait-maya-${w}.jpg`,
-  portraitNora: () => `${D}/portrait-nora-480.jpg`,
-  portraitEli: () => `${D}/portrait-eli-480.jpg`,
-  mayaPour: (w: 480 | 800) => `${D}/maya-pour-${w}.jpg`,
-  mayaCup: () => `${D}/maya-cup-480.jpg`,
-  mayaLatte: (w: 480 | 800) => `${D}/maya-latte-${w}.jpg`,
-  mayaPlacement: () => `${D}/maya-placement-720.jpg`,
-  noraChain: () => `${D}/nora-chain-480.jpg`, noraWheel: () => `${D}/nora-wheel-480.jpg`,
-  eliBag: () => `${D}/eli-bag-480.jpg`, eliCup: () => `${D}/eli-cup-480.jpg`,
-  contentCounter: () => `${D}/content-counter-800.jpg`, contentPour: () => `${D}/content-pour-480.jpg`, contentWindow: () => `${D}/content-window-480.jpg`, contentPastry: () => `${D}/content-pastry-480.jpg`, contentCups: () => `${D}/content-cups-480.jpg`,
+  portraitMaya: (w: 480 | 720) => `${D}/portrait-maya-${w}.avif`,
+  portraitNora: () => `${D}/portrait-nora-480.avif`,
+  portraitEli: () => `${D}/portrait-eli-480.avif`,
+  mayaPour: (w: 480 | 800) => `${D}/maya-pour-${w}.avif`,
+  mayaCup: () => `${D}/maya-cup-480.avif`,
+  mayaLatte: (w: 480 | 800) => `${D}/maya-latte-${w}.avif`,
+  mayaPlacement: () => `${D}/maya-placement-720.avif`,
+  noraChain: () => `${D}/nora-chain-480.avif`, noraWheel: () => `${D}/nora-wheel-480.avif`,
+  eliBag: () => `${D}/eli-bag-480.avif`, eliCup: () => `${D}/eli-cup-480.avif`,
+  contentCounter: () => `${D}/content-counter-800.avif`, contentPour: () => `${D}/content-pour-480.avif`, contentWindow: () => `${D}/content-window-480.avif`, contentPastry: () => `${D}/content-pastry-480.avif`, contentCups: () => `${D}/content-cups-480.avif`,
   plan: "/design-lab/placement-rear-doors.svg",
-  driveWagon: (w: 480 | 640 | 960 | 1440) => `${D}/drive-wagon-${w}.jpg`,
+  driveWagon: (w: 480 | 640 | 960 | 1440) => `${D}/drive-wagon-${w}.avif`,
   driveWagonOriginal: "/design-lab/drive-oxblood-wagon-placement.jpg",
 };
