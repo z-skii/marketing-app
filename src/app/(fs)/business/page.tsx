@@ -112,7 +112,6 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
             ) : (
               <>
                 <PersonObject p={lead} canRequest={lead.id !== ctx.user.id} lead />
-                {others.length > 0 && <div className="xs-biz-more">{others.map((p) => <PersonObject key={p.id} p={p} canRequest={p.id !== ctx.user.id} />)}</div>}
               </>
             ))}
 
@@ -124,9 +123,11 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
             ) : (
               <>
                 <CarObject c={leadCar} priority />
-                {otherCars.length > 0 && <div className="xs-biz-more xs-biz-more-cars">{otherCars.map((c) => <CarObject key={c.id} c={c} />)}</div>}
               </>
             ))}
+            {/* the further people and cars follow in the same language */}
+            {showPeople && !peopleFailed && others.length > 0 && <div className="xs-biz-more">{others.map((p) => <PersonObject key={p.id} p={p} canRequest={p.id !== ctx.user.id} />)}</div>}
+            {showCars && !carsFailed && otherCars.length > 0 && <div className="xs-biz-more xs-biz-more-cars">{otherCars.map((c) => <CarObject key={c.id} c={c} />)}</div>}
           </section>
         )}
 

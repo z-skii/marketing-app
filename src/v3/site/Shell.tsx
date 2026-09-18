@@ -72,7 +72,7 @@ export function PublicNav({ open }: { open: OpenApp }) {
 /** The motion strip: the opaque 44px band of the navigation stack, so Pause motion is reachable in every scene. */
 export function PublicStrip() {
   const tone = useStageTone(124);
-  return <div className={`x-pubstrip${tone === "dark" ? " x-dark" : ""}`} data-tone={tone ?? undefined}><div className="x-inner"><MotionStrip label="Examples on this page are not real accounts" /></div></div>;
+  return <div className={`x-pubstrip${tone === "dark" ? " x-dark" : ""}`} data-tone={tone ?? undefined}><div className="x-inner"><MotionStrip label="Examples, not real accounts" /></div></div>;
 }
 
 /** The examples on this page, on demand: which media is illustrative and which captures are the real product. */

@@ -66,7 +66,7 @@ export function FrameShiftUserShell({ identity, unreadNotifications, unreadMessa
         </aside>
 
         <div className="fs-phone">
-          <header className={`fs-phone-header ${pathname === "/me" ? "fs-on-dark is-graphite" : ""}`}>
+          <header className="fs-phone-header">
             <Link href="/me/settings" className="fs-identity-trigger" aria-label={`Acting as ${identity.name}, ${identity.mode}. Settings and switching.`}>
               <Avatar src={identity.avatar} name={identity.name} size={28} />
               <span style={{ minWidth: 0 }}>

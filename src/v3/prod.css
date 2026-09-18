@@ -6,7 +6,8 @@
 */
 
 /* motion strip label (the lab entrance's place) */
-.v3 .x-labstrip-label { display: inline-flex; align-items: center; min-height: 44px; color: var(--v3-muted); }
+.v3 .x-labstrip-label { display: inline-flex; align-items: center; min-height: 44px; min-width: 0; color: var(--v3-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.v3 .x-labstrip .x-pause { white-space: nowrap; }
 
 /* ------------------------------------------------------------ plans */
 .v3 .x-plans { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 24px; }
@@ -69,3 +70,6 @@
   .v3 .xs-biz-more .xs-person-still-0 { width: 100%; aspect-ratio: 4 / 5; margin-top: 24px; }
   .v3 .xs-biz-more .xs-car { padding-top: 0; }
 }
+
+/* the film stages clip their offscreen objects; nothing leaks a horizontal scroll on the phone */
+.v3 .x-site { overflow-x: clip; }
