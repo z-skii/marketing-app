@@ -1,0 +1,188 @@
+{
+  "screen": "Public Homepage",
+  "pass": 2,
+  "final": true,
+  "shots": [
+    "public-home-d.png",
+    "public-home-d-stage-recreate.png",
+    "public-home-d-stage-story.png",
+    "public-home-d-stage-car.png",
+    "public-home-d-how.png",
+    "public-home-d-business-people.png",
+    "public-home-d-business-cars.png",
+    "public-home-d-business-campaign.png",
+    "public-home-d-business-work.png",
+    "public-home-d-pricing.png",
+    "public-home-d-footer.png",
+    "public-home-d-preview.png",
+    "public-home-m-full.png",
+    "public-home-s.png",
+    "public-home-t.png",
+    "public-home-u.png",
+    "public-home-l.png",
+    "public-home-m-preview-story.png",
+    "public-home-m-sources.png",
+    "public-home-m-request.png",
+    "public-home-m-pricing.png",
+    "public-home-m-entry.png",
+    "site-scroll-d-strip.png"
+  ],
+  "when": "2026-09-16T12:39:54.140Z",
+  "reviewer": "director",
+  "review": {
+    "why_better_than_production": "Production asks people to read an explanation and inspect a miniature phone interface. This version shows the proposition immediately: someone filming, a Story on a phone, and advertising on a car. The earning examples are readable at human scale, with approval conditions attached to the money. Businesses meet a person and their work rather than a software dashboard. Measured phone copy falls from 995 to 180 words, and the page is less than half its previous height. The warm canvas, distinctive typography and straight earning edge give TapMart an identity beyond blue buttons. This is a substantial structural improvement. The direction is approved; the remaining control and layout defects prevent final screen approval.",
+    "spec_was_wrong": [
+      "Containing the tall Recreate source inside a 4:5 frame produces another narrow, Story-like image. Use a subject-safe 4:5 crop for discovery, preserving the hand, pitcher, milk stream and cup. Keep the uncropped source in inspection.",
+      "Giving Recreate the entire remaining desktop width separates View too far from its money and facts. Cap its information-and-action group at 440px; keep the full earning edge, not a full-width action group.",
+      "The left-anchored Review work composition leaves most of its dark stage unused. Center a 640px composition containing the intact 280px-wide sample, a 32px gap and its information region. Do not fill the space with more copy or invented work.",
+      "My blanket full-height instruction was excessive for short phone disclosures. Keep the content-height Request, plan and entry sheets shown here. Reserve full-height presentation for object previews, Media sources and long documents."
+    ],
+    "keep": [
+      "The hero proposition, supplied photographs, unequal media silhouettes and phone actions below the media. Do not reintroduce a miniature app screenshot.",
+      "The warm paper, green-black typography, square media boundaries, restrained brick terminal and lime reserved for business creation.",
+      "The intact Story creative and its adjacent information rail. Preserve the distinction from the photographed phone in the hero.",
+      "The grounded car photography, complete vehicle and wheels, monthly basis and visible proof-approval condition. No simulated wrap or 3D.",
+      "The shared desktop earning baseline and immediate Recreate, Post and Drive controls.",
+      "Maya's portrait beside the mapped work sample, with separate View person and Request actions. Keep Eli as one declared example rather than duplicate inventory.",
+      "The explicit fictional-preview labels, Not posted state, unavailable application boundary and separation of approval, payout and subscription spending.",
+      "Readable type and the measured absence of horizontal overflow at every supplied viewport. Do not shrink either to meet a height target."
+    ],
+    "quality_bar": [
+      {
+        "question": "Does this feel like a premium modern product?",
+        "answer": "partly",
+        "note": "The typography, photography and flat editorial composition do. The top-left desktop plan dialog, filled-looking unchecked radios and a few disconnected layouts still look unfinished."
+      },
+      {
+        "question": "Does it explain itself without paragraphs?",
+        "answer": "yes",
+        "note": "The hero establishes three activities; the examples attach money and obligations; three short steps explain approval. The phone has 21 measured first-screen words and no default 18-plus-word blocks."
+      },
+      {
+        "question": "Does it feel like a consumer platform, not business software?",
+        "answer": "yes",
+        "note": "People, creative and cars lead. There are no dashboard metrics, administrative shelves or software-style card grids."
+      },
+      {
+        "question": "Is it memorable?",
+        "answer": "yes",
+        "note": "The large Bricolage headline, unequal photographic deck and straight earning edge form a recognizable visual signature."
+      },
+      {
+        "question": "Does motion improve understanding?",
+        "answer": "partly",
+        "note": "The strip demonstrates Recreate → Post → Drive with recognizable media and unchanged monetary values. It does not establish transition quality, reduced-motion parity or focus and scroll restoration."
+      },
+      {
+        "question": "Does each earning type feel different?",
+        "answer": "yes",
+        "note": "The horizontal reference band, tall Story with a side rail and landscape car are distinct. Recreate would be stronger if its discovery image actually filled its intended 4:5 silhouette."
+      },
+      {
+        "question": "Is business discovery exciting?",
+        "answer": "partly",
+        "note": "The portrait-and-work pairing is inviting, and the car is inspectable at useful scale. The unnecessarily tall phone car stack and mostly empty desktop Review work stage interrupt that momentum."
+      },
+      {
+        "question": "Is Profile identity, not settings?",
+        "answer": "partly",
+        "note": "Not assessable from this route. The public person presentation is identity-led, but it is not a Profile capture. No Profile score is assigned."
+      },
+      {
+        "question": "Does the website make someone keep scrolling?",
+        "answer": "yes",
+        "note": "Changing media silhouettes and the deliberate dark business chapter create a clear visual journey. The remaining excess is localized spacing and composition, not explanatory paragraphs."
+      },
+      {
+        "question": "Is it significantly stronger than current production?",
+        "answer": "yes",
+        "note": "The before capture is smaller, denser and dependent on a phone screenshot. V2 makes the activities, people and money legible directly, while giving TapMart a much more distinctive identity."
+      }
+    ],
+    "scores": {
+      "earning_types_distinct": 8,
+      "motion_understanding": 6,
+      "keeps_scrolling": 8,
+      "slop_risk": 2,
+      "text_discipline": 9,
+      "identity_not_settings": 0,
+      "stronger_than_production": 9,
+      "discovery_excitement": 7,
+      "memorable": 8,
+      "self_explaining": 9,
+      "truthfulness": 8,
+      "premium": 8,
+      "consumer_not_software": 9
+    },
+    "fixes": [
+      {
+        "priority": 1,
+        "change": "Replace the approximately 320px floating panel at the upper-left with the specified 480px right-edge drawer from 768px upward. Use a full-height surface, a stable title-and-Close header and 24px content padding. Keep the phone plan sheet content-height.",
+        "why": "The current desktop summary looks detached from the selected plan and inconsistent with the otherwise deliberate product system.",
+        "where": "Desktop Monthly Content plan summary."
+      },
+      {
+        "priority": 2,
+        "change": "Render unchecked radios as hollow circles with a paper center and checked radios with one ink center dot. Keep native radio semantics and no initial selection. Show exactly one 2px brick focus outline with 3px offset around the focused row, not simultaneous row and input boxes.",
+        "why": "Both baseline options currently look filled, while the selected capture adds nested focus rectangles. A normal person should recognize one selection immediately.",
+        "where": "Essential and Growth selectors on phone and desktop."
+      },
+      {
+        "priority": 3,
+        "change": "Document the authoritative read-only configuration source for the displayed US$99 and US$199 monthly prices and currency. Verify payout settings separately. If a matching source is unavailable, use Price unavailable and the specified unavailable summary instead of retaining an unsupported price.",
+        "why": "The screenshots establish what is displayed, not whether those financial values are configuration-backed. This is an approval gate, not an accusation that the values are invented.",
+        "where": "Monthly Content prices, selected-plan summaries and Payout details."
+      },
+      {
+        "priority": 4,
+        "change": "At 390px, put the 146×97px car image beside a 196px information rail with a 16px gap. At 320px, use a 120×80px image, a 12px gap and the remaining 164px rail. Keep From, amount with /month, Eli · Austin and View together. Move Rear doors and Placement into the existing preview.",
+        "why": "The small image currently sits above a long information stack, leaving the right side empty and unnecessarily extending the business chapter.",
+        "where": "Phone Find cars section."
+      },
+      {
+        "priority": 5,
+        "change": "Make the Recreate discovery image visibly fill 264×330px on phone, 236×295px at 320px and 400×500px on desktop using the approved subject-safe crop. Left-align its caption with the image. On desktop, constrain its money, facts and View to one 440px group. Terminate all earning edges at the same 32px right inset as the header and hero.",
+        "why": "This restores the intended reference silhouette and brings the next action back into the same glance as the amount. The current desktop edge also overshoots the shared right alignment.",
+        "where": "Recreate earning example and desktop earning-stage boundaries."
+      },
+      {
+        "priority": 6,
+        "change": "Use the specified compact inclusion copy: 1 shoot / month, 2 shoots / month, 10 photos · 3 videos and 20 photos · 6 videos. On phone, place inclusions below the name-and-price row across the available row width rather than trapping them beside the price. At 320px, let the price take another line if necessary.",
+        "why": "Growth currently breaks its cadence into an awkward narrow stack. The plan comparison should be effortless without reducing type or separating an amount from its monthly basis.",
+        "where": "Phone Monthly Content plan rows."
+      },
+      {
+        "priority": 7,
+        "change": "Top-align the Recreate and Post headings and preview labels in the paired tablet spread. Align media within those sections independently; do not bottom-align the complete sections. Keep Story facts beneath the creative at 768px when the side rail would be cramped.",
+        "why": "The tablet capture starts Post noticeably above Recreate, leaving an unexplained hole where the first earning chapter should begin.",
+        "where": "768–1023px earning layout."
+      },
+      {
+        "priority": 8,
+        "change": "Center the 640px Review work composition within the business stage, with the intact 280px-wide sample on the left and the information region 32px away. Align the information around the image's lower third. Keep Work sample and Preview approval; remove the redundant Approval preview subtitle.",
+        "why": "The current panel is almost entirely empty to the right, and its subtitle repeats the action rather than adding meaning.",
+        "where": "Desktop business Review work stage."
+      }
+    ],
+    "two_second_read": "I can earn by making a Reel, posting a Story or advertising on a car. Businesses have a clear separate entrance.",
+    "verdict": "fix",
+    "spec_drift": [
+      "The desktop plan disclosure is an upper-left floating panel, not a 480px right drawer. Replace its presentation without changing the honest subscription boundary.",
+      "Unchecked plan radios appear filled, and keyboard focus produces nested rectangles. Restore unmistakable unchecked and checked states with one visible focus treatment.",
+      "Phone Find cars stacks the rate beneath its thumbnail instead of placing them alongside each other. Use the compact two-column composition.",
+      "Tablet Recreate and Post headings are staggered. Align their chapter starts; reserve differing heights for the media compositions.",
+      "Desktop earning edges extend beyond the header and hero's right alignment. At 1440px, terminate at x1408, including the brick terminal.",
+      "The Request sheet says Post a Story rather than the specified business choice Instagram Story ads. Rename that choice; retain Recreate a Reel and Maya's contextual portrait.",
+      "The page measures 5105px on phone and 4471px on desktop, exceeding the respective upper targets by 305px and 271px. Re-measure after the compact phone car correction; do not remove obligations or shrink media merely to hit a number."
+    ],
+    "remaining_risks": [
+      "The identity_not_settings score of 0 means unassessed, not a failed Profile design; no Profile capture was supplied.",
+      "The phone's measured 180 words meet the copy target. The desktop's 136-word active-state measurement does not establish the required cumulative count across all three earning panels and all four business panels.",
+      "Configuration provenance for subscription prices and payout values was not included in the supplied evidence.",
+      "The motion strip proves sequencing, but reduced-motion behavior, keyboard operation, browser Back, focus restoration and 200% zoom still require interaction evidence.",
+      "The source disclosure is clear, but screenshots cannot verify media rights or Maya-to-work ownership. Preserve the verified manifest mapping before any production use.",
+      "Coffee imagery dominates the examples. Test whether visitors understand that TapMart serves other businesses without adding invented inventory or decorative category sections.",
+      "All entry, request and subscription actions intentionally stop at lab boundaries. This review cannot establish real acquisition conversion or authorize production mutations."
+    ]
+  }
+}

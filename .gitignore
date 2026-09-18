@@ -54,3 +54,4 @@ design-reviews/
 screenshots/
 docs/reboot/**/.pending-*.json
 docs/reboot/.pending-*.json
+docs/design-lab-v3/recompose/.pending-recompose.json

@@ -1,0 +1,54 @@
+{
+  "experience": "Business Home",
+  "final": true,
+  "shots": [
+    "business-home-d.png",
+    "business-home-m.png",
+    "business-home-strip.png"
+  ],
+  "when": "2026-09-18T17:02:32.823Z",
+  "reviewer": "director",
+  "verification": {
+    "blocker": null,
+    "read": "On phone, Maya’s portrait and work form a readable composition with her facts and request actions attached, followed by the vehicle in normal document flow. On desktop, creator and vehicle inventory share a dark stage, with Rear doors, Round Rock and the US$240/month asking rate clearly presented above the Loyalty row and roster.",
+    "score": 8,
+    "verdict": "ready",
+    "six_questions": [
+      {
+        "question": "Would someone remember this website tomorrow?",
+        "answer": "partly",
+        "note": "The portrait-and-work composition provides a distinctive anchor; next-day recall cannot be established from these captures."
+      },
+      {
+        "question": "Could this homepage belong to any other startup?",
+        "answer": "no",
+        "note": "Creator work, quick requests, rear-door inventory and returning members make this recognizably TapMart rather than a generic business dashboard."
+      },
+      {
+        "question": "Do Recreate, Story and Drive each have a recognizable physical identity?",
+        "answer": "partly",
+        "note": "Creator work and vehicle inventory are visually distinct here. Story and the complete public sequences are outside this app-surface capture."
+      },
+      {
+        "question": "Does the car moment make TapMart feel unique?",
+        "answer": "partly",
+        "note": "The car becomes actionable inventory through its supported zone, location, asking rate and Offer entrance. This is a working listing, not the public Drive choreography."
+      },
+      {
+        "question": "Does the Loyalty loop make a business understand why TapMart is more than creator marketing?",
+        "answer": "partly",
+        "note": "The visible 10 members and 6 came back connect discovery with retention, while the fuller attribution loop belongs beyond Open loyalty."
+      },
+      {
+        "question": "Would someone scroll because they want to see what happens next?",
+        "answer": "yes",
+        "note": "The progression from personality and work to vehicle opportunity, Loyalty and further people gives browsing a clear purpose without delaying direct actions."
+      }
+    ],
+    "notes": [
+      "No visible collision, unreadable settled state or broken desktop task handoff warrants blocking this surface.",
+      "Retaining Eli’s bound vehicle photograph is correct: the illustrative public Drive asset must not replace the identity of his working listing.",
+      "The recording strip shows the vehicle task opening and closing back to Home; it does not establish animation smoothness or measured performance."
+    ]
+  }
+}

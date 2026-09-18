@@ -1,0 +1,38 @@
+# V3 experience final verification: User Home
+
+Reviewer: Astra. Verdict: **READY**. Captures: user-home-m.png, user-home-m-full.png, user-home-d.png, user-home-d-full.png, 08-opportunity-open-return-m-strip.png, 08-opportunity-open-return-d-strip.png, 19-reduced-motion-opportunity-m-strip.png, home-open-m.png, home-open-d.png, home-open-story-m.png, home-open-car-m.png, home-close-m.png, home-filter-m.png.
+
+**Two second read.** US$75 on approval. View the Loopday brief. A Story opportunity and a monthly car campaign follow.
+
+## The nine questions
+
+- Would someone keep scrolling? **YES**. The generous leading reference invites inspection; the Story and car change silhouette enough to sustain discovery.
+- Does motion reveal the product? **YES**. The selected media leads into requirements and financial consequences. Motion serves inspection, not invented progress.
+- Is this more desirable than production? **YES**. The media-led collection delivers the intended improvement over the directory-like baseline described in the brief.
+- Is the hierarchy instantly understood? **YES**. Opportunity, amount, approval basis and View are immediately connected.
+- Does this feel like a consumer product? **YES**. Desirable media and direct actions lead; administration and financial detail stay out of discovery.
+- Does the Business side justify paying? **PARTLY**. Business purchase value is outside this Personal Home review. Business metrics are correctly absent.
+- Does Loyalty strengthen the story? **PARTLY**. Loyalty belongs to the public and Business surfaces. Its absence here preserves the earning-side hierarchy.
+- Are we actually at the quality benchmark? **YES**. For User Home: distinct media compositions, restrained material, readable tasks and explicit financial boundaries meet the surface's bar.
+- Are there at least three memorable product moments? **PARTLY**. There are three recognizable earning objects. The three public wow moments are a separate requirement; User Home explicitly requires no additional staged moment.
+
+## Confirmed
+
+- The phone first read is the reference, US$75, On approval and View. Identity, lab context, motion control, Filter, business, availability and all four navigation labels remain visible. The reported 29 words meet the 35-word ceiling.
+- Exactly three opportunities form distinct compositions: an open reference, a freestanding Story and a wide car photograph. Desktop shows all three amounts and actions beside the preserved sidebar.
+- The sampled opening frames show an opaque task surface covering the underlying feed and navigation. The selected media remains recognizable rather than dissolving into another object.
+- Recreate detail exposes exact deadlines, numbered requirements, gross amount, zero fee, receivable amount and usage rights. Approval credits earnings; payout remains explicitly separate.
+- The Story remains intact and tall. The car is explicitly identified as a vehicle example rather than the user's listed vehicle. Neither gains false playback, rotation or simulated completion.
+- Navigation labels remain readable over the supplied scrolling backgrounds. Detail dismissal returns to the opportunity feed and restores the app shell.
+- The reduced-motion strip retains the opportunity, readable task and available controls without depending on spatial animation.
+
+## Blockers
+
+- None.
+
+## Notes, not blockers
+
+- The full-app desktop task takeover is an acceptable focused inspection state. Keeping the sidebar visible would be a composition preference, not a blocker.
+- The reported complete-feed totals are below the pressure ranges. Do not add filler: all three opportunities remain present, with detailed obligations in their tasks.
+
+**For the founder.** User Home is ready for human approval on the supplied current evidence. The finishing edits preserve the media-first marketplace while making task inspection opaque and navigation readable. Stop here; this is surface approval, not production-release approval.

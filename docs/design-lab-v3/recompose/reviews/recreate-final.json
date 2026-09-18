@@ -1,0 +1,56 @@
+{
+  "experience": "Recreate sequence",
+  "final": true,
+  "shots": [
+    "recreate-d-1.png",
+    "hero-recreate-m-4.png",
+    "recreate-d-strip.png",
+    "recreate-m-strip.png"
+  ],
+  "when": "2026-09-18T16:43:24.046Z",
+  "reviewer": "director",
+  "verification": {
+    "blocker": null,
+    "read": "On phone, Maya’s pour remains dominant beneath the approval rail, with the labelled reference retained and an opaque US$75 On approval sheet attached below. On desktop, the same image-and-terms assembly settles centrally, with the source thumbnail alongside and unobstructed controls along the stage’s lower edge.",
+    "score": 8,
+    "verdict": "ready",
+    "six_questions": [
+      {
+        "question": "Would someone remember this website tomorrow?",
+        "answer": "yes",
+        "note": "The distinct pours, retained reference and attached monetary conclusion provide a recognizable visual story; actual recall remains untested."
+      },
+      {
+        "question": "Could this homepage belong to any other startup?",
+        "answer": "no",
+        "note": "The business reference, separately identified creator work, recorded approval and conditional opportunity make this sequence product-specific."
+      },
+      {
+        "question": "Do Recreate, Story and Drive each have a recognizable physical identity?",
+        "answer": "partly",
+        "note": "Recreate has a clear comparison-to-approval-to-terms identity. Story and Drive cannot be assessed from this sequence."
+      },
+      {
+        "question": "Does the car moment make TapMart feel unique?",
+        "answer": "partly",
+        "note": "The hero’s vehicle glimpse does not establish Drive’s placement moment; that experience is outside this review."
+      },
+      {
+        "question": "Does the Loyalty loop make a business understand why TapMart is more than creator marketing?",
+        "answer": "partly",
+        "note": "The Loyalty return and attribution chain is not shown in these captures."
+      },
+      {
+        "question": "Would someone scroll because they want to see what happens next?",
+        "answer": "yes",
+        "note": "The work persists through approval into the attached terms, giving the sequence a consequence rather than four disconnected panels."
+      }
+    ],
+    "notes": [
+      "No shipping-blocking collision, clipping or unreadable settled state is visible.",
+      "US$75 remains tied to the reference opportunity and On approval; Ledger example unavailable and Payout is separate remain readable.",
+      "The desktop conclusion is more restrained in scale than the phone composition, but that is not a defect.",
+      "The strips support visual continuity, not a claim of verified frame timing, interaction behavior or performance."
+    ]
+  }
+}

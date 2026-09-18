@@ -1,0 +1,209 @@
+{
+  "screen": "Customer signup and Wallet card",
+  "pass": 1,
+  "final": false,
+  "shots": [
+    "join-m-full.png",
+    "join-m-card.png",
+    "join-m-apple.png",
+    "join-d-google.png",
+    "card-m-apple-ready.png",
+    "card-m-google-updated.png",
+    "join-errors-m.png"
+  ],
+  "when": "2026-09-17T03:17:17.608Z",
+  "reviewer": "director",
+  "review": {
+    "why_better_than_production": "This introduces a useful next step after advertising: a customer can join the shop’s reward program, receive a distinct member card and keep their acquisition source attached. The captures make zero starting visits and simulated Wallet saving clear. That is a stronger business proposition, but these pixels do not yet prove working attribution, secure card identification or platform-realistic updates.",
+    "spec_was_wrong": [
+      "The fewer-than-40-words signup viewport target is not a useful acceptance gate alongside a complete, honest form. Measure and report first-screen and full-document copy, but prioritize reward comprehension, qualification rules and consent. Do not use image height simply to push obligations below the fold.",
+      "The strict copy inventory omitted the required historical specimen date. Explicitly permit the supplied snapshot date and a labelled continuation date beside Example member · Sara.",
+      "The instruction to place the desktop simulation caption at the card/action seam was too ambiguous. Put the action qualification directly above the Wallet action pair so it cannot become detached from the controls it qualifies."
+    ],
+    "keep": [
+      "Warm paper, green-black text and the restrained brick accent; this already belongs to Open Cut.",
+      "The short first-name-plus-one-contact form, visible daily rule and consent before submission.",
+      "Explicit inline validation beside each affected control; errors do not erase the form or masquerade as success.",
+      "Zero visits on the newly created member card and the visible distinction between membership and Wallet saving.",
+      "The exact simulated-save receipts and Nothing was added to your device.",
+      "Different Apple and Google compositions, real coffee photography, readable member identity and no contact details on the pass front.",
+      "No business rail, customer directory, revenue claims or staff Redeem action in the customer task."
+    ],
+    "quality_bar": [
+      {
+        "question": "Does this feel like a premium modern product?",
+        "answer": "partly",
+        "note": "The palette and typography are considered. Heavy pass shadows, notification-like bubbles, improvised Wallet badges and the narrow desktop stack lower the finish."
+      },
+      {
+        "question": "Does it explain itself without paragraphs?",
+        "answer": "yes",
+        "note": "Free coffee, five visits, one counted visit per day and two identity fields explain the core task. Secondary wrapper copy still repeats information."
+      },
+      {
+        "question": "Does it feel like a consumer platform, not business software?",
+        "answer": "yes",
+        "note": "A reward, a short form and a personal card lead. There are no dashboard tiles or administrative tables."
+      },
+      {
+        "question": "Is it memorable?",
+        "answer": "partly",
+        "note": "The coffee object and dark pass have character. The distinctive source-to-member thread is pushed to the bottom or missing from specimens."
+      },
+      {
+        "question": "Does motion improve understanding?",
+        "answer": "partly",
+        "note": "Only still captures were supplied. They show different states, not the transitions, timing or reduced-motion behavior."
+      },
+      {
+        "question": "Does each earning type feel different?",
+        "answer": "partly",
+        "note": "Not assessable here: this customer surface contains no Recreate, Story or Car earning compositions."
+      },
+      {
+        "question": "Is business discovery exciting?",
+        "answer": "partly",
+        "note": "Business discovery is outside these captures. The customer signup cannot establish that result."
+      },
+      {
+        "question": "Is Profile identity, not settings?",
+        "answer": "partly",
+        "note": "No Profile capture was supplied. The member card is identity-led, but it is not evidence about Profile."
+      },
+      {
+        "question": "Does the website make someone keep scrolling?",
+        "answer": "partly",
+        "note": "The public narrative is not shown. This task should encourage completion rather than prolonged scrolling."
+      },
+      {
+        "question": "Is it significantly stronger than current production?",
+        "answer": "partly",
+        "note": "The new enrollment-and-return proposition is valuable. Final superiority requires the missing interaction, QR and state-integrity evidence, not just attractive cards."
+      }
+    ],
+    "scores": {
+      "motion_understanding": 3,
+      "slop_risk": 5,
+      "text_discipline": 6,
+      "natural_part_of_tapmart": 7,
+      "attribution_honest_power": 5,
+      "memorable": 6,
+      "quick_to_understand": 8,
+      "self_explaining": 8,
+      "business_value": 7,
+      "wallet_realism": 4,
+      "truthfulness": 5,
+      "consumer_not_software": 8,
+      "premium": 6
+    },
+    "fixes": [
+      {
+        "priority": 1,
+        "change": "Remove both notification-shaped previews. Updated offer must open Details at Offer. Show Apple change-message examples only as plain quoted text inside the expanded Wallet update explanation. Google gets conditional behavior text, its shared rolling allowance and Nothing is sent in this preview.",
+        "why": "The rounded, shadowed banners depict a system presentation the lab neither delivers nor controls. May notify does not make a fabricated notification appearance acceptable.",
+        "where": "card-m-apple-ready.png and card-m-google-updated.png, above the pass"
+      },
+      {
+        "priority": 2,
+        "change": "Generate and decode the actual member-route QRs. Render the complete QR including its four-module quiet zone at 176px on phones and 192px on tablet/desktop, with square white boundaries. Supply decoded payload results for both members and platforms.",
+        "why": "The visible QR containers are approximately 131 CSS pixels, below even the 144px minimum. Their unusually sparse patterns also require verification against the long opaque-route payload; visual resemblance is not proof of a usable member identifier.",
+        "where": "Every Apple and Google card capture"
+      },
+      {
+        "priority": 3,
+        "change": "Label Sara inspection with Example member · Sara, the supplied snapshot or continuation date and Preview only. Keep the preserved Jasmine acknowledgment above the card, outside the native fields. Put phone state controls in the Lab sheet and provide Back to my card or Back to signup.",
+        "why": "The ready and offer screens currently look like an ordinary member’s current state rather than a deliberately selected, isolated example. They also lose the signature acquisition thread.",
+        "where": "Both card-m specimen captures and the specimen return flow"
+      },
+      {
+        "priority": 4,
+        "change": "Give the initial member card the exact Apple concept label and two platform tabs before any save action. Replace the badge-like controls with equal-width, 48px-high labelled text buttons. Place Simulated actions. No pass is issued. immediately above that pair. After saving, use Done and the remaining-platform flow; remove redundant View Apple concept or View Google concept links.",
+        "why": "The first card is currently unqualified as a platform concept, inspection is not independently available, and the Google badge uses the shop’s loop mark as though it were platform branding.",
+        "where": "join-m-card.png, join-m-apple.png and join-d-google.png"
+      },
+      {
+        "priority": 5,
+        "change": "Rebuild the pass geometry without shadows or image fades. Apple: 60px header, 375:123 strip with a hard 60% solid/40% photo split, 32px primary value, Reward and Member on one row and Status below. Google: 72px header with program first and issuer beneath, separate 3:1 hero, title-case 12px labels and 30px balances. Keep the 12px pass boundary and system typography.",
+        "why": "Apple currently uses a roughly 42% solid/58% photo strip with a blended edge and three compressed fields on one row. Google reverses the header hierarchy, shrinks its type and duplicates the member ID. Both feel like styled web cards rather than disciplined native concepts.",
+        "where": "All pass fronts; remove the second Google member ID beneath its QR"
+      },
+      {
+        "priority": 6,
+        "change": "Restore the signup composition: separate 56px task header with Back and the Lab control, then the open-loop brand row, 358×268.5px untreated artwork at 390, source, 28px reward heading and rules. Move Use fictional details only. directly before the first field. Remove the invented earning-edge divider here.",
+        "why": "The supplied build omits the entire artwork region despite using the asset on the cards. Its oversized heading and merged header make the signup more generic and less faithful to the branded object that follows.",
+        "where": "join-m-full.png and join-errors-m.png; use 296×222px artwork at 320 and the specified compact inset on desktop"
+      },
+      {
+        "priority": 7,
+        "change": "At 1440, replace the centered 440px post-signup stack with the specified stage beginning around x=260: a 375px pass, 48px gap and 280px action column. Align source and actions near the pass field baseline; Details expands the companion region to 440px. Cap the stage at 920px at larger widths.",
+        "why": "The desktop capture is a phone-like column surrounded by unused paper. The actions and source sit far below the object instead of forming a deliberate desktop task.",
+        "where": "join-d-google.png"
+      },
+      {
+        "priority": 8,
+        "change": "Use one header-based Design Lab entrance, shortened after signup. Move Return to business preview into that panel, remove the customer-page business footer and floating pill, and restore visible Back navigation. Put From Jasmine’s Story. or Join at the counter. directly beneath the card heading.",
+        "why": "Repeated lab controls, promotional footer furniture and a distant source line compete with a focused customer task. The acquisition thread should be immediately legible, not a footer discovery.",
+        "where": "All customer wrappers"
+      },
+      {
+        "priority": 9,
+        "change": "Make the unchecked agreement visually empty: surface fill, clear boundary and an explicit check only when selected. Retain its native semantics, 44px target, independent legal links and existing inline error treatment.",
+        "why": "The solid dark square reads ambiguously as selected even in the missing-agreement error capture.",
+        "where": "join-m-full.png and join-errors-m.png, consent control"
+      }
+    ],
+    "two_second_read": "Loopday offers a free coffee after five qualifying visits. Give a first name and one contact to get a demo card. Wallet saving is simulated.",
+    "verdict": "fix",
+    "spec_drift": [
+      "Signup artwork is absent, not shown as a labelled failure. Restore the specified responsive 4:3 asset region or its honest reserved fallback.",
+      "The task header is merged with business branding, Back is absent, and the loop mark has an enclosing disc on signup. Separate the task header and use the unbadged open-loop mark beside the business name.",
+      "The signup reward heading appears about 34px at the supplied phone scale rather than 28px/32px. Restore the specified app heading size.",
+      "Initial signup success lacks platform tabs and the adjacent Apple concept label. Both must appear before saving.",
+      "Wallet controls imitate official badges despite the specification requiring plain labelled buttons when no approved assets are supplied.",
+      "Both passes have substantial shadows. Apple adds a photographic fade and changes the field arrangement; Google changes the header hierarchy and repeats Member ID.",
+      "QRs appear approximately 131px overall rather than 176px phone and 192px desktop. Replace them with verified payload-based renderings at the specified sizes.",
+      "Notification-like banners replace the specified plain Details explanations. Remove those banners entirely.",
+      "Sara examples omit Example member · Sara, snapshot dates and Preview only; state controls are printed on the phone page instead of being confined to the Lab sheet.",
+      "The desktop member result remains a narrow vertical stack rather than the specified card-and-action composition.",
+      "Source acknowledgment is relegated to the bottom of new-card pages and absent from the visible specimen hierarchy. Restore it directly above the card."
+    ],
+    "loyalty_bar": [
+      {
+        "question": "Does this feel like a natural part of TapMart?",
+        "answer": "partly",
+        "note": "The warm palette, typography and brick details fit. Floating Lab furniture and notification bubbles introduce a conflicting visual language."
+      },
+      {
+        "question": "Does it strengthen the business value proposition?",
+        "answer": "yes",
+        "note": "A source-aware enrollment and a card worth keeping extend advertising into an identifiable customer relationship without invented revenue."
+      },
+      {
+        "question": "Can a business understand it quickly?",
+        "answer": "yes",
+        "note": "The five-visit reward and zero-progress member card explain enrollment quickly. Counter operation and return measurement are not demonstrated here."
+      },
+      {
+        "question": "Does it feel consumer quality rather than SaaS admin?",
+        "answer": "partly",
+        "note": "The core form and card do. Platform presentation and desktop composition need refinement before the consumer-quality claim is convincing."
+      },
+      {
+        "question": "Does attribution feel powerful without becoming fake analytics?",
+        "answer": "partly",
+        "note": "Jasmine and Counter QR are named without percentages or sales claims. The source thread is too distant, and these screenshots cannot establish immutable attribution or count reconciliation."
+      }
+    ],
+    "remaining_risks": [
+      "No motion strip, reduced-motion recording or task-timing evidence was supplied; animation semantics remain unreviewed.",
+      "Captures at 320, 768, 1023 and 1920, plus 200% text zoom, are still required. The desktop signup introduction is also unseen.",
+      "QR payload correctness, cross-platform stability, absence of contact data and separation from signup QRs require decoding, not visual approval.",
+      "The stated direct route is shown with Jasmine and counter contexts. These could be deliberate preserved-source scenarios; capture a fresh direct alias and document each capture’s entry state before judging attribution behavior.",
+      "The desktop new member is Omar rather than the supplied Tess helper. This may be deliberate fictional input; record the test input and do not treat it as proof of an identity-switch defect.",
+      "Offer-over-ready, redeemed, points, Google-cap, duplicate-contact, phone, draft, invalid-link and retained-failure states are not demonstrated.",
+      "Fixture isolation, idempotent signup/save, reward preservation, source reconciliation and return from Sara examples to unchanged Tess need event-level checks.",
+      "Keyboard operation, focus restoration, screen-reader errors, consent semantics, browser Back and network isolation cannot be approved from still images.",
+      "Artwork provenance and crop approval remain to be documented; visible use of a photograph does not establish manifest verification."
+    ]
+  }
+}
