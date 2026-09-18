@@ -1,0 +1,71 @@
+/*
+  Production only additions to the V3 stylesheet (v3.css is generated from
+  the approved lab sources): the plans chapter, the motion strip label, the
+  Loyalty coming soon shell, and the (fs) screens' V3 wrappers. Written by
+  hand, in the same material and scale as x.css.
+*/
+
+/* motion strip label (the lab entrance's place) */
+.v3 .x-labstrip-label { display: inline-flex; align-items: center; min-height: 44px; color: var(--v3-muted); }
+
+/* ------------------------------------------------------------ plans */
+.v3 .x-plans { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 24px; }
+.v3 .x-plan { display: flex; flex-direction: column; gap: 8px; padding: 20px; border-radius: 12px; }
+.v3 .x-plan-price { display: flex; align-items: baseline; gap: 8px; margin-top: 8px; }
+.v3 .x-plan-features { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; font-size: 15px; line-height: 22px; }
+.v3 .x-plan-features li { display: flex; align-items: flex-start; gap: 8px; }
+.v3 .x-plan-features li svg { flex-shrink: 0; margin-top: 3px; color: var(--v3-success); }
+.v3 .x-plan-features.is-soon { color: var(--v3-muted); margin-top: 0; }
+.v3 .x-plan .btn { margin-top: 12px; align-self: flex-start; }
+.v3 .x-plans-note { display: flex; flex-direction: column; gap: 6px; max-width: 62ch; }
+@media (min-width: 768px) {
+  .v3 .x-plans { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .v3 .x-plans-note { grid-column: 1 / -1; }
+}
+
+/* ----------------------------------------------- (fs) screens in V3 */
+/* The V3 compositions render inside the retokened Frame Shift shells: no double canvas, no reset of the shell's own spacing. */
+.fs .v3 { background: transparent; }
+.fs .v3.xs-wrap { display: block; }
+/* the stage runs full bleed on the phone (xs-stage sets its own negative margins) */
+
+/* ------------------------------------------------ loyalty coming soon */
+.v3 .xs-soon { display: grid; gap: 16px; margin-top: 16px; max-width: 560px; }
+.v3 .xs-soon-card { position: relative; overflow: hidden; border-radius: 12px; aspect-ratio: 375 / 220; background: var(--v3-stage-dark); color: #fff; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
+.v3 .xs-soon-card .t-fact { color: #C4CDBF; }
+.v3 .xs-soon-list { display: grid; gap: 8px; }
+.v3 .xs-soon-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 16px; line-height: 24px; }
+.v3 .xs-soon-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--v3-ink); margin-top: 9px; flex-shrink: 0; }
+
+/* ------------------------------------------- planes on real records */
+.v3 .xs-plane-media, .v3 .xs-plane img, .v3 .xs-plane video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.v3 .xs-plane-empty { position: absolute; inset: 0; display: grid; place-items: center; padding: 12px; text-align: center; font-size: 14px; line-height: 20px; color: rgba(255, 255, 255, 0.72); background: #1F2D26; }
+.v3 a.xs-plane { color: inherit; text-decoration: none; }
+.v3 .xs-tag-br { max-width: calc(100% - 20px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v3 .xs-sheet h2.t-object, .v3 .xs-sheet h3.t-object { font-size: inherit; line-height: inherit; font-weight: inherit; letter-spacing: inherit; min-width: 0; }
+.v3 .xs-stage .fs-btn { color: inherit; }
+.v3 .xs-sheet .fs-btn-quiet { color: var(--v3-ink); padding: 0; min-height: 40px; }
+
+/* Home: the objects beyond the three leads, in the same language, in a plain flow of columns */
+.v3 .xs-home-more { display: grid; grid-template-columns: 1fr; gap: 28px; width: 100%; }
+.v3 .xs-home .xs-home-more .xs-op-story { width: 214px; }
+@media (min-width: 1024px) {
+  .v3 .xs-home-more { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; padding-top: 16px; }
+  .v3 .xs-home-more .xs-op-recreate, .v3 .xs-home-more .xs-op-story, .v3 .xs-home-more .xs-op-car { grid-column: auto; padding-top: 0; max-width: none; }
+}
+
+/* Business Home: the lead person is the full object; the others and the further cars follow in columns */
+.v3 .xs-biz-note { display: flex; flex-direction: column; gap: 4px; }
+.v3 .xs-biz-more { display: grid; grid-template-columns: 1fr; gap: 28px; width: 100%; }
+.v3 .xs-biz-more .xs-person-media { grid-template-columns: 180px minmax(0, 1fr); }
+.v3 .xs-biz-more .xs-person .xs-sheet { width: 180px; }
+.v3 .xs-biz-more .xs-person-work { padding-top: 24px; }
+.v3 .xs-biz-more .xs-car .xs-plane { aspect-ratio: 3 / 2; }
+@media (min-width: 1024px) {
+  .v3 .xs-biz-more { grid-column: 1 / span 8; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .v3 .xs-biz-more-cars { grid-column: 9 / span 4; grid-template-columns: 1fr; }
+  .v3 .xs-biz-more .xs-person-media { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; }
+  .v3 .xs-biz-more .xs-person-work { display: flex; }
+  .v3 .xs-biz-more .xs-person-still-0 { width: 100%; aspect-ratio: 4 / 5; margin-top: 24px; }
+  .v3 .xs-biz-more .xs-car { padding-top: 0; }
+}

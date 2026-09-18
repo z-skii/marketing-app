@@ -1,20 +1,19 @@
 import { redirect } from "next/navigation";
-import { Archivo, IBM_Plex_Sans } from "next/font/google";
 import { FrameShiftUserShell } from "@/components/fs/Shell";
 import { FrameShiftBusinessShell } from "@/components/fs/BusinessShell";
 import { getV2Context } from "@/lib/v2/core";
+import "../frame-shift.css";
+import "@/v3/v3.css";
+import "@/v3/prod.css";
 
 /**
- * Screens migrated to Frame Shift, the approved production design system.
- * Same URLs, same auth and identity rules as the rest of the signed-in app;
- * only the shell and the screens inside it changed. Business mode gets
- * the Frame Shift business shell for its migrated screens; unmigrated
- * business routes stay in the previous group with the previous shell.
- * The fonts load here so the rest of the product stays untouched.
+ * The signed in product screens. Same URLs, same auth and identity rules
+ * as the rest of the app; the shells and the screens inside them render
+ * in the V3 material (frame-shift.css retokened to V3, v3.css for the V3
+ * compositions on Home, Profile and Business Home). Both stylesheets load
+ * here, not at the root, so the public homepage and the older screens do
+ * not pay for them. The typeface is the root DM Sans; no other font loads.
  */
-const display = Archivo({ subsets: ["latin"], weight: "variable", variable: "--font-fs-display", display: "swap" });
-const ui = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-fs-ui", display: "swap" });
-
 export default async function FrameShiftLayout({ children }: { children: React.ReactNode }) {
   const ctx = await getV2Context();
   if (!ctx) redirect("/sign-in?next=/home");
@@ -23,18 +22,14 @@ export default async function FrameShiftLayout({ children }: { children: React.R
 
   if (ctx.mode === "business" && ctx.activeBusiness) {
     return (
-      <div className={`${display.variable} ${ui.variable}`} style={{ display: "contents" }}>
-        <FrameShiftBusinessShell business={{ id: ctx.activeBusiness.id, name: ctx.activeBusiness.name, logo: ctx.activeBusiness.logo_url }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
-          {children}
-        </FrameShiftBusinessShell>
-      </div>
+      <FrameShiftBusinessShell business={{ id: ctx.activeBusiness.id, name: ctx.activeBusiness.name, logo: ctx.activeBusiness.logo_url }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
+        {children}
+      </FrameShiftBusinessShell>
     );
   }
   return (
-    <div className={`${display.variable} ${ui.variable}`} style={{ display: "contents" }}>
-      <FrameShiftUserShell identity={{ name: ctx.user.displayName ?? `@${ctx.user.username}`, avatar: ctx.avatarUrl, mode: "Personal" }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
-        {children}
-      </FrameShiftUserShell>
-    </div>
+    <FrameShiftUserShell identity={{ name: ctx.user.displayName ?? `@${ctx.user.username}`, avatar: ctx.avatarUrl, mode: "Personal" }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
+      {children}
+    </FrameShiftUserShell>
   );
 }

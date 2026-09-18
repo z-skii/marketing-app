@@ -1,6 +1,5 @@
 @import "tailwindcss";
-/* Frame Shift, the approved production design system, scoped under .fs and migrated screen by screen. */
-@import "./frame-shift.css";
+/* Frame Shift (frame-shift.css) loads only on the (fs) screens: src/app/(fs)/layout.tsx. */
 
 /* Short viewports (small phones, squat windows): the live screen compacts
    its densest rows instead of scrolling. */
@@ -167,8 +166,8 @@
   --text-base: 0.875rem;
   --text-base--line-height: 1.45;
 
-  --font-display: var(--font-sans), "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
-  --font-mono:    var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: var(--font-sans), "DM Sans", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   --spacing-gutter: 1rem;
 
@@ -614,7 +613,7 @@
 }
 /* The screen is pinned to one viewport ONLY while the measured lock is on
    (see LockViewport): if the content genuinely fits, it clips; if it needs
-   more room — a tall photo, large text settings, a small window — the page
+   more room (a tall photo, large text settings, a small window) the page
    scrolls normally and nothing is ever squeezed or cut. */
 @media (min-height: 600px) {
   html[data-live-lock] .live-screen {

@@ -1,31 +1,34 @@
 import Link from "next/link";
-import { ArrowRight, CaretRight, VideoCamera } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, CaretRight, Gear } from "@phosphor-icons/react/dist/ssr";
 import { getV2Context } from "@/lib/v2/core";
 import { getMyVehicles } from "@/lib/v2/opportunities";
 import { countShootsAssignedTo } from "@/lib/business/shoots";
 import { sql, sqlOne } from "@/lib/db";
-import { fmtDate, isVideoUrl } from "@/lib/v2/opportunities";
-import { MediaPreview } from "@/components/v2/MediaPreview";
+import { fmtDate } from "@/lib/v2/opportunities";
 import { Status, formatMoney } from "@/components/fs/parts";
-import { VehicleMoment } from "@/components/fs/VehicleMoment";
+import { PlaneMedia } from "@/v3/app/parts";
+import { placementLabel } from "@/components/v2/EarnCards";
 
 export const metadata = { title: "Profile" };
 export const dynamic = "force-dynamic";
 
 /**
- * User Profile in Frame Shift: an identity plate, the earned record, the
- * capabilities that unlock work as literal states, one Smart Vehicle
- * moment, recent work, private money, then the secondary destinations.
- * Every value is the person's real record; missing things show their
- * honest state.
+ * User Profile in the approved V3 language: an identity a person would
+ * share. The portrait as the focal plane on the dark stage, the name, the
+ * public handle, the city and the completed count; the person's own
+ * approved and submitted work as planes tagged with their kind; the real
+ * vehicle as a quieter contact sheet with its honest state (a model only
+ * when one was really built, otherwise the best real photograph). Every
+ * value is the person's real record; missing things show their state.
+ * Private money and administration sit below the stage as rows; the one
+ * gear opens Settings.
  */
 const WORK_STATE: Record<string, { label: string; tone: "confirmed" | "waiting" | "problem" | "neutral" }> = {
   submitted: { label: "In review", tone: "waiting" }, under_review: { label: "In review", tone: "waiting" },
   revision_requested: { label: "Revision requested", tone: "waiting" }, approved: { label: "Approved", tone: "confirmed" },
   paid: { label: "Paid", tone: "confirmed" }, rejected: { label: "Not approved", tone: "problem" },
 };
-const KIND_NAME: Record<string, string> = { recreate_reel: "Recreate", instagram_story: "Story", car_ads: "Car ad" };
-const SOURCE_ROLE: Record<string, string> = { recreate_reel: "Your version", instagram_story: "Posted proof", car_ads: "Proof" };
+const KIND_NAME: Record<string, string> = { recreate_reel: "Recreate", instagram_story: "Story", car_ads: "Car" };
 
 export default async function MePage() {
   const ctx = await getV2Context();
@@ -42,10 +45,10 @@ export default async function MePage() {
       [uid],
     ),
     getMyVehicles(uid),
-    sql<{ id: string; status: string; media: string | null; kind: string; title: string; created_at: string }>(
-      `select s.id, s.status::text as status, s.media_urls[1] as media, c.kind::text as kind, c.title, s.created_at
-         from submissions s join campaigns c on c.id = s.campaign_id
-        where s.creator_id = $1 order by s.created_at desc limit 3`,
+    sql<{ id: string; status: string; media: string | null; kind: string; title: string; business: string; created_at: string }>(
+      `select s.id, s.status::text as status, s.media_urls[1] as media, c.kind::text as kind, c.title, b.name as business, s.created_at
+         from submissions s join campaigns c on c.id = s.campaign_id join businesses b on b.id = c.business_id
+        where s.creator_id = $1 order by (s.status in ('approved', 'paid')) desc, s.created_at desc limit 3`,
       [uid],
     ),
     sqlOne<{ amount: string; at: string | null }>(
@@ -60,6 +63,7 @@ export default async function MePage() {
   const name = ctx.user.displayName ?? `@${ctx.user.username}`;
   const car = vehicles[0] ?? null;
   const ig = ctx.instagram;
+  const igTag = ig.status === "connected" ? `Instagram @${ig.handle ?? ""}` : ig.status === "pending" ? "Instagram checking" : ig.status === "error" ? "Instagram needs attention" : "Instagram not connected";
   const igLine = ig.status === "connected"
     ? `@${ig.handle ?? ""} · ${ig.verifiedBy === "api" ? "Connected" : "Confirmed manually"}${ig.followers != null ? ` · ${ig.followers.toLocaleString()} followers` : ""}`
     : ig.status === "pending" ? (ig.handle ? `@${ig.handle} · Checking` : "Checking")
@@ -68,44 +72,88 @@ export default async function MePage() {
   const verification = creator?.verification ?? (ctx.isCreator ? "unverified" : null);
   const verificationLabel = verification === "verified" ? "Verified" : verification === "pending" ? "In review" : verification === "rejected" ? "Not approved" : "Not verified";
   const verificationTone = verification === "verified" ? "confirmed" : verification === "pending" ? "waiting" : verification === "rejected" ? "problem" : "neutral";
-  const lifetime = Number(stats?.lifetime ?? 0);
   const available = Number(stats?.available ?? 0);
   const requested = Number(payout?.amount ?? 0);
   const ratingCount = Number(stats?.rating_count ?? 0);
+  const completed = Number(stats?.completed ?? 0);
+  const host = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://tapmart.live").replace(/^https?:\/\//, "").replace(/\/$/, "");
+  const handle = `${host}/u/${ctx.user.username}`;
+  const carPhoto = car ? (car.poster_url ?? car.photo_url ?? null) : null;
+  const carState = car ? (car.model_glb_url ? "3D model" : car.scan_status && ["queued", "validating", "recognizing", "reconstructing"].includes(car.scan_status) ? "Scan in progress" : carPhoto ? "Photos only" : "No photos yet") : null;
+  const carListing = car ? (car.status === "listed" && car.available ? "Listed for ads" : car.status === "listed" ? "Paused" : "Not listed yet") : null;
 
   return (
-    <>
-      {/* Identity plate: the portrait crosses the graphite plane by 12px; the record stays still below. */}
-      <div className="fs-on-dark fs-masthead" style={{ background: "var(--fs-graphite)", color: "var(--fs-on-dark)", padding: "12px 16px 0" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 36 }}>
+    <main className="fs-phone-main fs-profile-main" id="main">
+      <div className="v3 xs-wrap">
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 44, marginTop: 12 }}>
           <h1 className="fs-t-page">Profile</h1>
-          <Link href="/me/edit" className="fs-btn fs-btn-quiet" style={{ color: "var(--fs-focus-dark)", minHeight: 44, margin: "-4px 0" }}>Edit profile</Link>
+          <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <Link href="/me/edit" className="fs-btn fs-btn-quiet fs-link-ink">Edit profile</Link>
+            <Link href="/me/settings" className="fs-icon-btn" aria-label="Settings"><Gear size={22} aria-hidden /></Link>
+          </span>
         </div>
-        <div className="fs-identity-plate" style={{ marginTop: 16, position: "relative", zIndex: 1 }}>
-          <div className="fs-media fs-plate-portrait" style={{ width: 104, height: 130, background: "var(--fs-stage)", display: "grid", placeItems: "center" }}>
-            {ctx.avatarUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={ctx.avatarUrl} alt={`${name}, profile photo`} width={104} height={130} />
-            ) : <span aria-hidden className="fs-display" style={{ fontWeight: 700, fontSize: 40, color: "var(--fs-on-dark)" }}>{(name.trim()[0] ?? "?").toUpperCase()}</span>}
-          </div>
-          <div style={{ paddingTop: 16, minWidth: 0 }}>
-            <p className="fs-t-identity">{name}</p>
-            <p style={{ marginTop: 4, fontSize: 16, lineHeight: "24px", color: "var(--fs-muted-dark)", overflowWrap: "anywhere" }}>@{ctx.user.username}</p>
-            <p className="fs-t-meta" style={{ marginTop: 2, color: "var(--fs-muted-dark)" }}>{ctx.city ?? "Add your city"}</p>
-          </div>
+
+        <div className="xs-stage xs-pf" style={{ marginTop: 12 }}>
+          {/* identity: the portrait as the focal plane, the name, the public handle, the recorded facts */}
+          <section className="xs-pf-identity" aria-label="Identity">
+            <span className="xs-plane xs-pf-portrait" style={{ cursor: "default" }}>
+              {ctx.avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={ctx.avatarUrl} alt={`${name}, profile photo`} width={312} height={390} fetchPriority="high" decoding="async" />
+              ) : <span className="xs-plane-empty" aria-hidden><span style={{ fontSize: 64, fontWeight: 500 }}>{(name.trim()[0] ?? "?").toUpperCase()}</span></span>}
+            </span>
+            <div className="xs-pf-who">
+              <h2 className="xs-pf-name">{name}</h2>
+              <p className="t-fact xs-pf-handle">{handle}</p>
+              <p className="t-fact">{ctx.city ?? "No city yet"}<span aria-hidden> · </span><span className="t-fact-ink">{completed}</span> Completed{ratingCount > 0 && stats?.rating ? <><span aria-hidden> · </span><span className="t-fact-ink">{Number(stats.rating).toFixed(1)}</span> rating, {ratingCount} review{ratingCount === 1 ? "" : "s"}</> : null}</p>
+              <p className="xs-pf-tags"><span className="x-tag">{igTag}</span>{car && car.status === "listed" && car.available && <span className="x-tag">Vehicle listed</span>}{verification === "verified" && <span className="x-tag">Verified creator</span>}</p>
+            </div>
+          </section>
+
+          {/* work: the person's own submissions as planes tagged with their kind; each opens Activity */}
+          <section className="xs-pf-workwrap" aria-labelledby="work-h">
+            <div className="x-pf-work-head"><h3 id="work-h" className="x-pf-work-h" style={{ color: "#fff" }}>Work</h3></div>
+            {recent.length === 0 ? (
+              <p className="t-fact" style={{ marginTop: 8 }}>No submitted work yet. Approved work appears here.</p>
+            ) : (
+              <div className="xs-pf-work">
+                {recent.map((w, i) => {
+                  const st = WORK_STATE[w.status] ?? { label: w.status, tone: "neutral" as const };
+                  return (
+                    <Link key={w.id} href="/activity" className={`xs-plane xs-pf-item-${i}`} aria-label={`${w.title}, ${w.business}: ${KIND_NAME[w.kind] ?? w.kind}, ${st.label}`}>
+                      <PlaneMedia src={w.media} alt="" sizes="(min-width: 1024px) 280px, 200px" priority={i === 0} tag={KIND_NAME[w.kind] ?? w.kind} tagBr={st.label} fallback="No file" />
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+
+          {/* the vehicle: the Drive object, photograph plus its facts, only what the record holds */}
+          <section className="xs-obj xs-pf-vehicle" aria-labelledby="vehicle-h">
+            {car ? (
+              <>
+                <Link href={`/me/vehicles/${car.id}`} className="xs-plane" aria-label={`View ${car.year} ${car.make} ${car.model}`}>
+                  <PlaneMedia src={carPhoto} alt="" sizes="(min-width: 1024px) 320px, 100vw" tag="Car" tagBr={car.zones[0] ? placementLabel(car.zones[0]) : undefined} fallback="No photos yet" />
+                </Link>
+                <div className="x-paper xs-sheet">
+                  <h3 id="vehicle-h" className="t-object">{car.year} {car.make} {car.model}</h3>
+                  <span className="t-fact">{carListing}<span aria-hidden> · </span>{carState}{car.city ? <><span aria-hidden> · </span>{car.city}</> : null}</span>
+                  <span className="xs-sheet-row"><span className="t-fact">{vehicles.length > 1 ? `${vehicles.length} vehicles` : "Your vehicle"}</span><Link href="/me/vehicles" className="link t-action">View</Link></span>
+                </div>
+              </>
+            ) : (
+              <div className="x-paper xs-sheet" style={{ borderRadius: 10, width: "100%" }}>
+                <h3 id="vehicle-h" className="t-object">No vehicle yet</h3>
+                <span className="t-fact">Add your car to become available for car advertising.</span>
+                <span className="xs-sheet-row"><Link href="/me/vehicles/scan" className="link t-action">Scan my car</Link><Link href="/me/vehicles/new" className="link t-action">Add vehicle</Link></span>
+              </div>
+            )}
+          </section>
         </div>
-      </div>
 
-      <main className="fs-phone-main fs-profile-main" id="main" style={{ paddingTop: 34 }}>
-        <div className="fs-profile-grid">
-        <div>
-        <dl className="fs-record-strip">
-          <Fact value={formatMoney(lifetime)} label="Earned" />
-          <Fact value={stats?.completed ?? "0"} label="Completed" />
-          <Fact value={stats?.rating ? Number(stats.rating).toFixed(1) : "New"} label={ratingCount > 0 ? `Rating · ${ratingCount} review${ratingCount === 1 ? "" : "s"}` : "Rating"} />
-        </dl>
-
-        <section aria-label="Instagram and verification" style={{ marginTop: 12 }}>
+        {/* capabilities, money and administration: rows, not composition */}
+        <section aria-label="Instagram and verification" style={{ marginTop: 24 }}>
           <Link href="/me/instagram" className="fs-row-link" style={{ minHeight: 64 }}>
             <span style={{ minWidth: 0 }}>
               <span className="fs-t-body" style={{ display: "block", fontWeight: 500 }}>Instagram</span>
@@ -120,52 +168,6 @@ export default async function MePage() {
           </Link>
         </section>
 
-        <section aria-labelledby="vehicles-title" style={{ marginTop: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 44 }}>
-            <h2 id="vehicles-title" className="fs-t-section">Vehicles</h2>
-            <Link href={car ? "/me/vehicles" : "/me/vehicles/new"} className={car ? "fs-btn fs-btn-quiet fs-link-ink" : "fs-btn fs-btn-quiet"}>{car ? "All vehicles" : "Add vehicle"}</Link>
-          </div>
-          {car ? (
-            <VehicleMoment vehicle={car} style={{ marginTop: 12 }} />
-          ) : (
-            <div style={{ marginTop: 12 }}>
-              <p className="fs-t-body">No vehicle yet.</p>
-              <p className="fs-t-meta" style={{ marginTop: 2 }}>Add your car to become available for car advertising.</p>
-              <Link href="/me/vehicles/scan" className="fs-btn fs-btn-secondary" style={{ marginTop: 12 }}>Scan my car</Link>
-            </div>
-          )}
-        </section>
-        </div>
-
-        <div>
-        <section aria-labelledby="work-title" className="fs-profile-work">
-          <h2 id="work-title" className="fs-t-section">Recent work</h2>
-          {recent.length === 0 ? (
-            <p className="fs-t-meta" style={{ marginTop: 12 }}>No submitted work yet. Approved work appears here.</p>
-          ) : (
-            <ul className="fs-work-strip" style={{ listStyle: "none", padding: 0, marginTop: 12 }}>
-              {recent.map((w) => {
-                const st = WORK_STATE[w.status] ?? { label: w.status, tone: "neutral" as const };
-                return (
-                  <li key={w.id}>
-                    <Link href="/activity" style={{ display: "block" }} aria-label={`${w.title}: ${KIND_NAME[w.kind] ?? w.kind}, ${st.label}${w.media && isVideoUrl(w.media) ? ". View video" : ""}`}>
-                      <span className="fs-media fs-contain fs-work-thumb" style={{ display: "block", background: "var(--fs-underlay)" }}>
-                        {w.media && isVideoUrl(w.media) ? (
-                          <span className="fs-video-fallback"><VideoCamera size={24} aria-hidden /><span>View video</span><span className="fs-video-note">No preview available</span></span>
-                        ) : w.media ? <MediaPreview src={w.media} alt="" className="fs-ref-media" sizes="104px" /> : <span style={{ display: "grid", placeItems: "center", height: "100%", color: "var(--fs-muted)", fontSize: 14 }}>No file</span>}
-                      </span>
-                      <span className="fs-t-meta" style={{ display: "block", marginTop: 8, color: "var(--fs-ink)" }}>{KIND_NAME[w.kind] ?? w.kind}</span>
-                      <Status tone={st.tone} className="fs-block">{st.label}</Status>
-                      <span className="fs-t-meta" style={{ display: "block" }}>{SOURCE_ROLE[w.kind] ?? "Submitted file"}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-          <Link href="/activity" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 8 }}>View Activity <ArrowRight size={18} aria-hidden /></Link>
-        </section>
-
         <section aria-labelledby="earn-title" style={{ marginTop: 24 }}>
           <h2 id="earn-title" className="fs-t-section">Earnings</h2>
           <p className="fs-t-task" style={{ marginTop: 12 }}>Available {formatMoney(available)}</p>
@@ -176,11 +178,12 @@ export default async function MePage() {
               {payout?.at && <p className="fs-t-meta">{fmtDate(payout.at)}</p>}
             </>
           ) : <p className="fs-t-body" style={{ marginTop: 8 }}>No payout requested</p>}
-          <Link href="/earnings" className="fs-btn fs-btn-secondary" style={{ marginTop: 16, width: "100%", maxWidth: 400 }}>Open Earnings</Link>
+          <Link href="/earnings" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 8 }}>Open Earnings <ArrowRight size={18} aria-hidden /></Link>
         </section>
 
-        <section aria-label="More" style={{ marginTop: 32 }}>
+        <section aria-label="More" style={{ marginTop: 24 }}>
           {[
+            ["Activity", "/activity"],
             ["Portfolio", "/me/portfolio"],
             ["Public profile and reviews", `/u/${ctx.user.username}`],
             ...(assignedShoots > 0 || ctx.isCreator ? [[assignedShoots > 0 ? `Your shoots · ${assignedShoots} assigned` : "Your shoots", "/me/shoots"]] : []),
@@ -188,25 +191,15 @@ export default async function MePage() {
           ].map(([label, href], i) => (
             <div key={label}>
               {i > 0 && <hr className="fs-divider" />}
-              <Link href={href} className="fs-row-link" style={{ minHeight: 64 }}>
+              <Link href={href} className="fs-row-link" style={{ minHeight: 56 }}>
                 <span className="fs-t-body">{label}</span>
                 <CaretRight size={20} aria-hidden style={{ color: "var(--fs-muted)", flexShrink: 0 }} />
               </Link>
             </div>
           ))}
         </section>
-        </div>
-        </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 }
 
-function Fact({ value, label }: { value: string; label: string }) {
-  return (
-    <div>
-      <dd className="fs-money-record">{value}</dd>
-      <dt className="fs-t-meta" style={{ marginTop: 2, whiteSpace: "nowrap" }}>{label}</dt>
-    </div>
-  );
-}
