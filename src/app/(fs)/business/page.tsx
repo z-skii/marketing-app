@@ -208,7 +208,7 @@ function CarObject({ c, priority = false }: { c: Car; priority?: boolean }) {
       <div className="x-paper xs-sheet">
         <span className="t-fact">{c.owner_name}{c.city ? <><span aria-hidden> · </span>{c.city}</> : null}{c.stage.glbUrl ? <><span aria-hidden> · </span>3D model</> : null}</span>
         {min != null ? (
-          <span className="xs-money"><span className="x-money-hero">{formatMoney(min).replace(/\.00$/, "")}</span><span className="t-fact-ink">{priced.length > 1 ? `from, /month` : "/month asking"}</span></span>
+          <span className="xs-money"><span className="x-money-hero">{formatMoney(min).replace(/\.00$/, "")}</span><span className="t-fact-ink">{priced.length > 1 ? "from /month" : "/month asking"}</span></span>
         ) : <span className="t-fact-ink">Asking price to be agreed</span>}
         {priced.length > 1 && <span className="t-fact-ink">{priced.length} placements priced</span>}
         <span className="xs-sheet-row">
