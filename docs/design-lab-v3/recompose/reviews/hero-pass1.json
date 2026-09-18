@@ -1,0 +1,140 @@
+{
+  "experience": "Public hero",
+  "pass": 1,
+  "final": false,
+  "shots": [
+    "hero-d-0.png",
+    "hero-business-d-0.png",
+    "hero-recreate-m-0.png",
+    "hero-business-m-0.png",
+    "hero-d-strip.png",
+    "hero-m-strip.png"
+  ],
+  "when": "2026-09-18T12:52:13.888Z",
+  "reviewer": "director",
+  "review": {
+    "media_read": "The media is worthy of continuing. The reference has a clear hand, pour, cup focal sequence; Maya's separate work is visibly different; the oxblood wagon is a substantial improvement over a generic sedan. Desktop preserves Maya's face, but phone overlap cuts into it. The intact Story works as supporting context. The Loyalty fragment currently reads as another crop of the reference with a badge, rather than a distinct program object. These captures do not establish full-resolution vehicle geometry or placement registration.",
+    "scores": {
+      "media_quality": 8,
+      "could_not_be_another_startup": 6,
+      "slop_risk": 3,
+      "car_moment_unique": 4,
+      "motion_continuity": 4,
+      "loyalty_more_than_marketing": 3,
+      "material_quality": 5,
+      "text_discipline": 7,
+      "scroll_pull": 6,
+      "typography": 8,
+      "spatial_quality": 6,
+      "truthfulness": 8,
+      "physical_identity": 6,
+      "remembered_tomorrow": 6
+    },
+    "verdict": "fix",
+    "fixes": [
+      {
+        "priority": 1,
+        "change": "Replace the supporting-object fade with actual occlusion behind the advancing reference. Retract the opaque amount sheet beneath the reference edge; never fade its entire surface and financial text together. Keep the reference visibly continuous into the light inspection stage in both directions.",
+        "why": "The desktop strip shows ghosted photography and translucent money during the handoff. That reads as a presentation dissolve, not objects changing position in one physical space.",
+        "where": "Desktop hero-to-Recreate transition, especially strip frames 5 and 7"
+      },
+      {
+        "priority": 2,
+        "change": "Bring the terms sheet into visible contact with the reference's lower edge. Preserve a clearly exposed reference edge and keep US$75 with On approval on opaque paper. Adapt this attachment for phone rather than leaving the sheet across the vehicle and Loyalty fragment.",
+        "why": "At rest, the money is a detached white tile. Its proximity to several unrelated objects weakens both the spatial composition and the reference-opportunity relationship.",
+        "where": "Both earning-lens hero compositions"
+      },
+      {
+        "priority": 3,
+        "change": "Protect Maya's whole face in both phone lenses by adjusting the portrait overlap and crop. Move Vehicle example onto the 16px text datum, outside the bleeding photo wrapper. Keep Maya Chen fully exposed in the business lens. Reserve an unobstructed action lane on desktop so the vehicle cannot cover Open preview or View person.",
+        "why": "Photography may bleed; identity, provenance and actions may not. The supplied stills visibly crop the vehicle label, occlude Maya's label and face, and cover the trailing desktop action.",
+        "where": "Phone left edge and portrait; desktop bottom-left actions"
+      },
+      {
+        "priority": 4,
+        "change": "Give Maya's portrait and owned work a compact, legible relationship in the business lens without obscuring the reference identity. Route the work's entrance and exit below the audience headings or behind the reference, never through the typography. Remove the extra Find people heading and redundant Maya/action repetition while retaining the existing entrances.",
+        "why": "The business state adds another photograph and a detached profile panel without making the creator, work relationship sufficiently clear. The strips also show the moving work crossing the audience-control region.",
+        "where": "Business hero at both widths and audience-switch intermediate frames"
+      },
+      {
+        "priority": 5,
+        "change": "Place the single navigation lens over the dark hero substrate, using its dark material state at the top. Constrain desktop navigation to the specified 1200px maximum and reconcile the 120px sticky offset with the 104px shared-stage model. Let real content pass behind the lens at the boundary; keep the lab and motion controls readable without a full-width white header slab.",
+        "why": "The current header reads as a conventional white website masthead. Its material cannot be judged as a lens because it is isolated from the composition beneath it.",
+        "where": "Top navigation, lab-control band and desktop sticky-stage boundary"
+      },
+      {
+        "priority": 6,
+        "change": "Expose enough of the existing coded program artwork's opaque boundary to distinguish it from a second reference photograph. Retain the readable Loyalty label and do not add member details, QR or issued-pass cues.",
+        "why": "The current lower-right object repeats the hero image with a small badge. It contributes visual repetition rather than a recognizable future customer-relationship object.",
+        "where": "Lower-right Loyalty fragment, both widths"
+      },
+      {
+        "priority": 7,
+        "change": "After these fixes, supply playable desktop and phone recordings covering forward and reverse handoff, audience switching, direct controls, Pause motion and keyboard use. Include reduced-motion captures, rendered text counts and measured performance deltas. Keep this pass confined to the public hero and its boundary adapter.",
+        "why": "The strips establish sampled state changes, not timing, frame continuity, focus behavior or performance. Repository filenames alone are not reviewed evidence.",
+        "where": "Hero review evidence package"
+      }
+    ],
+    "two_second_read": "Make money or grow your business; coffee creative, a creator and a US$75-on-approval opportunity dominate. A car and Loyalty are visible supporting possibilities, but their relationship to the central object is not yet immediate.",
+    "drift": [
+      "The handoff visibly uses fading supporting planes rather than primarily hiding them behind the persistent reference.",
+      "The amount becomes translucent during the desktop transition instead of remaining opaque until occluded.",
+      "The terms sheet is detached from the reference at rest.",
+      "Phone overlap sacrifices Maya's face and identity label; Vehicle example falls outside the safe text datum.",
+      "Desktop supporting photography covers part of the secondary action.",
+      "The navigation remains a broad white masthead rather than a dark lens participating in the stage.",
+      "The business lens adds Find people and repeats identity/actions beyond the intended compact inventory."
+    ],
+    "material_read": "Opaque photography, restrained corners and the white financial surface are good foundations. There is no ornamental glass or gradient slop. However, most visible depth comes from stacking rectangles, not convincing contact between objects. The detached terms tile and isolated white masthead still feel like ordinary web components. Ghosted money during the handoff directly contradicts the material rules.",
+    "six_questions": [
+      {
+        "question": "Would someone remember this website tomorrow?",
+        "answer": "partly",
+        "note": "The dark composition, large audience controls and pouring image provide a stronger memory anchor. A memorable consequential handoff is not yet established; actual next-day recall remains untested."
+      },
+      {
+        "question": "Could this homepage belong to any other startup?",
+        "answer": "partly",
+        "note": "The combination of creator work, conditional money, car and Loyalty is distinctive. Without the TapMart logo, the current collage could still read as a general creator marketplace because the objects' relationships remain loose."
+      },
+      {
+        "question": "Do Recreate, Story and Drive each have a recognizable physical identity?",
+        "answer": "partly",
+        "note": "Portrait reference, vertical Story and landscape vehicle already have different silhouettes. This hero-only evidence does not establish Recreate's comparison or Drive's placement identity."
+      },
+      {
+        "question": "Does the car moment make TapMart feel unique?",
+        "answer": "partly",
+        "note": "The wagon is desirable, grounded supporting media. No rear-door placement moment is supplied here, so the asset improvement cannot stand in for the product moment."
+      },
+      {
+        "question": "Does the Loyalty loop make a business understand why TapMart is more than creator marketing?",
+        "answer": "no",
+        "note": "Not demonstrated in this package. The hero provides only a labelled artwork fragment; the source, member, dated return and attribution chain is outside these captures."
+      },
+      {
+        "question": "Would someone scroll because they want to see what happens next?",
+        "answer": "partly",
+        "note": "The dominant reference invites inspection and visibly reaches Recreate. The fading collage and abrupt sampled dark-to-light endpoint weaken anticipation of one continuous object journey."
+      }
+    ],
+    "direction_was_wrong": [
+      "My prescribed resting coordinates left the amount physically separated from the reference. Calling it attached did not make the specified geometry attached; revise that geometry.",
+      "The phone portrait coordinates allowed the reference to cover the face. The instruction to protect identity must take precedence over those coordinates.",
+      "The supporting-object density did not reserve enough protected space for actions and labels. Keep the seven-object premise, but subordinate photography to those readable zones."
+    ],
+    "keep": [
+      "The dominant 4:5 reference and its clear pouring gesture.",
+      "The two audience propositions functioning as controls without a redundant segmented bar.",
+      "The strong display/UI type contrast and absence of explanatory paragraphs.",
+      "The dark opaque hero substrate and unequal media scales.",
+      "The approved oxblood vehicle photograph.",
+      "The separate Maya-owned work in the business lens.",
+      "US$75 with On approval, rather than an invented earned balance.",
+      "Visible lab qualification, Pause motion and immediate preview entrances."
+    ],
+    "still_a_web_prototype": "It no longer reads as the old narrow photograph beside a text block: the reference genuinely dominates a populated spatial field. It still reads as an art-directed editorial collage where the detached money/profile tile, pill labels, isolated white masthead and bottom action row remain independent web components. The light Recreate endpoint also appears as a centered image presentation rather than a conclusively continuous stage in the supplied samples.",
+    "motion_read": "The strips prove audience emphasis changes, Maya's work enters and exits, the reference changes presentation bounds, supporting planes change visibility, and the interface reaches Recreate and returns. They also expose heading collisions and translucent supporting objects, including the terms sheet. They do not prove persistent DOM/media identity, interpolation quality, native-scroll behavior, pause correctness or smooth frame timing. The phone samples show matched endpoints but too few intermediate frames to distinguish a genuine handoff from replacement.",
+    "spatial_read": "The hierarchy is materially better: one dominant reference, a rear Story, human context on the left and a low vehicle plane. Desktop has useful asymmetric depth. Phone compresses those relationships into collisions, and the lower objects lack a shared contact logic. Fix attachment, protected identity and occlusion rather than adding more shadows, blur or objects."
+  }
+}

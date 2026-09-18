@@ -53,7 +53,7 @@ export function AppleCard({ d, width = 375, className = "" }: { d: CardData; wid
         <span className="wc-apple-brand"><span className="wc-apple-logo"><Logo design={design} size={22} /></span><span className="wc-apple-logotext">{design.businessName}</span></span>
         <span className="wc-field wc-field-right wc-apple-header"><span className="wc-label">{unit(p)}</span><span className="wc-value wc-value-header">{primary}</span></span>
       </div>
-      <div className="wc-apple-strip">{design.artwork ? <Img src={design.artwork} alt="" position={design.artworkPosition} /> : <span className="wc-apple-strip-plain" />}</div>
+      <div className="wc-apple-strip">{design.artwork ? <Img src={design.artwork} alt="" position={design.artworkPosition} loading="lazy" /> : <span className="wc-apple-strip-plain" />}</div>
       <div className="wc-apple-fields">
         {d.publicSubset ? (
           <span className="wc-field wc-field-wide"><span className="wc-label">Reward</span><span className="wc-value">{design.rewardTitle}</span></span>
@@ -81,7 +81,7 @@ export function GoogleCard({ d, width = 375, className = "" }: { d: CardData; wi
         <span className="wc-google-logo" style={{ color: design.bg }}><Logo design={design} size={22} /></span>
         <span className="wc-google-names"><span className="wc-google-program">{design.programName}</span><span className="wc-google-issuer">{design.businessName}</span></span>
       </div>
-      <div className="wc-google-hero">{design.artwork ? <Img src={design.artwork} alt="" position={design.artworkPosition} /> : <span className="wc-apple-strip-plain" />}</div>
+      <div className="wc-google-hero">{design.artwork ? <Img src={design.artwork} alt="" position={design.artworkPosition} loading="lazy" /> : <span className="wc-apple-strip-plain" />}</div>
       <div className="wc-google-row">
         <span className="wc-field"><span className="wc-label">{unit(p)}</span><span className="wc-value wc-value-big">{balance}</span></span>
         <span className="wc-field wc-field-right"><span className="wc-label">Rewards</span><span className="wc-value wc-value-big">{rewards}</span></span>

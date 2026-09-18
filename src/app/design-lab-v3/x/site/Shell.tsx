@@ -46,14 +46,15 @@ function useStageTone(y: number): "dark" | "inspection" | null {
       setTone(!hit ? null : hit.dataset.stageDark === "true" || hit.dataset.stageTone === "dark" ? "dark" : "inspection");
     };
     check(); window.addEventListener("scroll", check, { passive: true }); window.addEventListener("resize", check);
-    return () => { window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
+    const mo = new MutationObserver(check); mo.observe(document.body, { attributes: true, subtree: true, attributeFilter: ["data-stage-tone", "data-stage-dark"] });
+    return () => { window.removeEventListener("scroll", check); window.removeEventListener("resize", check); mo.disconnect(); };
   }, [y]);
   return tone;
 }
 const useStageDark = (y: number) => useStageTone(y) === "dark";
 
 export function PublicNav() {
-  const dark = useStageDark(44);
+  const dark = useStageDark(130);
   return (
     <header className={`x-nav lens${dark ? " lens-dark x-dark" : ""}`} data-nav>
       <a href="#top" aria-label="TapMart" className="x-nav-brand"><Wordmark size={20} onInk={dark} /></a>
@@ -77,7 +78,7 @@ export function PublicNav() {
 
 /** The lab and motion strip: the opaque 44px band of the navigation stack, so Pause motion is reachable in every scene. */
 export function PublicStrip() {
-  const tone = useStageTone(100);
+  const tone = useStageTone(124);
   return <div className={`x-pubstrip${tone === "dark" ? " x-dark" : ""}`} data-tone={tone ?? undefined}><div className="x-inner"><LabStrip /></div></div>;
 }
 

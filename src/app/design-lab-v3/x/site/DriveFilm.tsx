@@ -25,12 +25,12 @@ const car = homeOpportunities[2];
 
 /** The registered geometry of drive-oxblood-wagon-placement (normalized to the 3:2 frame). */
 export const WAGON = {
-  door: [[0.2292, 0.4375], [0.373, 0.4355], [0.373, 0.6758], [0.2539, 0.6836], [0.2409, 0.625], [0.2318, 0.5469]] as [number, number][],
-  handle: { t: 0.4414, r: 1 - 0.2839, b: 1 - 0.4785, l: 0.2383 },
-  specimen: { x: 0.262, y: 0.51, w: 0.095, h: 0.128 },
-  leader: { from: [0.373, 0.53] as [number, number], to: [0.46, 0.47] as [number, number] },
-  doorCenter: [0.3, 0.56] as [number, number],
-}
+  door: [[0.2266, 0.4258], [0.3717, 0.4238], [0.3717, 0.622], [0.2474, 0.6245], [0.2383, 0.5859], [0.2292, 0.5254]] as [number, number][],
+  handle: { t: 0.442, r: 1 - 0.27, b: 1 - 0.49, l: 0.226 },
+  specimen: { x: 0.256, y: 0.498, w: 0.11, h: 0.118 },
+  leader: { from: [0.3717, 0.53] as [number, number], to: [0.46, 0.47] as [number, number] },
+  doorCenter: [0.3, 0.53] as [number, number],
+};
 
 /** Beats sit where their movement is complete, so a direct step lands on a settled state. */
 export const DRIVE_BEATS: Beat[] = [
@@ -44,23 +44,31 @@ export const DRIVE_BEATS: Beat[] = [
 
 /** Aperture and photograph sizes (mirrored in film.css). */
 function dims(vp: Viewport) {
-  if (vp.desktop) return { ap: { w: 960, h: 640 }, photo: { w: 960, h: 640 }, zoom: 1.08, sheetW: 304 };
-  if (vp.tablet) return { ap: { w: 720, h: 480 }, photo: { w: 720, h: 480 }, zoom: 1.12, sheetW: 304 };
+  // desktop: the 1056px photograph in a 1056x600 reviewed aperture (the 3:2 plane overflows 52px top and bottom) so title and controls stay on the stage
+  if (vp.desktop) return { ap: { w: 1056, h: 600 }, photo: { w: 1056, h: 704 }, zoom: 1.08, sheetW: 304 };
+  if (vp.tablet) return { ap: { w: 720, h: 460 }, photo: { w: 720, h: 480 }, zoom: 1.12, sheetW: 304 };
   return { ap: { w: vp.w, h: 330 }, photo: { w: vp.w, h: Math.round(vp.w * 2 / 3) }, zoom: 1.22, sheetW: Math.min(358, vp.w - 32) };
+}
+
+/** The crop shift keeps the rear door near the inspection datum: the plane scales about its center and drifts so the door stays put. */
+function shift0(d: ReturnType<typeof dims>) {
+  const doorDx = (WAGON.doorCenter[0] - 0.5) * d.photo.w; const doorDy = (WAGON.doorCenter[1] - 0.5) * d.photo.h;
+  return { x: Math.max(-40, Math.min(40, -doorDx * (d.zoom - 1))), y: Math.max(-28, Math.min(28, -doorDy * (d.zoom - 1))) };
 }
 
 function build(vp: Viewport): Tracks {
   const d = dims(vp);
   // the aperture sits at the stage's left datum on desktop (80px inset), full width on phone
-  const apPos = vp.desktop ? { x: 80 + d.ap.w / 2 - vp.w / 2, y: -vp.stageH / 2 + 72 + d.ap.h / 2 } : vp.tablet ? { x: 24 + d.ap.w / 2 - vp.w / 2, y: -vp.stageH / 2 + 72 + d.ap.h / 2 } : { x: 0, y: -vp.stageH / 2 + 64 + d.ap.h / 2 };
+  const apPos = vp.desktop ? { x: 80 + d.ap.w / 2 - vp.w / 2, y: -vp.stageH / 2 + 72 + d.ap.h / 2 } : vp.tablet ? { x: 24 + d.ap.w / 2 - vp.w / 2, y: -vp.stageH / 2 + 72 + d.ap.h / 2 } : { x: 0, y: -vp.stageH / 2 + 56 + d.ap.h / 2 };
   // the crop shift keeps the rear door near the inspection datum: the plane scales about its center and drifts so the door stays put
-  const doorDx = (WAGON.doorCenter[0] - 0.5) * d.photo.w; const doorDy = (WAGON.doorCenter[1] - 0.5) * d.photo.h;
-  const shift = { x: Math.max(-40, Math.min(40, -doorDx * (d.zoom - 1))), y: Math.max(-28, Math.min(28, -doorDy * (d.zoom - 1))) };
+  const shift = shift0(d);
+  // the campaign sheet: attached to the photograph's right margin on desktop; below the aperture on phone, with only the narrow lip overlapping
+  const sheetH = vp.desktop ? 300 : 286;
   const sheet = vp.desktop
-    ? { x: apPos.x + d.ap.w / 2 - 152 + 224, y: apPos.y + 60 }
-    : vp.tablet ? { x: apPos.x + d.ap.w / 2 - 100, y: apPos.y + d.ap.h / 2 - 60 } : { x: 0, y: apPos.y + d.ap.h / 2 + 96 };
+    ? { x: apPos.x + d.ap.w / 2 - 152 + 96, y: apPos.y + 40 }
+    : vp.tablet ? { x: apPos.x + d.ap.w / 2 - 100, y: apPos.y + d.ap.h / 2 - 40 } : { x: 0, y: apPos.y + d.ap.h / 2 + sheetH / 2 - 32 };
   // the sheet is pre sized with its lower plane; the campaign beat shows the upper part only, the earning beat uncovers the rest
-  const lower = vp.desktop ? 44 : 46;
+  const lower = vp.desktop ? 42 : 44;
   const letter = ((d.ap.h - d.photo.h) / 2 / d.ap.h) * 100;
   return {
     plane: [
@@ -78,7 +86,11 @@ function build(vp: Viewport): Tracks {
       { at: 0.63, pose: { x: 1, y: 1, o: 0 } },
     ],
     planar: [{ at: 0.61, pose: { o: 0 } }, { at: 0.65, pose: { o: 1 } }],
-    sheet: [{ at: 0.66, pose: { ...sheet, y: sheet.y + 48, o: 0, ci: [0, 0, lower, 0] } }, { at: 0.76, pose: { ...sheet, o: 1, ci: [0, 0, lower, 0] }, ease: damped }, { at: 0.83, pose: { ...sheet, o: 1, ci: [0, 0, lower, 0] } }, { at: 0.9, pose: { ...sheet, o: 1, ci: [0, 0, 0, 0] }, ease: damped }],
+    // the sheet opens from the selected zone's label datum and settles attached; its pre sized lower plane is uncovered at the end
+    // the sheet is full size opaque paper at its datum, revealed from its own left edge (the zone leader's side) with at most 48px of travel
+    sheet: [{ at: 0.65, pose: { ...sheet, x: sheet.x + 48, o: 0, ci: [0, 0, lower, 100] } }, { at: 0.66, pose: { ...sheet, x: sheet.x + 48, o: 1, ci: [0, 0, lower, 100] } }, { at: 0.76, pose: { ...sheet, o: 1, ci: [0, 0, lower, 0] }, ease: damped }, { at: 0.83, pose: { ...sheet, o: 1, ci: [0, 0, lower, 0] } }, { at: 0.9, pose: { ...sheet, o: 1, ci: [0, 0, 0, 0] }, ease: damped }],
+    occlusion: [{ at: 0.61, pose: { o: 0 } }, { at: 0.63, pose: { o: 1 } }],
+    preview: [{ at: 0.16, pose: { o: 0, y: 8 } }, { at: 0.2, pose: { o: 1, y: 0 } }],
     moneyValue: [{ at: 0.9, pose: { o: 0 } }, { at: 0.94, pose: { o: 1 } }],
     // phone: the whole 390x260 photograph first, then the fixed 330 inspection aperture opens around the closer crop
     aperture: vp.phone ? [{ at: 0, pose: { ...apPos, ci: [letter, 0, letter, 0] } }, { at: 0.16, pose: { ...apPos, ci: [letter, 0, letter, 0] } }, { at: 0.32, pose: { ...apPos, ci: [0, 0, 0, 0] }, ease: openEase }] : [{ at: 0, pose: { ...apPos } }],
@@ -96,7 +108,6 @@ function Stage({ staticAt }: { staticAt: number | null }) {
   const specimen = (planar: boolean) => (
     <span className={`x-dr-specimen${planar ? " is-planar" : ""}`} aria-hidden={planar ? undefined : true}>
       <span className="x-dr-specimen-name">{car.business.split(" ").map((w) => <span key={w}>{w}</span>)}</span>
-      <span className="x-dr-specimen-note">Placement preview</span>
     </span>
   );
   return (
@@ -116,11 +127,13 @@ function Stage({ staticAt }: { staticAt: number | null }) {
             <span className="x-dr-planar" data-film="planar" data-inplace style={{ clipPath: `polygon(${poly})` }}>
               <span className="x-dr-planar-place" style={{ left: pct(WAGON.specimen.x), top: pct(WAGON.specimen.y), width: pct(WAGON.specimen.w), height: pct(WAGON.specimen.h) }}>{specimen(true)}</span>
             </span>
-            <span className="x-dr-occlusion" aria-hidden style={{ clipPath: `inset(${pct(WAGON.handle.t)} ${pct(WAGON.handle.r)} ${pct(WAGON.handle.b)} ${pct(WAGON.handle.l)})` }}><img src={M.driveWagon(960)} srcSet={`${M.driveWagon(960)} 960w, ${M.driveWagon(1440)} 1440w`} sizes="(min-width: 1024px) 960px, 100vw" alt="" width={1440} height={960} decoding="async" loading="lazy" /></span>
+            <span className="x-dr-occlusion" data-film="occlusion" data-opacity-only aria-hidden style={{ clipPath: `inset(${pct(WAGON.handle.t)} ${pct(WAGON.handle.r)} ${pct(WAGON.handle.b)} ${pct(WAGON.handle.l)})` }}><img src={M.driveWagon(960)} srcSet={`${M.driveWagon(960)} 960w, ${M.driveWagon(1440)} 1440w`} sizes="(min-width: 1024px) 960px, 100vw" alt="" width={1440} height={960} decoding="async" loading="lazy" /></span>
             {/* the free specimen: beside the car, moving to the door; x and y poses are fractions of its travel */}
-            <span className="x-tag x-dr-example">Vehicle example</span>
             <span className="x-dr-free" data-film="free" data-travel style={{ ["--x0" as string]: pct(0.62), ["--y0" as string]: pct(0.5), ["--x1" as string]: pct(WAGON.specimen.x), ["--y1" as string]: pct(WAGON.specimen.y), width: pct(WAGON.specimen.w), height: pct(WAGON.specimen.h) }}>{specimen(false)}</span>
           </div>
+          <span className="x-tag x-dr-example">Vehicle example</span>
+          {/* the inspection lip: the one narrow lens on this stage; the photograph passes beneath it during the crop shift */}
+          <span className="x-inspect x-dr-preview" data-film="preview" data-inplace><span className="x-inspect-text">Placement preview</span></span>
         </div>
         <div className="x-obj x-paper x-dr-sheet" data-film="sheet">
           <span className="t-fact">Campaign</span>
@@ -144,5 +157,5 @@ function Stage({ staticAt }: { staticAt: number | null }) {
 }
 
 export function DriveFilm() {
-  return <Scene id="drive" label="Drive" beats={DRIVE_BEATS} track={2} phoneHeight={780} className="x-drive" render={(staticAt) => <Stage staticAt={staticAt} />} />;
+  return <Scene id="drive" label="Drive" beats={DRIVE_BEATS} track={2} phoneHeight={480} className="x-drive" render={(staticAt) => <Stage staticAt={staticAt} />} />;
 }

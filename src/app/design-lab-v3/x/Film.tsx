@@ -164,24 +164,25 @@ export function useFilm(beats: readonly Beat[], build: (vp: Viewport) => Tracks,
 
   // registered objects are collected on every rebuild and whenever the beat changes (an object can mount with a beat)
   const collect = useCallback(() => { const st = stageRef.current; if (!st) return; els.current = new Map(Array.from(st.querySelectorAll<HTMLElement | SVGElement>("[data-film]")).map((el) => [el.dataset.film as string, el])); }, [stageRef]);
-  useEffect(() => { collect(); paint(); }, [collect, paint, beat]);
+  useEffect(() => { collect(); const vp = viewport(); if (stageRef.current) vp.stageH = stageRef.current.offsetHeight; tracks.current = buildRef.current(vp); paint(); }, [collect, paint, beat, stageRef]);
 
   // tracks and mode for the viewport; rebuilt on resize, and with a settled blend when the caller's dependencies change
   useEffect(() => {
-    const rebuild = () => { collect(); const vp = viewport(); tracks.current = buildRef.current(vp); const m = staticAt !== null ? "static" : modeFor(vp, reduced); if (m !== modeRef.current) { modeRef.current = m; setMode(m); } measure(); };
+    const rebuild = () => { collect(); const vp = viewport(); if (stageRef.current) vp.stageH = stageRef.current.offsetHeight; tracks.current = buildRef.current(vp); const m = staticAt !== null ? "static" : modeFor(vp, reduced); if (m !== modeRef.current) { modeRef.current = m; setMode(m); } if (m === "steps" && !tween.current) prog.current = Math.max(prog.current, beatsRef.current[0].at); measure(); };
     rebuild();
     window.addEventListener("resize", rebuild);
     return () => window.removeEventListener("resize", rebuild);
-  }, [collect, measure, reduced, staticAt]);
+  }, [collect, measure, reduced, staticAt, stageRef]);
   const firstDeps = useRef(depsKey);
   useEffect(() => {
     if (firstDeps.current === depsKey) return;
     firstDeps.current = depsKey;
     const from: Record<string, Required<Pose>> = {};
     for (const [id] of els.current) { const tr = tracks.current[id]; if (tr) from[id] = poseAt(tr, prog.current); }
-    tracks.current = buildRef.current(viewport());
+    const vp = viewport(); if (stageRef.current) vp.stageH = stageRef.current.offsetHeight;
+    tracks.current = buildRef.current(vp);
     blend.current = { from, t0: performance.now() }; loop();
-  }, [depsKey, loop]);
+  }, [depsKey, loop, stageRef]);
 
   // scroll drives the film on desktop
   useEffect(() => {
@@ -249,7 +250,7 @@ export function useFilm(beats: readonly Beat[], build: (vp: Viewport) => Tracks,
     if (modeRef.current !== "scroll") { paint(); playFrom(i); }
   };
   const replay = () => { stop(); if (modeRef.current === "scroll") { const { top } = scrollable(); window.scrollTo({ top, behavior: "auto" }); } else prog.current = 0; setStarted(true); paint(); if (!reduced) { playingRef.current = true; setPlaying(true); if (modeRef.current !== "scroll") playFrom(0); } };
-  const retrack = () => { tracks.current = buildRef.current(viewport()); paint(); };
+  const retrack = () => { const vp = viewport(); if (stageRef.current) vp.stageH = stageRef.current.offsetHeight; tracks.current = buildRef.current(vp); paint(); };
   /** Direct manipulation (a comparison boundary): set the timeline position now, by scroll on desktop and directly on phone. */
   const scrub = (p: number) => {
     stop();

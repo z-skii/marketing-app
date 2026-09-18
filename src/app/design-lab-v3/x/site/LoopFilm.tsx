@@ -29,7 +29,7 @@ export const LOOP_BEATS: Beat[] = [
   { key: "sep13", label: "September 13", at: 0.54, dwell: 550 },
   { key: "sep16", label: "September 16", at: 0.62, dwell: 550 },
   { key: "sep17", label: "Reward", at: 0.7, dwell: 1100 },
-  { key: "attribution", label: "Attribution", at: 0.96, dwell: 2000 },
+  { key: "attribution", label: "Attribution", at: 0.985, dwell: 2000 },
 ];
 const ACT = (b: number) => (b === 0 ? "Attention" : b <= 2 ? "Customer" : b <= 7 ? "Return customer" : "Attribution");
 const EVENT: Record<number, { iso: string; label: string; visits: number; ready: boolean } | undefined> = {
@@ -45,29 +45,29 @@ function build(vp: Viewport): Tracks {
   const cardW = vp.desktop ? 375 : vp.tablet ? 360 : 334;
   const cardH = Math.round(cardW * 1.6);
   const P = vp.desktop
-    ? { source: tl(vp, 156, 220, 300, 72), sourceEnd: tl(vp, 352, 242, 300, 72), story: tl(vp, 580, 200, 214, 380), link: tl(vp, 600, 596, 176, 74), signup: tl(vp, 512, 184, 350, 380), card: tl(vp, 500, 200, cardW, cardH), member: tl(vp, 940, 220, 300, 24), date: tl(vp, 940, 250, 300, 28), ledges: tl(vp, 352, 392, 528, 220), cardEnd: { dx: 560, dy: 24 } }
+    ? { source: tl(vp, 156, 220, 300, 72), sourceEnd: tl(vp, 352, 242, 300, 72), story: tl(vp, 580, 200, 214, 380), link: tl(vp, 600, 596, 176, 74), signup: tl(vp, 512, 184, 350, 380), card: tl(vp, 500, 200, cardW, cardH), event: tl(vp, 940, 220, 300, 96), ledges: tl(vp, 352, 356, 760, 220), cover: tl(vp, 300, 190, 720, 540), cardEnd: { dx: 360, dy: 24 } }
     : vp.tablet
-      ? { source: tl(vp, 24, 140, 300, 72), sourceEnd: tl(vp, 24, 160, 300, 72), story: tl(vp, 277, 230, 214, 380), link: tl(vp, 296, 620, 176, 74), signup: tl(vp, 197, 220, 374, 380), card: tl(vp, 204, 230, cardW, cardH), member: tl(vp, 24, 224, 300, 24), date: tl(vp, 24, 252, 300, 28), ledges: tl(vp, 24, 300, 528, 220), cardEnd: { dx: 300, dy: 24 } }
-      : { source: tl(vp, 16, 132, 358, 52), sourceEnd: tl(vp, 16, 132, 358, 52), story: tl(vp, 88, 236, 214, 380), link: tl(vp, 107, 628, 176, 74), signup: tl(vp, 16, 236, 358, 380), card: tl(vp, 28, 260, cardW, cardH), member: tl(vp, 16, 196, 358, 24), date: tl(vp, 16, 222, 358, 28), ledges: tl(vp, 16, 262, 358, 220), cardEnd: { dx: 0, dy: 104 } };
+      ? { source: tl(vp, 24, 140, 300, 72), sourceEnd: tl(vp, 24, 160, 300, 72), story: tl(vp, 277, 230, 214, 380), link: tl(vp, 296, 620, 176, 74), signup: tl(vp, 197, 220, 374, 380), card: tl(vp, 204, 230, cardW, cardH), event: tl(vp, 24, 224, 300, 96), ledges: tl(vp, 24, 300, 760, 220), cover: tl(vp, 0, 200, 560, 520), cardEnd: { dx: 300, dy: 24 } }
+      : { source: tl(vp, 16, 184, 358, 52), sourceEnd: tl(vp, 16, 184, 358, 52), story: tl(vp, 88, 300, 214, 380), link: tl(vp, 107, 690, 176, 74), signup: tl(vp, 16, 290, 358, 380), card: tl(vp, 28, 356, cardW, cardH), event: tl(vp, 16, 246, 358, 96), ledges: tl(vp, 16, 296, 358, 220), cover: tl(vp, 0, 452, 390, 560), cardEnd: { dx: 0, dy: 104 } };
   // the name is set at its final size (40 phone, 48 desktop) and shown at 16px through a scale, so it stays crisp at the end
   const nameS = 16 / (vp.desktop ? 48 : 40);
-  const nameGrow = (vp.desktop ? 52 : 44) - 24;
+  const nameGrow = (vp.desktop ? 52 : 44) + 12 - 24;
   return {
-    source: [{ at: 0, pose: { ...P.source } }, { at: 0.86, pose: { ...P.source } }, { at: 0.92, pose: { ...P.sourceEnd }, ease: openEase }],
-    name: [{ at: 0, pose: { s: nameS } }, { at: 0.86, pose: { s: nameS } }, { at: 0.92, pose: { s: 1 }, ease: openEase }],
-    sub: [{ at: 0, pose: { y: 0 } }, { at: 0.86, pose: { y: 0 } }, { at: 0.92, pose: { y: nameGrow }, ease: openEase }],
+    // the source advances first while the reward ready card is still in place; the card then yields behind the opaque reading plane; the ledges open last
+    source: [{ at: 0, pose: { ...P.source } }, { at: 0.86, pose: { ...P.source } }, { at: 0.905, pose: { ...P.sourceEnd }, ease: openEase }],
+    name: [{ at: 0, pose: { s: nameS } }, { at: 0.86, pose: { s: nameS } }, { at: 0.905, pose: { s: 1 }, ease: openEase }],
+    sub: [{ at: 0, pose: { y: 0 } }, { at: 0.86, pose: { y: 0 } }, { at: 0.905, pose: { y: nameGrow }, ease: openEase }],
+    cover: [{ at: 0, pose: { ...P.cover, o: 0 } }, { at: 0.925, pose: { ...P.cover, o: 0 } }, { at: 0.94, pose: { ...P.cover, o: 1 } }],
     story: [{ at: 0, pose: { ...P.story, o: 1 } }, { at: 0.12, pose: { ...P.story, o: 1 } }, { at: 0.16, pose: { ...P.story, y: P.story.y - 24, s: 0.96, o: 0.6 }, ease: openEase }, { at: 0.24, pose: { ...P.story, y: P.story.y - 24, s: 0.96, o: 0.6 } }, { at: 0.28, pose: { ...P.story, y: P.story.y - 40, s: 0.92, o: 0 } }],
     link: [{ at: 0, pose: { ...P.link, o: 1 } }, { at: 0.12, pose: { ...P.link, o: 1 } }, { at: 0.15, pose: { ...P.link, y: P.link.y + 16, o: 0 } }],
     signup: [{ at: 0.12, pose: { ...P.signup, y: P.signup.y + 24, o: 0 } }, { at: 0.16, pose: { ...P.signup, o: 1 }, ease: openEase }, { at: 0.24, pose: { ...P.signup, o: 1 } }, { at: 0.27, pose: { ...P.signup, y: P.signup.y - 16, o: 0 } }],
-    card: [{ at: 0.24, pose: { ...P.card, y: P.card.y + 16, o: 0 } }, { at: 0.28, pose: { ...P.card, o: 1 }, ease: openEase }, { at: 0.86, pose: { ...P.card, o: 1 } }, { at: 0.92, pose: { x: P.card.x + P.cardEnd.dx, y: P.card.y + P.cardEnd.dy, o: vp.phone ? 0 : 0.4 }, ease: openEase }],
-    member: [{ at: 0.24, pose: { ...P.member, o: 0 } }, { at: 0.28, pose: { ...P.member, o: 1 } }, { at: 0.86, pose: { ...P.member, o: 1 } }, { at: 0.9, pose: { ...P.member, o: 0 } }],
-    date: [{ at: 0.24, pose: { ...P.date, o: 0 } }, { at: 0.28, pose: { ...P.date, o: 1 } }, { at: 0.86, pose: { ...P.date, o: 1 } }, { at: 0.9, pose: { ...P.date, o: 0 } }],
-    reg: [{ at: 0.46, pose: { o: 0 } }, { at: 0.5, pose: { o: 1 } }, { at: 0.86, pose: { o: 1 } }, { at: 0.9, pose: { o: 0 } }],
-    ledges: [{ at: 0.9, pose: { ...P.ledges, o: 0 } }, { at: 0.92, pose: { ...P.ledges, o: 1 } }],
-    ledgeA: [{ at: 0.92, pose: { ci: [0, 100, 0, 0] } }, { at: 0.95, pose: { ci: [0, 0, 0, 0] }, ease: openEase }],
-    ledgeB: [{ at: 0.925, pose: { ci: [0, 100, 0, 0] } }, { at: 0.955, pose: { ci: [0, 0, 0, 0] }, ease: openEase }],
-    ledgeC: [{ at: 0.93, pose: { ci: [0, 100, 0, 0] } }, { at: 0.96, pose: { ci: [0, 0, 0, 0] }, ease: openEase }],
-    values: [{ at: 0.94, pose: { o: 0 } }, { at: 0.96, pose: { o: 1 } }],
+    card: [{ at: 0.24, pose: { ...P.card, y: P.card.y + 16, o: 0 } }, { at: 0.28, pose: { ...P.card, o: 1 }, ease: openEase }, { at: 0.89, pose: { ...P.card, o: 1 } }, { at: 0.94, pose: { x: P.card.x + P.cardEnd.dx, y: P.card.y + P.cardEnd.dy, o: 1 }, ease: openEase }],
+    event: [{ at: 0.24, pose: { ...P.event, o: 0 } }, { at: 0.28, pose: { ...P.event, o: 1 } }, { at: 0.86, pose: { ...P.event, o: 1 } }, { at: 0.9, pose: { ...P.event, o: 0 } }],
+    ledges: [{ at: 0.93, pose: { ...P.ledges, o: 0 } }, { at: 0.94, pose: { ...P.ledges, o: 1 } }],
+    ledgeA: [{ at: 0.94, pose: { ci: [0, 100, 0, 0] } }, { at: 0.97, pose: { ci: [0, 0, 0, 0] }, ease: openEase }],
+    ledgeB: [{ at: 0.945, pose: { ci: [0, 100, 0, 0] } }, { at: 0.975, pose: { ci: [0, 0, 0, 0] }, ease: openEase }],
+    ledgeC: [{ at: 0.95, pose: { ci: [0, 100, 0, 0] } }, { at: 0.98, pose: { ci: [0, 0, 0, 0] }, ease: openEase }],
+    values: [{ at: 0.965, pose: { o: 0 } }, { at: 0.985, pose: { o: 1 } }],
   };
 }
 
@@ -122,14 +122,20 @@ function Stage({ staticAt, platform, setPlatform }: { staticAt: number | null; p
           <PlatformLabel platform={platform} />
           {platform === "apple" ? <AppleCard d={c} width={375} className="wc-fit" /> : <GoogleCard d={c} width={375} className="wc-fit" />}
         </div>
-        <span className="x-obj x-lp2-member t-fact-ink" data-film="member">Sara<span aria-hidden> · </span>member LD-001</span>
-        <span className="x-obj x-lp2-date" data-film="date"><time dateTime={ev.iso} className="t-object">{fmt(ev.iso)}</time><span className="t-fact-ink">{ev.label}</span>{ev.ready && <span className="x-tag x-tag-create">Reward ready</span>}<span className="x-lp2-reg" data-film="reg" data-opacity-only aria-hidden /></span>
+        {/* the event band: member identity, the dated event and the reward state on their own lines, natural height */}
+        <div className="x-obj x-lp2-event" data-film="event">
+          <span className="t-fact-ink">Sara<span aria-hidden> · </span>member LD-001</span>
+          <span className="x-lp2-date"><time dateTime={ev.iso} className="t-object">{fmt(ev.iso)}</time><span className="t-fact-ink">{ev.label}</span></span>
+          {ev.ready && <span className="x-tag x-tag-create">Reward ready</span>}
+        </div>
+        {/* the opaque reading plane the card yields behind at attribution */}
+        <span className="x-obj x-lp2-cover" data-film="cover" aria-hidden />
         {/* attribution: the three recorded aggregates as ledges from the source's underline */}
         <div className="x-obj x-lp2-ledges" data-film="ledges">
           {([["ledgeA", 4, "Joined", 1], ["ledgeB", 3, "Came back", 0.75], ["ledgeC", 1, "Redeemed", 0.25]] as const).map(([id, n, label, k]) => (
             <span key={id} className="x-lp2-ledge">
               <span className="x-lp2-ledge-bar" data-film={id} data-inplace style={{ ["--k" as string]: k }} />
-              <span className="x-lp2-ledge-value" data-film="values" data-opacity-only><span className="x-lp2-ledge-n">{n}</span><span className="t-fact-ink">{label}</span></span>
+              <span className="x-lp2-ledge-value" data-film="values" data-opacity-only><span className="x-lp2-ledge-n">{n}</span><span className="x-lp2-ledge-l">{label}</span></span>
             </span>
           ))}
           <span className="t-fact">Recorded aggregates<span aria-hidden> · </span>Unique members</span>
@@ -145,5 +151,5 @@ function Stage({ staticAt, platform, setPlatform }: { staticAt: number | null; p
 
 export function LoopFilm() {
   const [platform, setPlatform] = useState<"apple" | "google">("apple");
-  return <Scene id="loyalty" label="Loyalty" beats={LOOP_BEATS} track={2.4} phoneHeight={860} className="x-loop" render={(staticAt) => <Stage staticAt={staticAt} platform={platform} setPlatform={setPlatform} />} />;
+  return <Scene id="loyalty" label="Loyalty" beats={LOOP_BEATS} track={2.4} phoneHeight={990} className="x-loop" render={(staticAt) => <Stage staticAt={staticAt} platform={platform} setPlatform={setPlatform} />} />;
 }
