@@ -88,3 +88,37 @@ the fix all V3 owned accessibility audits pass.
 | `eslint src/app/design-lab-v3` | no errors. The remaining warnings are `@next/next/no-img-element` on fixture imagery, which the Lab renders as plain `img` on purpose, exactly as the V2 Lab does |
 | `vitest run` | 140 tests in 11 files, all passing |
 | `next build` with `DESIGN_LAB=1` | compiles; every `/design-lab-v3` route builds |
+
+## Addendum, 2026-09-18: the recomposed public homepage
+
+The same procedure (production build with `DESIGN_LAB=1`, `next start` on
+port 3200, Lighthouse mobile and desktop presets, HeadlessChrome 141) run
+twice against the public homepage after the visual recomposition of the
+hero, Recreate, Drive and Business to Loyalty. Only the public homepage
+changed; the other four surfaces are untouched by this build. Lighthouse
+benchmarkIndex was 2312 to 2536 on these runs against 1689 above, so this
+container measured slightly faster than the one the table above came from.
+
+| Run | Perf | A11y | LCP | FCP | Speed index | CLS | TBT | Long tasks | Images | Scripts | Total transfer |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Public homepage, desktop, run 1 | 99 | 98 | 0.9 s | 0.3 s | 0.5 s | 0 | 0 ms | 0 | 300KB / 6 | 207KB | 741KB |
+| Public homepage, desktop, run 2 | 99 | 98 | 0.8 s | 0.3 s | 0.5 s | 0 | 0 ms | 0 | 300KB / 6 | 207KB | 741KB |
+| Public homepage, mobile, run 1 | 83 | 98 | 4.6 s | 1.4 s | 1.7 s | 0 | 50 ms | 4 | 425KB / 7 | 207KB | 866KB |
+| Public homepage, mobile, run 2 | 85 | 98 | 4.3 s | 1.4 s | 1.7 s | 0 | 80 ms | 7 | 425KB / 7 | 207KB | 866KB |
+
+What moved and why:
+
+- LCP is the Loopday reference on both versions. The recomposition
+  preloads its 720px derivative with a high fetch priority, so mobile LCP
+  is 4.3 to 4.6 s against 4.7 s although the hero now paints seven objects.
+- Mobile first load media is 425KB over seven images against 237KB over
+  three. The hero composition is 300KB over six images; the seventh, 125KB,
+  is the 960px Drive vehicle, declared lazy but pulled in by the browser's
+  lazy loading distance on the short phone document. This is 75KB over the
+  350KB target and is reported as missed.
+- Total blocking time on the throttled preset rose from 40 ms to 50 to
+  80 ms with the film engine's hydration; desktop stays at 0 ms.
+- Frame timing during native desktop scroll (sampled in the browser while
+  the recorder scrolled each pinned scene): p50 16.7 ms on every take, p95
+  16.7 to 33.3 ms, no frame over 50 ms. The scenes animate transform,
+  opacity and clip-path only and nothing loops at rest.

@@ -39,9 +39,9 @@ export function Entry({ label, className = "btn btn-primary", business = false }
 function useStageTone(y: number): "dark" | "inspection" | null {
   const [tone, setTone] = useState<"dark" | "inspection" | null>(null);
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-stage-dark], [data-stage-tone]"));
-    if (!els.length) return;
+    // Stages are queried on every check, so a stage mounted after the navigation (a refresh, a late scene) is still followed.
     const check = () => {
+      const els = Array.from(document.querySelectorAll<HTMLElement>("[data-stage-dark], [data-stage-tone]"));
       const hit = els.find((el) => { const r = el.getBoundingClientRect(); return r.top <= y && r.bottom >= y; });
       setTone(!hit ? null : hit.dataset.stageDark === "true" || hit.dataset.stageTone === "dark" ? "dark" : "inspection");
     };

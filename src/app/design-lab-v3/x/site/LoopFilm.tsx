@@ -45,23 +45,22 @@ function build(vp: Viewport): Tracks {
   const cardW = vp.desktop ? 375 : vp.tablet ? 360 : 334;
   const cardH = Math.round(cardW * 1.6);
   const P = vp.desktop
-    ? { source: tl(vp, 156, 220, 300, 72), sourceEnd: tl(vp, 352, 242, 300, 72), story: tl(vp, 580, 200, 214, 380), link: tl(vp, 600, 596, 176, 74), signup: tl(vp, 512, 184, 350, 380), card: tl(vp, 500, 200, cardW, cardH), event: tl(vp, 940, 220, 300, 96), ledges: tl(vp, 352, 356, 760, 220), cover: tl(vp, 300, 190, 720, 540), cardEnd: { dx: 360, dy: 24 } }
+    ? { source: tl(vp, 156, 220, 300, 72), sourceEnd: tl(vp, 352, 242, 300, 72), story: tl(vp, 580, 200, 214, 380), link: tl(vp, 600, 596, 176, 74), signup: tl(vp, 512, 184, 350, 380), card: tl(vp, 500, 200, cardW, cardH), event: tl(vp, 940, 220, 300, 96), ledges: tl(vp, 352, 356, 760, 220), cardEnd: { dx: 480, dy: 24, s: 1 } }
     : vp.tablet
-      ? { source: tl(vp, 24, 140, 300, 72), sourceEnd: tl(vp, 24, 160, 300, 72), story: tl(vp, 277, 230, 214, 380), link: tl(vp, 296, 620, 176, 74), signup: tl(vp, 197, 220, 374, 380), card: tl(vp, 204, 230, cardW, cardH), event: tl(vp, 24, 224, 300, 96), ledges: tl(vp, 24, 300, 760, 220), cover: tl(vp, 0, 200, 560, 520), cardEnd: { dx: 300, dy: 24 } }
-      : { source: tl(vp, 16, 184, 358, 52), sourceEnd: tl(vp, 16, 184, 358, 52), story: tl(vp, 88, 300, 214, 380), link: tl(vp, 107, 690, 176, 74), signup: tl(vp, 16, 290, 358, 380), card: tl(vp, 28, 356, cardW, cardH), event: tl(vp, 16, 246, 358, 96), ledges: tl(vp, 16, 296, 358, 220), cover: tl(vp, 0, 452, 390, 560), cardEnd: { dx: 0, dy: 104 } };
+      ? { source: tl(vp, 24, 140, 300, 72), sourceEnd: tl(vp, 24, 160, 300, 72), story: tl(vp, 277, 230, 214, 380), link: tl(vp, 296, 620, 176, 74), signup: tl(vp, 197, 220, 374, 380), card: tl(vp, 204, 230, cardW, cardH), event: tl(vp, 24, 224, 300, 96), ledges: tl(vp, 24, 300, 760, 220), cardEnd: { dx: 250, dy: 40, s: 0.6 } }
+      : { source: tl(vp, 16, 184, 358, 52), sourceEnd: tl(vp, 16, 184, 358, 52), story: tl(vp, 88, 300, 214, 380), link: tl(vp, 107, 690, 176, 74), signup: tl(vp, 16, 290, 358, 380), card: tl(vp, 28, 356, cardW, cardH), event: tl(vp, 16, 246, 358, 96), ledges: tl(vp, 16, 296, 358, 220), cardEnd: { dx: 109, dy: 9, s: 0.42 } };
   // the name is set at its final size (40 phone, 48 desktop) and shown at 16px through a scale, so it stays crisp at the end
   const nameS = 16 / (vp.desktop ? 48 : 40);
   const nameGrow = (vp.desktop ? 52 : 44) + 12 - 24;
   return {
-    // the source advances first while the reward ready card is still in place; the card then yields behind the opaque reading plane; the ledges open last
+    // the source advances first while the reward ready card is still in place; the card then yields beside the ledges (whole on desktop, reduced on tablet and phone) so source and member stay visible together; the ledges open last
     source: [{ at: 0, pose: { ...P.source } }, { at: 0.86, pose: { ...P.source } }, { at: 0.905, pose: { ...P.sourceEnd }, ease: openEase }],
     name: [{ at: 0, pose: { s: nameS } }, { at: 0.86, pose: { s: nameS } }, { at: 0.905, pose: { s: 1 }, ease: openEase }],
     sub: [{ at: 0, pose: { y: 0 } }, { at: 0.86, pose: { y: 0 } }, { at: 0.905, pose: { y: nameGrow }, ease: openEase }],
-    cover: [{ at: 0, pose: { ...P.cover, o: 0 } }, { at: 0.925, pose: { ...P.cover, o: 0 } }, { at: 0.94, pose: { ...P.cover, o: 1 } }],
     story: [{ at: 0, pose: { ...P.story, o: 1 } }, { at: 0.12, pose: { ...P.story, o: 1 } }, { at: 0.16, pose: { ...P.story, y: P.story.y - 24, s: 0.96, o: 0.6 }, ease: openEase }, { at: 0.24, pose: { ...P.story, y: P.story.y - 24, s: 0.96, o: 0.6 } }, { at: 0.28, pose: { ...P.story, y: P.story.y - 40, s: 0.92, o: 0 } }],
     link: [{ at: 0, pose: { ...P.link, o: 1 } }, { at: 0.12, pose: { ...P.link, o: 1 } }, { at: 0.15, pose: { ...P.link, y: P.link.y + 16, o: 0 } }],
     signup: [{ at: 0.12, pose: { ...P.signup, y: P.signup.y + 24, o: 0 } }, { at: 0.16, pose: { ...P.signup, o: 1 }, ease: openEase }, { at: 0.24, pose: { ...P.signup, o: 1 } }, { at: 0.27, pose: { ...P.signup, y: P.signup.y - 16, o: 0 } }],
-    card: [{ at: 0.24, pose: { ...P.card, y: P.card.y + 16, o: 0 } }, { at: 0.28, pose: { ...P.card, o: 1 }, ease: openEase }, { at: 0.89, pose: { ...P.card, o: 1 } }, { at: 0.94, pose: { x: P.card.x + P.cardEnd.dx, y: P.card.y + P.cardEnd.dy, o: 1 }, ease: openEase }],
+    card: [{ at: 0.24, pose: { ...P.card, y: P.card.y + 16, o: 0 } }, { at: 0.28, pose: { ...P.card, o: 1 }, ease: openEase }, { at: 0.89, pose: { ...P.card, o: 1 } }, { at: 0.94, pose: { x: P.card.x + P.cardEnd.dx, y: P.card.y + P.cardEnd.dy, s: P.cardEnd.s, o: 1 }, ease: openEase }],
     event: [{ at: 0.24, pose: { ...P.event, o: 0 } }, { at: 0.28, pose: { ...P.event, o: 1 } }, { at: 0.86, pose: { ...P.event, o: 1 } }, { at: 0.9, pose: { ...P.event, o: 0 } }],
     ledges: [{ at: 0.93, pose: { ...P.ledges, o: 0 } }, { at: 0.94, pose: { ...P.ledges, o: 1 } }],
     ledgeA: [{ at: 0.94, pose: { ci: [0, 100, 0, 0] } }, { at: 0.97, pose: { ci: [0, 0, 0, 0] }, ease: openEase }],
@@ -129,7 +128,6 @@ function Stage({ staticAt, platform, setPlatform }: { staticAt: number | null; p
           {ev.ready && <span className="x-tag x-tag-create">Reward ready</span>}
         </div>
         {/* the opaque reading plane the card yields behind at attribution */}
-        <span className="x-obj x-lp2-cover" data-film="cover" aria-hidden />
         {/* attribution: the three recorded aggregates as ledges from the source's underline */}
         <div className="x-obj x-lp2-ledges" data-film="ledges">
           {([["ledgeA", 4, "Joined", 1], ["ledgeB", 3, "Came back", 0.75], ["ledgeC", 1, "Redeemed", 0.25]] as const).map(([id, n, label, k]) => (

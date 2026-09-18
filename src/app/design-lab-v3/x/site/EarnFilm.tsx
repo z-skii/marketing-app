@@ -53,7 +53,7 @@ export const EARN_BEATS: Beat[] = [
 function build(vp: Viewport, aud: Audience): Tracks {
   const biz = aud === "business";
   const P = vp.desktop
-    ? { ref: tl(vp, 648, 174, 360, 450), portrait: tl(vp, biz ? 452 : 492, biz ? 330 : 320, 168, 210), work: tl(vp, 452, 556, 168, 210), story: tl(vp, 1000, 246, 190, 338), car: tl(vp, 420, 560, 440, 293), cartag: tl(vp, 432, 818, 108, 22), terms: biz ? tl(vp, 620, 588, 304, 96) : tl(vp, 760, 622, 304, 110), business: tl(vp, 80, 430, 390, 260), loyalty: tl(vp, 1084, 574, 324, 184), refW: 360, refH: 450 }
+    ? { ref: tl(vp, 648, 174, 360, 450), portrait: tl(vp, biz ? 452 : 492, biz ? 330 : 320, 168, 210), work: tl(vp, 452, 556, 168, 210), story: tl(vp, 1000, 246, 190, 338), car: tl(vp, 420, 560, 440, 293), cartag: tl(vp, 432, 818, 108, 22), terms: biz ? tl(vp, 620, 612, 304, 96) : tl(vp, 760, 622, 304, 110), business: tl(vp, 80, 430, 390, 260), loyalty: tl(vp, 1084, 574, 324, 184), refW: 360, refH: 450 }
     : vp.tablet
       ? { ref: tl(vp, 262, 250, 300, 375), portrait: tl(vp, biz ? 100 : 150, biz ? 280 : 300, 140, 175), work: tl(vp, 100, 470, 140, 175), story: tl(vp, 560, 236, 150, 267), car: tl(vp, 300, 640, 380, 253), cartag: tl(vp, 312, 860, 108, 22), terms: tl(vp, 350, 623, 290, 96), business: tl(vp, -20, 470, 330, 220), loyalty: tl(vp, 530, 560, 220, 125), refW: 300, refH: 375 }
       : { ref: tl(vp, 104, 262, 244, 305), portrait: tl(vp, 8, biz ? 262 : 290, 92, 115), work: tl(vp, 8, 386, 92, 115), story: tl(vp, 296, 262, 94, 167), car: tl(vp, 140, 630, 240, 160), cartag: tl(vp, 16, 708, 108, 22), terms: biz ? tl(vp, 16, 568, 274, 84) : tl(vp, 100, 556, 274, 100), business: tl(vp, -32, 420, 216, 144), loyalty: tl(vp, 8, biz ? 664 : 590, 124, 96), refW: 244, refH: 305 };

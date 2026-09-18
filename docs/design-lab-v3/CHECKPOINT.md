@@ -54,3 +54,47 @@ node scripts/v3x-report.mjs                                       # rebuild the 
 The capture tools (`shots.mjs`, `states.mjs`, `motion.mjs`, `words.mjs`,
 `chapters.mjs`, `lh.sh`, `verify-media.mjs`) live in the session
 scratchpad; every artefact they produced is in the repository.
+
+## Addendum, 2026-09-18: the visual recomposition, first build, waiting for the founder
+
+After the V3 package the founder approved the product architecture and the
+UX simplification and did not approve the visual experience
+(`RECOMPOSE_BRIEF.md`). The first build of the recomposition is done for
+the four experiences the brief allows, and it stops there.
+
+- **Built.** The public hero, Recreate, Drive and Business to Loyalty are
+  rebuilt on the same page as scroll linked film scenes with one shared
+  engine (`src/app/design-lab-v3/x/Film.tsx`, `film.css`) and one scene
+  each (`x/site/EarnFilm.tsx`, `DriveFilm.tsx`, `LoopFilm.tsx`). Desktop
+  pins the stage and scrolls the film; phone steps through the same beats
+  with Next, Previous and Play; reduced motion renders the beats as
+  stationary blocks. Flows, copy rules, amounts, states and media bindings
+  are unchanged.
+- **Not built.** User Home, User Profile, Business Home, Business Loyalty
+  and everything else. Nothing migrates; `/design-lab` and
+  `/design-lab-v2` are untouched.
+- **Director loop.** Astra wrote the direction from the founder's brief
+  (`recompose/RECOMPOSE_DIRECTION.md`), reviewed each experience twice
+  (`recompose/reviews/`), and the fixes from both passes are applied. The
+  closing judgement is the comparison against the current V3
+  (`recompose/reviews/compare.md`), per the brief's stop point, not a
+  third pass.
+- **Media.** One generated photograph, the Drive vehicle
+  (`public/design-lab/drive-oxblood-wagon-placement.jpg`), approved by the
+  director; every round and verdict is in `recompose/assets/`.
+- **Evidence.** `recompose/captures/` (desktop beat stills, phone step
+  stills, reduced motion), `recompose/recordings/` (eight WebM takes with
+  strips and desktop frame timing), `recompose/report.json` and the
+  package `recompose/RECOMPOSE_PACKAGE.html` from
+  `scripts/v3x-recompose-report.mjs`.
+- **Performance.** Production build, Lighthouse twice: desktop 99, LCP 0.8
+  to 0.9 s, CLS 0; mobile preset 83 to 85, LCP 4.3 to 4.6 s, CLS 0.
+  Mobile first load media is 425KB over seven images, above the 350KB
+  target; the addendum in `PERFORMANCE.md` has the table.
+- **Gates.** `tsc --noEmit` clean; `eslint src/app/design-lab-v3` no
+  errors; `vitest` passing; `next build` with `DESIGN_LAB=1` compiles.
+
+The founder decides whether this is the visual direction. The director's
+commands for this stage: `npm run creative -- v3x-recompose`,
+`recompose-assets`, `v3x-recompose-review <key> --shot ...` and
+`v3x-compare --before ... --after ...`.

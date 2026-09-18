@@ -12,96 +12,436 @@
   ],
   "experiences": [
     {
-      "n": 1, "id": "hero", "title": "Public hero",
+      "n": 1,
+      "id": "hero",
+      "title": "Public hero",
       "body": "Two audience lines are the controls. The Loopday reference is the foreground anchor of a composition of real, unequal product objects on the dark substrate: Maya's portrait, the Story creative, the vehicle example, Loopday's own business photograph, the coded program object and the opportunity terms attached to the reference's lower edge. In the business lens Maya's own Counter pour joins her portrait, the reference is labelled Campaign reference and the attached sheet carries her name with View person and Request. Over the first 240px of desktop scroll the supporting planes converge behind the advancing reference and are occluded before they leave, the terms retract beneath its edge, and the same reference arrives on the inspection stage as the Recreate reference. On phone the handoff runs in the flow slot through Explore earning and the sequence controls.",
       "stills": [
-        { "file": "captures/hero-d-0.png", "caption": "Desktop, earning lens at rest" },
-        { "file": "captures/hero-business-d-0.png", "caption": "Desktop, business lens at rest" },
-        { "file": "captures/hero-d-0.07.png", "caption": "Desktop, mid handoff into Recreate" },
-        { "file": "captures/hero-recreate-m-0.png", "caption": "Phone, earning lens at rest" },
-        { "file": "captures/hero-business-m-0.png", "caption": "Phone, business lens at rest" }
+        {
+          "file": "captures/hero-d-0.png",
+          "caption": "Desktop, earning lens at rest"
+        },
+        {
+          "file": "captures/hero-business-d-0.png",
+          "caption": "Desktop, business lens at rest"
+        },
+        {
+          "file": "captures/hero-d-0.07.png",
+          "caption": "Desktop, mid handoff into Recreate"
+        },
+        {
+          "file": "captures/hero-recreate-m-0.png",
+          "caption": "Phone, earning lens at rest"
+        },
+        {
+          "file": "captures/hero-business-m-0.png",
+          "caption": "Phone, business lens at rest"
+        }
       ],
       "recordings": [
-        { "file": "recordings/hero-d.webm", "caption": "Desktop: rest, audience switch both ways, forward and reverse handoff" },
-        { "file": "recordings/hero-m.webm", "caption": "Phone: audience switch, Explore earning, Previous" }
+        {
+          "file": "recordings/hero-d.webm",
+          "caption": "Desktop: rest, audience switch both ways, forward and reverse handoff"
+        },
+        {
+          "file": "recordings/hero-m.webm",
+          "caption": "Phone: audience switch, Explore earning, Previous"
+        }
       ],
-      "reviews": ["hero-pass1", "hero-pass2"],
+      "reviews": [
+        "hero-pass1",
+        "hero-pass2"
+      ],
       "after_pass_2": "Terms text area kept clear of the reference (Loopday Coffee above US$75, Maya Chen fully exposed in the business lens); the navigation sits dark over the hero substrate and exchanges its backing only when the inspection substrate reaches it; the audience lines leave with the substrate so no white type sits on the light stage in reverse; the business sheet sits in contact with Maya's portrait and work on desktop.",
       "truth": "Words in the hero besides navigation, actions and lab controls: Make money, Grow your business, Recreate (Campaign reference in the business lens), Loopday Coffee, US$75, On approval, Vehicle example, Loyalty, Take a coffee break. (the Story's own lettering), Maya Chen (business lens). The amount is the reference opportunity's conditional term. Nothing implies Maya made the reference or accepted the opportunity."
     },
     {
-      "n": 2, "id": "recreate", "title": "Recreate sequence",
+      "n": 2,
+      "id": "recreate",
+      "title": "Recreate sequence",
       "body": "One carrier changes custody and state four times. Reference: the hero's reference in inspection position with its terms. Creator version: a hard vertical boundary (draggable, keyboard operable) wipes Loopday's reference away over Maya's registered version; the reference contracts into a labelled source thumbnail and the opaque submission preview opens in contact with the work. Approved: the work moves 24px beneath the one lens on the stage, the approval rail, whose opaque backing reads Approved, Sep 10, 2026, Counter pour, Maya Chen, Loopday Coffee, Recorded example. Terms: the opaque terms open from the work's lower edge and US$75 with On approval arrives whole, with Approval earns, Ledger example unavailable and Payout is separate on the same plane. The work stays visible above the amount; the amount is never credited to Maya.",
       "stills": [
-        { "file": "captures/recreate-d-0.3.png", "caption": "Desktop, reference" },
-        { "file": "captures/recreate-d-0.4.png", "caption": "Desktop, mid reveal with the boundary on the actual edge" },
-        { "file": "captures/recreate-d-0.53.png", "caption": "Desktop, creator version with the source thumbnail and the submission preview" },
-        { "file": "captures/recreate-d-0.7.png", "caption": "Desktop, approved" },
-        { "file": "captures/recreate-d-1.png", "caption": "Desktop, terms" },
-        { "file": "captures/hero-recreate-m-1.png", "caption": "Phone, reference" },
-        { "file": "captures/hero-recreate-m-2.png", "caption": "Phone, creator version" },
-        { "file": "captures/hero-recreate-m-3.png", "caption": "Phone, approved" },
-        { "file": "captures/hero-recreate-m-4.png", "caption": "Phone, terms" }
+        {
+          "file": "captures/recreate-d-0.3.png",
+          "caption": "Desktop, reference"
+        },
+        {
+          "file": "captures/recreate-d-0.4.png",
+          "caption": "Desktop, mid reveal with the boundary on the actual edge"
+        },
+        {
+          "file": "captures/recreate-d-0.53.png",
+          "caption": "Desktop, creator version with the source thumbnail and the submission preview"
+        },
+        {
+          "file": "captures/recreate-d-0.7.png",
+          "caption": "Desktop, approved"
+        },
+        {
+          "file": "captures/recreate-d-1.png",
+          "caption": "Desktop, terms"
+        },
+        {
+          "file": "captures/hero-recreate-m-1.png",
+          "caption": "Phone, reference"
+        },
+        {
+          "file": "captures/hero-recreate-m-2.png",
+          "caption": "Phone, creator version"
+        },
+        {
+          "file": "captures/hero-recreate-m-3.png",
+          "caption": "Phone, approved"
+        },
+        {
+          "file": "captures/hero-recreate-m-4.png",
+          "caption": "Phone, terms"
+        }
       ],
       "recordings": [
-        { "file": "recordings/recreate-d.webm", "caption": "Desktop: forward through the four movements, reverse, direct steps, Pause motion" },
-        { "file": "recordings/recreate-m.webm", "caption": "Phone: Explore earning, Play through the movements, Previous, Pause motion and Next" }
+        {
+          "file": "recordings/recreate-d.webm",
+          "caption": "Desktop: forward through the four movements, reverse, direct steps, Pause motion"
+        },
+        {
+          "file": "recordings/recreate-m.webm",
+          "caption": "Phone: Explore earning, Play through the movements, Previous, Pause motion and Next"
+        }
       ],
-      "reviews": ["recreate-pass1", "recreate-pass2"],
+      "reviews": [
+        "recreate-pass1",
+        "recreate-pass2"
+      ],
       "after_pass_2": "The approval provenance wraps inside its opaque backing at phone width and carries Maya's name; the money block no longer repeats her approval; the source thumbnail sits 14px from the work and the submission preview is in edge contact with the carrier; the lime creator label is a neutral opaque strip; the navigation stays light through the whole inspection stage.",
       "truth": "US$75 is the reference opportunity's term, On approval. Counter pour is Maya Chen's own photograph, approved Sep 10, 2026, with no ledger record; the endpoint says Ledger example unavailable. Nothing is submitted, approved or credited by playback."
     },
     {
-      "n": 3, "id": "drive", "title": "Drive sequence",
+      "n": 3,
+      "id": "drive",
+      "title": "Drive sequence",
       "body": "The director's approved vehicle example, an oxblood estate wagon in a limestone courtyard, inside a fixed aperture. The photograph enters, the crop shifts closer without changing perspective (a scale of the whole plane: 1.22 on phone, 1.08 on desktop), the registered rear door zone reveals through a shutter with one leader to Rear doors, a coded Spurroom Bikes placement specimen travels from beside the car and is occluded by its registered on door counterpart beneath the photographed handle, the opaque campaign sheet opens attached to the photograph's right margin (below the aperture on phone), and its pre sized lower plane uncovers US$300 /month with Monthly approval. Placement preview lives on the one inspection lens at the aperture's corner; Vehicle example stays on its opaque tag throughout. The zone polygon, the specimen plane and the handle sample are stored in normalized coordinates against this exact asset and share the photograph's transform.",
       "stills": [
-        { "file": "captures/drive-d-0.08.png", "caption": "Desktop, vehicle example" },
-        { "file": "captures/drive-d-0.32.png", "caption": "Desktop, placement preview (crop shift)" },
-        { "file": "captures/drive-d-0.45.png", "caption": "Desktop, rear doors" },
-        { "file": "captures/drive-d-0.66.png", "caption": "Desktop, the specimen on the door" },
-        { "file": "captures/drive-d-0.76.png", "caption": "Desktop, campaign" },
-        { "file": "captures/drive-d-0.94.png", "caption": "Desktop, monthly opportunity" },
-        { "file": "captures/drive-m-0.png", "caption": "Phone, vehicle example" },
-        { "file": "captures/drive-m-3.png", "caption": "Phone, Spurroom Bikes on the door" },
-        { "file": "captures/drive-m-5.png", "caption": "Phone, monthly opportunity" }
+        {
+          "file": "captures/drive-d-0.08.png",
+          "caption": "Desktop, vehicle example"
+        },
+        {
+          "file": "captures/drive-d-0.32.png",
+          "caption": "Desktop, placement preview (crop shift)"
+        },
+        {
+          "file": "captures/drive-d-0.45.png",
+          "caption": "Desktop, rear doors"
+        },
+        {
+          "file": "captures/drive-d-0.66.png",
+          "caption": "Desktop, the specimen on the door"
+        },
+        {
+          "file": "captures/drive-d-0.76.png",
+          "caption": "Desktop, campaign"
+        },
+        {
+          "file": "captures/drive-d-0.94.png",
+          "caption": "Desktop, monthly opportunity"
+        },
+        {
+          "file": "captures/drive-m-0.png",
+          "caption": "Phone, vehicle example"
+        },
+        {
+          "file": "captures/drive-m-3.png",
+          "caption": "Phone, Spurroom Bikes on the door"
+        },
+        {
+          "file": "captures/drive-m-5.png",
+          "caption": "Phone, monthly opportunity"
+        }
       ],
       "recordings": [
-        { "file": "recordings/drive-d.webm", "caption": "Desktop: forward through the six beats, reverse, direct steps, Pause motion" },
-        { "file": "recordings/drive-m.webm", "caption": "Phone: Play through the six beats, Previous, Pause motion and Next" }
+        {
+          "file": "recordings/drive-d.webm",
+          "caption": "Desktop: forward through the six beats, reverse, direct steps, Pause motion"
+        },
+        {
+          "file": "recordings/drive-m.webm",
+          "caption": "Phone: Play through the six beats, Previous, Pause motion and Next"
+        }
       ],
-      "reviews": ["drive-pass1", "drive-pass2"],
+      "reviews": [
+        "drive-pass1",
+        "drive-pass2"
+      ],
       "after_pass_2": "Phone controls follow the active object (after the aperture in the first four beats, after the sheet in the last two) with no reserved gap; the phone rest state is the whole photograph, unshifted, with Vehicle example visible; the desktop campaign sheet is full size opaque paper revealed from its own edge with at most 48px of travel; the handle occlusion is confined to the handle and only present when the specimen is on the door; the phone sheet settles inline against the aperture without a floating shadow.",
       "truth": "The photograph is an illustrative vehicle example, not Eli's listing, an accepted vehicle or installed proof. Rear doors is the only supported placement group. The specimen is a Placement preview, never an installation. US$300 /month is the Spurroom Bikes campaign opportunity in Austin, Oct 1 to Dec 31, 2026, paid on monthly approved proof; Eli's US$240 asking rate is not shown here."
     },
     {
-      "n": 4, "id": "loyalty", "title": "Business to Loyalty sequence",
+      "n": 4,
+      "id": "loyalty",
+      "title": "Business to Loyalty sequence",
       "body": "One relationship across three depths. Jasmine's typographic source marker (Joined from, Jasmine, Morning loop · Story campaign) is on the stage from the first frame and never enters a customer or Wallet object. The Loopday Story and its trusted campaign link are the campaign; Sara's recorded September 8 signup replay is the customer; the opaque member card concept (Apple, or Google through Wallet options) carries the dated returns September 8, 10, 13 and 16 and the labelled September 17 example continuation to Reward ready. Then the same marker advances onto the attribution datum and grows to 40 or 48px while the reward ready card is still in place; the card yields behind an opaque reading plane; and the three recorded aggregates open as ledges from the marker's underline: 4 Joined, 3 Came back, 1 Redeemed, whole values, no counter.",
       "stills": [
-        { "file": "captures/loop-d-0.png", "caption": "Desktop, the campaign and its source" },
-        { "file": "captures/loop-d-0.3.png", "caption": "Desktop, member card" },
-        { "file": "captures/loop-d-0.7.png", "caption": "Desktop, reward ready" },
-        { "file": "captures/loop-d-0.91.png", "caption": "Desktop, the source advancing while the card is still in place" },
-        { "file": "captures/loop-d-1.png", "caption": "Desktop, attribution" },
-        { "file": "captures/loop-m-0.png", "caption": "Phone, the campaign" },
-        { "file": "captures/loop-m-1.png", "caption": "Phone, signup replay" },
-        { "file": "captures/loop-m-4.png", "caption": "Phone, September 10" },
-        { "file": "captures/loop-m-7.png", "caption": "Phone, reward ready" },
-        { "file": "captures/loop-m-8.png", "caption": "Phone, attribution" }
+        {
+          "file": "captures/loop-d-0.png",
+          "caption": "Desktop, the campaign and its source"
+        },
+        {
+          "file": "captures/loop-d-0.3.png",
+          "caption": "Desktop, member card"
+        },
+        {
+          "file": "captures/loop-d-0.7.png",
+          "caption": "Desktop, reward ready"
+        },
+        {
+          "file": "captures/loop-d-0.91.png",
+          "caption": "Desktop, the source advancing while the card is still in place"
+        },
+        {
+          "file": "captures/loop-d-1.png",
+          "caption": "Desktop, attribution"
+        },
+        {
+          "file": "captures/loop-m-0.png",
+          "caption": "Phone, the campaign"
+        },
+        {
+          "file": "captures/loop-m-1.png",
+          "caption": "Phone, signup replay"
+        },
+        {
+          "file": "captures/loop-m-4.png",
+          "caption": "Phone, September 10"
+        },
+        {
+          "file": "captures/loop-m-7.png",
+          "caption": "Phone, reward ready"
+        },
+        {
+          "file": "captures/loop-m-8.png",
+          "caption": "Phone, attribution"
+        }
       ],
       "recordings": [
-        { "file": "recordings/loop-d.webm", "caption": "Desktop: forward through the nine beats, reverse, direct steps, Pause motion" },
-        { "file": "recordings/loop-m.webm", "caption": "Phone: Play sequence through the nine beats, Previous, Pause motion and Next" }
+        {
+          "file": "recordings/loop-d.webm",
+          "caption": "Desktop: forward through the nine beats, reverse, direct steps, Pause motion"
+        },
+        {
+          "file": "recordings/loop-m.webm",
+          "caption": "Phone: Play sequence through the nine beats, Previous, Pause motion and Next"
+        }
       ],
-      "reviews": ["loyalty-pass1"],
+      "reviews": [
+        "loyalty-pass1"
+      ],
       "after_pass_2": "The member identity, the dated event and the reward state are separate lines in a natural height band; the phone pass is 334px wide with Loopday Coffee readable; the desktop pass stays opaque and moves 360px right and 24px down behind the reading plane; the ledges sit on a 78px rhythm from the source datum; the source advances before the card yields.",
       "truth": "Public replay only: nothing joins, adds a visit, redeems or issues a pass. Sara's fifth visit is a labelled example continuation and no redemption is shown. The aggregates are the recorded fixture values; opening the loyalty preview shows its untouched 10, 6, 1, 2 baseline."
     }
   ],
   "performance": {
-    "paragraphs": [],
-    "columns": ["Run", "Perf", "LCP", "FCP", "CLS", "TBT", "Images (first load)"],
-    "rows": [],
-    "setup": ""
+    "paragraphs": [
+      "Same production build procedure as the V3 package (next build with DESIGN_LAB=1, served by next start on port 3200), Lighthouse run twice against the public homepage. The two runs are both shown; the current V3 rows are the ones recorded in docs/design-lab-v3/PERFORMANCE.md on the same machine class.",
+      "Desktop stays at 99 with LCP under one second and zero layout shift. The mobile preset is 83 to 85 against 83 before, with LCP 4.3 to 4.6 s against 4.7 s. The largest contentful paint is the Loopday reference in both versions; the recomposition preloads its 720px derivative with a high fetch priority, which is why LCP did not move up even though the hero now paints seven objects instead of one.",
+      "First load media on the mobile preset is 425KB over seven images against 237KB over three before. The hero composition itself is 300KB over six images (the reference, Maya's portrait, the Story creative, the 480px vehicle, Loopday's counter photograph and Maya's Counter pour at 800px for the Recreate handoff). The seventh image, 125KB, is the 960px Drive vehicle: it is declared lazy on the page, but on the short phone document the browser's lazy loading distance pulls it in before first paint. That puts the mobile first load 75KB over the 350KB media target the V3 package set; the desktop first load is 300KB. Total blocking time rose from 40 ms to 50 to 80 ms on the throttled preset, from the film engine's hydration; it is 0 ms on desktop.",
+      "Frame timing during native scroll is in each experience's recording section above: p50 16.7 ms on every desktop take, p95 16.7 to 33.3 ms, no frame over 50 ms. The pinned scenes animate transform, opacity and clip-path only; nothing loops at rest."
+    ],
+    "columns": [
+      "Run",
+      "Perf",
+      "A11y",
+      "LCP",
+      "FCP",
+      "Speed index",
+      "CLS",
+      "TBT",
+      "Long tasks",
+      "Images (first load)",
+      "Scripts",
+      "Total transfer"
+    ],
+    "rows": [
+      [
+        "Current V3, desktop (PERFORMANCE.md)",
+        "100",
+        "98",
+        "0.7 s",
+        "0.3 s",
+        "0.3 s",
+        "0",
+        "0 ms",
+        "0",
+        "176KB / 3",
+        "200KB",
+        "603KB"
+      ],
+      [
+        "Current V3, mobile (PERFORMANCE.md)",
+        "83",
+        "98",
+        "4.7 s",
+        "1.4 s",
+        "1.4 s",
+        "0",
+        "40 ms",
+        "2",
+        "237KB / 3",
+        "200KB",
+        "663KB"
+      ],
+      [
+        "Recomposition, desktop, run 1",
+        "99",
+        "98",
+        "0.9 s",
+        "0.3 s",
+        "0.5 s",
+        "0",
+        "0 ms",
+        "0",
+        "300KB / 6",
+        "207KB",
+        "741KB"
+      ],
+      [
+        "Recomposition, desktop, run 2",
+        "99",
+        "98",
+        "0.8 s",
+        "0.3 s",
+        "0.5 s",
+        "0",
+        "0 ms",
+        "0",
+        "300KB / 6",
+        "207KB",
+        "741KB"
+      ],
+      [
+        "Recomposition, mobile, run 1",
+        "83",
+        "98",
+        "4.6 s",
+        "1.4 s",
+        "1.7 s",
+        "0",
+        "50 ms",
+        "4",
+        "425KB / 7",
+        "207KB",
+        "866KB"
+      ],
+      [
+        "Recomposition, mobile, run 2",
+        "85",
+        "98",
+        "4.3 s",
+        "1.4 s",
+        "1.7 s",
+        "0",
+        "80 ms",
+        "7",
+        "425KB / 7",
+        "207KB",
+        "866KB"
+      ]
+    ],
+    "setup": "Setup: next build with DESIGN_LAB=1 served by next start on port 3200; Lighthouse against HeadlessChrome 141 on the session's Linux container (benchmarkIndex 2312 to 2536 on these runs, 1689 on the V3 package runs, so this machine measured slightly faster); mobile preset is simulated slow 4G with 4x CPU throttling, desktop preset has no throttle. Accessibility stays at 98 for the same reason as before: the production root layout's skip link, outside this lab. Measured 2026-09-18."
   },
-  "sections": []
+  "sections": [
+    {
+      "n": 7,
+      "id": "after-compare",
+      "title": "Fixed after the comparison",
+      "paragraphs": [
+        "The director's comparison names four things it could see in the stills. Three were layering defects, not design questions, and were fixed after the comparison ran; the stills and recordings in this package are the recaptured ones, and the comparison text above describes the state before these fixes. No third director pass was run, per the brief's stop point.",
+        "Loyalty finale: the opaque plane that hid the ledges' overlap also cut through the card's label, brand and QR. The plane is gone. On desktop the whole card now yields to the right of the ledges; on tablet and phone it yields as a reduced card beside or beneath them, so Sara's card and Jasmine's advanced source stay visible together with a clean edge. The tablet source name, which the same check showed clipped at the left edge, is corrected with the same width as desktop.",
+        "Business hero: the campaign reference covered the heading of Maya's sheet, leaving only View person and Request. The sheet now sits in contact with the reference's lower edge with her name unobstructed.",
+        "Drive on phone: Steps and View campaign wrapped to a second row that the stage's fixed height clipped, so the phone showed the transport row only. The stage heights carry the second row on every beat.",
+        "Not changed: the Drive desktop still at the Monthly opportunity beat shows US$300 /month with Monthly approval and its qualification together (drive-d-0.94.png); the comparison judged this from a sampled strip frame between beats. The Drive specimen registration and the hero's supporting hierarchy are the director's remaining design notes and are left for the founder's decision."
+      ],
+      "files": [
+        {
+          "file": "captures/loop-d-1.png",
+          "caption": "Loyalty attribution, desktop, after the fix"
+        },
+        {
+          "file": "captures/loop-m-8.png",
+          "caption": "Loyalty attribution, phone, after the fix"
+        },
+        {
+          "file": "captures/hero-business-d-0.png",
+          "caption": "Business hero, desktop, after the fix"
+        },
+        {
+          "file": "captures/drive-m-3.png",
+          "caption": "Drive on phone with Steps and View campaign, after the fix"
+        },
+        {
+          "file": "captures/drive-d-0.94.png",
+          "caption": "Drive, Monthly opportunity beat, desktop"
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "id": "reduced-motion",
+      "title": "Reduced motion and static states",
+      "paragraphs": [
+        "With the system reduced motion preference on, every film renders its beats as stationary blocks in document flow, in order, with the same objects and the same truthful captions; nothing tweens and nothing is pinned. Captured on the same build at 390 and 1440."
+      ],
+      "files": [
+        {
+          "file": "captures/reduced-hero-recreate-d.png",
+          "caption": "Hero and Recreate, reduced motion, desktop"
+        },
+        {
+          "file": "captures/reduced-drive-d.png",
+          "caption": "Drive, reduced motion, desktop"
+        },
+        {
+          "file": "captures/reduced-loop-d.png",
+          "caption": "Business to Loyalty, reduced motion, desktop"
+        },
+        {
+          "file": "captures/reduced-hero-recreate-m.png",
+          "caption": "Hero and Recreate, reduced motion, phone"
+        },
+        {
+          "file": "captures/reduced-drive-m.png",
+          "caption": "Drive, reduced motion, phone"
+        },
+        {
+          "file": "captures/reduced-loop-m.png",
+          "caption": "Business to Loyalty, reduced motion, phone"
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "id": "media",
+      "title": "Generated supporting photography",
+      "paragraphs": [
+        "The director wrote one media brief for this build, the vehicle placement photograph for Drive: an oxblood estate wagon at rest in a limestone courtyard, rear door and quarter panel clean for the placement zones, no lettering, no people. The image model rendered it and the director reviewed every round against its own brief. Three earlier runs were rejected, mostly for pixel count (the image API renders 3:2 at 1536x1024) and for edit artifacts; the pipeline now keeps every round beside its verdict and accepts a pixel count only objection. The approved round scored 9 of 10 on purpose, brand fit, professional finish, product correctness, not looking generated and premium feel, and 10 of 10 on being free of lettering. It is the only new photograph on the page. Every other image is an existing fixture with its binding unchanged."
+      ],
+      "files": [
+        {
+          "file": "assets/drive-oxblood-wagon-placement-round1.jpg",
+          "caption": "Approved round (docs/design-lab-v3/recompose/assets)"
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "id": "not-built",
+      "title": "What is not built, on purpose",
+      "list": [
+        "User Home, User Profile, Business Home, Business Loyalty and every other V3 surface are untouched. The brief limits this build to the public hero, Recreate, Drive and Business to Loyalty.",
+        "Nothing is migrated to production. The recomposition lives at /design-lab-v3 behind the DESIGN_LAB flag, on the working branch, unmerged.",
+        "No flow, copy rule, amount, state or truth binding changed. US$75 remains On approval for the Counter pour; the Latte take is the only recorded earnings example; Eli's US$240 listing and the Spurroom US$300 /month campaign are separate records; Jasmine has no portrait.",
+        "No fake 3D. The Drive moment is one photograph with coded layers: the aperture, the camera shift, the masked door zone, the specimen creative and the campaign sheet.",
+        "No third director pass. Two passes per experience were run and applied; the comparison below is the closing judgement, per the brief's stop point."
+      ]
+    }
+  ]
 }
