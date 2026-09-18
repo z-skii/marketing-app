@@ -81,10 +81,10 @@ export function BusinessShell({ business, unreadNotifications, unreadMessages, c
 function Mark({ business, size }: { business: BusinessIdentity; size: number }) {
   if (business.logo) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={business.logo} alt="" width={size} height={size} className="shrink-0 rounded-[10px] object-cover ring-1 ring-white/10" style={{ width: size, height: size }} />;
+    return <img src={business.logo} alt="" width={size} height={size} className="shrink-0 rounded-[10px] object-cover ring-1 ring-black/10" style={{ width: size, height: size }} />;
   }
   return (
-    <span aria-hidden className="flex shrink-0 items-center justify-center rounded-[10px] bg-surface-3 font-display font-600 ring-1 ring-white/10" style={{ width: size, height: size, fontSize: size * 0.42 }}>
+    <span aria-hidden className="flex shrink-0 items-center justify-center rounded-[10px] bg-surface-3 font-display font-600 ring-1 ring-black/10" style={{ width: size, height: size, fontSize: size * 0.42 }}>
       {(business.name.trim()[0] ?? "?").toUpperCase()}
     </span>
   );

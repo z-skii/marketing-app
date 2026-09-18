@@ -83,10 +83,19 @@ Wallet cards labelled as examples.
   Messages, Notifications, Search, Content, Create, Campaigns, Business,
   Settings and their subpages) renders in the retokened material (DM
   Sans, V3 canvas and ink, the floating lens tab bar, ink primary
-  actions, green focus). Deep workflows are unchanged. The older (v2)
-  routes (cars, jobs, wallet, personal create, me subpages) keep their
-  dark shell with DM Sans; they are listed as the remaining
-  inconsistency.
+  actions, green focus). The older (v2) route group (the personal
+  settings, edit profile, Instagram, portfolio, creator verification,
+  vehicles and the vehicle scan, the business add, edit, connections,
+  social, trends, shoots pages; the rest of the group redirects into the
+  Frame Shift screens) shares the same presentation layer through the
+  global tokens: those tokens (`--tm-*` in globals.css) now carry the V3
+  canvas, paper, ink, focus green, radii, shadows and the light lens;
+  the V2 chrome shows the product wordmark, an ink Create control and a
+  neutral active state; buttons, fields, pills, tags and the bottom bar
+  follow. The sign in, sign up, reset and onboarding screens (AuthShell)
+  and the legal pages (LegalPage, now with the product wordmark and Sign
+  in) render in the same material. Workflows are unchanged. Internal
+  routes (admin, the labs, the legacy board) are untouched.
 
 ## 5. Verification
 
@@ -102,6 +111,9 @@ demo business owner through the development sign in.
 - Keyboard: Tab order and visible focus rings on the homepage and Home.
 - Reduced motion, 200% zoom, image failure and slow network captures for
   the homepage and Home (see the QA note below).
+- Every (v2) route a signed in person can reach, the auth screens and
+  the legal pages captured at 390 and 1440 after the shell change: 0
+  errors, no overflow, no lab text.
 - Gates: `tsc` clean, `eslint` 0 errors (warnings are the same
   `<img>` advisories as the lab), `vitest` 140 passed, `next build`
   succeeded.
@@ -142,7 +154,6 @@ call; nothing in this branch changes environment configuration.
 - `src/legacy`, `/design-lab`, `/design-lab-v2`, `/design-lab-v3` stay.
   `scripts/v3-css.mjs` reads the lab stylesheets, so the lab CSS files
   must remain until the generated `src/v3/v3.css` is made the source.
-- The (v2) route group keeps its dark shell.
 - No director review was run: the production captures match the approved
   lab stills (same composition, material and type), so there was no drift
   to review.

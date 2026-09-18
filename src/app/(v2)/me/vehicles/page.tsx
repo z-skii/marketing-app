@@ -33,7 +33,7 @@ export default async function MyVehiclesPage() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/uploads/seed/demo-bmw.webp" alt="" className="h-full w-full object-cover" fetchPriority="high" />
             <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-            <p className="absolute inset-x-5 bottom-5 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] md:text-[1.5rem]">
+            <p className="text-white absolute inset-x-5 bottom-5 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] md:text-[1.5rem]">
               Make money with your car.
             </p>
           </div>
@@ -62,7 +62,7 @@ export default async function MyVehiclesPage() {
                     {v.verification === "verified" && (
                       <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-signal">Verified ✓</span>
                     )}
-                    <p className="absolute inset-x-4 bottom-3 font-display text-[1.5rem] leading-[1.1] font-700 tracking-[-0.02em]">
+                    <p className="text-white absolute inset-x-4 bottom-3 font-display text-[1.5rem] leading-[1.1] font-700 tracking-[-0.02em]">
                       {v.year} {v.make} {v.model}
                     </p>
                   </div>

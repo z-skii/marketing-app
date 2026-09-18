@@ -172,7 +172,7 @@ function StoryCard({ card, priority, index }: EarnCardProps) {
 }
 
 function MetaBadge({ children }: { children: React.ReactNode }) {
-  return <span className="inline-flex h-6 items-center rounded-full bg-white/7 px-2 text-[11px] leading-[13px] font-[650] text-ink-soft">{children}</span>;
+  return <span className="inline-flex h-6 items-center rounded-full bg-black/6 px-2 text-[11px] leading-[13px] font-[650] text-ink-soft">{children}</span>;
 }
 
 // -------------------------------------------------------------------- Car ad

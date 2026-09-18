@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Icon } from "@phosphor-icons/react";
+import { Mark, Wordmark } from "@/components/fs/parts";
 
 /**
  * Shared chrome for both modes, built to the UI system in
@@ -28,14 +29,12 @@ export function TopBar({ homeHref, left, right, title }: { homeHref: string; lef
     return () => window.removeEventListener("scroll", on);
   }, []);
   return (
-    <header className={`sticky top-0 z-30 grid h-[56px] grid-cols-[44px_1fr_auto] items-center px-4 transition-[background,border-color] duration-200 rail:hidden ${scrolled ? "glass border-b" : "border-b border-transparent"}`}>
+    <header className={`sticky top-0 z-30 grid h-[56px] grid-cols-[44px_1fr_auto] items-center px-4 transition-[background,border-color] duration-200 rail:hidden ${scrolled ? "glass border-b" : "border-b border-transparent"}`} style={{ top: "env(safe-area-inset-top, 0px)" }}>
       <span className="flex">{left}</span>
       {title ? (
-        <span className="justify-self-center truncate font-display text-[16px] leading-5 font-[760] tracking-[-0.1px]">{title}</span>
+        <span className="justify-self-center truncate font-display text-[16px] leading-5 font-600 tracking-[-0.1px]">{title}</span>
       ) : (
-        <Link href={homeHref} className="justify-self-center font-display text-[21px] leading-6 font-[820] tracking-[-0.45px]" aria-label="TapMart home">
-          Tapmart<span className="text-signal">.</span>
-        </Link>
+        <Link href={homeHref} className="justify-self-center" aria-label="TapMart home"><Wordmark size={24} /></Link>
       )}
       <span className="flex items-center gap-2">{right}</span>
     </header>
@@ -77,11 +76,9 @@ export function Rail({
 }) {
   return (
     <aside className="sticky top-0 hidden h-dvh w-[88px] flex-col items-center gap-2.5 overflow-y-auto border-r border-rule bg-paper-deep px-3 py-[18px] rail:flex">
-      <Link href={homeHref} aria-label="TapMart home" className="mb-2 flex h-11 w-11 items-center justify-center rounded-[14px] font-display text-[22px] font-[820] tracking-[-0.5px]">
-        T<span className="text-signal">.</span>
-      </Link>
+      <Link href={homeHref} aria-label="TapMart home" className="mb-2 flex h-11 w-11 items-center justify-center rounded-[12px]"><Mark size={26} /></Link>
       {create && (
-        <Link href={create.href} aria-label={create.label} className="mb-1 flex h-[52px] w-16 items-center justify-center rounded-[18px] bg-[linear-gradient(180deg,var(--tm-lime-light),var(--tm-lime))] text-signal-ink shadow-[0_8px_20px_rgba(201,255,56,0.16)]">
+        <Link href={create.href} aria-label={create.label} className="mb-1 flex h-[52px] w-16 items-center justify-center rounded-[12px] bg-ink text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.16)]">
           <create.icon size={24} weight="bold" aria-hidden />
         </Link>
       )}
@@ -104,7 +101,7 @@ function RailItem({ href, label, icon: IconC, active, badge = 0 }: { href: strin
       href={href}
       aria-current={active ? "page" : undefined}
       aria-label={badge > 0 ? `${label}, ${badge} unread` : label}
-      className={`relative flex h-14 w-16 flex-col items-center justify-center gap-1 rounded-[16px] font-display text-[10px] leading-3 font-[650] transition-colors duration-150 ${active ? "bg-signal/12 text-signal" : "text-ink-soft can-hover:hover:bg-surface can-hover:hover:text-ink"}`}
+      className={`relative flex h-14 w-16 flex-col items-center justify-center gap-1 rounded-[12px] font-display text-[10px] leading-3 font-500 transition-colors duration-150 ${active ? "bg-surface-3 text-ink font-600" : "text-ink-soft can-hover:hover:bg-surface can-hover:hover:text-ink"}`}
     >
       <IconC size={22} weight="regular" aria-hidden />
       {label}
