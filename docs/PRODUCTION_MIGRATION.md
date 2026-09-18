@@ -138,6 +138,11 @@ render delay attributed to the framework script before the image, which
 this migration reduced (fonts 155 to 36 KB, CSS 62 to 36 KB, JS 209 to
 182 KB) but did not remove.
 
+After the shell unification (second pass) the same three run medians
+were: homepage 92 / 3.34 s / desktop 100; User Home 90 / 3.61 s / 100;
+Business Home 89 / 3.78 s / 100 (runs 88, 89, 93 against 89, 91, 93
+before); CLS 0; fonts and CSS unchanged. No systematic regression.
+
 ## 7. Preview deployment
 
 Every push to the branch builds a Vercel preview. The current one is
