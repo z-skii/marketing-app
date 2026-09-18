@@ -125,3 +125,33 @@ finishing pass on the four experiences. Done and stopped:
 
 Nothing migrates. The next screen waits for the founder.
 
+## Addendum, 2026-09-18, later still: the approved language on the app surfaces, verified READY
+
+The founder approved the four public experiences and froze them. The
+approved language (dark media stage, planes with depth, opaque sheets
+attached to a plane's lower edge, product identity tags, the Loyalty
+ledges) was propagated to the four core app surfaces with the same
+fixtures, flows and truth rules, in `x/surfaces.css` and the surface files:
+
+- **User Home** (`x/home/Feed.tsx`): Recreate, Story and Car as three planes
+  on one dark stage, each with its terms attached; details after tap.
+- **User Profile** (`x/profile/Profile.tsx`): the portrait as the focal
+  plane, name, tapmart.live/@username, city and completed count, Instagram
+  and vehicle tags, work as tagged planes, the vehicle as the Drive object.
+- **Business Home** (`x/business/Discovery.tsx`): the lead creator as
+  portrait and work planes with name, facts and the quick request attached;
+  Eli's car as the Drive object with zone, location, rate, View and Offer.
+- **Business Loyalty Home** (`business/loyalty/LoyaltyHome.tsx`): the
+  campaign creative and its source with the returns it produced, the
+  program object with the four program counts as ledges.
+
+Astra's final verification on the recorded final state
+(`recompose/reviews/{user-home,user-profile,business-home,business-loyalty}-final.md`):
+all four READY at 8/10; User Home after one blocker (the Car sheet lacked
+Monthly approval beside the amount, fixed and re-verified). Evidence in
+`recompose/app/` (stills, three interaction recordings with strips).
+Production Lighthouse: public homepage unchanged (mobile 85, LCP 4.3 s,
+110KB media); User Home mobile 84, LCP 4.4 s, 147KB media; Business Home
+mobile 82, LCP 4.8 s, 329KB media before the strip artwork went lazy.
+Nothing migrates.
+

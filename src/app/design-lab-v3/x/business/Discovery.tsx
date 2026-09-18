@@ -12,8 +12,8 @@ import { M } from "../media";
 import { LabStrip, useMotion, usePresentationTimer } from "../motion";
 
 /**
- * V3 Business Home (docs/design-lab-v3/screens/x-business-home.md): WHO
- * OR WHAT CAN GROW MY BUSINESS. An open selection spread: Maya at human
+ * V3 Business Home in the approved recomposition language: WHO OR WHAT
+ * CAN GROW MY BUSINESS. A dark stage holds the lead selection spread: Maya at human
  * scale through her portrait and two of her own work stills; Eli's car as
  * an independent photographic field with a precisely scoped asking rate;
  * the approved Loyalty strip after the completed lead spread; Nora and
@@ -75,12 +75,14 @@ export function Discovery() {
         {(["for-you", "people", "cars", "nearby"] as Tab[]).map((k) => <button key={k} type="button" role="tab" aria-selected={tab === k} onClick={() => setTab(k)}>{k === "for-you" ? "For you" : k === "people" ? "People" : k === "cars" ? "Cars" : "Nearby"}</button>)}
       </div>
       <div className={`x-biz-spread x-biz-${tab}`} key={tab}>
-        {tab === "cars" ? (car ? <CarObject onOpen={(el) => { opener.current = el; set({ vehicle: businessCar.id, zone: "rear-doors" }); }} /> : <Empty text="No matches" />) : (
-          <>
-            {lead ? <PersonObject p={lead} lead onOpen={(w, el) => openPerson(lead.id, w, el)} onRequest={(el) => { opener.current = el; set({ person: lead.id, work: "0", request: "1" }); }} /> : !car && <Empty text="No matches" />}
-            {car && <CarObject onOpen={(el) => { opener.current = el; set({ vehicle: businessCar.id, zone: "rear-doors" }); }} />}
-          </>
-        )}
+        <section className="xs-stage xs-biz" aria-label="Lead">
+          {tab === "cars" ? (car ? <CarObject onOpen={(el) => { opener.current = el; set({ vehicle: businessCar.id, zone: "rear-doors" }); }} onOffer={(el) => { opener.current = el; set({ vehicle: businessCar.id, zone: "rear-doors", offer: "1" }); }} /> : <Empty text="No matches" />) : (
+            <>
+              {lead ? <PersonObject p={lead} lead onOpen={(w, el) => openPerson(lead.id, w, el)} onRequest={(el) => { opener.current = el; set({ person: lead.id, work: "0", request: "1" }); }} /> : !car && <Empty text="No matches" />}
+              {car && <CarObject onOpen={(el) => { opener.current = el; set({ vehicle: businessCar.id, zone: "rear-doors" }); }} onOffer={(el) => { opener.current = el; set({ vehicle: businessCar.id, zone: "rear-doors", offer: "1" }); }} />}
+            </>
+          )}
+        </section>
         <LoyaltyStrip />
         {tab !== "cars" && (
           <div className="x-biz-roster">
@@ -97,16 +99,34 @@ export function Discovery() {
 
 function PersonObject({ p, lead = false, onOpen, onRequest }: { p: Person; lead?: boolean; onOpen: (work: number, el: HTMLElement) => void; onRequest: (el: HTMLElement) => void }) {
   const stills = STILLS[p.id];
+  if (lead) {
+    // the lead creator in the approved business lens: her portrait and her own work as planes on the stage, her name and the quick request attached beneath the portrait
+    return (
+      <article className="xs-obj xs-person" aria-labelledby={`p-${p.id}`}>
+        <div className="xs-person-media">
+          <button type="button" className="xs-plane xs-person-portrait" onClick={(e) => onOpen(0, e.currentTarget)} aria-label={`View person ${p.name}`}><img src={PORTRAIT[p.id]} alt="" width={480} height={600} decoding="async" fetchPriority="high" /></button>
+          <div className="xs-person-work">
+            {stills.map((st, i) => <button key={st} type="button" className={`xs-plane xs-plane-back xs-person-still xs-person-still-${i}`} onClick={(e) => onOpen(i, e.currentTarget)} aria-label={`${p.name}, ${p.project.title} still ${i + 1}`}><img src={st} alt="" width={480} height={600} decoding="async" />{i === 0 && <span className="x-tag xs-tag">Recreate</span>}</button>)}
+          </div>
+        </div>
+        <div className="x-paper xs-sheet">
+          <h2 id={`p-${p.id}`} className="t-object">{p.name}</h2>
+          <span className="t-fact">{p.city}<span aria-hidden> · </span><span className="t-fact-ink">{p.completed}</span> Completed</span>
+          <span className="xs-actions"><button type="button" className="link t-action" onClick={(e) => onOpen(0, e.currentTarget)}>View person</button><button type="button" className="link t-action" onClick={(e) => onRequest(e.currentTarget)}>Request</button></span>
+        </div>
+      </article>
+    );
+  }
   return (
-    <article className={`x-obj x-person${lead ? " x-person-lead" : ""}`} aria-labelledby={`p-${p.id}`}>
+    <article className={`x-person`} aria-labelledby={`p-${p.id}`}>
       <div className="x-person-media">
-        <button type="button" className="media x-person-portrait" onClick={(e) => onOpen(0, e.currentTarget)} aria-label={`View person ${p.name}`}><img src={PORTRAIT[p.id]} alt="" width={480} height={600} decoding="async" loading={lead ? "eager" : "lazy"} fetchPriority={lead ? "high" : undefined} /></button>
+        <button type="button" className="media x-person-portrait" onClick={(e) => onOpen(0, e.currentTarget)} aria-label={`View person ${p.name}`}><img src={PORTRAIT[p.id]} alt="" width={480} height={600} decoding="async" loading="lazy" /></button>
         <div className="x-person-work">
-          {(lead ? stills : [stills[0]]).map((s, i) => <button key={s} type="button" className={`media x-person-still x-person-still-${i}`} onClick={(e) => onOpen(i, e.currentTarget)} aria-label={`${p.name}, ${p.project.title} still ${i + 1}`}><img src={s} alt="" width={480} height={600} decoding="async" loading={lead ? "eager" : "lazy"} /></button>)}
+          {[stills[0]].map((st, i) => <button key={st} type="button" className={`media x-person-still x-person-still-${i}`} onClick={(e) => onOpen(i, e.currentTarget)} aria-label={`${p.name}, ${p.project.title} still ${i + 1}`}><img src={st} alt="" width={480} height={600} decoding="async" loading="lazy" /></button>)}
         </div>
       </div>
       <div className="x-person-id">
-        <h2 id={`p-${p.id}`} className={lead ? "x-person-name-lead" : "t-object"}>{p.name}</h2>
+        <h2 id={`p-${p.id}`} className="t-object">{p.name}</h2>
         {p.city !== "Austin" && <span className="t-fact">{p.city}</span>}
       </div>
       <div className="x-person-actions">
@@ -117,15 +137,16 @@ function PersonObject({ p, lead = false, onOpen, onRequest }: { p: Person; lead?
   );
 }
 
-function CarObject({ onOpen }: { onOpen: (el: HTMLElement) => void }) {
+function CarObject({ onOpen, onOffer }: { onOpen: (el: HTMLElement) => void; onOffer: (el: HTMLElement) => void }) {
   const c = businessCar;
+  // the vehicle in the approved Drive language: the photograph as a plane with its supported zone tagged on it; rate, location and the request attached beneath
   return (
-    <article className="x-obj x-car" aria-labelledby={`c-${c.id}`}>
-      <button type="button" className="media x-car-photo" onClick={(e) => onOpen(e.currentTarget)} aria-label={`View ${c.title}`}><img src={M.vehicleEli(800)} srcSet={`${M.vehicleEli(800)} 800w, ${M.vehicleEli(1200)} 1200w`} sizes="(min-width: 1024px) 376px, 100vw" alt="" width={800} height={533} decoding="async" /></button>
-      <div className="x-car-band">
-        <span className="x-car-rate"><Money cents={c.askCents} basis="/month" whole inline /><span className="t-fact-ink">Asking rate</span></span>
-        <button type="button" className="btn btn-primary x-car-view" onClick={(e) => onOpen(e.currentTarget)} aria-label={`View ${c.title}`}>View</button>
-        <span className="x-car-id"><h2 id={`c-${c.id}`} className="t-object">{c.title}</h2><button type="button" className="link t-action" onClick={(e) => onOpen(e.currentTarget)}>Rear doors</button></span>
+    <article className="xs-obj xs-car" aria-labelledby={`c-${c.id}`}>
+      <button type="button" className="xs-plane" onClick={(e) => onOpen(e.currentTarget)} aria-label={`View ${c.title}`}><img src={M.vehicleEli(800)} srcSet={`${M.vehicleEli(800)} 800w, ${M.vehicleEli(1200)} 1200w`} sizes="(min-width: 1024px) 376px, 100vw" alt="" width={800} height={533} decoding="async" /><span className="x-tag xs-tag">Car</span><span className="x-tag xs-tag xs-tag-br">{c.zone}</span></button>
+      <div className="x-paper xs-sheet">
+        <span className="t-fact">{c.city}<span aria-hidden> · </span>Asking rate</span>
+        <span className="xs-money"><span className="x-money-hero">{money(c.askCents)}</span><span className="t-fact-ink">/month</span></span>
+        <span className="xs-sheet-row"><h2 id={`c-${c.id}`} className="t-object">{c.title}</h2><span className="xs-actions" style={{ marginTop: 0 }}><button type="button" className="link t-action" onClick={(e) => onOpen(e.currentTarget)}>View</button><button type="button" className="link t-action" onClick={(e) => onOffer(e.currentTarget)}>Offer</button></span></span>
       </div>
     </article>
   );

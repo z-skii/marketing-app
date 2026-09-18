@@ -1,0 +1,54 @@
+{
+  "experience": "User Home",
+  "final": true,
+  "shots": [
+    "user-home-d.png",
+    "user-home-m.png",
+    "user-home-strip.png"
+  ],
+  "when": "2026-09-18T17:05:27.941Z",
+  "reviewer": "director",
+  "verification": {
+    "blocker": null,
+    "read": "At phone width, a large Recreate photograph sits on the dark stage above an opaque US$75 On approval sheet, with Story beginning below the translucent bottom navigation. On desktop, staggered Recreate, Story and vehicle objects present three distinct opportunities, with Monthly approval now clearly beneath US$300 /month.",
+    "score": 8,
+    "verdict": "ready",
+    "six_questions": [
+      {
+        "question": "Would someone remember this website tomorrow?",
+        "answer": "yes",
+        "note": "The contrasting media proportions, dark stage and prominent amounts create a recognizable composition; actual next-day recall remains untested."
+      },
+      {
+        "question": "Could this homepage belong to any other startup?",
+        "answer": "no",
+        "note": "Recreating a Reel, posting a Story and offering rear-door advertising together make the opportunity mix specific to TapMart."
+      },
+      {
+        "question": "Do Recreate, Story and Drive each have a recognizable physical identity?",
+        "answer": "yes",
+        "note": "The portrait pouring reference, intact vertical Story and landscape vehicle photograph have distinct silhouettes and readable attached terms."
+      },
+      {
+        "question": "Does the car moment make TapMart feel unique?",
+        "answer": "partly",
+        "note": "Rear doors, Spurroom Bikes and the qualified monthly amount make it actionable inventory; this surface does not demonstrate the public Drive placement choreography."
+      },
+      {
+        "question": "Does the Loyalty loop make a business understand why TapMart is more than creator marketing?",
+        "answer": "partly",
+        "note": "The Loyalty loop is outside this Personal Home capture and cannot be assessed here; its absence is not a defect on this surface."
+      },
+      {
+        "question": "Would someone scroll because they want to see what happens next?",
+        "answer": "yes",
+        "note": "The next Story peeks below Recreate on phone, while desktop exposes all three choices. The strip shows Recreate opening into detailed requirements and returning to the home composition."
+      }
+    ],
+    "notes": [
+      "The identified blocker is resolved: Monthly approval is legible beside the Car opportunity's financial terms.",
+      "The existing silver vehicle fixture is appropriate app imagery; the separately authorized public Drive photograph need not replace its identity.",
+      "The supplied strip supports task entry and return, but does not establish animation smoothness, keyboard behavior or performance."
+    ]
+  }
+}

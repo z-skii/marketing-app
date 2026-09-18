@@ -7,6 +7,7 @@ import "./x/x.css";
 import "./x/site.css";
 import "./x/film.css";
 import "./x/app.css";
+import "./x/surfaces.css";
 import { MotionProvider } from "./x/motion";
 import { LoyaltyProvider } from "./store";
 import { LabControl } from "./LabControl";

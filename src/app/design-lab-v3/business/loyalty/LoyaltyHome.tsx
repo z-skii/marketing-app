@@ -9,11 +9,12 @@ import { counts, recentMembers, sourceRows, todayKey, useLoyalty } from "../../s
 import { Descent } from "../../Progress";
 import { LoyaltyHead } from "./LoyaltyCrumb";
 import { Logo } from "../../wallet/Cards";
+import { M } from "../../x/media";
 
-/** One of the four counts: an operable target that opens its definition and the matching member view. */
-function Count({ n, label, def, href }: { n: number; label: string; def: string; href: string }) {
+/** One of the four program counts as a ledge in the approved Loyalty language: an operable target that opens its definition and the matching member view. */
+function Count({ n, label, def, href, k }: { n: number; label: string; def: string; href: string; k: number }) {
   return (
-    <Sheet title={label} variant="menu" triggerClass="loy-count obj" trigger={<><span className="loy-count-n">{n}</span><span className="loy-count-l t-fact">{label}</span></>}>
+    <Sheet title={label} variant="menu" triggerClass="xs-ledge-btn x-lp2-ledge" trigger={<><span className="x-lp2-ledge-bar" style={{ ["--k" as string]: k }} /><span className="x-lp2-ledge-value"><span className="x-lp2-ledge-n">{n}</span><span className="x-lp2-ledge-l">{label}</span></span></>}>
       <p className="t-name" style={{ marginTop: 8 }}>{n}</p>
       <p className="t-body" style={{ marginTop: 8 }}>{def}</p>
       <Link href={href} className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center", marginTop: 16 }}>View</Link>
@@ -22,9 +23,10 @@ function Count({ n, label, def, href }: { n: number; label: string; def: string;
 }
 
 /**
- * Loyalty Home: four counts on paper, three recent customers, the program
- * as a branded object, the leading source as a small descent, then the
- * quiet working actions. One filled action in the head. States: no
+ * Loyalty Home in the approved Loyalty loop language: the campaign
+ * creative and its source with the returns it produced, the program
+ * object with the four program counts as ledges, three recent customers,
+ * then the quiet working actions. One filled action in the head. States: no
  * program, draft, live with no members, live, points.
  */
 export function LoyaltyHome() {
@@ -65,11 +67,45 @@ export function LoyaltyHome() {
       )}
       {status === "live" && (
         <>
-          <section className="loy-counts" aria-label="Counts">
-            <Count n={c.members} label="Members" def="Members who signed up, including people who have not added Wallet." href="/design-lab-v3/business/loyalty/members" />
-            <Count n={c.repeat} label="Repeat visitors" def="Members with counted visits on two different days. Signup plus one visit is not a return." href="/design-lab-v3/business/loyalty/members?filter=repeat" />
-            <Count n={c.ready} label="Rewards ready" def="Earned rewards waiting to be redeemed. Reward instances, not necessarily unique members." href="/design-lab-v3/business/loyalty/members?filter=ready" />
-            <Count n={c.redeemed} label="Rewards redeemed" def="Redemption events. A member who redeemed twice counts twice here and once in attribution." href="/design-lab-v3/business/loyalty/members?filter=redeemed" />
+          {/* the loop, in the approved public language: the campaign creative and its source with the returns it produced; the program object with what the whole program holds */}
+          <section className="xs-loop" aria-label="The loop">
+            <div className="xs-loop-source">
+              <span className="xs-plane xs-loop-story" style={{ cursor: "default" }}><img src={M.story(480)} alt="Loopday Story creative: Take a coffee break." width={480} height={853} decoding="async" /></span>
+              <div className="xs-loop-facts">
+                <span className="t-fact">Joined from</span>
+                {lead ? <Link href={`/design-lab-v3/business/loyalty/attribution?source=${lead.key}`} className="xs-loop-name">{lead.source.label}</Link> : <span className="t-body">Your first signup will appear here.</span>}
+                {lead && <span className="t-fact">{lead.source.sub}</span>}
+                {lead && (
+                  <div className="xs-ledges" style={{ marginTop: 12 }} aria-label={`From ${lead.source.label}`}>
+                    {([[lead.joined, "Joined"], [lead.returned, "Came back"], [lead.redeemed, "Redeemed"]] as const).map(([n, l]) => (
+                      <span key={l} className="x-lp2-ledge"><span className="x-lp2-ledge-bar" style={{ ["--k" as string]: Math.max(0.12, n / Math.max(1, lead.joined)) }} /><span className="x-lp2-ledge-value"><span className="x-lp2-ledge-n">{n}</span><span className="x-lp2-ledge-l">{l}</span></span></span>
+                    ))}
+                  </div>
+                )}
+                <Link href="/design-lab-v3/business/loyalty/attribution" className="link t-action loy-source-link" style={{ marginTop: 8 }}>View attribution</Link>
+              </div>
+            </div>
+            <div>
+              <div className="xs-loop-program">
+                <Link href="/design-lab-v3/business/loyalty/program" className="xs-plane xs-loop-card" aria-label="View program">{p.card.artwork ? <Img src={p.card.artwork} alt="" position={p.card.artworkPosition} /> : <span className="loy-program-solid" style={{ background: p.card.bg, color: p.card.fg }}><Logo design={p.card} size={48} /></span>}</Link>
+                <div className="xs-loop-facts">
+                  <span className="loy-brand-mark loy-program-mark" style={{ color: "var(--v3-ink)" }}><Logo design={p.card} size={28} /></span>
+                  <span className="t-object">{p.reward.name}</span>
+                  <span className="t-fact">{p.requirement} {points ? "points" : "visits"}</span>
+                  <Sheet title="Live · simulated" variant="menu" triggerClass="link link-plain t-fact-ink loy-live" trigger="Live">
+                    <p className="t-body" style={{ marginTop: 8 }}>This program exists only in the Design Lab.</p>
+                    {lastUpdate && <details className="disclosure" style={{ marginTop: 8 }}><summary className="t-action">Last Wallet update</summary><p className="t-fact-ink" style={{ marginTop: 8 }}>{lastUpdate.title}</p><p className="t-fact">{fmtDayYear(lastUpdate.at)}, {fmtTime(lastUpdate.at)}</p><p className="t-fact">Wallet update simulated. Nothing was sent.</p><Link href="/design-lab-v3/business/loyalty/updates" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>View update history</Link></details>}
+                    <Link href="/design-lab-v3/business/loyalty/program" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center", marginTop: 8 }}>View program</Link>
+                  </Sheet>
+                </div>
+              </div>
+              <div className="xs-ledges" style={{ marginTop: 16 }} aria-label="Counts">
+                <Count n={c.members} label="Members" k={1} def="Members who signed up, including people who have not added Wallet." href="/design-lab-v3/business/loyalty/members" />
+                <Count n={c.repeat} label="Came back" k={Math.max(0.12, c.repeat / Math.max(1, c.members))} def="Members with counted visits on two different days. Signup plus one visit is not a return." href="/design-lab-v3/business/loyalty/members?filter=repeat" />
+                <Count n={c.ready} label="Reward ready" k={Math.max(0.12, c.ready / Math.max(1, c.members))} def="Earned rewards waiting to be redeemed. Reward instances, not necessarily unique members." href="/design-lab-v3/business/loyalty/members?filter=ready" />
+                <Count n={c.redeemed} label="Redeemed" k={Math.max(0.12, c.redeemed / Math.max(1, c.members))} def="Redemption events. A member who redeemed twice counts twice here and once in attribution." href="/design-lab-v3/business/loyalty/members?filter=redeemed" />
+              </div>
+            </div>
           </section>
           <div className="loy-grid">
             <section className="loy-recent">
@@ -85,28 +121,6 @@ export function LoyaltyHome() {
                   </ul>
                 </>
               )}
-            </section>
-            <section className="loy-program obj">
-              {artwork(p.card)}
-              <div className="loy-program-facts">
-                <span className="loy-brand-mark loy-program-mark" style={{ color: "var(--v3-ink)" }}><Logo design={p.card} size={28} /></span>
-                <span className="loy-program-row"><span><span className="t-object" style={{ display: "block" }}>{p.reward.name}</span><span className="t-fact">{p.requirement} {points ? "points" : "visits"}</span></span>
-                  <Sheet title="Live · simulated" variant="menu" triggerClass="link link-plain t-fact-ink loy-live" trigger="Live">
-                    <p className="t-body" style={{ marginTop: 8 }}>This program exists only in the Design Lab.</p>
-                    {lastUpdate && <details className="disclosure" style={{ marginTop: 8 }}><summary className="t-action">Last Wallet update</summary><p className="t-fact-ink" style={{ marginTop: 8 }}>{lastUpdate.title}</p><p className="t-fact">{fmtDayYear(lastUpdate.at)}, {fmtTime(lastUpdate.at)}</p><p className="t-fact">Wallet update simulated. Nothing was sent.</p><Link href="/design-lab-v3/business/loyalty/updates" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>View update history</Link></details>}
-                    <Link href="/design-lab-v3/business/loyalty/program" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center", marginTop: 8 }}>View program</Link>
-                  </Sheet>
-                </span>
-                <Link href="/design-lab-v3/business/loyalty/program" className="link t-action" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>View program</Link>
-              </div>
-            </section>
-            <section className="loy-source">
-              <div className="loy-source-id">
-                <h3 className="t-object">Joined from</h3>
-                {lead ? <><Link href={`/design-lab-v3/business/loyalty/attribution?source=${lead.key}`} className="link t-object loy-source-name">{lead.source.label}</Link><span className="t-fact">{lead.source.sub}</span></> : <span className="t-body">Your first signup will appear here.</span>}
-                <Link href="/design-lab-v3/business/loyalty/attribution" className="link t-action loy-source-link">View attribution</Link>
-              </div>
-              {lead && <div className="loy-source-lanes"><Descent joined={lead.joined} returned={lead.returned} redeemed={lead.redeemed} max={lead.joined} size="m" /><Link href="/design-lab-v3/business/loyalty/attribution" className="link t-action loy-source-link loy-source-link-after">View attribution</Link></div>}
             </section>
           </div>
           <div className="loy-actions">

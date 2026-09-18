@@ -12,9 +12,10 @@ import { Open } from "../Open";
 import { Plan } from "../Plan";
 
 /**
- * V3 User Home (docs/design-lab-v3/screens/x-user-home.md): WHAT CAN I
- * EARN FROM RIGHT NOW. Three physically different opportunities and one
- * Filter. Recreate is an open reference with an attached reading edge;
+ * V3 User Home: WHAT CAN I EARN FROM RIGHT NOW, in the approved
+ * recomposition language. Three physically different opportunities as
+ * valuable planes on one dark stage, each with its terms attached as
+ * opaque paper, and one Filter. Recreate is an open reference with an attached reading edge;
  * Story a freestanding tall creative beside an opposing rail; Car a full
  * bleed photographic field with a plain monthly band. Facts stay on
  * opaque surfaces; the phone navigation is the only lens. Opening
@@ -25,7 +26,7 @@ type Order = "for-you" | "nearby" | "top-pay";
 type KindFilter = "all" | Opportunity["kind"];
 const KIND_LABEL: Record<Exclude<KindFilter, "all">, string> = { recreate: "Recreate a Reel", story: "Instagram Story ads", car: "Car advertising" };
 const MEDIA: Record<string, { src: string; srcSet?: string; sizes?: string; w: number; h: number }> = {
-  "lab-recreate-loopday-pour": { src: M.reference4x5(720), srcSet: `${M.reference4x5(720)} 720w, ${M.reference4x5(1080)} 1080w`, sizes: "(min-width: 1024px) 432px, 100vw", w: 720, h: 900 },
+  "lab-recreate-loopday-pour": { src: M.reference4x5(720), srcSet: `${M.reference4x5(720)} 720w, ${M.reference4x5(1080)} 1080w`, sizes: "(min-width: 1024px) 360px, 358px", w: 720, h: 900 },
   "lab-story-loopday-24h": { src: M.story(480), srcSet: `${M.story(480)} 480w, ${M.story(720)} 720w`, sizes: "(min-width: 1024px) 248px, 238px", w: 480, h: 853 },
   "lab-car-spurroom-rear-doors": { src: M.vehicleEli(800), srcSet: `${M.vehicleEli(800)} 800w, ${M.vehicleEli(1200)} 1200w`, sizes: "(min-width: 1024px) 376px, 100vw", w: 800, h: 533 },
 };
@@ -80,9 +81,9 @@ export function Feed() {
       ) : list.length === 0 ? (
         <div className="x-home-empty"><p className="t-object">No matching opportunities</p><button type="button" className="link t-action" style={{ minHeight: 44 }} onClick={() => { setOrder("for-you"); setKind("all"); setCity(null); setPending({ order: "for-you", kind: "all", city: null }); }}>Clear filters</button></div>
       ) : (
-        <div className="x-feed" data-order={order}>
+        <section className="xs-stage xs-home" data-order={order} aria-label="Opportunities">
           {list.map((o) => <OpportunityObject key={o.id} o={o} />)}
-        </div>
+        </section>
       )}
     </div>
   );
@@ -99,21 +100,23 @@ function OpportunityObject({ o }: { o: Opportunity }) {
   const m = MEDIA[o.id];
   // The accessible name carries any visible caption inside the button, so the name matches what a person reads.
   const label = o.mediaCaption ? `${o.mediaCaption}. View ${o.title}, ${o.business}` : `View ${o.title}, ${o.business}`;
-  const facts = o.kind === "recreate" ? `${o.facts[0]} · ${o.facts[1]}` : o.kind === "story" ? o.facts[0] : `${o.facts[0]} · ${o.facts[1]}`;
+  const tag = o.kind === "recreate" ? "Recreate" : o.kind === "story" ? "Story" : o.mediaCaption ?? "Car";
   return (
     <Open id={o.id} title={o.title} kind={o.kind} media={o.media} mediaRatio={o.mediaRatio} mediaAlt={o.mediaAlt} mediaFit={o.kind === "car" ? "cover" : "contain"} mediaPosition={o.mediaPosition} content={<Detail o={o} />}>
       {(open) => (
-        <article className={`x-obj x-op x-op-${o.kind}`} aria-labelledby={`${o.id}-t`}>
-          <button type="button" className={`media x-op-media x-op-media-${o.kind}`} onClick={open} aria-label={label} style={{ aspectRatio: o.mediaRatio }}>
+        <article className={`xs-obj xs-op xs-op-${o.kind}`} aria-labelledby={`${o.id}-t`}>
+          {/* the object: one photographic plane on the stage, the product identity tagged on it; the whole plane opens */}
+          <button type="button" className="xs-plane" onClick={open} aria-label={label}>
             <img src={m.src} srcSet={m.srcSet} sizes={m.sizes} alt="" width={m.w} height={m.h} decoding="async" loading={o.kind === "recreate" ? "eager" : "lazy"} fetchPriority={o.kind === "recreate" ? "high" : undefined} style={{ objectPosition: o.mediaPosition }} />
-            {o.mediaCaption && <span className="t-note x-op-caption">{o.mediaCaption}</span>}
+            <span className="x-tag xs-tag">{tag}</span>
+            {o.kind === "car" && <span className="x-tag xs-tag xs-tag-br">Rear doors</span>}
           </button>
-          <div className="x-op-band paper">
-            <div className="x-op-money"><Money cents={o.netCents} basis={o.kind === "car" ? "/month" : "On approval"} whole inline={o.kind === "car"} />{o.kind === "car" && <span className="t-fact-ink x-op-basis2">Monthly approval</span>}</div>
-            <button type="button" className="btn btn-primary x-op-view" onClick={open} aria-label={`View ${o.title}, ${o.business}`}>View</button>
-            <h2 id={`${o.id}-t`} className="t-object x-op-title">{o.title}</h2>
-            <p className="t-fact x-op-business">{o.business}</p>
-            <p className="t-fact x-op-facts">{facts}</p>
+          {/* the attached terms: money as the object's conclusion, on opaque paper in contact with the plane */}
+          <div className="x-paper xs-sheet">
+            <span className="t-fact">{o.business}</span>
+            <span className="xs-money"><span className="x-money-hero">{money(o.netCents)}</span><span className="t-fact-ink">{o.kind === "car" ? "/month" : "On approval"}</span></span>
+            {o.kind === "car" && <span className="t-fact-ink">Monthly approval</span>}
+            <span className="xs-sheet-row"><h2 id={`${o.id}-t`} className="t-object">{o.title}</h2><button type="button" className="link t-action" onClick={open} aria-label={`View ${o.title}, ${o.business}`}>View</button></span>
           </div>
         </article>
       )}

@@ -21,7 +21,7 @@ export function LoyaltyStrip() {
   const action = status === "none" && !state.draft ? { href: "/design-lab-v3/business/loyalty/create", label: "Create program" } : status !== "live" && state.draft ? { href: `/design-lab-v3/business/loyalty/create?step=${state.draft.draftStep}`, label: "Continue setup" } : c.members === 0 ? { href: "/design-lab-v3/business/loyalty/qr", label: "View QR" } : { href: "/design-lab-v3/business/loyalty", label: "Open loyalty" };
   return (
     <div className="loy-strip" data-status={status}>
-      <span className="loy-strip-art" style={{ background: design.bg, color: design.fg }}>{(status === "live" || state.draft) && design.artwork ? <><Img src={design.artwork} alt="" position={design.artworkPosition} /><span className="loy-strip-corner" aria-hidden><Logo design={design} size={12} /></span></> : <span className="loy-strip-mark"><Logo design={design} size={26} /></span>}</span>
+      <span className="loy-strip-art" style={{ background: design.bg, color: design.fg }}>{(status === "live" || state.draft) && design.artwork ? <><Img src={design.artwork} alt="" position={design.artworkPosition} loading="lazy" /><span className="loy-strip-corner" aria-hidden><Logo design={design} size={12} /></span></> : <span className="loy-strip-mark"><Logo design={design} size={26} /></span>}</span>
       <span className="loy-strip-text"><span className="t-object">Loyalty</span><span className="t-fact-ink">{line}</span></span>
       <Link href={action.href} className="link t-action loy-strip-action">{action.label}</Link>
     </div>

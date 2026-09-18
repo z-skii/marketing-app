@@ -11,8 +11,8 @@ import { M } from "../media";
 import { LabStrip } from "../motion";
 
 /**
- * V3 User Profile (docs/design-lab-v3/screens/x-user-profile.md): an
- * identity a person would share, tapmart.live/@username in spirit. A
+ * V3 User Profile in the approved recomposition language: an identity a
+ * person would share, tapmart.live/@username on the object itself. A
  * generous portrait, name, handle, city and the supported completion
  * fact; Maya's own work in a loose mixed proportion arrangement that
  * inspects inline; her real car as a quieter contact sheet. Private
@@ -60,21 +60,25 @@ export function ProfileBody({ publicView }: { publicView: boolean }) {
   const closeWork = () => { const u = new URL(location.href); if (u.searchParams.has("work")) history.back(); else setSel(null); requestAnimationFrame(() => opener.current?.focus()); };
   const step = (d: number) => { const n = ((sel ?? 0) + d + WORK.length) % WORK.length; const u = new URL(location.href); u.searchParams.set("work", WORK[n].id); history.replaceState(null, "", u); setSel(n); };
   const w = sel !== null ? WORK[sel] : null;
+  const handle = `tapmart.live/${p.username}`;
   return (
-    <div className="x-pf">
-      <section className="x-pf-identity" aria-label="Identity">
-        <span className="media x-pf-portrait"><img src={M.portraitMaya(480)} srcSet={`${M.portraitMaya(480)} 480w, ${M.portraitMaya(720)} 720w`} sizes="(min-width: 1024px) 312px, 264px" alt={p.portraitAlt} width={480} height={600} fetchPriority="high" decoding="async" /></span>
-        <div className="x-pf-who">
-          <h2 className="t-name">{p.name}</h2>
-          <p className="t-fact x-pf-handle">{p.username}</p>
-          <p className="t-fact x-pf-facts">{p.city}<span aria-hidden> · </span><span className="x-pf-n">{p.completed}</span> Completed</p>
+    <div className="xs-stage xs-pf">
+      {/* identity: the portrait as the focal plane, the name as the object's typography, the share handle, the supported facts */}
+      <section className="xs-pf-identity" aria-label="Identity">
+        <span className="xs-plane xs-pf-portrait" style={{ cursor: "default" }}><img src={M.portraitMaya(480)} srcSet={`${M.portraitMaya(480)} 480w, ${M.portraitMaya(720)} 720w`} sizes="(min-width: 1024px) 312px, 264px" alt={p.portraitAlt} width={480} height={600} fetchPriority="high" decoding="async" /></span>
+        <div className="xs-pf-who">
+          <h2 className="xs-pf-name">{p.name}</h2>
+          <p className="t-fact xs-pf-handle">{handle}</p>
+          <p className="t-fact">{p.city}<span aria-hidden> · </span><span className="t-fact-ink">{p.completed}</span> Completed</p>
+          <p className="xs-pf-tags"><span className="x-tag">{p.instagram ? `Instagram ${p.instagram.handle}` : "Instagram not connected"}</span>{p.vehicle.listed && <span className="x-tag">Vehicle listed</span>}</p>
         </div>
       </section>
-      <section className="x-pf-work" aria-labelledby="work-h">
+      {/* work: her own media as planes, each tagged with its product identity; selecting one inspects it in place */}
+      <section className="xs-pf-workwrap" aria-labelledby="work-h">
         <div className="x-pf-work-head">
-          <h3 id="work-h" ref={sel !== null ? heading : undefined} tabIndex={sel !== null ? -1 : undefined} className="x-pf-work-h">Work</h3>
+          <h3 id="work-h" ref={sel !== null ? heading : undefined} tabIndex={sel !== null ? -1 : undefined} className="x-pf-work-h" style={{ color: "#fff" }}>Work</h3>
           {w && (
-            <span className="x-pf-work-tools">
+            <span className="xs-pf-tools">
               <button type="button" className="link t-action" onClick={() => step(-1)}>Previous</button>
               <button type="button" className="link t-action" onClick={() => step(1)}>Next</button>
               <button type="button" className="link link-plain t-action preview-close" onClick={closeWork}><X size={18} aria-hidden />Close</button>
@@ -82,9 +86,9 @@ export function ProfileBody({ publicView }: { publicView: boolean }) {
           )}
         </div>
         {w ? (
-          <div className="x-pf-inspect x-open" key={w.id} role="region" aria-label={`Work: ${w.title}`}>
-            <span className="media x-pf-inspect-media" style={{ aspectRatio: w.ratio }}><img src={w.full} alt={w.alt} /></span>
-            <div className="x-pf-inspect-ctx">
+          <div className="xs-pf-inspect x-open" key={w.id} role="region" aria-label={`Work: ${w.title}`}>
+            <span className="xs-plane xs-pf-inspect-media" style={{ aspectRatio: w.ratio, cursor: "default" }}><img src={w.full} alt={w.alt} /></span>
+            <div className="x-paper xs-sheet">
               <span className="t-fact">{w.kind}<span aria-hidden> · </span>{sel! + 1} of {WORK.length}</span>
               <span className="t-object">{w.title}</span>
               <span className="t-fact">{w.business}</span>
@@ -92,21 +96,22 @@ export function ProfileBody({ publicView }: { publicView: boolean }) {
             </div>
           </div>
         ) : (
-          <div className="x-pf-gallery">
+          <div className="xs-pf-work">
             {WORK.map((x, i) => (
-              <button key={x.id} type="button" className={`media x-pf-item x-pf-item-${i}`} style={{ aspectRatio: x.ratio }} onClick={(e) => openWork(i, e.currentTarget)} aria-label={`Open ${x.title}, ${x.business}`}><img src={x.src} alt="" width={x.w} height={x.h} decoding="async" loading={i === 0 ? "eager" : "lazy"} /></button>
+              <button key={x.id} type="button" className={`xs-plane xs-pf-item-${i}`} onClick={(e) => openWork(i, e.currentTarget)} aria-label={`Open ${x.title}, ${x.business}`}><img src={x.src} alt="" width={x.w} height={x.h} decoding="async" loading={i === 0 ? "eager" : "lazy"} /><span className="x-tag xs-tag">{x.kind}</span></button>
             ))}
           </div>
         )}
       </section>
-      <section className="x-pf-vehicle" aria-labelledby="vehicle-h">
-        <Sheet title={p.vehicle.title} variant="full" triggerClass="media x-pf-vehicle-photo" triggerLabel={`View ${p.vehicle.title}`} trigger={<img src={M.vehicleMaya(800)} alt="" width={800} height={533} decoding="async" loading="lazy" />}>
+      {/* the vehicle: the Drive object, photograph plus zone, with its facts attached */}
+      <section className="xs-obj xs-pf-vehicle" aria-labelledby="vehicle-h">
+        <Sheet title={p.vehicle.title} variant="full" triggerClass="xs-plane" triggerLabel={`View ${p.vehicle.title}`} trigger={<><img src={M.vehicleMaya(800)} alt="" width={800} height={533} decoding="async" loading="lazy" /><span className="x-tag xs-tag">Car</span><span className="x-tag xs-tag xs-tag-br">Rear doors</span></>}>
           <VehicleTask />
         </Sheet>
-        <div className="x-pf-vehicle-facts">
+        <div className="x-paper xs-sheet">
           <h3 id="vehicle-h" className="t-object">{p.vehicle.title}</h3>
-          <p className="t-fact">{p.vehicle.listed ? "Listed for ads" : "Vehicle not ready"}</p>
-          <Sheet title={p.vehicle.title} variant="full" triggerClass="link t-action x-pf-vehicle-view" trigger="View"><VehicleTask /></Sheet>
+          <span className="t-fact">{p.vehicle.listed ? "Listed for ads" : "Vehicle not ready"}<span aria-hidden> · </span>{p.city}</span>
+          <Sheet title={p.vehicle.title} variant="full" triggerClass="link t-action" trigger="View"><VehicleTask /></Sheet>
         </div>
       </section>
       {!publicView && <span className="v2-sr">Earnings and account administration are in Earnings and Settings.</span>}
