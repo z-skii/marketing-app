@@ -1,8 +1,9 @@
-import { Hero, type Audience } from "./x/site/Hero";
+import { EarnFilm, type Audience } from "./x/site/EarnFilm";
 import { PublicNav, PublicStrip, PublicFooter } from "./x/site/Shell";
-import { Recreate, Post, Drive, GetPaid } from "./x/site/Earn";
+import { Post, GetPaid } from "./x/site/Earn";
+import { DriveFilm } from "./x/site/DriveFilm";
 import { FindPeople, FindCars, CreateThree, Review, Content } from "./x/site/Business";
-import { Loop } from "./x/site/Loop";
+import { LoopFilm } from "./x/site/LoopFilm";
 
 /**
  * V3 Public Homepage at /design-lab-v3 (docs/design-lab-v3/screens/
@@ -21,12 +22,12 @@ export default async function V3PublicHome({ searchParams }: { searchParams: Pro
       <PublicNav />
       <PublicStrip />
       <main>
-        <Hero initial={audience} />
+        <EarnFilm initial={audience} />
         <div id="earn" className="x-world" aria-label="Make money">
-          <Recreate /><Post /><Drive /><GetPaid />
+          <Post /><DriveFilm /><GetPaid />
         </div>
         <div id="business" className="x-world x-world-business" aria-label="Grow your business">
-          <FindPeople /><FindCars /><CreateThree /><Review /><Content /><Loop />
+          <FindPeople /><FindCars /><CreateThree /><Review /><Content /><LoopFilm />
         </div>
       </main>
       <PublicFooter />

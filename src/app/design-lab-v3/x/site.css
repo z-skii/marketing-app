@@ -18,17 +18,12 @@
 .v3 .x-nav.x-dark { color: #fff; } .v3 .x-nav.x-dark .link { color: #fff; }
 /* A stable reading backing through the middle of the lens; translucency stays at the perimeter. */
 .v3 .x-nav::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 9%, rgba(255, 255, 255, 0.5) 91%, rgba(255, 255, 255, 0) 100%); pointer-events: none; }
-.v3 .x-nav.x-dark::after { background: linear-gradient(90deg, rgba(20, 32, 25, 0) 0%, rgba(20, 32, 25, 0.5) 9%, rgba(20, 32, 25, 0.5) 91%, rgba(20, 32, 25, 0) 100%); }
+.v3 .x-nav.x-dark::after { background: linear-gradient(90deg, rgba(24, 29, 31, 0) 0%, rgba(24, 29, 31, 0.5) 9%, rgba(24, 29, 31, 0.5) 91%, rgba(24, 29, 31, 0) 100%); }
 .v3 .x-nav > * { position: relative; z-index: 1; }
 @media (min-width: 1024px) { .v3 .x-nav { left: 32px; right: 32px; top: 16px; max-width: 1376px; margin: 0 auto; padding: 0 12px 0 20px; } }
 @media (min-width: 1920px) { .v3 .x-nav { max-width: 1600px; } }
-/* The lab and motion strip: opaque canvas beneath the navigation, then in flow. */
-.v3 .x-pubstrip { position: sticky; top: 0; z-index: 39; padding-top: 76px; padding-bottom: 4px; background: var(--v3-canvas); transition: background-color var(--v3-reveal) linear; }
-.v3 .x-pubstrip.x-dark { background: var(--v3-stage-dark); color: #fff; }
-.v3 .x-pubstrip .x-labstrip { min-height: 44px; }
-@media (min-width: 1024px) { .v3 .x-pubstrip { padding-top: 84px; } }
+/* The lab and motion strip is the opaque band of the 120px navigation stack (film.css); chapters clear the stack. */
 .v3 .x-chapter, .v3 .x-hero { scroll-margin-top: 128px; }
-@media (min-width: 1024px) { .v3 .x-chapter, .v3 .x-hero { scroll-margin-top: 136px; } }
 
 /* ------------------------------------------------------------------ hero */
 .v3 .x-hero { padding: 12px 0 24px; transition: background-color var(--v3-open) var(--v3-ease-open), color var(--v3-open) var(--v3-ease-open); }

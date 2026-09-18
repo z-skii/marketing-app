@@ -35,18 +35,22 @@ export function Entry({ label, className = "btn btn-primary", business = false }
   );
 }
 
-/** True while a dark stage passes beneath the given viewport y. The navigation stack (lens and lab strip) follows what is beneath it. */
-function useStageDark(y: number) {
-  const [dark, setDark] = useState(false);
+/** The tone of the stage passing beneath the given viewport y: dark, inspection or none. The navigation stack follows what is beneath it. */
+function useStageTone(y: number): "dark" | "inspection" | null {
+  const [tone, setTone] = useState<"dark" | "inspection" | null>(null);
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-stage-dark]"));
+    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-stage-dark], [data-stage-tone]"));
     if (!els.length) return;
-    const check = () => setDark(els.some((el) => { const r = el.getBoundingClientRect(); return r.top <= y && r.bottom >= y; }));
+    const check = () => {
+      const hit = els.find((el) => { const r = el.getBoundingClientRect(); return r.top <= y && r.bottom >= y; });
+      setTone(!hit ? null : hit.dataset.stageDark === "true" || hit.dataset.stageTone === "dark" ? "dark" : "inspection");
+    };
     check(); window.addEventListener("scroll", check, { passive: true }); window.addEventListener("resize", check);
     return () => { window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
   }, [y]);
-  return dark;
+  return tone;
 }
+const useStageDark = (y: number) => useStageTone(y) === "dark";
 
 export function PublicNav() {
   const dark = useStageDark(44);
@@ -71,10 +75,10 @@ export function PublicNav() {
   );
 }
 
-/** The compact opaque lab and motion strip: part of the persistent navigation stack, so Pause motion is reachable in every chapter. */
+/** The lab and motion strip: the opaque 44px band of the navigation stack, so Pause motion is reachable in every scene. */
 export function PublicStrip() {
-  const dark = useStageDark(100);
-  return <div className={`x-pubstrip${dark ? " x-dark" : ""}`}><div className="x-inner"><LabStrip /></div></div>;
+  const tone = useStageTone(100);
+  return <div className={`x-pubstrip${tone === "dark" ? " x-dark" : ""}`} data-tone={tone ?? undefined}><div className="x-inner"><LabStrip /></div></div>;
 }
 
 /** Media sources: exact provenance on demand, from docs/design-lab-v3/MEDIA_MANIFEST.json. */

@@ -1,0 +1,36 @@
+{
+  "id": "drive-oxblood-wagon-placement",
+  "kind": "vehicle_photograph",
+  "aspect": "3:2",
+  "purpose": "Give Drive an unmistakably desirable, believable owner-vehicle photograph with a visible rear-door plane suitable for coded placement inspection. This is the only new generated asset authorized for the first build.",
+  "prompt": "Create a highly believable editorial automotive photograph for a fictional product design lab, landscape 3:2, at least 2400 by 1600 pixels. Subject: an unbranded compact five-door estate wagon that an ordinary creative professional could own, dark desaturated oxblood metallic paint, restrained charcoal factory-style wheels, realistic tires with a little road dust, clean but not showroom-perfect bodywork. It must not reproduce an identifiable manufacturer's grille, badge or signature lighting. Park it on dry asphalt beside a quiet Central Texas workshop courtyard with pale limestone, warm off-white plaster, one broad shaded window and a restrained live-oak shadow in the background. No readable storefront name. Photograph the left side in a side-dominant front three-quarter view, front pointing right, only about twelve degrees away from true broadside, camera approximately 1.05 meters above ground, natural 65mm full-frame perspective. Show the entire vehicle with comfortable space around both bumpers and grounded tires. Let the vehicle occupy approximately 82 percent of the image width and the middle-to-lower half of the frame. The left rear door must be clearly exposed, with an uninterrupted painted panel below the window, anatomically correct seams and handle, and no branch shadow crossing its central placement area. Use broad soft daylight with a low warm side light grazing the upper paint, believable reflections of the courtyard in the windows, rich but open shadows and subtle surface texture. Color should feel photographic: oxblood body, mineral grey asphalt, pale stone and restrained natural greenery. The scene is still, quiet and owned, not an advertisement for the car. No people, no advertising wrap, no UI, no motion blur, no fictional dashboard, no readable text, no real-company logos; any visible license plate must be naturally unreadable. Preserve physical realism over glamour.",
+  "acceptance": "Reject unless the car reads as a real, cared-for everyday vehicle photographed on location. Inspect full resolution and the 390px crop: four-door geometry, rear-door seams, handles, wheel contact, glass reflections and paint highlights must be coherent. The visible rear door must have enough unobstructed area for a registered preview and remain identifiable after the prescribed crop shift. Reject dealer-listing light, a sterile stock-render finish, crushed dark paint, excessive bokeh, an illegible door silhouette or any recognizable real-company branding. Astra approves the clean photograph and a coded-mask contact sheet before motion work begins.",
+  "approvedByDirector": true,
+  "acceptedRound": 1,
+  "accepted": true,
+  "acceptanceNote": null,
+  "rounds": [
+    {
+      "round": 1,
+      "action": "edit",
+      "imageModel": "gpt-image-2.5-sunburst",
+      "quality": "high",
+      "review": {
+        "edit_instructions": "",
+        "summary": "A believable oxblood wagon sits in a sunlit residential courtyard, with its left rear passenger door clearly visible. The edit creates a sufficiently quiet placement area while retaining glossy paint depth, coherent vehicle details and the source composition, making it ready for the first build.",
+        "problems": [],
+        "scores": {
+          "purpose": 9,
+          "text_clean": 10,
+          "brand": 9,
+          "professional": 9,
+          "product_correct": 9,
+          "not_ai_looking": 9,
+          "premium": 9
+        },
+        "revised_prompt": "",
+        "verdict": "approve"
+      }
+    }
+  ]
+}

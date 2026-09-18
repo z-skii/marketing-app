@@ -1,0 +1,168 @@
+/* The recomposed public film (docs/design-lab-v3/recompose/RECOMPOSE_DIRECTION.md): one stage coordinate system per scene, persistent objects, a very small number of lenses with real content beneath them. */
+.v3 { --stage-h: min(796px, calc(100svh - 120px)); --x-hero-substrate: #171B1D; --x-inspect-substrate: #E8ECEB; }
+.v3 .x-scene { position: relative; scroll-margin-top: 120px; }
+.v3 .x-scene-stage { position: relative; height: var(--phone-h, 724px); overflow: hidden; display: flex; flex-direction: column; background: var(--x-inspect-substrate); }
+@media (min-width: 768px) {
+  .v3 .x-scene { height: calc(var(--stage-h) + var(--track, 1.6) * 100svh + var(--extra, 0px)); }
+  .v3 .x-scene-stage { position: sticky; top: 120px; height: var(--stage-h); }
+  .v3 .x-scene-static { height: auto; } .v3 .x-scene-static .x-scene-stage { position: relative; }
+}
+.v3 .x-scene-anchor { position: absolute; left: 0; width: 1px; height: 1px; scroll-margin-top: 120px; }
+.v3 .x-scene-static-beat + .x-scene-static-beat { border-top: 1px solid rgba(23, 34, 30, 0.12); }
+.v3 .x-scene-stage.x-dark { background: var(--x-hero-substrate); color: #fff; }
+/* The field: the space the objects live in. Every object is centered on its own pose. */
+.v3 .x-field { position: absolute; inset: 0; }
+.v3 .x-obj { position: absolute; left: 50%; top: 50%; transform: translate3d(-50%, -50%, 0); will-change: transform, opacity; backface-visibility: hidden; }
+.v3 .x-obj img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Media planes: the original media, a static physical shadow; Reel and portrait 6px, Story and vehicle 0. */
+.v3 .x-plane { overflow: hidden; background: #1F2D26; box-shadow: 0 10px 28px rgba(8, 18, 20, 0.12); }
+.v3 .x-plane-fore { box-shadow: 0 20px 56px rgba(8, 18, 20, 0.22), 0 3px 10px rgba(8, 18, 20, 0.12); }
+.v3 .x-plane-r6 { border-radius: 6px; }
+.v3 .x-plane-flat { box-shadow: none; }
+/* Inspection lens: one active rail per stage, real content passing beneath; text on an internal opaque backing. */
+.v3 .x-inspect { position: relative; background: rgba(250, 253, 252, 0.48); -webkit-backdrop-filter: blur(14px) saturate(1.10); backdrop-filter: blur(14px) saturate(1.10); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 10px 30px rgba(29, 47, 49, 0.12), 0 2px 6px rgba(29, 47, 49, 0.06); }
+.v3 .x-inspect::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0.28) 50%, rgba(255, 255, 255, 0.5) 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.v3 .x-inspect-text { position: relative; display: flex; align-items: baseline; gap: 10px; padding: 6px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.94); color: var(--v3-ink); white-space: nowrap; }
+.v3 .x-inspect-text > * { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.v3 .x-inspect-text > .t-object { flex-shrink: 0; }
+@media (prefers-reduced-transparency: reduce) { .v3 .x-inspect { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; } }
+/* Opaque reading sheet: money, terms, forms and disclosures. */
+.v3 .x-paper { background: #fff; color: var(--v3-ink); border-radius: 10px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.96), 0 0 0 1px rgba(31, 48, 49, 0.10), 0 18px 48px rgba(24, 42, 44, 0.16), 0 2px 8px rgba(24, 42, 44, 0.06); }
+.v3 .x-paper .t-fact { color: var(--v3-muted); } .v3 .x-paper .t-object, .v3 .x-paper .t-fact-ink, .v3 .x-paper .money { color: var(--v3-ink); }
+/* Labels on media: 12/16, opaque backing. */
+.v3 .x-tag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 8px; font-weight: 500; font-size: 12px; line-height: 16px; background: rgba(255, 255, 255, 0.94); color: var(--v3-ink); white-space: nowrap; }
+.v3 .x-tag-ink { background: var(--v3-ink); color: #fff; }
+.v3 .x-tag-create { background: var(--v3-create); color: var(--v3-ink); }
+.v3 .x-obj-tag { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); overflow: hidden; text-overflow: ellipsis; }
+/* Display type: the two audience lines are the controls; chapter titles 32/44 weight 500; conclusion amounts 56/88. */
+.v3 .x-line { display: block; text-align: left; color: #fff; }
+.v3 .x-line-1 { font-weight: 600; font-size: 56px; line-height: 58px; letter-spacing: -0.045em; }
+.v3 .x-line-2 { font-weight: 500; font-size: 36px; line-height: 40px; letter-spacing: -0.035em; }
+.v3 .x-line[aria-selected="false"] { color: rgba(255, 255, 255, 0.46); }
+.v3 .x-line[aria-selected="true"] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; text-decoration-color: var(--v3-create); }
+.v3 .x-line:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
+@media (max-width: 359px) { .v3 .x-line-1 { font-size: 46px; line-height: 48px; } .v3 .x-line-2 { font-size: 30px; line-height: 34px; } }
+@media (min-width: 1024px) { .v3 .x-line-1 { font-size: 96px; line-height: 96px; } .v3 .x-line-2 { font-size: 64px; line-height: 68px; } }
+.v3 .x-film-title { display: block; font-weight: 500; font-size: 32px; line-height: 36px; letter-spacing: -0.03em; color: var(--v3-ink); }
+@media (min-width: 1024px) { .v3 .x-film-title { font-size: 44px; line-height: 48px; } }
+.v3 .x-money-hero { font-weight: 600; font-variant-numeric: tabular-nums lining-nums; font-size: 44px; line-height: 46px; letter-spacing: -0.04em; }
+.v3 .x-money-end { font-weight: 600; font-variant-numeric: tabular-nums lining-nums; font-size: 56px; line-height: 58px; letter-spacing: -0.04em; }
+@media (min-width: 1024px) { .v3 .x-money-hero { font-size: 64px; line-height: 66px; } .v3 .x-money-end { font-size: 88px; line-height: 90px; } }
+/* Stage chrome: title at the top left, controls and actions at the foot, above the field. */
+.v3 .x-stage-head { position: relative; z-index: 5; padding: 10px 16px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; pointer-events: none; }
+.v3 .x-stage-head > * { pointer-events: auto; }
+.v3 .x-stage-foot { position: relative; z-index: 5; margin-top: auto; padding: 0 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+.v3 .x-stage-foot .x-controls { flex-wrap: wrap; }
+@media (min-width: 1024px) { .v3 .x-stage-head { padding: 16px 80px 0; max-width: 1440px; margin: 0 auto; width: 100%; } .v3 .x-stage-foot { padding: 0 80px 20px; max-width: 1440px; margin: auto auto 0; width: 100%; } }
+/* The lab and motion strip: an opaque 44px band beneath the navigation, part of the 120px navigation stack, following the tone of the stage beneath. */
+.v3 .x-pubstrip { position: sticky; top: 0; z-index: 39; height: 120px; padding-top: 76px; background: var(--v3-canvas); transition: background-color 180ms cubic-bezier(0.2, 0, 0, 1); }
+.v3 .x-pubstrip[data-tone="dark"] { background: var(--x-hero-substrate); color: #fff; }
+.v3 .x-pubstrip[data-tone="inspection"] { background: var(--x-inspect-substrate); }
+.v3 .x-pubstrip .x-labstrip { min-height: 44px; flex-wrap: nowrap; }
+@media (max-width: 767px) { .v3 .x-pubstrip .x-labstrip .lab-entrance { max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
+
+/* ------------------------------------------------------------- earn film */
+.v3 .x-earn-stage { transition: background-color 180ms cubic-bezier(0.2, 0, 0, 1); }
+.v3 .x-earn-lines { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.v3 .x-earn-ref { width: 244px; aspect-ratio: 4 / 5; z-index: 30; display: block; }
+.v3 .x-earn-work { width: 326px; aspect-ratio: 4 / 5; z-index: 24; }
+.v3 .x-earn-portrait { width: 92px; aspect-ratio: 4 / 5; z-index: 20; }
+.v3 .x-earn-stage[data-audience="business"] .x-earn-portrait { width: 110px; }
+.v3 .x-earn-story { width: 94px; aspect-ratio: 9 / 16; z-index: 10; }
+.v3 .x-earn-car { width: 238px; aspect-ratio: 3 / 2; z-index: 12; }
+.v3 .x-earn-business { width: 216px; aspect-ratio: 3 / 2; z-index: 5; }
+.v3 .x-earn-loyalty { width: 124px; height: 96px; z-index: 18; border-radius: 6px; overflow: hidden; background: #18231D; box-shadow: 0 10px 28px rgba(8, 18, 20, 0.12); }
+.v3 .x-earn-loyalty-art { position: absolute; inset: 0; opacity: 0.82; }
+.v3 .x-earn-loyalty-art img { width: 100%; height: 100%; object-fit: cover; }
+.v3 .x-earn-loyalty-id { position: absolute; right: 8px; bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.v3 .x-earn-loyalty-id .loy-brand-mark { width: 22px; height: 22px; border-radius: 6px; background: rgba(247, 244, 235, 0.92); color: #18231D; display: grid; place-items: center; }
+.v3 .x-earn-tag { z-index: 32; }
+.v3 .x-earn-terms { width: 290px; z-index: 40; padding: 10px 14px; display: flex; flex-direction: column; gap: 2px; }
+.v3 .x-earn-terms-money { display: flex; align-items: baseline; gap: 8px; }
+.v3 .x-earn-terms-actions { display: flex; gap: 16px; } .v3 .x-earn-terms-actions .link { min-height: 40px; display: inline-flex; align-items: center; }
+.v3 .x-earn-boundary { width: 44px; height: 100%; max-height: 408px; z-index: 28; cursor: ew-resize; touch-action: none; background: none; display: grid; place-items: center; }
+.v3 .x-earn-boundary-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; margin-left: -0.5px; background: #fff; box-shadow: 0 0 0 0.5px rgba(23, 34, 30, 0.3); }
+.v3 .x-earn-boundary-grip { width: 28px; height: 28px; border-radius: 14px; background: #fff; box-shadow: 0 2px 8px rgba(8, 18, 20, 0.28); position: relative; }
+.v3 .x-earn-boundary-grip::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 2px; margin: -1px 0 0 -4px; background: var(--v3-ink); box-shadow: 0 -4px 0 var(--v3-ink), 0 4px 0 var(--v3-ink); }
+.v3 .x-earn-sub { width: 326px; z-index: 26; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.v3 .x-earn-rail { width: 326px; height: 56px; z-index: 34; }
+.v3 .x-rim-film { padding: 6px; } .v3 .x-rim-film img { transform: scale(1.012) translate(1.25px, 0); filter: blur(0.4px); opacity: 0.28; }
+.v3 .x-earn-railtext { width: 326px; height: 56px; z-index: 35; display: flex; align-items: center; padding: 0 8px; }
+.v3 .x-earn-railtext .x-inspect-text { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.v3 .x-earn-end { width: 326px; z-index: 36; padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 4px; }
+.v3 .x-earn-end-money { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.v3 .x-earn-end-lines { display: flex; flex-wrap: wrap; gap: 2px 12px; padding-top: 8px; border-top: 1px solid var(--v3-line); }
+.v3 .x-earn-hero .x-hero-actions .link { color: #fff; }
+.v3 .x-earn-hero .x-hero-actions .btn-primary { background: #fff; color: var(--v3-ink); box-shadow: none; }
+.v3 .x-earn-stage .x-hero-actions { min-height: 48px; } .v3 .x-earn-stage .x-hero-actions .btn { min-height: 48px; padding: 0 20px; }
+.v3 .x-earn-stage .x-hero-actions-r { display: flex; align-items: center; gap: 20px; }
+@media (min-width: 768px) {
+  .v3 .x-earn-ref { width: 300px; } .v3 .x-earn-work, .v3 .x-earn-sub, .v3 .x-earn-rail, .v3 .x-earn-railtext, .v3 .x-earn-end { width: 360px; } .v3 .x-earn-boundary { max-height: 450px; }
+  .v3 .x-earn-portrait { width: 140px; } .v3 .x-earn-story { width: 150px; } .v3 .x-earn-car { width: 400px; } .v3 .x-earn-business { width: 330px; } .v3 .x-earn-loyalty { width: 220px; height: 125px; }
+  .v3 .x-earn-sub { width: 300px; }
+}
+@media (min-width: 1024px) {
+  .v3 .x-earn-ref { width: 360px; } .v3 .x-earn-work, .v3 .x-earn-rail, .v3 .x-earn-railtext, .v3 .x-earn-end { width: 416px; } .v3 .x-earn-boundary { max-height: 520px; }
+  .v3 .x-earn-portrait { width: 168px; } .v3 .x-earn-story { width: 190px; } .v3 .x-earn-car { width: 480px; } .v3 .x-earn-business { width: 390px; } .v3 .x-earn-loyalty { width: 324px; height: 184px; }
+  .v3 .x-earn-terms { width: 304px; padding: 12px 16px; } .v3 .x-earn-sub { width: 340px; } .v3 .x-earn-end { padding: 16px 20px 18px; }
+  .v3 .x-earn-stage[data-audience="business"] .x-earn-portrait { width: 168px; }
+}
+
+/* ------------------------------------------------------------ drive film */
+.v3 .x-dr-aperture { width: 100vw; height: 330px; overflow: hidden; z-index: 10; background: var(--x-inspect-substrate); }
+.v3 .x-dr-plane { position: absolute; left: 50%; top: 50%; width: 100vw; aspect-ratio: 3 / 2; transform: translate3d(-50%, -50%, 0); will-change: transform, opacity; }
+.v3 .x-dr-plane > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.v3 .x-dr-zone { position: absolute; inset: 0; width: 100%; height: 100%; }
+.v3 .x-dr-zonelabel { position: absolute; transform: translate(0, -50%); padding-left: 8px; }
+.v3 .x-dr-planar { position: absolute; inset: 0; }
+.v3 .x-dr-planar-place { position: absolute; display: block; transform: perspective(700px) rotateY(-7deg) skewY(-1.5deg); transform-origin: 0 50%; }
+.v3 .x-dr-occlusion { position: absolute; inset: 0; pointer-events: none; }
+.v3 .x-dr-occlusion img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.v3 .x-dr-free { position: absolute; display: block; left: calc(var(--x0) + (var(--x1) - var(--x0)) * var(--fx, 0)); top: calc(var(--y0) + (var(--y1) - var(--y0)) * var(--fy, 0)); }
+.v3 .x-dr-specimen { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 1px; padding: 4px 6px; background: #F7F4EB; color: #18231D; border-radius: 2px; box-shadow: 0 1px 2px rgba(8, 18, 20, 0.2); overflow: hidden; }
+.v3 .x-dr-specimen-name { display: flex; flex-direction: column; font-weight: 600; font-size: 9px; line-height: 10px; letter-spacing: -0.01em; white-space: nowrap; }
+.v3 .x-dr-specimen-note { font-weight: 500; font-size: 7px; line-height: 9px; color: #59655D; white-space: nowrap; }
+.v3 .x-dr-specimen.is-planar { box-shadow: inset 0 0 0 0.5px rgba(24, 35, 29, 0.35); opacity: 0.94; }
+.v3 .x-dr-example { position: absolute; left: 10%; bottom: 10%; z-index: 2; }
+.v3 .x-dr-sheet { width: 358px; z-index: 20; padding: 12px 16px; display: flex; flex-direction: column; gap: 3px; align-items: flex-start; }
+.v3 .x-dr-view { min-height: 40px; display: inline-flex; align-items: center; }
+.v3 .x-dr-money { display: flex; flex-direction: column; gap: 2px; width: 100%; margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--v3-line); }
+.v3 .x-dr-money .x-money-end { font-size: 48px; line-height: 50px; }
+.v3 .x-dr-money-value { display: flex; align-items: baseline; gap: 8px; }
+@media (min-width: 768px) {
+  .v3 .x-dr-aperture { width: 720px; height: 480px; } .v3 .x-dr-plane { width: 720px; }
+  .v3 .x-dr-sheet { width: 304px; }
+  .v3 .x-dr-specimen-name { font-size: 12px; line-height: 14px; } .v3 .x-dr-specimen-note { font-size: 8px; line-height: 10px; }
+}
+@media (min-width: 1024px) {
+  .v3 .x-dr-aperture { width: 960px; height: 640px; } .v3 .x-dr-plane { width: 960px; }
+  .v3 .x-dr-specimen-name { font-size: 12px; line-height: 13px; } .v3 .x-dr-specimen-note { font-size: 9px; line-height: 11px; }
+  .v3 .x-dr-sheet { padding: 16px 20px; } .v3 .x-dr-money .x-money-end { font-size: 64px; line-height: 66px; }
+}
+
+/* ------------------------------------------------------------- loop film */
+.v3 .x-lp2-source { width: 358px; display: flex; flex-direction: column; gap: 0; align-items: flex-start; z-index: 30; }
+.v3 .x-lp2-name { position: relative; display: block; height: 24px; width: 100%; }
+.v3 .x-lp2-name-scale { position: absolute; left: 0; top: 0; transform-origin: 0 0; white-space: nowrap; }
+.v3 .x-lp2-sub { display: block; }
+.v3 .x-lp2-name-btn { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; font-size: 40px; line-height: 44px; letter-spacing: -0.03em; color: var(--v3-ink); text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 8px; text-decoration-color: var(--loopday-terminal); }
+@media (min-width: 1024px) { .v3 .x-lp2-name-btn { font-size: 48px; line-height: 52px; min-height: 52px; } }
+.v3 .x-lp2-story { width: 214px; aspect-ratio: 9 / 16; z-index: 10; }
+.v3 .x-lp2-link { width: 176px; z-index: 12; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.v3 .x-lp2-link .x-lp-join { min-height: 32px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: 4px; }
+.v3 .x-lp2-signup { width: 358px; z-index: 20; padding: 16px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.v3 .x-lp2-card { width: 334px; z-index: 22; display: flex; flex-direction: column; gap: 6px; }
+.v3 .x-lp2-card .wc { box-shadow: 0 16px 40px rgba(24, 42, 44, 0.16); }
+.v3 .x-lp2-member { width: 358px; z-index: 24; text-align: left; }
+.v3 .x-lp2-date { width: 358px; z-index: 24; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; font-variant-numeric: tabular-nums; position: absolute; }
+.v3 .x-lp2-reg { position: absolute; left: -32px; top: 14px; width: 24px; height: 1px; background: var(--v3-ink); opacity: 0; }
+.v3 .x-lp2-ledges { --ledge: 216px; width: 358px; z-index: 26; display: flex; flex-direction: column; gap: 14px; }
+.v3 .x-lp2-ledge { display: flex; align-items: center; gap: 12px; min-height: 46px; }
+.v3 .x-lp2-ledge-bar { display: block; height: 2px; background: var(--v3-ink); flex: 0 0 auto; width: calc(var(--ledge) * var(--k, 1)) !important; }
+.v3 .x-lp2-ledge-value { display: inline-flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+.v3 .x-lp2-ledge-n { font-weight: 600; font-size: 42px; line-height: 46px; letter-spacing: -0.035em; font-variant-numeric: tabular-nums lining-nums; color: var(--v3-ink); }
+.v3 .x-lp2-ledge .t-fact-ink { font-size: 14px; line-height: 20px; }
+.v3 .x-lp2-act { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+.v3 .x-loop-stage .x-lp-wallet { margin-left: 8px; }
+@media (min-width: 768px) { .v3 .x-lp2-card { width: 360px; } .v3 .x-lp2-signup { width: 350px; } .v3 .x-lp2-ledges { --ledge: 528px; width: 760px; gap: 32px; } }
+@media (min-width: 1024px) { .v3 .x-lp2-card { width: 375px; } .v3 .x-lp2-source { width: 300px; } .v3 .x-lp2-member, .v3 .x-lp2-date { width: 300px; } .v3 .x-lp2-ledge-n { font-size: 64px; line-height: 68px; } .v3 .x-lp2-ledge { min-height: 68px; } }

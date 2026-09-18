@@ -26,4 +26,6 @@ export const M = {
   eliBag: () => `${D}/eli-bag-480.jpg`, eliCup: () => `${D}/eli-cup-480.jpg`,
   contentCounter: () => `${D}/content-counter-800.jpg`, contentPour: () => `${D}/content-pour-480.jpg`, contentWindow: () => `${D}/content-window-480.jpg`, contentPastry: () => `${D}/content-pastry-480.jpg`, contentCups: () => `${D}/content-cups-480.jpg`,
   plan: "/design-lab/placement-rear-doors.svg",
+  driveWagon: (w: 480 | 960 | 1440) => `${D}/drive-wagon-${w}.jpg`,
+  driveWagonOriginal: "/design-lab/drive-oxblood-wagon-placement.jpg",
 };

@@ -5,6 +5,7 @@ import "../design-lab-v2/v2.css";
 import "./v3.css";
 import "./x/x.css";
 import "./x/site.css";
+import "./x/film.css";
 import "./x/app.css";
 import { MotionProvider } from "./x/motion";
 import { LoyaltyProvider } from "./store";
