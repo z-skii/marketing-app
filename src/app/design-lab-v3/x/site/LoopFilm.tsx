@@ -22,17 +22,8 @@ import { FilmControls, Scene, openEase, tl, useFilm, type Beat, type Tracks, typ
  * the source, so the close visibly reconnects to the original campaign. An independent replay: nothing here touches the
  * working Loyalty store, and the preview keeps its 10/6/1/2 baseline.
  */
-export const LOOP_BEATS: Beat[] = [
-  { key: "story", label: "Story", at: 0, dwell: 1000 },
-  { key: "signup", label: "Signup", at: 0.16, dwell: 1100 },
-  { key: "card", label: "Member card", at: 0.28, dwell: 700 },
-  { key: "sep8", label: "September 8", at: 0.36, dwell: 800 },
-  { key: "sep10", label: "September 10", at: 0.46, dwell: 550 },
-  { key: "sep13", label: "September 13", at: 0.54, dwell: 550 },
-  { key: "sep16", label: "September 16", at: 0.62, dwell: 550 },
-  { key: "sep17", label: "Reward", at: 0.7, dwell: 1100 },
-  { key: "attribution", label: "Attribution", at: 0.985, dwell: 2000 },
-];
+import { LOOP_BEATS } from "./loop-beats";
+export { LOOP_BEATS };
 const ACT = (b: number) => (b === 0 ? "Attention" : b <= 2 ? "Customer" : b <= 7 ? "Return customer" : "Attribution");
 const EVENT: Record<number, { iso: string; label: string; visits: number; ready: boolean } | undefined> = {
   2: { iso: "2026-09-08", label: "Joined", visits: 0, ready: false }, 3: { iso: "2026-09-08", label: "First visit", visits: 1, ready: false }, 4: { iso: "2026-09-10", label: "Came back", visits: 2, ready: false },

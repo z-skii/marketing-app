@@ -1,9 +1,8 @@
-import { EarnFilm, type Audience } from "./x/site/EarnFilm";
+import { EarnFilm } from "./x/site/EarnFilm";
 import { PublicNav, PublicStrip, PublicFooter } from "./x/site/Shell";
 import { Post, GetPaid } from "./x/site/Earn";
-import { DriveFilm } from "./x/site/DriveFilm";
 import { FindPeople, FindCars, CreateThree, Review, Content } from "./x/site/Business";
-import { LoopFilm } from "./x/site/LoopFilm";
+import { DriveIsland, LoopIsland } from "./x/site/Islands";
 
 /**
  * V3 Public Homepage at /design-lab-v3 (docs/design-lab-v3/screens/
@@ -12,22 +11,23 @@ import { LoopFilm } from "./x/site/LoopFilm";
  * (Find people, Find cars, Create, Review, Monthly content) and the
  * source preserving Loyalty loop. Fixture data only; nothing
  * authenticates, sends or moves money. ?audience=earn|business selects
- * the hero lens; both stories are always in the document.
+ * the hero lens on the client; both stories are always in the document.
+ * The route is prerendered; the Drive and Loyalty scenes are islands that
+ * load when they come near (x/site/Islands.tsx); the business run keeps
+ * its own height in the document so every anchor lands where it should.
  */
-export default async function V3PublicHome({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const sp = await searchParams;
-  const audience: Audience = sp.audience === "business" ? "business" : "earn";
+export default function V3PublicHome() {
   return (
     <div className="x-site" id="top">
       <PublicNav />
       <PublicStrip />
       <main>
-        <EarnFilm initial={audience} />
+        <EarnFilm />
         <div id="earn" className="x-world" aria-label="Make money">
-          <Post /><DriveFilm /><GetPaid />
+          <Post /><DriveIsland /><GetPaid />
         </div>
         <div id="business" className="x-world x-world-business" aria-label="Grow your business">
-          <FindPeople /><FindCars /><CreateThree /><Review /><Content /><LoopFilm />
+          <FindPeople /><FindCars /><CreateThree /><Review /><Content /><LoopIsland />
         </div>
       </main>
       <PublicFooter />

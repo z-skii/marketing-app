@@ -246,11 +246,12 @@ function Stage({ aud, staticAt, choose }: { aud: Audience; staticAt: number | nu
   );
 }
 
-export function EarnFilm({ initial }: { initial: Audience }) {
-  const [aud, setAud] = useState<Audience>(initial);
+export function EarnFilm() {
+  const [aud, setAud] = useState<Audience>("earn");
   useEffect(() => {
-    const onPop = () => setAud(new URLSearchParams(location.search).get("audience") === "business" ? "business" : "earn");
-    window.addEventListener("popstate", onPop); return () => window.removeEventListener("popstate", onPop);
+    const read = () => setAud(new URLSearchParams(location.search).get("audience") === "business" ? "business" : "earn");
+    const t = setTimeout(read, 0);
+    window.addEventListener("popstate", read); return () => { clearTimeout(t); window.removeEventListener("popstate", read); };
   }, []);
   const choose = (a: Audience) => {
     if (a === aud) return;

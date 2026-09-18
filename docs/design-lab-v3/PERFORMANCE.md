@@ -137,3 +137,60 @@ reference. Desktop 99, LCP 0.9 s, CLS 0.
 | Public homepage, desktop, runs 1 and 2 | 99 | 98 | 0.9 s | 0.3 s | 0.5 s | 0 | 0 ms | 110KB / 4 | 207KB | 553KB |
 | Public homepage, mobile, runs 1 and 2 | 83 | 98 | 4.5 s | 1.4 s | 1.7 s | 0 | 70 to 80 ms | 110KB / 4 | 207KB | 553KB |
 
+## Addendum, 2026-09-18, the performance pass
+
+Measured before editing (Lighthouse JSON of the earlier runs), on the
+mobile preset the largest contentful paint is the same image in the
+observed, unthrottled trace and in the simulated one, but the observed
+paint is at 0.26 s (public homepage), 0.15 s (User Home) and 0.17 s
+(Business Home), equal to first contentful paint: the image paints at
+first paint, before any script runs. The 4 to 5 s figure is the simulator's
+estimate for slow 4G with 4x CPU throttling, and its phase breakdown put
+2.0 to 3.0 s in "render delay": the model assumes the paint waits on every
+script requested before it (the Next and React runtime, 209KB compressed,
+all requested from the head as async scripts) and on the fonts and CSS
+sharing the connection (six font files, 155KB, of which 135KB are the root
+layout's Inter and IBM Plex Mono that V3 does not use; 62KB of render
+blocking CSS). Image weight was no longer a factor.
+
+What changed in V3 (implementation only, no visual change):
+
+- The public route is prerendered (the audience lens is read on the
+  client), and the Drive and Business to Loyalty scenes are islands
+  (`x/Near.tsx`, `x/site/Islands.tsx`): their code is a separate chunk
+  requested only when the stage comes within 1200px of the viewport, and
+  until then a server rendered shell holds the stage's exact height, so
+  nothing visible moves and the anchors exist from the first byte.
+- User Home's reference picks the 720 derivative on phone (from 1080) and
+  the Loyalty strip artwork loads lazily (from the propagation pass).
+
+Measured after, production build, median of three mobile runs, one desktop:
+
+| Route | Mobile before | Mobile after (median, runs) | Desktop after |
+| --- | --- | --- | --- |
+| Public homepage | 85, LCP 4.3 s | 85, LCP 4.4 s (4.4, 5.1, 4.4), TBT 60 ms | 99, LCP 0.9 s |
+| User Home | 84, LCP 4.4 s | 90, LCP 3.5 s (3.5, 4.2, 3.5), TBT 49 ms | 99, LCP 0.8 s |
+| Business Home | 82, LCP 4.8 s | 84, LCP 4.4 s (4.3, 4.5, 4.4), TBT 51 ms | 99, LCP 0.9 s |
+
+CLS is 0 on every run; accessibility 98; first load media 110KB / 105KB /
+329KB (the Business Home figure precedes the lazy strip artwork in the
+same build's request order). Initial compressed script transfer on the
+public homepage is 211KB against 209KB: the two scene chunks (9.5KB and
+similar, raw) left the first load, the island shells and loader arrived,
+and the shared runtime, engine, fixtures and sheet code that the hero and
+the business run need stayed.
+
+A measurement only build with the root layout's fonts not preloaded
+(reverted, production untouched) moved the public homepage from 4.4 s to
+4.2 s and 86, so the fonts are a small part of the gap.
+
+The 2.5 s target is not reachable inside V3 without changes outside it:
+the simulated paint is bounded by the framework and app scripts that
+precede the observed paint (about 211KB compressed), the 135KB of root
+fonts V3 does not use, and 62KB of render blocking CSS of which most is
+the V2 stylesheet V3 builds on. The routes that would move it are a
+route group with its own root layout for the lab (no Inter and Plex
+preloads), a V3 only stylesheet in place of v2.css, and fewer client
+components on the first screen. Real devices on a fast connection paint
+the hero image in about a quarter of a second.
+
