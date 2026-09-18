@@ -1,0 +1,55 @@
+{
+  "experience": "Business to Loyalty sequence",
+  "final": true,
+  "shots": [
+    "loop-d-1.png",
+    "loop-m-8.png",
+    "loop-d-strip.png",
+    "loop-m-strip.png"
+  ],
+  "when": "2026-09-18T16:43:28.633Z",
+  "reviewer": "director",
+  "verification": {
+    "blocker": null,
+    "read": "On phone, Jasmine and the returning Story lead into readable 4/3/1 ledges, with the reward-ready card reduced beneath them and controls following in document flow. On desktop, the attribution shares the stage with the whole, legible Wallet concept, preserving the customer object through the conclusion.",
+    "score": 8,
+    "verdict": "ready",
+    "six_questions": [
+      {
+        "question": "Would someone remember this website tomorrow?",
+        "answer": "yes",
+        "note": "The returning Story, enlarged Jasmine marker and restrained attribution ledges provide a distinctive ending; actual recall remains untested."
+      },
+      {
+        "question": "Could this homepage belong to any other startup?",
+        "answer": "no",
+        "note": "This sequence expresses TapMart’s specific campaign-to-member relationship rather than generic marketing analytics; the complete homepage is outside these captures."
+      },
+      {
+        "question": "Do Recreate, Story and Drive each have a recognizable physical identity?",
+        "answer": "partly",
+        "note": "The intact Story has a clear identity here. Recreate and Drive are not shown."
+      },
+      {
+        "question": "Does the car moment make TapMart feel unique?",
+        "answer": "partly",
+        "note": "The car moment cannot be assessed from this Loyalty evidence."
+      },
+      {
+        "question": "Does the Loyalty loop make a business understand why TapMart is more than creator marketing?",
+        "answer": "yes",
+        "note": "Jasmine remains the source through Sara’s dated returns and reward readiness, then takes the foreground beside explicitly labelled recorded unique-member aggregates."
+      },
+      {
+        "question": "Would someone scroll because they want to see what happens next?",
+        "answer": "yes",
+        "note": "The campaign, accumulating visits and source recognition form a clear progression with a meaningful payoff. The sampled reverse states preserve that relationship."
+      }
+    ],
+    "notes": [
+      "No visible collision, clipped obligation, obscured control or false redemption claim blocks shipment of this sequence.",
+      "The small phone card functions as a continuity echo; the preceding member states provide the readable pass.",
+      "The strips show forward, reverse and paused states, but do not establish animation smoothness, reduced-motion behavior or measured performance."
+    ]
+  }
+}

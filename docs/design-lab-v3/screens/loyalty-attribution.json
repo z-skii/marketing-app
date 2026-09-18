@@ -1,0 +1,995 @@
+{
+  "screen": "Attribution",
+  "route": "/design-lab-v3/business/loyalty/attribution",
+  "when": "2026-09-17T02:47:44.332Z",
+  "author": "director",
+  "spec": {
+    "acceptance": [
+      "Capture the real React/CSS at 320×568, 390×844, 768×1024, 1023×900, 1440×900 and 1920×1080 before approval.",
+      "At 390×844, the baseline first screen contains the complete overall descent and Jasmine’s complete source object. Target 38 visible words including navigation; measure the actual capture.",
+      "At 320×568, navigation, grouping and period controls remain usable. The overall descent remains readable without horizontal scrolling; sources continue naturally below.",
+      "No explanatory paragraph contains 18 or more words. Do not shrink type or conceal a qualification to meet the copy target.",
+      "Baseline totals reconcile to 10 joined, 6 came back and 2 unique members redeemed. These are not the Home dashboard’s reward-instance counts.",
+      "September 2026 reconciles to 9 joined, 5 came back and 1 redeemed. Last 7 days reconciles to 5 joined, 1 came back and 0 redeemed.",
+      "Switching Creators and Campaigns preserves cohort membership and overall totals. Counter QR and Direct signup remain visible in both modes.",
+      "Every source uses the same source-chart scale within the selected period. Zero has no ink length or decorative minimum bar.",
+      "Period changes select members by signup date. Returns and redemptions are evaluated through the explicit demo snapshot, not silently restricted to the signup interval.",
+      "Source selection, period selection, definitions, invalid-source recovery, empty periods and browser Back work with keyboard and touch.",
+      "View members preserves the selected source and signup period. No member name, contact or individual history appears on Attribution itself.",
+      "After Sara’s fifth visit, attribution remains 10 / 6 / 2. After her redemption it becomes 10 / 6 / 3, and Jasmine becomes 4 / 3 / 2.",
+      "Opening Attribution, changing grouping, changing period or inspecting a source appends no acquisition, visit, redemption or Wallet event.",
+      "Test 200% text zoom, reduced motion, screen-reader reading order, focus restoration and visible focus. No chart information depends on length or colour alone.",
+      "No export, revenue, value, conversion percentage, causal-lift claim, delivery state, creator customer access or production navigation appears.",
+      "The public-sequence word budget is not applicable: this surface contains no public playback or embedded marketing sequence.",
+      "Approval remains pending real captures and interaction checks; this specification is not implementation approval."
+    ],
+    "signature_moment": "The campaign’s identity sits beside three exposed, diminishing ink ledges: attention has become a signup, a recorded return and a redemption. Unlike an ordinary punch-card product, the acquisition thread stays visible without turning customers into revenue estimates or a CRM.",
+    "visible_copy": [
+      {
+        "text": "Attribution",
+        "why_needed": "Names the business task.",
+        "where": "Page title in every state."
+      },
+      {
+        "text": "Back",
+        "why_needed": "Returns to the originating Loyalty surface or closes the current substep.",
+        "where": "Accessible name of the phone back control; visible in focused full-height layers."
+      },
+      {
+        "text": "Design Lab · Fictional preview",
+        "why_needed": "Identifies the entire surface as fictional and opens demo controls.",
+        "where": "Persistent context control below the phone header; desktop header context; repeated inside modal layers."
+      },
+      {
+        "text": "Creators",
+        "why_needed": "Groups campaign acquisitions by their creator while retaining non-creator sources.",
+        "where": "Default grouping tab."
+      },
+      {
+        "text": "Campaigns",
+        "why_needed": "Groups campaign acquisitions by campaign; also names the existing advertising destination.",
+        "where": "Second grouping tab and inherited primary navigation."
+      },
+      {
+        "text": "Signup period",
+        "why_needed": "Makes clear that the period selects a signup cohort, not activity dates.",
+        "where": "Small label attached to the period control; period-sheet title."
+      },
+      {
+        "text": "All time",
+        "why_needed": "Identifies the default complete signup cohort.",
+        "where": "Default period control and period-sheet option."
+      },
+      {
+        "text": "All sources",
+        "why_needed": "Makes clear that the leading descent includes campaigns and non-campaign entries.",
+        "where": "Label above the overall descent."
+      },
+      {
+        "text": "Joined",
+        "why_needed": "Labels enrolled members rather than purchases.",
+        "where": "First ledge of every descent; count definitions."
+      },
+      {
+        "text": "Came back",
+        "why_needed": "Labels members with qualifying activity on distinct business days.",
+        "where": "Second ledge of every descent; count definitions."
+      },
+      {
+        "text": "Redeemed",
+        "why_needed": "Labels unique members who used a reward.",
+        "where": "Third ledge of every descent; count definitions."
+      },
+      {
+        "text": "Sources",
+        "why_needed": "Introduces the source comparison.",
+        "where": "Section heading above source objects."
+      },
+      {
+        "text": "Jasmine",
+        "why_needed": "Identifies the preserved Story acquisition source.",
+        "where": "Creators mode source heading and source detail."
+      },
+      {
+        "text": "Morning loop · Story campaign",
+        "why_needed": "Identifies Jasmine’s specific campaign and kind.",
+        "where": "Creators mode supporting line and source detail."
+      },
+      {
+        "text": "Maya",
+        "why_needed": "Identifies the preserved Recreate acquisition source.",
+        "where": "Creators mode source heading and source detail."
+      },
+      {
+        "text": "Counter pour · Recreate campaign",
+        "why_needed": "Identifies Maya’s specific campaign and kind.",
+        "where": "Creators mode supporting line and source detail."
+      },
+      {
+        "text": "Eli",
+        "why_needed": "Identifies the preserved Car acquisition source.",
+        "where": "Creators mode source heading and source detail."
+      },
+      {
+        "text": "Around Austin · Car campaign",
+        "why_needed": "Identifies Eli’s specific campaign and kind.",
+        "where": "Creators mode supporting line and source detail."
+      },
+      {
+        "text": "Morning loop",
+        "why_needed": "Makes the campaign the primary comparison identity.",
+        "where": "Campaigns mode heading."
+      },
+      {
+        "text": "Jasmine · Story campaign",
+        "why_needed": "Keeps creator identity attached in campaign grouping.",
+        "where": "Campaigns mode supporting line."
+      },
+      {
+        "text": "Counter pour",
+        "why_needed": "Makes the campaign the primary comparison identity.",
+        "where": "Campaigns mode heading."
+      },
+      {
+        "text": "Maya · Recreate campaign",
+        "why_needed": "Keeps creator identity attached in campaign grouping.",
+        "where": "Campaigns mode supporting line."
+      },
+      {
+        "text": "Around Austin",
+        "why_needed": "Makes the campaign the primary comparison identity.",
+        "where": "Campaigns mode heading."
+      },
+      {
+        "text": "Eli · Car campaign",
+        "why_needed": "Keeps creator identity attached in campaign grouping.",
+        "where": "Campaigns mode supporting line."
+      },
+      {
+        "text": "Counter QR",
+        "why_needed": "Names a measured acquisition mechanism without inventing creator credit.",
+        "where": "Both grouping modes, source detail and source-type values."
+      },
+      {
+        "text": "Direct signup",
+        "why_needed": "Names the source-untracked signup bucket without claiming proven organic discovery.",
+        "where": "Both grouping modes and source detail."
+      },
+      {
+        "text": "Source not tracked",
+        "why_needed": "States the absence of trustworthy acquisition attribution.",
+        "where": "Direct signup supporting line and source-confidence value."
+      },
+      {
+        "text": "TapMart link",
+        "why_needed": "Names a tracked platform link when actual fixture members use one.",
+        "where": "Conditional non-campaign source and source-type value; absent from baseline."
+      },
+      {
+        "text": "Creator request",
+        "why_needed": "Names a registered direct-creator acquisition source when present.",
+        "where": "Conditional source-type value; absent from baseline."
+      },
+      {
+        "text": "Recreate campaign",
+        "why_needed": "Explains the stored source type in human language.",
+        "where": "Source detail classification."
+      },
+      {
+        "text": "Story campaign",
+        "why_needed": "Explains the stored source type in human language.",
+        "where": "Source detail classification."
+      },
+      {
+        "text": "Car campaign",
+        "why_needed": "Explains the stored source type in human language.",
+        "where": "Source detail classification."
+      },
+      {
+        "text": "From signup to a recorded return.",
+        "why_needed": "Explains the journey without claiming verified sales.",
+        "where": "Desktop overall-descent caption; phone and tablet count-definition layer."
+      },
+      {
+        "text": "How counts work",
+        "why_needed": "Reveals cohort, counting and scale definitions.",
+        "where": "Below the source list on phone; beside the overall descent on desktop."
+      },
+      {
+        "text": "As of",
+        "why_needed": "Identifies the factual endpoint of outcomes.",
+        "where": "Footer beside the data-supplied demo date and time; period and definition layers."
+      },
+      {
+        "text": "Source details",
+        "why_needed": "Names the inspection layer without implying a new analytics product.",
+        "where": "Source drawer or full-height phone layer title."
+      },
+      {
+        "text": "View members",
+        "why_needed": "Opens the business-only source and signup-period member view.",
+        "where": "Source detail’s single filled action."
+      },
+      {
+        "text": "Members shown match this signup period.",
+        "why_needed": "Explains the scope of the member drill-down before navigation.",
+        "where": "Adjacent to View members."
+      },
+      {
+        "text": "Joined from",
+        "why_needed": "Identifies preserved acquisition rather than the last touch.",
+        "where": "Source-detail provenance section."
+      },
+      {
+        "text": "Source type",
+        "why_needed": "Labels the stored acquisition classification.",
+        "where": "Source detail."
+      },
+      {
+        "text": "Link",
+        "why_needed": "Identifies a registered campaign-link acquisition mechanism.",
+        "where": "Source detail for Jasmine, Maya and tracked platform links."
+      },
+      {
+        "text": "QR",
+        "why_needed": "Identifies the acquisition mechanism without showing a member-scanning code.",
+        "where": "Source detail for Eli and Counter QR."
+      },
+      {
+        "text": "Morning loop signup link",
+        "why_needed": "Names the specific registered Story link.",
+        "where": "Jasmine source detail."
+      },
+      {
+        "text": "Counter pour signup link",
+        "why_needed": "Names the specific registered Recreate link.",
+        "where": "Maya source detail."
+      },
+      {
+        "text": "Around Austin placement QR",
+        "why_needed": "Distinguishes Eli’s campaign QR from the business counter QR.",
+        "where": "Eli source detail."
+      },
+      {
+        "text": "Loopday counter QR",
+        "why_needed": "Identifies the generic business acquisition code.",
+        "where": "Counter QR source detail."
+      },
+      {
+        "text": "Source confidence",
+        "why_needed": "Separates a recorded entry mechanism from an inferred influence claim.",
+        "where": "Source detail."
+      },
+      {
+        "text": "Link recorded",
+        "why_needed": "Reports registered-link attribution, not a fabricated click history.",
+        "where": "Jasmine and Maya source-confidence values."
+      },
+      {
+        "text": "QR recorded",
+        "why_needed": "Reports a known acquisition QR.",
+        "where": "Eli and Counter QR source-confidence values."
+      },
+      {
+        "text": "First touch",
+        "why_needed": "Shows whether an independently recorded first-touch timestamp exists.",
+        "where": "Source detail."
+      },
+      {
+        "text": "Not recorded",
+        "why_needed": "Prevents signup time from being passed off as a known earlier click.",
+        "where": "Baseline first-touch value."
+      },
+      {
+        "text": "Signup range",
+        "why_needed": "Shows the earliest and latest included signups for the selected source.",
+        "where": "Source detail, followed by actual fixture dates."
+      },
+      {
+        "text": "The first known signup source stays attached.",
+        "why_needed": "Explains immutable acquisition.",
+        "where": "Source detail and count-definition layer."
+      },
+      {
+        "text": "Later visits and links do not replace it.",
+        "why_needed": "Prevents a last-touch interpretation.",
+        "where": "Separate paragraph in source detail and count-definition layer."
+      },
+      {
+        "text": "Counter entry does not rule out earlier offline influence.",
+        "why_needed": "Limits what the known counter mechanism proves.",
+        "where": "Counter QR source detail only."
+      },
+      {
+        "text": "Also reached through",
+        "why_needed": "Separates a trustworthy later touch from acquisition.",
+        "where": "Conditional source-detail section only when a separate recorded later touch exists; absent from baseline."
+      },
+      {
+        "text": "Later touch · not acquisition",
+        "why_needed": "Makes the attribution boundary explicit for a later-touch record.",
+        "where": "Conditional later-touch section."
+      },
+      {
+        "text": "Creators see counts for their own links, never member details.",
+        "why_needed": "Explains the business-only privacy boundary.",
+        "where": "Source detail below the provenance information."
+      },
+      {
+        "text": "Members who signed up in this period.",
+        "why_needed": "Defines Joined for the selected cohort.",
+        "where": "Count-definition layer beneath Joined."
+      },
+      {
+        "text": "Members with counted visits on two different business days.",
+        "why_needed": "Defines a return without treating signup or same-day attempts as repeat activity.",
+        "where": "Count-definition layer beneath Came back."
+      },
+      {
+        "text": "Members who used at least one reward.",
+        "why_needed": "Defines unique redeemed members.",
+        "where": "Count-definition layer beneath Redeemed."
+      },
+      {
+        "text": "Redemptions count members, not rewards.",
+        "why_needed": "Distinguishes this descent from the Home reward-redemption count.",
+        "where": "Count-definition layer."
+      },
+      {
+        "text": "A signup is not a purchase.",
+        "why_needed": "Prevents acquisition counts from being read as verified transactions.",
+        "where": "Count-definition layer."
+      },
+      {
+        "text": "The total uses all members in this signup period.",
+        "why_needed": "Explains the overall descent’s denominator.",
+        "where": "Count-definition layer."
+      },
+      {
+        "text": "Sources share the largest joined count as their scale.",
+        "why_needed": "Explains why smaller sources have visibly shorter first ledges.",
+        "where": "Count-definition layer."
+      },
+      {
+        "text": "One member belongs to one acquisition source.",
+        "why_needed": "Explains why creator and campaign views do not double-count.",
+        "where": "Count-definition layer."
+      },
+      {
+        "text": "One qualifying purchase counts as one visit day.",
+        "why_needed": "Explains repeat counting in the points replacement scenario.",
+        "where": "Count-definition layer in points scenarios only."
+      },
+      {
+        "text": "September 2026",
+        "why_needed": "Selects signups during the current fixture month.",
+        "where": "Period option and selected period control."
+      },
+      {
+        "text": "Last 7 days",
+        "why_needed": "Selects September 11 to 17 at the initial demo snapshot.",
+        "where": "Period option and selected period control."
+      },
+      {
+        "text": "Custom dates",
+        "why_needed": "Allows a specific signup cohort without a permanent toolbar.",
+        "where": "Period-sheet option."
+      },
+      {
+        "text": "Period uses signup dates.",
+        "why_needed": "States the date-selection rule before applying it.",
+        "where": "Period sheet."
+      },
+      {
+        "text": "Returns and redemptions run through the demo date.",
+        "why_needed": "Explains that subsequent outcomes are included for the selected signup cohort.",
+        "where": "Period sheet and count-definition layer."
+      },
+      {
+        "text": "Dates use Austin time.",
+        "why_needed": "Specifies the business-day boundary.",
+        "where": "Period sheet."
+      },
+      {
+        "text": "Start date",
+        "why_needed": "Labels the inclusive custom signup start date.",
+        "where": "Custom-period fields."
+      },
+      {
+        "text": "End date",
+        "why_needed": "Labels the inclusive custom signup end date.",
+        "where": "Custom-period fields."
+      },
+      {
+        "text": "Apply period",
+        "why_needed": "Commits the selected cohort once, after review.",
+        "where": "Period-sheet primary action."
+      },
+      {
+        "text": "Cancel",
+        "why_needed": "Discards an unapplied period or demo-state change.",
+        "where": "Period sheet and demo confirmations."
+      },
+      {
+        "text": "Enter both dates.",
+        "why_needed": "Identifies incomplete custom-period input.",
+        "where": "Custom-period validation."
+      },
+      {
+        "text": "Enter valid dates.",
+        "why_needed": "Identifies malformed dates without treating them as an empty cohort.",
+        "where": "Custom-period validation."
+      },
+      {
+        "text": "End date must follow or match start date.",
+        "why_needed": "Identifies an inverted interval.",
+        "where": "Custom-period validation."
+      },
+      {
+        "text": "Choose dates on or before the demo date.",
+        "why_needed": "Prevents future periods from implying future records.",
+        "where": "Custom-period validation."
+      },
+      {
+        "text": "Close",
+        "why_needed": "Dismisses the current inspection layer.",
+        "where": "Visible layer action and accessible name for its close icon."
+      },
+      {
+        "text": "No signups in this period.",
+        "why_needed": "Distinguishes a valid empty cohort from a failure.",
+        "where": "Empty-period result."
+      },
+      {
+        "text": "Choose another signup period.",
+        "why_needed": "Explains the recovery decision.",
+        "where": "Empty-period result."
+      },
+      {
+        "text": "Change period",
+        "why_needed": "Reopens period selection without resetting the whole demo.",
+        "where": "Empty-period primary action."
+      },
+      {
+        "text": "No members yet.",
+        "why_needed": "States that the live program has no signups at all.",
+        "where": "Live-zero state."
+      },
+      {
+        "text": "Your first signup will appear here.",
+        "why_needed": "Explains what will populate attribution.",
+        "where": "Live-zero state."
+      },
+      {
+        "text": "View QR",
+        "why_needed": "Opens the existing acquisition tools.",
+        "where": "Live-zero and no-campaign-results states."
+      },
+      {
+        "text": "No members from campaigns yet.",
+        "why_needed": "Explains the absence of creator or campaign results while retaining measured non-campaign sources.",
+        "where": "Non-campaign-only cohort."
+      },
+      {
+        "text": "Share a campaign’s signup link to connect future members.",
+        "why_needed": "Names the future attribution action without inventing results.",
+        "where": "Non-campaign-only cohort."
+      },
+      {
+        "text": "No program yet.",
+        "why_needed": "Explains why no attribution exists.",
+        "where": "No-program scenario."
+      },
+      {
+        "text": "Create program",
+        "why_needed": "Starts the prerequisite Loyalty task.",
+        "where": "No-program primary action."
+      },
+      {
+        "text": "Draft",
+        "why_needed": "Identifies an unlaunched program.",
+        "where": "Draft scenario."
+      },
+      {
+        "text": "Free coffee",
+        "why_needed": "Identifies the draft reward without showing a pretend live card.",
+        "where": "Draft scenario."
+      },
+      {
+        "text": "Attribution starts after launch.",
+        "why_needed": "Explains why a draft has no member results.",
+        "where": "Draft scenario."
+      },
+      {
+        "text": "Continue setup",
+        "why_needed": "Returns to the last incomplete creation step.",
+        "where": "Draft primary action."
+      },
+      {
+        "text": "This source is unavailable.",
+        "why_needed": "Handles an unknown source ID without substituting another source.",
+        "where": "Invalid-source layer."
+      },
+      {
+        "text": "Back to attribution",
+        "why_needed": "Removes the invalid source selection while retaining period and grouping.",
+        "where": "Invalid-source recovery action."
+      },
+      {
+        "text": "This source has no signups in this period.",
+        "why_needed": "Distinguishes a valid source outside the current cohort from a missing source.",
+        "where": "Valid deep-linked source with zero included members."
+      },
+      {
+        "text": "TapMart",
+        "why_needed": "Retains the existing app identity.",
+        "where": "Desktop sidebar wordmark."
+      },
+      {
+        "text": "Loopday Coffee",
+        "why_needed": "Identifies the active business.",
+        "where": "Desktop business switcher and tablet identity header."
+      },
+      {
+        "text": "Home",
+        "why_needed": "Retains marketplace navigation.",
+        "where": "Primary navigation."
+      },
+      {
+        "text": "Content",
+        "why_needed": "Retains the separate Monthly Content destination.",
+        "where": "Primary navigation."
+      },
+      {
+        "text": "Create",
+        "why_needed": "Retains campaign creation, not Loyalty creation.",
+        "where": "Phone bar and tablet rail."
+      },
+      {
+        "text": "Create campaign",
+        "why_needed": "Keeps advertising creation unambiguous.",
+        "where": "Desktop sidebar."
+      },
+      {
+        "text": "Business",
+        "why_needed": "Identifies the selected owning destination and provides the profile breadcrumb.",
+        "where": "Primary navigation and desktop breadcrumb."
+      },
+      {
+        "text": "Loyalty",
+        "why_needed": "Returns to the parent operational surface.",
+        "where": "Desktop breadcrumb."
+      },
+      {
+        "text": "Search",
+        "why_needed": "Retains the existing global utility without creating attribution search.",
+        "where": "Desktop sidebar utility."
+      },
+      {
+        "text": "Messages",
+        "why_needed": "Retains the marketplace utility; it is not member messaging.",
+        "where": "Desktop sidebar utility."
+      },
+      {
+        "text": "Notifications",
+        "why_needed": "Retains the existing app utility; it is not a Loyalty delivery channel.",
+        "where": "Desktop sidebar utility."
+      },
+      {
+        "text": "Personal",
+        "why_needed": "Allows the existing Lab identity switch without exposing business customer data.",
+        "where": "Inherited identity menu."
+      },
+      {
+        "text": "Add business",
+        "why_needed": "Preserves the existing identity-menu meaning.",
+        "where": "Inherited identity menu; opens the preview-boundary notice."
+      },
+      {
+        "text": "Outside this preview",
+        "why_needed": "Identifies an unimplemented destination honestly.",
+        "where": "Boundary notice for unimplemented shared navigation."
+      },
+      {
+        "text": "This destination is outside the V3 lab.",
+        "why_needed": "Explains why the destination does not open production.",
+        "where": "Preview-boundary notice."
+      },
+      {
+        "text": "Demo state",
+        "why_needed": "Separates fixture controls from business period and grouping controls.",
+        "where": "Design Lab panel."
+      },
+      {
+        "text": "Live program",
+        "why_needed": "Restores the canonical ten-member fixture.",
+        "where": "Design Lab scenario option."
+      },
+      {
+        "text": "No program",
+        "why_needed": "Inspects the prerequisite state.",
+        "where": "Design Lab scenario option."
+      },
+      {
+        "text": "Live · no members",
+        "why_needed": "Inspects a launched empty program.",
+        "where": "Design Lab scenario option."
+      },
+      {
+        "text": "Points · 82 of 100",
+        "why_needed": "Inspects attribution over qualifying point-purchase days.",
+        "where": "Design Lab scenario option."
+      },
+      {
+        "text": "Points · 99 of 100",
+        "why_needed": "Inspects the separate near-reward points fixture.",
+        "where": "Design Lab scenario option."
+      },
+      {
+        "text": "Same-day visit",
+        "why_needed": "Checks that uncounted attempts do not inflate returns.",
+        "where": "Design Lab scenario option."
+      },
+      {
+        "text": "Wallet not added",
+        "why_needed": "Checks that Wallet saving is not required for attribution.",
+        "where": "Design Lab scenario option."
+      },
+      {
+        "text": "Google limit reached",
+        "why_needed": "Checks that a notification limit does not alter member outcomes.",
+        "where": "Design Lab scenario option."
+      },
+      {
+        "text": "Recording error",
+        "why_needed": "Checks that failed counter actions leave attribution unchanged.",
+        "where": "Design Lab scenario option."
+      },
+      {
+        "text": "Change demo state?",
+        "why_needed": "Warns before replacing the working fixture context.",
+        "where": "Scenario-change confirmation."
+      },
+      {
+        "text": "This resets local changes.",
+        "why_needed": "States the consequence of replacing or resetting the demo.",
+        "where": "Scenario-change and reset confirmations."
+      },
+      {
+        "text": "Change state",
+        "why_needed": "Explicitly commits replacement of local fixture data.",
+        "where": "Scenario-change confirmation."
+      },
+      {
+        "text": "Reset demo",
+        "why_needed": "Restores the baseline after deliberate confirmation.",
+        "where": "Design Lab panel and reset confirmation action."
+      },
+      {
+        "text": "Reset demo?",
+        "why_needed": "Prevents accidental loss of local progress.",
+        "where": "Reset confirmation title."
+      }
+    ],
+    "honest_states": [
+      "Baseline uses the canonical V3 ten-member source story. The requested illustrative Maya/Story and Nora/Recreate pairings do not replace existing acquisition records.",
+      "Creator and campaign groupings are two views over the same immutable member acquisition snapshots, not competing attribution models.",
+      "A source is shown only when it has included signups. Individual zero return or redemption counts remain visible.",
+      "Direct signup means source not tracked. It does not prove that a creator had no offline influence.",
+      "Registered acquisition links do not establish a historical click timestamp. Baseline First touch is Not recorded.",
+      "A period with no signups shows three numeric zeros without drawn descent ledges, then the empty-period recovery.",
+      "A live program with no members differs from a no-program or draft state. No-program and draft states have neither metrics nor specimens pretending to be live.",
+      "Non-campaign-only results retain their measured counter and direct sources. No fictional creator performance fills the space.",
+      "Wallet saving, Wallet updates, notification limits and uncounted attempts never change attribution counts.",
+      "Redeemed counts unique members with at least one redemption through the snapshot. Repeated redemptions by the same member do not increment it again.",
+      "No loading performance is simulated. Fixture projections resolve synchronously; empty, unavailable-source and invalid-input states are distinct.",
+      "The page is business-only. Future creator products may receive own-link aggregates, but no creator route or customer drill-down is implemented here."
+    ],
+    "two_second_read": "Ten joined, six came back, two redeemed. Jasmine brought the most returners; Maya’s two members both returned.",
+    "media": [
+      "Coded overall descent, not an image: three rows sharing a left datum. At 390 the plotting lane is 224px, followed by 16px space and a 118px text lane. At 320 these become 162px, 16px and 118px. Each measured ledge is 2px high, square-ended and ink. Replace its last min(12px, measured length) with brick; never append decorative length. Baseline lengths are 100%, 60% and 20% of the plotting lane.",
+      "Coded source descents: the same geometry and three count labels, with a common scale equal to the largest included source Joined count. Baseline scale is four. Jasmine lengths are 100%, 75%, 25%; Maya 50%, 50%, 25%; Counter QR 50%, 25%, 0%; Direct signup 25%, 0%, 0%; Eli 25%, 0%, 0%. A zero contains no ink segment or terminal. No full-width track, axis, tick labels, percentage or tooltip is added.",
+      "At 1440 the full content width is 1176px. Each chart’s right-hand area is 776px: a 600px plotting lane, 24px gap and 152px text lane. Overall and source descents have separate denominators, explained on demand. At 1920 the source plotting lane caps at 640px instead of scaling indefinitely.",
+      "Inherited coded Loopday loop mark appears only in shared identity chrome at 32×32px. Reuse the approved V3 mark: open ink loop with a short brick terminal. Do not introduce a source avatar, initial badge or new decorative logo.",
+      "No photographic media is needed here. Do not use creator portraits, campaign thumbnails, Wallet cards, QR images, scanner objects, production screenshots or decorative generated imagery. Attribution’s measured coded objects are the visual subject."
+    ],
+    "states": [
+      "1. Baseline: Creators selected, All time selected, overall 10 / 6 / 2. Five open source objects follow. Business remains the selected primary destination.",
+      "2. Campaigns selected: campaign name becomes the primary identity and creator plus campaign kind becomes its supporting line. Non-campaign sources remain. Counts and cohort do not change.",
+      "3. Period picker open: retain the current chart behind a modal layer. All time, September 2026, Last 7 days and Custom dates are choices. No result changes before Apply period.",
+      "4. Custom dates: reveal Start date and End date below the selected option. Inclusive dates use America/Chicago. Validate both fields, ordering and the demo-date upper bound before applying.",
+      "5. Applied period: recompute the joined cohort, outcomes, source ordering and shared source scale atomically. Preserve grouping. Close the picker and return focus to its trigger.",
+      "6. Source open: retain the selected source identity and its three counts, then View members, immutable provenance, known mechanism, confidence, first-touch availability and signup range. No individual customers appear in this layer.",
+      "7. Definitions open: reveal count definitions, outcome endpoint, scale rules, first-source attribution and the difference between unique redeemed members and redeemed reward events.",
+      "8. Empty period: keep the selected grouping and period, show numeric zeros without ledges, then No signups in this period. and Change period.",
+      "9. Non-campaign-only cohort: show measured Counter QR, Direct signup or TapMart link sources that actually exist, followed by the no-campaign-results message.",
+      "10. Live with no members: no drawn funnel, no source objects, three zero values, No members yet. and View QR.",
+      "11. No program or draft: replace the analytical content with the corresponding prerequisite action. Hide grouping and period controls because there is no cohort to inspect.",
+      "12. Invalid source: unknown source ID opens an explicit unavailable-source layer. A valid source excluded by the current period instead shows the zero-cohort explanation and Change period. Neither exposes View members.",
+      "13. Design Lab open: scenario selection and Reset demo are separate from product controls. Scenario changes require confirmation and replace the fixture context.",
+      "14. Returning from a member view or recording task: preserve grouping, period, source selection and scroll anchor. Recompute from the current local events; do not replay entrance animation."
+    ],
+    "large_desktop": [
+      "Keep the 200px sidebar. Centre a maximum 1280px content composition in the remaining 1720px, giving approximately 220px breathing room on each side.",
+      "Do not increase source count, add a side inspector by default, create another chart column or introduce a dashboard summary rail.",
+      "Use approximately 416px for the editorial identity area and 840px for the chart area, separated by 24px. Plotting lanes cap at 640px; remaining width is quiet spacing, not larger bars without a shared rule.",
+      "Overall numbers remain 48px and source numbers 28px. App title remains 36px. No public-display typography is imported.",
+      "The source drawer remains 560px wide. It overlays the current page; it does not squeeze the comparison into a smaller unreviewed grid.",
+      "Additional height at 1920×1080 reveals more real source rows naturally. No duplicate data or filler rows are introduced."
+    ],
+    "desktop": [
+      {
+        "size": "200px wide; full viewport height.",
+        "motion": "Immediate selected destination; no moving navigation capsule.",
+        "content": "Reuse the V3 paper sidebar, approved Phosphor regular icons and existing labelled destinations. Wordmark and Loopday identity at top. Home, Content, lime Create campaign, Campaigns, Business; Business selected with aria-current. Search, Messages and Notifications remain bottom utilities. No Loyalty rail item, badge, export or analytics subnavigation.",
+        "region": "Persistent application sidebar",
+        "state": "All business overview states."
+      },
+      {
+        "size": "1176px wide at x232; approximately 128px before the chart.",
+        "motion": "None.",
+        "content": "32px main outer padding. At top, Business / Loyalty breadcrumb in 13px DM Sans with 44px link targets. Below, Attribution in 36px Bricolage 600, ink, with the 13px Design Lab context immediately underneath. On the right align the two underlined grouping tabs and a compact Signup period control. Period is one quiet action, not a date-picker toolbar. No introductory paragraph.",
+        "region": "Editorial header and scope",
+        "state": "Baseline and applied-period states."
+      },
+      {
+        "size": "1176×264px; 376px editorial lane, 24px gutter, 776px chart lane.",
+        "motion": "Only the atomic result crossfade after a deliberate scope change.",
+        "content": "Left: All sources, 20px DM Sans 600; 12px below, From signup to a recorded return. at 16/24px, maximum 260px width; How counts work as an underlined 44px action beneath. Right: three 80px rows. Each has its measured 2px rule in the 600px plot lane and a fixed 152px label lane. Overall numerals are 48/52px DM Sans 600 tabular; labels are 13/18px muted. Counts are outside the rules, never inside them. No enclosing surface, tracks, trend symbols or chart axes.",
+        "region": "Whole-program descent",
+        "state": "All time: 10 Joined, 6 Came back, 2 Redeemed."
+      },
+      {
+        "size": "24px section heading, 24px gap, then approximately 160px per source; normal document flow.",
+        "motion": "No hover elevation or bar growth. Pointer hover or keyboard focus extends only the existing brick terminal from 12px to at most 24px within the measured length.",
+        "content": "Sources is 20/24px DM Sans 600. Each source is one full-width operable object with an identity lane of 376px and a chart lane of 776px. Name is 20/26px DM Sans 600; campaign line 13/18px muted, 4px below. A 20px chevron sits at the identity lane’s far edge within the source’s hit region. Three 40px chart rows use 28/32px tabular numerals and 13px labels in the fixed text lane. Put 1px line separators between source objects, never an enclosing box. Default creator ordering is Jasmine, Maya, Counter QR, Direct signup, Eli, following the declared count and alphabetical tie-break rules.",
+        "region": "Source comparison",
+        "state": "Creators, All time."
+      },
+      {
+        "size": "Same source geometry and chart dimensions.",
+        "motion": "120ms opacity replacement of complete labels and results; no animated reshuffling flight.",
+        "content": "Campaigns mode leads with Morning loop, Counter pour and Around Austin. Their secondary lines identify Jasmine, Maya and Eli with campaign kinds. Counter QR and Direct signup retain their identities. Sort by Came back descending, Joined descending, then the visible primary name. Baseline Campaigns order is Morning loop, Counter pour, Counter QR, Around Austin, Direct signup.",
+        "region": "Campaign comparison variation",
+        "state": "Campaigns selected."
+      },
+      {
+        "size": "48px top separation; minimum 80px footer plus 32px page clearance.",
+        "motion": "None.",
+        "content": "A quiet 13px As of label and the fixture timestamp sit on paper. No refreshed-just-now ticker. On desktop the definition action stays beside the overall descent, so the footer does not duplicate it.",
+        "region": "Scope endpoint",
+        "state": "Every measurable state."
+      },
+      {
+        "size": "480px modal at viewport centre; maximum height calc(100svh - 64px), independently scrollable.",
+        "motion": "Working-layer motion; background remains stationary.",
+        "content": "Surface background, 8px corners, 24px padding. Signup period title 28px. Four plain 56px radio rows, selected with an ink indicator and text, not a pill. Preset date ranges appear beneath their names in 13px. Separate short paragraphs explain signup dates, outcome endpoint and Austin time. Custom dates expose two 48px date inputs; use ISO date values without a custom calendar. Cancel and Apply period sit in a sticky solid footer with 44px targets. Errors are 13px danger text beside the affected field, with a 2px danger boundary.",
+        "region": "Period task",
+        "state": "Period selection and custom-date validation."
+      },
+      {
+        "size": "560px right drawer; full viewport height; 32px internal padding.",
+        "motion": "240ms entrance from 32px right; no chart object morph.",
+        "content": "Source details and Close at top, followed by the local Design Lab context. Selected identity uses 28px Bricolage with a 13px campaign line. The three compact ledges remain readable at 40px per row, using the parent period’s common source scale. View members is the single ink-filled 44px action, followed by its cohort note. Provenance begins 32px below as open label/value groups, not a key-value table with borders. First touch is Not recorded in the baseline. Privacy and first-source rules are separate short paragraphs. No member names, contact controls, QR image or export.",
+        "region": "Source inspection",
+        "state": "Valid included source."
+      },
+      {
+        "size": "480px right drawer or centred modal; maximum viewport height with internal scrolling.",
+        "motion": "Working-layer motion.",
+        "content": "How counts work is the title. Three definition groups use 18px semibold labels, 16/24px explanatory text and 24px spacing. Cohort endpoint, shared scales and acquisition rules follow as separate short blocks. No equations, percentage examples or legal-style wall of text. Close remains visible.",
+        "region": "Counting explanation",
+        "state": "Definitions open."
+      },
+      {
+        "size": "Use the main composition’s first 360px below the header; content-led height.",
+        "motion": "Immediate state replacement; no illustrative chart animation.",
+        "content": "Empty measurable cohorts retain scope controls and the three numeric zeros but remove ink ledges. Place the relevant empty-state sentence and one ink action in the 376px editorial lane. No-program and draft states remove controls and metrics entirely; show only the prerequisite state, reward identity where known and action.",
+        "region": "Honest absence",
+        "state": "Empty period, live-zero, no program or draft."
+      }
+    ],
+    "small_phone": [
+      "Use 12px page padding and 296px content width. Keep the 56px header and normal five-destination bar with every label visible.",
+      "The two grouping tabs occupy their own 44px row. Signup period moves to a second 48px row rather than squeezing or truncating the selected date.",
+      "Overall chart geometry is 162px plot, 16px gap and 118px text. Retain 32px overall numerals and 13px labels. Rows remain 84px high.",
+      "Source chart geometry uses the same lane widths and 46px rows. Long campaign names wrap; increase the source object height rather than ellipsizing its kind.",
+      "At 320×568 the first screen prioritizes scope and the overall descent. Source objects remain below in normal document flow; do not fit a miniature desktop overview.",
+      "Phone layers use 12px side padding. Custom date inputs stack, buttons are full-width where necessary and the sticky footer can use two rows.",
+      "At 200% text zoom, labels may move above their plot lanes. Keep complete count-plus-label pairs and consistent plotting widths within each chart family."
+    ],
+    "tablet": [
+      "At 768 to 1023 use the existing 80px labelled icon rail and 24px main padding. Keep Business selected.",
+      "Put the complete Loopday identity in the main header. The Attribution title and Design Lab context sit below it; grouping and period controls share the next row when they fit.",
+      "Use the eight-column grid. Overall descent spans the main width: a flexible plotting lane and a fixed 132px text lane separated by 20px.",
+      "Source identity occupies three columns and its descent five columns. If the plotting lane would fall below 220px, place the identity above its descent instead; do not compress labels.",
+      "Source rows remain open and separated, not tiles. The dataset and sorting are identical to phone and desktop.",
+      "Source details use a 480px right drawer. Period selection uses a centred 480px modal. Preserve visible page context under the scrim.",
+      "At 1023×900 do not introduce the 200px sidebar early or try to display a permanent source inspector beside the comparison."
+    ],
+    "accessibility": [
+      "Represent every descent as a semantic list of three count-and-label pairs. The visual ledges are aria-hidden; the numbers and definitions remain real selectable text.",
+      "Each source object is a single link with an accessible name assembled from its visible identity and three counts. Do not nest View members or other controls inside it.",
+      "Use a proper tablist for Creators and Campaigns, with arrow-key navigation and aria-selected. Both modes retain non-campaign sources.",
+      "Period selection is a labelled dialog with radio controls. Start and end fields have persistent labels, associated errors and native date-input semantics.",
+      "All actions and source hit regions meet a 44px minimum. Focus uses a 2px brick outline with 3px offset; selected tabs also have a 2px ink underline.",
+      "Colour is redundant: a terminal never means success, and zero remains explicitly printed. Maintain at least 4.5:1 for normal text.",
+      "Trap focus in modal layers; Escape and Close dismiss them. Browser Back closes the top layer first. Restore focus and the prior scroll anchor on return.",
+      "After a scope change, announce the selected period and the final three totals once through a polite live region using the existing visible labels and data.",
+      "After source navigation, focus the source-layer heading. After invalid input, focus the first invalid field; do not replace the empty result behind the dialog.",
+      "At 200% text zoom, allow wrapping and vertical growth. Never truncate dates, source classifications, counts, error messages or the simulation label.",
+      "The phone bottom bar has additive safe-area padding and the document has 88px plus safe-area clearance. Dialog footers must not cover focused inputs.",
+      "No essential information depends on hover. Keyboard focus receives the same interaction cue; touch opens the source directly."
+    ],
+    "motion": [
+      {
+        "explains": "The same cohort is being regrouped or replaced by a deliberately selected signup cohort.",
+        "trigger": "Selecting Creators or Campaigns, or applying a valid period.",
+        "reduced_motion": "Replace all final labels and counts immediately; preserve focus and announce the result once.",
+        "name": "Scope resolves",
+        "duration_ms": "120",
+        "easing": "linear",
+        "what_moves": "Crossfade the complete final chart result in a reserved region. Do not interpolate bar lengths, roll numbers, animate sources through rankings or count from zero. Commit counts, ordering and scale together before the transition."
+      },
+      {
+        "explains": "This open source object can be inspected.",
+        "trigger": "Pointer hover or keyboard focus on a source object.",
+        "reduced_motion": "Show the focus treatment immediately with no terminal extension.",
+        "name": "Source edge",
+        "duration_ms": "160",
+        "easing": "cubic-bezier(0.2, 0, 0, 1)",
+        "what_moves": "The brick terminal replaces up to 24px of the existing ink segment, remaining entirely inside the measured length. Zero rows do not acquire a terminal. No source chart grows and no media zooms."
+      },
+      {
+        "explains": "A temporary inspection or scope task has opened without changing the underlying result.",
+        "trigger": "Opening source details, period selection, definitions or Design Lab controls.",
+        "reduced_motion": "Show the layer immediately, transfer focus and retain the scrim without animation.",
+        "name": "Working layer",
+        "duration_ms": "240 opening; 180 closing; 160 scrim",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "what_moves": "Phone layers enter from 24px below their final position; desktop drawers enter from 32px right. Centred period dialogs use opacity only. The background stays still. No shared-element morph stretches chart geometry."
+      },
+      {
+        "explains": "An explicit action elsewhere changed the recorded member outcomes.",
+        "trigger": "Returning after a committed local signup or first redemption changes attribution.",
+        "reduced_motion": "Show the current projection immediately with one final-count announcement.",
+        "name": "Outcome settles",
+        "duration_ms": "120",
+        "easing": "linear",
+        "what_moves": "Replace complete affected numbers and ledges once. Do not replay a funnel entrance or celebrate a redemption as revenue. If no attribution count changed, nothing moves."
+      }
+    ],
+    "phone": [
+      {
+        "size": "390×56px.",
+        "motion": "None.",
+        "content": "Paper header. A 44px icon-only Back target sits at x8; Attribution begins at x60 in 28px Bricolage 600, ink. No Add visit, export, date toolbar or utility-icon cluster. Back returns to the originating Loyalty surface.",
+        "region": "Header",
+        "state": "Every page state."
+      },
+      {
+        "size": "358×32px at x16, y56.",
+        "motion": "None.",
+        "content": "Design Lab · Fictional preview is a 13px muted text control with an expanded 44px interaction target that does not overlap the header. Its menu is on demand. No second fixture badge or explanatory sentence.",
+        "region": "Truth context",
+        "state": "Every page state."
+      },
+      {
+        "size": "358×44px at x16, y104; 16px space above.",
+        "motion": "Selection underline changes immediately; result uses Scope resolves.",
+        "content": "Creators and Campaigns are adjacent 14px semibold text tabs with a 2px ink underline for the selected tab. The right-hand period action has Signup period at 12px muted above All time at 14px semibold, plus a small downward chevron. Allocate approximately 218px to tabs, 12px gap and 128px to period. No capsules or filled filters.",
+        "region": "Grouping and scope",
+        "state": "Creators, All time."
+      },
+      {
+        "size": "358×282px beginning at y172.",
+        "motion": "No entrance animation. Only final-result replacement after a deliberate change.",
+        "content": "All sources is 16/22px DM Sans 600. After 8px, render three 84px chart rows. Plot lane 224px, 16px gap, text lane 118px. Numerals are 32/36px tabular DM Sans 600; labels are 13/18px muted directly below with 4px gap. Ink ledges meet the vertical centre of each numeric line. Overall values are 10, 6 and 2. Keep the plotted datum fixed at x16. No paragraph, chart border, track or period repeated inside the object.",
+        "region": "Overall descent",
+        "state": "Baseline whole-program cohort."
+      },
+      {
+        "size": "24px section title at y478; first source begins at y518 and is approximately 232px high.",
+        "motion": "No touch animation before navigation; source-layer transition begins after selection.",
+        "content": "Sources is 18/24px DM Sans 600. Jasmine appears at 20/24px; Morning loop · Story campaign is 13/18px muted, 4px below. A right chevron signals inspection without adding another visible verb. Leave 16px before three 46px ledge rows using the same 224/16/118px lanes. Values are 24/28px and labels 13/18px. End with 32px breathing room. The entire object is a link, with no containing card or background.",
+        "region": "Leading source",
+        "state": "Jasmine: 4 Joined, 3 Came back, 1 Redeemed."
+      },
+      {
+        "size": "Each subsequent source is content-led, approximately 214 to 250px; 32px separation with a 1px line.",
+        "motion": "None during scrolling.",
+        "content": "Maya follows, then Counter QR, Direct signup and Eli under the declared baseline sort. Preserve the same common scale of four across all five sources. Counter QR has no invented campaign line. Direct signup shows Source not tracked. Source names and campaign names may wrap; no ellipsis. Never collapse zero outcomes.",
+        "region": "Remaining sources",
+        "state": "Creators, All time."
+      },
+      {
+        "size": "44px definition action, 18px endpoint line, then 88px plus safe-area clearance.",
+        "motion": "Definitions open only on activation.",
+        "content": "How counts work is an underlined ink action below the complete list. As of and the fixture date/time appear beneath in 13px muted text. This is the only default phone endpoint line. No new-data timer or analytics disclaimer block.",
+        "region": "Explanation and endpoint",
+        "state": "Every measurable result."
+      },
+      {
+        "size": "64px plus bottom safe-area inset; fixed.",
+        "motion": "Immediate selected destination.",
+        "content": "Normal five-item Business bar: Home, Content, Create, Campaigns, Business. Reuse V3 Phosphor regular icons and 12px labels. Business is selected. Create remains the small lime campaign-creation disc inside its normal target. The bar is covered by focused full-height layers, not duplicated inside them.",
+        "region": "Primary navigation",
+        "state": "Overview, empty-period and prerequisite states."
+      },
+      {
+        "size": "Full-height layer at 390; 16px side padding; 56px layer header; content-led scroll body.",
+        "motion": "Working layer.",
+        "content": "Signup period title, visible Close, local Design Lab context. Four 56px radio rows show period choices and actual preset date ranges. Three short explanatory blocks state signup-date scope, outcomes through the demo date and Austin time. Custom dates reveal stacked 48px labelled fields. A solid surface footer contains Cancel and Apply period, both at least 44px. Preserve input on validation failure and keep the current result unchanged behind the layer.",
+        "region": "Period selection",
+        "state": "Preset, custom entry and validation."
+      },
+      {
+        "size": "Full-height layer; 56px header, 32px truth context, then a vertically scrollable 358px body.",
+        "motion": "Working layer; selected identity does not fly or morph from the source row.",
+        "content": "Source details and Close lead. Selected source identity follows at 28px Bricolage with its 13px campaign line. Show three 46px ledges on the inherited parent scale, then View members as a 44px ink action with its 13px cohort note. Provenance follows after 32px: Joined from, Source type, named Link or QR, Source confidence, First touch and Signup range. Values use 16/24px body type; labels use 13/18px muted. Source rules and privacy are separate short paragraphs. No names from the member list appear.",
+        "region": "Source inspection",
+        "state": "Valid included source."
+      },
+      {
+        "size": "Full-height layer with 16px padding and a persistent 56px Close header.",
+        "motion": "Working layer.",
+        "content": "How counts work title, local fictional context, then three concise labelled definitions. Follow with the outcome endpoint, unique-redemption distinction, shared-source scale and immutable acquisition explanation. Each explanatory sentence is its own block, separated by 16 to 24px. From signup to a recorded return. appears here rather than competing with the baseline phone chart.",
+        "region": "Definition layer",
+        "state": "Explanation requested."
+      },
+      {
+        "size": "Replace the chart/source region with approximately 280 to 360px of content; allow natural growth.",
+        "motion": "Immediate; never animate empty ledges.",
+        "content": "Empty period retains scope controls and prints 0 beside Joined, Came back and Redeemed without bars. The empty explanation and Change period follow. Live-zero uses No members yet., its signup explanation and View QR. No-program and draft remove scope and counts entirely and show their prerequisite action. An unavailable source is handled within a focused layer, never as an empty programme.",
+        "region": "Honest alternatives",
+        "state": "Empty period, live-zero, no program, draft or invalid source."
+      }
+    ],
+    "on_demand": [
+      "Creators and Campaigns are immediate view switches. They never filter out counter or untracked acquisitions, and they never create events.",
+      "Tapping the compact period control opens a modal selection task. Presets display their actual dates there. Custom dates are revealed only when selected; Apply period commits the choice.",
+      "The period selector uses signup cohorts. All time begins with the first fixture signup; month and custom intervals are inclusive Austin dates. Outcome evaluation ends at the demo snapshot.",
+      "Selecting an entire source object opens Source details. The URL retains source, grouping and period so browser Back restores the exact comparison.",
+      "View members navigates to the existing business-only member route with the source and signup-date filters. It is the only customer drill-down action.",
+      "How counts work opens the count, scale and acquisition definitions. On phone it is below the source list; desktop places it beside the overall descent.",
+      "Known later touches appear only in source details under Also reached through. The canonical fixture has none, so this section is absent.",
+      "Hover adds no tooltip, hidden metric or additional prose. Keyboard focus receives the same terminal and outline treatment.",
+      "Design Lab · Fictional preview opens the shared scenario panel and Reset demo. The product period control must never open fixture scenarios.",
+      "The inherited identity menu and unimplemented navigation use the V3 boundary notice. No control navigates to production.",
+      "A custom August 1 to 26, 2026 period exercises the empty-period state without adding a synthetic error or deleting fixture records."
+    ],
+    "fixture_data": [
+      "Use the canonical V3 registry: Jasmine / Morning loop / STORY; Maya / Counter pour / RECREATE; Eli / Around Austin / CAR. Nora has no seeded Loyalty acquisitions. Do not reassign source identities to match illustrative alternate pairings.",
+      "Business is Loopday Coffee, Austin; program is Loopday Rewards, Free coffee, five visits. Snapshot is September 17, 2026, 10:00 AM CDT, timezone America/Chicago.",
+      "Baseline source src-jasmine-story contains Sara, Mina, Theo and Ava. Joined 4; Came back 3, from Sara, Mina and Theo; Redeemed 1, from Theo.",
+      "Baseline source src-maya-recreate contains Noah and Lena. Joined 2; Came back 2; Redeemed 1, from Lena.",
+      "Baseline source src-eli-car contains Luca. Joined 1; Came back 0; Redeemed 0.",
+      "Baseline source src-counter contains Imani and Ben. Joined 2; Came back 1, from Imani; Redeemed 0.",
+      "Baseline source src-direct contains June. Stored type ORGANIC, confidence none; display Direct signup and Source not tracked. Joined 1; Came back 0; Redeemed 0.",
+      "TAPMART_LINK and DIRECT_CREATOR_REQUEST remain supported registry types but have no baseline enrolled members. Do not add zero-result rows to imply performance. A later deliberate signup through their registered fixtures may create a real local source object.",
+      "All time includes ten members; total 10 / 6 / 2. Largest source Joined count is four. Creator sort: Jasmine, Maya, Counter QR, Direct signup, Eli. Campaign sort: Morning loop, Counter pour, Counter QR, Around Austin, Direct signup.",
+      "September 2026 selects September 1 to 17 signups, excluding Theo’s August 27 signup. Total 9 / 5 / 1. Jasmine 3 / 2 / 0; Maya 2 / 2 / 1; Counter QR 2 / 1 / 0; Direct signup 1 / 0 / 0; Eli 1 / 0 / 0. Source scale is three.",
+      "Last 7 days selects September 11 to 17 signups: Ava, Luca, Imani, Ben and June. Total 5 / 1 / 0. Counter QR 2 / 1 / 0; Direct signup 1 / 0 / 0; Eli 1 / 0 / 0; Jasmine 1 / 0 / 0. Maya is omitted because no member joined in this cohort. Source scale is two.",
+      "Last 7 days creator ordering is Counter QR, Direct signup, Eli, Jasmine. Campaign ordering is Counter QR, Around Austin, Direct signup, Morning loop. Sorting is Came back descending, Joined descending, then visible primary name.",
+      "All-time signup ranges: Jasmine August 27, September 17; Maya September 2 to 3; Eli September 16; Counter QR September 15 to 17; Direct signup September 17. Derive filtered ranges from the included member records rather than hard-coding them.",
+      "Jasmine and Maya have registered link acquisition confidence; Eli and Counter QR have registered QR confidence. No independent first-touch timestamps are supplied in the seed. First touch therefore displays Not recorded, not a fabricated click time.",
+      "A source aggregate counts each included member once. Creator grouping unions members across that creator’s campaign sources; campaign grouping uses campaign identity. Non-campaign mechanisms remain independent groups in both modes.",
+      "Came back requires positive counted activity on two distinct America/Chicago dates through the snapshot. Signup, Wallet saving and Imani’s September 17 uncounted attempt are excluded.",
+      "Redeemed is a unique-member predicate over committed REWARD_REDEEMED events through the snapshot. Sara’s visit unlock changes no attribution total; her first redemption changes the total to 10 / 6 / 3 and Jasmine to 4 / 3 / 2.",
+      "A deliberate Tess signup from Jasmine changes All time to 11 / 6 / 2 and Jasmine to 5 / 3 / 1 before other events. Signup alone creates neither a return nor a redemption.",
+      "For isolated points QA, replace rather than merge the cohort. Points 82 uses Sara joined June 27 with one counted purchase on every business date June 27, September 16: 82 total. Points 99 uses Sara joined June 10 with daily counted purchases through September 16: 99 total. Each has All time attribution 1 / 1 / 0 from Jasmine, with no redemptions.",
+      "The same-day, Wallet-not-added, Google-limit and recording-error scenarios retain their canonical attribution unless a successful qualifying business event actually changes a predicate.",
+      "Use V3-only URL state for grouping, period, custom dates and source selection. Keep projections in the local provider; browser Back and route changes preserve them, reload resets them."
+    ],
+    "truth_labels": [
+      "Design Lab · Fictional preview is visible immediately below the phone title and in desktop header context. It remains visible in source, definition and period layers.",
+      "The Signup period label is attached to the period trigger, not confined to an explanatory document. The period sheet explicitly states that outcomes run through the demo date.",
+      "As of accompanies the fixed fixture timestamp. Do not use Live analytics, updated just now, streaming dots or a synthetic loading heartbeat.",
+      "No local action on this page sends a business message, changes Wallet content or issues a pass. Consequently, do not add Wallet-update or simulated-save receipts to Attribution.",
+      "If an actual local recording or update elsewhere changes the provider, Attribution reflects only the resulting measurable member predicates. It does not claim a device notification was delivered.",
+      "Source details preserve first known acquisition and qualify untracked sources. Also reached through is a separate conditional section, never a replacement source.",
+      "View members is explicitly a business-only drill-down. Creator-facing aggregate access is a future privacy contract, not an implemented mode switch on this surface.",
+      "The named sources, campaign names, counts and dates are fictional records, not evidence of live posts, verified purchases or causal campaign impact."
+    ]
+  }
+}

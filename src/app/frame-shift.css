@@ -10,32 +10,33 @@
 */
 
 .fs {
-  --fs-canvas: #F4F3EF;
+  --fs-canvas: #F6F7F5;
   --fs-surface: #FFFFFF;
-  --fs-underlay: #E7E7E2;
-  --fs-ink: #151B23;
-  --fs-muted: #526171;
-  --fs-divider: #CFD3D1;
-  --fs-control-border: #788595;
-  --fs-graphite: #101820;
-  --fs-stage: #1D2833;
-  --fs-on-dark: #F6F8FB;
-  --fs-muted-dark: #B3C0CE;
-  --fs-control-border-dark: #6E8194;
-  --fs-accent: #2450E8;
-  --fs-accent-hover: #193CC4;
-  --fs-accent-pressed: #1634AD;
-  --fs-accent-wash: #E7EDFF;
-  --fs-focus-dark: #AFC8FF;
-  --fs-confirmed: #176B4B;
-  --fs-waiting: #845600;
-  --fs-problem: #B12B3F;
-  --fs-studio-floor: #D9E1E9;
+  --fs-underlay: #ECEFEC;
+  --fs-ink: #17221E;
+  --fs-muted: #59655D;
+  --fs-divider: #DCE2DE;
+  --fs-control-border: #8A968E;
+  --fs-graphite: #142019;
+  --fs-stage: #1E2D25;
+  --fs-on-dark: #F6F7F5;
+  --fs-muted-dark: #C4CDBF;
+  --fs-control-border-dark: #5F7267;
+  --fs-accent: #17221E;
+  --fs-accent-hover: #22302A;
+  --fs-accent-pressed: #0F1713;
+  --fs-accent-wash: #ECEFEC;
+  --fs-focus-dark: #FFFFFF;
+  --fs-focus: #315E49;
+  --fs-confirmed: #236444;
+  --fs-waiting: #835400;
+  --fs-problem: #B3261E;
+  --fs-studio-floor: #DCE2DE;
 
-  --fs-radius-media: 4px;
-  --fs-radius-control: 8px;
-  --fs-radius-overlay: 12px;
-  --fs-radius-sheet: 16px;
+  --fs-radius-media: 8px;
+  --fs-radius-control: 12px;
+  --fs-radius-overlay: 18px;
+  --fs-radius-sheet: 18px;
   --fs-shift-phone: 12px;
   --fs-shift-desktop: 24px;
   --fs-shift: var(--fs-shift-phone);
@@ -46,12 +47,12 @@
   --fs-t-selection: 180ms;
   --fs-t-continuity: 280ms;
   --fs-t-sheet: 320ms;
-  --fs-shadow-source: 0 6px 16px #10182018;
-  --fs-shadow-overlay: 0 16px 40px #10182029;
-  --fs-shadow-device: 0 18px 40px #10182024;
+  --fs-shadow-source: 0 6px 16px rgba(43, 67, 54, 0.10);
+  --fs-shadow-overlay: 0 16px 48px rgba(43, 67, 54, 0.12);
+  --fs-shadow-device: 0 16px 40px rgba(43, 67, 54, 0.12);
 
-  --fs-display: var(--font-fs-display), Archivo, system-ui, sans-serif;
-  --fs-ui: var(--font-fs-ui), "IBM Plex Sans", system-ui, sans-serif;
+  --fs-display: var(--font-sans), "DM Sans", system-ui, sans-serif;
+  --fs-ui: var(--font-sans), "DM Sans", system-ui, sans-serif;
 
   min-height: 100dvh;
   background: var(--fs-canvas);
@@ -65,7 +66,7 @@
 }
 /* The document behind a migrated screen: light overscroll and light form controls. */
 html.fs-doc { color-scheme: light; }
-html.fs-doc body { background: #F4F3EF; color: #151B23; }
+html.fs-doc body { background: #F6F7F5; color: #17221E; }
 
 .fs *, .fs *::before, .fs *::after { box-sizing: border-box; }
 .fs a { color: inherit; text-decoration: none; }
@@ -74,7 +75,7 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs img, .fs video, .fs canvas { display: block; max-width: 100%; }
 .fs p, .fs h1, .fs h2, .fs h3, .fs dl, .fs dd, .fs dt, .fs ul, .fs ol { margin: 0; }
 .fs h1, .fs h2, .fs h3 { letter-spacing: normal; line-height: inherit; text-wrap: initial; }
-.fs :focus-visible { outline: 3px solid var(--fs-accent); outline-offset: 3px; border-radius: 2px; }
+.fs :focus-visible { outline: 2px solid var(--fs-focus); outline-offset: 3px; border-radius: 4px; }
 .fs .fs-on-dark :focus-visible, .fs.fs-on-dark :focus-visible { outline-color: var(--fs-focus-dark); }
 .fs ::selection { background: var(--fs-accent-wash); color: var(--fs-ink); }
 .fs .fs-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -82,9 +83,9 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 
 /* ---------------------------------------------------------------- type */
 .fs .fs-display { font-family: var(--fs-display); }
-.fs .fs-t-page { font-family: var(--fs-display); font-weight: 700; font-size: 30px; line-height: 36px; letter-spacing: -0.03em; }
-.fs .fs-t-section { font-family: var(--fs-display); font-weight: 700; font-size: 22px; line-height: 28px; letter-spacing: -0.02em; }
-.fs .fs-t-identity { font-family: var(--fs-display); font-weight: 700; font-size: 30px; line-height: 32px; letter-spacing: -0.03em; overflow-wrap: anywhere; }
+.fs .fs-t-page { font-family: var(--fs-display); font-weight: 500; font-size: 30px; line-height: 36px; letter-spacing: -0.03em; }
+.fs .fs-t-section { font-family: var(--fs-display); font-weight: 500; font-size: 22px; line-height: 28px; letter-spacing: -0.02em; }
+.fs .fs-t-identity { font-family: var(--fs-display); font-weight: 500; font-size: 30px; line-height: 32px; letter-spacing: -0.03em; overflow-wrap: anywhere; }
 .fs .fs-t-task { font-weight: 500; font-size: 18px; line-height: 24px; }
 .fs .fs-t-body { font-weight: 400; font-size: 16px; line-height: 24px; }
 .fs .fs-t-meta { font-weight: 400; font-size: 14px; line-height: 20px; color: var(--fs-muted); }
@@ -109,10 +110,10 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
   transition: background-color var(--fs-t-control) var(--fs-ease-out), transform var(--fs-t-control) var(--fs-ease-out), border-color var(--fs-t-control) var(--fs-ease-out), color var(--fs-t-control) var(--fs-ease-out);
 }
 .fs .fs-btn-wrap { white-space: normal; text-align: left; padding-block: 12px; line-height: 20px; height: auto; }
-.fs .fs-btn-primary { background: var(--fs-accent); color: #fff; box-shadow: 0 0 0 2px #fff; }
+.fs .fs-btn-primary { background: var(--fs-accent); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16); }
 .fs .fs-btn-primary:hover { background: var(--fs-accent-hover); }
-.fs .fs-btn-primary:active { background: var(--fs-accent-pressed); transform: translateY(1px); }
-.fs .fs-on-dark .fs-btn-primary { box-shadow: 0 0 0 2px var(--fs-graphite); }
+.fs .fs-btn-primary:active { background: var(--fs-accent-pressed); transform: scale(0.98); }
+.fs .fs-on-dark .fs-btn-primary { background: #fff; color: var(--fs-ink); box-shadow: none; }
 .fs .fs-btn-secondary { background: var(--fs-surface); color: var(--fs-ink); border: 1px solid var(--fs-control-border); }
 .fs .fs-btn-secondary:hover { background: var(--fs-accent-wash); border-color: var(--fs-accent); }
 .fs .fs-on-dark .fs-btn-secondary { background: transparent; color: var(--fs-on-dark); border-color: var(--fs-control-border-dark); }
@@ -172,17 +173,20 @@ html.fs-doc body { background: #F4F3EF; color: #151B23; }
 .fs .fs-phone { width: 100%; max-width: 480px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; background: var(--fs-canvas); }
 .fs .fs-phone-header { display: flex; align-items: center; justify-content: space-between; min-height: 64px; padding: 8px 16px 0; }
 .fs .fs-identity-trigger { display: flex; align-items: center; gap: 10px; min-height: 44px; min-width: 0; text-align: left; }
-.fs .fs-phone-main { flex: 1; padding: 0 16px calc(64px + 24px + env(safe-area-inset-bottom)); }
+.fs .fs-phone-main { flex: 1; padding: 0 16px calc(64px + 12px + 24px + env(safe-area-inset-bottom)); }
 .fs .fs-tabbar {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 30;
   display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
-  min-height: 64px; padding-bottom: env(safe-area-inset-bottom);
-  background: var(--fs-surface); border-top: 1px solid var(--fs-divider);
-  max-width: 480px; margin: 0 auto;
+  min-height: 64px; border-radius: 18px;
+  background: rgba(255, 255, 255, 0.60); -webkit-backdrop-filter: blur(20px) saturate(1.12) brightness(1.03); backdrop-filter: blur(20px) saturate(1.12) brightness(1.03);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.90), inset 0 -1px 0 rgba(29, 47, 49, 0.05), 0 1px 2px rgba(29, 47, 49, 0.06), 0 8px 28px rgba(29, 47, 49, 0.10);
+  max-width: 456px; margin: 0 auto;
 }
+@media (prefers-reduced-transparency: reduce) { .fs .fs-tabbar { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; } }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .fs .fs-tabbar { background: rgba(255, 255, 255, 0.96); } }
 .fs .fs-tabbar a { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 64px; font-size: 14px; line-height: 18px; font-weight: 500; color: var(--fs-muted); }
 .fs .fs-tabbar a[aria-current="page"] { color: var(--fs-ink); font-weight: 600; }
-.fs .fs-tabbar a[aria-current="page"]::before { content: ""; position: absolute; top: 0; width: 24px; height: 3px; background: var(--fs-accent); }
+.fs .fs-tabbar a[aria-current="page"]::before { content: none; }
 .fs .fs-tabbar a .fs-dot { position: absolute; top: 10px; margin-left: 28px; width: 8px; height: 8px; border-radius: 50%; background: var(--fs-accent); }
 .fs .fs-tabbar a.is-create span:first-child { display: inline-grid; place-items: center; width: 40px; height: 32px; border-radius: var(--fs-radius-control); background: var(--fs-accent); color: #fff; }
 .fs .fs-desk-main { padding: 0; }

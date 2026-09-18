@@ -1,0 +1,653 @@
+{
+  "when": "2026-09-16T11:29:32.276Z",
+  "author": "director",
+  "directions": {
+    "system": {
+      "borders": "Use 1px solid --v2-line for list separators, input boundaries and navigation dividers. Do not outline opportunity cards, portraits, work galleries or money. Selected filters receive a 2px ink underline, not a surrounding pill. Focus is a 2px --v2-accent outline with 3px offset; on dark surfaces use --v2-paper. Errors use a 2px --v2-danger input boundary plus an explicit error label. Hairlines are decorative, never the only indication of state.",
+      "settings": {
+        "user": [
+          "Account",
+          "Instagram and Connections",
+          "Verification",
+          "Payout",
+          "Notifications",
+          "Privacy",
+          "Security",
+          "Log out"
+        ],
+        "business": [
+          "Account",
+          "Business Details",
+          "Connections",
+          "Google Business",
+          "Brand Kit",
+          "Plan and Billing",
+          "Team",
+          "Notifications",
+          "Security",
+          "Log out"
+        ],
+        "entry": "One administrative entrance: a 44×44 gear at the upper-right of Personal Profile and Business Profile, with the accessible name Settings. No Edit profile button or settings rows on either profile. On phones, Settings opens a full-height sheet; from 768px it opens a 480px right drawer. Rows are 56px minimum height. User Account contains identity editing, portfolio management and Vehicles, including listing, placements, asking prices and scan management. Instagram and Connections contains connection management and the distinction between API and manual confirmation. Verification contains the full verification state and corrective action. Payout contains payout setup and payout-request history; Earnings remains the destination for balances and transactions. Business Account manages the signed-in person's account; Business Details manages the selected business. Connections manages Instagram and other supported connections; Google Business is its own row, not a duplicated Google control inside Connections. Brand Kit contains sources, research status, the visual kit and separately labelled proposed changes; approval is required before changes apply. Plan and Billing contains Essential or Growth, subscription status, invoices and a distinctly separated Campaign credit section with wallet, top-ups and ledger. Team remains visible but disabled with Later until the feature actually exists. Saved belongs in Activity, public-profile sharing belongs to the profile Share action, and mode switching belongs to the identity switcher. Admin, when permitted, is a secondary Account action and is outside this exploration. Log out requires confirmation; the isolated lab never signs out the production session."
+      },
+      "grid": "Viewport rules: 320–359px uses 12px page padding, a four-column alignment grid and 12px gaps. 360–767px uses 16px padding, four columns and 16px gaps; the 390px content width is 358px. Mobile headers are 56px; bottom navigation is 64px plus the safe-area inset, with 88px plus safe-area content clearance. At 320px, the leading reference image is capped at min(360px, 100svh minus 248px), contained without stretching, so its money and View action remain reachable in the first screen. At 390px, Recreate uses the full 358px-wide 4:5 image. Story has a 108px information rail and a 234px media rail separated by 16px; at 320px those become 96px, 180px and 12px. Actual Story creative is 9:16; the supplied phone photograph remains 4:5. Car uses a full-width 3:2 image. At 768–1023px, app navigation becomes an 80px left rail; main padding is 24px, with eight content columns and 20px gutters. User Home pairs Recreate across five columns with Story across three; Car spans the next eight. Business Home pairs one person across five columns with one car across three, then a two-column people roster. Profile uses three identity columns and five work columns. Public navigation becomes desktop navigation at 768px, with 32px outer padding. At 1024–1599px, app navigation is a 200px sidebar; main padding is 32px, with twelve columns and 24px gutters. At 1440px, available app content is 1176px wide. User Home is one composed spread: Recreate columns 1–5, Story 6–8, Car 9–12. Their media end on a shared baseline within a 500px media deck; Recreate is at most 400px wide, Story at most 248px, and Car fills its four-column 3:2 frame. These are independent media compositions, not equal card boxes. Business Home gives eight columns to a featured person, using portrait and work together, and four to a car; the next row holds two additional people across six columns each. Profile gives four columns to identity and eight to work, with the vehicle beneath the work rather than dominating the page. At 1600px and above, app content stops growing at 1280px and is centered in the area beside the 200px sidebar; 1920px adds breathing room, not more dashboards or extra feed columns. Public content has a 1376px maximum at 1440px and a 1600px maximum at 1920px. Only public display type and editorial media grow at large desktop. Mobile feeds have three initial opportunities; Business has two people and one car. Desktop User Home also starts with three opportunities; Business starts with three people and one car. More loads actual additional records through an explicit button. No duplicate records fill a composition.",
+      "media_treatment": "The three supplied images are usable media, not evidence of a live campaign, a creator's identity, a video file or a reconstructed vehicle. Recreate: retain the supplied 4:5 coffee-shop photograph, with its person, phone and filming context intact; do not add a play icon unless a playable reference video exists. Story: the supplied asset is a photograph of a phone displaying an ad, not the underlying downloadable 9:16 creative. Show it intact as a 4:5 Preview photo when used in a campaign preview. Never perspective-extract it, put another device frame around it, or offer it as a posting asset. Use an actual creative_url at 9:16 when available; posting stays unavailable without a valid creative. Car: the supplied portrait photograph can be cropped to 3:2 at object-position 50% 68%, keeping the entire vehicle and wheels; retain the original image in its gallery. It is campaign imagery, not the user's listed vehicle or a 3D asset. Do not transfer Demo Coffee campaign names, prices or deadlines from production captures onto these different brands without a verified record-to-asset mapping. App media comes from its actual record; unmatched supplied images remain public editorial imagery. No invented association fills a missing data field. No global colour grade, blur wash, gradient overlay, artificial reflection or background removal. Place text in solid adjacent bands. Video uses its real poster, muted playback only when permitted, one playing video at a time, and visible sound and pause controls. Honour reduced motion, data saving and off-screen pause. Images reserve intrinsic dimensions before loading; missing media uses a plain labelled fallback, never a generated person or car.",
+      "text_policy": "Default visible UI is media, money, a short title or verb, identity and one next action. Labels are normally one to three words. Opportunity titles are one line: Recreate this Reel, Post for {actual hours}, or Drive with this campaign; an editorial subject can replace the title when the earning type remains explicit. Truncate only non-critical editorial titles, exposing the full title on opening and to assistive technology. Names may wrap to two lines. Money, requirements, dates, financial consequences and state labels never truncate. There is no separate kind label, explanatory verb line and duplicate title describing the same thing. One sentence of at most 17 words is allowed for an empty state, blocking error or immediate consequence. Required legal language is not rewritten to satisfy a word budget; full terms appear in their own readable disclosure, with material obligations visible before commitment. No default logged-in block has 18 or more words. Detailed guides, provenance, confirmation method, review history, fee breakdowns and account administration appear when their related action makes them relevant. Benchmark the same default data scope as the study, after reveals, counting visible navigation and buttons: Public 995 to at most 331 words on phone and 987 to at most 329 on desktop; User Home 199 to at most 66 and 203 to at most 67; Profile 98 to at most 32 and 102 to at most 34; Business Home 208 to at most 69 and 249 to at most 83. Aim for Public 240/260, User Home 60/64, Profile 30/32 and Business Home 62/76. Every phone first screen must contain fewer than 40 words. These are acceptance targets, not claimed measurements. Do not achieve them by removing records solely for the count, shrinking text, clipping obligations or hiding relevant errors. Additional real urgent requirements may exceed the baseline budget and must be reported separately.",
+      "iconography": "Use Lucide icons from the bundled ISC-licensed package: House, ListChecks, Wallet, UserRound, Search, MessageCircle, Bell, Settings2, ChevronDown, ChevronRight, Plus, Play, Pause, Volume2, VolumeX, Image, Check, Clock3, CircleAlert, MapPin, Share2 and CarFront. Standard size is 20px with 1.75px strokes; primary navigation icons are 22px. All icon buttons have at least 44×44px targets. Use labels for primary navigation, financial actions and irreversible decisions. An icon never asserts a connection or verification state by itself. Use the official Instagram mark only for Instagram identity, with accessible state text. Earning types are recognised through their actual media and verbs, not three decorative category icons. No sparkle icon for ordinary product behaviour.",
+      "surfaces": "Default canvas is --v2-paper. Input fields and open sheets use --v2-surface. Media sits directly on the canvas, not inside a second card surface. --v2-soft is reserved for unavailable-media backgrounds and selected settings rows. Primary buttons are ink with paper text; secondary actions are underlined ink text. The only routine lime-filled control is Business Create; lime also marks an actual review-needed dot beside a labelled state. The public business chapter uses an ink background with paper text to create one deliberate tonal change. Logged-in screens stay light in V2; system dark mode does not silently introduce an unreviewed second theme. Scrims belong only to modal layers. No translucent navigation, frosted panels or tinted statistic cards.",
+      "device_framing": "Use an abstract, unbranded viewport frame only on the public website: 1px ink boundary, 28px corner radius, 6px solid ink bezel, no fake clock, signal, notch, camera hardware or operating-system status. A phone preview uses the actual 390×844 layout ratio. A desktop preview uses a 1440×900 layout ratio, a 6px frame radius and no invented browser URL. Maximum simultaneous framing is one phone and one desktop viewport; never three floating phones. The UI inside is real coded UI or a clearly identified real browser capture, never a generated screenshot. Scaled previews are non-interactive and have an adjacent 44px Open preview action that opens the unscaled lab experience. At 320px, remove decorative device framing and show the responsive UI directly. The supplied Story phone photograph is already a photographed object and receives no additional bezel. App screens never sit inside device frames.",
+      "colors": [
+        {
+          "token": "--v2-paper",
+          "hex": "#F7F4EB",
+          "role": "Warm light app canvas and inverse text on ink."
+        },
+        {
+          "token": "--v2-surface",
+          "hex": "#FFFEF9",
+          "role": "Sheets, inputs and solid media-control labels."
+        },
+        {
+          "token": "--v2-ink",
+          "hex": "#18231D",
+          "role": "Primary text, money, primary actions and the public business chapter."
+        },
+        {
+          "token": "--v2-muted",
+          "hex": "#58625B",
+          "role": "Secondary labels on paper or surface; never reduced opacity."
+        },
+        {
+          "token": "--v2-line",
+          "hex": "#D6D9CF",
+          "role": "Decorative dividers and input boundaries."
+        },
+        {
+          "token": "--v2-soft",
+          "hex": "#ECEEE5",
+          "role": "Plain fallback media backgrounds and selected administrative rows."
+        },
+        {
+          "token": "--v2-accent",
+          "hex": "#B73E28",
+          "role": "The earning-edge marker, public emphasis and light-surface focus rings."
+        },
+        {
+          "token": "--v2-lime",
+          "hex": "#D5E85A",
+          "role": "Business Create fill and small, labelled review-needed indicators; always with ink text."
+        },
+        {
+          "token": "--v2-success",
+          "hex": "#236444",
+          "role": "Confirmed success labels and icons, never unconfirmed earnings."
+        },
+        {
+          "token": "--v2-warning",
+          "hex": "#835400",
+          "role": "Actual deadlines requiring attention and recoverable warning text."
+        },
+        {
+          "token": "--v2-danger",
+          "hex": "#B3261E",
+          "role": "Errors, rejection and destructive actions with explicit labels."
+        },
+        {
+          "token": "--v2-inverse-muted",
+          "hex": "#C4CDBF",
+          "role": "Secondary text on the ink public chapter."
+        },
+        {
+          "token": "--v2-scrim",
+          "hex": "#18231D66",
+          "role": "Modal backdrop only."
+        }
+      ],
+      "navigation": {
+        "mobile_business": "Five fixed destinations, in order: Home, Content, Create, Campaigns, Business. Each occupies one fifth of the bar; all labels remain visible at 320px. Create is a 32px lime circle with an ink plus inside a 44px minimum target; it does not protrude or become a floating action button. Home has the required local tabs For you, People, Cars, Nearby, in a horizontally scrollable 40px row with no wrapping. These tabs filter the same marketplace, not separate products. Header: identity switcher left, Search, Messages and Notifications right. On Business Profile, Share and Settings replace those three utility actions; utilities remain available from the other business destinations. Review counts appear on Campaigns only when real; Content gets a real attention count, not a promotional subscription badge.",
+        "desktop_business": "At 1024px and above, a 200px solid paper sidebar with wordmark, active-business switcher, Home, Content, one lime Create campaign action, Campaigns and Business. Create sits between Content and Campaigns and is the only filled navigation item. Search, Messages and Notifications sit at the bottom, each labelled. Campaign credit is not a dashboard tile on Home; it is accessible in Plan and Billing and at campaign funding. At 768–1023px, use an 80px rail with icons and 12px labels; Create is labelled Create. Move the full identity switcher into the main header. Home opens the marketplace directly, not an overview dashboard. Selection changes immediately; scrolling position and filter state are retained on return.",
+        "mobile_user": "Four fixed destinations only: Home, Activity, Earnings, Profile. Each has a 22px icon, 12px label and at least a 44px target. Selected state is ink plus a 2px underline, with aria-current; no bouncing pill. Home header has the Personal identity switcher left and Search, Messages and Notifications right. Activity and Earnings use the same utilities. Profile uses the identity switcher left and Share plus Settings right, with no separate Profile title. Home has no earning-type tabs. A single Filter action opens For you, Nearby, Top pay and an optional kind selector in a sheet. Without a city, choosing Nearby requests the city there, not above the first image. Revision requests normally live in Activity and its real count badge. Only a real action due within 24 hours or a blocking financial issue earns one compact Home attention strip; show the highest-severity issue, then the nearest deadline. Never stack notices.",
+        "mode_switching": "One identity switcher names the current context: Personal or the active business's real name and logo. It opens a bottom sheet on phone and an anchored 320px menu on larger screens, listing Personal, each permitted business and Add business. Choosing a business changes the entire navigation and active-business context; choosing Personal restores the last Personal destination. Preserve scroll positions separately per identity. Do not merge personal earnings, business campaign credit and subscription billing. Permission-restricted actions remain unavailable with a reason in their relevant flow. The isolated lab can switch between its Personal Home and Business Home previews but must not change the production session or active-business record.",
+        "public_site": "Desktop header is 72px: TapMart left; Earn and For business anchor links centrally; Sign in and Start earning right. Phone header is 56px: TapMart left, Sign in and a 44px Menu action right. The menu contains Earn, For business and Start earning; it is not a second marketing page. Hero actions are Start earning and For business. Footer contains Terms, Privacy, Creator terms, Campaign rules and plan information. Plans are explained next to Monthly Content, not as a campaign-access paywall. Hash navigation uses native scrolling and preserves browser history. In the lab, authentication and external legal destinations open clearly labelled preview notices or supplied read-only documents rather than mutating production or pretending authentication succeeded.",
+        "desktop_user": "At 1024px and above, a 200px sidebar contains wordmark, Personal switcher and Home, Activity, Earnings, Profile. Search, Messages and Notifications are labelled at the bottom. No settings item is scattered into the rail; Settings stays on Profile. At 768–1023px, use the 80px labelled icon rail and put the identity switcher in the main header. Main content is independently composed for desktop, not a centered phone feed. The first-phase lab implements only Public Homepage, User Home, User Profile and Business Home. Other navigation labels retain their production-intent meaning but open an Outside this preview notice; they do not lead to fabricated Activity, Earnings, Content or Campaigns screens. Shared-element object previews may open inside the four routes, but complete off-scope workflows wait for approval."
+      },
+      "theme": "Open Cut: a warm light consumer marketplace with large untreated real media, green-black typography, a restrained brick-red signature and functional lime for Business Create. The public business chapter alone changes to ink. The system is editorial without becoming a magazine to read, precise without becoming enterprise software, and lively without making the work or money feel like a game.",
+      "typography": [
+        {
+          "face": "Bricolage Grotesque",
+          "token": "--v2-font-display",
+          "weights": "600, 700",
+          "source": "Google Fonts: Bricolage Grotesque; SIL Open Font License 1.1; load through next/font/google.",
+          "role": "Wordmark, public headlines, chapter verbs and profile names. Its character supplies personality without adding decorative UI."
+        },
+        {
+          "face": "DM Sans",
+          "token": "--v2-font-ui",
+          "weights": "400, 500, 600, 700",
+          "source": "Google Fonts: DM Sans; SIL Open Font License 1.1; load through next/font/google.",
+          "role": "Navigation, opportunity titles, body text, dates, controls, states and all money. Use tabular lining numerals for balances, transactions and rates."
+        }
+      ],
+      "removed_from_visible_ui": [
+        "User Home loses the introductory Find paid work headline, routine revision sentence, stacked discovery tabs and separate Kind control. A media-first feed, one Filter action and Activity attention counts replace them.",
+        "Opportunity surfaces lose duplicated type labels, explanatory verb lines, View work plus Inspect reference duplication and persistent Save actions. Media opens the preview; one visible View action remains. Save moves into the object preview and saved work remains in Activity.",
+        "Recreate retains spots and closing date next to its action. Story retains follower requirement and live duration. Car retains city, duration and monthly basis. These are not counted as expendable metadata.",
+        "Profile loses Edit profile, verification administration, confirmation-method explanations, scan/provider language and settings-like navigation rows. It gains identity, actual work and a smaller real vehicle presentation.",
+        "Profile connection and payout readiness survive as compact factual identity signals, not management rows. Connected is never shown without the corresponding real state. Missing Instagram displays Not connected; no fabricated handle appears. Payout ready appears only when true.",
+        "Profile retains Earned, Completed and Rating only when backed by data. No New rating, invented review score or empty statistic card. The work gallery has no caption paragraph; selecting work reveals its full campaign context.",
+        "Business Home loses four repetitive shelves, follower strings, verification-method strings, approval metadata and reviews beside every portrait. Work and faces lead; a real connected handle may remain. Reviews, completed work and request eligibility appear in the person preview.",
+        "Business Home loses campaign-decision summaries and delivered-file explanations above discovery. Actual attention counts move to Campaigns and Content.",
+        "Public loses repeated mechanism paragraphs, duplicated audience pitches and a provenance caption under every image. A compact Campaign imagery or Product preview label identifies a scene; source and capture notes open on demand.",
+        "Plan features, platform-fee explanations, payout minimums, Google setup, brand research, vehicle processing and connection recovery leave general browsing surfaces. They remain visible at their own decision or settings point.",
+        "No fake analytics, social engagement counters, follower-based ranking score, synthetic live activity, pretend 3D, autoplayed static reference image or celebratory money counter is added."
+      ],
+      "spacing": "Base scale in px: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128. Use 4 between amount and basis, 8 between related labels, 12 between a title and facts, 16 between media and its adjacent action band, 24 between card content groups, 32 between mobile opportunities and 48 between desktop rows. Public chapter separation is 64px on phone and 128px on desktop. App headers use 16px vertical breathing room within their fixed height; never add a second introductory header. Settings rows use 16px horizontal padding. Buttons have 12px vertical and 16px horizontal padding with a 44px minimum height. Only media may intentionally break alignment; text and action edges always return to the column grid. Safe-area insets are additive. Do not reduce spacing or type to force critical copy under a density target.",
+      "point_of_need": [
+        "Recreate discovery: real reference image or playable video first; authoritative amount with its basis; one-line title; business; actual remaining spots and closing date; View. If the amount is gross rather than take-home, say Before fee. No claim that merely recreating guarantees payment.",
+        "Recreate before Apply: show exact deadline with date, time and timezone, duration range, all mandatory elements, eligibility if any, actual gross/fee/net breakdown, approval condition and material usage rights. Numbered visual steps come from the actual brief or creator guide, with source labelling in the guide. Full terms are accessible here, but important restrictions are visible without opening another disclosure. Missing financial or mandatory requirement data blocks commitment rather than being guessed.",
+        "Recreate after application: distinguish Applied, Accepted, Declined and Withdrawn using actual application state. Only acceptance exposes the submission flow. The upload step shows required format, duration, checklist, deadline and real upload progress. Submitted, Under review, Revision requested, Approved, Rejected and Paid retain their actual meanings. A revision surfaces the business note and real due date; no due date is invented.",
+        "Story discovery: show the actual finished creative when available, otherwise the supplied phone image explicitly as Preview photo; show pay basis, business, actual minimum followers and required live hours. The title uses the actual duration, not an unconditional 24-hour default. A closing-in-24-hours deadline is visible on the card; the complete deadline is always visible before accepting.",
+        "Story before Accept: display Instagram connection state, current eligibility, actual follower minimum, manual-versus-API verification method, exact live duration, start or proof deadline when specified, required tagging and disclosure, usage terms, gross/fee/net and Approval required. A disconnected or ineligible person gets the factual reason and the appropriate connection or eligibility action. Manual confirmation is never styled as live API verification.",
+        "Story posting and proof: enable Download or Post only with a valid source creative and supported action. Show posting requirements before handoff. A timer starts only from a real recorded posting time. Posted, Proof submitted, Under review and Approved follow actual records; opening Instagram does not equal posting. Approval can create earnings, but it does not mean a bank payout has completed.",
+        "Car discovery: large real campaign or vehicle media; authoritative monthly amount or a clearly labelled From asking rate; city; actual duration; View. A From rate must identify the corresponding available zone in the car preview and must not imply full-wrap pricing. A listing with no asking rate says Rate not listed rather than receiving an invented amount.",
+        "Car before Apply or Accept offer: require an actual listed vehicle and show its eligibility against vehicle preferences, selected placement zones, duration with real dates, monthly basis, any supported proration rule, installation arrangements, all applicable owner costs, proof cadence, cancellation and removal obligations, material terms and monthly approval condition. Show a visual placement diagram only from real artwork or supported zone data. There is no simulated wrap, price or installation slot.",
+        "Car booking and payment: Sent, Countered, Accepted, Declined, Cancelled and Expired belong to offers. Creative pending, Installation pending, Active, Proof required, Completed, Cancelled and Disputed belong to bookings. Installation, periodic and odometer proof each show their own requirement and due date at upload. Monthly money is tied to the approved proof period and actual ledger state; a rotating car or accepted offer never triggers a balance increase.",
+        "Direct requests: opening a real invite shows Request from {business} and Accept / Decline before the ordinary detail content. Before a business sends a person request, the sheet requires Story or Recreate, real pay, deadline, deliverables and terms; before a car offer, it requires vehicle, zones, dates and monthly pay. Sending opens the existing conversation model. Confirmation says Request sent or Offer sent only after success; it never says Hired, Booked or Accepted before the recipient acts.",
+        "Business approval: next to the final approval action, show the exact work or proof period, creator net, platform fee, total campaign-credit debit and actual effect of approval. The confirmation explains that approval credits earnings and that payout is separate. Do not call a reversible action irreversible unless the backend contract says so. Insufficient credit opens funding with the exact shortfall. Submission approval, content approval and payment completion are distinct actions and states.",
+        "Earnings and payout: Available, Pending and Lifetime remain separate server values. Transactions show amount, date, campaign and actual state. Payout confirmation shows requested amount, applicable fee, expected net, destination and the configured minimum; show timing only if supported. Requested, Approved, Paid and Rejected payout states are not collapsed into Paid. A payout setup problem is visible at withdrawal and in Payout settings.",
+        "Monthly Content and subscription: Content shows only the actual subscription, shoot, delivery and publishing states. Essential is one monthly shoot with 10 photos and 3 videos; Growth is two shoots with 20 photos and 6 videos. Prices and billing dates come from settings and billing records. At plan selection and checkout, visibly state Campaign spending is separate. Content approval does not release campaign earnings. Scheduling shows platform, date, time and timezone; a manual Mark published action remains labelled manual until real publishing integration confirms publication.",
+        "Terms and exceptional states: material eligibility, financial consequences and requirements are adjacent to the action they govern, not hidden behind a generic Details link. Full legal documents may open in a scrollable disclosure. Errors remain visible until resolved; an optimistic animation cannot suppress rejection, cancellation, dispute, failed payment or connection failure. The four-screen lab previews these consequences without issuing real applications, requests, approvals, top-ups, payouts or subscription changes."
+      ],
+      "shape": "Media, galleries, opportunity compositions, amount bands and section boundaries have 0px radius. Buttons, inputs and compact status labels have 4px radius. Sheets and drawers have 8px top corners on phone and 8px exposed corners on desktop. Avatars and the Business Create disc are circular. The public phone frame alone has 28px corners; its desktop frame has 6px. No oversized rounded card containers, capsule navigation or rounded money badges. The signature earning edge is a straight 2px line with a 12px brick-red terminal, never a perforated receipt or a paid stamp.",
+      "money": "Money is DM Sans 600 with tabular lining numerals, ink on paper or surface. Opportunity amounts are 32px on phone, 28px at 320px and 36px on desktop; the basis is 13px, adjacent and never hidden. Public real-record amounts may be 48px. Profile Earned is 24px phone and 28px desktop. The future Earnings balance contract is 48px phone and 72px desktop, with Available explicitly attached. Discovery suppresses unnecessary .00 but preserves all non-zero cents; balances, ledger rows, approval confirmations and payouts use two decimal places. Use the record's currency; show its ISO code when the symbol is ambiguous. Never abbreviate money to K, round take-home pay, add a plus sign to pending money or colour an opportunity amount green as though it were earned. Car rates always carry /month; Recreate and Story carry an approval basis. Prefer a server-supplied net amount. If only gross is authoritative, label Before fee and reveal the exact breakdown before commitment; do not calculate from a guessed fee. Approved, Available and Paid are different states. Monetary updates replace old values with a short crossfade only after authoritative confirmation; they never count up from zero or run through invented intermediate balances.",
+      "depth": "Most UI is flat. Media-to-action alignment provides hierarchy rather than shadows. A modal sheet may use 0 12px 32px #18231D1F, with the --v2-scrim backdrop. Public viewport frames may use 0 16px 40px #18231D24. No opportunity-card shadows, inset glass, levitating statistics or hover elevations. Public imagery can overlap by at most 24px on desktop and 12px on phone when showing a transition, but returns to the earning edge at rest. Car depth comes only from real photography or an actual model.",
+      "type_scale": [
+        {
+          "line_height": "1.00",
+          "role": "Public display; Bricolage Grotesque",
+          "weight": "700",
+          "tracking": "-0.05em",
+          "desktop_px": "104; 88 at 1024–1279; 120 from 1600",
+          "phone_px": "52; 44 at 320–359; 72 at 768–1023"
+        },
+        {
+          "line_height": "1.05",
+          "role": "Public chapter verb; Bricolage Grotesque",
+          "weight": "700",
+          "tracking": "-0.04em",
+          "desktop_px": "64",
+          "phone_px": "36; 32 at 320–359"
+        },
+        {
+          "line_height": "1.15",
+          "role": "App page or sheet title; Bricolage Grotesque",
+          "weight": "600",
+          "tracking": "-0.03em",
+          "desktop_px": "36",
+          "phone_px": "28"
+        },
+        {
+          "line_height": "1.10",
+          "role": "Profile name; Bricolage Grotesque",
+          "weight": "600",
+          "tracking": "-0.03em",
+          "desktop_px": "40",
+          "phone_px": "28; 26 at 320–359"
+        },
+        {
+          "line_height": "26px desktop; 24px phone",
+          "role": "Opportunity or person title; DM Sans",
+          "weight": "600",
+          "tracking": "-0.015em",
+          "desktop_px": "20",
+          "phone_px": "18"
+        },
+        {
+          "line_height": "40px desktop; 36px phone; 32px compact",
+          "role": "Opportunity money; DM Sans",
+          "weight": "600",
+          "tracking": "-0.03em",
+          "desktop_px": "36",
+          "phone_px": "32; 28 at 320–359"
+        },
+        {
+          "line_height": "76px desktop; 52px phone",
+          "role": "Available balance contract; DM Sans",
+          "weight": "600",
+          "tracking": "-0.04em",
+          "desktop_px": "72",
+          "phone_px": "48"
+        },
+        {
+          "line_height": "32px desktop; 28px phone",
+          "role": "Profile metric; DM Sans",
+          "weight": "600",
+          "tracking": "-0.02em",
+          "desktop_px": "28",
+          "phone_px": "24"
+        },
+        {
+          "line_height": "24px",
+          "role": "Body, requirements and expanded legal text; DM Sans",
+          "weight": "400",
+          "tracking": "0",
+          "desktop_px": "16",
+          "phone_px": "16"
+        },
+        {
+          "line_height": "20px",
+          "role": "Actions and filters; DM Sans",
+          "weight": "600",
+          "tracking": "0",
+          "desktop_px": "14",
+          "phone_px": "14"
+        },
+        {
+          "line_height": "18px",
+          "role": "Business name, date, basis and secondary facts; DM Sans",
+          "weight": "500",
+          "tracking": "0",
+          "desktop_px": "13",
+          "phone_px": "13"
+        },
+        {
+          "line_height": "20px desktop; 16px phone and tablet rail",
+          "role": "Primary navigation; DM Sans",
+          "weight": "500",
+          "tracking": "0",
+          "desktop_px": "14; 12 in the 768–1023 rail",
+          "phone_px": "12"
+        },
+        {
+          "line_height": "18px",
+          "role": "Public provenance trigger and non-critical footnote; DM Sans",
+          "weight": "400",
+          "tracking": "0",
+          "desktop_px": "12",
+          "phone_px": "12"
+        }
+      ],
+      "motion": [
+        {
+          "explains": "Navigation is immediate; the selected destination is never waiting for an animation.",
+          "trigger": "Primary navigation or local filter selection.",
+          "reduced_motion": "Immediate replacement with no movement.",
+          "name": "Immediate navigation",
+          "duration_ms": "100",
+          "easing": "linear",
+          "what_moves": "Selection changes on input. New content receives a 100ms opacity transition only when already available. No slide across the viewport and no artificial loading delay."
+        },
+        {
+          "explains": "This is the same opportunity, person or vehicle, now opened rather than a different page.",
+          "trigger": "View or media tap on a real object.",
+          "reduced_motion": "Immediate layout change with an optional 80ms crossfade; focus still moves correctly.",
+          "name": "Card becomes detail",
+          "duration_ms": "320 opening; 240 closing",
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "what_moves": "The same media bounds expand into a full-screen phone preview. On desktop, the media expands in place while a 560px detail pane enters from the right. Title and money keep their identity and settle below the media. Animate bounds through transforms without stretching the source image. The first-phase lab opens a read-only object preview, not a fabricated complete workflow."
+        },
+        {
+          "explains": "The reference, finished creative or vehicle photograph can be inspected independently of the surrounding task.",
+          "trigger": "Expand media control.",
+          "reduced_motion": "Open the viewer immediately.",
+          "name": "Media inspection",
+          "duration_ms": "260",
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "what_moves": "Media expands to a contained viewport viewer on an ink background. Controls fade in over 100ms. Escape, Back and a visible Close return to the same scroll position and source element."
+        },
+        {
+          "explains": "The earning edge is the boundary between seeing the work and choosing what to do.",
+          "trigger": "Pointer hover, keyboard focus or opening an object.",
+          "reduced_motion": "The terminal changes colour immediately; no translation.",
+          "name": "Earning edge",
+          "duration_ms": "160",
+          "easing": "cubic-bezier(0.2, 0, 0, 1)",
+          "what_moves": "Only the 12px accent terminal extends to 24px along the existing 2px edge. Images do not zoom on hover. It is an interaction cue, never a payment-progress indicator."
+        },
+        {
+          "explains": "Filters, settings and request composition are temporary tasks inside the current context.",
+          "trigger": "Filter, gear, identity switcher or Request.",
+          "reduced_motion": "Immediate appearance with focus transfer.",
+          "name": "Working sheet",
+          "duration_ms": "240 opening; 180 closing",
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "what_moves": "Phone sheet enters vertically from 24px below its final position; desktop drawer enters from 32px to the right. The scrim fades over 160ms. The background remains still. Trap focus, return focus on close and confirm before discarding meaningful input."
+        },
+        {
+          "explains": "Real-world media becomes a specific paid-work opportunity; the three earning types are not interchangeable.",
+          "trigger": "Scrolling the public earning chapter on screens at least 1024px wide.",
+          "reduced_motion": "Three ordinary vertical sections with the same content and no sticky stage.",
+          "name": "Everyday to opportunity",
+          "duration_ms": "Scroll-driven; no clock duration",
+          "easing": "linear scroll mapping",
+          "what_moves": "A 92svh stage spans 160svh of document height. Progress 0–0.33 presents Recreate, 0.33–0.66 Story and 0.66–1 Car. Media moves at most 48px and resolves to its type-specific coded preview on the earning edge. Matching assets may share-transform; unrelated editorial imagery cuts to a separately labelled Product preview instead. No wheel interception, scroll locking or simulated submission-to-payment state. Below 1024px use normal vertical chapters."
+        },
+        {
+          "explains": "The business journey moves from finding someone to requesting work, reviewing it and separately receiving subscription content.",
+          "trigger": "Native scroll through the public business chapter, or its visible Previous and Next controls.",
+          "reduced_motion": "All panels are available as stacked sections.",
+          "name": "Business handoff",
+          "duration_ms": "280 for button navigation; native scrolling otherwise",
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "what_moves": "One real person preview hands off to its request composition, then a separately identified real review example. A Monthly Content panel follows as a distinct system. Desktop may use a horizontal snap strip; phone stacks panels. No automatic carousel, invented conversation or timer-driven approval."
+        },
+        {
+          "explains": "A request has actually been sent, but has not yet been accepted.",
+          "trigger": "Successful authoritative request or offer response.",
+          "reduced_motion": "Immediate Request sent or Offer sent label.",
+          "name": "Request handoff",
+          "duration_ms": "220",
+          "easing": "cubic-bezier(0.2, 0, 0, 1)",
+          "what_moves": "The action label crossfades into the returned sent state and the conversation entry appears beneath it. No flying envelope or hired celebration. On failure, preserve the form and show the real error. This mutation is disabled in the isolated lab."
+        },
+        {
+          "explains": "A review decision changed the work state; it did not necessarily complete a payout.",
+          "trigger": "Confirmed application, submission, proof or content decision.",
+          "reduced_motion": "Immediate state replacement with a polite accessible announcement.",
+          "name": "Approval settles",
+          "duration_ms": "280",
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "what_moves": "The review action area collapses into a compact, explicitly named status row. Keep the reviewed media visible. Related ledger state appears only if returned by the server. No confetti, green-screen flash or automatic Paid label. Lab demonstrations require a supplied truthful recorded state sequence; otherwise show only the pre-confirmation preview."
+        },
+        {
+          "explains": "An authoritative balance changed, without inventing intermediate earnings.",
+          "trigger": "A confirmed ledger refresh changes a displayed amount.",
+          "reduced_motion": "Replace the number immediately.",
+          "name": "Honest balance update",
+          "duration_ms": "120",
+          "easing": "linear",
+          "what_moves": "Crossfade the old complete amount to the new complete amount in a fixed-width numeric area. Do not roll digits, count from zero or pre-credit money. Announce the final amount and its state once."
+        },
+        {
+          "explains": "New real opportunities arrived without moving the item currently being read.",
+          "trigger": "Actual feed data changes while the page is open.",
+          "reduced_motion": "Insert immediately after explicit refresh.",
+          "name": "Live arrival",
+          "duration_ms": "180",
+          "easing": "cubic-bezier(0.2, 0, 0, 1)",
+          "what_moves": "Show a compact New opportunities control only when real new records exist. On tap, insert them with opacity and an 8px translation while preserving the scroll anchor. Never auto-scroll, recycle existing records or fabricate a live ticker."
+        },
+        {
+          "explains": "This is an inspectable model of the listed vehicle, not a decorative picture.",
+          "trigger": "A valid vehicle model is loaded and first becomes at least 75% visible; direct manipulation thereafter.",
+          "reduced_motion": "No introductory movement. Rotation remains available through explicit controls.",
+          "name": "Real vehicle invitation",
+          "duration_ms": "900 once; direct manipulation has no easing",
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1) for introduction only",
+          "what_moves": "The actual model yaws from 0 to 6 degrees and back to 0 once, then rests. Drag rotates yaw freely with pitch clamped from -5 to 20 degrees; arrow buttons provide equivalent 15-degree yaw steps. A photo never tilts to imitate 3D. With data saving, unsupported WebGL or a missing model, retain the real poster or photo gallery. Provider and scan details stay in vehicle management."
+        }
+      ]
+    },
+    "artec_lessons": [
+      "Access honesty: the supplied study had search snippets and third-party product descriptions, not access to Artec's pixels or motion. I have not independently inspected Artec in a browser. These lessons concern its documented product model and copy, not claimed visual observations.",
+      "Make one clear promise per audience. TapMart's public opening should communicate earning; its business chapter should communicate access to real people, cars and content.",
+      "Show work before credentials. A business should first see what a person makes, not a compressed database row of followers, verification and review metadata.",
+      "A request is the bridge from discovery to a relationship. Keep the person, opportunity, conversation and subsequent state connected rather than scattering contact actions.",
+      "Reveal sensitive or detailed information because a person has taken a relevant action. This is not permission to hide eligibility, price, deadlines or consequences before commitment.",
+      "Let the number lead only when it is real and meaningful. TapMart should foreground actual compensation and balances, not borrow an invented creator score.",
+      "Use short declarative language with verbs. Do not explain the mechanism before showing the outcome.",
+      "Borrow the discipline, not an imagined visual style. TapMart must express three physically different earning activities and a separate Monthly Content service that Artec's documented model does not define."
+    ],
+    "founder_read": "TapMart already has the necessary product: one account, Personal and Business contexts, three real earning workflows, and a separate subscription content service. The redesign is not permission to invent a social network, simplify away financial obligations or reorganise the primary destinations. The change is from explanation-first screens to recognisable work, visible compensation and one next action, with administration behind one gear. Profile must become a person with proof of work; Business Home must become an attractive marketplace; the website must demonstrate rather than document. I have studied the supplied brief, measured study, product truth, inventory, four production captures and three media assets. The production captures corroborate the heaviness but have no styling authority. I have not inspected the repository, live backend or Artec pixels independently. This is a direction specification, not a claim that screens, files, measurements or motion recordings already exist. Build only in the isolated lab, guarded to return 404 in production unless DESIGN_LAB=1. Proposed experience routes are /design-lab-v2, /design-lab-v2/home, /design-lab-v2/me and /design-lab-v2/business. Do not alter production UI, backend behaviour, legacy code or production account state. Complete browser captures, motion checks, revisions and the V2 report before any approval to proceed.",
+    "directions": [
+      {
+        "identity": {
+          "theme": "Light app and public opening; one dark public business chapter.",
+          "palette": [
+            {
+              "hex": "#F7F4EB",
+              "name": "Counter paper",
+              "role": "Warm, bright canvas."
+            },
+            {
+              "hex": "#18231D",
+              "name": "Work ink",
+              "role": "Type, money and primary actions."
+            },
+            {
+              "hex": "#B73E28",
+              "name": "Brick cut",
+              "role": "A small, distinctive media-to-action seam."
+            },
+            {
+              "hex": "#D5E85A",
+              "name": "Create lime",
+              "role": "Business Create and real review attention."
+            }
+          ],
+          "typography": [
+            {
+              "face": "Bricolage Grotesque — Google Fonts, SIL Open Font License 1.1",
+              "why": "Recognisable warmth and a strong display silhouette without needing ornamental graphics.",
+              "role": "Wordmark, public display and identity."
+            },
+            {
+              "face": "DM Sans — Google Fonts, SIL Open Font License 1.1",
+              "why": "Quiet, highly readable controls and stable financial numerals counterbalance the display face.",
+              "role": "Product UI and money."
+            }
+          ],
+          "logo_treatment": "Typeset TapMart in title case using Bricolage Grotesque 700, 24px desktop and 22px phone, tracking -0.04em. Retire the old corner-bracket mark in this exploration. A 12×2px brick-red line sits beneath the final portion of the wordmark; it is the same terminal used by the earning edge. Do not alter the existing TapMart branding physically present in supplied photographs.",
+          "signature": "The earning edge: three different media silhouettes meet one straight boundary between the thing shown and the action it enables. A reference frame, an intact Story and a landscape vehicle remain visibly different, but their money and next action align. Opening the edge turns the same object into its detail. This is a TapMart-specific relationship between everyday activity and earning, not a decorative card frame."
+        },
+        "media_use": "Untreated creator photography and real reference video are large. Finished Stories retain 9:16 integrity rather than becoming cropped thumbnails. Cars are wide, grounded photographs rather than dominant hero machines. Public coded UI appears only after media has established the activity. Device framing is sparse and unbranded. Real 3D is confined to inspecting an actual listed vehicle. The supplied stills remain stills, and the phone photograph is not misrepresented as a source creative.",
+        "weaknesses": [
+          "Q4 — Memorable: conditional. An ivory editorial layout alone would be another tasteful template. The shared earning edge and three unequal media silhouettes must survive across all four experiences; I made them the system rather than an occasional hero trick.",
+          "Q5 — Motion improves understanding: conditional. A line animation alone is decoration. The meaningful motion is the same object becoming its detail, with the line only signalling the opening point.",
+          "Q9 — Keeps the website scrolling: conditional. A static magazine spread may look good and stop there. The second chapter must visibly convert the three activities into their real UI, with native scrolling and a non-sticky mobile fallback.",
+          "Q10 — Stronger than production: not yet proven. The composition and text policy address the measured problems, but actual screenshots, task checks and word counts are still required."
+        ],
+        "risks": [
+          "Too much blank paper could make a small local marketplace appear empty. Use a finite, purposeful initial spread with real subsequent records, not oversized gaps or fabricated inventory.",
+          "A receipt metaphor could imply money has already been paid. The earning edge must never acquire a paid stamp, perforation, success colour or invented transaction animation.",
+          "Bricolage used for every label would become fashion-driven noise. It is confined to display and identity.",
+          "A large dark car photograph could steal the product. People lead the first scene, and Car is always one of three earning activities."
+        ],
+        "verdict": "Kept and selected. It makes the largest structural change without making basic navigation exotic or making serious work feel like entertainment. The selected system incorporates only two narrowly useful ideas from the alternatives.",
+        "composition": "A media-led editorial spread rather than a stack of same-shaped cards. Phone Recreate is a large 4:5 reference with money beneath; Story is an intact vertical creative beside a narrow action rail; Car is a wide image with monthly money beside city and duration. Desktop arranges those shapes against a common lower edge across a 5/3/4 column rhythm. Business uses a featured person's portrait and work beside one car, followed by a small roster, not four horizontal metadata shelves. Profile starts with the person's real image or honest fallback, name, city and small factual metrics; work follows immediately, with a smaller vehicle below. Connection and payout readiness are facts, not settings rows.",
+        "thesis": "TapMart is a place where ordinary things become paid opportunities: making a piece of content, posting a finished creative or offering space on a real car. Open Cut makes that conversion visible. The image carries the first impression, the amount establishes the value, and one clean edge opens the actual work. Warmth comes from people, photography and type, not friendly paragraphs or padded cards.",
+        "interaction_philosophy": "Browse freely, inspect one object, then commit deliberately. A card expands without losing its media identity. Detail starts with money and the relevant requirements; administrative explanations are elsewhere. A business taps Request from a person and chooses Story or Recreate in one contextual sheet, rather than navigating a generic wizard first. A car offer starts from its actual zones. Approval is a calm, explicit state settlement after a financial confirmation, not a reward animation.",
+        "strengths": [
+          "Q1 — Premium modern product: yes at direction level. Scale, aligned edges, actual photography and disciplined type replace UI decoration.",
+          "Q2 — Explains itself without paragraphs: yes. Three media shapes, visible money and three different verbs establish the product before explanatory text.",
+          "Q3 — Consumer platform rather than business software: yes. The same work-first language serves both sides, while operational complexity stays in its actual destinations.",
+          "Q6 — Earning types feel different: yes. Portrait reference, intact Story and landscape placement each have their own composition and interaction.",
+          "Q7 — Business discovery exciting: yes after removing the metadata shelves. Portrait plus work gives someone a reason to open a person, and the car is a real advertising opportunity rather than a record.",
+          "Q8 — Profile is identity: yes. Image, name, work, earned history and vehicle outrank verification mechanics and connection management."
+        ],
+        "name": "Open Cut",
+        "motion": "Shared-object expansion is the primary gesture: 320ms opening and 240ms return with cubic-bezier(0.22, 1, 0.36, 1). Navigation itself changes immediately with at most a 100ms opacity transition. The public earning chapter uses a bounded, native-scroll transformation from activity media to actual coded UI; mobile is sequential rather than pinned. The earning-edge terminal extends over 160ms on focus. Confirmed approval settles to a labelled row in 280ms, while money changes only through a 120ms authoritative crossfade.",
+        "public_site_idea": "Opening line: Your everyday can earn. Screen one is an oversized two-line headline above a bottom-aligned spread of the three supplied images, with Start earning and For business. At 1440px, the media deck is 400px tall: the creator image is the largest portrait, the photographed Story is smaller and intact, and the wrapped car is a wide crop. At 390px, the creator occupies a 248×310px lead area with two smaller editorial previews beside it; no tiny embedded app text is required to understand the opening. A single Campaign imagery label avoids implying these images are live paid listings. Screen two begins Recreate, Post, Drive: each real activity resolves into its corresponding coded opportunity preview, retaining the asset only when the record actually matches. The required submission, proof and approval conditions appear beside the relevant preview action, not in an introductory paragraph. Later, an ink business chapter moves from a real person to a request, a car offer and a review; Monthly Content follows as a separate service with Essential and Growth and Campaign spending is separate. Target total page height is at most 4800px at 390×844 and 4200px at 1440×900, excluding open disclosures.",
+        "navigation_feel": "Stable, quiet and always labelled. Personal keeps four destinations and Business five, with the functional lime Create at the centre of the mobile bar and as one sidebar action on desktop. Selected destinations use an underline instead of floating capsules. Mobile feels direct; desktop feels deliberately composed, with a compact rail providing continuity rather than looking like an admin console."
+      },
+      {
+        "identity": {
+          "theme": "Dark app and public site with pale, solid commitment sheets.",
+          "palette": [
+            {
+              "hex": "#101512",
+              "name": "Night stage",
+              "role": "Full-bleed media background."
+            },
+            {
+              "hex": "#F2F2E8",
+              "name": "Chalk",
+              "role": "Large type and factual action bands."
+            },
+            {
+              "hex": "#E2B45E",
+              "name": "Warm signal",
+              "role": "Chapter markers and editorial emphasis."
+            },
+            {
+              "hex": "#D5E85A",
+              "name": "Create lime",
+              "role": "Required Business Create control."
+            }
+          ],
+          "typography": [
+            {
+              "face": "Barlow Condensed — Google Fonts, SIL Open Font License 1.1",
+              "why": "Tall, compressed display type can hold its own against full-screen photography.",
+              "role": "Public headlines and earning verbs."
+            },
+            {
+              "face": "Manrope — Google Fonts, SIL Open Font License 1.1",
+              "why": "A measured, open UI face prevents the dark stage from becoming an entertainment poster everywhere.",
+              "role": "Controls, identities and money."
+            }
+          ],
+          "logo_treatment": "A compact pale TapMart wordmark with a small warm rectangular cue, anchored to the solid navigation area rather than floating over every image.",
+          "signature": "Three everyday scenes become three lit stages: filming, posting and placement. A single factual action band remains fixed while the real scene changes behind it."
+        },
+        "media_use": "One dominant image or genuine video occupies most of the screen. Recreate can play real reference footage; Story is held as an intact vertical object on the dark stage; Car uses a wider photographic reveal. Public photography and viewport frames share the stage rather than sitting in an editorial spread. A real vehicle model can be inspected in isolation, never used as an ambient loop. With the supplied still assets, the first version would have much less legitimate motion than the direction's ideal.",
+        "weaknesses": [
+          "Q3 — Consumer platform rather than another genre: conditional. It could read as a streaming app, especially with condensed type and full-screen media. A permanent factual action band is necessary.",
+          "Q5 — Motion improves understanding: mixed. Media expansion is excellent; cinematic scene changes risk slowing a simple browse task.",
+          "Q6 — Earning types feel different: insufficient in the initial concept. A universal full-screen stage absorbs their different shapes. Distinct contained Story and wide Car treatments improve it but reduce the direction's unity.",
+          "Q7 — Business discovery exciting: visually yes, operationally weaker. Seeing one dominant person at a time impedes comparing nearby people and cars on desktop.",
+          "Q8 — Profile is identity: conditional. A showreel profile is attractive for someone with rich work, but the truthful initials-and-one-completion case becomes conspicuously empty.",
+          "Q10 — Stronger than production: not across all four experiences. It wins the opening impression but introduces browsing and empty-state costs that the product does not need."
+        ],
+        "risks": [
+          "The supplied night car image could make TapMart look like a premium car app.",
+          "Fullscreen vertical interaction could imply a social feed with engagement, endless swiping and entertainment incentives that do not exist.",
+          "Autoplay, black gradients and ambient motion could become the exact futuristic slop the brief rejects.",
+          "Small text over detailed media could hide requirements or make the serious financial layer feel bolted on."
+        ],
+        "verdict": "Rejected as the master direction. Merge only its focused, one-action media inspection into Open Cut: a deliberate dark viewer with proper playback controls, not a dark browsing product.",
+        "composition": "Phone shows one dominant opportunity with a visible next-item edge, not a three-card spread. The amount and action live in a fixed solid lower band. Desktop has an 80px navigation rail, a large central media stage and a 360px contextual information column; Business retains its compact left navigation. Profile is a hero portrait followed by a horizontal body of work. Public chapters use scene-scale photographs and one viewport frame at a time. This is a stage-and-inspector system, not an editorial grid.",
+        "thesis": "TapMart is a series of real-world scenes in which someone can take part and earn. Night Channel turns attention into immersion: first enter the creator's scene, then inspect the opportunity and choose whether to participate. It is the boldest emotional direction, but its strength is viewing rather than marketplace comparison.",
+        "interaction_philosophy": "Inspect deeply before moving on. The dominant media opens to a clean full-screen viewer; the lower action band opens a pale commitment sheet containing eligibility, money and obligations. Requests behave like an audition invitation rather than a generic form, but retain the actual Story/Recreate choice and consent. Approval changes the persistent band quietly after server confirmation. No swipe gesture is required to reach an action.",
+        "strengths": [
+          "Q1 — Premium modern product: yes if the media is excellent and the dark surfaces remain solid rather than glassy.",
+          "Q2 — Explains without paragraphs: yes for the public opening; less effective for comparing several live opportunities.",
+          "Q4 — Memorable: yes. The scale and stage-and-band relationship are distinctive.",
+          "Q9 — Keeps the website scrolling: yes at concept level. Scenes can hand off compellingly when real video is available."
+        ],
+        "name": "Night Channel",
+        "motion": "A 360ms media expansion uses cubic-bezier(0.16, 1, 0.3, 1); sheets take 240ms. Public desktop scene transitions are scroll-linked with at most 80px of media displacement and no wheel interception. The action band remains stable while media changes, explaining continuity. App navigation remains immediate. Horizontal work galleries use native scrolling with buttons. There is no synthetic video movement, automatic scene carousel or animated earning promise.",
+        "public_site_idea": "Opening line: Recreate. Post. Drive. Earn. Screen one is a creator scene with the words and two clear audience actions in a solid lower band. The Story and Car previews are visible as small next-scene thumbnails. Screen two expands the actual Story creative, then a real vehicle placement, while the action band changes from the relevant task to its actual approval condition. With only stills, use deliberate cuts rather than fake camera motion. The business chapter changes from a person to their work and a request composer.",
+        "navigation_feel": "A fixed opaque bottom dock on phone and a very compact left rail on desktop. All four Personal and five Business labels remain visible; no earning-type primary tabs. Moving between destinations is quick, while opening media feels immersive. The risk is that ordinary navigation looks like a media player rather than a place to manage real work."
+      },
+      {
+        "identity": {
+          "theme": "Bright white app and public site with ink typography and small vermilion signals.",
+          "palette": [
+            {
+              "hex": "#FFFFFF",
+              "name": "Notice white",
+              "role": "Open marketplace canvas."
+            },
+            {
+              "hex": "#22201D",
+              "name": "Print black",
+              "role": "Type, money and rules."
+            },
+            {
+              "hex": "#D64B32",
+              "name": "Market red",
+              "role": "Poster accents and selected index markers."
+            },
+            {
+              "hex": "#E7EFF5",
+              "name": "Index blue",
+              "role": "Quiet expanded-detail surface."
+            },
+            {
+              "hex": "#D5E85A",
+              "name": "Create lime",
+              "role": "Business Create."
+            }
+          ],
+          "typography": [
+            {
+              "face": "IBM Plex Sans Condensed — Google Fonts, SIL Open Font License 1.1",
+              "why": "Strong, economical poster headings and highly legible compact item titles.",
+              "role": "Display and market headings."
+            },
+            {
+              "face": "IBM Plex Sans — Google Fonts, SIL Open Font License 1.1",
+              "why": "A disciplined factual voice for amounts, dates and states.",
+              "role": "Product UI and financial information."
+            }
+          ],
+          "logo_treatment": "Plain black TapMart wordmark aligned to the same baseline as section labels, with a short red rule. No emblem, depth or enclosing shape.",
+          "signature": "A live contact sheet of paid work: media strips unfold into their exact requirements, maintaining the same row and identity. The visual device is an index that opens, not a card that floats."
+        },
+        "media_use": "Photography is presented in clean contact sheets with no cinematic overlays. Recreate has one large reference frame and only genuine additional frames; Story remains a tall intact creative; Car uses a panorama or actual multi-angle gallery. No speculative frames are extracted from a still. Device frames are mostly absent; public UI is shown directly at useful scale. A real 3D vehicle is optional inside its expanded inspection area, not part of the identity.",
+        "weaknesses": [
+          "Q1 — Premium modern product: conditional. Precision is strong, but the condensed index language can feel institutional rather than desirable.",
+          "Q3 — Consumer platform rather than business software: no in the first pass. A dense row-and-inspector system approaches a CRM even without statistic cards.",
+          "Q4 — Memorable: moderate. Contact sheets and red rules are established editorial devices; the identity is less ownable than Open Cut.",
+          "Q6 — Earning types feel different: moderate. Their media differ, but shared row logic makes them feel more alike than the product warrants.",
+          "Q7 — Business discovery exciting: weaker than the selected direction. Comparison is excellent, but opening a directory is less emotionally inviting than encountering someone's work.",
+          "Q9 — Keeps the website scrolling: conditional. A poster-to-index transformation is clear but supplies less narrative momentum than the other two directions."
+        ],
+        "risks": [
+          "Compact facts can expand back into the current metadata problem.",
+          "Rows, separators and a side inspector could become enterprise software despite the absence of rounded SaaS cards.",
+          "Numbered decorative entries could imply invented rankings or listing IDs. Use only genuine counts and existing step numbers.",
+          "The public site could become another functional demonstration rather than an experience someone wants to explore."
+        ],
+        "verdict": "Merged narrowly, otherwise rejected. Take its disciplined fact line and scroll-anchor preservation for real feed updates. Do not take its row-based primary discovery, condensed app typography or persistent inspector.",
+        "composition": "Phone is a sequence of media-led notices separated by rules, each expanding inline instead of opening a new visual scene. Desktop User Home is a broad two-column contact sheet; Business uses a 176px labelled left sidebar and a three-column work index with an optional 440px inspector. Profile resembles a portfolio contact sheet with a compact identity masthead. Public sections are full-width posters that unfold into real UI at readable scale. The rhythm is compact and repeated, deliberately unlike Open Cut's unequal spread and Night Channel's dominant stage.",
+        "thesis": "TapMart is the clearest local work market: available work, actual pay and the exact next step, without theatre. Market Index treats media as evidence and interaction as opening the relevant part of a record. It is the most efficient direction for experienced users, but it risks preserving the emotional heaviness the founder wants to remove.",
+        "interaction_philosophy": "Reveal detail in place. A notice unfolds to show requirements and an action; a business keeps the roster visible while composing a request in a side inspector. Approval replaces the action row with its factual resulting state. This reduces context loss and is easy to use with a keyboard, but makes work feel procedural before it feels appealing.",
+        "strengths": [
+          "Q2 — Explains without paragraphs: yes. Media, amount, deadline and a verb fit a disciplined factual strip.",
+          "Q5 — Motion improves understanding: yes. An inline row unfolding clearly shows where the extra information came from.",
+          "Q8 — Profile is identity: yes when the contact sheet leads and administrative rows are removed.",
+          "Q10 — Stronger than production: likely in density and efficiency, not sufficiently stronger in personality or public storytelling to win."
+        ],
+        "name": "Market Index",
+        "motion": "Inline expansion takes 180ms with cubic-bezier(0.2, 0, 0, 1), preserving the selected row's top anchor. Desktop inspectors enter over 220ms with the same easing. Public poster panels unfold in native scroll; there are no rotating devices or parallax scenes. Confirmed state labels crossfade over 120ms. Incoming records appear only after a real refresh and never displace the item being read.",
+        "public_site_idea": "Opening line: Find your next paid thing. Screen one is a large typographic poster above three real media notices, each with its earning verb. Screen two unfolds one notice into its actual requirements and coded action, then opens a business request beside a person's work. The subscription service appears as a separate delivered-content contact sheet, with its plan and spending distinction visible at selection.",
+        "navigation_feel": "Firm, typographic and stationary. Phone bars retain the required four and five labelled destinations with a red selection rule and lime Business Create. Desktop Personal navigation can use a compact top tab line; Business keeps the required left sidebar. Movement feels like opening an index, not entering a scene. It is efficient but carries the highest enterprise-software risk."
+      }
+    ],
+    "heaviness_diagnosis": [
+      "User Home, visible capture: the reference still is small beside a dense blue text block, even though the creator image is the strongest asset. Kind, long title, business, instruction, amount and basis compete inside one object; spots, date and three actions continue beneath it. This is not just too many words: it is too many separate reading starts.",
+      "User Home, hierarchy: the identity header, Find paid work, revision notice, sorting tabs and Kind filter precede the first opportunity. The screen asks someone to interpret the product's organisation before seeing the work. Routine revision attention belongs in Activity; genuine urgent obligations need one exceptional, actionable strip.",
+      "User Home, interaction: Inspect reference, View work and the card itself imply different destinations around the same media. One object-opening gesture and a dedicated media viewer are clearer. Save is secondary, not a competitor to the earning action.",
+      "Profile, visible capture: a dark header, initial, username and administrative connection rows make Devon look like an account record. The useful earned amount and completed count are present, but the work appears last. New is not a rating and Photos only is a capability disclaimer, not identity.",
+      "Profile, truth constraint: no actual portrait of Devon is established by the supplied capture. Replacing the initial with the campaign creator would be dishonest. The redesigned layout must work with a real portrait when available and an intentional initial fallback when not, while bringing actual completed work forward.",
+      "Business Home, visible capture: person photos and work samples are already valuable, but narrow type and repeated metadata beneath every image make them look like directory entries. View person and Request are legitimate distinct actions; the surrounding follower, approval, verification and review strings are the burden.",
+      "Business Home, desktop composition: the current wide shelves distribute attention evenly across almost identical units. The result is 245 first-screen words with little visual priority. A featured person plus work, a clearly priced car and a smaller subsequent roster create a marketplace without inventing analytics.",
+      "Public first screen, visible capture: the headline and authentic product framing are a sound starting point. The paragraph explains all three mechanisms, however, while the actual interface inside the small phone is too dense to demonstrate them. The media should establish the activities before a readable coded preview appears.",
+      "Public full page, supplied measurement: roughly one thousand visible words and a 13,486px desktop page turn truthful explanation into endurance. Repeated provenance and mechanism captions interrupt visual momentum. Source disclosure should be compact and available, not rewritten as a caption under every chapter.",
+      "Across screens: many small textual separations create weight even where no individual paragraph is long. The cure is fewer objects explaining themselves simultaneously, not simply smaller fonts, lower contrast or replacing every sentence with an icon.",
+      "Across earning types: colour and layout differences do not fully express the difference between recreating a reference, posting an already-finished asset and maintaining a physical placement. Their media integrity, action sequence and compensation basis should shape the composition.",
+      "Across motion: the supplied study describes reveals rather than object continuity. Shared media, anchored return, explicit request handoff and confirmed state settlement can explain the product better than additional prose, without making navigation slower."
+    ],
+    "self_critique": [
+      "Q1 — Does it feel like a premium modern product? Direction-level yes; rendered proof is pending. The first Open Cut pass was too dependent on tasteful colour. I tightened it to a specific 5/3/4 desktop rhythm, untreated media, two fonts and a shared earning edge. Reject any implementation that adds generic card shadows or decorative gradients.",
+      "Q2 — Does it explain itself without paragraphs? Yes in the specification, not yet measured. I removed the introductory app headings and duplicate labels, then restored the essential card facts: Recreate spots and date, Story eligibility and duration, Car city and monthly basis. The exact before/after caps are in text_policy. Count navigation, buttons and genuine notices; do not game the result by counting only the hero.",
+      "Q3 — Is it a consumer platform rather than business software? Yes after replacing the initial business shelves with portrait-plus-work composition. There are no home dashboards, fabricated analytics or subscription-stat cards. Campaign management remains serious in Campaigns; Home remains a marketplace.",
+      "Q4 — Is it memorable? Conditional. The palette alone is not enough. The revised signature is the three different media shapes meeting the same action edge, used on public discovery, Personal opportunities and business requests. If the build reduces this to ordinary equal rectangles with a red underline, it fails.",
+      "Q5 — Does motion improve understanding? Yes where it preserves identity, context or factual state. I removed ambient card float, image hover zoom and numeric count-ups. Basic navigation is immediate. Reduced-motion users receive all content and actions without a choreographed prerequisite.",
+      "Q6 — Does each earning type feel different? Yes. Recreate is a reference to inspect, Story is an intact asset to post, Car is a physical placement with monthly obligations. I explicitly corrected the supplied Story phone photograph issue: it cannot masquerade as the downloadable creative. The supplied creator still cannot masquerade as playable video.",
+      "Q7 — Is business discovery exciting? Direction-level yes. A person is introduced through their face and actual work, and a car through real placement value. I retained Request and View as distinct person actions, rather than pursuing minimalism at the expense of the real business flow. No follower score or invented price supplies excitement.",
+      "Q8 — Is Profile identity rather than settings? Yes in architecture. Photo or honest initial, name, city, earned history, completed work, real reputation and a smaller vehicle lead. Connection and payout readiness are compact facts, not administration. All management is behind the gear. I removed Photos only from the profile but kept provider truth in vehicle management.",
+      "Q9 — Would the website make someone keep scrolling? Plausibly, but this requires observation. The first scene shows three everyday activities; the next turns them into readable real UI; the business chapter changes audience through a request and review rather than a paragraph. I removed mobile pinning and any simulated automatic payment sequence. Test whether a fresh viewer can name the three earning actions after five seconds and understand that approval governs payment.",
+      "Q10 — Is it significantly stronger than production? It is the strongest proposed direction, not yet an approved result. No final visual score, completed file list or measured improvement is claimed. Required validation is real React/CSS captures at 320, 390, 768, 1023, 1440 and 1920px; open and return motion recordings; keyboard and reduced-motion checks; no horizontal page overflow; 44px targets; WCAG AA text contrast; honest empty, loading and error states; a second capture after fixes; and measured text density with the same baseline records. Protect essential information even if an exceptional state exceeds the default budget. Stop after the isolated V2 report and wait for founder approval."
+    ],
+    "chosen": {
+      "what_stays_from_frame_shift": [
+        "The media-and-money relationship in the leading User Home opportunity. It already connects the work to its value; V2 makes the media larger and removes duplicated explanation.",
+        "The concise three-action public proposition: Recreate, Post, Drive. These remain useful public verbs, while internal kinds and workflow truth remain unchanged.",
+        "The business marketplace foundation of real people, work samples and cars. This is better than replacing Home with a management dashboard.",
+        "The distinct business actions View person and Request. One inspects the person; the other starts a real invitation. Their surrounding metadata is reduced, not their purpose.",
+        "Real financial figures, real connected-state distinctions, real vehicle photography and honest absence of 3D. These are product strengths, not disclaimers to erase.",
+        "The four Personal destinations and five Business destinations, including the separate Monthly Content destination and lime Create action. Navigation familiarity is useful; Frame Shift's particular visual treatment is not preserved.",
+        "The idea of showing genuine product UI on the public site. V2 enlarges and choreographs readable coded UI rather than relying on a tiny, text-heavy phone screenshot."
+      ],
+      "why": "Open Cut best balances the founder's ten questions. Night Channel has the strongest cinematic first impression but weakens comparison, empty states and the distinction between earning types. Market Index is efficient but too close to the directory and documentation feeling being rejected. Open Cut can be immediately visual on phone, deliberately composed on desktop, inviting for both sides of the marketplace and truthful about serious money. It makes Profile into identity without inventing a portrait, gives each earning type a different physical silhouette and gives motion a semantic job. Its advantage is structural rather than a palette refresh. Selection is approval of the direction to prototype, not final approval of unbuilt screens.",
+      "name": "Open Cut",
+      "merged": [
+        "From Night Channel: a focused dark media viewer entered deliberately from a reference, Story or vehicle image. This improves inspection without turning the entire app into a streaming interface.",
+        "From Market Index: disciplined factual action bands and scroll-anchor preservation when real records arrive. This improves clarity and stability without importing directory rows or a permanent enterprise-style inspector.",
+        "No merged palette, second display family, cinematic app navigation, invented creator score, equal-card grid or decorative car treatment. The selected system remains one coherent identity."
+      ]
+    }
+  }
+}

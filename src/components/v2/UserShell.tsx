@@ -72,10 +72,10 @@ export function Badge({ n, className = "" }: { n: number; className?: string }) 
 function IdentityMark({ identity }: { identity: ShellIdentity }) {
   if (identity.logo) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={identity.logo} alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-white/10" />;
+    return <img src={identity.logo} alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-black/10" />;
   }
   return (
-    <span aria-hidden className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-3 font-display text-[13px] font-600 ring-1 ring-white/10">
+    <span aria-hidden className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-3 font-display text-[13px] font-600 ring-1 ring-black/10">
       {(identity.name.trim()[0] ?? "?").toUpperCase()}
     </span>
   );

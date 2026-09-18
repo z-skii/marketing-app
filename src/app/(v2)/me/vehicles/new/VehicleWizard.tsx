@@ -232,7 +232,7 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
                   className="aspect-[4/3] w-full object-cover md:aspect-[16/9]"
                 />
                 <div className="media-scrim absolute inset-x-0 bottom-0 h-2/3" aria-hidden />
-                <p className="absolute inset-x-4 bottom-3 font-display text-[1.375rem] font-700 tracking-[-0.02em]">{year} {make} {model}</p>
+                <p className="text-white absolute inset-x-4 bottom-3 font-display text-[1.375rem] font-700 tracking-[-0.02em]">{year} {make} {model}</p>
               </div>
             )}
             <div className="p-4 pt-3.5">

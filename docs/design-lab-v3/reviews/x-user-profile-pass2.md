@@ -1,0 +1,81 @@
+# V3 experience review: User Profile, pass 2
+
+Reviewer: Astra. Verdict: **fix**. Captures: user-profile-m.png, user-profile-m-full.png, user-profile-d.png, user-profile-d-full.png, user-profile-public-m.png, user-profile-public-m-full.png, user-profile-public-d.png, profile-work-m.png, profile-vehicle-m.png, profile-share-m.png, profile-settings-m.png.
+
+**Two second read.** Maya Chen, a real person with creative work worth opening. Her car is a secondary part of that identity. Yes, this is a composition a user could want to share.
+
+## The nine questions
+
+- Would someone keep scrolling? **YES**. The public view establishes a person before presenting work. The staggered coffee imagery invites inspection, and the smaller vehicle provides a useful conclusion rather than another oversized section.
+- Does motion reveal the product? **PARTLY**. The supplied work-inspection endpoint preserves identity and enlarges the selected work without an enclosing card. No recording or motion strip accompanies this pass, so continuity, timing and exact return remain unverified.
+- Is this more desirable than production? **PARTLY**. This is a desirable, shareable identity rather than an account summary. It improves on the administrative composition described in the brief; a direct comparison with production pixels is not available here.
+- Is the hierarchy instantly understood? **YES**. Maya, her work, then her car. The generous portrait and restrained reputation line work at both sizes. Private finances and connection repair do not interrupt that reading.
+- Does this feel like a consumer product? **YES**. The public composition feels personal and approachable. Visible sharing, quiet navigation and focused opaque tasks avoid both dashboard density and portfolio-template ornament.
+- Does the Business side justify paying? **PARTLY**. The profile helps a business evaluate creative inventory through a recognizable person and inspectable work. It cannot establish the value of paid Business workflows by itself.
+- Does Loyalty strengthen the story? **PARTLY**. Not demonstrated on this surface, appropriately. Do not insert Loyalty into Maya’s identity to satisfy a whole-experience question.
+- Are we actually at the quality benchmark? **PARTLY**. The resting composition is close: restrained typography, strong photographic scale and correctly rationed material. The phone gallery contradicts the reported gutter, and interaction, accessibility and performance evidence is still missing.
+- Are there at least three memorable product moments? **NO**. None of the three required cross-product sequences is demonstrated here. This profile correctly supports the experience without inventing a fourth wow moment.
+
+## Scores
+
+- business justifies paying: 6
+- slop risk: 2
+- text discipline: 8
+- memorable moments: 3
+- material quality: 8
+- loyalty strengthens: 5
+- keep scrolling: 8
+- at benchmark: 7
+- truthfulness: 8
+- more desirable than production: 7
+- motion reveals product: 5
+- hierarchy instant: 9
+- consumer product: 9
+
+## Wow moments seen
+
+
+## Material read
+
+Photography and uncovered canvas do the work. The owner navigation is a single translucent foreground with recognizable imagery beneath it; the share scrim dims rather than blurs, and Settings and vehicle inspection are properly opaque. This reads as rationed material, not cheap glassmorphism. Scrolling contrast and optical behavior still need recording evidence.
+
+## Word count read
+
+The page looks disciplined, not starved. Reported owner totals are 22 first-screen / 28 page words at 390 with 1415px page height, and 32 / 32 at desktop with 916px height. Public totals are 17 / 23 at 390 with 1359px height, and 23 / 23 at desktop with 920px height. Treat these as reported browser counts until lettering is reconciled: four Story words and two vehicle-work words are visibly present. No copy cutting is justified before that audit.
+
+## Spec drift
+
+- The phone Story visibly touches the leading work image despite the reported 16px separation.
+- The work inspector adds type and ordinal context. This is acceptable if record-bound and included in its measured state.
+- The share sheet adds a preview clarification beyond the original inventory. This is a useful, truthful exception.
+
+## Spec was wrong
+
+- The specified @maya.tapmart_demo baseline conflated identity sources. Retain the engineer-reported Profile username @maya.tapmart.demo and keep the disconnected Instagram identity absent; correct the specification rather than changing the fixture.
+- The share-sheet inventory was too rigid about explanatory copy. A brief point-of-action clarification that this is a fictional preview is useful and should not be removed merely to reduce words.
+
+## Fixes
+
+- 1. **Phone default gallery in user-profile-m, user-profile-m-full and both public phone captures..** Make the rendered Story image itself occupy x256 to 374 at 390px, with the leading image ending at x240. Constrain the actual image, not only its grid item or button. Preserve the full Story frame and its natural ratio. Recapture both owner and public views. Why: In the supplied phone pixels, the Story’s left edge meets the leading photograph at approximately x240: the green artwork touches the coffee photograph. This contradicts the reported 16px gutter and makes two independent authored objects read as a composite.
+- 2. **TEXT_COUNTS.md and the refreshed capture report..** Reconcile browser counts with a manual media-lettering audit. Explicitly include every visible occurrence of “Take a coffee break.” and “Spurroom Bikes,” plus the Activity badge. Report interface, media and inclusive totals separately, including inspection and share states. Why: The reported totals are not demonstrably inclusive of image lettering. The public first-screen total of 17 matches the planned interface inventory before the four clearly visible Story words. The layout appears comfortably within budget, but the measurement must be trustworthy.
+- 3. **REPORT.md, profile recordings, reduced-motion and keyboard recordings, PERFORMANCE.md..** Supply the final profile interaction recordings at 390 and 1440: work selection and cycling, Close and browser Back, vehicle return, successful clipboard copy and controlled failure, direct guest entry, and Settings return. Include reduced-motion, keyboard/focus, small-width and 200% text-zoom evidence, plus named performance results. Submit the resulting final build for review. Why: Static endpoints cannot establish motion quality, focus restoration, safe clipboard behavior, public-route isolation or performance. These are remaining approval gates, not reasons to recompose the profile.
+
+## Keep
+
+- The complete portrait, quiet name treatment and compact Austin / 3 Completed fact.
+- The same public content in owner and guest views, with owner navigation and administration genuinely absent from the guest captures.
+- The unequal desktop work arrangement and smaller vehicle contact row.
+- The open inline work inspector with one divider and no rounded container.
+- The intact vehicle photograph without borrowed rates, placement controls or administrative explanation.
+- Visible Share profile and exactly one owner Settings gear.
+
+## Remaining risks
+
+- Media ownership, the three completed records and the visible Approved label require manifest-backed verification; screenshots alone cannot establish those relationships.
+- No supplied recording proves identity stability during transitions, exact scroll/focus restoration or browser Back behavior.
+- Clipboard outcomes, public-mode focus restrictions and unsupported Settings destinations are not demonstrated.
+- Responsive extremes, transparency fallback, scrolling contrast and measured performance remain unreviewed.
+
+## Why better than production
+
+The improvement supported by this review is structural: a generous human identity and authored work replace readiness and private-money administration. The guest view is coherent rather than an owner dashboard with a few controls hidden. A literal production comparison remains unverified.

@@ -23,6 +23,26 @@
  *       visual decision, explores three directions, chooses one, and writes
  *       the five Design Lab prototype specs and asset briefs to docs/reboot/visual.
  *   npm run creative -- lab-assets [--only id] [--from refine]   render the Design Lab imagery briefed in lab-screens.json (or refinement.json) into public/design-lab
+ *   npm run creative -- v2-directions [--resume] [--effort xhigh]
+ *       V2 Design Lab: Astra explores three substantially different directions against
+ *       docs/design-lab-v2/BRIEF.md and STUDY.md, chooses one, defines its system (docs/design-lab-v2/DIRECTIONS.md).
+ *   npm run creative -- v2-screen <public-home|user-home|user-profile|business-home> [--phone png] [--desktop png] [--notes "..."]
+ *       Art direction for one V2 screen in the chosen direction (docs/design-lab-v2/screens/<key>.md).
+ *   npm run creative -- v2-review <key> --shot png [--shot png ...] [--pass 1] [--final] [--before png] [--density json] [--notes "..."]
+ *       Astra reviews real captures of the coded V2 prototype (docs/design-lab-v2/reviews/<key>-pass<n>.md).
+ *   npm run creative -- v3-direction [--resume] [--capture png ...]
+ *       V3 Design Lab: Astra decides the Loyalty direction (placement, vocabulary, every surface, card designer,
+ *       signup, recording, attribution, updates, public sequence, fixture story) in the V2 system (docs/design-lab-v3/LOYALTY_DIRECTION.md).
+ *   npm run creative -- v3-screen <business-home|loyalty-home|loyalty-create|loyalty-signup|loyalty-members|loyalty-attribution|site-loyalty> [--phone png] [--desktop png] [--notes "..."]
+ *   npm run creative -- v3-review <key> --shot png [--shot png ...] [--pass 1] [--final] [--verify] [--notes "..."]
+ *   npm run creative -- v3x-direction [--resume] [--capture png ...]
+ *   npm run creative -- v3x-screen <public-home|user-home|user-profile|business-home|business-loyalty> [--phone png] [--desktop png]
+ *   npm run creative -- v3x-review <key> --shot png [--shot png ...] [--pass 1] [--final] [--verify] [--density json]
+ *   npm run creative -- v3x-recompose [--resume] [--capture png ...] [--strip png ...]   the recomposition direction (docs/design-lab-v3/recompose)
+ *   npm run creative -- recompose-assets [--only id] [--tier final|fast] [--fix-rounds n] [--force] [--resume]   render the recomposition media briefs; rejected renders are not bound; --resume edits a rejected render per the director's last instructions
+ *   npm run creative -- v3x-recompose-review <hero|recreate|drive|loyalty> --shot png [--shot png ...] [--pass n] [--final] [--verify] [--notes ...]
+ *       --verify is the FINAL VERIFICATION of the finished state: READY or one SPECIFIC BLOCKER, with a score; writes reviews/<key>-final.{json,md}
+ *   npm run creative -- v3x-compare --before png ... --after png ... [--notes ...]   the current V3 against the recomposition on the six questions
  *   npm run creative -- reboot [--resume] [--skip-mockups] [--mockups 5] [--effort xhigh] [--out docs/reboot]
  *       The design reboot: Astra designs TapMart from a blank canvas (sees only
  *       docs/reboot/TAPMART_FUNCTIONAL_INVENTORY.md), writes the master package
@@ -50,6 +70,10 @@ import { runReboot } from "@/lib/openai/reboot";
 import { runVisualReboot } from "@/lib/openai/reboot-visual";
 import { renderLabAssets } from "@/lib/openai/lab-assets";
 import { runRefine } from "@/lib/openai/reboot-refine";
+import { runV2Directions, runV2Review, runV2Screen, type V2ScreenKey } from "@/lib/openai/v2";
+import { runV3Direction, runV3Review, runV3Screen, type V3ScreenKey } from "@/lib/openai/v3";
+import { runV3XDirection, runV3XReview, runV3XScreen, type V3XKey } from "@/lib/openai/v3x";
+import { renderRecomposeAssets, runV3XCompare, runV3XRecompose, runV3XRecomposeReview, runV3XRecomposeVerify, type RecomposeKey } from "@/lib/openai/v3x-recompose";
 
 type Flags = Record<string, string | string[] | boolean>;
 
@@ -57,7 +81,7 @@ function parse(argv: string[]): { cmd: string; pos: string[]; flags: Flags } {
   const [cmd = "help", ...rest] = argv;
   const pos: string[] = [];
   const flags: Flags = {};
-  const multi = new Set(["source", "media", "zone", "frame", "only", "shot", "review"]);
+  const multi = new Set(["source", "media", "zone", "frame", "only", "shot", "review", "before", "after", "capture", "strip"]);
   for (let i = 0; i < rest.length; i++) {
     const a = rest[i];
     if (!a.startsWith("--")) { pos.push(a); continue; }
@@ -225,6 +249,107 @@ async function main() {
     case "lab-assets": {
       const r = await renderLabAssets({ source: str(flags, "from") === "refine" ? "refine" : "lab", only: list(flags, "only"), tier: (str(flags, "tier") || undefined) as "fast" | "final" | undefined, fixRounds: flags["fix-rounds"] ? Number(flags["fix-rounds"]) : undefined, dryRun, onProgress: log });
       log(`Rendered ${r.rendered.length}, skipped ${r.skipped.length} (already present), failed ${r.failed.length}${r.failed.length ? `: ${r.failed.join(", ")}` : ""}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v2-directions": {
+      const r = await runV2Directions({ effort, dryRun, resume: on(flags, "resume"), onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v2-screen": {
+      const [key] = pos;
+      if (!key) throw new Error("v2-screen needs <public-home|user-home|user-profile|business-home>");
+      const r = await runV2Screen(key as V2ScreenKey, { effort, dryRun, phone: str(flags, "phone") || null, desktop: str(flags, "desktop") || null, notes: str(flags, "notes") || null, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v2-review": {
+      const [key] = pos;
+      if (!key || !list(flags, "shot").length) throw new Error("v2-review needs <key> --shot png [--shot png]");
+      let density: string | null = null;
+      if (str(flags, "density")) density = await readFile(path.resolve(str(flags, "density")), "utf8");
+      const r = await runV2Review({ key: key as V2ScreenKey, shots: list(flags, "shot"), pass: Number(str(flags, "pass", "1")), final: on(flags, "final"), before: list(flags, "before"), notes: str(flags, "notes") || null, density }, { effort, dryRun, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      process.stdout.write(r.markdown);
+      log(`Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3-direction": {
+      const r = await runV3Direction({ effort, dryRun, resume: on(flags, "resume"), captures: list(flags, "capture"), onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3-screen": {
+      const [key] = pos;
+      if (!key) throw new Error("v3-screen needs <business-home|loyalty-home|loyalty-create|loyalty-signup|loyalty-members|loyalty-attribution|site-loyalty>");
+      const r = await runV3Screen(key as V3ScreenKey, { effort, dryRun, phone: str(flags, "phone") || null, desktop: str(flags, "desktop") || null, notes: str(flags, "notes") || null, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3x-direction": {
+      const r = await runV3XDirection({ effort, dryRun, resume: on(flags, "resume"), captures: list(flags, "capture"), onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3x-screen": {
+      const [key] = pos;
+      if (!key) throw new Error("v3x-screen needs <public-home|user-home|user-profile|business-home|business-loyalty>");
+      const r = await runV3XScreen(key as V3XKey, { effort, dryRun, phone: str(flags, "phone") || null, desktop: str(flags, "desktop") || null, notes: str(flags, "notes") || null, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3x-recompose": {
+      const r = await runV3XRecompose({ effort, dryRun, resume: on(flags, "resume"), captures: list(flags, "capture"), strips: list(flags, "strip"), onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      log(`Wrote ${r.files.join(", ")}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "recompose-assets": {
+      const r = await renderRecomposeAssets({ only: list(flags, "only"), tier: (str(flags, "tier") || undefined) as "fast" | "final" | undefined, fixRounds: flags["fix-rounds"] ? Number(flags["fix-rounds"]) : undefined, force: on(flags, "force"), resume: on(flags, "resume"), dryRun, onProgress: log });
+      log(`Approved ${r.rendered.length}${r.rendered.length ? ` (${r.rendered.join(", ")})` : ""}, rejected ${r.rejected.length}${r.rejected.length ? ` (${r.rejected.join(", ")})` : ""}, skipped ${r.skipped.length}, failed ${r.failed.length}${r.failed.length ? `: ${r.failed.join(", ")}` : ""}. Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3x-recompose-review": {
+      const [key] = pos;
+      if (!key || !list(flags, "shot").length) throw new Error("v3x-recompose-review needs <hero|recreate|drive|loyalty> --shot png [--shot png] [--pass n] [--final] [--verify]");
+      const r = on(flags, "verify")
+        ? await runV3XRecomposeVerify({ key: key as RecomposeKey, shots: list(flags, "shot"), notes: str(flags, "notes") || null }, { effort, dryRun, onProgress: log })
+        : await runV3XRecomposeReview({ key: key as RecomposeKey, shots: list(flags, "shot"), pass: Number(str(flags, "pass", "1")), final: on(flags, "final"), notes: str(flags, "notes") || null }, { effort, dryRun, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      process.stdout.write(r.markdown);
+      log(`Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3x-compare": {
+      if (!list(flags, "before").length || !list(flags, "after").length) throw new Error("v3x-compare needs --before png ... --after png ...");
+      const r = await runV3XCompare({ before: list(flags, "before"), after: list(flags, "after"), notes: str(flags, "notes") || null }, { effort, dryRun, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      process.stdout.write(r.markdown);
+      log(`Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3x-review": {
+      const [key] = pos;
+      if (!key || !list(flags, "shot").length) throw new Error("v3x-review needs <key> --shot png [--shot png] [--pass n] [--final] [--verify] [--density json]");
+      const r = await runV3XReview({ key: key as V3XKey, shots: list(flags, "shot"), pass: Number(str(flags, "pass", "1")), final: on(flags, "final"), verify: on(flags, "verify"), notes: str(flags, "notes") || null, density: str(flags, "density") || null }, { effort, dryRun, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      process.stdout.write(r.markdown);
+      log(`Usage ${JSON.stringify(totalUsage(r.usage))}`);
+      return;
+    }
+    case "v3-review": {
+      const [key] = pos;
+      if (!key || !list(flags, "shot").length) throw new Error("v3-review needs <key> --shot png [--shot png]");
+      const r = await runV3Review({ key: key as V3ScreenKey, shots: list(flags, "shot"), pass: Number(str(flags, "pass", "1")), final: on(flags, "final"), verify: on(flags, "verify"), notes: str(flags, "notes") || null }, { effort, dryRun, onProgress: log });
+      if (dryRun) { log("Dry run: request built; nothing sent."); return; }
+      process.stdout.write(r.markdown);
+      log(`Usage ${JSON.stringify(totalUsage(r.usage))}`);
       return;
     }
     case "reboot": {

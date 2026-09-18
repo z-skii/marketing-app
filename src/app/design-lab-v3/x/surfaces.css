@@ -1,0 +1,143 @@
+/*
+ * The approved recomposition language on the V3 app surfaces (User Home,
+ * User Profile, Business Home, Business Loyalty Home): a dark media stage
+ * as one rounded plane inside the light shell, photographs as valuable
+ * planes with depth, opaque paper sheets attached to a plane's lower edge
+ * for money and identity, tags for the three product identities, ledges
+ * for the Loyalty loop. Reading, lists and composers stay on paper.
+ * Primitives come from film.css (.x-plane, .x-paper, .x-tag, .x-lp2-*).
+ */
+.v3 .xs-stage { position: relative; background: var(--x-hero-substrate); color: #fff; border-radius: 18px; padding: 24px 24px 28px; box-shadow: 0 24px 60px rgba(8, 18, 20, 0.16), 0 2px 6px rgba(8, 18, 20, 0.08); }
+.v3 .xs-stage .t-fact { color: rgba(255, 255, 255, 0.64); }
+.v3 .xs-stage .t-fact-ink, .v3 .xs-stage .t-object { color: #fff; }
+.v3 .xs-stage .x-paper .t-fact { color: var(--v3-muted); }
+.v3 .xs-stage .x-paper .t-fact-ink, .v3 .xs-stage .x-paper .t-object { color: var(--v3-ink); }
+.v3 .xs-stage .link { color: #fff; }
+.v3 .xs-stage .x-paper .link { color: var(--v3-ink); }
+.v3 .xs-stage .btn-primary { background: #fff; color: var(--v3-ink); box-shadow: none; }
+.v3 .xs-stage .x-paper .btn-primary { background: var(--v3-ink); color: #fff; }
+@media (max-width: 767px) { .v3 .xs-stage { margin: 0 -16px; border-radius: 0; padding: 20px 16px 28px; box-shadow: none; } }
+/* a photograph as a plane: the button is the object */
+.v3 .xs-plane { position: relative; display: block; overflow: hidden; border-radius: 6px; background: #1F2D26; box-shadow: 0 20px 56px rgba(8, 18, 20, 0.32), 0 3px 10px rgba(8, 18, 20, 0.18); padding: 0; border: 0; cursor: pointer; }
+.v3 .xs-plane img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.v3 .xs-plane:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.v3 .xs-plane-back { box-shadow: 0 10px 28px rgba(8, 18, 20, 0.22); }
+.v3 .xs-tag { position: absolute; left: 10px; top: 10px; z-index: 2; }
+.v3 .xs-tag-br { left: auto; top: auto; right: 10px; bottom: 10px; }
+/* the attached opaque sheet: in contact with the plane's lower edge */
+.v3 .xs-sheet { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; padding: 12px 16px 14px; border-radius: 0 0 10px 10px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.96), 0 0 0 1px rgba(31, 48, 49, 0.10), 0 18px 48px rgba(24, 42, 44, 0.16), 0 2px 8px rgba(24, 42, 44, 0.06); }
+.v3 .xs-money { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.v3 .xs-sheet .x-money-hero { font-size: 40px; line-height: 42px; }
+@media (min-width: 1024px) { .v3 .xs-sheet .x-money-hero { font-size: 52px; line-height: 54px; } }
+.v3 .xs-sheet-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; margin-top: 6px; }
+.v3 .xs-sheet .link { min-height: 40px; display: inline-flex; align-items: center; }
+.v3 .xs-actions { display: flex; align-items: center; gap: 16px; margin-top: 6px; }
+.v3 .xs-actions .link { min-height: 40px; display: inline-flex; align-items: center; }
+.v3 .xs-obj { display: flex; flex-direction: column; align-items: flex-start; }
+.v3 .xs-obj > .xs-sheet { margin-top: -2px; }
+
+/* ------------------------------------------------------------ User Home */
+.v3 .xs-home { display: flex; flex-direction: column; gap: 28px; }
+.v3 .xs-home .xs-plane { width: 100%; }
+.v3 .xs-home .xs-sheet { width: 100%; }
+.v3 .xs-home .xs-op-recreate .xs-plane { aspect-ratio: 4 / 5; }
+.v3 .xs-home .xs-op-story { width: 214px; }
+.v3 .xs-home .xs-op-story .xs-plane { aspect-ratio: 9 / 16; }
+.v3 .xs-home .xs-op-car .xs-plane { aspect-ratio: 3 / 2; }
+@media (min-width: 768px) {
+  .v3 .xs-home { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-items: start; }
+  .v3 .xs-op-recreate { grid-column: 1 / span 5; }
+  .v3 .xs-op-story { grid-column: 6 / span 3; padding-top: 88px; }
+  .v3 .xs-op-car { grid-column: 9 / span 4; padding-top: 32px; }
+}
+@media (min-width: 1024px) {
+  .v3 .xs-op-recreate { max-width: 360px; }
+  .v3 .xs-op-car { padding-top: 24px; }
+}
+
+/* --------------------------------------------------------- User Profile */
+.v3 .xs-pf { display: grid; grid-template-columns: 1fr; gap: 28px; }
+.v3 .xs-pf-portrait { width: 264px; aspect-ratio: 4 / 5; }
+.v3 .xs-pf-who { display: flex; flex-direction: column; gap: 4px; margin-top: 16px; }
+.v3 .xs-pf-name { font-weight: 600; font-size: 36px; line-height: 40px; letter-spacing: -0.035em; color: #fff; }
+.v3 .xs-pf-handle { font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.72); }
+.v3 .xs-pf-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.v3 .xs-pf-tags .x-tag { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.v3 .xs-pf-work { display: grid; grid-template-columns: 200px minmax(0, 1fr); grid-template-areas: "a b" "c c"; gap: 16px; align-items: start; }
+.v3 .xs-pf-item-0 { grid-area: a; aspect-ratio: 4 / 5; }
+.v3 .xs-pf-item-1 { grid-area: b; width: 118px; aspect-ratio: 9 / 16; justify-self: end; margin-top: 40px; }
+.v3 .xs-pf-item-2 { grid-area: c; aspect-ratio: 3 / 2; width: 100%; }
+.v3 .xs-pf-vehicle .xs-plane { width: 100%; aspect-ratio: 3 / 2; }
+.v3 .xs-pf-vehicle .xs-sheet { width: 100%; }
+.v3 .xs-pf-inspect { display: flex; flex-direction: column; gap: 12px; }
+.v3 .xs-pf-inspect-media { display: block; width: 100%; max-width: 560px; border-radius: 6px; overflow: hidden; }
+.v3 .xs-pf-inspect-media img { width: 100%; height: 100%; object-fit: contain; }
+.v3 .xs-pf-inspect .xs-sheet { max-width: 560px; width: 100%; border-radius: 0 0 10px 10px; }
+.v3 .xs-pf-tools { display: flex; align-items: center; gap: 8px 20px; flex-wrap: wrap; }
+.v3 .xs-pf-tools .link { min-height: 44px; display: inline-flex; align-items: center; }
+@media (min-width: 768px) {
+  .v3 .xs-pf { grid-template-columns: 312px minmax(0, 1fr); grid-template-areas: "identity work" "identity vehicle"; column-gap: 32px; align-items: start; }
+  .v3 .xs-pf-identity { grid-area: identity; } .v3 .xs-pf-workwrap { grid-area: work; } .v3 .xs-pf-vehicle { grid-area: vehicle; max-width: 320px; }
+  .v3 .xs-pf-portrait { width: 312px; }
+}
+@media (min-width: 1024px) {
+  .v3 .xs-pf { grid-template-columns: 312px minmax(0, 1fr) 320px; grid-template-areas: "identity work vehicle"; column-gap: 40px; }
+  .v3 .xs-pf-name { font-size: 44px; line-height: 48px; }
+  .v3 .xs-pf-work { grid-template-columns: 260px 150px minmax(0, 1fr); grid-template-areas: "a b c"; gap: 24px; }
+  .v3 .xs-pf-item-1 { width: 150px; margin-top: 56px; justify-self: start; }
+  .v3 .xs-pf-item-2 { width: 100%; max-width: 280px; margin-top: 200px; justify-self: end; }
+  .v3 .xs-pf-vehicle { padding-top: 120px; }
+}
+
+/* -------------------------------------------------------- Business Home */
+.v3 .x-biz-spread > .xs-stage { grid-column: 1 / -1; width: 100%; }
+.v3 .xs-biz { display: flex; flex-direction: column; gap: 28px; }
+.v3 .xs-person-media { display: grid; grid-template-columns: 226px minmax(0, 1fr); gap: 16px; align-items: start; width: 100%; }
+.v3 .xs-person-portrait { aspect-ratio: 4 / 5; width: 100%; }
+.v3 .xs-person-work { display: flex; flex-direction: column; gap: 16px; padding-top: 32px; }
+.v3 .xs-person-still { width: 100%; aspect-ratio: 4 / 5; }
+.v3 .xs-person .xs-sheet { width: 226px; }
+.v3 .xs-car { width: 100%; }
+.v3 .xs-car .xs-plane { width: 100%; aspect-ratio: 3 / 2; }
+.v3 .xs-car .xs-sheet { width: 100%; }
+@media (min-width: 768px) {
+  .v3 .xs-biz { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-items: start; }
+  .v3 .xs-person { grid-column: 1 / span 8; }
+  .v3 .xs-car { grid-column: 9 / span 4; padding-top: 40px; }
+}
+@media (min-width: 1024px) {
+  .v3 .xs-person-media { grid-template-columns: 280px 224px 200px; gap: 24px; }
+  .v3 .xs-person-work { display: contents; }
+  .v3 .xs-person-still-0 { width: 224px; aspect-ratio: 1 / 1; margin-top: 72px; }
+  .v3 .xs-person-still-1 { width: 200px; aspect-ratio: 4 / 5; margin-top: 24px; }
+  .v3 .xs-person .xs-sheet { width: 280px; }
+  .v3 .xs-car { padding-top: 24px; }
+}
+
+/* ----------------------------------------------------- Loyalty Home loop */
+.v3 .xs-loop { display: grid; grid-template-columns: 1fr; gap: 28px; padding: 20px 16px 24px; margin: 8px -16px 0; background: var(--x-inspect-substrate); }
+.v3 .xs-loop-source { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px; align-items: start; }
+.v3 .xs-loop-story { width: 72px; aspect-ratio: 9 / 16; }
+.v3 .xs-loop-name { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; font-size: 32px; line-height: 36px; letter-spacing: -0.03em; color: var(--v3-ink); text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; text-decoration-color: var(--v3-create, #C8F04A); }
+.v3 .xs-ledges { --ledge: 150px; display: flex; flex-direction: column; gap: 6px; }
+.v3 .xs-ledges .x-lp2-ledge { min-height: 40px; }
+.v3 .xs-ledges .x-lp2-ledge-n { font-size: 32px; line-height: 36px; }
+.v3 .xs-ledge-btn { display: flex; align-items: center; gap: 12px; padding: 0; border: 0; background: none; text-align: left; min-height: 44px; cursor: pointer; width: 100%; }
+.v3 .xs-loop-program { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; align-items: start; }
+.v3 .xs-loop-card { width: 120px; aspect-ratio: 4 / 5; }
+.v3 .xs-loop-card .media { position: static; }
+.v3 .xs-loop-facts { display: flex; flex-direction: column; gap: 2px; }
+@media (min-width: 768px) {
+  .v3 .xs-loop { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; padding: 24px; margin: 8px 0 0; border-radius: 18px; }
+  .v3 .xs-ledges { --ledge: 200px; }
+}
+@media (min-width: 1024px) {
+  .v3 .xs-loop { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); padding: 32px; }
+  .v3 .xs-loop-source { grid-template-columns: 88px minmax(0, 1fr); gap: 20px; }
+  .v3 .xs-loop-story { width: 88px; }
+  .v3 .xs-loop-name { font-size: 40px; line-height: 44px; }
+  .v3 .xs-ledges { --ledge: 260px; }
+  .v3 .xs-ledges .x-lp2-ledge-n { font-size: 40px; line-height: 44px; }
+  .v3 .xs-loop-program { grid-template-columns: 150px minmax(0, 1fr); gap: 24px; }
+  .v3 .xs-loop-card { width: 150px; }
+}

@@ -1,0 +1,143 @@
+<title>TapMart V3 Production Migration</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap">
+<style>
+  :root {
+    --canvas: #F6F7F5; --paper: #FFFFFF; --ink: #17221E; --muted: #59655D; --line: #DCE2DE; --stage: #142019; --focus: #315E49; --warn: #835400; --ok: #236444;
+    --font: "DM Sans", system-ui, -apple-system, sans-serif; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --canvas: #121A16; --paper: #1B2520; --ink: #F1F4F1; --muted: #A9B5AD; --line: #2C3A32; --stage: #0C1310; --focus: #8FC7A8; --warn: #E0B25A; --ok: #7ED0A0; } }
+  :root[data-theme="dark"] { --canvas: #121A16; --paper: #1B2520; --ink: #F1F4F1; --muted: #A9B5AD; --line: #2C3A32; --stage: #0C1310; --focus: #8FC7A8; --warn: #E0B25A; --ok: #7ED0A0; }
+  body { margin: 0; background: var(--canvas); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.5; padding-block: 32px 64px; padding-inline: clamp(16px, 4vw, 40px); }
+  main { max-width: 1080px; margin: 0 auto; display: grid; gap: 40px; }
+  h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.05; letter-spacing: -0.03em; font-weight: 500; margin: 0; text-wrap: balance; }
+  h2 { font-size: 22px; line-height: 28px; letter-spacing: -0.02em; font-weight: 500; margin: 0; display: flex; gap: 12px; align-items: baseline; }
+  h2 .n { font-family: var(--mono); font-size: 13px; color: var(--muted); font-weight: 400; min-width: 2ch; }
+  p { margin: 0; max-width: 68ch; }
+  .lead { color: var(--muted); font-size: 17px; }
+  .verdict { display: inline-flex; gap: 10px; align-items: center; padding: 8px 14px; border-radius: 12px; background: var(--stage); color: #fff; font-weight: 500; width: fit-content; }
+  .verdict .dot { width: 8px; height: 8px; border-radius: 50%; background: #D5E85A; }
+  section { display: grid; gap: 16px; padding-top: 24px; border-top: 1px solid var(--line); }
+  dl.facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 20px; margin: 0; font-size: 15px; }
+  dl.facts dt { color: var(--muted); } dl.facts dd { margin: 0; overflow-wrap: anywhere; }
+  code { font-family: var(--mono); font-size: 0.92em; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+  .figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  figure { margin: 0; display: grid; gap: 8px; }
+  figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); background: var(--paper); display: block; }
+  figure.phone { max-width: 320px; }
+  figcaption { font-size: 13px; color: var(--muted); line-height: 18px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; }
+  .scroll { overflow-x: auto; }
+  ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+  .note { padding: 12px 16px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); max-width: 68ch; }
+  .warn { color: var(--warn); font-weight: 500; } .ok { color: var(--ok); font-weight: 500; }
+  .stop { padding: 20px; border-radius: 12px; background: var(--stage); color: #fff; }
+  .stop p { color: #C4CDBF; max-width: none; }
+  .stop strong { color: #fff; font-weight: 500; font-size: 20px; display: block; margin-bottom: 6px; }
+</style>
+<main>
+  <header style="display:grid;gap:14px">
+    <p class="lead">Production migration package · branch <code>claude/v3-production-migration</code> · nothing merged</p>
+    <h1>The approved V3 experience, migrated into the real product</h1>
+    <p>Sixteen items, in the order you asked for them. Every capture below is the local production build against the demo database, signed out or signed in as the demo creator and the demo business owner. The branch waits for your approval before anything touches <code>main</code>.</p>
+    <span class="verdict"><span class="dot"></span>Ready for your review. Not deployed to production.</span>
+  </header>
+
+  <section id="s1"><h2><span class="n">1</span>Current production commit</h2>
+    <dl class="facts"><dt>main</dt><dd><code>8504e78</code> Merge revert of the learning-loop change set</dd><dt>Production deployment</dt><dd><code>dpl_5VjGw4fEAuD5ssWzuyYUB4wMRpHk</code>, alias <code>marketing-app-git-main-z-skiis-projects.vercel.app</code>, rollback candidate</dd><dt>Lab frozen at</dt><dd><code>c894df1</code> on <code>claude/install-design-dev-skills-u6bo6j</code></dd></dl>
+  </section>
+
+  <section id="s2"><h2><span class="n">2</span>Migration branch and head</h2>
+    <dl class="facts"><dt>Branch</dt><dd><code>claude/v3-production-migration</code>, created from <code>main</code> at <code>8504e78</code>, the lab branch merged in</dd><dt>Head</dt><dd><code>507bc20</code> One visual system: the V2 route group, auth and legal pages on the V3 material (the package commit follows it)</dd><dt>Migration commits</dt><dd><code>0d97640</code> merge of the lab, <code>05802ac</code> the migration, <code>516c232</code> QA fixes and the record, <code>1d86092</code> wording, <code>a048306</code> the package, <code>507bc20</code> one visual system</dd></dl>
+  </section>
+
+  <section id="s3"><h2><span class="n">3</span>Production homepage</h2>
+    <p>The approved V3 film on real routes: Sign in and Create an account, the legal documents, the live fee and payout minimum under Get paid, the live plan prices in a Plans chapter. The scenes carry example media and say so on the strip, in the footer and in About the examples. Loyalty is a coming soon sequence with no preview link and no Wallet claim.</p>
+    <div class="figs"><figure><img src="captures/public-home-desktop.webp" alt="Production homepage on desktop: the hero with Make money and Grow your business over the example media stage"><figcaption>Desktop 1440. First frame of the film.</figcaption></figure><figure class="phone"><img src="captures/public-home-phone.webp" alt="Production homepage on a phone"><figcaption>Phone 390 at 2x.</figcaption></figure></div>
+    <div class="figs"><figure><img src="captures/public-home-desktop-full.jpg" alt="Production homepage desktop, whole page"><figcaption>Whole page, desktop. Drive and Loyalty are islands loaded near the viewport.</figcaption></figure><figure class="phone"><img src="captures/public-home-phone-full.jpg" alt="Production homepage phone, whole page"><figcaption>Whole page, phone.</figcaption></figure></div>
+  </section>
+
+  <section id="s4"><h2><span class="n">4</span>User Home</h2>
+    <p>Real open campaigns as objects on the dark stage: one lead per kind, the rest in the same language. Real filters, ordering, paging, the resume line and the city prompt. A plane opens the real opportunity; Save is the real toggle; money is the campaign's pay with its real basis; spots and Apply by come from the record.</p>
+    <div class="figs"><figure><img src="captures/user-home-desktop.webp" alt="User Home on desktop with three real campaigns as planes on the stage"><figcaption>Desktop, demo creator.</figcaption></figure><figure class="phone"><img src="captures/user-home-phone.webp" alt="User Home on a phone with the floating lens tab bar"><figcaption>Phone, the floating lens tab bar.</figcaption></figure></div>
+  </section>
+
+  <section id="s5"><h2><span class="n">5</span>User Profile</h2>
+    <p>Identity first: the portrait plane (or the initial when no photo exists), name, the real public handle, city, completed work and rating; Instagram, vehicle and verification as tags; the person's own submissions as planes tagged with kind and status; the real vehicle with its honest state (Photos only, 3D model, Scan in progress, No photos yet). Instagram, verification, Earnings, Activity, Portfolio, public profile, shoots and Settings are rows below; the gear opens Settings.</p>
+    <div class="figs"><figure><img src="captures/profile-desktop.webp" alt="User Profile on desktop"><figcaption>Desktop, demo creator (no profile photo, so the initial).</figcaption></figure><figure class="phone"><img src="captures/profile-phone.webp" alt="User Profile on a phone"><figcaption>Phone.</figcaption></figure></div>
+  </section>
+
+  <section id="s6"><h2><span class="n">6</span>Business Home</h2>
+    <p>Real people as objects: portrait, up to two of their own samples, provenance, recorded facts, View person and Request (the real request flow). Real listed cars: photograph, placements, asking rate, View. Real attention lines and filters above the stage. A Loyalty row marked Coming soon.</p>
+    <div class="figs"><figure><img src="captures/business-home-desktop.webp" alt="Business Home on desktop with a real person and a real listed car on the stage"><figcaption>Desktop, demo business.</figcaption></figure><figure class="phone"><img src="captures/business-home-phone.webp" alt="Business Home on a phone"><figcaption>Phone.</figcaption></figure></div>
+  </section>
+
+  <section id="s7"><h2><span class="n">7</span>Loyalty production treatment</h2>
+    <p>The Loyalty backend does not exist, so <code>/business/loyalty</code> ships the visual shell in a clearly disabled Coming soon state behind the real business context: no program, member, count or Wallet pass is created, shown or claimed. The homepage's Loyalty sequence is labelled Example sequence · Coming soon, its cards Apple Wallet example · Coming soon, and it says No pass is issued.</p>
+    <div class="figs"><figure><img src="captures/loyalty-desktop.webp" alt="Loyalty coming soon shell on desktop"><figcaption>Desktop.</figcaption></figure><figure class="phone"><img src="captures/loyalty-phone.webp" alt="Loyalty coming soon shell on a phone"><figcaption>Phone.</figcaption></figure></div>
+  </section>
+
+  <section id="s8"><h2><span class="n">8</span>Deep route consistency</h2>
+    <p>Frame Shift is retokened to the V3 material and loads only on the signed in screens: DM Sans, the V3 canvas and ink, green focus, 12 and 18px radii, ink primary actions, the floating lens tab bar. Every signed in screen picks it up without changing its workflow. The older (v2) route group shares the same material through the global tokens since the second pass (see the section at the end).</p>
+    <div class="figs"><figure><img src="captures/activity-desktop.webp" alt="Activity on desktop"><figcaption>Activity, desktop.</figcaption></figure><figure><img src="captures/business-content-desktop.webp" alt="Business Content on desktop"><figcaption>Business Content, desktop.</figcaption></figure><figure><img src="captures/messages-desktop.webp" alt="Messages on desktop"><figcaption>Messages, desktop.</figcaption></figure><figure><img src="captures/business-profile-desktop.webp" alt="Business profile on desktop"><figcaption>Business, desktop.</figcaption></figure></div>
+    <div class="figs"><figure class="phone"><img src="captures/earnings-phone.webp" alt="Earnings on a phone"><figcaption>Earnings, phone.</figcaption></figure><figure class="phone"><img src="captures/settings-phone.webp" alt="Settings on a phone"><figcaption>Settings, phone.</figcaption></figure><figure class="phone"><img src="captures/notifications-phone.webp" alt="Notifications on a phone"><figcaption>Notifications, phone.</figcaption></figure><figure class="phone"><img src="captures/business-campaigns-phone.webp" alt="Campaigns on a phone"><figcaption>Campaigns, phone.</figcaption></figure><figure class="phone"><img src="captures/business-create-phone.webp" alt="Create on a phone"><figcaption>Create, phone.</figcaption></figure></div>
+  </section>
+
+  <section id="s9"><h2><span class="n">9</span>Fixture leak audit</h2>
+    <ul>
+      <li>Source grep over <code>src/app</code>, <code>src/components</code> and <code>src/v3</code> for Design Lab, Fictional, fixture, design-lab, Outside this preview and the fixture handles: no match in any production path (the only hits are the labs themselves and a pre-existing dev trends provider that uses the word fixture as a source type).</li>
+      <li>Rendered text of every captured page (28 pages, 5 viewports on the core surfaces) checked for the same words: none.</li>
+      <li>Lab media copied to <code>public/marketing/v3</code>; nothing on a production route references <code>/design-lab</code>.</li>
+      <li>Example data lives in <code>src/v3/examples.ts</code>, renamed (<code>@maya.example</code>, example ids) and declared as examples on the page itself.</li>
+    </ul>
+  </section>
+
+  <section id="s10"><h2><span class="n">10</span>Performance, before and after</h2>
+    <p>Medians of three Lighthouse runs on the local production build (mobile preset with simulated slow 4G, and desktop). Bytes are transfer sizes from the first mobile run.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Route</th><th>Mobile</th><th>Mobile LCP</th><th>Desktop</th><th>CLS</th><th>JS</th><th>Media</th><th>Fonts</th><th>CSS</th></tr></thead>
+      <tbody>
+        <tr><td>Lab homepage (before)</td><td>85</td><td>4.4 s</td><td>99</td><td>0</td><td>209 KB</td><td>425 KB</td><td>155 KB</td><td>62 KB</td></tr>
+        <tr><td>Production homepage (after)</td><td class="ok">92</td><td class="ok">3.35 s</td><td class="ok">100</td><td>0</td><td>182 KB</td><td>110 KB</td><td>36 KB</td><td>36 KB</td></tr>
+        <tr><td>Lab User Home (before)</td><td>90</td><td>3.5 s</td><td>99</td><td>0</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Production User Home (after)</td><td>90</td><td>3.61 s</td><td class="ok">100</td><td>0</td><td>168 KB</td><td>442 KB</td><td>36 KB</td><td>45 KB</td></tr>
+        <tr><td>Lab Business Home (before)</td><td>84</td><td>4.4 s</td><td>99</td><td>0</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Production Business Home (after)</td><td class="ok">91</td><td class="ok">3.54 s</td><td class="ok">100</td><td>0</td><td>152 KB</td><td>149 KB</td><td>36 KB</td><td>45 KB</td></tr>
+      </tbody>
+    </table></div>
+    <p>Fonts went from four families to one (DM Sans at the root). CSS on the homepage is the generated <code>src/v3/v3.css</code> without the V2 Lab's unused rules. The signed in media weight is the demo accounts' real uploads. Mobile LCP is still above the 2.5 s target: what remains is the framework script the simulator models before the image, as recorded in the lab's PERFORMANCE.md.</p>
+  </section>
+
+  <section id="s11"><h2><span class="n">11</span>Tests and build</h2>
+    <dl class="facts"><dt>Typecheck</dt><dd class="ok">tsc clean</dd><dt>ESLint</dt><dd class="ok">0 errors (the warnings are the same img advisories as the lab)</dd><dt>Vitest</dt><dd class="ok">140 tests, 11 files, all passed</dd><dt>Production build</dt><dd class="ok">next build succeeded</dd><dt>Browser QA</dt><dd>320, 390, 768, 1440, 1920 on the core surfaces; 390 and 1440 on 17 deep routes; keyboard tab order and focus rings; reduced motion; 200% zoom equivalent (720px at 2x); images blocked; slow network; signed out, personal, business. 0 page errors, no horizontal scroll, no lab text.</dd></dl>
+    <div class="figs"><figure class="phone"><img src="captures/public-home-phone-reduced-motion.webp" alt="Homepage on a phone with reduced motion"><figcaption>Reduced motion, phone.</figcaption></figure><figure class="phone"><img src="captures/public-home-phone-images-blocked.webp" alt="Homepage on a phone with every image blocked"><figcaption>Images blocked: planes keep their shape, alt text shows.</figcaption></figure><figure><img src="captures/user-home-200-zoom.webp" alt="User Home at the 200 percent zoom equivalent"><figcaption>User Home at 200% zoom (720px at 2x).</figcaption></figure><figure class="phone"><img src="captures/user-home-320.webp" alt="User Home at 320px"><figcaption>User Home at 320px.</figcaption></figure></div>
+  </section>
+
+  <section id="s12"><h2><span class="n">12</span>Preview deployment</h2>
+    <dl class="facts"><dt>Latest preview</dt><dd><code>dpl_Dz2xpa1jz8VarHtrK8yV37fwKWLe</code> for <code>507bc20</code>, branch alias <code>marketing-app-git-claude-v3-production-3c3d53-z-skiis-projects.vercel.app</code></dd><dt>Build</dt><dd class="ok">Builds succeed on Vercel (the previous heads <code>05802ac</code> and <code>516c232</code> are READY)</dd><dt>Runtime</dt><dd class="warn">The Preview environment has no DATABASE_URL, so database backed routes, including the homepage, return 500 on every preview of this project (the earlier lab previews did too). Browser testing was done on the local production build. Adding the database variables to the Preview environment is your call.</dd></dl>
+  </section>
+
+  <section id="s13"><h2><span class="n">13</span>Database and migration changes</h2><p>None. The Supabase project and the repository both stand at <code>0029_creative_assets_rls</code>; the migration adds no migration and touches no data.</p></section>
+
+  <section id="s14"><h2><span class="n">14</span>Environment variable changes</h2><p>None. The names in use stay DATABASE_URL, AUTH_SECRET, CLICK_HASH_SECRET, NEXT_PUBLIC_SITE_URL, AUTH_DEV_MODE and CRON_SECRET; nothing added, renamed or removed. The Profile handle reads NEXT_PUBLIC_SITE_URL, which production already sets.</p></section>
+
+  <section id="s15"><h2><span class="n">15</span>Rollback plan</h2>
+    <ul><li>Before a merge: nothing to roll back; main and production are untouched.</li><li>After a merge: on Vercel, promote <code>dpl_5VjGw4fEAuD5ssWzuyYUB4wMRpHk</code> (instant); in git, revert the merge commit. No schema or data change needs undoing.</li><li>The labs (<code>/design-lab</code>, <code>/design-lab-v2</code>, <code>/design-lab-v3</code>) and <code>src/legacy</code> remain in the tree.</li></ul>
+  </section>
+
+  <section id="s16"><h2><span class="n">16</span>Commit range ready to merge</h2>
+    <dl class="facts"><dt>Range</dt><dd><code>8504e78..HEAD</code> of <code>claude/v3-production-migration</code> (the 36 lab commits already reviewed, the merge, and the migration commits listed under item 2)</dd><dt>Diff</dt><dd>771 files, mostly the lab's own documents and media; production code changes are <code>src/v3</code>, <code>src/app/page.tsx</code>, <code>src/app/layout.tsx</code>, <code>globals.css</code>, <code>frame-shift.css</code>, the (fs) layout, Home, Profile, Business Home, the Loyalty shell, the shell header, <code>scripts/v3-css.mjs</code> and <code>public/marketing/v3</code></dd><dt>Record</dt><dd><code>docs/PRODUCTION_MIGRATION.md</code> and this package under <code>docs/production-migration</code></dd></dl>
+  </section>
+
+  <section id="pass2"><h2><span class="n">+</span>Second pass: the two blockers</h2>
+    <p><strong style="font-weight:500">Blocker 1, the real Vercel preview.</strong> No staging database, preview database or Supabase branch exists (the Supabase organisation is on the free plan, which has no branching; the only other project, storeday, is inactive and unrelated). The Vercel Preview environment has no DATABASE_URL, and there is no tool in this session that can set Vercel environment variables. Sign in on a production build also authenticates against the production Supabase Auth project, which is hard coded. So the preview cannot be made to render without a decision that is yours: see the options in the final report. Nothing was pointed at production data.</p>
+    <p><strong style="font-weight:500">Blocker 2, one visual system.</strong> The V2 route group, the signed out screens and the legal pages now share the V3 material through the global tokens. Captures below are the local production build after the change.</p>
+    <div class="figs"><figure><img src="captures/pass2-public-home-desktop.webp" alt="Public homepage desktop after the second pass"><figcaption>1. Public homepage, desktop.</figcaption></figure><figure class="phone"><img src="captures/pass2-public-home-phone.webp" alt="Public homepage phone after the second pass"><figcaption>1. Public homepage, 390.</figcaption></figure></div>
+    <div class="figs"><figure><img src="captures/pass2-user-home-desktop.webp" alt="User Home"><figcaption>2. User Home.</figcaption></figure><figure><img src="captures/pass2-activity-desktop.webp" alt="Activity in the consistent shell"><figcaption>3. Activity, the consistent shell.</figcaption></figure><figure class="phone"><img src="captures/pass2-user-settings-phone.webp" alt="Personal settings, a former V2 route, in the V3 material"><figcaption>3. Personal Settings, a former V2 route, same shell.</figcaption></figure><figure><img src="captures/pass2-profile-desktop.webp" alt="User Profile"><figcaption>4. User Profile.</figcaption></figure></div>
+    <div class="figs"><figure><img src="captures/pass2-business-home-desktop.webp" alt="Business Home"><figcaption>5. Business Home.</figcaption></figure><figure><img src="captures/pass2-campaigns-desktop.webp" alt="Business Campaigns in the consistent shell"><figcaption>6. Campaigns, the consistent shell.</figcaption></figure><figure><img src="captures/pass2-trends-desktop.webp" alt="Business Trends, a former V2 route, in the V3 material"><figcaption>6. Trends, a former V2 route, same material.</figcaption></figure><figure class="phone"><img src="captures/pass2-business-settings-phone.webp" alt="Business Settings"><figcaption>7. Business Settings.</figcaption></figure><figure class="phone"><img src="captures/pass2-loyalty-phone.webp" alt="Loyalty coming soon"><figcaption>8. Loyalty, coming soon.</figcaption></figure><figure class="phone"><img src="captures/pass2-sign-in-phone.webp" alt="Sign in in the V3 material"><figcaption>Sign in, same material.</figcaption></figure></div>
+    <p id="pass2-perf">Performance after the second pass (medians of three runs, local production build): homepage mobile 92 and LCP 3.34 s, desktop 100; User Home mobile 90 and 3.61 s, desktop 100; Business Home mobile 89 and 3.78 s (runs 88, 89, 93; before the pass 89, 91, 93), desktop 100; CLS 0 everywhere; fonts 36 KB and CSS 35 to 45 KB unchanged. No systematic regression: the Business Home difference sits inside the spread of individual runs.</p>
+  </section>
+
+  <div class="stop"><strong>Stopped before main.</strong><p>Nothing is merged or deployed to production. Say the word and the range above merges to main; say what to change and it changes on this branch first.</p></div>
+</main>

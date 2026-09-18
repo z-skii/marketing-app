@@ -1,0 +1,93 @@
+# V2 review: User Home, pass 1
+
+Reviewer: Astra, TapMart's design director.
+
+Captures: user-home-m.png, user-home-m-full.png, user-home-s.png, user-home-t.png, user-home-d.png, user-home-l.png, user-home-m-preview.png, user-home-d-preview.png, user-home-m-filter.png, home-open-m-strip.png
+
+**Verdict: fix.** At 1440px: recreate a coffee reference for US$75 per approved version, post a finished creative for US$25 after 24 hours and approval, or inspect a US$300/month car campaign. Each has View. On phone, the coffee opportunity leads clearly, but at 320px its approval condition is hidden behind navigation.
+
+## The ten questions
+
+- Does this feel like a premium modern product? **partly**. The 1440px composition does. The broken 1920px car layout, cropped previews and obscured small-phone basis prevent approval.
+- Does it explain itself without paragraphs? **yes**. Media, money, short tasks and View explain discovery with 54 phone words and no measured 18-word blocks. Small-phone visibility still needs correction.
+- Does it feel like a consumer platform, not business software? **yes**. Photography dominates; there are no dashboard tiles, management shelves or administrative distractions.
+- Is it memorable? **partly**. The unequal silhouettes meeting one earning edge are distinctive at 1440px. That signature breaks at 1920px.
+- Does motion improve understanding? **partly**. The same reference and amount persist, and source focus returns. The opening strip also shows overlapping copies of the image, headers and money rather than a clean object continuation.
+- Does each earning type feel different? **yes**. Broad reference, narrow finished creative and landscape vehicle create three recognizable physical forms. Moving the phone Story task above its media will make the distinction faster.
+- Is business discovery exciting? **partly**. User Home demonstrates appealing opportunity discovery, but Business Home and its people marketplace are not captured. This question cannot be approved here.
+- Is Profile identity, not settings? **partly**. Profile is only a navigation destination in these captures; its actual identity composition is unassessed.
+- Does the website make someone keep scrolling? **partly**. The next Story peeking into User Home invites continuation. No public website capture is supplied, so the website question remains unassessed.
+- Is it significantly stronger than current production? **partly**. The measured reduction in reading and control density is substantial, and the new composition is convincing. No before pixels were supplied, and responsive and preview defects remain.
+
+## Scores
+
+- earning types distinct: 8
+- motion understanding: 4
+- keeps scrolling: 0
+- slop risk: 2
+- text discipline: 9
+- identity not settings: 0
+- stronger than production: 7
+- discovery excitement: 0
+- memorable: 7
+- self explaining: 8
+- truthfulness: 7
+- premium: 7
+- consumer not software: 9
+
+## Spec drift
+
+- Phone content uses approximately 24px side padding and begins media at y124, rather than 16px/12px padding and y100. Restore the specified mobile geometry.
+- The 390px reference appears around 342×360px rather than 358×447.5px. Preserve the full source composition within the specified frame.
+- The 1920px Car switches into a broken internal split layout. Retain the desktop full-allocation photograph and money band through all widths above 1024px.
+- Story previews use cropped fill rather than contained artwork. Show the complete 9:16 creative in both preview layouts.
+- Desktop preview media stays inside the detail pane instead of expanding to its left. Reserve the 560px pane for task information and requirements.
+- Apply is presented in a persistent bottom band before the remaining requirements. Put it after the complete decision content in normal flow.
+- Search opens an off-scope notice despite being explicitly in scope. Implement local fixture search.
+- Desktop identity gains a portrait and then an additional name line at 1920px; Home selection uses a vertical marker. Restore the specified Personal control and underline.
+- The requested 768×1024 and 1023×768 captures are replaced by one 834px tablet capture. Supply both boundary captures rather than treating 834px as equivalent.
+
+## Spec was wrong
+
+- Putting the phone Story title below a 416px composition delays understanding of the activity. Move Post for 24 hours immediately above the two-rail composition, with 12px separation; remove its occurrence below. Keep the price and conditions in the information rail.
+- The Car discovery specification made /month explicit but left approval entirely inside the preview. Keep /month beside the amount and add Approval required directly below the money group. Monthly campaign pay must not resemble an unconditional vehicle rental rate.
+- The system and screen specification disagree about icon libraries. For this build, retain the repository's bundled Phosphor regular equivalents as the screen specification instructs. Standardize their dimensions rather than introducing another library.
+
+## Fixes
+
+- 1. Restore the Car to one full-width opportunity allocation. At 1920px, use approximately x1289–1700 for the 411px-wide composition, a 411×274px photograph ending at y600, caption above, and all money, task and facts below. Keep US$300 fully visible with View at the right edge. Do not apply the tablet side-by-side Car layout at large desktop widths. (1920px resting Home, Car opportunity.): The current photograph shrinks to roughly half its allocation, the caption moves alongside it, and View overlaps the amount. This is a blocking financial-legibility defect.
+- 2. Remove the extra 24px above the discovery composition and correct mobile inner padding: 16px at 390, 12px at 320. Start media at y100. At 390, render the 358×447.5px reference without cropping. At 320×568, use a 320px-high contained stage, reduced by any bottom safe-area inset, with the earning edge near y422 and the complete basis and 44px View above navigation at y504. (Phone discovery utility row and leading Recreate composition.): Current media starts near y124 with 24px side margins. At 320, navigation covers the approval basis. The 390px reference is also shorter and more cropped than specified.
+- 3. Contain the complete source artwork in previews. On phone, retain the 46svh media-height cap and center the intact 9:16 Story rather than filling the width with a crop. On desktop, expand the selected media into the region left of the 560px requirements pane; remove the oversized image from inside that pane. (Phone and desktop opportunity previews.): Both Story previews remove the baked-in headline and crop the creative into a close-up. Inspection currently reveals less of the work than discovery does.
+- 4. Move disabled Apply and its explanation into normal document flow after eligibility, all mandatory requirements, material usage terms and missing-term blockers. Keep Approval credits earnings; payout is separate adjacent. Use readable 16/24px requirement text, and stack deadline fields on narrow phones rather than forcing two cramped columns. (All read-only opportunity previews.): The captured footer presents Apply while most Story requirements remain below the visible area. Disabled lab actions still need to teach the correct decision sequence, not establish a sticky commitment pattern.
+- 5. Move the phone Story task above its rails. Keep the complete creative at 234×416px at 390 and 180×320px at 320, with the specified information rails. For Car, place /month beside the amount, add Approval required below, and separate Vehicle required from the city-duration line. (Phone Story and Car factual bands; Car approval basis at every breakpoint.): The Story currently presents its price well before its activity. The Car needs clearer monthly approval and eligibility grouping without adding a paragraph.
+- 6. Replace the whole-layer overlapping transition with one shared media continuation. Hide the source duplicate while it moves, preserve the source aspect ratio, and avoid superimposed money and headers. Use 320ms opening and 240ms closing; reduced motion should replace the layout immediately. Preserve the demonstrated source-focus return. (Opportunity opening and closing motion.): The strip's intermediate frame looks like two screens dissolving through one another, weakening the same-object explanation.
+- 7. Implement the specified local Search sheet with a persistent Search opportunities label, searching only the three existing tasks and business names. Reuse their previews and provide Clear search, No matches and Try a different search. (Header and sidebar Search actions.): Search is an in-scope discovery control. Routing it to an off-scope notice breaks a prominent Home promise.
+- 8. Make desktop navigation consistent at 1440 and 1920: Personal plus chevron only, no portrait or extra Maya Chen line; one stable Activity badge position; a 2px underline for Home rather than the left-edge selection tick. Restore the specified 24px wordmark and 22px primary navigation icons. (Desktop sidebar.): The desktop shell changes identity treatment with viewport width and reads smaller and more generic than the phone shell. More width should not introduce another identity hierarchy.
+- 9. Replace the Filter sheet's filled selected row with an explicit selection indicator and ink underline. Preserve 44px targets and the existing concise choices. Verify Clear filters, missing-city validation and the monthly-rate separation explanation when Top pay is selected. (Filter sheet and its conditional states.): The current For you state depends on a background tint and imports the selected-settings-row treatment into discovery.
+
+## Keep
+
+- The 1440px unequal media silhouettes, their shared horizontal earning edge, and the empty space above the car.
+- Warm paper, green-black money, square untreated media, restrained brick terminals and flat ink View buttons.
+- The three existing record-to-media mappings, intact Story artwork on discovery, and explicit Vehicle example caption.
+- Authoritative US$ amounts and visible approval bases. US$ is specified, not a deviation.
+- One View action per opportunity, one Filter entrance, four Personal destinations and the data-derived Activity count.
+- No greeting, balance tile, routine attention strip, duplicated listings or end-of-feed slogan.
+- The visible fictional-preview disclosure and disabled lab commitment actions.
+- Focus visibly returns to the source image after Escape in the motion strip.
+
+## Why better than production
+
+The direction is substantially clearer: the work leads, its price follows immediately, and each opportunity has one obvious next action. The 1440px spread feels deliberately designed rather than like a widened feed. Measured default copy falls from 199 to 54 words on phone and from 203 to 58 on desktop; phone first-screen copy falls from 90 to 33. Production screenshots were not supplied, so the visual comparison remains provisional. This pass is not ready: small-phone payment conditions are obscured, the large-desktop car composition breaks, and previews crop the work while presenting Apply before the requirements have been read.
+
+## Remaining risks
+
+- Scores use 0 to mean unassessed for Business discovery, Profile identity and public-site scrolling; those screens are not present.
+- No production screenshots were supplied. Stronger-than-production scoring is provisional and supported primarily by measured density reduction.
+- The full-page phone navigation painted across Story is a capture artifact, not a requested layout fix. The hidden approval basis in the separate 320px viewport capture is a real defect.
+- Passing scrollWidth checks does not prove internal content safety: the 1920px amount overlaps despite no document overflow.
+- Supply full scrolling previews to verify complete eligibility, follower figures, money disclosures, usage rights, Car cancellation blocker and unavailable terms. The current stills do not establish their completeness.
+- Safe-area behavior, 200% text zoom, keyboard traversal, focus trapping, browser Back and reduced-motion equivalents still need evidence.
+- Disconnected Instagram, insufficient followers, no vehicle, missing creative, missing pay, empty results, loading and urgent-deadline variants were not captured.
+- The specified typefaces cannot be conclusively verified from these captures. Confirm loaded font faces and weights rather than accepting fallback metrics.
+- Re-measure text after the approved Car condition and responsive corrections. There is budget available; do not trade away requirements to preserve the current count.

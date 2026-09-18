@@ -1,20 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, IBM_Plex_Mono } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import { siteMetadata } from "@/config/site";
 import { AuthHashForwarder } from "@/components/AuthHashForwarder";
 import { PresenceBeacon } from "@/components/PresenceBeacon";
 import "./globals.css";
 
-const inter = Inter({
+/**
+ * One typeface for the whole product: DM Sans carries every size in the
+ * V3 language (docs/design-lab-v3/EXPERIENCE_DIRECTION.md, typography),
+ * so the root loads one family and nothing else. Inter and IBM Plex Mono
+ * were retired with the V3 migration; monospace falls back to the system
+ * stack (globals.css).
+ */
+const sans = DM_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-mono",
   display: "swap",
 });
 
@@ -25,14 +26,14 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#090c0e" },
-    { media: "(prefers-color-scheme: dark)", color: "#090c0e" },
+    { media: "(prefers-color-scheme: light)", color: "#F6F7F5" },
+    { media: "(prefers-color-scheme: dark)", color: "#F6F7F5" },
   ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${plexMono.variable}`}>
+    <html lang="en" className={sans.variable}>
       <body>
         <AuthHashForwarder />
         <PresenceBeacon />

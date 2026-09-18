@@ -1,0 +1,104 @@
+# V3 review: Create program, pass 1
+
+Reviewer: Astra, TapMart's design director.
+
+Captures: create-m-step1.png, create-m-step2.png, create-d-step3.png, create-d-step4.png, create-m-step5.png, create-d-launched.png
+
+**Verdict: recompose.** Choose visits or points, configure a free-coffee card and launch a demo QR. It reads as a generic setup wizard with attractive Wallet previews, not yet one continuous customer-return story.
+
+## The ten questions
+
+- Does this feel like a premium modern product? **partly**. The palette and clear type are strong. Repeated mobile headings, lime step circles, compressed Wallet objects and generic form sequencing keep it below premium.
+- Does it explain itself without paragraphs? **partly**. Program selection and the reward equation are understandable. Step 2 exposes a long, clipped terms block; signup and launch mix distinct specimen and working states.
+- Does it feel like a consumer platform, not business software? **partly**. The branded passes feel consumer-facing. The initial wizard and control-heavy desktop layout feel like administration before the object has established its value.
+- Is it memorable? **partly**. Loopday’s ink-colored card is recognizable. The distinctive rule-to-card-to-counter sequence is missing from the composition.
+- Does motion improve understanding? **partly**. No motion strip or recording was supplied. Static before-and-after captures cannot establish transition quality, timing or reduced-motion behavior.
+- Does each earning type feel different? **partly**. Recreate, Story and Car are outside these captures. Visits and Points are visibly distinct choices, but their partially filled graphics incorrectly resemble earned progress.
+- Is business discovery exciting? **partly**. The marketplace is not shown. This focused task correctly omits business navigation, but cannot establish discovery quality.
+- Is Profile identity, not settings? **partly**. Neither Profile surface is captured; no conclusion about that experience is supported here.
+- Does the website make someone keep scrolling? **partly**. The public website is outside this surface. Creation screenshots provide no evidence for this question.
+- Is it significantly stronger than current production? **partly**. The new business capability is valuable, but the handoff and truth-state problems prevent approval. No side-by-side production capture is supplied.
+
+## The five Loyalty questions
+
+- Does this feel like a natural part of TapMart? **partly**. Paper, ink and typography provide continuity. The wizard circles, lime completion states and shadowed previews weaken the Open Cut language.
+- Does it strengthen the business value proposition? **yes**. A shop can visibly define a reward, inspect its customer card and reach a signup QR. That is a concrete extension beyond acquiring attention, although downstream outcomes are not demonstrated here.
+- Can a business understand it quickly? **partly**. The basic five-visit reward is clear. Repeated navigation and the reuse of Sara’s nonzero card during signup and launch make the lifecycle harder to understand.
+- Does it feel consumer quality rather than SaaS admin? **partly**. The passes carry the consumer appeal. The opening lacks the brand object, and desktop prioritizes configuration controls over the card.
+- Does attribution feel powerful without becoming fake analytics? **partly**. Counter QR, Creator link and Join at the counter. establish an honest source concept without invented analytics. The Jasmine variant and preserved-source behavior are not captured.
+
+## Scores
+
+- motion understanding: 3
+- slop risk: 6
+- text discipline: 4
+- natural part of tapmart: 6
+- attribution honest power: 4
+- memorable: 5
+- quick to understand: 6
+- self explaining: 5
+- business value: 7
+- wallet realism: 5
+- truthfulness: 6
+- consumer not software: 5
+- premium: 5
+
+## Spec drift
+
+- Phone uses Create program, numbered circles, n of 5 and a repeated step title. Replace these with the single current-step header and persistent fictional-preview context.
+- Completed steps are lime-filled circles. Replace them with small ink checks; creation must not borrow campaign Create’s lime fill.
+- Program omits the Loopday brand object and uses side-by-side choices with partially filled progress graphics. Restore branded, stacked radio rows and non-earned rule marks.
+- Reward omits the leading rule object and opens a long terms textarea by default. Restore the equation and collapsed, empty optional terms control.
+- Desktop Card places controls left and the specimen right. Restore the specified object-first column order and 1176px task width at 1440.
+- Wallet specimens are compressed, shadowed and use undersized QR presentations. Restore platform spacing, 164px complete symbols, flat pass boundaries and external Details.
+- Card controls introduce Initial and Counter / Pour / Window options, while Preview state becomes a permanent tab row with Updated shortened. Replace these with the approved local asset controls and state select.
+- Signup substitutes a clipped, blank customer form plus Sara’s 3/5 designer specimen for the acquisition-QR/customer-inspection spread. Restore the non-enrolling Tess inspection and separate Wallet-choice layer.
+- Final review and success retain the designer card and state controls. Remove them; success must explicitly establish zero members.
+- Launch success makes View QR primary and omits the specified visible export, print and signup tools. Make Open loyalty primary and restore the quiet working tools.
+- Draft QR is gray and accompanied by a localhost enrollment-looking address. Use black-on-white specimen QR data before launch and the actual current-origin signup payload only after commit.
+
+## Spec was wrong
+
+- The planned 39-word Card viewport was too brittle to use as a composition recipe. Keep the platform label, readable card, example identity and issuance disclaimer together in document flow; measure each actual viewport rather than arranging content to hit a predicted count.
+- A fixed 520px Apple reference height should not create arbitrary empty space. Use content-led height after restoring the specified field sizes, 164px complete QR and platform spacing; do not compress the card to achieve a shorter silhouette.
+- The desktop sticky-preview instruction was ambiguous because the step row was not explicitly sticky. Keep the card in ordinary flow for this pass. Reintroduce stickiness only after the complete wrapper fits and scrolling, zoom and focus behavior have been tested.
+
+## Fixes
+
+- 1. Recompose Signup around acquisition, not the persistent Sara designer. Put the brand, rule and draft Counter QR on the left; put the readable customer inspection on the right. Populate read-only Tess details, keep agreement unchecked and disabled, and visibly disable Create my card. Place Launch before joining. immediately above it. Open a separate zero-progress Tess specimen only through Preview Wallet choices. (Step 4 desktop and corresponding phone inspection.): The current blank form beside Sara at 3/5 confuses designing a card, inspecting signup and enrolling a customer. The inset form is also visibly clipped at its primary action.
+- 2. Remove the Wallet specimen and Preview state controls from both final review and launch success. Review must lead with business, current rule, Draft and the acquisition QR, with the daily restriction and Terms available before launch. Success must show Live · simulated, 0 members and No pass is issued. Make Open loyalty the sole filled action; expose Copy demo link, Download demo QR, Preview printout and Open signup as secondary tools. (Step 5 phone and launched desktop.): Sara’s historical balance currently dominates the launched state and obscures the essential fact that launching creates no members or saved passes. View QR is redundant when the QR is already the leading object.
+- 3. Restore the focused shell. Phone: one 56px header with icon-only Back and Close, current step and n of 5; add the persistent Design Lab · Fictional preview context below. Remove Create program, the numbered-circle row and the repeated step heading. Use the specified bottom action datum with matching clearance. Desktop: plain five-label navigation with an ink underline and small non-lime completion checks. (Shared creation shell, all steps.): The phone spends its opening on repeated orientation rather than the business’s program. Lime completion discs introduce an unauthorized success-game treatment.
+- 4. Rebuild Program as a brand-and-rule composition. Add the Loopday mark, business name and approved photo strip. Stack two full-width radio rows on phone. Replace the three-filled/two-empty squares with five equal 2px rule strokes; replace the partially filled points bar with a fixed one-point token. (Step 1.): The current opening is anonymous, and both option graphics imply progress that no member has earned.
+- 5. Lead Reward with the live draft equation and visits datum. Keep the daily rule immediately below the requirement field. Collapse Terms into Terms / Optional / Add terms, with an initially empty optional textarea. Keep fixed program terms in their readable inspection disclosure, not as long placeholder content. (Step 2.): The defining reward relationship is missing above the form, while a long, partially hidden terms block consumes the default phone screen and blurs fixed rules with optional owner text.
+- 6. Restore the Card spread to preview-left and controls-right. At 1440 use the centered 1176px task canvas, a 476px preview region and a 676px editing region. Keep the Wallet itself 375px wide. On phone, preview precedes controls with a Card controls anchor. (Step 3 and shared desktop width.): The current controls-first composition makes this an editor before it becomes a recognizable customer object. The desktop task is also narrower than the specified canvas.
+- 7. Correct the native-card proportions: remove outer shadows, restore the 164px complete black-on-white member QR, restore platform field sizes and spacing, and allow content-led height. Apple needs a hard-edged 60/40 solid-reading-area/photo split without the visible soft seam. Google needs an approximately 3:1 hero and one readable Member ID field, not a duplicate ID below the QR. Supply Details outside each pass. (Apple and Google specimens.): The current Apple object is roughly 375×398 rather than the intended store-card proportions, and the complete QR backgrounds are about 131px. The compact, shadowed treatment reads more like a web loyalty widget than a carefully approximated Wallet pass.
+- 8. Replace unrequested design shortcuts with the specified controls: Change logo, Change image, Remove artwork, platform-specific Crop and editable hex fields. Remove Counter / Pour / Window preset choices unless their sources are explicitly approved. Use one Preview state select in the editing column and the full Updated offer label; opening it must reveal Details. Provide the shared Reward title field and reversible Use brand defaults. (Step 3 controls and specimen wrapper.): The visible thumbnail library, Initial logo option and single crop slider depart from the intended brand-controlled local editor. They do not establish supported platform cropping or source provenance.
+- 9. Render the draft acquisition QR black on white and keep it technically non-enrolling through its specimen payload, not reduced opacity. Do not present the localhost signup address as its pre-launch destination. After launch, replace the complete QR with the current-origin signup payload, enlarge the desktop acquisition object toward the specified 328px complete symbol and show the selectable relative path outside it. (Steps 4 to 5, launch result and QR exports.): The draft is currently a gray QR accompanied by an enrollment-looking URL. Its visible pattern appears unchanged after launch; pixels cannot verify its payload. State honesty must come from the encoded data and adjacent label, not a disabled-looking graphic.
+- 10. Run a focused copy and inspection-layout pass: remove repeated step/status labels and invented helpers, retain exact local truth labels, eliminate the nested Design Lab control inside the embedded signup, and render inspection content in natural flow rather than a clipped framed viewport. Then recapture the complete state matrix and measure visible words. (All default phone steps, Signup inspection and launch result.): Step 2 visibly exceeds the under-40-word baseline. Step 4 duplicates lab chrome and cuts through customer content. These are hierarchy problems, not reasons to shrink text.
+
+## Keep
+
+- The warm paper, green-black text, restrained separators and compact ink actions. Do not replace these with dashboard panels or a new palette.
+- Exactly two program kinds and the explicit one-qualifying-purchase-per-day rule.
+- The visible five-visits-to-Free-coffee relationship.
+- Distinct Apple and Google card structures, system-style card typography and text positioned away from the photographic subject.
+- The adjacent Wallet concept labels, No pass is issued. and Example member · Sara labels on design specimens.
+- The short signup field inventory, source acknowledgment and explicit no-texts-or-emails explanation.
+- Live · simulated and the demo-only acquisition QR caption. Retain these while correcting the surrounding launch composition.
+
+## Why better than production
+
+This introduces a useful business capability: define a repeat-visit reward, inspect a branded Wallet concept and prepare a customer signup QR. The recognizable cards make that opportunity tangible. But this build does not yet deliver the intended rule → card → counter handoff: it starts as a generic wizard, carries Sara’s design specimen into signup and launch, and never visibly confirms that launch enrolled zero members. It is a promising isolated concept, not yet a significantly stronger finished experience.
+
+## Remaining risks
+
+- Scores use a 0 to 10 scale; motion and attribution scores reflect limited evidence on this creation surface, not a demonstrated failure of unseen routes.
+- Only six still captures were supplied. The required 320, tablet, 1023 and 1920 layouts, complete phone Card and Signup steps, points variants, dirty exit and failure states remain unreviewed.
+- The Step 4 and Step 5 captures begin partway through content. Their cropped tops are not treated as evidence of missing headers; their visible cross-step specimen reuse is a substantive issue.
+- QR payloads, validity, quiet zones, exported artwork and ordinary-reader scanning require actual decoding tests. A screenshot cannot prove enrollment safety or a changed payload.
+- No event assertions establish that draft inspections create no members or Wallet projections, or that launch is atomic and produces exactly one zero-member program.
+- The photo source, original dimensions and platform crops need manifest verification. The additional thumbnail choices are not approved by these pixels.
+- Read-only signup behavior and disabled agreement/commit states are not established visually; Create my card currently appears like an ordinary active primary action.
+- Keyboard navigation, focus restoration, browser Back, 200% text zoom, safe-area clearance, reduced motion and error preservation remain unverified.
+- Actual clipboard success, download content and user-initiated printing must be tested before these controls can be approved.
+- No production integration or release approval follows from this review.

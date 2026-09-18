@@ -1,0 +1,8 @@
+{
+  "id": "maya-spurroom-placement-01",
+  "fixture": true,
+  "generated": true,
+  "prompt": "Using the supplied photograph of the blue hatchback as the vehicle identity reference, render a ground level side detail of its rear door advertising zone with a physically attached matte removable decal reading only Spurroom Bikes in simple sans serif lettering, natural daylight, visible door seams, enough wheel and body context to identify a real car surface. Preserve the vehicle's geometry and colour. No turntable, no holographic zone, no floating decal, no fake 3D, no other text.",
+  "approvedByDirector": false,
+  "review": "The image presents a convincing low side detail of the blue hatchback with clear Spurroom Bikes lettering on the rear door. The composition meets the brief well, but a changed fuel-flap shape and slightly dimensional lettering need correction before approval."
+}

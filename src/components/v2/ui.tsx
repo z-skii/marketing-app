@@ -64,7 +64,7 @@ export function Avatar({
   src, name, size = 40, ring = false,
 }: { src?: string | null; name: string; size?: number; ring?: boolean }) {
   const initial = (name.trim()[0] ?? "?").toUpperCase();
-  const ringCls = ring ? "avatar-ring" : "ring-1 ring-white/10";
+  const ringCls = ring ? "avatar-ring" : "ring-1 ring-black/10";
   if (src) {
     return (
       // eslint-disable-next-line @next/next/no-img-element

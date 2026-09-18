@@ -1,0 +1,85 @@
+# V3 recomposition review: Drive sequence, pass 2
+
+Reviewer: Astra. Verdict: **fix**. Captures: drive-d-0.08.png, drive-d-0.32.png, drive-d-0.45.png, drive-d-0.66.png, drive-d-0.76.png, drive-d-0.94.png, drive-m-0.png, drive-m-2.png, drive-m-3.png, drive-m-5.png, drive-d-strip.png, drive-m-strip.png.
+
+**Two second read.** Desktop finale: a business can use this car's rear doors for a US$300/month opportunity requiring monthly approval. Phone opening: a handsome car photograph, but the product action and next step are not yet apparent.
+
+## The six questions
+
+- Would someone remember this website tomorrow? **PARTLY**. The oxblood wagon with a specific door placement is a plausible memory anchor. Tomorrow's recall is not established, and the mobile journey currently weakens the association with the monthly opportunity.
+- Could this homepage belong to any other startup? **PARTLY**. The door-placement and conditional campaign relationship is specific. The surrounding heading/photo/card composition could still belong to another advertising marketplace. The complete homepage is outside this capture set.
+- Do Recreate, Story and Drive each have a recognizable physical identity? **PARTLY**. Drive now has one: a wide, intact photograph with registered inspection geometry. Recreate and Story cannot be judged from these captures.
+- Does the car moment make TapMart feel unique? **PARTLY**. The supported rear-door zone, coded specimen and monthly terms now explain a real product distinction. The attachment-to-sheet transition and mobile control separation still prevent it from becoming a convincing continuous moment.
+- Does the Loyalty loop make a business understand why TapMart is more than creator marketing? **NO**. Not demonstrated in this Drive-only evidence. The associated score marks lack of evidence, not a rejection of the approved Loyalty model or its unseen implementation.
+- Would someone scroll because they want to see what happens next? **PARTLY**. Desktop offers a legible progression from car to placement to terms. On phone, the large empty early slot and offscreen object during step use interrupt anticipation.
+
+## Scores
+
+- media quality: 8
+- could not be another startup: 6
+- slop risk: 3
+- car moment unique: 7
+- motion continuity: 4
+- loyalty more than marketing: 1
+- material quality: 6
+- text discipline: 8
+- scroll pull: 5
+- typography: 7
+- spatial quality: 6
+- truthfulness: 8
+- physical identity: 8
+- remembered tomorrow: 6
+
+## Still a web prototype
+
+Most evident in the tiny floating campaign card at desktop progress 0.66, the phone's empty reserved stage, and the final phone photograph-plus-rounded-card stack. The page-level Drive heading and bottom control row remain conventional, but do not alone warrant recomposition. The wide vehicle inspection with its door-bound specimen is no longer merely an editorial image beside explanatory copy.
+
+## Spatial read
+
+Desktop now has an effective photographic plane, a localized placement plane and a right-edge terms plane. The door stays exposed as the consequence appears; this is worth preserving. Depth still fails during the miniature-sheet transition. Phone has the correct broad photographic identity, but its early blank slot separates viewing from control, and the final terms surface needs physical contact rather than a floating-card finish. Fix these relationships; do not restart the composition.
+
+## Material read
+
+The unshadowed photograph, restrained inspection lens and opaque final financial surface are the right material hierarchy. Money remains readable, and the preview qualification is distinct from the vehicle-example tag. Material credibility breaks at the transparent miniature campaign sheet and the visible handle patch. The phone sheet's broad shadow makes it feel more like a reusable web card than a surface belonging to this inspection.
+
+## Motion read
+
+The captures establish a crop change within the same photograph, zone appearance, specimen attachment endpoints, campaign-sheet exposure and a separate money conclusion. The desktop strip also shows return to earlier states; the phone strip shows Pause changing to Resume while direct states remain available. They do not prove smooth registration during travel, the specimen's complete approach, backing-exchange timing, keyboard behavior or cross-chapter object persistence. The reported frame timings are useful provisional measurements, not final performance approval.
+
+## Media read
+
+The oxblood wagon is worthy of this sequence: grounded tires, believable paint and reflections, an intact location, and an exposed rear-door plane. It replaces the generic sedan/diagram problem convincingly. Keep the photograph. The neutral Spurroom Bikes specimen correctly reads as coded preview material rather than invented advertising artwork. Approval here is at supplied capture resolution, not a full-resolution asset inspection. Scores use 1 to 10; higher slop_risk means worse.
+
+## Drift
+
+- The phone opening is an offset entrance frame rather than the specified complete, labelled rest composition.
+- Mobile controls are separated from the photographed object by enough reserved space that direct-step use loses the object.
+- The desktop campaign sheet scales through a miniature translucent state instead of opening as pre-sized opaque paper.
+- The handle occlusion is visibly rectangular rather than confined to foreground photographic geometry.
+- The mobile resting sheet retains a floating-card shadow instead of settling into an attached inline surface.
+- Actual recordings and cross-chapter continuity are not available in this submission; the strips cannot satisfy final motion approval.
+
+## Direction was wrong
+
+- The original 88px desktop amount was too large for the specified 304px terms sheet. Accept the pass-2 64px amount and separate /month line; do not enlarge the sheet or squeeze its disclosures to restore 88px.
+- The 600px desktop aperture is a sensible adaptation of the taller photographic direction at 1440×900. Keep it: the whole car remains visible and the controls fit.
+
+## Fixes
+
+- 1. **390px layout, Vehicle example through creative attachment; drive-m-0.png, drive-m-2.png, drive-m-3.png and the second/third phone-strip frames..** Bring Previous, Next, Steps, Replay and View campaign directly after the active mobile object. Do not reserve the final campaign-sheet height as an empty gap in the early states. Keep the phone sequence in normal flow, without pinning or automatic scrolling. Why: The early phone captures leave most of the lower viewport empty and show no sequence controls. In the phone strip, reaching those controls puts the car entirely above the viewport; advancing Rear doors and Spurroom Bikes then changes an object the visitor cannot see. This breaks the principal product demonstration.
+- 2. **Mobile enters beat; drive-m-0.png and the first phone-strip frame..** Make the mobile initial and paused endpoint the complete 390×260 photograph at its settled horizontal position, with Vehicle example immediately visible on an opaque tag. Restrict the 48px entrance offset to a transient movement and bypass it for paused or reduced-motion endpoints. Why: The supplied initial phone frame leaves a 48px blank inset at the left, cuts off the vehicle's front and omits Vehicle example. It does not demonstrate the claimed whole-car rest state. The image and its qualification must be complete before inspection begins.
+- 3. **Desktop creative_attaches to campaign_appears transition; drive-d-0.66.png through drive-d-0.76.png..** Replace the campaign sheet's miniature, translucent flight with a full-size opaque sheet at its final right-margin datum. Reveal it from its own edge with no more than 48px translation. Keep text at its reading size throughout; use the existing zone leader as the visual origin rather than shrinking the entire sheet onto the photograph. Reveal the lower money plane with the same opaque treatment. Why: At desktop progress 0.66, a tiny semitransparent campaign card floats above the roof. That is neither attached paper nor a readable intermediate state. It is the clearest remaining presentation-prototype artifact.
+- 4. **Rear-door overlay in drive-d-0.45.png, drive-d-0.66.png and drive-d-0.94.png..** Tighten the handle occlusion to the actual handle silhouette and only expose that sample when the specimen requires it. Remove the rectangular tonal patch around the handle. Keep the current supported zone and verify its border at both crop scales. Why: The dark rectangular patch around the rear handle is visible before and after attachment, particularly at desktop progress 0.45. It exposes the compositing mechanism even though the door registration is substantially improved.
+- 5. **Mobile campaign and monthly-opportunity endpoints; drive-m-5.png..** On phone, settle the campaign sheet directly against the photographic aperture with the prescribed narrow overlapping lip. Remove the broad exterior shadow when the sheet is resting inline. Keep its body and all financial text opaque. Why: The final phone frame currently reads as a conventional rounded pricing card placed below a photograph. A contact edge and restrained lip will make it the photograph's attached terms surface without adding more glass.
+- 6. **Drive review evidence under docs/design-lab-v3..** Provide the actual desktop and phone recordings after these fixes: uninterrupted forward/reverse operation, local steps while the object is visible, paused endpoints, reduced motion, and entry from Post plus exit into Get paid. Attach the frame-time measurement to named hardware, browser and test conditions. Why: The strips establish sampled state changes, not interpolation quality or complete handoffs. Reported p95 33.3ms and five frames over 33ms merit inspection, but cannot be attributed to a device or compared with the previous build from the supplied evidence.
+
+## Keep
+
+- The oxblood wagon, location, grounded photographic treatment and single intact image plane.
+- One supported Rear doors zone; no diagram, extra inventory or fabricated rotation.
+- The improved door registration and simple Spurroom Bikes specimen.
+- Persistent Vehicle example and Placement preview qualifications in the settled inspection states.
+- The desktop finale's visible door placement beside opaque campaign terms.
+- US$300/month, Monthly approval, campaign dates and proof qualification; no US$240 asking-rate substitution or earned-balance claim.
+- The 64px desktop monetary hierarchy and immediately available View campaign entrance.
+- The separate Latte take identity visible in the following Get paid chapter.

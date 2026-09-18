@@ -1,0 +1,552 @@
+# V3 screen: Business Loyalty
+
+Author: Astra (design director).
+
+## acceptance
+
+- Capture Loyalty Home at 390×844 and 1440×900 after fonts, images and fixture projections settle. Also test 320×568, 768×1024, 1023×900, 1920×1080 and 200% text zoom.
+- At 390, the first viewport contains the four named counts, June, Ben and Imani with progress, the program rule and all five navigation labels. Add visit is immediately obvious. No revenue, trends, statistic tiles or customer portraits appear.
+- Measure the first phone viewport against the hard 48-token ceiling. The specified inventory is 44 meaningful words, or 48 tokens when standalone separators are included. These are specification counts, not browser measurements. Report media lettering and all repeated occurrences.
+- The requested rough 20 to 35-word target is explicitly exceeded to preserve the approved operational minimum. Do not remove a recent customer, abbreviate a count definition, hide navigation or reduce essential type to meet it.
+- Record both Loyalty entry paths: the stationary Home strip after the complete car action band, and the first operational row beneath Business identity. Business remains selected throughout Loyalty routes; no sixth destination or Settings shortcut is introduced.
+- Record create program from the explicit No program scenario through validation, card inspection, signup preview and Launch demo program. The resulting program has zero members. Inspect both platform concepts at readable size.
+- Record QR signup with an unchecked agreement, deliberate use of fictional details, zero initial progress and a distinct member QR. Show both simulated Wallet actions and their local receipts. No operating-system save sheet or issued pass appears.
+- Record Sara at 4 of 5, deliberate +1 visit, Reward ready, the unchanged member QR, explicit redemption confirmation and the resulting retained progress. Verify Home projections 10/6/1/2 → 10/6/2/2 → 10/6/1/3 and Jasmine 4/3/1 → 4/3/2.
+- Record same-day, unknown-code, recording-error, Wallet-not-added, points 82/100 and points 99/100 scenarios. A failed or uncounted attempt produces no progress animation, reward or Wallet update. Retry retains the original request key.
+- Capture attribution with all five supported sources and a common source scale. Verify that overall Redeemed counts unique members while Home Rewards redeemed counts redemption events. Inspect first touch, masked contact and counted versus uncounted history.
+- Record normal and reduced-motion opening, closing, keyboard operation, Pause motion and browser Back. Closing returns to the exact originating control and scroll anchor. No interaction waits for choreography.
+- Inspect the navigation lens while real program artwork and page content pass beneath it. Text must retain contrast throughout scrolling. Test the opaque fallback and verify that no count, customer row, form, QR or pass uses glass.
+- Measure route media transfer, LCP, CLS, interaction-to-next-paint, animation frame timing and long tasks on named hardware and browser conditions. Targets are initial phone media at or below 350KB where quality permits, LCP at or below 2.5 seconds, CLS at or below 0.1 and interaction-to-next-paint at or below 200ms. Do not report targets as results.
+- After the final fixes, Astra reviews scroll appeal, explanatory motion, desirability, immediate hierarchy, consumer quality, business value, Loyalty's contribution, material quality and its relationship to the package's three memorable moments. This specification approves an isolated build direction only. Final review then stops for human approval.
+
+## first question
+
+Who joined, who came back, and can I count the next visit immediately?
+
+## object kinds
+
+- {"physical_difference":"Four large, unboxed numerals with complete definitions. Two-by-two on phone, one horizontal alignment on desktop. No common enclosing shape, tint, shadow, icon or trend line.","kind":"Overview facts","media":"Coded projections of the approved local membership, qualifying-activity and reward-event model."}
+- {"physical_difference":"Three 56px minimum-height text rows separated by exposed hairlines. First name left, compact visit progress right. No avatars, contact fields, source labels or decorative status badges.","kind":"Recent-customer rows","media":"June, Ben and Imani from the approved live fixture, ordered by supported recent activity."}
+- {"physical_difference":"An authored photograph beside a small brand-and-rule arrangement on phone; a wide photograph with an open rule band on desktop. The coffee photograph is substantial, not a thumbnail of a Wallet pass. Its proportions differ from both the customer rows and the native pass.","kind":"Program artwork and rule","media":"The approved Loopday loop mark and ownership-matched /design-lab/reference-loopday-01.jpg artwork. Verify the exact crop against the media manifest."}
+- {"physical_difference":"Three exposed ink ledges share a left datum and descend through measured lengths. Counts sit outside the ledges in a fixed text column. Source identity remains a separate typographic object.","kind":"Attribution descent","media":"Coded unique-member projections. No chart image, percentage, inferred transaction or revenue field."}
+- {"physical_difference":"A full-height opaque phone task or a 560px desktop working pane. Recognition, progress and the next action occupy one stable vertical axis. Only its compact scrolling header may have material depth.","kind":"Counter working surface","media":"Coded scanner simulation, fixture-member lookup, app progress strokes and local result receipts."}
+- {"physical_difference":"An opaque Loopday store-card concept with a restrained 12px boundary, rectangular logo treatment, strip artwork, supported fields and a stable black-on-white member QR. This is a card because the product object being inspected is a Wallet pass.","kind":"Apple Wallet concept","media":"Coded approved Apple concept using the same member and opaque demo code. System typography; no generated screenshot or operating-system chrome."}
+- {"physical_difference":"An independently composed opaque loyalty-pass concept: circular logo, program and issuer identity, wide hero, balances, member information and QR. It must not be the Apple composition with a different platform label.","kind":"Google Wallet concept","media":"Coded approved Google concept using the same member QR as the Apple concept for that member. Preserve the existing research limitations."}
+- {"physical_difference":"A short, single-column branded form with explicit reward and counting rules. Inputs are readable opaque controls, not fields embedded in a simulated device.","kind":"Customer signup","media":"Coded form and fixture source acknowledgment. No business navigation, account pitch or customer portrait."}
+- {"physical_difference":"A large, sharply rendered black-on-white acquisition code, followed by clear local actions. The print variant is an A5 composition, not a decorative QR card.","kind":"Counter acquisition QR","media":"The approved BUSINESS_QR fixture link, encoded locally. It is never reused as a member QR."}
+- {"physical_difference":"One foreground strip with five labelled destinations. Real content passes beneath its translucent body. It supplies navigation, not a shell for the rest of the screen.","kind":"Floating navigation lens","media":"Real coded navigation over the scrolling Loyalty page."}
+
+## truth
+
+- Everything remains isolated under /design-lab-v3 and its V3 supporting files. V2, production routes, production sessions, databases and real Wallet services remain untouched.
+- The fixed lab clock is September 17, 2026, 10:00 AM CDT. Qualifying days use America/Chicago. Opening, scrolling, animation and browser Back never advance the date.
+- Default Home projections are 10 Members, 6 Repeat visitors, 1 Rewards ready and 2 Rewards redeemed. Render these from the approved event model, not independently authored display values.
+- Members includes enrolled people without Wallet. Repeat visitors requires counted activity on two distinct business days. Rewards ready counts unredeemed earned instances. Rewards redeemed counts redemption events, not necessarily unique people.
+- Attribution Joined, Came back and Redeemed count unique members. A signup is not a verified purchase, and attribution is not a claim of revenue or causal lift.
+- Preserve immutable first known source, campaign and creator identity, later trustworthy touches, normalized-contact deduplication, reward versions, earned instances, qualifying-day rules, idempotency and retained additional progress.
+- Sara is already a repeat visitor at the baseline. Her September 17 qualifying visit cannot increase Repeat visitors or Jasmine Came back.
+- One qualifying purchase contributes one visit, or one point in the alternative points scenario, at most once per business day. Points are not money and the counter is not an arbitrary balance editor.
+- Signup does not add a visit. Opening a Wallet action does not issue a pass. A local Wallet projection or update receipt does not establish native saving, delivery or notification appearance.
+- Counter QR, campaign acquisition links and opaque member QR codes have distinct roles. A member's QR and identity do not change during progress, unlock, redemption or platform switching.
+- Business views use masked contacts. There is no full-contact reveal, export, customer marketing channel or creator-accessible member route.
+- The public Loyalty sequence uses a separate replay store. Running it cannot change this working surface's baseline or event history.
+- A failed media or data binding blocks the affected demonstration. Do not substitute unrelated coffee imagery, invent Jasmine's portrait or repair missing evidence with a plausible state.
+- The supplied Wallet research remains the approved concept boundary; this direction makes no new verification claim about September 2026 platform behavior.
+
+## two second read
+
+Ten members. Six returned. One reward is ready. Add the next visit.
+
+## thesis
+
+Loyalty is the working resolution of TapMart's business story: the people and campaigns that earn attention remain attached to members who return. The overview is deliberately quiet, unboxed facts, three usable customer rows, a substantial Loopday artwork-and-rule object and a measured source descent. V3 depth appears only where someone takes control: the foreground navigation, an active task header and the transition into a readable counter or pass inspection. The memorable action is a confirmed visit completing one progress stroke while the member and source remain intact. This strengthens the story through a working relationship, not through a new dashboard aesthetic.
+
+## copy budget
+
+**every visible string.**
+- Loyalty
+- Design Lab · Fictional preview
+- Pause motion
+- Resume motion
+- Add visit
+- Add points
+- 10
+- Members
+- 6
+- Repeat visitors
+- 1
+- Rewards ready
+- 2
+- Rewards redeemed
+- Recent customers
+- Visits
+- June
+- 0 / 5
+- Ben
+- 1 / 5
+- Imani
+- 2 / 5
+- Free coffee
+- 5 visits
+- Live
+- View program
+- Joined from
+- Jasmine
+- Morning loop · Story campaign
+- 4 Joined
+- 3 Came back
+- 1 Redeemed
+- View attribution
+- View QR
+- Send update
+- Home
+- Content
+- Create
+- Campaigns
+- Business
+- TapMart
+- Loopday Coffee
+- Create campaign
+- Search
+- Messages
+- Notifications
+- Business / Loyalty
+- Live · simulated
+- This program exists only in the Design Lab.
+- Create program
+- Turn visits into rewards.
+- Draft
+- Continue setup
+- No members yet.
+- Share your QR to start.
+- Program
+- Reward
+- Card
+- Signup
+- Launch
+- 1 of 5
+- 2 of 5
+- 3 of 5
+- 4 of 5
+- 5 of 5
+- Points
+- One visit per qualifying purchase.
+- One point per qualifying purchase.
+- One qualifying purchase counts per day.
+- Continue
+- Back
+- Close
+- Save draft
+- Reward name
+- Visits to reward
+- Points to reward
+- 5
+- 100
+- Terms
+- Optional
+- Apple Wallet
+- Google Wallet
+- Design Lab · Apple Wallet concept
+- Design Lab · Google Wallet concept
+- No pass is issued.
+- Example member · Sara
+- Logo
+- Business name
+- Program name
+- Loopday Rewards
+- Card colour
+- Text colour
+- Label colour
+- Artwork
+- Change image
+- Remove artwork
+- Crop
+- Reward title
+- Use brand defaults
+- Preview state
+- Collecting
+- Reward ready
+- Reward redeemed
+- Updated offer
+- Preview signup
+- Counter QR
+- Creator link
+- Signup preview · not live
+- Launch before joining.
+- Ready to launch
+- 5 visits → Free coffee
+- Demo QR · activates after launch.
+- Launch demo program
+- Open loyalty
+- Enter a reward name.
+- Enter 2 to 50 visits.
+- Enter 2 to 10,000 points.
+- Use a whole number.
+- Text needs more contrast.
+- Keep draft
+- Discard demo draft
+- Keep editing
+- Draft saved in this preview.
+- Loopday already has a live program.
+- Changes apply to new reward cycles. Earned rewards stay unchanged.
+- Program type is fixed after launch.
+- Save changes
+- Edit reward
+- Edit card
+- Scan to join Loopday Coffee
+- Collect 5 visits. Your next coffee is free.
+- Demo QR · Design Lab only
+- Copy demo link
+- Preview printout
+- Download demo QR
+- Open signup
+- Demo link copied.
+- Scan to join
+- Print demo
+- Design Lab · Simulated signup
+- Use fictional details only.
+- From Jasmine’s Story.
+- Join at the counter.
+- One qualifying purchase per visit. One counted visit per day.
+- First name
+- Email
+- Phone
+- Country code
+- United States +1
+- Use phone
+- Use email
+- Used to find your card at the counter. No texts or emails.
+- I agree to the demo program terms and privacy notice.
+- program terms
+- privacy notice
+- Create my card
+- Use demo details
+- Tess
+- tess@example.test
+- Enter your first name.
+- Enter a valid email.
+- Enter a valid phone number.
+- Agree to the demo terms to continue.
+- Couldn’t create the demo card.
+- Try again
+- Your demo card
+- 0 of 5 visits
+- No visits yet.
+- Add to Apple Wallet
+- Add to Google Wallet
+- Simulated actions. No pass is issued.
+- Not now
+- Apple Wallet add simulated.
+- Google Wallet add simulated.
+- Nothing was added to your device.
+- View Apple concept
+- View Google concept
+- Add another Wallet
+- Done
+- Wallet not added
+- You can still show this demo QR at the counter.
+- Already a member in this preview.
+- Open demo card
+- Card access is simulated; production recovery needs verification.
+- This program isn’t live yet.
+- This signup link is unavailable.
+- Demo program terms
+- One qualifying purchase earns one visit. A maximum of one visit counts per business day.
+- Collect five visits for one free barista-made coffee on a later purchase.
+- Redeeming a reward does not earn a visit. Earned rewards have no expiry in this example.
+- Additional counted visits are kept toward your next reward.
+- These are demo terms, not a live program agreement.
+- Demo privacy notice
+- This Design Lab keeps entered details in this browser until reload. Nothing is sent to a server.
+- The production design requires a first name and one contact. Businesses see masked contacts; creators see counts only.
+- No contact details appear on the Wallet card.
+- Collect 100 points. Your next coffee is free.
+- One point per qualifying purchase. One counted purchase per day.
+- 0 of 100 points
+- VISITS
+- POINTS
+- REWARD
+- MEMBER
+- STATUS
+- 0 of 5
+- 4 of 5
+- 5 of 5
+- 82 of 100
+- 83 of 100
+- 99 of 100
+- 100 of 100
+- Rewards
+- Member
+- Member ID
+- Sara
+- LD-001
+- LD-011
+- Details
+- Requirement
+- 5 visits = Free coffee
+- 100 points = Free coffee
+- 1 visit toward your next reward.
+- Scan
+- Scanner simulation
+- No camera is used.
+- Sample member
+- Simulate scan
+- Name, phone or email
+- ••42
+- 4 of 5 visits
+- 5 of 5 visits
+- View member
+- +1 visit
+- 1 point
+- Per qualifying purchase
+- Add 1 point
+- Visit counted
+- Point added
+- Wallet update simulated
+- Redeem
+- Next customer
+- Redeem Free coffee?
+- Use one ready reward. This does not add a visit.
+- Cancel
+- Redeem reward
+- Already counted today.
+- 2 of 5 visits · unchanged
+- One visit counts per day.
+- Last counted today at 9:10 AM.
+- 82 of 100 points · unchanged
+- This QR isn’t a Loopday member card.
+- Search members
+- Try another QR
+- Visit wasn’t counted.
+- No members match.
+- Try another name or contact.
+- All
+- Mina
+- Noah
+- Theo
+- Luca
+- Lena
+- Ava
+- Wallet
+- Apple Wallet · simulated
+- Google Wallet · simulated
+- Both Wallets · simulated
+- History
+- Joined
+- Not counted · same day
+- Joined Sep 8, 2026
+- Sep 16, 2026
+- View demo card
+- Also reached through
+- Attribution
+- All time
+- 10 Joined
+- 6 Came back
+- 2 Redeemed
+- From signup to a recorded return.
+- Sources
+- Maya
+- Counter pour · Recreate campaign
+- 2 Joined
+- 2 Came back
+- 1 Came back
+- 0 Redeemed
+- Eli
+- Around Austin · Car campaign
+- 1 Joined
+- 0 Came back
+- Direct signup
+- Source not tracked
+- How counts work
+- Came back
+- Redeemed
+- Members who signed up.
+- Members with counted visits on two different days.
+- Members who used at least one reward.
+- The first known signup source stays attached.
+- Later visits and links do not replace it.
+- View members
+- Link recorded
+- No members from campaigns yet.
+- Share a campaign’s signup link to connect future members.
+- Your first signup will appear here.
+- Wallet update
+- Kind
+- Title
+- Message
+- Special offer
+- New promotion
+- Milestone
+- Afternoon coffee
+- Ask us what’s pouring after 2 PM.
+- 8 members with Wallet · simulated
+- Wallet update. Apple Wallet shows it on the card; Google Wallet may notify. Once a day.
+- Preview Wallet update
+- Changes the card.
+- May notify.
+- Simulate update
+- Nothing was sent.
+- Update already used today.
+- Next update: Sep 18, 12:00 AM CDT.
+- Notification limit reached.
+- Card content still updates.
+- Reset demo
+- Change demo state?
+- This resets local changes.
+- Change state
+- Advance demo day
+- September 17, 2026, 10:00 AM CDT
+- Live program
+- No program
+- Live · no members
+- Points · 82 of 100
+- Points · 99 of 100
+- Same-day visit
+- Google limit reached
+- Recording error
+- Outside this preview
+- This destination is outside the V3 lab.
+- {fixture-bound count, progress, masked contact, event date, event time, member ID and approved program terms}
+
+**target.** Hard first-viewport ceiling at 390×844: 48 visible tokens, conservatively including standalone · and / separators. Planned Home inventory: 44 meaningful words / 48 inclusive tokens; planned full phone document: 65 meaningful words / 70 inclusive tokens; planned 1440×900 inventory: 74 meaningful words / 80 inclusive tokens, before any additional verified artwork lettering or real attention count. These are design inventories, never asserted rendered measurements. The mandatory first-view operational content already exceeds the user's rough 20 to 35-word target; preserve the approved 38 to 48-word operational allowance rather than deleting customers or definitions. Expanded forms, terms, errors, definitions and 200% zoom have no artificial cap. All dynamic bindings resolve before counting; braces never appear in the UI.
+
+
+## states
+
+- {"visible_strings":["Loyalty","Add visit","10","Members","6","Repeat visitors","1","Rewards ready","2","Rewards redeemed","Recent customers","Visits","June","0 / 5","Ben","1 / 5","Imani","2 / 5","Free coffee","5 visits","Live","View program","Joined from","Jasmine","Morning loop · Story campaign","4 Joined","3 Came back","1 Redeemed","View attribution","View QR","Members","Send update"],"state":"Home, default live fixture","what_changes":"This is the baseline. Add the shared lab/motion controls and the viewport-appropriate navigation. Do not print a second Loyalty title or Loopday identity on phone."}
+- {"visible_strings":["Loyalty","Turn visits into rewards.","Create program"],"state":"Home, no program","what_changes":"Replace the operational overview with the actual brand mark and one creation action. No specimen pass, customer rows, live label or meaningless zero-count arrangement."}
+- {"visible_strings":["Loyalty","Draft","Free coffee","Continue setup","{last completed step}"],"state":"Home, draft","what_changes":"Show the saved draft's own artwork and last completed step. No member counts, usable acquisition QR or customer enrollment. Continue resumes the validated step."}
+- {"visible_strings":["Loyalty","View QR","0","Members","0","Repeat visitors","0","Rewards ready","0","Rewards redeemed","Recent customers","No members yet.","Share your QR to start.","Free coffee","5 visits","Live","View program","No members from campaigns yet."],"state":"Home, live without members","what_changes":"View QR becomes primary. There are no invented recent rows or Jasmine results. The program is real within the selected local scenario, not a second live business program."}
+- {"visible_strings":["Live · simulated","This program exists only in the Design Lab.","View program","Close"],"state":"Program-state disclosure","what_changes":"Tapping Live opens a small opaque disclosure. Its qualification is adjacent to the state decision, rather than relying only on the global lab label."}
+- {"visible_strings":["Program","Reward","Card","Signup","Launch","Continue","Back","Save draft","Launch demo program"],"state":"Create program, five-step task","what_changes":"The body renders only the active step's strings from the creation-region inventory. Continue validates that step. Direct entry to a later step validates prerequisites. Launch is the sole creation commit, and it produces Live · simulated with zero members. Existing live programs show Loopday already has a live program. and View program instead."}
+- {"visible_strings":["Enter a reward name.","Enter 2 to 50 visits.","Enter 2 to 10,000 points.","Use a whole number.","Text needs more contrast."],"state":"Creation validation","what_changes":"Render only applicable errors beside their fields. Preserve entries, focus the first invalid field and block the relevant Continue or Save action. No shake animation or success-coloured invalid preview."}
+- {"visible_strings":["Design Lab · Apple Wallet concept","Design Lab · Google Wallet concept","Example member · Sara","No pass is issued.","Preview state","Collecting","Reward ready","Reward redeemed","Updated offer"],"state":"Designer specimen","what_changes":"Show one platform at a time on phone. Sara's collecting specimen may use her supported 4-of-5 baseline, clearly labelled as an example. State selection changes only the specimen. It does not enroll Sara, mutate the live member or advance a date."}
+- {"visible_strings":["Counter QR","Scan to join Loopday Coffee","Collect 5 visits. Your next coffee is free.","Demo QR · Design Lab only","Copy demo link","Preview printout","Download demo QR","Open signup"],"state":"Acquisition QR","what_changes":"Display the approved local acquisition link as a real code. Copy, download and print are deliberate local actions. The source variant resolves through the fixture registry; an arbitrary URL creator parameter cannot assign attribution."}
+- {"visible_strings":["Your demo card","Tess","0 of 5 visits","No visits yet.","Add to Apple Wallet","Add to Google Wallet","Simulated actions. No pass is issued.","Not now"],"state":"Successful fictional signup","what_changes":"A deliberate valid signup appends one SIGNUP and creates a distinct opaque member code. For a new Tess arriving through Jasmine, Members becomes 11 and Jasmine Joined becomes 5; repeat and reward projections do not change. No visit is added."}
+- {"visible_strings":["Already a member in this preview.","Open demo card","Card access is simulated; production recovery needs verification."],"state":"Duplicate contact","what_changes":"Create neither another member nor another first source. This is explicitly a lab-only access path, not production recovery by unverified contact."}
+- {"visible_strings":["Apple Wallet add simulated.","Google Wallet add simulated.","Nothing was added to your device.","Done","Add another Wallet"],"state":"Simulated Wallet add","what_changes":"Show only the selected platform's receipt. Preserve the same member and QR; adding a second platform cannot create another member. Do not open native-looking operating-system chrome."}
+- {"visible_strings":["Add visit","Scan","Search","Scanner simulation","No camera is used.","Sample member","Sara","Simulate scan"],"state":"Counter, scan","what_changes":"Use the labelled coded viewfinder, not camera imagery. The Lab-only sample selector defaults to Sara. Simulate scan resolves the fixture immediately and requests no permission."}
+- {"visible_strings":["Add visit","Scan","Search","Name, phone or email","{matching first name}","{masked contact}","{member progress}"],"state":"Counter, search","what_changes":"Replace the viewfinder with a labelled 16px input and local results. Normalize name/contact matching. Selecting a result enters the same recognized-member state; do not show a second contact directory."}
+- {"visible_strings":["Add visit","Scan","Search","Scanner simulation","No camera is used.","Sara","••42","4 of 5 visits","Free coffee","+1 visit","View member","Done","Next customer"],"state":"Counter, Sara recognized","what_changes":"Identity and +1 visit are usable before the recognition sweep completes. Source and history stay behind View member. The counting action is explicit and not combined with recognition."}
+- {"visible_strings":["Sara","••42","5 of 5 visits","Reward ready","Free coffee","Wallet update simulated","Redeem","View member","Done","Next customer"],"state":"Counter, qualifying fifth visit","what_changes":"Commit event, earned instance and projections atomically, then fill only the fifth app stroke. Home becomes 10/6/2/2. The Apple concept becomes VISITS 5 of 5 and STATUS Reward ready. The QR and first source remain unchanged. Redeem is available immediately; no automatic redemption."}
+- {"visible_strings":["Redeem Free coffee?","Use one ready reward. This does not add a visit.","Cancel","Redeem reward"],"state":"Counter, redemption confirmation","what_changes":"Replace the local action area with an opaque confirmation while retaining member identity and reward context. Confirmation consumes the selected earned instance only. Cancel changes nothing."}
+- {"visible_strings":["Sara","••42","Reward redeemed","0 of 5 visits","Free coffee","Wallet update simulated","Done","Next customer"],"state":"Counter, confirmed redemption","what_changes":"The basic Sara example has zero next-cycle progress, five lifetime counted visits and one redemption. Home becomes 10/6/1/3; Jasmine becomes 4/3/2. If extra qualifying progress exists in another approved case, show and retain it instead of forcing zero."}
+- {"visible_strings":["Already counted today.","2 of 5 visits · unchanged","One visit counts per day.","Last counted today at 9:10 AM.","Done","Next customer"],"state":"Counter, Imani same-day attempt","what_changes":"No progress fill, value crossfade, reward, Wallet update or Recent customers reorder. A fresh attempt records an uncounted event; retry with the same idempotency key creates no additional event."}
+- {"visible_strings":["Add points","1 point","Per qualifying purchase","Add 1 point","82 of 100","83 of 100","99 of 100","100 of 100","Point added","Reward ready"],"state":"Counter, points scenarios","what_changes":"The 82-point and 99-point scenarios are separate replacement contexts. A confirmed action adds exactly one point. The 99-point case unlocks at 100. Do not interpolate numeric values, add arbitrary amounts or merge the points cohort into visits."}
+- {"visible_strings":["This QR isn’t a Loopday member card.","Search members","Try another QR","Visit wasn’t counted.","Try again","Wallet not added"],"state":"Counter exceptions","what_changes":"Render only the applicable exception. Unknown codes never reveal a guessed identity. A recording failure retains the recognized member, form and request key without progress. Wallet-not-added members can count and redeem, but receive no false Wallet-update receipt."}
+- {"visible_strings":["Attribution","All time","10 Joined","6 Came back","2 Redeemed","From signup to a recorded return.","Sources","Jasmine","Morning loop · Story campaign","4 Joined","3 Came back","1 Redeemed","Maya","Counter pour · Recreate campaign","2 Joined","2 Came back","1 Redeemed","Counter QR","2 Joined","1 Came back","0 Redeemed","Eli","Around Austin · Car campaign","1 Joined","0 Came back","0 Redeemed","Direct signup","Source not tracked","1 Joined","0 Came back","0 Redeemed","How counts work"],"state":"Attribution, complete baseline","what_changes":"The five source objects share one scale with a maximum of four joined members. Overall 10/6/2 is a separately labelled whole-cohort descent. Source detail exposes definitions and business-only members without changing first touch."}
+- {"visible_strings":["Wallet update","Kind","Title","Message","Special offer","New promotion","Milestone","Afternoon coffee","Ask us what’s pouring after 2 PM.","8 members with Wallet · simulated","Wallet update. Apple Wallet shows it on the card; Google Wallet may notify. Once a day.","Preview Wallet update","Changes the card.","May notify.","Simulate update","Wallet update simulated","Nothing was sent."],"state":"Wallet update composer","what_changes":"Preserve the approved platform distinction, 40-character title, 140-character message, fixed eligible audience and daily allowance. Preview precedes simulation. Limit and error states remain explicit; no Delivered, Read, contact-channel selector or scheduling."}
+- {"visible_strings":["Resume motion"],"state":"Paused or reduced motion","what_changes":"Replace Pause motion with Resume motion when presentation is paused. Under system reduced motion, no entrance, sweep, progress travel, sticky narrative mapping or required fade runs. Necessary confirmed state changes still render immediately. Resume does not override the system preference."}
+
+## engineering notes
+
+- This is art direction, not an implementation claim. Inspect the actual V3 routes, provider, media ownership and existing icon family before building. FILE_MAP.md must record implemented files, not presumed paths.
+- Use bundled DM Sans. Home title 28px/32px on phone and 32px/38px on desktop, weight 600, tracking -0.03em. Counts 32px/38px phone and 40px/46px desktop, weight 600, tabular lining numerals. Customer names and form text 16px/24px; actions 14px/20px at 600; definitions 13px/18px; lab and navigation labels at least 12px/16px.
+- Canvas is #F6F7F5, ink #17221E, secondary text #59655D and dividers #DCE2DE. Loopday keeps #18231D, #F7F4EB, #C4CDBF and its brick logo terminal. Do not reintroduce the brick terminal on every attribution ledge.
+- Layer order: canvas z0; original media z10; opaque working surfaces and pass objects z20; active navigation or inspection lens z40; primary controls z50; modal scrim z60; modal working surface z70 and its local header z80. Raise complete task contexts rather than allowing a global navigation bar above a modal.
+- Light lens: rgba(255,255,255,0.58), backdrop blur 16px, saturation 1.16; masked 1px 135deg edge from rgba(255,255,255,0.88) through rgba(255,255,255,0.16) to rgba(223,234,225,0.64); inset highlight 0 1px 0 rgba(255,255,255,0.74); shadow 0 8px 28px rgba(46,74,60,0.09). Navigation radius 18px; temporary compact inspection controls 14px.
+- Working paper is #FFFFFF, blur 0, opacity 1, with only needed 1px #DCE2DE dividers. Floating-task shadow is 0 16px 48px rgba(43,67,54,0.10). Phone modal sheets use 24px top corners; desktop exposed drawer corners use 18px. Full-page customer forms have no decorative sheet shadow.
+- Primary actions use #17221E, white text and 12px radius; no blur. Business Create alone retains #D5E85A. Controls have minimum 44×44 targets. Focus uses a 2px #315E49 outline with 3px offset, white on dark pass-wrapper controls.
+- Use no optical duplicate-image rim on this surface. That controlled approximation belongs to the three public stages. Loyalty's depth comes from real backdrop filtering, occlusion and task hierarchy; never distort text, QR codes or pass artwork.
+- Maximum two active backdrop-filter regions on phone and three on desktop, without nesting; visible blur area below 20% of the viewport. Home needs only the phone navigation lens. Covered navigation stops filtering while a full-height task is open. Use opaque #FFFFFF when reduced transparency, unsupported filtering or contrast requires it.
+- Reserve intrinsic media dimensions before loading. Record phone and desktop subject-safe crops in MEDIA_MANIFEST.json. Request roughly 392px-wide and 752px-wide artwork derivatives for the specified phone and desktop slots where source quality permits; use responsive sources and do not download every Wallet specimen on Home.
+- No generated media or new remote assets are required. Verify that the phone artwork crop has no uncounted lettering. Preserve the photographed subject; no tint, fake reflection, background removal or blanket colour grade.
+- Motion uses transform and opacity. Measure source and destination bounds once when a transition starts; do not read layout on each frame. Animate only the necessary local planes, remove temporary will-change hints at rest and do not animate backdrop-blur radius.
+- The counter commits event, reward instance and projections as one local transaction before visual confirmation. Disable the in-flight mutation against double activation. Keep the request key on retry. Announcement happens once after confirmation, never at the start of an optimistic animation.
+- Recent customers is an independent projection of latest signup, counted counter activity or redemption. The baseline is June, Ben, Imani. Sara may legitimately move to the top after her confirmed visit; same-day attempts and Wallet-content changes cannot reorder it.
+- QR encoding must use the fixture's actual opaque local code and remain identical for the same member across views and platforms. Keep a four-module quiet zone, black on white, no logo over the code and no decorative scanning animation on the code itself.
+- Use ordinary document scrolling. Trap focus only inside modal tasks, make background content inert, respect Escape and close the top layer before leaving its parent on browser Back. Store origin control, route, scenario and scroll anchor.
+- Count rendered visible text nodes after assets settle, then audit lettering inside media. Include repeated controls, values, visible text behind translucent material and partial text entering the viewport. Report default, expanded, error, paused, reduced-motion and zoom states separately.
+- Preserve LOYALTY_ARCHITECTURE.md, WALLET_RESEARCH.md, PRIVACY.md and MVP_VS_LATER.md. Document materials, text counts and measured performance in the V3 evidence files. Update REPORT.md only with actual captures, recordings, event checks and unresolved issues.
+
+## interactions
+
+- {"trigger":"Initial route entry.","reduced_motion":"Render the complete settled composition immediately.","name":"Overview arrives already usable","duration_ms":"0","returns":"Route return restores the last scroll position and originating control without replaying an entrance.","easing":"none","what_moves":"Nothing. Counts, customers and the program are already at rest. The tool does not need a cinematic loading sequence.","recorded":"Capture first render and settled Home at 390 and 1440. Prove no count-up, delayed Add visit or moving customer order."}
+- {"trigger":"Add visit, Add points or a deliberate member-specific counting action.","reduced_motion":"Open the complete task immediately and transfer focus.","name":"Open the counter","duration_ms":"320 open; 280 return","returns":"Close, Escape or browser Back restores the exact Loyalty or member anchor and its Add visit/Add points trigger. Route changes preserve local fixture mutations.","easing":"Open cubic-bezier(0.16,1,0.3,1); return cubic-bezier(0.22,1,0.36,1)","what_moves":"Phone working paper enters from 24px below its final full-height position. Desktop 560px pane enters from 32px to the right. Scrim opacity resolves in 160ms; background content does not scale. Controls are active immediately.","recorded":"Required in 15-visit-unlock-redeem-{390,1440}.webm. Include origin, first actionable frame, recognition and exact return."}
+- {"trigger":"Simulate scan or selection of a local search result.","reduced_motion":"Show recognized member and action immediately; no sweep.","name":"Recognize without inventing a camera","duration_ms":"320 sweep; 160 outline settle, with recognition available immediately","returns":"Next customer clears only the recognition state and restores the chosen Scan or Search mode. Focus lands on Simulate scan or the search input.","easing":"Sweep linear; settle cubic-bezier(0.2,0,0,1)","what_moves":"One thin line crosses the coded viewfinder once. The recognized member occupies the prepared reading area; the sweep never blocks +1 visit. No camera permission, fake video feed or continuing scanner loop.","recorded":"Required at 390 and 1440. Keep Scanner simulation and No camera is used. visible. Prove recognition-to-action availability below 400ms."}
+- {"trigger":"A successful local +1 visit or Add 1 point commit.","reduced_motion":"Replace the confirmed value and mark immediately; announce the local result once.","name":"One confirmed increment","duration_ms":"220 app stroke; 120 Wallet whole-value replacement","returns":"Remain on the same member. Done returns to the origin; Next customer returns to recognition. No automatic navigation.","easing":"Stroke cubic-bezier(0.2,0.8,0.2,1); complete-value crossfade linear","what_moves":"Only the newly earned app stroke fills. Supported Wallet values replace as complete values in fixed-width fields. Name, QR, artwork and source do not move.","recorded":"Required in the visit recording and counter-exception recording. Include event/projection evidence; no animation occurs after same-day or failed attempts."}
+- {"trigger":"The same confirmed qualifying event emits REWARD_UNLOCKED.","reduced_motion":"Show completed progress, Reward ready and Redeem immediately.","name":"Reward becomes usable","duration_ms":"220 final stroke followed by 140 status reveal","returns":"Rest on Reward ready until the operator deliberately redeems, chooses Done or advances to another customer. Closing does not erase the earned instance.","easing":"Stroke cubic-bezier(0.2,0.8,0.2,1); label cubic-bezier(0.2,0,0,1)","what_moves":"Complete the fifth app stroke; replace the ordinary caption with Reward ready in the same action area. Redeem is enabled immediately after commit, not after 360ms. No confetti, reward modal, card flip or fake notification.","recorded":"Required. Show Sara before commit, first confirmed state, completed stroke, stable QR, available Redeem and the Home projection 10/6/2/2."}
+- {"trigger":"Redeem, followed by the explicit Redeem reward confirmation.","reduced_motion":"Show confirmation and then the confirmed result immediately.","name":"Consume one earned reward","duration_ms":"160 confirmation reveal; 240 confirmed result; 120 complete-value replacement","returns":"Cancel restores Redeem with focus. After confirmed redemption, focus lands on Done. Escape from confirmation cancels only that confirmation.","easing":"Reveal cubic-bezier(0.2,0,0,1); result cubic-bezier(0.22,1,0.36,1); values linear","what_moves":"The local action area becomes a readable confirmation and then Reward redeemed. Collapse only the consumed instance's action. Retain the member, QR and unrelated progress.","recorded":"Required. Keep the consequence sentence readable, then prove Home 10/6/1/3 and Jasmine 4/3/2. Include a retained-extra-progress case in QA."}
+- {"trigger":"View program or selection of the program artwork.","reduced_motion":"Open the opaque program inspector immediately.","name":"Artwork opens the rule","duration_ms":"440 open; 280 return","returns":"Close or browser Back returns to the program artwork/action at the same Home anchor.","easing":"Open cubic-bezier(0.16,1,0.3,1); return cubic-bezier(0.22,1,0.36,1)","what_moves":"The same approved artwork retains its identity while the opaque rule-and-pass inspection surface opens beside it on desktop and below its compact header on phone. It does not morph into a customer pass or imply a customer enrolled.","recorded":"Record both sizes with rule, current reward version, platform concepts, editing entry and return. Include the Live · simulated disclosure."}
+- {"trigger":"Create program, Continue setup, Continue, Back, Save draft or Launch demo program.","reduced_motion":"Replace the active step immediately and preserve validation/focus behavior.","name":"Build one program","duration_ms":"320 task open; 160 step content replacement; 280 close","returns":"Back returns one step with values intact. Closing meaningful input offers Keep draft, Discard demo draft or Keep editing. Launch navigates to the zero-member local result.","easing":"Open cubic-bezier(0.16,1,0.3,1); reveal cubic-bezier(0.2,0,0,1); return cubic-bezier(0.22,1,0.36,1)","what_moves":"Only active step content changes. The title and primary action datum remain stable. The pass specimen does not spin and no progress animation pretends to create members.","recorded":"Required in 13-create-program-{390,1440}.webm. Record validation, both program types, distinct platform previews, draft behavior and the deliberate zero-member launch."}
+- {"trigger":"Create my card after valid fictional details and deliberate agreement.","reduced_motion":"Render the new zero-progress member card immediately.","name":"A distinct membership arrives","duration_ms":"320","returns":"Not now preserves membership without Wallet. Done leaves the readable demo card. Browser Back does not submit a second signup.","easing":"cubic-bezier(0.22,1,0.36,1)","what_moves":"The new card arrives from 16px below. Its new opaque member QR is distinct from the acquisition code; the source acknowledgment stays outside the pass. No automatic agreement or native save sheet.","recorded":"Required in 14-qr-signup-wallet-{390,1440}.webm. Include the unchecked form, validated submit, zero progress and distinct acquisition/member codes."}
+- {"trigger":"Apple Wallet / Google Wallet selection, Details or a labelled simulated add action.","reduced_motion":"Replace the selected platform composition or open Details immediately.","name":"Inspect a platform, not a recolour","duration_ms":"160 platform replacement; 220 Details opening","returns":"Details closes to its trigger. Platform switching keeps focus on the selected tab and preserves the member, progress and QR.","easing":"Reveal cubic-bezier(0.2,0,0,1); settle cubic-bezier(0.2,0.8,0.2,1)","what_moves":"Crossfade separate coded platform compositions without morphing their geometry. Wrapper controls and concept labels remain outside the opaque pass. A simulated add changes only the local Wallet projection and receipt.","recorded":"Required at both sizes. Show platform labels, No pass is issued., identical member QR and the different front-field structures."}
+- {"trigger":"A Home count, Jasmine, View attribution, How counts work or a source selection.","reduced_motion":"Open the selected view immediately with final measured ledges already present.","name":"Follow the source","duration_ms":"220 view reveal; 280 return","returns":"Back restores the source or count trigger and its scroll anchor. Source detail is business-only and does not rewrite acquisition.","easing":"Reveal cubic-bezier(0.2,0.8,0.2,1); return cubic-bezier(0.22,1,0.36,1)","what_moves":"The reading view appears as one plane. Ledges are drawn at their final supported lengths; they do not grow from zero or imply new performance. Source detail is an opaque expansion, not a spreadsheet inspector.","recorded":"Required in 17-attribution-privacy-{390,1440}.webm. Include all five sources, common scale, definitions, masked member detail and first-touch/history inspection."}
+- {"trigger":"Pause motion, Resume motion, system reduced-motion preference or keyboard/browser navigation.","reduced_motion":"All tasks remain complete and operable with immediate state changes; no playback is introduced.","name":"Presentation never controls the transaction","duration_ms":"0 for pause and state changes","returns":"Pause retains presentation position and focus. Closing or Back restores the correct origin independently of motion preference.","easing":"none","what_moves":"Pause freezes active decorative/presentation motion without rolling back a committed event. Confirmation, errors and available actions update immediately. Off-screen presentation stops.","recorded":"Required in 19-reduced-motion-{390,1440}.webm and 20-pause-keyboard-back-390.webm. Include counter, pass inspection, confirmation and focus restoration."}
+
+## wow moment
+
+none. This working surface is the product resolution behind the public wow moment The source never leaves, not a fourth film sequence. Its precise local payoff is Sara's confirmed fifth app stroke completing in 220ms, Reward ready becoming readable in 140ms and Redeem remaining immediately available while identity and QR stay fixed. Keep the public replay, automatic attribution resolution and its timing out of this operational route.
+
+## desktop
+
+**grid.** At 1440×900 retain the 200px opaque sidebar. Main content starts at x232 and ends at x1408: 1176px, twelve 76px columns with 24px gaps. Header begins at y24; counts begin at y128. Recent customers occupy columns 1 to 8, program columns 9 to 12, attribution the next full-width row. At 768 to 1023 use the 80px labelled rail and eight-column grid; stack task panes when readable widths cannot hold. At 1920 cap app content at 1280px beside the sidebar. Do not centre a phone layout or add more customers to fill space.
+
+**regions.**
+- {"placement":"x0 to 200, full viewport height. Wordmark and identity above the five destinations; utilities anchored low.","material":"Canvas z0, #F6F7F5, blur 0, shadow none, radius 0; exposed 1px #DCE2DE right divider. Create campaign alone uses #D5E85A.","content":["TapMart","Loopday Coffee","Home","Content","Create campaign","Campaigns","Business","Search","Messages","Notifications"],"name":"Persistent Business sidebar","action":"Business is selected. Use existing V3 destinations or the explicit Outside this preview notice. There is no Loyalty submenu or additional gear.","motion":"Immediate selected-state change; no sliding selection capsule.","object":"Opaque navigation rail, not floating material."}
+- {"placement":"x232 to 1408, y24 to 100. Breadcrumb above the left title. Lab/motion controls occupy the upper right; Add visit aligns with the title at the far right.","material":"Canvas z0, #F6F7F5, blur 0, border none, shadow none. Primary action Grip z50, #17221E, 12px radius.","content":["Business / Loyalty","Loyalty","Design Lab · Fictional preview","Pause motion","Add visit"],"name":"Context and immediate action","action":"Business breadcrumb returns to Business Profile. Add visit opens the focused counter. Design Lab exposes existing scenarios.","motion":"No entrance. Add visit uses the 320ms counter opening.","object":"Open header alignment."}
+- {"placement":"x232 to 1408, y128 to 208. Four 276px alignments with 24px gaps.","material":"Canvas z0, #F6F7F5; blur 0, border none, shadow none. Ink numerals #17221E and full-opacity definitions #59655D.","content":["10","Members","6","Repeat visitors","1","Rewards ready","2","Rewards redeemed"],"name":"Four facts","action":"Each complete numeral-and-definition target opens its definition and supported filtered view. Rewards redeemed opens redemption events.","motion":"None at rest; confirmed projection refresh replaces complete values in 120ms.","object":"Unboxed typographic facts."}
+- {"placement":"Columns 1 to 8, x232 to 1008, y256 to 456. Header 32px, followed by three 56px rows.","material":"Canvas z0, #F6F7F5; 1px #DCE2DE row separators; blur 0, shadow none, radius 0.","content":["Recent customers","Visits","June","0 / 5","Ben","1 / 5","Imani","2 / 5"],"name":"Recent activity that remains human","action":"The complete row opens that member. Names and progress remain readable without hover.","motion":"No entrance or automatic scrolling. Only authoritative local activity may change row order.","object":"Three operable rows."}
+- {"placement":"Columns 9 to 12, x1032 to 1408. Artwork at y244, 376×188px; exposed rule/action band beneath at y448 to 536.","material":"Media z10, original colours, blur 0, saturation 1, radius 4px. Reading band is uncovered #F6F7F5, no border or shadow. Loopday mark preserves its approved colours.","content":["Free coffee","5 visits","Live","View program"],"name":"Program as a branded object","action":"Artwork and View program inspect the rule and concepts. Live opens the local-state qualification.","motion":"Artwork opens continuously into the inspector in 440ms. No hover zoom.","object":"Wide authored photograph and open rule band, not a promotional card."}
+- {"placement":"x232 to 1408, y588 to 764. Source identity occupies columns 1 to 4. Ledges occupy columns 5 to 12, beginning at x632. Maximum rule length 616px; labels begin at x1272 in a 136px column.","material":"Canvas z0, #F6F7F5; 2px #17221E measured rules, no background panels, blur, shadow or terminal ornament.","content":["Joined from","Jasmine","Morning loop · Story campaign","4 Joined","3 Came back","1 Redeemed","View attribution"],"name":"The source remains inspectable","action":"Jasmine opens source detail; View attribution opens the complete comparison.","motion":"Final lengths at rest: 616px, 462px and 154px. Do not animate a growth graph.","object":"Open identity-plus-descent composition."}
+- {"placement":"x232 to 1008, y812 to 856, with separate 44px targets and at least 24px between actions.","material":"Canvas z0, #F6F7F5; blur 0, shadow none. Quiet underlined ink actions.","content":["View QR","Members","Send update"],"name":"Quiet working continuations","action":"Open the acquisition QR, member list or approved Wallet update composer. Send update never means SMS or email.","motion":"Immediate route response; opaque task opening where appropriate.","object":"Inline action strip."}
+- {"placement":"Counter: a 560px pane anchored to the right of the app content area, with 24px internal padding and full available height. Confirmation remains inside its action area.","material":"Scrim z60 rgba(20,32,25,0.30), blur 0. Pane z70 #FFFFFF, exposed corners 18px, shadow 0 16px 48px rgba(43,67,54,0.10). Only a scrolling 64px header may use the light lens at local z80.","content":["Add visit","Add points","Design Lab · Fictional preview","Pause motion","Scan","Search","Scanner simulation","No camera is used.","Sample member","Sara","Simulate scan","Name, phone or email","••42","4 of 5 visits","Free coffee","+1 visit","View member","Done","Next customer"],"name":"Focused counter extension","action":"Use the same recognition, count, unlock, confirmation and exception state contracts as phone. Render only the active mode's local strings.","motion":"320ms pane opening; local confirmation motion only after commit.","object":"Opaque working pane, not an always-open dashboard inspector."}
+- {"placement":"Creation replaces the main content, retaining a focused Back/Close header. During Card, specimen spans five columns and controls seven; other forms have a 640px reading maximum. Customer signup remains a separate centred column no wider than 440px.","material":"Canvas #F6F7F5 and opaque #FFFFFF form surfaces, blur 0. Pass uses #18231D, #F7F4EB and #C4CDBF. No glass form body or tiled step cards.","content":["Create program","Program","Reward","Card","Signup","Launch","Continue","Back","Close","Save draft","Launch demo program","Design Lab · Apple Wallet concept","Design Lab · Google Wallet concept","Example member · Sara","No pass is issued."],"name":"Creation and customer-task layouts","action":"All active-step, signup and error strings are the exact phone-region/state inventories, at normal reading scale. Steps are not independent cards. Customer routes never inherit Business navigation.","motion":"160ms active-step replacement; card specimen remains stationary while form controls change.","object":"One focused task with a genuine pass specimen."}
+- {"placement":"Wallet inspector: one platform specimen at approximately 375px reference width, with an adjacent opaque Details column when open. QR page: readable central composition rather than a full-width code.","material":"Pass z20 opaque #18231D, text #F7F4EB, labels #C4CDBF, blur 0; restrained wrapper shadow 0 10px 30px rgba(35,60,44,0.12). Details #FFFFFF. QR black on #FFFFFF.","content":["Apple Wallet","Google Wallet","Design Lab · Apple Wallet concept","Design Lab · Google Wallet concept","No pass is issued.","Details","Counter QR","Scan to join Loopday Coffee","Collect 5 visits. Your next coffee is free.","Demo QR · Design Lab only","Copy demo link","Preview printout","Download demo QR","Open signup"],"name":"Pass and acquisition inspection","action":"Platform, field and signup strings follow their active state. Details remains outside the pass. Print/download are labelled local actions.","motion":"160ms platform replacement without shape morphing. QR never moves or changes through an animation.","object":"A genuine pass-shaped exception and a separate acquisition-code sheet."}
+- {"placement":"Attribution route uses the same 1176px canvas. Whole-cohort descent first; sources stack below. Each source has identity in columns 1 to 4 and its common-scale ledges in columns 5 to 12. Member detail becomes an opaque continuation, not added spreadsheet columns.","material":"Canvas #F6F7F5, blur 0, no enclosing backgrounds. 2px #17221E ledges; #DCE2DE separators only between distinct reading sections.","content":["Attribution","All time","10 Joined","6 Came back","2 Redeemed","From signup to a recorded return.","Sources","Jasmine","Morning loop · Story campaign","Maya","Counter pour · Recreate campaign","Counter QR","Eli","Around Austin · Car campaign","Direct signup","Source not tracked","How counts work","View members"],"name":"Complete attribution extension","action":"Use every exact source count from the attribution state. Selecting a source exposes stored first touch and business-only drill-down. No hover-only explanation.","motion":"220ms reading-plane reveal; all ledges begin at their final values.","object":"Open measured source objects."}
+
+
+## removed
+
+- The current lab's warm-paper shell and compressed, undersized reading hierarchy. Preserve the functionality, not the screenshot composition.
+- Any enclosing statistic cards, tinted count backgrounds, trends, percentages, revenue, ROI or decorative live-activity labels.
+- A miniature Wallet screenshot used as the Home program object. Use actual artwork and a readable rule instead.
+- The brick-red earning-edge signature on attribution. The brick remains part of Loopday's mark, not an ornamental metric terminal.
+- Glass on customer rows, counts, ledges, forms, QR quiet zones, pass artwork or the desktop sidebar.
+- A permanent right-side CRM inspector, customer avatars, full contact, export controls, engagement scores or source metadata between recognition and +1 visit.
+- Five equally prominent operational actions at the top. Add visit owns the live-member primary position; QR, Members and Send update remain quiet.
+- A Loyalty gear, general-Settings Loyalty row, sixth primary destination, expanded permanent submenu or lime Create program button.
+- Automatic visits, same-day progress animation, reward redemption through playback, QR morphing, pass flips or native-looking save/notification success.
+- Designer specimen values presented as live member state, fake customer enrollment during creation or Jasmine metrics in a live-zero scenario.
+- Hidden obligations, clipped terms, reduced essential type or omitted recent customers used to manufacture a lower word count.
+
+## phone
+
+**first viewport words.** 390×844, default live fixture: hard maximum 48 inclusive visible tokens; planned inventory 44 meaningful words plus four standalone separators. Header 3; lab/motion controls 7 inclusive; four facts 11; recent heading 3; three recent rows 12 inclusive; program 7; navigation 5. Total 48. This is an explicit operational exception to the rough 20 to 35 request, not a measured capture claim. The artwork must be audited for lettering. Source attribution follows naturally below the first viewport; no required recent row or definition is hidden.
+
+**regions.**
+- {"y_from":"0px","material":"Canvas z0 #F6F7F5, blur 0, border none, shadow none. Add visit uses Grip z50 #17221E, white text, 12px radius.","content":["Loyalty","Add visit"],"name":"Immediate counter header","action":"A 44×44 back icon has accessible name Back to Business and returns to Business Profile. Add visit is a 108×44 target at the right. There is no gear or duplicate business identity.","height":"56px; allow natural growth at text zoom.","motion":"None at rest; Add visit opens the counter in 320ms.","object":"Open header, not a floating card."}
+- {"y_from":"56px","material":"Canvas z0 #F6F7F5, blur 0, shadow none, radius 0; text #59655D at full opacity.","content":["Design Lab · Fictional preview","Pause motion"],"name":"Reachable lab and motion controls","action":"Design Lab opens existing scenarios and Reset demo. Pause motion stays directly reachable. Each control has a 44px target; the lab wording may wrap at narrower widths.","height":"48px at 390.","motion":"Label changes to Resume motion immediately; no collapsing toolbar.","object":"Compact inline control strip."}
+- {"y_from":"120px","material":"Canvas z0 #F6F7F5, blur 0, no border, fill, highlight or shadow. Numerals #17221E; definitions #59655D.","content":["10","Members","6","Repeat visitors","1","Rewards ready","2","Rewards redeemed"],"name":"Four unboxed facts","action":"Each count and its full definition form one generous target. Members opens all members; Repeat visitors opens repeat members; Rewards ready opens ready instances grouped under their members; Rewards redeemed opens redemption events.","height":"168px: two 72px rows with a 24px vertical gap. Two 171px columns separated by 16px.","motion":"No entrance. Confirmed projection changes replace complete numerals, never count up.","object":"Two-by-two typographic alignment."}
+- {"y_from":"312px","material":"Canvas z0 #F6F7F5, blur 0, shadow none; exposed 1px #DCE2DE row dividers.","content":["Recent customers","Visits","June","0 / 5","Ben","1 / 5","Imani","2 / 5"],"name":"All three recent customers","action":"Whole rows open the corresponding member. First name remains left at x16; progress is right aligned to x350, with a quiet chevron in the remaining target area.","height":"200px: 32px section heading and three 56px rows.","motion":"Stationary. No-op events never reorder rows; confirmed qualifying activity may update the actual recent projection.","object":"Simple operable rows, not customer cards."}
+- {"y_from":"544px","material":"Media z10, original colour, opacity 1, blur 0, saturation 1, radius 4px, no shadow. Rule area is uncovered Canvas #F6F7F5. Approved Loopday mark keeps #18231D and #B73E28.","content":["Free coffee","5 visits","Live","View program"],"name":"Loopday program arrangement","action":"At x16, the 196×245px reviewed 4:5 artwork is inspectable. At x228, the 146px rule column contains the mark, Free coffee, 5 visits, Live and a 44px View program action. Live opens its simulation disclosure.","height":"245px at 390. Artwork ends at y789; all text and actions finish by y748.","motion":"No hover or entrance. Selection opens the same artwork into its rule inspector in 440ms. The lower artwork may pass beneath navigation as genuine media, not a hidden text layer.","object":"Portrait-proportioned artwork beside an open brand-and-rule rail; not a Wallet card."}
+- {"y_from":"853px; 64px after the program artwork","material":"Canvas z0 #F6F7F5, blur 0, shadow none. Ledges are 2px #17221E, with no background container or brick terminal.","content":["Joined from","Jasmine","Morning loop · Story campaign","4 Joined","3 Came back","1 Redeemed","View attribution"],"name":"The source thread","action":"Jasmine opens its source detail. View attribution opens all sources. Labels stay outside measured rules, never inside bars.","height":"248px, content-led at zoom. Identity precedes three 24px ledge rows separated by 8px, then a 44px action.","motion":"No growth animation. Maximum phone rule length 224px gives Jasmine 224px, 168px and 56px; labels begin at x256.","object":"Open source identity and measured descent."}
+- {"y_from":"1133px in the specified default composition","material":"Canvas z0 #F6F7F5, blur 0, border none, shadow none. Underlined ink actions.","content":["View QR","Members","Send update"],"name":"Quiet continuations","action":"Three separate 44px targets open acquisition, member lookup and the approved Wallet update flow. Follow with 104px plus safe-area content clearance.","height":"44px minimum; wrap naturally at 320 or text zoom.","motion":"Immediate action feedback. No floating shortcut appears elsewhere.","object":"Inline action strip."}
+- {"y_from":"Fixed: 768px at 390×844 with zero safe-area inset; 12px above the viewport bottom.","material":"Light lens z40: rgba(255,255,255,0.58), blur 16px, saturation 1.16, specified masked 1px edge, white inset highlight, shadow 0 8px 28px rgba(46,74,60,0.09), 18px radius. Opaque #FFFFFF fallback.","content":["Home","Content","Create","Campaigns","Business"],"name":"Preserved five-destination navigation","action":"x12, width366px, five equal targets. Business is selected with ink and a 2px underline. Create retains its lime plus and label. No Loyalty badge, extra destination or protruding action.","height":"64px plus safe-area accommodation.","motion":"Only feed content moves beneath it. No bouncing selected item, lens breathing or nav entrance.","object":"Functional foreground navigation material."}
+- {"y_from":"Focused task routes: 0px; replaces or covers the overview navigation.","material":"Opaque #FFFFFF working surface z70 over rgba(20,32,25,0.30) scrim z60 when modal. Header alone may become light lens z80 when its own content scrolls underneath. No nested filtering.","content":["Add visit","Add points","Create program","View program","Counter QR","Design Lab · Fictional preview","Pause motion"],"name":"Shared business-task header","action":"Render only the current task title. Back and Close have 44×44 accessible icon targets; focused tasks may cover the business bar. Lab/motion controls remain reachable beneath the 56px title row.","height":"56px title row plus a 48px context row; natural growth at zoom.","motion":"320ms task opening, 280ms return. Background remains still.","object":"Opaque full-height sheet with a conditional material lip."}
+- {"y_from":"Counter route: local mode controls at 116px; active recognition stage begins at 184px.","material":"Working paper #FFFFFF, blur 0. Viewfinder is coded ink brackets on the same opaque surface, no camera image. Progress strokes #17221E and #DCE2DE. Primary control #17221E, 12px radius.","content":["Scan","Search","Scanner simulation","No camera is used.","Sample member","Sara","Simulate scan","Name, phone or email","••42","4 of 5 visits","Free coffee","+1 visit","View member","Done","Next customer"],"name":"Recognize, count, retain identity","action":"Scan starts with a 224px square viewfinder and explicit simulation action. Recognized state replaces that central object with 28px member name, masked contact, 36px progress and five app strokes. The 48px primary action stays within the first viewport. Render only the active state's strings; all result and confirmation copy comes from states.","height":"Content-led within the remaining viewport; no fixed-height clipping or artificial recognition wait.","motion":"One 320ms recognition sweep; confirmed increment 220ms; reward status 140ms. Identity is stationary through count and redemption.","object":"Stable counter axis with a local action/result area."}
+- {"y_from":"Creation route: active step identity begins at 120px; body begins at 176px.","material":"Working paper #FFFFFF, blur 0, shadow none within the task. Inputs have 1px #DCE2DE boundaries and readable 16px text. Choices are open rows, not selection cards.","content":["Program","Reward","Card","Signup","Launch","1 of 5","2 of 5","3 of 5","4 of 5","5 of 5","Visits","One visit per qualifying purchase.","Points","One point per qualifying purchase.","One qualifying purchase counts per day.","Reward name","Free coffee","Visits to reward","5","Points to reward","100","Terms","Optional","Apple Wallet","Google Wallet","Logo","Business name","Loopday Coffee","Program name","Loopday Rewards","Card colour","Text colour","Label colour","Artwork","Change image","Remove artwork","Crop","Reward title","Use brand defaults","Preview state","Collecting","Reward ready","Reward redeemed","Updated offer","Preview signup","Counter QR","Creator link","Signup preview · not live","Launch before joining.","Ready to launch","5 visits → Free coffee","Demo QR · activates after launch."],"name":"Five-step program body","action":"Render one step only. Program shows two full-width unboxed choices. Reward keeps the fixed daily rule visible. Card places one readable specimen before controls. Signup previews cannot enroll. Launch shows the exact rule and inactive QR before the deliberate commit.","height":"Natural document height; no viewport word cap. Card specimen is never shrunk to make the controls fit above the fold.","motion":"160ms active-step replacement; no progress countdown, slide carousel or specimen rotation.","object":"One focused form sequence."}
+- {"y_from":"Creation route: after active content, not overlaying terms or fields.","material":"Working paper #FFFFFF, blur 0; optional exposed 1px #DCE2DE top divider. Primary Grip #17221E, 12px radius.","content":["Back","Continue","Save draft","Launch demo program"],"name":"Creation commitment edge","action":"Show Continue for steps one to four and Launch demo program only on the final review. Save draft is quiet. At keyboard/zoom heights this remains in flow rather than obscuring input.","height":"At least 72px plus safe-area spacing; may wrap.","motion":"Control press only. Validation and local commit do not wait for animation.","object":"Opaque action band."}
+- {"y_from":"Customer signup route: 0px, with 16px outer padding and no business navigation.","material":"Canvas #F6F7F5, blur 0, shadow none. Approved Loopday mark in its own colours; reward and rule on the opaque canvas.","content":["Design Lab · Simulated signup","Use fictional details only.","Loopday Coffee","From Jasmine’s Story.","Join at the counter.","Free coffee","Collect 5 visits. Your next coffee is free.","One qualifying purchase per visit. One counted visit per day."],"name":"Source-aware customer introduction","action":"Show only the stored acquisition acknowledgment: From Jasmine’s Story., Join at the counter., or no invented referrer for direct signup. The source stays outside any future pass.","height":"Content-led; allow the rule to occupy normal 16px/24px lines.","motion":"None. No simulated consent or automatic tap indicator on the working form.","object":"Open branded reward and rule."}
+- {"y_from":"Customer signup: 24px after the counting rule.","material":"Opaque #FFFFFF input surfaces, 1px #DCE2DE boundaries, blur 0; error boundaries 2px #B3261E with explicit text. No form shadow or glass.","content":["First name","Email","Use phone","Phone","Country code","United States +1","Use email","Used to find your card at the counter. No texts or emails.","I agree to the demo program terms and privacy notice.","program terms","privacy notice","Create my card","Use demo details"],"name":"Short signup and deliberate agreement","action":"First name plus exactly one contact. Email is initial; phone exposes country code. Agreement starts unchecked. Use demo details fills Tess and tess@example.test only after a tap, without agreement or submission. Terms and privacy open complete readable local documents.","height":"Natural height; input targets at least 48px. No cap on rules, agreement or errors.","motion":"No animated typing. After successful local signup use the 320ms card arrival.","object":"Readable single-column form."}
+- {"y_from":"Member-card, program-inspection or Card step: 24px after the wrapper's platform control.","material":"Wrapper canvas #F6F7F5. Pass z20 opaque #18231D, text #F7F4EB, labels #C4CDBF, blur 0, no border; restrained wrapper shadow 0 10px 30px rgba(35,60,44,0.12). Apple boundary 12px; Google uses the approved distinct shape. QR black on #FFFFFF.","content":["Design Lab · Apple Wallet concept","Design Lab · Google Wallet concept","Example member · Sara","Loopday Coffee","Loopday Rewards","VISITS","REWARD","MEMBER","STATUS","Visits","Rewards","Member","Member ID","Sara","Tess","Free coffee","Collecting","Reward ready","Reward redeemed","LD-001","LD-011","No pass is issued.","Details","Add to Apple Wallet","Add to Google Wallet","Simulated actions. No pass is issued."],"name":"Readable, genuinely distinct Wallet concepts","action":"One platform at a time at 358px width. Apple uses its supported strip and fields; Google uses circular logo, wide hero, balances and member modules. Dynamic values bind to the inspected member or labelled specimen. Details and all app actions stay outside the pass; no front Redeem control.","height":"Approximately 500 to 560px, driven by the approved platform composition. At 320 use 296px width without shrinking essential type; QR is never smaller than 144px and retains its four-module quiet zone.","motion":"320ms arrival for new membership; 160ms platform replacement; 120ms complete-value replacement after confirmed events. No flip, tilt, refraction or QR motion.","object":"Native-shaped opaque pass exception in a clearly labelled concept wrapper."}
+- {"y_from":"Counter QR route: 24px after the task header and reward introduction.","material":"Canvas #F6F7F5 and a plain #FFFFFF QR quiet zone; black code, blur 0, shadow none, radius 0.","content":["Scan to join Loopday Coffee","Collect 5 visits. Your next coffee is free.","Demo QR · Design Lab only","Copy demo link","Preview printout","Download demo QR","Open signup"],"name":"A usable acquisition code","action":"Centre a roughly 224px acquisition QR. Follow with separate 44px text actions. The print preview is A5 portrait with at least a 45mm QR and the demo label; Print demo invokes browser printing only after a tap.","height":"Content-led; no fabricated phone frame or decorative QR card.","motion":"None. Copy confirmation replaces its local label without moving the code.","object":"Acquisition-code sheet."}
+- {"y_from":"Attribution route: after the 56px title and 48px lab/motion strip.","material":"Canvas #F6F7F5, blur 0, shadow none. Source rules 2px #17221E; no source-card backgrounds or glass.","content":["Attribution","All time","10 Joined","6 Came back","2 Redeemed","From signup to a recorded return.","Sources","Jasmine","Morning loop · Story campaign","Maya","Counter pour · Recreate campaign","Counter QR","Eli","Around Austin · Car campaign","Direct signup","Source not tracked","How counts work"],"name":"Complete source comparison","action":"Whole-cohort descent first, then all five sources with the exact counts in the attribution state. Each identity sits above its three ledges. Source selection reveals definitions, first touch and business-only members. Keep normal Business navigation with safe-area clearance.","height":"Ordinary full-page flow. Each source earns its natural height; no horizontal carousel or compressed table.","motion":"220ms view reveal only. Source bars share maximum 224px at four members: 4=224, 3=168, 2=112, 1=56, 0=0. A zero has a visible outside 0 label and no invented minimum-width bar.","object":"Ordered open source objects and measured ledges."}
+
+
+## on demand
+
+- Shared-chrome rule: state inventories are local to their active surface. Home/list/attribution add the lab controls and Business navigation. Focused business tasks replace the navigation with Back/Close. Customer signup and card routes never inherit Business navigation. Only the active state's copy is rendered.
+- Counts open useful views with their definitions visible: Members includes enrolled members without Wallet; Repeat visitors requires qualifying activity on two distinct business days; Rewards ready counts stored unredeemed instances; Rewards redeemed counts redemption events. Keep this distinction explicit when a member holds more than one reward.
+- View program opens /design-lab-v3/business/loyalty/program with artwork, current reward rule, terms, Live · simulated, readable Apple/Google concepts, Edit reward and Edit card. Edits remain contextual. Show Changes apply to new reward cycles. Earned rewards stay unchanged. before reward confirmation; unfinished cycles retain their original version too.
+- Create program uses /design-lab-v3/business/loyalty/create?step=program|reward|card|signup|launch. Preserve whole-number ranges, fixed one-point awards, contrast validation, draft exit choices and direct-entry validation. Use brand defaults restores the fixture only; no production Brand Kit research or upload is implied.
+- The QR route remains /design-lab-v3/business/loyalty/qr with view=print for the labelled printout. All copied and encoded destinations stay in the isolated V3 route family. Do not reuse the customer recognition code as the signup QR.
+- Signup uses the existing source-aware /design-lab-v3/join/:joinCode and trusted /design-lab-v3/c/:linkCode registry. Preserve first known source even when a later counter link is used. Invalid, draft, duplicate and creation-error paths retain their explicit supplied labels.
+- The card wrapper remains /design-lab-v3/card/:memberCode?platform=apple|google. Fields use the approved platform structure. New Tess starts at zero; Sara's live inspection starts at 4 of 5. No contact, campaign source, front Redeem button or app stroke controls are printed into the native pass boundary.
+- Members and source drill-down preserve the approved list, normalized local search, masked contacts, Wallet state and event history. History shows actual fixture dates and times, distinguishing Joined, Visit counted, Point added, Not counted · same day, Reward ready and Reward redeemed. Source remains Joined from; later trusted touches are separate.
+- Recent rows open /design-lab-v3/business/loyalty/members/:memberId. A member-specific Add visit deliberately opens the existing record route with that member selected. It must not count on navigation.
+- Attribution remains /design-lab-v3/business/loyalty/attribution with source detail in its supported state. Whole-cohort 10/6/2 and per-source comparisons must reconcile. Source order is Came back descending, then Joined descending, then name. No fabricated zero-result creators are added.
+- Send update retains the approved composer/history routes and conservative local platform rules. The material platform note is visible before preview and simulation; success says Wallet update simulated and Nothing was sent. Daily-limit, notification-limit and failure states are not shortened for visual density.
+- Design Lab exposes the approved replacement scenarios, Reset demo and the explicit Advance demo day control. Scenario changes ask Change demo state? / This resets local changes. / Cancel / Change state. Reload resets local fixture state; route changes and browser Back do not.
+- Business ownership is unchanged: the permanent Loyalty entry is the first operational row under Business identity, and the Home discovery strip stays after the full lead person/car composition. Account administration remains behind the single Settings gear on Business Profile; there is no gear on Loyalty.
+- Required evidence includes Loyalty Home at both sizes, creation, both Wallet concepts, acquisition QR and signup, visit/unlock/redemption, counter exceptions, complete attribution and privacy/history drill-down. Use the existing recording families 12 to 20 where applicable, with actual browser recordings and post-fix final review.
