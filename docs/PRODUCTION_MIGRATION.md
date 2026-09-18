@@ -143,15 +143,31 @@ were: homepage 92 / 3.34 s / desktop 100; User Home 90 / 3.61 s / 100;
 Business Home 89 / 3.78 s / 100 (runs 88, 89, 93 against 89, 91, 93
 before); CLS 0; fonts and CSS unchanged. No systematic regression.
 
-## 7. Preview deployment
+## 7. Preview deployment and the preview database
 
-Every push to the branch builds a Vercel preview. The current one is
-recorded in the report. Preview deployments of this project have no
-`DATABASE_URL` in the Preview environment (the previous lab previews
-returned 500 at `/` for the same reason), so database backed routes,
-including the homepage, error there until the Preview environment gets
-the same database variables as Production. Adding them is the founder's
-call; nothing in this branch changes environment configuration.
+Every push to the branch builds a Vercel preview. Preview deployments of
+this project had no `DATABASE_URL` in the Preview environment, so
+database backed routes, including the homepage, returned 500 there.
+
+The fix is an isolated preview database: the free Supabase project
+`tapmart-preview` (ref `gmwhsatvbqfzeptlofwz`, same organisation, us-east-1,
+$0 a month), created for the migration review. It carries migrations
+0001 through 0029 in order (applied through the Supabase MCP in five
+batches) and only demo application data: the two demo businesses, the
+three demo campaigns, the demo vehicles, the five demo earners, the demo
+creator, a shoot, a brand kit and trends (scripts/seed-v2, seed-v3-business,
+seed-v3-recreate, seed-v4-people, seed-v4-content). The founder's
+production email is present only as an identifier on the first profile
+(`molol098765`, admin, owner of the demo businesses), so a sign in with the
+production Supabase Auth account lands on that preview profile. Nothing
+was written to the production database or to production Supabase Auth.
+
+The Vercel Preview environment needs, pasted in the Vercel dashboard
+(Project marketing-app, Settings, Environment Variables, environment
+Preview only): `DATABASE_URL` (the tapmart-preview project's transaction
+pooler URI with its database password), `AUTH_SECRET`, `CLICK_HASH_SECRET`
+and `NEXT_PUBLIC_SITE_URL` (the branch alias). No secret value is written
+anywhere in this repository.
 
 ## 8. Not done, by design
 
