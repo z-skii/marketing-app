@@ -1,6 +1,6 @@
-import { PLANS } from "@/config/plans";
-import { getSettings } from "@/lib/settings";
-import { getV2Context } from "@/lib/v2/core";
+import { PLANS, type PlanKey } from "@/config/plans";
+import { getSettings, SETTING_DEFAULTS, type SettingsMap } from "@/lib/settings";
+import { getV2Context, type V2Context } from "@/lib/v2/core";
 import { planPrices } from "@/lib/v2/subscriptions";
 import { Nav } from "@/site/Nav";
 import { Hero } from "@/site/Hero";
@@ -28,8 +28,23 @@ export const dynamic = "force-dynamic";
  * the scenes are examples and the page says so. Sign in and Sign up are
  * the real routes; a signed in visitor gets one way back into the app.
  */
+/**
+ * The three reads the page needs. When the database is unreachable (a
+ * preview deployment without database settings, a connection outage) the
+ * page still renders: signed out, with the default settings and plan
+ * prices, and the failure is logged rather than shown as an error page.
+ */
+async function landingData(): Promise<[V2Context | null, Record<PlanKey, number>, SettingsMap]> {
+  try {
+    return await Promise.all([getV2Context(), planPrices(), getSettings()]);
+  } catch (error) {
+    console.error("landing: data unavailable, rendering with defaults", error);
+    return [null, { essential: Number(SETTING_DEFAULTS.plan_essential_cents), growth: Number(SETTING_DEFAULTS.plan_growth_cents) }, { ...SETTING_DEFAULTS }];
+  }
+}
+
 export default async function HomePage() {
-  const [ctx, prices, settings] = await Promise.all([getV2Context(), planPrices(), getSettings()]);
+  const [ctx, prices, settings] = await landingData();
   const open = ctx && !ctx.user.suspended
     ? (ctx.onboarded ? { href: ctx.activeBusiness ? "/business" : "/home", label: "Open TapMart" } : { href: "/onboarding", label: "Finish setting up" })
     : null;
