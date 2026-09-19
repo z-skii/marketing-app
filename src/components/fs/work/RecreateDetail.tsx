@@ -67,7 +67,7 @@ export function RecreateDetail({ o, ctx, open, rightsNote, mine, invite, paid, f
                   <p className="fs-t-meta" style={{ color: "var(--fs-muted-dark)", marginTop: 4 }}>{o.business_name}</p>
                   <p className="fs-t-meta" style={{ color: "var(--fs-on-dark)", marginTop: 8 }}>Film your version.</p>
                 </div>
-                <div style={{ background: "var(--fs-accent)", padding: 12, minHeight: 112, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
+                <div style={{ background: "var(--env-charcoal-2)", padding: 12, minHeight: 112, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
                   <Money cents={o.pay_cents} per="per approved version" className="fs-money-detail" dark />
                 </div>
               </div>

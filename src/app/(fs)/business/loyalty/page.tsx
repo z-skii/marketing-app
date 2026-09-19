@@ -28,7 +28,7 @@ export default async function BusinessLoyaltyPage() {
   const counters = [["Members", UsersIcon], ["Repeat visits", RefreshIcon], ["Rewards redeemed", GiftIcon], ["Referrals", HandshakeIcon]] as const;
   return (
     <main className="fs-phone-main" id="main">
-      <div className="ap-head"><div><span className="badge is-ink">Coming soon</span><h1 style={{ marginTop: 10 }}>Loyalty</h1><p className="ap-sub">A stamp card in your customers' Wallet, joined with one scan, credited to the creator who sent them. Not running yet for {business.name}: nothing is set up, counted or issued.</p></div></div>
+      <div className="ap-head"><div><span className="badge is-ink">Coming soon</span><h1 style={{ marginTop: 10 }}>Loyalty</h1><p className="ap-sub">A stamp card in your customers&rsquo; Wallet, joined with one scan, credited to the creator who sent them. Not running yet for {business.name}: nothing is set up, counted or issued.</p></div></div>
 
       <div className="ap-loyalty-grid">
         <section className="ap-loyalty-stage" aria-label="Card preview">

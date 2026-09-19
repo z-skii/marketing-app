@@ -23,7 +23,7 @@ type Vehicle = {
 type Booking = {
   id: string; status: string; monthly_cents: number; zones: string[];
   starts_on: string | null; ends_on: string | null; campaign_id: string | null; campaign_title: string | null;
-  business_name: string; business_logo: string | null; artwork_url: string | null; proof_count: number;
+  business_name: string; business_logo: string | null; artwork_url: string | null; proof_count: number; days_left: number | null;
 };
 
 /** Plain words for where a car campaign is, written for the driver. */
@@ -74,7 +74,8 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
               k.starts_on, k.ends_on, coalesce(k.campaign_id, o.campaign_id) as campaign_id, c.title as campaign_title,
               b.name as business_name, b.logo_url as business_logo,
               coalesce(k.artwork_url, c.details->>'artwork_url') as artwork_url,
-              (select count(*) from car_proofs cp where cp.booking_id = k.id)::int as proof_count
+              (select count(*) from car_proofs cp where cp.booking_id = k.id)::int as proof_count,
+              case when k.ends_on is null then null else greatest(0, (k.ends_on - current_date))::int end as days_left
          from car_bookings k
          join businesses b on b.id = k.business_id
          left join car_offers o on o.id = k.offer_id
@@ -132,7 +133,7 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
       {/* ---------------------------------------------------------- facts */}
       {(() => {
         const running = bookings.find((b) => b.status === "active") ?? bookings.find((b) => ["proof_required", "installation_pending", "creative_pending"].includes(b.status)) ?? null;
-        const days = running?.ends_on ? Math.max(0, Math.ceil((new Date(running.ends_on).getTime() - Date.now()) / 86400000)) : null;
+        const days = running?.days_left ?? null;
         const proofs = running ? (running.status === "proof_required" ? "Photo needed now" : running.status === "active" ? `${running.proof_count} sent · monthly check` : "After installation") : "None yet";
         return (
           <div className="ap-metrics" style={{ ["--n" as string]: 4 }}>

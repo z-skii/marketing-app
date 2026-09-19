@@ -7,42 +7,21 @@ every screenshot.
 
 ## The visual north star
 
-`docs/design-references/tapmart-primary-reference.png` is the official
-current TapMart visual reference. It defines how good the product must look
-and feel: strong clean typography, dark graphite, subtle surface
-separation, restrained borders, near-white text, muted secondary text,
-signal lime used selectively, premium iconography, clear primary actions,
-compact clean rows, purposeful media, subtle glass, excellent spacing, a
-high-end mobile-app feeling, minimal clutter. It is a quality bar, not a
-template: the codebase defines what each screen does; the reference
-defines how confident and polished it should be. The 3D vehicle in it
-belongs mainly to the User Profile, Manage vehicle, the business's car
-detail and the car-ad preview, never to every screen.
-
-What the reference shows, so a review can lean on it even in text:
-
-- Two phone screens on near-black graphite. Wordmark "Tapmart" centered in
-  a slim top bar with a gear and a bell at the right; no search field.
-- Profile: a large round portrait at the left, name with a lime verified
-  check, one muted line "Creator · Car Enthusiast · Chicago", then three
-  numbers side by side with tiny labels ("$12,430 Earned · 28 Campaigns ·
-  4.9 Rating"). Under it one vehicle card on a slightly lighter surface:
-  small maker logo, "2025 BMW M4", a lime-dot status "Vehicle Ready for
-  Ads", a 3D black car on a dark turntable, "Drag to rotate", a chevron.
-  Then four compact rows on separate lighter surfaces, each with a small
-  icon in a soft square, a bold title, one muted line and a chevron:
-  "Instagram Connected @mohadi · Connected", "Vehicle Ready for Ads · 2025
-  BMW M4 · Active", "Recent Campaigns · 3 active · 25 completed", "Payout
-  Ready · $2,340 available". Bottom bar Home, Activity, Earnings, Profile
-  with only the active tab in lime.
-- Manage Vehicle: back arrow, centered title, the car large with labelled
-  ad zones (Rear Window, Full Side, Doors), "Drag to rotate", an info row
-  "3D model from your scan", "Available Ad Zones" as three small photo
-  tiles with labels, and one full-width lime button "View Ad Preview".
-- Type is tight, bold and near-white; secondary text is muted grey; lime
-  appears only on the verified mark, status dots, the active tab and the
-  one primary button. Surfaces separate by tone, not by borders. Corners
-  are moderate (about 12 to 16px). Everything is calm, dense and premium.
+TapMart looks like an Apple product presentation crossed with a premium
+creator economy platform: large confident typography, strong hierarchy,
+controlled whitespace, immersive photography, soft coloured environments
+that change by section (white, warm grey, ice blue, blush, cream,
+charcoal), glass for navigation and floating information, subtle
+gradients, soft neutral shadows, depth, floating interface objects,
+realistic devices, an isolated realistic car, and a single motion system
+that tells the story. TapMart red is the only accent and is used
+selectively: the primary action, the active tab, the one thing that
+needs a decision. It is never the whole page. The system is coded in
+`src/app/globals.css` (tokens `--tm-*`, environments `--env-*`, the
+primitives), `src/ds` (icons, motion, photo, UI, the car stage, the
+shell) and `src/ds/app.css` (the signed in screens); the public site is
+`src/site`. The isolated car belongs to the landing page, My cars, the
+car campaign screens and the business car pages, never to every screen.
 
 ## What TapMart is
 
@@ -129,68 +108,62 @@ Recreate, Post, Drive, Get paid, then how businesses use TapMart
 ## Design rules (what "looks like TapMart" means)
 
 0. **Show first, explain second.** If text is not required for the next
-   decision, remove it or move it deeper. Feed cards: visual, money, short
-   title, one or two metadata lines, one primary action. Media (people,
-   Reels, Story creatives, cars, business photography, shoot content, brand
-   imagery) provides most of the color; the interface stays restrained,
-   almost monochrome until something important appears.
-1. **One UI kit, ported from the coded blueprint**
-   (docs/design-references/tapmart_exact_ui_blueprint.html; values in
-   docs/TAPMART_UI_SPEC.md). Page `#090c0e`, surfaces `#121719`,
-   `#171d20`, `#1b2225`, hairlines at 8% white, text `#f5f7f2`, muted
-   `#9ca4a7`, lime `#c9ff38`, success `#9ded62`. Hero cards 20px radius
-   with 260px media; rows 16px radius, padding 12px 13px, 9px apart;
-   primary button 52px lime gradient; a floating 68px glass bottom nav;
-   section titles 12px uppercase muted. Anything else is drift.
-2. **Real media first.** Reel frames, Story creatives, car photos or 3D,
-   deliverables, profile work. The media is the card; money and a one-line
-   title sit on it over a scrim. No stock art, no placeholder illustrations,
-   no icons standing in for media.
-3. **Lime `#c9ff38` only for money, the primary CTA, active navigation,
-   the active chip, the verified mark and the brand dot.** Ready and
-   connected states use the success green `#9ded62` with a 6px glowing dot.
-   Never every icon, border, badge or title.
-4. **Less text.** Card: title max 2 lines, meta max 2 short rows, badges max
-   3, no description. Section titles are the blueprint's 12px uppercase muted labels. Explanatory
-   copy is one sentence and only when the next decision needs it. No
-   paragraphs on discovery screens. No "we". No em dashes or en dashes.
-5. **Fewer boxes.** Never card, card, card, card. Mix full-width media, rows
-   separated by thin rules, and numbers standing directly on the page. A
-   card only when something must read as one object (a state, a form). No
-   cards inside cards. No borders for decoration.
-6. **Bigger photos and video.** 9:16 for Reels and Stories, 4:5 or 16:10 for
-   people and trends, 4:3 for cars. Thumbnails are at least 48px, hero media
-   fills the width.
-7. **Subtle animation.** Reveal with a small stagger, a pop on confirmation,
-   settle on lines that appear one by one, a live dot while something runs.
-   Nothing loops forever. No bouncing, no parallax, no spinning cars.
-8. **No generic AI design.** No purple gradients, glowing blobs, giant
-   glass cards, identical rounded rectangles everywhere, icon-in-colored-
-   square everywhere, huge unused black space, tiny typography, borders
-   around every component, excessive pills, giant radius, fake analytics,
-   fake content, fake users, random animation. No metric card rows, no
-   charts for their own sake, no "welcome back" panels, no settings or
-   alerts on discovery screens.
-9. **Every tap target 44px.** Phone first (390 wide), then desktop (1360)
-   with a rail.
-10. **Honest states.** If a provider is not connected or a number is
-    unknown, say so in one line. Never a fake score, a fake follower count,
-    a fake scheduled post.
+   decision, remove it or move it deeper. Media (people, Reels, Story
+   creatives, cars, business photography, shoot content) provides most
+   of the colour; the interface stays restrained.
+1. **One system.** Tokens in globals.css: canvas `#F5F4F1`, surface
+   white, ink `#121417`, muted `#6B7079`, TapMart red `#E0212B`,
+   environments white, warm, ice, blush, cream, charcoal. Shape: pill
+   actions, 14px controls, 16px rows, 20px objects, 28px sheets and the
+   floating navigation. Shadows are soft and neutral; borders are never
+   decoration. Anything else is drift.
+2. **Real media first.** Reel frames, Story creatives, car photographs,
+   deliverables, portraits, licensed photography chosen for the feature
+   it explains. No stock filler, no placeholder illustrations, no icons
+   standing in for media. Every image has a loading surface and an honest
+   fallback.
+3. **Red only for the primary action, the active navigation item, the
+   one decision waiting and the brand mark.** Status uses the word with
+   its own colour (success, warning, info, alert) beside it. Never every
+   icon, border, badge or title.
+4. **Less text.** Card: title max 2 lines, the four answers (what do I
+   do, how much, how long, what is expected) never buried, no paragraphs
+   on discovery screens. No "we". No em dashes or en dashes.
+5. **Fewer boxes.** Objects (cards) only where something must read as one
+   thing; otherwise rows, rules and numbers standing on the page. No
+   cards inside cards.
+6. **Bigger photos and video.** 9:16 for Reels and Stories, 4:5 for
+   people, 16:10 or 4:3 for cars and scenes; hero media fills the width.
+7. **One motion system** (`src/ds/motion.tsx`): reveals fade and rise
+   once, groups stagger, parallax moves imagery and floating objects,
+   sticky storytelling holds a visual while the explanation changes,
+   numbers count up once, pages fade in, buttons press. Transform and
+   opacity only, 60fps, and reduced motion renders everything still.
+8. **Glass with intent.** Navigation, floating information cards, filters,
+   tags on media, sheets and overlays: translucent surface, background
+   blur, a white hairline, a soft shadow, a highlight. Not every element.
+9. **Real icons.** Phosphor, one weight, one size scale (`src/ds/icons.ts`).
+   Never a Unicode glyph or an emoji as an interface icon.
+10. **Every tap target 44px.** Phone first (390 wide), then 430, 768, 1024
+    and 1440 and up. No horizontal overflow at any of them.
+11. **Honest states.** If a provider is not connected, a feature is not
+    built (Loyalty, Share and earn) or a number is unknown, say so in one
+    line and label previews as previews. Never a fake score, a fake count
+    or a fake scheduled post.
 
 ## Type and spacing
 
-Everything is Inter with variable weights, as the blueprint specifies.
-Profile name and screen titles 23px/800; hero card titles 20px/760; hero
-money 27px/850 lime; the Earnings balance 46px/850; stats 18px/780 with
-10px labels; row titles 14px/700 with 12px muted subs and 17px/800 lime
-money; meta on media 13px; nav labels 10px. Content padding 18px 16px
-96px; sections start 24px below the previous block with 10px to their
-content; hero cards 14px apart; rows 9px apart.
+Everything is DM Sans. Display: `.t-hero` up to 96px, `.t-h1` up to
+56px, `.t-h2` up to 40px, `.t-h3` up to 26px, tight tracking; body 15
+to 16px; meta 13px; money is tabular and bold. Page heads (`.ap-head`)
+30px on the phone and 38px on the desktop. Sections start 28 to 32px
+below the previous block; cards sit 16 to 20px apart; rows 10px apart.
 
 ## What a reviewer should push toward
 
-Bigger media, fewer words, fewer boxes, one lime action, money where the eye
-lands first, real content instead of any placeholder, one clear next tap.
+Bigger media, fewer words, fewer boxes, one red action, money where the
+eye lands first, real content instead of any placeholder, motion that
+tells the story, one clear next tap.
 
 ## Backlog (non-blocking, recorded 2026-09-12 at Stage 1 approval)
 

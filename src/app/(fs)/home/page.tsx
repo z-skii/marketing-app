@@ -104,7 +104,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
       {loyalty ? (
         <section className="card" style={{ marginTop: 16, padding: 20, maxWidth: 560 }} aria-label="Loyalty">
           <span className="badge is-ink">Coming soon</span>
-          <p className="t-h3" style={{ marginTop: 12 }}>Share a business's loyalty card and earn from every customer you bring.</p>
+          <p className="t-h3" style={{ marginTop: 12 }}>Share a business&rsquo;s loyalty card and earn from every customer you bring.</p>
           <p className="t-body" style={{ marginTop: 8, color: "var(--tm-text2)" }}>Referral opportunities will appear here when loyalty programs launch. Nothing to accept yet.</p>
           <Link href="/share" className="btn" style={{ marginTop: 16 }}>How it will work <ArrowRightIcon size={16} aria-hidden /></Link>
         </section>

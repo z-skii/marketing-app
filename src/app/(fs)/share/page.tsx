@@ -19,7 +19,7 @@ export default async function SharePage() {
   if (ctx.mode === "business") redirect("/business/loyalty");
   return (
     <main className="fs-phone-main fs-narrow" id="main">
-      <div className="ap-head"><div><span className="badge is-ink">Coming soon</span><h1 style={{ marginTop: 10 }}>Share and earn</h1><p className="ap-sub">Bring customers to a business's loyalty card and earn from every one who joins. Not available yet; there is no referral link to share today.</p></div></div>
+      <div className="ap-head"><div><span className="badge is-ink">Coming soon</span><h1 style={{ marginTop: 10 }}>Share and earn</h1><p className="ap-sub">Bring customers to a business&rsquo;s loyalty card and earn from every one who joins. Not available yet; there is no referral link to share today.</p></div></div>
       <div className="ap-soon">
         <div className="ap-soon-visual"><SharePass /></div>
         <div className="ap-soon-steps" aria-label="How it will work">

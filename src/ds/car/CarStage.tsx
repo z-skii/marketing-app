@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
+import { useRef, useState, type CSSProperties, type ReactNode } from "react";
+import {motion, useMotionValue, useScroll, useSpring, useTransform} from "motion/react";
+import { useReducedMotion } from "@/ds/motion";
 import { CARS, type CarName } from "@/ds/photos";
 
 /**
@@ -47,8 +48,8 @@ export function CarStage({
   const asset = CARS[car];
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const [pointer, setPointer] = useState(false);
-  useEffect(() => { setPointer(window.matchMedia("(hover: hover) and (pointer: fine)").matches); }, []);
+  // read once on the client; it only affects pointer handlers, never the rendered markup
+  const [pointer] = useState(() => typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches);
 
   const mx = useMotionValue(0); const my = useMotionValue(0);
   const rx = useSpring(useTransform(my, [-1, 1], [tilt * 0.6, -tilt * 0.6]), { stiffness: 120, damping: 18 });

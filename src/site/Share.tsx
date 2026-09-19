@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import {motion, useInView} from "motion/react";
+import { useReducedMotion } from "@/ds/motion";
 import { Reveal } from "@/ds/motion";
 import { M } from "@/v3/media";
 import { Phone } from "./Devices";

@@ -59,7 +59,7 @@ export function Business() {
             <Float className="lp-dash-float lp-dash-a" amplitude={8} duration={7}>
               <div className="card" style={{ padding: 10, display: "grid", gap: 8 }}>
                 <div className="media-frame is-sm" style={{ aspectRatio: "4 / 5" }}><img src={M.mayaPour(480)} alt="" loading="lazy" /></div>
-                <div style={{ padding: "0 4px 2px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}><span style={{ fontSize: 13, fontWeight: 600 }}>Maya's version</span><span className="badge is-info" style={{ minHeight: 22 }}>Review</span></div>
+                <div style={{ padding: "0 4px 2px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}><span style={{ fontSize: 13, fontWeight: 600 }}>Maya&rsquo;s version</span><span className="badge is-info" style={{ minHeight: 22 }}>Review</span></div>
               </div>
             </Float>
             <Float className="lp-dash-float lp-dash-b" amplitude={6} duration={6} delay={0.6}>

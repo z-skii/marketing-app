@@ -219,3 +219,26 @@
 .ap-planned strong { display: block; font-size: 15px; line-height: 20px; }
 .ap-planned span.t-meta { display: block; }
 .ap-planned .badge { margin-left: auto; flex-shrink: 0; }
+
+/* narrow desktop (1024 to 1279 with the sidebar): the content workspace and the create tiles stay inside the column */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .fs .fs-workspace { grid-template-columns: minmax(0, 1fr) 300px; }
+  .fs .fs-filmstrip { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .fs .fs-film-thumb { width: 100%; height: auto; aspect-ratio: 4 / 3; }
+  .fs .fs-create-choices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fs .fs-create-source.is-car img { width: 100%; }
+}
+@media (max-width: 359px) {
+  .fs .fs-create-choice { grid-template-columns: 1fr; }
+  .fs .fs-create-source, .fs .fs-create-source.is-car img { width: 100%; }
+}
+/* the V3 profile stage beside the sidebar: two columns until the wide desktop */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .fs .v3 .xs-pf { grid-template-columns: 280px minmax(0, 1fr); grid-template-areas: "identity work" "identity vehicle"; column-gap: 28px; }
+  .fs .v3 .xs-pf-portrait { width: 280px; }
+  .fs .v3 .xs-pf-work { grid-template-columns: 200px minmax(0, 1fr); grid-template-areas: "a b" "c c"; gap: 16px; }
+  .fs .v3 .xs-pf-item-1 { width: 118px; margin-top: 40px; justify-self: end; }
+  .fs .v3 .xs-pf-item-2 { width: 100%; max-width: none; margin-top: 0; justify-self: stretch; }
+  .fs .v3 .xs-pf-vehicle { padding-top: 0; max-width: 320px; }
+  .fs .v3 .xs-pf-name { font-size: 36px; line-height: 40px; }
+}

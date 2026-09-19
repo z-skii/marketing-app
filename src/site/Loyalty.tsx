@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import {motion, useInView} from "motion/react";
+import { useReducedMotion } from "@/ds/motion";
 import { Reveal, Stagger, Item } from "@/ds/motion";
 import { AppleCard, type CardData } from "@/v3/wallet/Cards";
 import { defaultCard, liveProgram } from "@/v3/examples";
@@ -25,7 +26,7 @@ export function Loyalty() {
         <Reveal>
           <div className="lp-chapter-head">
             <p className="eyebrow lp-kicker"><span className="lp-num">4</span>Loyalty and referrals <span className="badge is-ink" style={{ marginLeft: 6 }}>Coming soon</span></p>
-            <h2 id="loyalty-h" className="t-h1">A loyalty card in the customer's Wallet.</h2>
+            <h2 id="loyalty-h" className="t-h1">A loyalty card in the customer&rsquo;s Wallet.</h2>
             <p className="t-lead">A business runs a stamp card in Apple Wallet or Google Wallet. Customers join with one scan, come back, and the creator who sent them gets credited. Planned; no pass is issued today.</p>
           </div>
         </Reveal>

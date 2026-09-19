@@ -4,6 +4,7 @@ import { sqlOne } from "@/lib/db";
 import { listCarsForBusiness, listPeople, type Car, type Person } from "@/lib/v2/marketplace";
 import { listShoots } from "@/lib/business/shoots";
 import { PersonCard, CarCard } from "@/components/app/BusinessCards";
+import { Count } from "@/components/app/Count";
 import { PinIcon, ArrowRightIcon, CheckCircleIcon, ImageIcon, MegaphoneIcon, CameraIcon, SparkleIcon, LightningIcon } from "@/ds/icons";
 
 export const metadata = { title: "Home" };
@@ -91,9 +92,9 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
       </div>
 
       <div className="ap-attention" aria-label="Attention">
-        <Link href="/business/campaigns?view=review" className={`ap-attn ${decisions > 0 ? "is-hot" : ""}`}><span className="ap-attn-icon"><CheckCircleIcon size={18} aria-hidden /></span><b>{decisions}</b><span>Needs approval</span></Link>
-        <Link href="/business/content" className={`ap-attn ${files > 0 ? "is-hot" : ""}`}><span className="ap-attn-icon"><ImageIcon size={18} aria-hidden /></span><b>{files}</b><span>Content ready</span></Link>
-        <Link href="/business/campaigns" className="ap-attn"><span className="ap-attn-icon"><MegaphoneIcon size={18} aria-hidden /></span><b>{open}</b><span>Active campaigns{runningCars > 0 ? ` · ${runningCars} car${runningCars === 1 ? "" : "s"} on the road` : ""}</span></Link>
+        <Link href="/business/campaigns?view=review" className={`ap-attn ${decisions > 0 ? "is-hot" : ""}`}><span className="ap-attn-icon"><CheckCircleIcon size={18} aria-hidden /></span><b><Count value={decisions} /></b><span>Needs approval</span></Link>
+        <Link href="/business/content" className={`ap-attn ${files > 0 ? "is-hot" : ""}`}><span className="ap-attn-icon"><ImageIcon size={18} aria-hidden /></span><b><Count value={files} /></b><span>Content ready</span></Link>
+        <Link href="/business/campaigns" className="ap-attn"><span className="ap-attn-icon"><MegaphoneIcon size={18} aria-hidden /></span><b><Count value={open} /></b><span>Active campaigns{runningCars > 0 ? ` · ${runningCars} car${runningCars === 1 ? "" : "s"} on the road` : ""}</span></Link>
         <Link href="/business/content?view=shoots" className="ap-attn"><span className="ap-attn-icon"><CameraIcon size={18} aria-hidden /></span><b style={{ fontSize: 20 }}>{shootLabel}</b><span>Next shoot</span></Link>
       </div>
       <Link href={next.href} className="ap-next">

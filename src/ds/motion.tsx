@@ -1,7 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { motion, useInView, useReducedMotion, useScroll, useTransform, animate, type Variants } from "motion/react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
+import { motion, useInView, useScroll, useTransform, animate, type Variants } from "motion/react";
+
+/**
+ * Reduced motion, read after hydration so the server and the first client
+ * render agree (motion's own hook reads the media query synchronously on
+ * the client and would produce a hydration mismatch). Until the effect
+ * runs, motion is assumed on; a reduced-motion user sees at most one
+ * settled frame before everything renders still.
+ */
+const QUERY = "(prefers-reduced-motion: reduce)";
+const subscribe = (cb: () => void) => { const mq = window.matchMedia(QUERY); mq.addEventListener("change", cb); return () => mq.removeEventListener("change", cb); };
+export function useReducedMotion(): boolean {
+  return useSyncExternalStore(subscribe, () => window.matchMedia(QUERY).matches, () => false);
+}
 
 /**
  * The one motion system. Reveals fade and rise a little as they enter the
@@ -63,14 +76,15 @@ export function CountUp({ value, format = (n) => Math.round(n).toLocaleString("e
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const reduced = useReducedMotion();
-  const [shown, setShown] = useState(reduced ? value : 0);
+  const [shown, setShown] = useState(0);
   useEffect(() => {
-    if (!inView) return;
-    if (reduced) { setShown(value); return; }
+    if (!inView || reduced) return;
     const controls = animate(0, value, { duration, ease: EASE, onUpdate: (v) => setShown(v) });
     return () => controls.stop();
   }, [inView, value, duration, reduced]);
-  return <span ref={ref} className={className} style={{ fontVariantNumeric: "tabular-nums" }}>{format(shown)}</span>;
+  // the final value renders directly when motion is reduced or once the count has settled
+  const display = reduced || (inView && shown >= value) ? value : shown;
+  return <span ref={ref} className={className} style={{ fontVariantNumeric: "tabular-nums" }}>{format(display)}</span>;
 }
 
 /** Subtle press feedback for any interactive wrapper. */
@@ -95,4 +109,4 @@ export function useSectionProgress<T extends HTMLElement>(offset: [string, strin
   return { ref, progress: scrollYProgress };
 }
 
-export { motion, useTransform, useScroll, useReducedMotion, useInView };
+export { motion, useTransform, useScroll, useInView };

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { useInView, useReducedMotion } from "motion/react";
+import {useInView} from "motion/react";
+import { useReducedMotion } from "@/ds/motion";
 
 /**
  * Sticky storytelling: the visual holds on one side while the steps

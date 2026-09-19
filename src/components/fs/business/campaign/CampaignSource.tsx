@@ -64,7 +64,7 @@ export function CampaignSource({ campaign }: { campaign: BusinessCampaign }) {
               {campaign.city && <p className="fs-t-meta" style={{ color: "var(--fs-muted-dark)", marginTop: 4 }}>{campaign.city}</p>}
               <p className="fs-t-meta" style={{ color: "var(--fs-on-dark)", marginTop: 8 }}>{story ? "Paid when you approve a proof." : "Paid when you approve a video."}</p>
             </div>
-            <div style={{ background: "var(--fs-accent)", padding: 12, minHeight: 112, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
+            <div style={{ background: "var(--env-charcoal-2)", padding: 12, minHeight: 112, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
               <Money cents={campaign.pay_cents} per={payUnit(campaign.kind)} className="fs-money-detail" dark />
             </div>
           </div>
