@@ -675,6 +675,9 @@
 @keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 .fade-up { animation: fade-up var(--tm-t-slow) var(--tm-ease) both; }
+@keyframes page-in { from { transform: translateY(10px); } to { transform: none; } }
+.page-in { animation: page-in var(--tm-t-base) var(--tm-ease) both; }
+@media (prefers-reduced-motion: reduce) { .page-in { animation: none; } }
 @media (prefers-reduced-motion: reduce) { .fade-up, .skeleton::after, .live-dot { animation: none !important; } }
 
 @keyframes pulse {

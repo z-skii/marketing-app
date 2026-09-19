@@ -116,7 +116,7 @@ Tokens
 
 ## 3. Animations added
 
-- Page transitions between routes (fade and rise, both route groups).
+- Page transitions between routes (a rise on every navigation, both route groups).
 - Scroll reveals and staggered lists on every redesigned screen.
 - Parallax on hero imagery and the car; floating product objects.
 - Sticky storytelling chapters on the landing (Drive, Recreate, Share,
@@ -128,7 +128,8 @@ Tokens
 - Week strip, timeline rail and progress rails.
 - Every animation is skipped under prefers-reduced-motion, detected
   without a hydration mismatch. The landing hero enters from CSS so
-  nothing waits for JavaScript.
+  nothing waits for JavaScript, and page transitions are a CSS rise so
+  no screen starts hidden behind hydration.
 
 ## 4. 3D and media implementation
 
@@ -166,17 +167,22 @@ Tokens
 ## 6. Verification
 
 - Route sweep on the production build, three states (signed out,
-  creator, business) at 390 and 1440: SWEEP_RESULT
+  creator, business) at 390 and 1440: 128 captures across 64
+  routes, every response 200, 0 page errors, 0 console errors, 0
+  horizontal overflow, 0 internal labels leaking.
 - Responsive pass at 320, 390, 430, 768, 1024 and 1440: no horizontal
   overflow, no console errors.
 - Reduced motion pass: identical content, no animation.
-- Lighthouse (performance, medians of three runs, production build):
+- Lighthouse (performance, medians of three runs, production build).
+  The simulated mobile LCP is Lighthouse's slow 4G model with a four
+  times slower CPU, which charges the script bundle against the first
+  image; the observed paint on the same runs is under half a second.
 
 | Route | Mobile | Desktop | Mobile LCP | CLS |
 | --- | --- | --- | --- | --- |
-| Landing `/` | 86 | 99 | 4.2s simulated slow 4G (observed 0.2s) | 0 |
-| Creator Home `/home` | HOME_M | HOME_D | HOME_LCP | HOME_CLS |
-| Business Home `/business` | BIZ_M | BIZ_D | BIZ_LCP | BIZ_CLS |
+| Landing `/` | 86 | 99 | 4.2s simulated (observed 0.19s) | 0 |
+| Creator Home `/home` | 83 | 99 | 4.7s simulated (observed 0.24s) | 0 |
+| Business Home `/business` | 90 | 99 | 3.6s simulated (observed 0.46s) | 0 |
 
 ## 7. Remaining issues that need a decision
 
@@ -196,5 +202,9 @@ Tokens
    (`pre-v3-production`, `tapmart-v3-release`, local only) still need
    the founder because the session cannot delete branches or push
    tags.
-6. Pre-existing: a hydration warning on the legacy `/board` page and
+6. Uploaded campaign media is served as uploaded (the seed car photo
+   is a 200KB JPEG). Resizing on upload or turning on the Vercel image
+   optimiser for uploads is a cost decision that would lift the phone
+   Lighthouse score on Home; it is not a UI change.
+7. Pre-existing: a hydration warning on the legacy `/board` page and
    the "fixture" label on the development trends provider page.

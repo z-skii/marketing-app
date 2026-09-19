@@ -97,9 +97,9 @@ export function Pressable({ children, className, style }: Base) {
 
 /** Page transition: a short fade with a small rise, no long loading animation. */
 export function PageTransition({ children, className }: { children: ReactNode; className?: string }) {
-  const reduced = useReducedMotion();
-  if (reduced) return <div className={className}>{children}</div>;
-  return <motion.div className={className} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: DUR.base, ease: EASE }}>{children}</motion.div>;
+  // A CSS keyframe (transform only) so the screen is visible from the HTML itself and never waits for hydration;
+  // the template remounts on every navigation, so the entrance replays. Reduced motion disables it in CSS.
+  return <div className={className ? `${className} page-in` : "page-in"}>{children}</div>;
 }
 
 /** Scroll progress of a section, for sticky storytelling. */
