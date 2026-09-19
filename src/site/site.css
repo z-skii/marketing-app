@@ -34,6 +34,20 @@
 .lp-hero { padding: calc(var(--lp-nav) + 56px) 0 64px; background: radial-gradient(90% 60% at 100% 0%, #EAF2FA 0%, rgba(234,242,250,0) 60%), radial-gradient(70% 50% at 0% 100%, #FBECEE 0%, rgba(251,236,238,0) 55%), linear-gradient(180deg, #FFFFFF 0%, #F5F4F1 100%); }
 .lp-hero-grid { display: grid; gap: 40px; align-items: center; }
 .lp-hero-words { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+/* The opening copy enters from the HTML itself (no hydration wait): each line rises in turn, the words first. */
+.lp-in { animation: fade-up var(--tm-t-slow) var(--tm-ease) both; }
+.lp-hero-words .lp-in:nth-child(1) { animation-delay: 0.05s; }
+.lp-hero-words .lp-in:nth-child(2) { animation-delay: 0.12s; }
+.lp-hero-words .lp-in:nth-child(3) { animation-delay: 0.19s; }
+.lp-hero-words .lp-in:nth-child(4) { animation-delay: 0.26s; }
+.lp-hero-copy > .lp-in:nth-child(2) { animation-delay: 0.36s; }
+.lp-hero-copy > .lp-in:nth-child(3) { animation-delay: 0.44s; }
+.lp-hero-copy > .lp-in:nth-child(4) { animation-delay: 0.52s; }
+@media (prefers-reduced-motion: reduce) { .lp-in { animation: none; } }
+/* The composition rises without an opacity change so its images count as painted the moment they load. */
+@keyframes lp-rise { from { transform: translateY(28px); } to { transform: none; } }
+.lp-rise { animation: lp-rise var(--tm-t-slow) var(--tm-ease) both; }
+@media (prefers-reduced-motion: reduce) { .lp-rise { animation: none; } }
 .lp-hero-word { font-family: var(--font-display); font-weight: 700; font-size: clamp(52px, 13vw, 96px); line-height: 0.92; letter-spacing: -0.05em; color: var(--tm-text); }
 .lp-hero-word.is-red { color: var(--tm-red); }
 .lp-hero-word.is-soft { color: var(--tm-muted2); }

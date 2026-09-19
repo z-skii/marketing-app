@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { CarStage } from "@/ds/car/CarStage";
-import { Float, Parallax, Reveal, Stagger, Item } from "@/ds/motion";
+import { Float, Parallax } from "@/ds/motion";
 import { CheckCircleIcon, ArrowRightIcon, CarIcon, PlayIcon } from "@/ds/icons";
 import { M } from "@/v3/media";
 import { Phone } from "./Devices";
@@ -20,25 +20,23 @@ export function Hero({ open }: { open: { href: string; label: string } | null })
       <div className="lp-wrap">
         <div className="lp-hero-grid">
           <div>
-            <Stagger gap={0.07} amount={0.1}>
+            <div className="lp-hero-copy">
               <h1 className="lp-hero-words" aria-label="Drive. Recreate. Share. Get paid.">
-                <Item><span className="lp-hero-word">Drive.</span></Item>
-                <Item><span className="lp-hero-word">Recreate.</span></Item>
-                <Item><span className="lp-hero-word">Share.</span></Item>
-                <Item><span className="lp-hero-word is-red">Get paid.</span></Item>
+                <span className="lp-hero-word lp-in">Drive.</span>
+                <span className="lp-hero-word lp-in">Recreate.</span>
+                <span className="lp-hero-word lp-in">Share.</span>
+                <span className="lp-hero-word is-red lp-in">Get paid.</span>
               </h1>
-              <Item><p className="t-lead lp-hero-lead">Local businesses pay you to put their message on your car, your Reels and your Stories. Businesses get the content, the creators and the system that runs it.</p></Item>
-              <Item>
-                <div className="lp-hero-cta">
-                  {open ? <Link href={open.href} className="btn btn-signal btn-lg">{open.label} <ArrowRightIcon size={18} aria-hidden /></Link> : <Link href="/sign-up" className="btn btn-signal btn-lg">Start earning <ArrowRightIcon size={18} aria-hidden /></Link>}
-                  <a href="#business" className="btn btn-lg">For businesses</a>
-                </div>
-              </Item>
-              <Item><p className="lp-strip"><span className="status-dot" aria-hidden />People, businesses and amounts shown are examples, not real accounts.</p></Item>
-            </Stagger>
+              <p className="t-lead lp-hero-lead lp-in">Local businesses pay you to put their message on your car, your Reels and your Stories. Businesses get the content, the creators and the system that runs it.</p>
+              <div className="lp-hero-cta lp-in">
+                {open ? <Link href={open.href} className="btn btn-signal btn-lg">{open.label} <ArrowRightIcon size={18} aria-hidden /></Link> : <Link href="/sign-up" className="btn btn-signal btn-lg">Start earning <ArrowRightIcon size={18} aria-hidden /></Link>}
+                <a href="#business" className="btn btn-lg">For businesses</a>
+              </div>
+              <p className="lp-strip lp-in"><span className="status-dot" aria-hidden />People, businesses and amounts shown are examples, not real accounts.</p>
+            </div>
           </div>
 
-          <Reveal delay={0.15} y={32} amount={0.1}>
+          <div className="lp-rise" style={{ animationDelay: "0.2s" }}>
             <div className="lp-comp" aria-hidden>
               <Parallax className="lp-comp-car" range={[10, -30]}>
                 <CarStage car="wagon" zone="rear_door" artwork="/uploads/seed/demo-car-artwork.png" priority tilt={6} scrollTurn={4} label="A wagon with a campaign on its rear door" />
@@ -65,7 +63,7 @@ export function Hero({ open }: { open: { href: string; label: string } | null })
               <Float className="lp-comp-biz" amplitude={8} duration={7.5} delay={1.2}>
                 <div className="card" style={{ padding: 10, display: "grid", gap: 8 }}>
                   <div className="media-frame is-sm" style={{ aspectRatio: "16 / 10" }}>
-                    <img src={M.contentCounter()} alt="" loading="eager" />
+                    <img src={M.contentCounter(480)} alt="" loading="eager" />
                   </div>
                   <div style={{ padding: "0 4px 4px" }}>
                     <div style={{ fontSize: 14, fontWeight: 600, lineHeight: "18px" }}>Loopday Coffee</div>
@@ -77,7 +75,7 @@ export function Hero({ open }: { open: { href: string; label: string } | null })
                 <span className="glass-tag is-glass" style={{ height: 34, padding: "0 12px", fontSize: 13 }}><CarIcon size={16} aria-hidden />Rear door · US$110 a month</span>
               </Float>
             </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

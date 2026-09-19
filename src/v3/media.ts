@@ -26,7 +26,7 @@ export const M = {
   mayaPlacement: () => `${D}/maya-placement-720.avif`,
   noraChain: () => `${D}/nora-chain-480.avif`, noraWheel: () => `${D}/nora-wheel-480.avif`,
   eliBag: () => `${D}/eli-bag-480.avif`, eliCup: () => `${D}/eli-cup-480.avif`,
-  contentCounter: () => `${D}/content-counter-800.avif`, contentPour: () => `${D}/content-pour-480.avif`, contentWindow: () => `${D}/content-window-480.avif`, contentPastry: () => `${D}/content-pastry-480.avif`, contentCups: () => `${D}/content-cups-480.avif`,
+  contentCounter: (w: 480 | 800 = 800) => `${D}/content-counter-${w}.avif`, contentPour: () => `${D}/content-pour-480.avif`, contentWindow: () => `${D}/content-window-480.avif`, contentPastry: () => `${D}/content-pastry-480.avif`, contentCups: () => `${D}/content-cups-480.avif`,
   plan: "/marketing/v3/placement-rear-doors.svg",
   driveWagon: (w: 480 | 640 | 960 | 1440) => `${D}/drive-wagon-${w}.avif`,
   driveWagonOriginal: "/marketing/v3/drive-oxblood-wagon-placement.jpg",
