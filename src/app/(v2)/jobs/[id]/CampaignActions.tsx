@@ -7,6 +7,7 @@ import { leaveReview } from "../../actions";
 import {
   applyToCampaign, decideApplication, reviewSubmission, submitWork, withdrawApplication,
 } from "./actions";
+import { CloseIcon, StarIcon } from "@/ds/icons";
 
 /** Client-side interactive pieces of a campaign page. */
 
@@ -77,7 +78,7 @@ export function SubmitForm({ campaignId, rightsNote }: { campaignId: string; rig
             {urls.map((u, i) => (
               <li key={i} className="card-2 flex items-center gap-2 px-3 py-1.5 text-sm">
                 File {i + 1}
-                <button type="button" aria-label={`Remove file ${i + 1}`} className="text-ink-faint hover:text-ink" onClick={() => setUrls(urls.filter((x) => x !== u))}>✕</button>
+                <button type="button" aria-label={`Remove file ${i + 1}`} className="text-ink-faint hover:text-ink" onClick={() => setUrls(urls.filter((x) => x !== u))}><CloseIcon size={16} aria-hidden /></button>
               </li>
             ))}
           </ul>
@@ -177,7 +178,7 @@ export function ReviewStars({
             onClick={() => setRating(n)}
             className={`px-0.5 text-xl ${n <= rating ? "text-signal" : "text-rule-strong"}`}
           >
-            ★
+            <StarIcon size={26} weight={n <= rating ? "fill" : "regular"} aria-hidden />
           </button>
         ))}
       </span>

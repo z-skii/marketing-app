@@ -23,7 +23,7 @@ export default async function SettingsPage() {
       title: "Account",
       rows: [
         { href: "/me/edit", title: "Edit profile", sub: "Name, photo, bio, city" },
-        { href: "/me/creator", title: "Verification", sub: ctx.isVerified ? "Verified ✓" : "Get the verified mark on your profile" },
+        { href: "/me/creator", title: "Verification", sub: ctx.isVerified ? "Verified" : "Get the verified mark on your profile" },
         { href: "/me/portfolio", title: "Portfolio", sub: "Work you want businesses to see" },
         { href: `/u/${ctx.user.username}`, title: "Public profile and reviews", sub: `tapmart.live/u/${ctx.user.username}` },
         { href: "/activity?tab=saved", title: "Saved", sub: "Opportunities you bookmarked" },

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Uploader } from "@/components/v2/Uploader";
 import { ANGLE_STEPS, ZONE_LABELS } from "../../../cars/zones";
 import { createVehicle, type VehicleInput } from "../../../cars/actions";
+import { CheckCircleIcon, CheckIcon } from "@/ds/icons";
 
 /**
  * Earn with your car, in four short steps: the car, four guided photos, the
@@ -144,7 +145,7 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
                   <div className="min-w-0 flex-1">
                     <p className="font-display text-[1.125rem] font-700 tracking-[-0.02em]">
                       {a.label}
-                      {photos[a.key] && <span className="ml-2 text-signal" aria-label="Added">✓</span>}
+                      {photos[a.key] && <span className="ml-2 inline-flex align-middle text-rise" aria-label="Added"><CheckCircleIcon size={20} weight="fill" aria-hidden /></span>}
                     </p>
                     <p className="mt-0.5 text-sm text-ink-faint">{a.hint}</p>
                     <div className="mt-2.5">
@@ -185,7 +186,7 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
                     className={`card-2 flex min-h-14 w-full items-center justify-between gap-2 px-4 py-3 text-left font-display text-[0.9375rem] font-600 transition-colors ${on ? "bg-signal text-signal-ink" : "hover:bg-rule-strong"}`}
                   >
                     {(ZONE_LABELS[zone] ?? zone)}
-                    {on && <span aria-hidden>✓</span>}
+                    {on && <CheckIcon size={18} weight="bold" aria-hidden />}
                   </button>
                 </li>
               );

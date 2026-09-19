@@ -3,6 +3,7 @@ import { BackButton } from "@/components/v2/BackButton";
 import { getV2Context } from "@/lib/v2/core";
 import { getMyVehicles } from "@/lib/v2/opportunities";
 import { placementLabel } from "@/components/v2/EarnCards";
+import { VerifiedIcon } from "@/ds/icons";
 
 export const metadata = { title: "My vehicles" };
 export const dynamic = "force-dynamic";
@@ -60,7 +61,7 @@ export default async function MyVehiclesPage() {
                     )}
                     <div className="media-scrim absolute inset-x-0 bottom-0 h-2/3" aria-hidden />
                     {v.verification === "verified" && (
-                      <span className="glass-tag absolute top-3 left-3 px-2.5 py-1 font-display text-xs font-600 text-signal">Verified ✓</span>
+                      <span className="glass-tag absolute top-3 left-3"><VerifiedIcon size={14} weight="fill" aria-hidden />Verified</span>
                     )}
                     <p className="text-white absolute inset-x-4 bottom-3 font-display text-[1.5rem] leading-[1.1] font-700 tracking-[-0.02em]">
                       {v.year} {v.make} {v.model}

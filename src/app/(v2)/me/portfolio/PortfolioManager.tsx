@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Uploader } from "@/components/v2/Uploader";
 import { EmptyState } from "@/components/v2/ui";
 import { addPortfolioItem, removePortfolioItem } from "../actions";
+import { CloseIcon } from "@/ds/icons";
 
 export function PortfolioManager({
   items,
@@ -58,7 +59,7 @@ export function PortfolioManager({
                 className="glass-tag absolute top-2 right-2 flex h-9 w-9 items-center justify-center rounded-full font-display text-sm font-600 text-ink hover:text-signal"
                 onClick={() => startTransition(async () => { await removePortfolioItem(item.id); router.refresh(); })}
               >
-                ✕
+                <CloseIcon size={16} aria-hidden />
               </button>
             </li>
           ))}

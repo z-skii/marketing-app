@@ -73,3 +73,26 @@
 
 /* the film stages clip their offscreen objects; nothing leaks a horizontal scroll on the phone */
 .v3 .x-site { overflow-x: clip; }
+
+/* ------------------------------------------- the premium material on V3 */
+/* v3.css is generated from the lab; the material is re-pointed here at the product tokens. */
+.v3 {
+  --v3-canvas: var(--tm-bg); --v3-paper: var(--tm-surface); --v3-ink: var(--tm-text); --v3-muted: var(--tm-muted); --v3-line: #E4E2DD;
+  --v3-stage-dark: var(--env-charcoal); --v3-create: var(--tm-red); --v3-focus: var(--tm-text);
+  --v3-success: var(--tm-success); --v3-warning: var(--tm-warning); --v3-danger: var(--tm-alert);
+  --v2-soft: var(--tm-surface2); --v2-inverse-muted: var(--env-on-dark-muted); --v2-scrim: rgba(15, 16, 19, 0.32);
+  --v3-shadow-float: var(--tm-shadow-elevated); --v3-shadow-lens: var(--tm-shadow-nav); --v3-shadow-pass: var(--tm-shadow-card);
+  --v2-r-control: 14px; --v2-r-sheet: 28px;
+}
+.v3 .btn { border-radius: 999px; }
+.v3 .btn-primary { background: var(--tm-red); color: #fff; box-shadow: var(--tm-shadow-primary); }
+.v3 .btn-primary:hover { background: var(--tm-red-hover); }
+.v3 .on-ink .btn-primary, .v3 .x-dark .btn-primary { background: #fff; color: var(--v3-ink); box-shadow: none; }
+.v3 .icon-btn { border-radius: 999px; }
+.v3 .chip { border-radius: 999px; }
+.v3 .lens { border-radius: 24px; border: 1px solid var(--tm-glass-border); }
+.v3 .lens-dark { background: var(--tm-glass-dark); }
+.v3 .sheet-body { border-radius: 28px 28px 0 0; }
+.v3 .media { background: var(--tm-surface2); }
+.v3 .badge { background: var(--v3-ink); border-radius: 999px; }
+.v3 ::selection { background: var(--tm-red-soft); color: var(--v3-ink); }

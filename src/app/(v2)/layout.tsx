@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
-import { UserShell } from "@/components/v2/UserShell";
-import { BusinessShell } from "@/components/v2/BusinessShell";
+import { AppShell } from "@/ds/shell/AppShell";
 import { getV2Context } from "@/lib/v2/core";
 
 /**
@@ -21,23 +20,15 @@ export default async function V2Layout({ children }: { children: React.ReactNode
 
   if (ctx.mode === "business" && ctx.activeBusiness) {
     return (
-      <BusinessShell
-        business={{ id: ctx.activeBusiness.id, name: ctx.activeBusiness.name, logo: ctx.activeBusiness.logo_url }}
-        unreadNotifications={ctx.unreadNotifications}
-        unreadMessages={ctx.unreadMessages}
-      >
+      <AppShell mode="business" frame="v2" identity={{ name: ctx.activeBusiness.name, avatar: ctx.activeBusiness.logo_url, mode: "Business", square: true }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
         {children}
-      </BusinessShell>
+      </AppShell>
     );
   }
 
   return (
-    <UserShell
-      identity={{ name: ctx.user.displayName ?? `@${ctx.user.username}`, sub: "Personal", logo: ctx.avatarUrl }}
-      unreadNotifications={ctx.unreadNotifications}
-      unreadMessages={ctx.unreadMessages}
-    >
+    <AppShell mode="personal" frame="v2" identity={{ name: ctx.user.displayName ?? `@${ctx.user.username}`, avatar: ctx.avatarUrl, mode: "Personal" }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
       {children}
-    </UserShell>
+    </AppShell>
   );
 }

@@ -74,7 +74,7 @@ export function VerificationCard({
   const { pending, error, run } = useAction();
   const copy =
     verification === "verified"
-      ? { title: "Verified ✓", sub: "TapMart checked the photos. Businesses see the mark when you apply." }
+      ? { title: "Verified", sub: "TapMart checked the photos. Businesses see the mark when you apply." }
       : verification === "pending"
         ? { title: "Checking", sub: "TapMart is checking your photos. A person does this, usually within a day." }
         : verification === "rejected"
@@ -117,7 +117,7 @@ export function ProofForm({ bookingId }: { bookingId: string }) {
           <input className="field w-32" inputMode="numeric" value={odometer}
             onChange={(e) => setOdometer(e.target.value.replace(/\D/g, ""))} placeholder="Miles" aria-label="Odometer miles" />
         )}
-        <Uploader folder="proofs" id={`proof-${bookingId}`} accept="image/*" label={url ? "Photo added ✓" : "Photo"} onUploaded={(u) => setUrl(u[0])} />
+        <Uploader folder="proofs" id={`proof-${bookingId}`} accept="image/*" label={url ? "Photo added" : "Photo"} onUploaded={(u) => setUrl(u[0])} />
         <button type="button" disabled={pending || (!url && !odometer)} className="btn btn-signal btn-sm"
           onClick={() => run(async () => {
             const r = await addProof(bookingId, { kind, mediaUrl: url || undefined, odometerMiles: odometer ? Number(odometer) : undefined });

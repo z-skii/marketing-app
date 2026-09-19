@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
-import { FrameShiftUserShell } from "@/components/fs/Shell";
-import { FrameShiftBusinessShell } from "@/components/fs/BusinessShell";
+import { AppShell } from "@/ds/shell/AppShell";
 import { getV2Context } from "@/lib/v2/core";
 import "../frame-shift.css";
 import "@/v3/v3.css";
@@ -22,14 +21,14 @@ export default async function FrameShiftLayout({ children }: { children: React.R
 
   if (ctx.mode === "business" && ctx.activeBusiness) {
     return (
-      <FrameShiftBusinessShell business={{ id: ctx.activeBusiness.id, name: ctx.activeBusiness.name, logo: ctx.activeBusiness.logo_url }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
+      <AppShell mode="business" frame="fs" identity={{ name: ctx.activeBusiness.name, avatar: ctx.activeBusiness.logo_url, mode: "Business", square: true }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
         {children}
-      </FrameShiftBusinessShell>
+      </AppShell>
     );
   }
   return (
-    <FrameShiftUserShell identity={{ name: ctx.user.displayName ?? `@${ctx.user.username}`, avatar: ctx.avatarUrl, mode: "Personal" }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
+    <AppShell mode="personal" frame="fs" identity={{ name: ctx.user.displayName ?? `@${ctx.user.username}`, avatar: ctx.avatarUrl, mode: "Personal" }} unreadNotifications={ctx.unreadNotifications} unreadMessages={ctx.unreadMessages}>
       {children}
-    </FrameShiftUserShell>
+    </AppShell>
   );
 }
