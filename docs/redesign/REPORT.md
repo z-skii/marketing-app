@@ -206,5 +206,7 @@ Tokens
    is a 200KB JPEG). Resizing on upload or turning on the Vercel image
    optimiser for uploads is a cost decision that would lift the phone
    Lighthouse score on Home; it is not a UI change.
-7. Pre-existing: a hydration warning on the legacy `/board` page and
-   the "fixture" label on the development trends provider page.
+7. Pre-existing: a hydration warning on the legacy `/board` page, four
+   transient resource failures on the same page during one sweep (the
+   session proxy, not the app; they did not reproduce), and the
+   "fixture" label on the development trends provider page.
