@@ -113,17 +113,37 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
       </div>
 
       {/* --------------------------------------------------------- stage */}
-      <div className="mt-4">
-        {hero || vehicle.model_glb_url ? (
-          <VehicleStage glbUrl={vehicle.model_glb_url} posterUrl={vehicle.poster_url ?? hero?.url ?? null} photos={photos} label={null} />
-        ) : (
-          <div className="card flex aspect-[4/3] w-full items-center justify-center text-sm text-ink-faint">No photo yet</div>
-        )}
+      <div className="ap-carstage mt-4">
+        <div className="ap-carstage-tags">
+          {vehicle.verification === "verified" && <span className="glass-tag is-dark"><CheckCircle size={14} weight="fill" aria-hidden />Verified</span>}
+          {vehicle.model_glb_url && <span className="glass-tag is-dark">3D model from your scan</span>}
+        </div>
+        <div className="ap-carstage-photo">
+          {hero || vehicle.model_glb_url ? (
+            <VehicleStage glbUrl={vehicle.model_glb_url} posterUrl={vehicle.poster_url ?? hero?.url ?? null} photos={photos} label={null} fill />
+          ) : (
+            <span style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", color: "var(--env-on-dark-muted)", fontSize: 14 }}>No photo yet</span>
+          )}
+        </div>
+        <div className="ap-carstage-floor" aria-hidden />
+        <p className="t-meta mt-3">{[vehicle.monthly_miles ? `${vehicle.monthly_miles.toLocaleString()} miles a month` : null, vehicle.city && `${vehicle.city}${vehicle.radius_miles ? `, ${vehicle.radius_miles} mile area` : ""}`].filter(Boolean).join(" · ")}</p>
       </div>
-      <MetaLine className="mt-3" parts={[
-        vehicle.monthly_miles ? `${vehicle.monthly_miles.toLocaleString()} miles a month` : null,
-        vehicle.city && `${vehicle.city}${vehicle.radius_miles ? `, ${vehicle.radius_miles} mile area` : ""}`,
-      ]} />
+
+      {/* ---------------------------------------------------------- facts */}
+      {(() => {
+        const running = bookings.find((b) => b.status === "active") ?? bookings.find((b) => ["proof_required", "installation_pending", "creative_pending"].includes(b.status)) ?? null;
+        const days = running?.ends_on ? Math.max(0, Math.ceil((new Date(running.ends_on).getTime() - Date.now()) / 86400000)) : null;
+        const proofs = running ? (running.status === "proof_required" ? "Photo needed now" : running.status === "active" ? `${running.proof_count} sent · monthly check` : "After installation") : "None yet";
+        return (
+          <div className="ap-metrics" style={{ ["--n" as string]: 4 }}>
+            <div className="ap-metric"><b style={{ color: vehicle.verification === "verified" ? "var(--tm-success)" : undefined }}>{vehicle.verification === "verified" ? "Verified" : vehicle.verification === "pending" ? "Checking" : "Not yet"}</b><span>Verification</span></div>
+            <div className="ap-metric"><b>{running ? running.zones.map(placementLabel).join(" + ") : "None"}</b><span>Active placement</span></div>
+            <div className="ap-metric"><b>{running ? `$${Math.round(running.monthly_cents / 100)}` : minimum.length > 0 ? `from $${Math.round(Math.min(...minimum) / 100)}` : "Not set"}</b><span>{running ? "Monthly pay" : "Your minimum a month"}</span></div>
+            <div className="ap-metric"><b>{days != null ? `${days} days` : running ? "Open" : "None"}</b><span>{days != null ? "Days remaining" : "Campaign"}</span></div>
+            <div className="ap-metric is-quiet" style={{ gridColumn: "1 / -1" }}><b style={{ fontSize: 16 }}>{proofs}</b><span>Proof requirements</span></div>
+          </div>
+        );
+      })()}
 
       {/* ------------------------------------------------- the model row */}
       <div className="row mt-4 flex items-center gap-3 px-3.5 py-3">
@@ -147,19 +167,16 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
           {minimum.length > 0 ? ` Your minimum is $${Math.round(Math.min(...minimum) / 100)} a month.` : ""}
         </p>
         {zones.length > 0 && (
-          <ul className="mt-3 grid grid-cols-3 gap-2">
+          <ul className="ap-zones">
             {zones.map((z) => (
-              <li key={z.zone} className="card overflow-hidden">
-                <div className="relative aspect-[4/3] w-full bg-surface-2">
+              <li key={z.zone} className="ap-zone">
+                <div className="ap-zone-img">
                   {hero && (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={hero.url} alt="" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+                    <img src={hero.url} alt="" loading="lazy" />
                   )}
                 </div>
-                <div className="flex items-center justify-between gap-1 px-2.5 py-2">
-                  <span className="truncate font-display text-[0.8125rem] font-600">{placementLabel(z.zone)}</span>
-                  {z.asking_cents_monthly != null && <span className="tnum shrink-0 text-xs text-ink-soft">${Math.round(z.asking_cents_monthly / 100)}/mo</span>}
-                </div>
+                <div className="ap-zone-label"><span className="truncate" style={{ color: "inherit", fontWeight: 600 }}>{placementLabel(z.zone)}</span>{z.asking_cents_monthly != null && <span>${Math.round(z.asking_cents_monthly / 100)}/mo</span>}</div>
               </li>
             ))}
           </ul>
@@ -182,7 +199,7 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
       </section>
 
       <section className="mt-6">
-        <SectionTitle count={bookings.length}>Campaigns with this car</SectionTitle>
+        <SectionTitle count={bookings.length}>Campaign history</SectionTitle>
         {bookings.length === 0 ? (
           <p className="mt-2 text-sm text-ink-soft">Car campaigns show on Home. When your car qualifies, apply from the campaign.</p>
         ) : (

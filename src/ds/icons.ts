@@ -17,6 +17,7 @@ export {
   LockSimple as LockIcon, ShieldCheck as ShieldIcon, Lightning as LightningIcon, Receipt as ReceiptIcon, CreditCard as CardIcon, Palette as PaletteIcon,
   WarningCircle as WarningIcon, Info as InfoIcon, Question as HelpIcon, PaperPlaneTilt as SendIcon, Scan as ScanIcon, SteeringWheel as SteeringIcon, Handshake as HandshakeIcon,
   Devices as DevicesIcon, DeviceMobile as PhoneIcon, SlidersHorizontal as FiltersIcon, Funnel as FunnelIcon, SignOut as SignOutIcon, Percent as PercentIcon, Globe as GlobeIcon,
+  FacebookLogo as FacebookIcon, TiktokLogo as TiktokIcon, GoogleLogo as GoogleIcon, Robot as RobotIcon,
   Envelope as MailIcon, Phone as CallIcon, Pencil as EditIcon, Trash as TrashIcon, SquaresFour as GridIcon, ListBullets as ListIcon, Rows as RowsIcon, Fire as FireIcon, Sun as SunIcon,
 } from "@phosphor-icons/react/dist/ssr";
 

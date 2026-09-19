@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { Reveal, Stagger, Item } from "@/ds/motion";
 import { M } from "@/v3/media";
@@ -10,8 +10,8 @@ import { PaperPlaneTilt, Hourglass, CheckCircleIcon, Wallet } from "./icons";
 /**
  * RECREATE: the business's Reel on one phone, the creator's version
  * appearing beside it, then Submit, business reviews, approved, paid.
- * The creator's video autoplays muted and loops only while it is on
- * screen; it never blocks the first render.
+ * The creator's version is revealed with a wipe as the pair comes into
+ * view (a still from the creative system; no real creator video exists yet).
  */
 export function Recreate() {
   return (
@@ -47,13 +47,8 @@ export function Recreate() {
 
 function Pair() {
   const ref = useRef<HTMLDivElement>(null);
-  const video = useRef<HTMLVideoElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
   const reduced = useReducedMotion();
-  useEffect(() => {
-    const v = video.current; if (!v) return;
-    if (inView && !reduced) v.play().catch(() => {}); else v.pause();
-  }, [inView, reduced]);
   return (
     <div ref={ref} className="lp-pair">
       <div>
@@ -65,7 +60,7 @@ function Pair() {
       </div>
       <div>
         <Phone large>
-          <video ref={video} src="/uploads/submissions/1789017582974-db382d3c.webm" poster={M.mayaLatte(800)} muted loop playsInline preload="metadata" aria-label="A creator's recreation of the Reel" />
+          <picture><source type="image/avif" srcSet={`${M.mayaPour(480)} 480w, ${M.mayaPour(800)} 800w`} sizes="260px" /><img src={M.mayaPour(800)} alt="" loading="lazy" /></picture>
           {!reduced && (
             <motion.div className="lp-wipe" aria-hidden initial={{ x: 0 }} animate={inView ? { x: "100%" } : { x: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }} />
           )}

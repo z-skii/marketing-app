@@ -3,15 +3,17 @@ import { BackButton } from "@/components/v2/BackButton";
 import { getV2Context } from "@/lib/v2/core";
 import { getMyVehicles } from "@/lib/v2/opportunities";
 import { placementLabel } from "@/components/v2/EarnCards";
-import { VerifiedIcon } from "@/ds/icons";
+import { VerifiedIcon, PlusIcon, ArrowRightIcon, CarIcon } from "@/ds/icons";
+import { Badge } from "@/ds/ui";
 
 export const metadata = { title: "My vehicles" };
 export const dynamic = "force-dynamic";
 
 /**
- * The person's cars, private to them. One card per vehicle: the photo, the
- * name, whether it is available for ads, and what it is open to. Campaigns
- * that need a car are found on Home; this is where the car itself lives.
+ * The person's cars, private to them, in the car language: each vehicle
+ * on its own dark stage with its photograph, its verification, whether it
+ * is available for ads and what placements it is open to. Campaigns that
+ * need a car are found on Home; this is where the car itself lives.
  */
 export default async function MyVehiclesPage() {
   const ctx = await getV2Context();
@@ -19,65 +21,50 @@ export default async function MyVehiclesPage() {
   const vehicles = await getMyVehicles(ctx.user.id);
 
   return (
-    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
+    <main id="main" className="mx-auto w-full max-w-3xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me" label="Profile" />
-      <div className="mt-3 flex items-end justify-between gap-3">
-        <h1 className="font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">My vehicles</h1>
-        {vehicles.length > 0 && (
-          <Link href="/me/vehicles/new" className="btn btn-sm shrink-0">+ Add vehicle</Link>
-        )}
+      <div className="ap-head">
+        <div><h1>My cars</h1><p className="ap-sub">Your car earns while you drive.</p></div>
+        {vehicles.length > 0 && <Link href="/me/vehicles/new" className="btn btn-sm shrink-0"><PlusIcon size={16} aria-hidden />Add a car</Link>}
       </div>
 
       {vehicles.length === 0 ? (
-        <section className="card mt-6 overflow-hidden">
-          <div className="relative aspect-[4/3] w-full bg-surface-2 md:aspect-[16/9]">
+        <section className="ap-carstage mt-6">
+          <div className="ap-carstage-photo">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/uploads/seed/demo-bmw.webp" alt="" className="h-full w-full object-cover" fetchPriority="high" />
-            <div className="media-scrim absolute inset-x-0 bottom-0 h-3/4" aria-hidden />
-            <p className="text-white absolute inset-x-5 bottom-5 font-display text-[1.5rem] leading-[1.05] font-700 tracking-[-0.02em] md:text-[1.5rem]">
-              Make money with your car.
-            </p>
+            <img src="/photos/cars/wagon-1600.webp" alt="" style={{ objectFit: "contain", padding: "6% 4%" }} fetchPriority="high" />
           </div>
-          <div className="p-5">
-            <p className="text-[0.9375rem] leading-relaxed text-ink-soft">
-              List your vehicle and receive advertising opportunities. Businesses pay monthly, you keep driving the way you already do.
-            </p>
-            <Link href="/me/vehicles/new" className="btn btn-signal btn-lg mt-5 w-full md:w-auto">Add vehicle</Link>
-          </div>
+          <p className="ap-carstage-name">Make money with your car.</p>
+          <p className="t-meta mt-2 max-w-md">Add your car with a few guided photos. Businesses near you pay monthly for a placement on a door, the rear window or the full side. You keep driving the way you already do.</p>
+          <Link href="/me/vehicles/new" className="btn btn-signal btn-lg mt-5">Add your car <ArrowRightIcon size={18} aria-hidden /></Link>
         </section>
       ) : (
-        <ul className="mt-5 flex flex-col gap-4">
+        <ul className="mt-5 flex flex-col gap-5">
           {vehicles.map((v, i) => {
             const available = v.status === "listed" && v.available;
             return (
-              <li key={v.id} className="card overflow-hidden">
-                <Link href={`/me/vehicles/${v.id}`} className="block">
-                  <div className="relative aspect-[16/9] w-full bg-surface-2">
-                    {v.photo_url ? (
+              <li key={v.id}>
+                <Link href={`/me/vehicles/${v.id}`} className="ap-carstage block" aria-label={`Manage ${v.year} ${v.make} ${v.model}`}>
+                  <div className="ap-carstage-tags">
+                    {v.verification === "verified" && <span className="glass-tag is-dark"><VerifiedIcon size={14} weight="fill" aria-hidden />Verified</span>}
+                    {v.model_glb_url && <span className="glass-tag is-dark">3D model</span>}
+                  </div>
+                  <div className="ap-carstage-photo">
+                    {v.poster_url ?? v.photo_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={v.photo_url} alt="" className="h-full w-full object-cover" loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : "auto"} />
+                      <img src={(v.poster_url ?? v.photo_url) as string} alt="" loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : "auto"} />
                     ) : (
-                      <span className="flex h-full w-full items-center justify-center text-sm text-ink-faint">No photo yet</span>
+                      <span style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", color: "var(--env-on-dark-muted)" }}><CarIcon size={40} aria-hidden /></span>
                     )}
-                    <div className="media-scrim absolute inset-x-0 bottom-0 h-2/3" aria-hidden />
-                    {v.verification === "verified" && (
-                      <span className="glass-tag absolute top-3 left-3"><VerifiedIcon size={14} weight="fill" aria-hidden />Verified</span>
-                    )}
-                    <p className="text-white absolute inset-x-4 bottom-3 font-display text-[1.5rem] leading-[1.1] font-700 tracking-[-0.02em]">
-                      {v.year} {v.make} {v.model}
-                    </p>
                   </div>
-                  <div className="flex items-center justify-between gap-3 p-4">
-                    <span className="min-w-0">
-                      <span className={`block font-display text-[0.9375rem] font-600 ${available ? "text-signal" : "text-ink-soft"}`}>
-                        {v.status === "listed" ? (v.available ? "Available for ads" : "Unavailable") : "Not listed"}
-                      </span>
-                      <span className="block truncate text-sm text-ink-faint">
-                        {v.zones.length > 0 ? v.zones.map(placementLabel).join("  ·  ") : "No placements marked available"}
-                      </span>
-                    </span>
-                    <span className="btn btn-sm shrink-0">Manage</span>
+                  <div className="mt-4 flex items-end justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="ap-carstage-name" style={{ marginTop: 0 }}>{v.year} {v.make} {v.model}</p>
+                      <p className="t-meta mt-1 truncate">{v.zones.length > 0 ? v.zones.map(placementLabel).join(" · ") : "No placements marked available"}</p>
+                    </div>
+                    <Badge tone={available ? "success" : "neutral"} dot className="shrink-0">{v.status === "listed" ? (v.available ? "Available for ads" : "Paused") : "Not listed"}</Badge>
                   </div>
+                  <span className="btn btn-glass is-dark btn-sm mt-4">Manage <ArrowRightIcon size={14} aria-hidden /></span>
                 </Link>
               </li>
             );

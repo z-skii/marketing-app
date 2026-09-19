@@ -84,15 +84,15 @@ export default async function EarningsPage() {
   const feePct = Number(settings.platform_fee_pct ?? "15");
   const openPayout = payouts.find((p) => p.status === "requested" || p.status === "approved") ?? null;
 
-  type Tx = { id: string; when: string; title: string; sub: string; status: { label: string; tone: string }; amount: number; sign: "+" | ""; media: string | null; href: string | null };
+  type Tx = { id: string; when: string; title: string; sub: string; status: { label: string; tone: string }; amount: number; sign: "+" | ""; media: string | null; href: string | null; gross?: number; fee?: number };
   const tx: Tx[] = [
     ...rows.map((e): Tx => {
       const st = EARNING[e.status] ?? { label: e.status, tone: "neutral" as const };
       const title = e.source === "submission" ? `${e.campaign_kind ? KIND_NAME[e.campaign_kind] ?? "Work" : "Work"} approved`
         : e.source === "booking" ? "Car ad month paid" : "Adjustment";
       const gross = e.amount_cents + e.fee_cents;
-      const sub = [e.campaign_title ?? e.business, e.fee_cents > 0 ? `${formatMoney(gross)} less ${formatMoney(e.fee_cents)} fee` : null].filter(Boolean).join(" · ");
-      return { id: `e-${e.id}`, when: e.created_at, title, sub, status: st, amount: e.amount_cents, sign: "+", media: e.media, href: e.campaign_id ? `/o/${e.campaign_id}` : null };
+      const sub = e.campaign_title ?? e.business ?? "";
+      return { id: `e-${e.id}`, when: e.created_at, title, sub, status: st, amount: e.amount_cents, sign: "+", media: e.media, href: e.campaign_id ? `/o/${e.campaign_id}` : null, gross, fee: e.fee_cents };
     }),
     ...payouts.map((p): Tx => {
       const st = PAYOUT[p.status] ?? { label: p.status, tone: "neutral" as const };
@@ -103,61 +103,63 @@ export default async function EarningsPage() {
 
   return (
     <main className="fs-phone-main" id="main">
-      <h1 className="fs-t-page" style={{ marginTop: 12 }}>Earnings</h1>
+      <div className="ap-head"><div><h1>Earnings</h1><p className="ap-sub">Approved work, the fee, what is yours.</p></div></div>
 
-      <div className="fs-earnings-grid">
+      <div className="fs-earnings-grid" style={{ marginTop: 16 }}>
         <div>
-          <section aria-labelledby="fs-available" style={{ marginTop: 16 }}>
-            <p id="fs-available" className="fs-t-label" style={{ color: "var(--fs-muted)" }}>Available</p>
-            <p className="fs-money-balance" style={{ marginTop: 4 }}>{formatMoney(available)}</p>
-            <p className="fs-t-meta" style={{ marginTop: 4 }}>From approved work, after the {feePct}% TapMart fee</p>
-            <div style={{ marginTop: 16, maxWidth: 448 }}>
+          <section className="ap-balance" aria-labelledby="fs-available">
+            <p id="fs-available" className="t-meta" style={{ fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontSize: 12 }}>Available</p>
+            <p className="ap-balance-big">{formatMoney(available)}</p>
+            <p className="t-meta" style={{ marginTop: 8 }}>From approved work, after the {feePct}% TapMart fee</p>
+            <div style={{ marginTop: 18 }}>
               {openPayout ? (
-                <div className="fs-plane">
-                  <p className="fs-t-label"><span className={`fs-status is-${PAYOUT[openPayout.status]?.tone ?? "waiting"}`}>{PAYOUT[openPayout.status]?.label ?? openPayout.status}</span> · {formatMoney(openPayout.amount_cents)}</p>
-                  <p className="fs-t-meta" style={{ marginTop: 4 }}>Requested {fmtDate(openPayout.created_at)}. TapMart sends it by hand, usually within a few days.</p>
+                <div className="ap-note is-warm" style={{ marginBottom: 12 }}>
+                  <span className="ap-note-text"><span className={`badge is-${PAYOUT[openPayout.status]?.tone === "confirmed" ? "success" : PAYOUT[openPayout.status]?.tone === "problem" ? "alert" : "warning"}`}>{PAYOUT[openPayout.status]?.label ?? openPayout.status}</span> <b style={{ fontWeight: 600 }}>{formatMoney(openPayout.amount_cents)}</b><span className="t-meta" style={{ display: "block", marginTop: 4 }}>Requested {fmtDate(openPayout.created_at)}. TapMart sends it by hand, usually within a few days.</span></span>
                 </div>
               ) : null}
-              <div style={{ marginTop: openPayout ? 12 : 0 }}>
-                <PayoutRequest availableCents={available} minCents={minPayout} feePct={feePct} />
-              </div>
+              <PayoutRequest availableCents={available} minCents={minPayout} feePct={feePct} />
             </div>
           </section>
 
-          <dl className="fs-record-strip" style={{ marginTop: 24 }}>
-            <div><dd className="fs-money-record">{formatMoney(pending)}</dd><dt className="fs-t-meta">Pending · not yet released</dt></div>
-            {requested > 0 && <div><dd className="fs-money-record">{formatMoney(requested)}</dd><dt className="fs-t-meta">Requested · in a payout</dt></div>}
-            <div><dd className="fs-money-record">{formatMoney(lifetime)}</dd><dt className="fs-t-meta">Lifetime · earned on TapMart</dt></div>
-          </dl>
+          <div className="ap-metrics" style={{ ["--n" as string]: requested > 0 ? 3 : 2 }}>
+            <div className="ap-metric"><b>{formatMoney(pending)}</b><span>Pending · not yet released</span></div>
+            {requested > 0 && <div className="ap-metric"><b>{formatMoney(requested)}</b><span>Requested · in a payout</span></div>}
+            <div className="ap-metric"><b>{formatMoney(lifetime)}</b><span>Lifetime · earned on TapMart</span></div>
+          </div>
         </div>
 
-        <section aria-labelledby="fs-tx" style={{ marginTop: 32 }}>
-          <h2 id="fs-tx" className="fs-t-section">Transactions</h2>
+        <section aria-labelledby="fs-tx" className="ap-section">
+          <div className="ap-section-head"><h2 id="fs-tx">Transactions</h2><span className="t-meta">Gross, fee and what you keep</span></div>
           {tx.length === 0 ? (
-            <div style={{ marginTop: 8, maxWidth: 480 }}>
-              <p className="fs-t-task">No earnings yet.</p>
-              <p className="fs-t-body" style={{ marginTop: 4, color: "var(--fs-muted)" }}>Approved Recreate, Story and Car work lands here with its fee shown.</p>
-              <Link href="/home" className="fs-btn fs-btn-secondary" style={{ marginTop: 16 }}>Find paid work</Link>
-            </div>
+            <section className="card" style={{ padding: 20, maxWidth: 560 }}>
+              <p className="t-h3">No earnings yet.</p>
+              <p className="t-body" style={{ marginTop: 6, color: "var(--tm-text2)" }}>Approved Recreate, Story and Car work lands here with its fee shown.</p>
+              <Link href="/home" className="btn btn-signal" style={{ marginTop: 16 }}>Find paid work</Link>
+            </section>
           ) : (
-            <ul className="fs-tx-list" style={{ marginTop: 4 }}>
+            <ul className="ap-tx" style={{ listStyle: "none", padding: 0, margin: 0 }}>
               {tx.map((t) => {
+                const badge = t.status.tone === "confirmed" ? "success" : t.status.tone === "problem" ? "alert" : t.status.tone === "waiting" ? "warning" : "neutral";
                 const inner = (
                   <>
-                    <span className="fs-media fs-contain fs-tx-media" aria-hidden>
-                      {t.media ? <MediaPreview src={t.media} alt="" className="fs-ref-media" sizes="40px" /> : <Wallet size={20} aria-hidden />}
-                    </span>
+                    <span className="ap-tx-thumb" aria-hidden>{t.media ? <MediaPreview src={t.media} alt="" sizes="44px" /> : <Wallet size={20} aria-hidden />}</span>
                     <span style={{ minWidth: 0 }}>
-                      <span className="fs-t-label" style={{ display: "block" }}>{t.title}</span>
-                      <span className="fs-t-meta" style={{ display: "block" }}><span className={`fs-status is-${t.status.tone}`}>{t.status.label}</span> · {fmtDate(t.when)}</span>
-                      {t.sub && <span className="fs-t-meta" style={{ display: "block" }}>{t.sub}</span>}
+                      <span style={{ display: "block", fontWeight: 600, fontSize: 15, lineHeight: "20px" }}>{t.title}</span>
+                      <span className="t-meta" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, flexWrap: "wrap" }}><span className={`badge is-${badge}`} style={{ minHeight: 22 }}>{t.status.label}</span>{fmtDate(t.when)}{t.sub && <span> · {t.sub}</span>}</span>
+                      {t.gross != null && t.fee != null && t.fee > 0 && (
+                        <span className="ap-fee" aria-label={`Gross ${formatMoney(t.gross)}, fee ${formatMoney(t.fee)}, you keep ${formatMoney(t.amount)}`}>
+                          <span><b>{formatMoney(t.gross)}</b><span>Gross</span></span>
+                          <span><b>{formatMoney(t.fee)}</b><span>TapMart fee</span></span>
+                          <span><b>{formatMoney(t.amount)}</b><span>You keep</span></span>
+                        </span>
+                      )}
                     </span>
-                    <span className="fs-work-money" style={{ color: t.status.tone === "problem" ? "var(--fs-muted)" : undefined, textDecoration: t.status.tone === "problem" ? "line-through" : undefined }}>{t.sign}{formatMoney(t.amount)}</span>
+                    <span className="ap-tx-amount" style={{ color: t.status.tone === "problem" ? "var(--tm-muted)" : t.sign === "+" ? "var(--tm-success)" : undefined, textDecoration: t.status.tone === "problem" ? "line-through" : undefined }}>{t.sign}{formatMoney(t.amount)}</span>
                   </>
                 );
                 return (
                   <li key={t.id}>
-                    {t.href ? <Link href={t.href} className="fs-tx-row" aria-label={`${t.title}, ${t.status.label}, ${formatMoney(t.amount)}`}>{inner}</Link> : <div className="fs-tx-row">{inner}</div>}
+                    {t.href ? <Link href={t.href} className="ap-tx-row" aria-label={`${t.title}, ${t.status.label}, ${formatMoney(t.amount)}`}>{inner}</Link> : <div className="ap-tx-row">{inner}</div>}
                   </li>
                 );
               })}

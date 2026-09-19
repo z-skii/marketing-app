@@ -4,6 +4,7 @@ import { getV2Context } from "@/lib/v2/core";
 import "../frame-shift.css";
 import "@/v3/v3.css";
 import "@/v3/prod.css";
+import "@/ds/app.css";
 
 /**
  * The signed in product screens. Same URLs, same auth and identity rules

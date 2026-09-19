@@ -55,6 +55,7 @@ export function FlowShell({ title, kind, back, steps, index, onJump, source, com
         </div>
         <div className="fs-flow-step" aria-live="polite">
           <p className="fs-t-meta fs-tnum">Step {index + 1} of {steps.length}{review ? " · Review" : ""}</p>
+          <div className="ap-rail" aria-hidden style={{ marginTop: 8, maxWidth: 420 }}>{steps.map((s, i) => <span key={s.key} className={i < index ? "is-done" : i === index ? "is-now" : ""} />)}</div>
           <h2 ref={heading} tabIndex={-1} className="fs-t-section fs-flow-question" style={{ marginTop: 4, outline: "none" }}>{step.label}</h2>
           <div className={review ? "fs-plane fs-flow-review" : undefined} style={{ marginTop: 16 }}>{children}</div>
           {error && <p role="alert" className="fs-field-error" style={{ marginTop: 16 }}>{error}</p>}

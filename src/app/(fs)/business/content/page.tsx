@@ -9,6 +9,7 @@ import { listShoots, type ContentShoot } from "@/lib/business/shoots";
 import { PLAN_BY_KEY } from "@/config/plans";
 import { dayKeyOf, dayLabel, defaultScheduleSlot, groupLabel, shootTimeLabel, timeOf } from "@/app/(v2)/business/content/dates";
 import { ContentWorkspace, fileState, type PostInfo, type WorkspaceFile } from "@/components/fs/business/ContentWorkspace";
+import { WeekStrip } from "@/components/app/WeekStrip";
 
 export const metadata = { title: "Content" };
 export const dynamic = "force-dynamic";
@@ -111,15 +112,15 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
 
   return (
     <main className="fs-phone-main" id="main">
-      <div className="fs-purpose-row" style={{ alignItems: "flex-start", gap: 16 }}>
+      <div className="ap-head">
         <div>
-          <h1 className="fs-t-page">Content</h1>
-          <p className="fs-t-meta" style={{ marginTop: 4 }}>{planLine} · <Link href="/business/plan" className="fs-link-accent">{sub ? "Manage plan" : "View plans"}</Link></p>
+          <h1>Content</h1>
+          <p className="ap-sub">{planLine} · <Link href="/business/plan" className="link-accent">{sub ? "Manage plan" : "View plans"}</Link></p>
         </div>
-        <Link href="/business/brand" className="fs-btn fs-btn-secondary">Brand kit</Link>
+        <Link href="/business/brand" className="btn btn-sm shrink-0">Brand kit</Link>
       </div>
-      <nav className="fs-filters is-work" aria-label="Views" style={{ marginTop: 20 }}>
-        {VIEWS.map((v) => <Link key={v.key} href={href(v.key)} aria-current={view === v.key ? "page" : undefined}>{v.label}</Link>)}
+      <nav className="ap-chips" aria-label="Views">
+        {VIEWS.map((v) => <Link key={v.key} href={href(v.key)} className="pill" aria-current={view === v.key ? "page" : undefined}>{v.label}</Link>)}
       </nav>
 
       {!subscribed && view !== "shoots" && (
@@ -168,6 +169,7 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
       {(view === "overview" || view === "calendar") && (
         <section aria-labelledby="posts-title" className="fs-content-narrow" style={{ marginTop: 32 }}>
           <h2 id="posts-title" className="fs-t-section">{view === "calendar" ? "Calendar" : "Upcoming posts"}</h2>
+          {postsR.ok && <WeekStrip posts={posts.map((p) => ({ id: p.id, platform: p.platform, status: p.status, when: p.when, title: p.title, thumb: (p.deliverable_id && files.find((f) => f.id === p.deliverable_id)) ? (files.find((f) => f.id === p.deliverable_id)!.thumbnail_url ?? files.find((f) => f.id === p.deliverable_id)!.url) : null }))} timeZone={timeZone} todayKey={todayKey} />}
           {!postsR.ok ? (
             <p className="fs-t-body" style={{ marginTop: 12 }}><span className="fs-status is-problem">Posts could not be loaded.</span> <Link href={href(view)} className="fs-link-ink fs-link-ul">Try again</Link></p>
           ) : (view === "calendar" ? posts : upcoming).length === 0 ? (

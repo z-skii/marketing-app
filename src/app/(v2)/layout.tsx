@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { AppShell } from "@/ds/shell/AppShell";
 import { getV2Context } from "@/lib/v2/core";
+import "@/ds/app.css";
 
 /**
  * Everything inside this group is the signed-in TapMart app. Two shells,

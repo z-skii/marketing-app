@@ -185,6 +185,7 @@ export default async function MePage() {
           {[
             ["Activity", "/activity"],
             ["Portfolio", "/me/portfolio"],
+            ["Share and earn · Coming soon", "/share"],
             ["Public profile and reviews", `/u/${ctx.user.username}`],
             ...(assignedShoots > 0 || ctx.isCreator ? [[assignedShoots > 0 ? `Your shoots · ${assignedShoots} assigned` : "Your shoots", "/me/shoots"]] : []),
             ["Settings", "/me/settings"],
