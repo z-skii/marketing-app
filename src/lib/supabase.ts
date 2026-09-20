@@ -15,8 +15,8 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
  * committed.
  */
 
-const SUPABASE_URL = "https://mzqlmhuzbtcotmorgadf.supabase.co";
-const SUPABASE_ANON_KEY = [
+const PRODUCTION_URL = "https://mzqlmhuzbtcotmorgadf.supabase.co";
+const PRODUCTION_ANON_KEY = [
   "sb_publi",
   "shable_f",
   "s6efanOm",
@@ -25,9 +25,30 @@ const SUPABASE_ANON_KEY = [
   "XTKjos",
 ].join("");
 
-if (!/^[\x21-\x7e]+$/.test(SUPABASE_ANON_KEY)) {
+if (!/^[\x21-\x7e]+$/.test(PRODUCTION_ANON_KEY)) {
   throw new Error("Supabase publishable key was corrupted in transport.");
 }
+
+/**
+ * Preview deployments only: a Vercel preview (VERCEL_ENV=preview) can be
+ * pointed at an isolated Supabase project for Auth and Storage through
+ * SUPABASE_PREVIEW_URL and SUPABASE_PREVIEW_PUBLISHABLE_KEY, so a review
+ * never signs in against, or uploads into, production. Production and
+ * local builds ignore these two variables entirely and keep the constants
+ * above; a malformed override is ignored rather than trusted.
+ */
+function previewOverride(): { url: string; key: string } | null {
+  if (process.env.VERCEL_ENV !== "preview") return null;
+  const url = process.env.SUPABASE_PREVIEW_URL?.trim();
+  const key = process.env.SUPABASE_PREVIEW_PUBLISHABLE_KEY?.trim();
+  if (!url || !key) return null;
+  if (!/^https:\/\/[a-z0-9]+\.supabase\.co$/.test(url) || !/^[\x21-\x7e]+$/.test(key)) return null;
+  return { url, key };
+}
+
+const preview = previewOverride();
+const SUPABASE_URL = preview?.url ?? PRODUCTION_URL;
+const SUPABASE_ANON_KEY = preview?.key ?? PRODUCTION_ANON_KEY;
 
 /**
  * Secrets still come from the environment, but only when plausibly real:
