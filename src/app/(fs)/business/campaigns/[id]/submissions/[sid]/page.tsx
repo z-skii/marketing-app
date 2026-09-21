@@ -8,8 +8,8 @@ import { SubmissionReview } from "@/components/fs/business/campaign/SubmissionRe
 export const dynamic = "force-dynamic";
 
 /** One submission or Story proof, reviewed against the campaign it answers. */
-export default async function SubmissionReviewPage({ params }: { params: Promise<{ id: string; sid: string }> }) {
-  const { id, sid } = await params;
+export default async function SubmissionReviewPage({ params, searchParams }: { params: Promise<{ id: string; sid: string }>; searchParams: Promise<{ panel?: string }> }) {
+  const [{ id, sid }, query] = await Promise.all([params, searchParams]);
   const ctx = await requireBusinessContext(`/business/campaigns/${id}/submissions/${sid}`);
   const campaign = await getBusinessCampaign(id);
   if (!campaign || campaign.business_id !== ctx.activeBusiness.id) redirect("/business/campaigns");
@@ -17,5 +17,5 @@ export default async function SubmissionReviewPage({ params }: { params: Promise
   const submission = (await getSubmissions(campaign.id)).find((s) => s.id === sid) ?? null;
   if (!submission) redirect(`/business/campaigns/${id}`);
   const [provenance, funding] = await Promise.all([getCreatorProvenance(submission.creator_id), loadFunding(campaign.business_id)]);
-  return <SubmissionReview campaign={campaign} submission={submission} provenance={provenance} funding={funding} />;
+  return <SubmissionReview campaign={campaign} submission={submission} provenance={provenance} funding={funding} initialPanel={query.panel === "changes" || query.panel === "reject" ? query.panel : null} />;
 }

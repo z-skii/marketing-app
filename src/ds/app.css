@@ -264,3 +264,19 @@
 .ap-row .ap-row-icon { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: rgba(224,33,43,0.14); color: var(--tm-red); flex-shrink: 0; }
 .ap-row b { flex: 1; min-width: 0; font-size: 15px; font-weight: 600; line-height: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ap-row .btn { flex-shrink: 0; }
+
+/* ---------------------------------------------- pill buttons rendered as <button> inside the fs frame
+   frame-shift.css resets every button (background none, no border, no padding), which beats .btn on
+   specificity. Restore the pill for button.btn and its variants. */
+.fs button.btn { padding: 0 18px; border: 1px solid var(--tm-line2); background: var(--tm-surface); color: var(--tm-text); }
+.fs button.btn-sm { padding: 0 12px; }
+.fs button.btn-signal { border: 0; padding: 0 24px; background: var(--tm-red); color: #fff; }
+.fs button.btn-signal.btn-sm { padding: 0 12px; }
+.fs button.btn-signal.btn-md { padding: 0 18px; }
+.fs button.btn-signal[disabled] { background: var(--tm-surface3); color: var(--tm-disabled); }
+.fs button.btn-dark { border: 0; padding: 0 18px; background: var(--tm-text); color: #fff; }
+.fs button.btn-dark.btn-sm { padding: 0 12px; }
+.fs button.btn-ghost { background: transparent; border-color: transparent; color: var(--tm-text2); padding: 0 12px; }
+.fs button.btn-glass { border: 1px solid var(--tm-glass-border); background: var(--tm-glass-control); }
+.fs button.btn[disabled] { background: var(--tm-surface); color: var(--tm-disabled); }
+.fs button.btn-signal[disabled], .fs button.btn-signal.btn-sm[disabled] { background: var(--tm-surface3); color: var(--tm-disabled); }

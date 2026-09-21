@@ -1,23 +1,28 @@
 import Link from "next/link";
+import { InstagramLogo, DownloadSimple, Clock, UsersThree, CurrencyDollar, Timer, Camera, PaperPlaneTilt, Hourglass } from "@phosphor-icons/react/dist/ssr";
 import type { V2Context } from "@/lib/v2/core";
 import { fmtDate, type Opportunity } from "@/lib/v2/opportunities";
 import type { Invite } from "@/lib/v2/requests";
 import type { StoryVerification } from "@/lib/v2/instagram";
-import { MediaPreview } from "@/components/v2/MediaPreview";
-import { Money, formatMoney } from "@/components/fs/parts";
+import { formatMoney } from "@/components/fs/parts";
 import { InspectButton } from "@/components/fs/SourceInspector";
 import { ParticipateButton, StoryProofForm } from "./StoryControls";
 import { RequestDecision } from "./RequestDecision";
-import { BusinessLine, DetailTop, GoLink, PayBreakdown, Plane, PlainList, Section, WorkThumb, fmtLong } from "./DetailParts";
+import { DetailTop, fmtLong } from "./DetailParts";
+import { Accordion, ActionCard, BizCard, Checks, DSection, Facts, Hero, HeroMedia, Steps, Timeline, WorkThumbV } from "./DetailKit";
+import { StickyAction } from "./StickyAction";
 import type { Participation } from "./RecreateDetail";
 
 /**
- * Post a Story, in Frame Shift: the supplied creative as an intact sheet,
- * the commitment beside it, then eligibility as literal states, the
- * requirements, and the person's task: take a spot, post, send proof.
+ * Post a Story: the supplied creative inside a phone is the hero, the pay
+ * sits on it, then the action the person's state and eligibility allow.
+ * Post, keep live, send proof, get paid as the four steps; requirements
+ * as checks; the business; the stage timeline; the rest behind accordions.
  */
-export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, feePct }: {
-  o: Opportunity; ctx: V2Context; open: boolean; mine: Participation; invite: Invite | null; verification: StoryVerification; paid: { cents: number; fee: number } | null; feePct: number;
+const STAGES = ["Accepted", "Post", "Keep live", "Proof", "Review", "Paid"];
+
+export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, feePct, businessCategory = null }: {
+  o: Opportunity; ctx: V2Context; open: boolean; mine: Participation; invite: Invite | null; verification: StoryVerification; paid: { cents: number; fee: number } | null; feePct: number; businessCategory?: string | null;
 }) {
   const latest = mine.submissions[0] ?? null;
   const state = latest?.status ?? "none";
@@ -38,167 +43,194 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
   const fee = Math.floor((o.pay_cents * feePct) / 100);
   const net = o.pay_cents - fee;
   const deadline = fmtLong(o.deadline);
-  const deadlineWord = invite ? "Campaign deadline" : "Apply by";
+  const deadlineShort = o.deadline ? fmtDate(o.deadline) : null;
   const returnTo = encodeURIComponent(`/o/${o.id}`);
+  const bizSub = [businessCategory, o.city].filter(Boolean).join(" · ") || "Business";
+  const isPaid = state === "paid" && paid != null;
+  const accepted = participating || acceptedRequest;
   const requirements = [
     `Keep it live ${liveHours} hours`,
     minFollowers ? `${minFollowers.toLocaleString()}+ followers` : null,
-    "Do not crop the creative",
+    "Post the creative as it is, no crop",
     ...o.requirements.filter((r) => !/live|followers|crop/i.test(r)),
   ].filter(Boolean) as string[];
-  const igLine = ig.status === "connected"
-    ? `@${ig.handle ?? ""} · ${ig.verifiedBy === "api" ? "Connected" : "Confirmed manually"}${ig.followers != null ? ` · ${ig.followers.toLocaleString()} followers` : ""}`
-    : ig.status === "pending" ? "Checking your account" : ig.status === "error" ? "Connection needs attention" : "Not connected";
+
+  const now = state === "paid" ? 6 : state === "approved" ? 5 : state === "submitted" || state === "under_review" ? 4 : state === "revision_requested" ? 3 : state === "rejected" ? 4 : accepted ? 1 : requestOpen ? 0 : -1;
+  const stickyLabel = state === "revision_requested" ? "Send new proof" : proofOpen ? "Send proof" : canParticipate ? "Take a spot" : needsInstagram && state === "none" && !accepted ? "Connect Instagram" : requestOpen ? "Answer request" : "See status";
+
+  const status = requestOpen ? <span className="badge is-warning">Request for you</span>
+    : declined ? <span className="badge">Declined</span>
+    : state === "revision_requested" ? <span className="badge is-warning">Revision</span>
+    : state === "submitted" || state === "under_review" ? <span className="badge is-info">In review</span>
+    : state === "approved" ? <span className="badge is-success">Approved</span>
+    : state === "paid" ? <span className="badge is-success">Paid</span>
+    : state === "rejected" ? <span className="badge is-alert">Not approved</span>
+    : accepted ? <span className="badge is-success">Your spot</span>
+    : !open ? <span className="badge">Closed</span>
+    : spotsLeft === 0 ? <span className="badge">Full</span>
+    : <span className="badge is-success">Open</span>;
 
   return (
     <main className="fs-phone-main" id="main">
       <DetailTop o={o} open={open} />
-      <div className="fs-detail">
-        <div className="fs-detail-source">
-          <div className="fs-op-story is-detail">
-            <div className="fs-joint fs-story-commitment" style={{ display: "flex", flexDirection: "column" }}>
-              <p className="fs-t-meta">{invite ? "Direct request · Instagram Story ad" : "Instagram Story ad"}</p>
-              <div style={{ marginTop: 8, borderLeft: "3px solid var(--fs-accent)", paddingLeft: 12, minHeight: 64, display: "flex", alignItems: "center" }}>
-                <Money cents={o.pay_cents} per={`after ${liveHours}h live and approval`} className="fs-money-detail" />
-              </div>
-              <h1 className="fs-t-task" style={{ marginTop: 12 }}>{o.title}</h1>
-              <BusinessLine o={o} />
-              <p className="fs-t-meta" style={{ marginTop: 4 }}>{minFollowers ? `${minFollowers.toLocaleString()}+ followers · ` : ""}{liveHours}h live</p>
-              <p className="fs-t-meta" style={{ marginTop: 12 }}>{[spotsLeft > 0 ? `${spotsLeft} spot${spotsLeft === 1 ? "" : "s"}` : "Spots filled", deadline ? `${deadlineWord} ${deadline}` : null].filter(Boolean).join(" · ")}</p>
-            </div>
-            <div>
-              <div className="fs-media fs-sheet-source fs-story-sheet" style={{ width: 180, height: 320 }}>
-                {creative ? <MediaPreview src={creative} alt={`The supplied Story creative for ${o.business_name}`} className="fs-story-media" priority sizes="198px" />
-                  : <div className="fs-video-fallback" style={{ background: "var(--fs-underlay)", color: "var(--fs-muted)" }}>Creative not uploaded yet</div>}
-              </div>
-              <p className="fs-t-meta" style={{ marginTop: 8 }}>Supplied creative</p>
-              {creative && <InspectButton src={creative} alt={`The Story creative from ${o.business_name}, at its original ratio`} label="Inspect" style={{ paddingLeft: 0, minHeight: 44 }} />}
-            </div>
-          </div>
+      <div className="dt-page">
+        <div className="dt-main-top">
+          <Hero kind="story" chip={<><InstagramLogo size={16} aria-hidden />Story</>} business={{ name: o.business_name, logo: o.business_logo, verified: o.business_verified }} title={o.title} pay={o.pay_cents} per="per Story">
+            <HeroMedia src={creative} kind="story" alt={`The Story creative from ${o.business_name}`} priority />
+          </Hero>
+          <Facts items={[
+            { icon: <CurrencyDollar size={20} aria-hidden />, value: formatMoney(o.pay_cents).replace(/\.00$/, ""), label: "Pay" },
+            { icon: <Timer size={20} aria-hidden />, value: `${liveHours}h`, label: "Keep live" },
+            { icon: <UsersThree size={20} aria-hidden />, value: spotsLeft > 0 ? String(spotsLeft) : "Full", label: spotsLeft === 1 ? "Spot left" : "Spots left" },
+            { icon: <Clock size={20} aria-hidden />, value: deadlineShort ?? "Open", label: invite ? "Deadline" : "Post by" },
+          ]} />
         </div>
 
-        <div style={{ minWidth: 0 }}>
-          {requestOpen && invite && (
-            <Plane decision style={{ marginTop: 24 }}>
-              <p className="fs-t-meta">Request for you</p>
-              <p className="fs-t-task" style={{ marginTop: 4 }}>{o.business_name} asks you to post this Story.</p>
-              <p className="fs-t-meta" style={{ marginTop: 4 }}>{formatMoney(invite.pay_cents)} after {liveHours}h live and approval. Nothing is agreed until you accept.</p>
-              {invite.message && <p className="fs-t-body fs-note" style={{ marginTop: 12 }}>{invite.message}</p>}
-              <RequestDecision inviteId={invite.id} businessName={o.business_name} kind="instagram_story" />
-            </Plane>
-          )}
-          {declined && <Plane style={{ marginTop: 24 }}><p className="fs-t-label"><span className="fs-status is-neutral">Declined</span> · You declined this request.</p></Plane>}
-
-          {/* Work region, by real state. */}
-          {state === "revision_requested" && latest && (
-            <Section title="Revision requested" id="work">
-              <div className="fs-note">
-                <p className="fs-t-label">What {o.business_name} asked to change</p>
-                <p className="fs-t-body" style={{ marginTop: 4 }}>{latest.review_note ?? "Send new proof."}</p>
-              </div>
-              <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginTop: 16 }}>
-                <WorkThumb src={latest.media_urls[0] ?? null} alt="Your previous proof" />
-                <div><p className="fs-t-label">Your previous proof</p><p className="fs-t-meta">Sent {fmtDate(latest.created_at)} · stays on record until new proof is sent</p></div>
-              </div>
-              {proofOpen ? <StoryProofForm campaignId={o.id} label="Send new proof" /> : <p className="fs-t-meta" style={{ marginTop: 12 }}>This campaign is closed, so new proof cannot be sent.</p>}
-            </Section>
-          )}
-          {(state === "submitted" || state === "under_review") && latest && (
-            <Section title="Your proof" id="work">
-              <Plane>
-                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                  <WorkThumb src={latest.media_urls[0] ?? null} alt="Your screenshot of the story" />
-                  <div style={{ minWidth: 0 }}>
-                    <p className="fs-t-label"><span className="fs-status is-waiting">In review</span> · Sent {fmtDate(latest.created_at)}</p>
-                    <p className="fs-t-meta" style={{ marginTop: 4 }}>{o.business_name} is reviewing your proof.</p>
-                    {latest.media_urls[0] && <InspectButton src={latest.media_urls[0]} alt="Your screenshot of the story, at its original ratio" label="Inspect proof" style={{ paddingLeft: 0, minHeight: 44 }} />}
-                  </div>
-                </div>
-                <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} />
-                <GoLink href="/activity">Open Activity</GoLink>
-              </Plane>
-            </Section>
-          )}
-          {(state === "paid" || state === "approved") && latest && (
-            <Section title="Your proof" id="work">
-              <Plane>
-                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                  <WorkThumb src={latest.media_urls[0] ?? null} alt="Your approved proof" />
-                  <div style={{ minWidth: 0 }}>
-                    <p className="fs-t-label"><span className="fs-status is-confirmed">{state === "paid" && paid ? "Approved and paid" : "Approved"}</span> · Sent {fmtDate(latest.created_at)}</p>
-                    {!(state === "paid" && paid) && <p className="fs-t-meta" style={{ marginTop: 4 }}><span className="fs-status is-waiting">Payment pending</span> · arrives when the business pays.</p>}
-                    {latest.media_urls[0] && <InspectButton src={latest.media_urls[0]} alt="Your approved proof, at its original ratio" label="Inspect proof" style={{ paddingLeft: 0, minHeight: 44 }} />}
-                  </div>
-                </div>
-                {state === "paid" && paid
-                  ? <PayBreakdown gross={paid.cents + paid.fee} net={paid.cents} fee={paid.fee} feePct={paid.cents + paid.fee > 0 ? Math.round((paid.fee * 100) / (paid.cents + paid.fee)) : feePct} when="Paid to your earnings" basis="Available in Earnings" paid />
-                  : <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} when="When the business pays" basis="Added to earnings when paid" />}
-                <GoLink href="/earnings">Open Earnings</GoLink>
-              </Plane>
-            </Section>
-          )}
-          {state === "rejected" && latest && (
-            <Section title="Your proof" id="work">
-              <Plane><p className="fs-t-label"><span className="fs-status is-problem">Not approved</span> · Sent {fmtDate(latest.created_at)}</p><p className="fs-t-body" style={{ marginTop: 4 }}>{latest.review_note ?? `${o.business_name} did not approve this story.`}</p></Plane>
-            </Section>
-          )}
-
-          {state === "none" && !requestOpen && !declined && (
-            (participating || acceptedRequest) ? (
-              <Section title="Your task" id="work">
-                <p className="fs-t-meta" style={{ marginBottom: 4 }}><span className="fs-status is-confirmed">Accepted</span> · Posting as @{ig.handle ?? "your account"}{deadline ? ` · by ${deadline}` : ""}</p>
-                <ol className="fs-steps">
-                  <li><div className="fs-step"><span className="fs-step-frame" aria-hidden>01</span><span><span className="fs-t-body" style={{ display: "block" }}>Download the creative as is.</span>{creative && <a href={creative} download className="fs-btn fs-btn-secondary fs-btn-sm" style={{ marginTop: 4 }}>Download</a>}</span></div></li>
-                  <li><div className="fs-step"><span className="fs-step-frame" aria-hidden>02</span><span className="fs-t-body">Post it to your Story. Keep it live {liveHours} hours. Do not crop it.</span></div></li>
-                  <li><div className="fs-step"><span className="fs-step-frame" aria-hidden>03</span><span className="fs-t-body">Send proof: a screenshot of the story and its link.</span></div></li>
-                </ol>
-                {proofOpen ? <StoryProofForm campaignId={o.id} /> : <p className="fs-t-meta" style={{ marginTop: 12 }}>This campaign is closed.</p>}
-                <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} />
-              </Section>
-            ) : (
-              <Section title="Take this on" id="work">
-                {needsInstagram ? (
-                  <Plane>
-                    <p className="fs-t-label"><span className="fs-status is-problem">Instagram not connected</span></p>
-                    <p className="fs-t-meta" style={{ marginTop: 4 }}>Add your handle once.</p>
-                    <Link href={`/me/instagram?return=${returnTo}`} className="fs-btn fs-btn-primary" style={{ marginTop: 12 }}>Connect Instagram</Link>
-                  </Plane>
-                ) : tooFewFollowers ? (
-                  <Plane>
-                    <p className="fs-t-label"><span className="fs-status is-problem">Needs {(minFollowers ?? 0).toLocaleString()}+ followers</span></p>
-                    <p className="fs-t-meta" style={{ marginTop: 4 }}>@{ig.handle} has {(ig.followers ?? 0).toLocaleString()} on file. If that changed, update it on your profile.</p>
-                    <Link href={`/me/instagram?return=${returnTo}`} className="fs-btn fs-btn-secondary" style={{ marginTop: 12 }}>Update my Instagram</Link>
-                  </Plane>
-                ) : canParticipate ? (
-                  <>
-                    <p className="fs-t-body">Posting as @{ig.handle}. Taking a spot reserves it; you then download the creative, post it, and send proof.</p>
-                    <PayBreakdown gross={o.pay_cents} net={net} fee={fee} feePct={feePct} />
-                    <div style={{ marginTop: 16 }}><ParticipateButton campaignId={o.id} /></div>
-                  </>
-                ) : (
-                  <Plane><p className="fs-t-label">{!open ? "This campaign is closed." : "All spots are taken."}</p><GoLink href="/home">Find other work</GoLink></Plane>
-                )}
-              </Section>
-            )
-          )}
-
-          <Section title="Eligibility" id="eligibility">
-            <Link href={`/me/instagram?return=${returnTo}`} className="fs-row-link" style={{ minHeight: 56 }}>
-              <span><span className="fs-t-label" style={{ display: "block" }}>Instagram</span><span className={`fs-status is-${ig.status === "connected" ? "confirmed" : "problem"}`}>{igLine}</span></span>
-            </Link>
-            {minFollowers && (
-              <div className="fs-row-link" style={{ minHeight: 56, borderTop: "1px solid var(--fs-divider)" }}>
-                <span><span className="fs-t-label" style={{ display: "block" }}>Followers</span><span className={`fs-status is-${eligible ? "confirmed" : "problem"}`}>{minFollowers.toLocaleString()}+ needed{ig.followers != null ? ` · you have ${ig.followers.toLocaleString()}` : ""}</span></span>
+        <aside className="dt-rail">
+          <ActionCard pay={o.pay_cents} per="per approved Story" net={isPaid ? paid.cents : net} feePct={isPaid ? Math.round((paid.fee * 100) / Math.max(paid.cents + paid.fee, 1)) : feePct} status={status}
+            facts={[{ v: `${liveHours}h`, l: "Live" }, { v: minFollowers ? `${minFollowers.toLocaleString()}+` : "Any", l: "Followers" }, { v: deadlineShort ?? "No date", l: "Post by" }]}>
+            {requestOpen && invite && (
+              <div style={{ marginTop: 12 }}>
+                <p className="t-body" style={{ fontWeight: 600 }}>{o.business_name} asks you to post this Story.</p>
+                {invite.message && <p className="t-meta" style={{ marginTop: 6 }}>{invite.message}</p>}
+                <RequestDecision inviteId={invite.id} businessName={o.business_name} kind="instagram_story" />
               </div>
             )}
-          </Section>
+            {declined && <p className="t-meta" style={{ marginTop: 12 }}>You declined this request.</p>}
 
-          <Section title="What to do" id="requirements">
-            <PlainList items={requirements} />
-            <p className="fs-t-meta" style={{ marginTop: 8 }}>{verification.mode === "manual" ? `${o.business_name} reviews your screenshot and Story link.` : verification.note}</p>
-          </Section>
+            {state === "none" && !requestOpen && !declined && !accepted && (
+              needsInstagram ? (
+                <>
+                  <Link href={`/me/instagram?return=${returnTo}`} className="fs-btn fs-btn-primary"><InstagramLogo size={20} aria-hidden /> Connect Instagram</Link>
+                  <p className="dt-action-note">Story work posts on your own account. Add your handle once.</p>
+                </>
+              ) : tooFewFollowers ? (
+                <>
+                  <Link href={`/me/instagram?return=${returnTo}`} className="fs-btn fs-btn-secondary" style={{ width: "100%", marginTop: 12 }}>Update my Instagram</Link>
+                  <p className="dt-action-note">Needs {(minFollowers ?? 0).toLocaleString()}+ followers. @{ig.handle} has {(ig.followers ?? 0).toLocaleString()} on file.</p>
+                </>
+              ) : canParticipate ? (
+                <>
+                  <div style={{ marginTop: 12 }}><ParticipateButton campaignId={o.id} /></div>
+                  <p className="dt-action-note">Posting as @{ig.handle}. A spot is reserved for you; nothing is posted yet.</p>
+                </>
+              ) : <p className="t-meta" style={{ marginTop: 12 }}>{!open ? "This campaign is closed." : "All spots are taken."} <Link href="/home" className="link-accent">Find other work</Link></p>
+            )}
+
+            {state === "none" && accepted && !requestOpen && (
+              <div style={{ marginTop: 12 }}>
+                <p className="t-body" style={{ fontWeight: 600 }}>Post it as @{ig.handle ?? "your account"}{deadline ? `, by ${deadline}` : ""}.</p>
+                {creative && <a href={creative} download className="btn btn-sm" style={{ marginTop: 8 }}><DownloadSimple size={16} aria-hidden /> Download creative</a>}
+                {proofOpen ? <StoryProofForm campaignId={o.id} /> : <p className="t-meta" style={{ marginTop: 12 }}>This campaign is closed.</p>}
+              </div>
+            )}
+
+            {state === "revision_requested" && latest && (
+              <div style={{ marginTop: 12 }}>
+                <div className="dt-work-row">
+                  <WorkThumbV src={latest.media_urls[0] ?? null} alt="Your previous proof" />
+                  <div style={{ minWidth: 0 }}>
+                    <p className="t-body" style={{ fontWeight: 600 }}>What to change</p>
+                    <p className="t-meta" style={{ marginTop: 4 }}>{latest.review_note ?? "Send new proof."}</p>
+                    <p className="t-meta" style={{ marginTop: 4, color: "var(--tm-muted2)" }}>Sent {fmtDate(latest.created_at)}</p>
+                  </div>
+                </div>
+                {proofOpen ? <StoryProofForm campaignId={o.id} label="Send new proof" /> : <p className="t-meta" style={{ marginTop: 12 }}>This campaign is closed.</p>}
+              </div>
+            )}
+            {(state === "submitted" || state === "under_review") && latest && (
+              <div className="dt-work-row">
+                <WorkThumbV src={latest.media_urls[0] ?? null} alt="Your proof" />
+                <div style={{ minWidth: 0 }}>
+                  <p className="t-body" style={{ fontWeight: 600 }}>{o.business_name} is checking your proof.</p>
+                  <p className="t-meta" style={{ marginTop: 4 }}>Sent {fmtDate(latest.created_at)}</p>
+                  <Link href="/activity" className="btn btn-sm" style={{ marginTop: 8 }}>Activity</Link>
+                </div>
+              </div>
+            )}
+            {(state === "approved" || state === "paid") && latest && (
+              <div className="dt-work-row">
+                <WorkThumbV src={latest.media_urls[0] ?? null} alt="Your approved proof" />
+                <div style={{ minWidth: 0 }}>
+                  <p className="t-body" style={{ fontWeight: 600 }}>{isPaid ? `${formatMoney(paid.cents)} paid to your earnings.` : "Approved. Payment on its way."}</p>
+                  <p className="t-meta" style={{ marginTop: 4 }}>Sent {fmtDate(latest.created_at)}</p>
+                  <Link href="/earnings" className="btn btn-sm" style={{ marginTop: 8 }}>Earnings</Link>
+                </div>
+              </div>
+            )}
+            {state === "rejected" && latest && (
+              <div className="dt-work-row">
+                <WorkThumbV src={latest.media_urls[0] ?? null} alt="Your proof" />
+                <div style={{ minWidth: 0 }}>
+                  <p className="t-body" style={{ fontWeight: 600 }}>Not approved.</p>
+                  <p className="t-meta" style={{ marginTop: 4 }}>{latest.review_note ?? `${o.business_name} did not approve this Story.`}</p>
+                </div>
+              </div>
+            )}
+          </ActionCard>
+        </aside>
+
+        <div className="dt-main-rest">
+          <DSection title="What to do" id="steps">
+            <Steps steps={[
+              { text: "Post the creative", sub: "To your Story, as it is", icon: <InstagramLogo size={20} aria-hidden /> },
+              { text: `Keep it live ${liveHours} hours`, sub: "Do not delete it early", icon: <Hourglass size={20} aria-hidden /> },
+              { text: "Send proof", sub: "A screenshot and the Story link", icon: <Camera size={20} aria-hidden /> },
+              { text: "Get paid", sub: "After the business approves", icon: <PaperPlaneTilt size={20} aria-hidden /> },
+            ]} />
+          </DSection>
+
+          <DSection title="Requirements" id="requirements">
+            <Checks items={[
+              ...requirements.map((r) => ({ text: r })),
+              { text: needsInstagram ? "Instagram: not connected" : `Instagram: @${ig.handle}${ig.followers != null ? ` · ${ig.followers.toLocaleString()} followers` : ""}`, state: needsInstagram || tooFewFollowers ? ("warn" as const) : ("ok" as const) },
+            ]} />
+            <div style={{ marginTop: 8 }}>
+              <Accordion title="Full requirements">
+                {o.brief && <p className="t-body" style={{ color: "var(--tm-text2)" }}>{o.brief}</p>}
+                <p className="t-meta" style={{ marginTop: 8 }}>{verification.mode === "manual" ? `${o.business_name} reviews your screenshot and Story link. TapMart does not check Instagram itself.` : verification.note}</p>
+              </Accordion>
+            </div>
+          </DSection>
+
+          <DSection title="Creative" id="creative">
+            <div className="dt-ref">
+              <span className="dt-ref-thumb">
+                {creative
+                  // eslint-disable-next-line @next/next/no-img-element
+                  ? <img src={creative} alt="The supplied Story creative" loading="lazy" />
+                  : <span className="fs-video-fallback" style={{ fontSize: 12 }}>Not uploaded</span>}
+              </span>
+              <div style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-start" }}>
+                <p className="t-body" style={{ fontWeight: 600 }}>Supplied by {o.business_name}, 9:16</p>
+                {creative && <InspectButton src={creative} alt={`The Story creative from ${o.business_name}, at its original ratio`} label="Zoom" className="btn btn-sm" />}
+                {creative && <a href={creative} download className="btn btn-sm"><DownloadSimple size={16} aria-hidden /> Download</a>}
+              </div>
+            </div>
+          </DSection>
+
+          <DSection title="Business" id="business">
+            <BizCard name={o.business_name} logo={o.business_logo} sub={bizSub} href={`/b/${o.business_slug}`} verified={o.business_verified} />
+          </DSection>
+
+          <DSection title="Timeline" id="timeline">
+            <Timeline stages={STAGES} now={now} warn={state === "revision_requested" || state === "rejected"} />
+          </DSection>
+
+          <div style={{ marginTop: 28 }}>
+            <Accordion title="Payment details">
+              <dl className="dt-kv" style={{ marginTop: 0 }}>
+                <dt>Pay</dt><dd>{formatMoney(o.pay_cents)} per approved Story</dd>
+                <dt>Fee</dt><dd>{formatMoney(fee)} ({feePct}%)</dd>
+                <dt>You keep</dt><dd>{formatMoney(net)}</dd>
+                <dt>When</dt><dd>After {liveHours} hours live and approval</dd>
+                {deadline && <><dt>Deadline</dt><dd>{deadline}</dd></>}
+              </dl>
+            </Accordion>
+          </div>
         </div>
       </div>
+      <StickyAction pay={formatMoney(o.pay_cents).replace(/\.00$/, "")} per="per Story" label={stickyLabel} tone={canParticipate || proofOpen || requestOpen || (needsInstagram && state === "none" && !accepted) ? "primary" : "quiet"} />
     </main>
   );
 }

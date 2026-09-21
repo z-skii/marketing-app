@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Play, InstagramLogo, Car, Images, PaperPlaneTilt } from "@phosphor-icons/react/dist/ssr";
 import { getV2Context } from "@/lib/v2/core";
 import { sql, sqlOne } from "@/lib/db";
-import { imageRatio } from "@/lib/fs/media-ratio";
 import { compactCount } from "@/lib/v2/marketplace";
-import { Avatar } from "@/components/fs/parts";
-import { Img } from "@/components/fs/Img";
-import { Facts, Section } from "@/components/fs/work/DetailParts";
-import { InspectButton } from "@/components/fs/SourceInspector";
-import { fmtDay } from "@/components/fs/business/campaign/parts";
+import { formatMoney } from "@/components/fs/parts";
+import { ProfileHead, StatsRow, Chips, WorkGrid, RecentWork, Reputation, Reviews, skillChips, type RecentRow, type WorkTile } from "@/components/fs/profile/Parts";
+import { DSection } from "@/components/fs/work/DetailKit";
 import { FollowButton, ReportMenu } from "@/components/fs/inbox/ProfileSocial";
 
 export const dynamic = "force-dynamic";
@@ -18,26 +16,26 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
   return { title: `@${username}` };
 }
 
-const VIDEO = /\.(mp4|webm|mov|m4v)(\?|#|$)/i;
-
 /**
- * A creator's public profile: identity, city, verification and Instagram
- * provenance as recorded, real work samples at their own ratio, reviews.
- * No addresses, no documents, no earnings. Vehicles stay private; only
- * "Drives with TapMart" shows when a car is listed. A business viewing
- * the profile gets the two requests the product runs.
+ * A creator's public profile: who they are in seconds (avatar, name,
+ * handle, city, verification, a short bio), the stats the record holds,
+ * what they do as chips, the work grid, recent approved work as rows and
+ * reviews. No addresses, no documents, no earnings. Vehicles stay
+ * private; only "Drives with TapMart" shows when a car is listed.
  */
+const KIND_NAME: Record<string, string> = { recreate_reel: "Recreate", instagram_story: "Story", car_ads: "Car ad" };
+
 export default async function PublicProfilePage({ params }: { params: Promise<{ username: string }> }) {
   const [ctx, { username }] = await Promise.all([getV2Context(), params]);
   if (!ctx) return null;
   const person = await sqlOne<{
     id: string; username: string; display_name: string | null; avatar_url: string | null; bio: string | null; city: string | null; suspended: boolean;
     verification: string | null; completed_jobs: number | null; rating_avg: string | null; rating_count: number | null;
-    ig_status: string | null; ig_handle: string | null; ig_followers: number | null; ig_verified_by: string | null;
+    ig_status: string | null; ig_handle: string | null; ig_followers: number | null;
   }>(
     `select p.id, p.username, p.display_name, p.avatar_url, p.bio, p.city, p.suspended,
             cp.verification::text as verification, cp.completed_jobs, cp.rating_avg::text as rating_avg, cp.rating_count,
-            sa.status::text as ig_status, sa.handle as ig_handle, sa.follower_count as ig_followers, sa.verified_by::text as ig_verified_by
+            sa.status::text as ig_status, sa.handle as ig_handle, sa.follower_count as ig_followers
        from profiles p
        left join creator_profiles cp on cp.profile_id = p.id
        left join social_accounts sa on sa.profile_id = p.id and sa.provider = 'instagram'
@@ -47,10 +45,11 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   if (!person || person.suspended) notFound();
 
   const [counts, work, portfolio, drives, reviews, following] = await Promise.all([
-    sqlOne<{ followers: string; following: string }>(`select (select count(*) from follows where followed_id = $1)::text as followers, (select count(*) from follows where follower_id = $1)::text as following`, [person.id]),
-    sql<{ url: string; title: string }>(
-      `select s.media_urls[1] as url, c.title from submissions s join campaigns c on c.id = s.campaign_id
-        where s.creator_id = $1 and s.status in ('approved', 'paid') and cardinality(s.media_urls) > 0 order by s.created_at desc limit 6`,
+    sqlOne<{ followers: string }>(`select (select count(*) from follows where followed_id = $1)::text as followers`, [person.id]),
+    sql<{ id: string; url: string | null; title: string; kind: string; business: string; logo: string | null; pay_cents: number; campaign_id: string }>(
+      `select s.id, s.media_urls[1] as url, c.title, c.kind::text as kind, b.name as business, b.logo_url as logo, c.pay_cents::int as pay_cents, c.id as campaign_id
+         from submissions s join campaigns c on c.id = s.campaign_id join businesses b on b.id = c.business_id
+        where s.creator_id = $1 and s.status in ('approved', 'paid') order by s.created_at desc limit 8`,
       [person.id],
     ),
     sql<{ media_url: string; caption: string | null }>(`select media_url, caption from portfolio_items where profile_id = $1 order by sort, created_at desc limit 12`, [person.id]),
@@ -65,86 +64,57 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
 
   const isMe = person.id === ctx.user.id;
   const name = person.display_name ?? person.username;
-  const samples = [...work.map((w) => ({ url: w.url, title: w.title, kind: "approved" as const })), ...portfolio.map((p) => ({ url: p.media_url, title: p.caption ?? "Portfolio", kind: "portfolio" as const }))].slice(0, 9);
-  const ratios = await Promise.all(samples.map((s) => (VIDEO.test(s.url) ? Promise.resolve(9 / 16) : imageRatio(s.url))));
-  const igConnected = person.ig_status === "connected";
-  const igLine = igConnected ? `Instagram ${person.ig_verified_by === "api" ? "connected" : "confirmed by TapMart"}` : "Instagram not connected";
-  const igDetail = igConnected ? [person.ig_handle ? `@${person.ig_handle.replace(/^@/, "")}` : null, person.ig_followers != null ? `${compactCount(person.ig_followers)} followers` : null].filter(Boolean).join(" · ") : "";
   const verified = person.verification === "verified";
   const ratingCount = person.rating_count ?? 0;
+  const rating = person.rating_avg ? Number(person.rating_avg) : null;
+  const completed = person.completed_jobs ?? 0;
+  const igConnected = person.ig_status === "connected";
   const businessViewer = ctx.mode === "business" && ctx.activeBusiness;
+  const tiles: WorkTile[] = [...work.filter((w) => w.url).map((w) => ({ url: w.url as string, title: w.title, kind: "approved" as const, tag: KIND_NAME[w.kind] ?? "Approved" })), ...portfolio.map((p) => ({ url: p.media_url, title: p.caption ?? "Portfolio", kind: "portfolio" as const }))].slice(0, 9);
+  const chips = skillChips(
+    { kinds: work.map((w) => w.kind), hasCar: Boolean(drives), hasPortfolio: portfolio.length > 0, instagram: igConnected },
+    { reel: <Play size={16} weight="fill" aria-hidden />, story: <InstagramLogo size={16} aria-hidden />, car: <Car size={16} aria-hidden />, photo: <Images size={16} aria-hidden />, instagram: <InstagramLogo size={16} aria-hidden /> },
+  );
+  const rows: RecentRow[] = work.slice(0, 5).map((w) => ({ id: w.id, logo: w.logo, business: w.business, kind: KIND_NAME[w.kind] ?? w.kind, status: "Approved", tone: "success" as const, amount: formatMoney(w.pay_cents).replace(/\.00$/, ""), href: businessViewer ? undefined : `/o/${w.campaign_id}` }));
+  const followers = Number(counts?.followers ?? 0);
 
   return (
     <main className="fs-phone-main" id="main">
-      <div className="fs-detail" style={{ marginTop: 12 }}>
-        <div className="fs-detail-source" style={{ marginTop: 0 }}>
-          <div className="fs-person-hero">
-            {person.avatar_url ? <span className="fs-media" style={{ width: 160, height: 160, flex: "none" }}><Img src={person.avatar_url} alt={`${name}, profile photo`} loading="eager" /></span> : <Avatar src={null} name={name} size={160} square />}
-            <span style={{ minWidth: 0 }}>
-              <h1 className="fs-t-page">{name}</h1>
-              <p className="fs-t-meta" style={{ marginTop: 4, overflowWrap: "anywhere" }}>@{person.username}{person.city ? ` · ${person.city}` : ""}</p>
-              <p className="fs-t-meta" style={{ marginTop: 4 }}>
-                <span className={`fs-status is-${verified ? "confirmed" : "neutral"}`}>{verified ? "Verified creator" : person.verification === "pending" ? "Verification pending" : "Not verified"}</span>
-                {drives && <> · Drives with TapMart</>}
-              </p>
-              <p className="fs-t-meta" style={{ marginTop: 4 }}>{igLine}</p>
-              {igDetail && <p className="fs-t-meta" style={{ overflowWrap: "anywhere" }}>{igDetail}</p>}
-            </span>
-          </div>
-          {person.bio && <p className="fs-t-body" style={{ marginTop: 12, maxWidth: 448 }}>{person.bio}</p>}
-          {!isMe && (
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", marginTop: 16 }}>
-              {businessViewer ? (
-                <>
-                  <Link href={`/business/people/${person.username}?request=story`} className="fs-btn fs-btn-primary">Request Story</Link>
-                  <Link href={`/business/people/${person.username}?request=reel`} className="fs-btn fs-btn-secondary">Request Reel</Link>
-                </>
-              ) : <FollowButton profileId={person.id} initialFollowing={Boolean(following)} />}
-              <ReportMenu targetType="profile" targetId={person.id} />
-            </div>
+      <div className="pf-page">
+        <aside className="pf-side">
+          <ProfileHead avatar={person.avatar_url} name={name} handle={person.username} city={person.city} verified={verified} bio={person.bio}
+            badges={<>{igConnected && person.ig_handle && <span><InstagramLogo size={14} aria-hidden />@{person.ig_handle.replace(/^@/, "")}{person.ig_followers != null ? ` · ${compactCount(person.ig_followers)}` : ""}</span>}{drives && <span><Car size={14} aria-hidden />Drives with TapMart</span>}</>}
+            actions={isMe ? <Link href="/me/edit" className="btn btn-sm">Edit profile</Link> : (
+              <>
+                {businessViewer ? (
+                  <>
+                    <Link href={`/business/people/${person.username}?request=story`} className="btn btn-signal btn-md"><PaperPlaneTilt size={16} aria-hidden /> Request Story</Link>
+                    <Link href={`/business/people/${person.username}?request=reel`} className="btn">Request Reel</Link>
+                  </>
+                ) : <FollowButton profileId={person.id} initialFollowing={Boolean(following)} />}
+                <ReportMenu targetType="profile" targetId={person.id} />
+              </>
+            )} />
+          <StatsRow items={[
+            { v: String(completed), l: completed === 1 ? "Job" : "Jobs" },
+            ...(ratingCount > 0 && rating != null ? [{ v: rating.toFixed(1), l: "Rating", star: true }] : []),
+            ...(followers > 0 ? [{ v: compactCount(followers), l: "Followers" }] : []),
+          ]} />
+          <Chips items={chips} />
+        </aside>
+
+        <div className="pf-main">
+          <DSection title="Work" id="work" meta={tiles.length > 0 ? `${tiles.length}` : undefined}>
+            <WorkGrid items={tiles} owner={name} />
+          </DSection>
+          {rows.length > 0 && (
+            <DSection title="Recent work" id="recent"><RecentWork rows={rows} /></DSection>
           )}
-          {isMe && <Link href="/me/edit" className="fs-btn fs-btn-secondary" style={{ marginTop: 16 }}>Edit profile</Link>}
-
-          <Section title="Work">
-            {samples.length === 0 ? <p className="fs-t-body" style={{ color: "var(--fs-muted)" }}>No work samples shared yet.</p> : (
-              <ul className="fs-work-samples">
-                {samples.map((s, i) => {
-                  const r = ratios[i] ?? 0.8; const h = 200; const w = Math.round(Math.min(Math.max(h * r, 90), 300));
-                  return (
-                    <li key={`${s.url}-${i}`}>
-                      <InspectButton src={s.url} alt={`${s.title}, ${s.kind === "approved" ? "approved work" : "portfolio"} by ${name}`} label={`Inspect ${s.title}`} className="fs-media" icon={false} style={{ width: w, height: h, display: "block" }}>
-                        {VIDEO.test(s.url) ? <span className="fs-video-fallback">Video<span className="fs-video-note">Inspect to play</span></span> : <Img src={s.url} alt="" style={{ width: w, height: h, objectFit: "cover" }} loading={i < 3 ? "eager" : "lazy"} />}
-                      </InspectButton>
-                      <span className="fs-t-meta" style={{ display: "block", marginTop: 4, maxWidth: w }}>{s.kind === "approved" ? `${s.title} · Approved work` : s.title.toLowerCase() === "portfolio" ? "Portfolio" : `${s.title} · Portfolio`}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </Section>
-        </div>
-
-        <div className="fs-joint">
-          <Section title="Recorded">
-            <Facts rows={[
-              ["Completed work", String(person.completed_jobs ?? 0)],
-              ["Rating", ratingCount > 0 && person.rating_avg ? `${Number(person.rating_avg).toFixed(1)} from ${ratingCount} review${ratingCount === 1 ? "" : "s"}` : "No reviews yet"],
-              ["Followers", `${counts?.followers ?? 0} on TapMart`],
-              ["Following", counts?.following ?? "0"],
-              ["Instagram", igConnected ? (person.ig_verified_by === "api" ? "Connected through Instagram" : "Confirmed manually by TapMart") : "Not connected"],
-            ]} />
-          </Section>
-          {reviews.length > 0 && (
-            <Section title={`Reviews · ${reviews.length}`}>
-              <ul className="fs-plain-list">
-                {reviews.map((r, i) => (
-                  <li key={i} style={{ padding: "12px 0", borderTop: i ? "1px solid var(--fs-divider)" : undefined }}>
-                    <p className="fs-t-meta"><span style={{ fontWeight: 500, color: "var(--fs-ink)" }}>{r.rating} of 5</span>{r.business_name ? ` · ${r.business_name}` : ""} · {fmtDay(r.created_at)}</p>
-                    {r.body && <p className="fs-t-body" style={{ marginTop: 4 }}>{r.body}</p>}
-                  </li>
-                ))}
-              </ul>
-            </Section>
+          {ratingCount > 0 && (
+            <DSection title="Reputation" id="reputation">
+              <Reputation rating={rating} reviews={ratingCount} completed={completed} />
+              <div style={{ marginTop: 8 }}><Reviews items={reviews} /></div>
+            </DSection>
           )}
         </div>
       </div>

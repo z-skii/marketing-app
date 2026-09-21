@@ -29,11 +29,13 @@ export default async function OpportunityPage({ params }: { params: Promise<{ id
     ctx.businesses.some((b) => b.id === o.business_id && ["owner", "manager"].includes(b.member_role));
   if (manages) redirect(`/business/campaigns/${id}`);
 
-  const [row, invite, settings] = await Promise.all([
+  const [row, invite, settings, biz] = await Promise.all([
     sqlOne<{ status: string; rights_note: string }>(`select status::text as status, rights_note from campaigns where id = $1`, [id]),
     getInviteFor(id, ctx.user.id),
     getSettings(),
+    sqlOne<{ category: string | null }>(`select category from businesses where id = $1`, [o.business_id]),
   ]);
+  const businessCategory = biz?.category ?? null;
   if (!row || row.status === "draft") notFound();
   const open = row.status === "open" && (!o.deadline || new Date(o.deadline) > new Date());
   const feePct = Number(settings.platform_fee_pct ?? "15");
@@ -55,7 +57,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ id
         [id, ctx.user.id],
       ),
     ]);
-    return <CarDetail o={o} ctx={ctx} open={open} vehicles={vehicles} application={application} booking={booking} invite={invite} feePct={feePct} />;
+    return <CarDetail o={o} ctx={ctx} open={open} vehicles={vehicles} application={application} booking={booking} invite={invite} feePct={feePct} businessCategory={businessCategory} />;
   }
 
   const mine = await getMyParticipation(id, ctx.user.id);
@@ -67,7 +69,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ id
 
   if (o.kind === "instagram_story") {
     const verification = await storyVerification();
-    return <StoryDetail o={o} ctx={ctx} open={open} mine={mine} invite={invite} verification={verification} paid={paid ?? null} feePct={feePct} />;
+    return <StoryDetail o={o} ctx={ctx} open={open} mine={mine} invite={invite} verification={verification} paid={paid ?? null} feePct={feePct} businessCategory={businessCategory} />;
   }
-  return <RecreateDetail o={o} ctx={ctx} open={open} rightsNote={row.rights_note} mine={mine} invite={invite} paid={paid ?? null} feePct={feePct} />;
+  return <RecreateDetail o={o} ctx={ctx} open={open} rightsNote={row.rights_note} mine={mine} invite={invite} paid={paid ?? null} feePct={feePct} businessCategory={businessCategory} />;
 }

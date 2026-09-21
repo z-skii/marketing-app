@@ -652,14 +652,18 @@
   /* Tooltips for icon only actions: desktop pointers only, after a short hover, never on touch. */
   @media (hover: hover) and (pointer: fine) {
     [data-tip] { position: relative; }
+    /* display none while hidden so the label never widens the page at the viewport edge */
     [data-tip]::after {
-      content: attr(data-tip); position: absolute; left: 50%; top: calc(100% + 8px); transform: translate(-50%, -4px);
+      content: attr(data-tip); position: absolute; left: 50%; top: calc(100% + 8px); transform: translate(-50%, 0);
       padding: 6px 10px; border-radius: 8px; background: var(--tm-text); color: #fff; font-family: var(--font-display); font-size: 12px; line-height: 14px; font-weight: 500; white-space: nowrap;
-      opacity: 0; pointer-events: none; z-index: 60; transition: opacity var(--tm-t-fast) var(--tm-ease) 0.35s, transform var(--tm-t-fast) var(--tm-ease) 0.35s;
+      display: none; pointer-events: none; z-index: 60;
     }
-    [data-tip]:hover::after, [data-tip]:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
-    [data-tip].tip-up::after { top: auto; bottom: calc(100% + 8px); transform: translate(-50%, 4px); }
-    [data-tip].tip-up:hover::after, [data-tip].tip-up:focus-visible::after { transform: translate(-50%, 0); }
+    [data-tip]:hover::after, [data-tip]:focus-visible::after { display: block; animation: tip-in var(--tm-t-fast) var(--tm-ease) 0.35s both; }
+    [data-tip].tip-up::after { top: auto; bottom: calc(100% + 8px); }
+    [data-tip].tip-left::after { left: auto; right: 0; transform: none; }
+    @keyframes tip-in { from { opacity: 0; transform: translate(-50%, -4px); } to { opacity: 1; transform: translate(-50%, 0); } }
+    [data-tip].tip-left:hover::after, [data-tip].tip-left:focus-visible::after { animation-name: tip-in-left; }
+    @keyframes tip-in-left { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
   }
   .iconbtn.is-surface { background: var(--tm-glass-control); border: 1px solid var(--tm-glass-border); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
   @media (prefers-reduced-transparency: reduce) {

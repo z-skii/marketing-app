@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Megaphone } from "@phosphor-icons/react/dist/ssr";
 import { getV2Context } from "@/lib/v2/core";
-import { sqlOne } from "@/lib/db";
+import { sql, sqlOne } from "@/lib/db";
 import { getBusinessOpportunities, getMyVehicles } from "@/lib/v2/opportunities";
 import { hostOf } from "@/lib/fs/business-identity";
-import { Img } from "@/components/fs/Img";
-import { EarnObject } from "@/components/fs/EarnObjects";
+import { OpportunityCard } from "@/components/app/OpportunityCard";
 import { SaveToggle } from "@/components/fs/SaveToggle";
-import { Facts, Section } from "@/components/fs/work/DetailParts";
+import { DSection } from "@/components/fs/work/DetailKit";
+import { StatsRow } from "@/components/fs/profile/Parts";
+import { BusinessHero, Gallery, AboutRows, type GalleryItem } from "@/components/fs/profile/BusinessParts";
 
 export const dynamic = "force-dynamic";
 
@@ -18,79 +20,86 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 /**
- * A business's public page: who they are (real cover, logo, category,
- * city, website, verified only when the record says so), then every open
- * public campaign as the same objects Home uses. Nothing private, nothing
- * that is not on the record.
+ * A business's public page: the brand first (cover, logo, name, type,
+ * city, verified only when the record says so, a short description), the
+ * numbers the record holds, every open public campaign as the same card
+ * Home uses, the business's real creatives as a gallery, and the compact
+ * about rows lower down. Nothing private, nothing not on the record.
  */
 export default async function BusinessPublicPage({ params }: { params: Promise<{ slug: string }> }) {
   const [ctx, { slug }] = await Promise.all([getV2Context(), params]);
   if (!ctx) return null;
-  const business = await sqlOne<{ id: string; name: string; category: string | null; description: string | null; city: string | null; website: string | null; logo_url: string | null; cover_url: string | null; verification: string; created_at: string }>(
-    `select id, name, category, description, city, website, logo_url, cover_url, verification::text as verification, created_at from businesses where lower(slug) = lower($1)`,
+  const business = await sqlOne<{ id: string; name: string; slug: string; category: string | null; description: string | null; city: string | null; website: string | null; logo_url: string | null; cover_url: string | null; verification: string; created_at: string }>(
+    `select id, name, slug, category, description, city, website, logo_url, cover_url, verification::text as verification, created_at from businesses where lower(slug) = lower($1)`,
     [slug],
   );
   if (!business) notFound();
-  const [campaigns, vehicles, saved, reviewStats] = await Promise.all([
+  const [campaigns, vehicles, saved, reviewStats, counts, media, instagram, brand] = await Promise.all([
     getBusinessOpportunities(business.id, ctx.user.id),
     getMyVehicles(ctx.user.id),
     sqlOne(`select 1 as x from saved_items where profile_id = $1 and item_type = 'business' and item_id = $2`, [ctx.user.id, business.id]),
     sqlOne<{ avg: string | null; n: string }>(`select round(avg(rating)::numeric, 1)::text as avg, count(*)::text as n from reviews where subject_type = 'business' and subject_id = $1`, [business.id]),
+    sqlOne<{ campaigns: string; creators: string }>(
+      `select (select count(*) from campaigns c where c.business_id = $1 and c.status in ('open', 'completed', 'closed') and c.kind in ('recreate_reel', 'instagram_story', 'car_ads'))::text as campaigns,
+              (select count(distinct s.creator_id) from submissions s join campaigns c on c.id = s.campaign_id where c.business_id = $1 and s.status in ('approved', 'paid'))::text as creators`,
+      [business.id],
+    ),
+    sql<{ url: string; title: string; kind: string }>(
+      `select coalesce(c.details->>'reference_media_url', c.details->>'creative_url', c.details->>'media_url', c.details->>'artwork_url') as url, c.title, c.kind::text as kind
+         from campaigns c where c.business_id = $1 and c.audience = 'public' and c.status <> 'draft'
+          and coalesce(c.details->>'reference_media_url', c.details->>'creative_url', c.details->>'media_url', c.details->>'artwork_url') is not null
+        order by c.published_at desc nulls last limit 8`,
+      [business.id],
+    ),
+    sqlOne<{ external_name: string | null }>(`select external_name from connected_accounts where business_id = $1 and provider = 'instagram' and status = 'connected'`, [business.id]),
+    sqlOne<{ kit: { palette?: string[]; image_examples?: string[] } | null }>(`select kit from brand_kits where business_id = $1 and status = 'approved'`, [business.id]).catch(() => null),
   ]);
-  const meta = [business.category, business.city].filter(Boolean).join(" · ");
   const reviewCount = Number(reviewStats?.n ?? 0);
   const verified = business.verification === "verified";
   const website = hostOf(business.website);
   const websiteHref = business.website ? (business.website.startsWith("http") ? business.website : `https://${business.website}`) : null;
   const mine = ctx.businesses.some((b) => b.id === business.id);
+  const accent = brand?.kit?.palette?.[0] ?? null;
+  const gallery: GalleryItem[] = [
+    ...media.map((m) => ({ url: m.url, title: m.title, tall: m.kind !== "car_ads" })),
+    ...(brand?.kit?.image_examples ?? []).slice(0, 4).map((u) => ({ url: u, title: `${business.name} brand` })),
+  ].filter((g, i, all) => all.findIndex((x) => x.url === g.url) === i).slice(0, 8);
+  const joined = new Date(business.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" });
 
   return (
     <main className="fs-phone-main" id="main">
-      <div className="fs-detail" style={{ marginTop: 12 }}>
-        <div className="fs-detail-source" style={{ marginTop: 0 }}>
-          {business.cover_url && <div className="fs-biz-cover"><Img src={business.cover_url} alt={`${business.name}, cover photo`} loading="eager" /></div>}
-          <div className="fs-biz-plate" style={{ marginTop: business.cover_url ? 16 : 0 }}>
-            <span className={`fs-biz-logo${business.logo_url ? " has-image" : ""}`}>{business.logo_url ? <Img src={business.logo_url} alt={`${business.name} logo`} loading="eager" /> : <span aria-hidden className="fs-display" style={{ fontWeight: 700, fontSize: 40 }}>{(business.name.trim()[0] ?? "?").toUpperCase()}</span>}</span>
-            <span style={{ minWidth: 0, paddingTop: 4 }}>
-              <h1 className="fs-t-identity">{business.name}</h1>
-              {meta && <p className="fs-t-meta" style={{ marginTop: 4 }}>{meta}</p>}
-              <p className="fs-t-meta" style={{ marginTop: 4 }}>
-                {verified ? <span className="fs-status is-confirmed">Verified business</span> : <span className="fs-status is-neutral">Not verified</span>}
-                {reviewCount > 0 && <> · {reviewStats!.avg} from {reviewCount} review{reviewCount === 1 ? "" : "s"}</>}
-              </p>
-              {websiteHref && <p className="fs-t-meta" style={{ marginTop: 4 }}><a href={websiteHref} target="_blank" rel="noopener noreferrer" className="fs-link-ink fs-link-ul">{website}</a></p>}
-            </span>
-          </div>
-          {business.description && <p className="fs-t-body" style={{ marginTop: 12, maxWidth: 560 }}>{business.description}</p>}
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", marginTop: 12 }}>
-            {mine ? <Link href="/business/profile" className="fs-btn fs-btn-secondary">This is your business</Link> : <SaveToggle itemType="business" itemId={business.id} initialSaved={Boolean(saved)} />}
-          </div>
-          <Section title="On the record">
-            <Facts rows={[
-              ["Category", business.category ?? "Not set"],
-              ["City", business.city ?? "Not set"],
-              ["Verification", verified ? "Verified by TapMart" : "Not verified"],
-              ["Reviews", reviewCount > 0 ? `${reviewStats!.avg} average from ${reviewCount}` : "No reviews yet"],
-              ["On TapMart since", new Date(business.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })],
+      <div className="pf-biz-page">
+        <div style={{ minWidth: 0 }}>
+          <BusinessHero cover={business.cover_url} logo={business.logo_url} name={business.name} slug={business.slug} category={business.category} city={business.city} verified={verified} description={business.description} accent={accent}
+            actions={mine ? <Link href="/business/profile" className="btn btn-sm">This is your business</Link> : <SaveToggle itemType="business" itemId={business.id} initialSaved={Boolean(saved)} />} />
+          <div className="pf-biz-text">
+            <StatsRow items={[
+              { v: counts?.campaigns ?? "0", l: Number(counts?.campaigns ?? 0) === 1 ? "Campaign" : "Campaigns" },
+              { v: counts?.creators ?? "0", l: Number(counts?.creators ?? 0) === 1 ? "Creator" : "Creators" },
+              ...(reviewCount > 0 && reviewStats?.avg ? [{ v: reviewStats.avg, l: "Rating", star: true }] : []),
             ]} />
-          </Section>
-        </div>
+          </div>
 
-        <div className="fs-joint">
-          <section aria-labelledby="open-title">
-            <h2 id="open-title" className="fs-t-section">Open campaigns <span className="fs-t-meta">· {campaigns.length}</span></h2>
+          <DSection title="Open now" id="open" meta={campaigns.length > 0 ? `${campaigns.length}` : undefined}>
             {campaigns.length === 0 ? (
-              <div style={{ marginTop: 12, maxWidth: 480 }}>
-                <p className="fs-t-task">Nothing open right now.</p>
-                <p className="fs-t-body" style={{ marginTop: 4, color: "var(--fs-muted)" }}>{mine ? "Publish a campaign and it appears here for everyone." : "Save the business to find it again when the next one opens."}</p>
-              </div>
+              <div className="pf-empty"><Megaphone size={28} aria-hidden /><b>Nothing open right now</b><span>{mine ? "Publish a campaign and it appears here." : "Save the business to find it again."}</span></div>
             ) : (
-              <div className="fs-feed" style={{ display: "flex", flexDirection: "column", gap: 32, marginTop: 16 }}>
-                {campaigns.map((card, i) => <EarnObject key={card.id} card={card} vehicles={vehicles} priority={i === 0} />)}
+              <div className="pf-opps">
+                {campaigns.map((card, i) => <OpportunityCard key={card.id} card={card} vehicles={vehicles} priority={i === 0} />)}
               </div>
             )}
-          </section>
+          </DSection>
+
+          {gallery.length > 0 && (
+            <DSection title="Content" id="content"><Gallery items={gallery} owner={business.name} /></DSection>
+          )}
         </div>
+
+        <aside className="pf-biz-side">
+          <DSection title="About" id="about">
+            <AboutRows city={business.city} website={website} websiteHref={websiteHref} instagram={instagram?.external_name ?? null} joined={joined} category={business.category} />
+          </DSection>
+        </aside>
       </div>
     </main>
   );

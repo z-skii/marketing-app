@@ -5,6 +5,7 @@ import "../frame-shift.css";
 import "@/v3/v3.css";
 import "@/v3/prod.css";
 import "@/ds/app.css";
+import "@/ds/detail.css";
 
 /**
  * The signed in product screens. Same URLs, same auth and identity rules

@@ -1,41 +1,39 @@
 import Link from "next/link";
-import { ArrowRight, CaretRight, Gear, PencilSimple } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, CaretRight, Gear, PencilSimple, ShareNetwork, Play, InstagramLogo, Car, Images, Camera, Wallet, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { getV2Context } from "@/lib/v2/core";
 import { getMyVehicles } from "@/lib/v2/opportunities";
 import { countShootsAssignedTo } from "@/lib/business/shoots";
 import { sql, sqlOne } from "@/lib/db";
-import { fmtDate } from "@/lib/v2/opportunities";
-import { Status, formatMoney } from "@/components/fs/parts";
-import { PlaneMedia } from "@/v3/app/parts";
-import { placementLabel } from "@/components/v2/EarnCards";
+import { formatMoney } from "@/components/fs/parts";
+import { ProfileHead, StatsRow, Chips, WorkGrid, RecentWork, Reputation, skillChips, type RecentRow, type WorkTile } from "@/components/fs/profile/Parts";
+import { DSection } from "@/components/fs/work/DetailKit";
+import { CopyLink } from "@/components/fs/profile/CopyLink";
 
 export const metadata = { title: "Profile" };
 export const dynamic = "force-dynamic";
 
 /**
- * User Profile in the approved V3 language: an identity a person would
- * share. The portrait as the focal plane on the dark stage, the name, the
- * public handle, the city and the completed count; the person's own
- * approved and submitted work as planes tagged with their kind; the real
- * vehicle as a quieter contact sheet with its honest state (a model only
- * when one was really built, otherwise the best real photograph). Every
- * value is the person's real record; missing things show their state.
- * Private money and administration sit below the stage as rows; the one
- * gear opens Settings.
+ * The person's own profile: identity, portfolio, earnings reputation and
+ * work history, the way another person would read it. The head with the
+ * avatar, name, handle, city, verification and a short bio; a compact
+ * stats row; skill chips from the record; the work grid; recent work as
+ * rows; reputation only when reviews exist; the car and the private
+ * rows (Instagram, verification, activity, settings) below. Every
+ * figure is the person's own record.
  */
-const WORK_STATE: Record<string, { label: string; tone: "confirmed" | "waiting" | "problem" | "neutral" }> = {
-  submitted: { label: "In review", tone: "waiting" }, under_review: { label: "In review", tone: "waiting" },
-  revision_requested: { label: "Revision requested", tone: "waiting" }, approved: { label: "Approved", tone: "confirmed" },
-  paid: { label: "Paid", tone: "confirmed" }, rejected: { label: "Not approved", tone: "problem" },
+const STATUS: Record<string, { label: string; tone: RecentRow["tone"] }> = {
+  submitted: { label: "In review", tone: "info" }, under_review: { label: "In review", tone: "info" },
+  revision_requested: { label: "Revision", tone: "warning" }, approved: { label: "Approved", tone: "success" },
+  paid: { label: "Paid", tone: "success" }, rejected: { label: "Not approved", tone: "alert" },
 };
-const KIND_NAME: Record<string, string> = { recreate_reel: "Recreate", instagram_story: "Story", car_ads: "Car" };
+const KIND_NAME: Record<string, string> = { recreate_reel: "Recreate", instagram_story: "Story", car_ads: "Car ad" };
 
 export default async function MePage() {
   const ctx = await getV2Context();
   if (!ctx) return null;
   const uid = ctx.user.id;
 
-  const [stats, vehicles, recent, payout, assignedShoots, creator] = await Promise.all([
+  const [stats, vehicles, recent, portfolio, payout, assignedShoots, creator] = await Promise.all([
     sqlOne<{ rating: string | null; rating_count: string; completed: string; lifetime: string; available: string }>(
       `select cp.rating_avg::text as rating, coalesce(cp.rating_count, 0)::text as rating_count,
               (select count(*) from submissions s where s.creator_id = $1 and s.status in ('approved', 'paid'))::text as completed,
@@ -45,156 +43,124 @@ export default async function MePage() {
       [uid],
     ),
     getMyVehicles(uid),
-    sql<{ id: string; status: string; media: string | null; kind: string; title: string; business: string; created_at: string }>(
-      `select s.id, s.status::text as status, s.media_urls[1] as media, c.kind::text as kind, c.title, b.name as business, s.created_at
+    sql<{ id: string; status: string; media: string | null; kind: string; title: string; business: string; logo: string | null; pay_cents: number; campaign_id: string; created_at: string }>(
+      `select s.id, s.status::text as status, s.media_urls[1] as media, c.kind::text as kind, c.title, b.name as business, b.logo_url as logo, c.pay_cents::int as pay_cents, c.id as campaign_id, s.created_at
          from submissions s join campaigns c on c.id = s.campaign_id join businesses b on b.id = c.business_id
-        where s.creator_id = $1 order by (s.status in ('approved', 'paid')) desc, s.created_at desc limit 3`,
+        where s.creator_id = $1 order by s.created_at desc limit 8`,
       [uid],
     ),
-    sqlOne<{ amount: string; at: string | null }>(
-      `select coalesce(sum(amount_cents), 0)::text as amount, max(created_at)::text as at
-         from payout_requests where creator_user_id = $1 and status in ('requested', 'approved')`,
-      [uid],
-    ),
+    sql<{ media_url: string; caption: string | null }>(`select media_url, caption from portfolio_items where profile_id = $1 order by sort, created_at desc limit 12`, [uid]),
+    sqlOne<{ amount: string }>(`select coalesce(sum(amount_cents), 0)::text as amount from payout_requests where creator_user_id = $1 and status in ('requested', 'approved')`, [uid]),
     countShootsAssignedTo(uid),
     sqlOne<{ verification: string }>(`select verification::text as verification from creator_profiles where profile_id = $1`, [uid]),
   ]);
 
-  const name = ctx.user.displayName ?? `@${ctx.user.username}`;
+  const name = ctx.user.displayName ?? ctx.user.username;
   const car = vehicles[0] ?? null;
   const ig = ctx.instagram;
-  const igTag = ig.status === "connected" ? `@${ig.handle ?? ""}` : ig.status === "pending" ? "Instagram checking" : ig.status === "error" ? "Instagram issue" : "No Instagram";
-  const igLine = ig.status === "connected"
-    ? `@${ig.handle ?? ""}${ig.followers != null ? ` · ${ig.followers.toLocaleString()} followers` : ""}`
-    : ig.status === "pending" ? (ig.handle ? `@${ig.handle} · Checking` : "Checking")
-    : ig.status === "error" ? "Needs attention"
-    : "Not connected";
   const verification = creator?.verification ?? (ctx.isCreator ? "unverified" : null);
-  const verificationLabel = verification === "verified" ? "Verified" : verification === "pending" ? "In review" : verification === "rejected" ? "Not approved" : "Not verified";
-  const verificationTone = verification === "verified" ? "confirmed" : verification === "pending" ? "waiting" : verification === "rejected" ? "problem" : "neutral";
+  const verified = verification === "verified";
   const available = Number(stats?.available ?? 0);
+  const lifetime = Number(stats?.lifetime ?? 0);
   const requested = Number(payout?.amount ?? 0);
   const ratingCount = Number(stats?.rating_count ?? 0);
+  const rating = stats?.rating ? Number(stats.rating) : null;
   const completed = Number(stats?.completed ?? 0);
-  const host = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://tapmart.live").replace(/^https?:\/\//, "").replace(/\/$/, "");
-  const handle = `${host}/u/${ctx.user.username}`;
+  const host = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://tapmart.live").replace(/\/$/, "");
+  const publicUrl = `${host}/u/${ctx.user.username}`;
+  const approvedWork: WorkTile[] = recent.filter((w) => ["approved", "paid"].includes(w.status) && w.media).map((w) => ({ url: w.media as string, title: w.title, kind: "approved" as const, tag: KIND_NAME[w.kind] ?? "Approved" }));
+  const tiles: WorkTile[] = [...approvedWork, ...portfolio.map((p) => ({ url: p.media_url, title: p.caption ?? "Portfolio", kind: "portfolio" as const }))].slice(0, 9);
+  const chips = skillChips(
+    { kinds: recent.filter((w) => ["approved", "paid"].includes(w.status)).map((w) => w.kind), hasCar: Boolean(car && car.status === "listed"), hasPortfolio: portfolio.length > 0, instagram: ig.status === "connected" },
+    { reel: <Play size={16} weight="fill" aria-hidden />, story: <InstagramLogo size={16} aria-hidden />, car: <Car size={16} aria-hidden />, photo: <Images size={16} aria-hidden />, instagram: <InstagramLogo size={16} aria-hidden /> },
+  );
+  const rows: RecentRow[] = recent.slice(0, 5).map((w) => ({ id: w.id, logo: w.logo, business: w.business, kind: KIND_NAME[w.kind] ?? w.kind, status: STATUS[w.status]?.label ?? w.status, tone: STATUS[w.status]?.tone ?? "neutral", amount: formatMoney(w.pay_cents).replace(/\.00$/, ""), href: `/o/${w.campaign_id}` }));
   const carPhoto = car ? (car.poster_url ?? car.photo_url ?? null) : null;
-  const carState = car ? (car.model_glb_url ? "3D model" : car.scan_status && ["queued", "validating", "recognizing", "reconstructing"].includes(car.scan_status) ? "Scan in progress" : carPhoto ? "Photos only" : "No photos yet") : null;
   const carListing = car ? (car.status === "listed" && car.available ? "Listed for ads" : car.status === "listed" ? "Paused" : "Not listed yet") : null;
+  const igValue = ig.status === "connected" ? `@${ig.handle ?? ""}${ig.followers != null ? ` · ${ig.followers.toLocaleString()} followers` : ""}` : ig.status === "pending" ? "Checking" : ig.status === "error" ? "Needs attention" : "Not connected";
 
   return (
-    <main className="fs-phone-main fs-profile-main" id="main">
-      <div className="v3 xs-wrap">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 44, marginTop: 12 }}>
-          <h1 className="fs-t-page">Profile</h1>
-          <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <Link href="/me/edit" className="fs-btn fs-btn-quiet fs-link-ink"><PencilSimple size={20} aria-hidden />Edit</Link>
-            <Link href="/me/settings" className="fs-icon-btn" aria-label="Settings"><Gear size={24} aria-hidden /></Link>
-          </span>
-        </div>
+    <main className="fs-phone-main" id="main">
+      <div className="pf-page">
+        <aside className="pf-side">
+          <ProfileHead avatar={ctx.avatarUrl} name={name} handle={ctx.user.username} city={ctx.city} verified={verified} bio={ctx.bio}
+            actions={<>
+              <Link href="/me/edit" className="btn btn-sm"><PencilSimple size={16} aria-hidden /> Edit</Link>
+              <CopyLink url={publicUrl} label="Share" className="btn btn-sm"><ShareNetwork size={16} aria-hidden /> Share</CopyLink>
+              <Link href="/me/settings" className="iconbtn is-sm" aria-label="Settings" data-tip="Settings"><Gear size={20} aria-hidden /></Link>
+            </>} />
+          <StatsRow items={[
+            { v: String(completed), l: completed === 1 ? "Job" : "Jobs" },
+            ...(ratingCount > 0 && rating != null ? [{ v: rating.toFixed(1), l: "Rating", star: true }] : []),
+            { v: formatMoney(lifetime).replace(/\.00$/, ""), l: "Earned" },
+          ]} />
+          <Chips items={chips} />
+          <div className="dt-section pf-desk-only">
+            <Link href="/earnings" className="dt-biz" aria-label="Earnings">
+              <span className="dt-need-icon" style={{ background: "var(--tm-surface2)", color: "var(--tm-text)" }}><Wallet size={20} aria-hidden /></span>
+              <span style={{ minWidth: 0 }}><b>{formatMoney(available)} available</b><span className="dt-biz-sub">{requested > 0 ? `Payout requested · ${formatMoney(requested)}` : "Earnings"}</span></span>
+              <span className="dt-biz-go btn btn-sm">Open <ArrowRight size={16} aria-hidden /></span>
+            </Link>
+          </div>
+        </aside>
 
-        <div className="xs-stage xs-pf" style={{ marginTop: 12 }}>
-          {/* identity: the portrait as the focal plane, the name, the public handle, the recorded facts */}
-          <section className="xs-pf-identity" aria-label="Identity">
-            <span className="xs-plane xs-pf-portrait" style={{ cursor: "default" }}>
-              {ctx.avatarUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={ctx.avatarUrl} alt={`${name}, profile photo`} width={312} height={390} fetchPriority="high" decoding="async" />
-              ) : <span className="xs-plane-empty" aria-hidden><span style={{ fontSize: 64, fontWeight: 500 }}>{(name.trim()[0] ?? "?").toUpperCase()}</span></span>}
-            </span>
-            <div className="xs-pf-who">
-              <h2 className="xs-pf-name">{name}</h2>
-              <p className="t-fact xs-pf-handle">{handle}</p>
-              <p className="t-fact">{ctx.city ?? "No city yet"}<span aria-hidden> · </span><span className="t-fact-ink">{completed}</span> Completed{ratingCount > 0 && stats?.rating ? <><span aria-hidden> · </span><span className="t-fact-ink">{Number(stats.rating).toFixed(1)}</span> rating, {ratingCount} review{ratingCount === 1 ? "" : "s"}</> : null}</p>
-              <p className="xs-pf-tags"><span className="x-tag">{igTag}</span>{car && car.status === "listed" && car.available && <span className="x-tag">Vehicle listed</span>}{verification === "verified" && <span className="x-tag">Verified creator</span>}</p>
-            </div>
-          </section>
+        <div className="pf-main">
+          <DSection title="Work" id="work" meta={tiles.length > 0 ? `${tiles.length}` : undefined}>
+            <WorkGrid items={tiles} owner={name} emptyHref="/me/portfolio" emptyLabel="Add to portfolio" />
+            {tiles.length > 0 && <div style={{ marginTop: 10 }}><Link href="/me/portfolio" className="btn btn-sm">Manage portfolio <ArrowRight size={16} aria-hidden /></Link></div>}
+          </DSection>
 
-          {/* work: the person's own submissions as planes tagged with their kind; each opens Activity */}
-          <section className="xs-pf-workwrap" aria-labelledby="work-h">
-            <div className="x-pf-work-head"><h3 id="work-h" className="x-pf-work-h" style={{ color: "#fff" }}>Work</h3></div>
-            {recent.length === 0 ? (
-              <p className="t-fact" style={{ marginTop: 8 }}>No work yet.</p>
-            ) : (
-              <div className="xs-pf-work">
-                {recent.map((w, i) => {
-                  const st = WORK_STATE[w.status] ?? { label: w.status, tone: "neutral" as const };
-                  return (
-                    <Link key={w.id} href="/activity" className={`xs-plane xs-pf-item-${i}`} aria-label={`${w.title}, ${w.business}: ${KIND_NAME[w.kind] ?? w.kind}, ${st.label}`}>
-                      <PlaneMedia src={w.media} alt="" sizes="(min-width: 1024px) 280px, 200px" priority={i === 0} tag={KIND_NAME[w.kind] ?? w.kind} tagBr={st.label} fallback="No file" />
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-          </section>
+          {rows.length > 0 && (
+            <DSection title="Recent work" id="recent">
+              <RecentWork rows={rows} />
+              <Link href="/activity" className="btn btn-sm" style={{ marginTop: 8 }}>All activity <ArrowRight size={16} aria-hidden /></Link>
+            </DSection>
+          )}
 
-          {/* the vehicle: the Drive object, photograph plus its facts, only what the record holds */}
-          <section className="xs-obj xs-pf-vehicle" aria-labelledby="vehicle-h">
+          {ratingCount > 0 && (
+            <DSection title="Reputation" id="reputation">
+              <Reputation rating={rating} reviews={ratingCount} completed={completed} />
+            </DSection>
+          )}
+
+          <DSection title="My car" id="car">
             {car ? (
-              <>
-                <Link href={`/me/vehicles/${car.id}`} className="xs-plane" aria-label={`View ${car.year} ${car.make} ${car.model}`}>
-                  <PlaneMedia src={carPhoto} alt="" sizes="(min-width: 1024px) 320px, 100vw" tag="Car" tagBr={car.zones[0] ? placementLabel(car.zones[0]) : undefined} fallback="No photos yet" />
-                </Link>
-                <div className="x-paper xs-sheet">
-                  <h3 id="vehicle-h" className="t-object">{car.year} {car.make} {car.model}</h3>
-                  <span className="t-fact">{carListing}<span aria-hidden> · </span>{carState}{car.city ? <><span aria-hidden> · </span>{car.city}</> : null}</span>
-                  <span className="xs-sheet-row"><span className="t-fact">{vehicles.length > 1 ? `${vehicles.length} cars` : "My car"}</span><Link href="/me/vehicles" className="link t-action">View</Link></span>
-                </div>
-              </>
-            ) : (
-              <div className="x-paper xs-sheet" style={{ borderRadius: 10, width: "100%" }}>
-                <h3 id="vehicle-h" className="t-object">No car yet</h3>
-                <span className="t-fact">Add your car for car ads.</span>
-                <span className="xs-sheet-row"><Link href="/me/vehicles/scan" className="link t-action">Scan</Link><Link href="/me/vehicles/new" className="link t-action">Add car</Link></span>
-              </div>
-            )}
-          </section>
-        </div>
-
-        {/* capabilities, money and administration: rows, not composition */}
-        <section aria-label="Instagram and verification" style={{ marginTop: 24 }}>
-          <Link href="/me/instagram" className="fs-row-link" style={{ minHeight: 64 }}>
-            <span style={{ minWidth: 0 }}>
-              <span className="fs-t-body" style={{ display: "block", fontWeight: 500 }}>Instagram</span>
-              <span className="fs-t-meta" style={{ display: "block" }}>{igLine}</span>
-            </span>
-            <CaretRight size={20} aria-hidden style={{ color: "var(--fs-muted)", flexShrink: 0 }} />
-          </Link>
-          <hr className="fs-divider" />
-          <Link href="/me/creator" className="fs-row-link" style={{ minHeight: 48 }}>
-            <span className="fs-t-body">Verification <Status tone={verificationTone}>· {verificationLabel}</Status></span>
-            <CaretRight size={20} aria-hidden style={{ color: "var(--fs-muted)", flexShrink: 0 }} />
-          </Link>
-        </section>
-
-        <section aria-labelledby="earn-title" style={{ marginTop: 24 }}>
-          <h2 id="earn-title" className="fs-t-section">Earnings</h2>
-          <p className="fs-t-task" style={{ marginTop: 12 }}>{formatMoney(available)} <span className="fs-t-meta">available</span></p>
-          {requested > 0 && <p className="fs-t-meta" style={{ marginTop: 4 }}>Payout requested · {formatMoney(requested)}{payout?.at ? ` · ${fmtDate(payout.at)}` : ""}</p>}
-          <Link href="/earnings" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 8 }}>Earnings <ArrowRight size={20} aria-hidden /></Link>
-        </section>
-
-        <section aria-label="More" style={{ marginTop: 24 }}>
-          {[
-            ["Activity", "/activity"],
-            ["Portfolio", "/me/portfolio"],
-            ["Share · Coming soon", "/share"],
-            ["Public page", `/u/${ctx.user.username}`],
-            ...(assignedShoots > 0 || ctx.isCreator ? [[assignedShoots > 0 ? `Shoots · ${assignedShoots}` : "Shoots", "/me/shoots"]] : []),
-            ["Settings", "/me/settings"],
-          ].map(([label, href], i) => (
-            <div key={label}>
-              {i > 0 && <hr className="fs-divider" />}
-              <Link href={href} className="fs-row-link" style={{ minHeight: 56 }}>
-                <span className="fs-t-body">{label}</span>
-                <CaretRight size={20} aria-hidden style={{ color: "var(--fs-muted)", flexShrink: 0 }} />
+              <Link href={`/me/vehicles/${car.id}`} className="dt-biz" aria-label={`${car.year} ${car.make} ${car.model}`}>
+                <span style={{ width: 72, aspectRatio: "4 / 3", borderRadius: 12, overflow: "hidden", background: "var(--env-charcoal)", flexShrink: 0 }}>
+                  {carPhoto
+                    // eslint-disable-next-line @next/next/no-img-element
+                    ? <img src={carPhoto} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
+                    : <span className="fs-video-fallback" style={{ fontSize: 11 }}>No photo</span>}
+                </span>
+                <span style={{ minWidth: 0 }}><b>{car.year} {car.make} {car.model}</b><span className="dt-biz-sub">{carListing}{vehicles.length > 1 ? ` · ${vehicles.length} cars` : ""}</span></span>
+                <span className="dt-biz-go btn btn-sm">View <ArrowRight size={16} aria-hidden /></span>
               </Link>
-            </div>
-          ))}
-        </section>
+            ) : (
+              <div className="pf-empty"><Car size={28} aria-hidden /><b>No car yet</b><span>Add your car for car ads.</span><Link href="/me/vehicles/new" className="btn btn-sm" style={{ marginTop: 4 }}>Add car <ArrowRight size={16} aria-hidden /></Link></div>
+            )}
+          </DSection>
+
+          <DSection title="Account" id="rows">
+            <ul className="pf-rows">
+              {[
+                { href: "/me/instagram", icon: <InstagramLogo size={20} aria-hidden />, label: "Instagram", value: igValue, tone: ig.status === "connected" ? "" : ig.status === "error" ? "is-alert" : "" },
+                { href: "/me/creator", icon: <SealCheck size={20} aria-hidden />, label: "Verification", value: verified ? "Verified" : verification === "pending" ? "In review" : verification === "rejected" ? "Not approved" : "Not verified", tone: verified ? "is-success" : "" },
+                { href: "/earnings", icon: <Wallet size={20} aria-hidden />, label: "Earnings", value: `${formatMoney(available)} available`, tone: "" },
+                ...(assignedShoots > 0 || ctx.isCreator ? [{ href: "/me/shoots", icon: <Camera size={20} aria-hidden />, label: "Shoots", value: assignedShoots > 0 ? `${assignedShoots} assigned` : "None", tone: "" }] : []),
+                { href: `/u/${ctx.user.username}`, icon: <ShareNetwork size={20} aria-hidden />, label: "Public page", value: "", tone: "" },
+              ].map((r) => (
+                <li key={r.href}>
+                  <Link href={r.href} className="pf-row">
+                    <span className="dt-need-icon" style={{ background: "var(--tm-surface2)", color: "var(--tm-text)" }}>{r.icon}</span>
+                    <span style={{ minWidth: 0 }}><b>{r.label}</b>{r.value && <span className={`pf-row-sub${r.tone ? ` ${r.tone}` : ""}`}>{r.value}</span>}</span>
+                    <CaretRight size={18} aria-hidden style={{ color: "var(--tm-muted)" }} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </DSection>
+        </div>
       </div>
     </main>
   );
 }
-
