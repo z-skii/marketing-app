@@ -29,7 +29,7 @@ export function Hero({ open }: { open: { href: string; label: string } | null })
               </h1>
               <p className="t-lead lp-hero-lead lp-in">Local businesses pay you to put their message on your car, your Reels and your Stories. Businesses get the content, the creators and the system that runs it.</p>
               <div className="lp-hero-cta lp-in">
-                {open ? <Link href={open.href} className="btn btn-signal btn-lg">{open.label} <ArrowRightIcon size={18} aria-hidden /></Link> : <Link href="/sign-up" className="btn btn-signal btn-lg">Start earning <ArrowRightIcon size={18} aria-hidden /></Link>}
+                {open ? <Link href={open.href} className="btn btn-signal btn-lg">{open.label} <ArrowRightIcon size={20} aria-hidden /></Link> : <Link href="/sign-up" className="btn btn-signal btn-lg">Start earning <ArrowRightIcon size={20} aria-hidden /></Link>}
                 <a href="#business" className="btn btn-lg">For businesses</a>
               </div>
               <p className="lp-strip lp-in"><span className="status-dot" aria-hidden />People, businesses and amounts shown are examples, not real accounts.</p>

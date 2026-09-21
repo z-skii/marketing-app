@@ -49,7 +49,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
                 <span className="fs-create-title">{k.title}</span>
                 <span className="fs-t-body">{k.body}</span>
                 <span className="fs-t-meta">{k.basis}</span>
-                <span className="fs-create-action">{k.action} <ArrowRight size={18} aria-hidden /></span>
+                <span className="fs-create-action">{k.action} <ArrowRight size={20} aria-hidden /></span>
               </span>
             </Link>
           </li>

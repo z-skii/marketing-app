@@ -1,4 +1,8 @@
+import {
+  UserCircle, Bell, LockKey, Storefront, Plugs, GoogleLogo, Palette, CreditCard, UsersThree, Globe, ShieldCheck, FileText, Question,
+} from "@phosphor-icons/react/dist/ssr";
 import { requireBusinessContext } from "@/lib/v2/core";
+import { CONTACT_EMAIL } from "@/config/site";
 import { sqlOne } from "@/lib/db";
 import { getNotificationPrefs, NOTIFICATION_KINDS } from "@/lib/v2/notification-prefs";
 import { brandState, loadBusinessIdentity, STATE_WORD } from "@/lib/fs/business-identity";
@@ -11,10 +15,10 @@ export const metadata = { title: "Settings" };
 export const dynamic = "force-dynamic";
 
 /**
- * Settings: which business this is, then short grouped rows that state the
- * real current condition of each thing and open it one level deeper.
- * Account, then the business, then who you act as, then the way out.
- * Complexity lives on the deeper screens, never here.
+ * Settings: grouped icon rows, the same primitives as the creator app.
+ * Account, business, notifications, payments, privacy and security,
+ * support, then who you act as and the way out. Each row states only the
+ * real current condition; complexity lives one level deeper.
  */
 export default async function BusinessSettingsPage() {
   const ctx = await requireBusinessContext("/business/settings");
@@ -37,32 +41,44 @@ export default async function BusinessSettingsPage() {
     { id: "personal", name: ctx.user.displayName ?? `@${ctx.user.username}`, sub: "Personal", logo: ctx.avatarUrl, active: false },
     ...ctx.businesses.map((b) => ({ id: b.id, name: b.name, sub: b.member_role === "owner" ? "Business · Owner" : `Business · ${b.member_role[0].toUpperCase()}${b.member_role.slice(1)}`, logo: b.logo_url, active: b.id === business.id })),
   ];
-  const planRow = !subscription || !plan ? { sub: "No plan yet", status: undefined, tone: "neutral" as const }
-    : subscription.status === "active" ? { sub: `${plan.name} · Subscription only, campaign credit is separate`, status: "Active", tone: "confirmed" as const }
-    : subscription.status === "trialing" ? { sub: plan.name, status: "Trial", tone: "waiting" as const }
-    : { sub: plan.name, status: "Past due", tone: "problem" as const };
+  const planRow = !subscription || !plan ? { value: "No plan", status: undefined, tone: "neutral" as const }
+    : subscription.status === "active" ? { value: plan.name, status: "Active", tone: "confirmed" as const }
+    : subscription.status === "trialing" ? { value: plan.name, status: "Trial", tone: "waiting" as const }
+    : { value: plan.name, status: "Past due", tone: "problem" as const };
+  const i = (Icon: typeof UserCircle) => <Icon size={20} aria-hidden />;
 
   const account = (
     <>
       <SettingsGroup title="Account">
-        <SettingsRow href="/business/settings/account" title="Account" sub={ctx.user.email ?? "Email unavailable"} />
-        <SettingsRow href="/business/settings/notifications" title="Notifications" sub={mutedN > 0 ? `${onN} of ${NOTIFICATION_KINDS.length} kinds on` : "All kinds on"} />
-        <SettingsRow href="/business/settings/security" title="Security" sub="Password and sessions" />
+        <SettingsRow href="/business/settings/account" icon={i(UserCircle)} title="Account" value={ctx.user.email ?? undefined} />
       </SettingsGroup>
       <SettingsGroup title="Business">
-        <SettingsRow href="/business/edit" title="Business details" sub={where || "Add a category and city"} />
-        <SettingsRow href="/business/settings/connections" title="Connections" sub={`Instagram ${STATE_WORD[ig.state].label.toLowerCase()} · Google ${STATE_WORD[google.state].label.toLowerCase()}`} status={attention > 0 ? (attention === 1 ? "Needs attention" : `${attention} need attention`) : undefined} tone="problem" />
-        <SettingsRow href="/business/google" title="Google Business" sub={google.state === "connected" ? google.name ?? "Connected" : "Connect to read your listing"} status={STATE_WORD[google.state].label} tone={STATE_WORD[google.state].tone} />
-        <SettingsRow href="/business/brand" title="Brand kit" sub={kit.sub} status={kit.label} tone={kit.tone} />
-        <SettingsRow href="/business/plan" title="Plan and billing" sub={planRow.sub} status={planRow.status} tone={planRow.tone} />
-        <SettingsRow href="/business/team" title="Team" sub={members === 1 ? "Only you" : `${members} people`} />
-        <SettingsRow href={`/b/${row.slug}`} external title="Public page" sub={`tapmart.live/b/${row.slug}`} />
+        <SettingsRow href="/business/edit" icon={i(Storefront)} title="Details" value={where || "Add city"} />
+        <SettingsRow href="/business/settings/connections" icon={i(Plugs)} title="Connections" value={attention > 0 ? undefined : `${STATE_WORD[ig.state].label}`} status={attention > 0 ? (attention === 1 ? "Needs attention" : `${attention} need attention`) : undefined} tone="problem" />
+        <SettingsRow href="/business/google" icon={i(GoogleLogo)} title="Google Business" status={STATE_WORD[google.state].label} tone={STATE_WORD[google.state].tone} />
+        <SettingsRow href="/business/brand" icon={i(Palette)} title="Brand kit" status={kit.label} tone={kit.tone} />
+        <SettingsRow href="/business/team" icon={i(UsersThree)} title="Team" value={members === 1 ? "Only you" : `${members} people`} />
+        <SettingsRow href={`/b/${row.slug}`} external icon={i(Globe)} title="Public page" />
+      </SettingsGroup>
+      <SettingsGroup title="Notifications">
+        <SettingsRow href="/business/settings/notifications" icon={i(Bell)} title="Notifications" value={mutedN > 0 ? `${onN} of ${NOTIFICATION_KINDS.length} on` : "All on"} />
+      </SettingsGroup>
+      <SettingsGroup title="Payments">
+        <SettingsRow href="/business/plan" icon={i(CreditCard)} title="Plan and billing" value={planRow.value} status={planRow.status} tone={planRow.tone} />
+      </SettingsGroup>
+      <SettingsGroup title="Privacy and security">
+        <SettingsRow href="/business/settings/security" icon={i(LockKey)} title="Security" />
+        <SettingsRow href="/privacy" external icon={i(ShieldCheck)} title="Privacy" />
+      </SettingsGroup>
+      <SettingsGroup title="Support">
+        {CONTACT_EMAIL && <SettingsRow href={`mailto:${CONTACT_EMAIL}`} external icon={i(Question)} title="Help" />}
+        <SettingsRow href="/terms" external icon={i(FileText)} title="Terms" />
       </SettingsGroup>
     </>
   );
   const identityBlock = (
     <section aria-labelledby="use-as" style={{ marginTop: 24 }}>
-      <h2 id="use-as" className="fs-t-label" style={{ color: "var(--fs-muted)" }}>Use TapMart as</h2>
+      <h2 id="use-as" className="fs-settings-title">Use TapMart as</h2>
       <IdentitySwitch identities={identities} canAddBusiness />
     </section>
   );
@@ -70,7 +86,6 @@ export default async function BusinessSettingsPage() {
   return (
     <main className="fs-phone-main" id="main">
       <UtilityHead title="Settings" back={<BackLink fallback="/business/profile" label="Business" />} />
-      <p className="fs-t-body" style={{ marginTop: 4 }}><span style={{ fontWeight: 500 }}>{business.name}</span>{where ? <span className="fs-t-meta"> · {where}</span> : null}</p>
       <div className="fs-settings-grid">
         <div>
           {account}

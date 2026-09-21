@@ -24,7 +24,7 @@ export default async function MyVehiclesPage() {
     <main id="main" className="mx-auto w-full max-w-3xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me" label="Profile" />
       <div className="ap-head">
-        <div><h1>My cars</h1><p className="ap-sub">Your car earns while you drive.</p></div>
+        <div><h1>My cars</h1></div>
         {vehicles.length > 0 && <Link href="/me/vehicles/new" className="btn btn-sm shrink-0"><PlusIcon size={16} aria-hidden />Add a car</Link>}
       </div>
 
@@ -34,9 +34,9 @@ export default async function MyVehiclesPage() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/photos/cars/wagon-1600.webp" alt="" style={{ objectFit: "contain", padding: "6% 4%" }} fetchPriority="high" />
           </div>
-          <p className="ap-carstage-name">Make money with your car.</p>
-          <p className="t-meta mt-2 max-w-md">Add your car with a few guided photos. Businesses near you pay monthly for a placement on a door, the rear window or the full side. You keep driving the way you already do.</p>
-          <Link href="/me/vehicles/new" className="btn btn-signal btn-lg mt-5">Add your car <ArrowRightIcon size={18} aria-hidden /></Link>
+          <p className="ap-carstage-name">Earn while you drive.</p>
+          <p className="t-meta mt-2 max-w-md">A few guided photos. Businesses pay monthly for a door, the rear window or the full side.</p>
+          <Link href="/me/vehicles/new" className="btn btn-signal btn-lg mt-5">Add your car <ArrowRightIcon size={20} aria-hidden /></Link>
         </section>
       ) : (
         <ul className="mt-5 flex flex-col gap-5">
@@ -46,7 +46,7 @@ export default async function MyVehiclesPage() {
               <li key={v.id}>
                 <Link href={`/me/vehicles/${v.id}`} className="ap-carstage block" aria-label={`Manage ${v.year} ${v.make} ${v.model}`}>
                   <div className="ap-carstage-tags">
-                    {v.verification === "verified" && <span className="glass-tag is-dark"><VerifiedIcon size={14} weight="fill" aria-hidden />Verified</span>}
+                    {v.verification === "verified" && <span className="glass-tag is-dark"><VerifiedIcon size={16} weight="fill" aria-hidden />Verified</span>}
                     {v.model_glb_url && <span className="glass-tag is-dark">3D model</span>}
                   </div>
                   <div className="ap-carstage-photo">
@@ -64,7 +64,7 @@ export default async function MyVehiclesPage() {
                     </div>
                     <Badge tone={available ? "success" : "neutral"} dot className="shrink-0">{v.status === "listed" ? (v.available ? "Available for ads" : "Paused") : "Not listed"}</Badge>
                   </div>
-                  <span className="btn btn-glass is-dark btn-sm mt-4">Manage <ArrowRightIcon size={14} aria-hidden /></span>
+                  <span className="btn btn-glass is-dark btn-sm mt-4">Manage <ArrowRightIcon size={16} aria-hidden /></span>
                 </Link>
               </li>
             );

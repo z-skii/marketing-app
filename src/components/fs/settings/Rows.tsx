@@ -2,10 +2,11 @@ import Link from "next/link";
 import { ArrowSquareOut, CaretRight } from "@phosphor-icons/react/dist/ssr";
 
 /**
- * Utility rows for Stage 5. One calm column: a title, the real current
- * state underneath, a literal status word at the end when there is one,
- * and a caret when the row opens something. No icons, no cards; the
- * dividers do the grouping.
+ * Settings rows, the same in the creator and the business app. Groups are
+ * rounded cards with a small uppercase title; each row is an icon, a
+ * label, an optional current value or status at the end, and a caret when
+ * it opens something. A sub line is used only for a real current state
+ * that matters, never as a description.
  */
 export type Tone = "confirmed" | "waiting" | "problem" | "neutral";
 
@@ -19,6 +20,10 @@ export type RowProps = {
   disabled?: boolean;
   /** A real image or glyph on the left, 40px. */
   lead?: React.ReactNode;
+  /** A 20px icon in a tinted 32px square on the left. */
+  icon?: React.ReactNode;
+  /** A short current value at the end, muted. */
+  value?: React.ReactNode;
   end?: React.ReactNode;
 };
 
@@ -26,16 +31,17 @@ export function SettingsGroup({ title, children, id }: { title: string; children
   const hid = id ?? `sg-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
   return (
     <section aria-labelledby={hid} style={{ marginTop: 24 }}>
-      <h2 id={hid} className="fs-t-label" style={{ color: "var(--fs-muted)" }}>{title}</h2>
+      <h2 id={hid} className="fs-settings-title">{title}</h2>
       <ul className="fs-settings-group">{children}</ul>
     </section>
   );
 }
 
 export function SettingsRow(r: RowProps) {
+  const lead = r.lead ?? (r.icon ? <span className="fs-settings-icon" aria-hidden>{r.icon}</span> : null);
   const text = (
-    <span className={r.lead ? "fs-settings-lead" : undefined} style={{ minWidth: 0 }}>
-      {r.lead}
+    <span className={lead ? `fs-settings-lead${r.icon && !r.lead ? " is-icon" : ""}` : undefined} style={{ minWidth: 0 }}>
+      {lead}
       <span className="fs-settings-text" style={{ minWidth: 0 }}>
         <span className="fs-t-body" style={{ display: "block", fontWeight: 500 }}>{r.title}</span>
         {r.sub && <span className="fs-t-meta fs-settings-sub">{r.sub}</span>}
@@ -44,6 +50,7 @@ export function SettingsRow(r: RowProps) {
   );
   const end = (
     <span className="fs-settings-end">
+      {r.value && <span className="fs-settings-value">{r.value}</span>}
       {r.status && <span className={`fs-status is-${r.tone ?? "neutral"}`}>{r.status}</span>}
       {r.end}
       {r.href && !r.disabled && (r.external ? <ArrowSquareOut size={20} aria-hidden /> : <CaretRight size={20} aria-hidden />)}

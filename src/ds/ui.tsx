@@ -13,7 +13,7 @@ export function Button({ href, variant = "secondary", size, children, className 
   href?: string; variant?: Variant; size?: "sm" | "lg"; children: ReactNode; className?: string; arrow?: boolean; type?: "button" | "submit"; disabled?: boolean; onClick?: () => void; ariaLabel?: string; style?: CSSProperties; external?: boolean;
 }) {
   const cls = `${VARIANT[variant]}${size ? ` btn-${size}` : ""} ${className}`;
-  const inner = <>{children}{arrow && <ArrowRightIcon size={18} aria-hidden />}</>;
+  const inner = <>{children}{arrow && <ArrowRightIcon size={20} aria-hidden />}</>;
   if (href) return external ? <a href={href} className={cls} aria-label={ariaLabel} style={style} target="_blank" rel="noreferrer">{inner}</a> : <Link href={href} className={cls} aria-label={ariaLabel} style={style}>{inner}</Link>;
   return <button type={type} className={cls} disabled={disabled} onClick={onClick} aria-label={ariaLabel} style={style}>{inner}</button>;
 }
@@ -48,8 +48,28 @@ export function Badge({ tone = "neutral", children, className = "", dot = false 
   return <span className={`badge is-${tone} ${className}`}>{dot && <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-current" />}{children}</span>;
 }
 export function statusTone(status: string): Tone { return (TONES as Record<string, Tone>)[status] ?? "neutral"; }
+/** One short word per state, shared by both sides of the product. */
+export const STATUS_LABEL: Record<string, string> = {
+  open: "Open", active: "Live", live: "Live", full: "Full", closed: "Closed", ended: "Ended", draft: "Draft", idea: "Idea", archived: "Archived", paused: "Paused",
+  applied: "Applied", accepted: "Accepted", declined: "Declined", withdrawn: "Withdrawn", cancelled: "Cancelled", requested: "Requested", sent: "Sent",
+  submitted: "Submitted", under_review: "In review", in_review: "In review", review: "In review", pending: "Pending", waiting: "Waiting", creating: "In progress",
+  revision_requested: "Revision", needs_revision: "Revision", proof_required: "Proof needed", approved: "Approved", rejected: "Rejected", paid: "Paid", failed: "Failed", disputed: "Disputed", expired: "Expired",
+  scheduled: "Scheduled", published: "Posted", needs_approval: "Needs review", new: "New",
+  creative_pending: "Creative", installation_pending: "Install", proof_pending: "Proof", booked: "Booked", installed: "Installed", completed: "Done", funded: "Funded",
+  verified: "Verified", unverified: "Unverified", connected: "Connected", disconnected: "Off", listed: "Listed", unlisted: "Unlisted", planned: "Planned", done: "Done", delivered: "Delivered",
+};
+export function statusLabel(status: string): string { return STATUS_LABEL[status] ?? status.replaceAll("_", " "); }
 export function StatusBadge({ status, label, className = "" }: { status: string; label?: string; className?: string }) {
-  return <Badge tone={statusTone(status)} className={className} dot>{label ?? status.replaceAll("_", " ")}</Badge>;
+  return <Badge tone={statusTone(status)} className={className} dot>{label ?? statusLabel(status)}</Badge>;
+}
+
+/** An icon only action: the label is read by assistive technology and shown as a tooltip on desktop. */
+export function IconButton({ href, label, icon, size = "md", surface = false, className = "", onClick, type = "button", disabled, tipUp = false, external }: {
+  href?: string; label: string; icon: ReactNode; size?: "sm" | "md" | "lg"; surface?: boolean; className?: string; onClick?: () => void; type?: "button" | "submit"; disabled?: boolean; tipUp?: boolean; external?: boolean;
+}) {
+  const cls = `iconbtn${size === "sm" ? " is-sm" : size === "lg" ? " is-lg" : ""}${surface ? " is-surface" : ""}${tipUp ? " tip-up" : ""} ${className}`;
+  if (href) return external ? <a href={href} className={cls} aria-label={label} data-tip={label} target="_blank" rel="noreferrer">{icon}</a> : <Link href={href} className={cls} aria-label={label} data-tip={label}>{icon}</Link>;
+  return <button type={type} className={cls} aria-label={label} data-tip={label} onClick={onClick} disabled={disabled}>{icon}</button>;
 }
 
 export function Chip({ href, active = false, children, className = "", icon }: { href?: string; active?: boolean; children: ReactNode; className?: string; icon?: ReactNode }) {
@@ -96,7 +116,7 @@ export function LinkRow({ href, icon, title, sub, trailing, className = "" }: { 
         {sub && <span className="block truncate text-[13px] leading-4 text-ink-soft">{sub}</span>}
       </span>
       {trailing}
-      <ArrowRightIcon size={18} className="shrink-0 text-ink-faint" aria-hidden />
+      <ArrowRightIcon size={20} className="shrink-0 text-ink-faint" aria-hidden />
     </Link>
   );
 }

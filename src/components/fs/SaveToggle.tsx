@@ -25,7 +25,7 @@ export function SaveToggle({ itemType, itemId, initialSaved, compact = false }: 
   };
   if (compact) {
     return (
-      <button type="button" aria-pressed={saved} aria-label={saved ? "Saved. Remove from saved" : "Save for later"} className="iconbtn is-surface" onClick={onClick} style={{ color: saved ? "var(--tm-red)" : "var(--tm-text)" }}>
+      <button type="button" aria-pressed={saved} aria-label={saved ? "Saved. Remove from saved" : "Save for later"} className="iconbtn is-surface" data-tip={saved ? "Saved" : "Save"} onClick={onClick} style={{ color: saved ? "var(--tm-red)" : "var(--tm-text)" }}>
         <BookmarkSimple size={20} weight={saved ? "fill" : "regular"} aria-hidden />
       </button>
     );

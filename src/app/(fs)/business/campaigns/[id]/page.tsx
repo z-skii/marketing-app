@@ -66,7 +66,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
         <span className={`fs-status is-${status.tone}`}>{status.label}</span>
       </div>
       {query.created === "1" && (
-        <p className="fs-t-body fs-plane" style={{ marginTop: 12 }}>{campaign.status === "open" ? `Published. People in ${campaign.city ?? "your city"} were told.` : "Saved as a draft. Publish it from Campaign settings when you are ready."}</p>
+        <p className="fs-t-body fs-plane" style={{ marginTop: 12 }}>{campaign.status === "open" ? `Published in ${campaign.city ?? "your city"}.` : "Saved as a draft."}</p>
       )}
       <h1 className="fs-t-page" style={{ marginTop: 8 }}>{campaign.title}</h1>
       <p className="fs-t-meta" style={{ marginTop: 4 }}>{KIND_WORD[campaign.kind] ?? campaign.kind} · {campaign.audience === "direct" ? "Direct request" : "Public"}{campaign.city ? ` · ${campaign.city}` : ""}</p>
@@ -90,10 +90,10 @@ export default async function CampaignPage({ params, searchParams }: { params: P
           <div className="fs-plane" aria-label="Needs you">
             <p className="fs-t-label">Needs you</p>
             {needs.length === 0 ? (
-              <p className="fs-t-body" style={{ marginTop: 4 }}>{campaign.audience === "direct" && invite?.status === "sent" ? "Nothing yet. They have not answered." : isOpen ? "Nothing right now. You are told when something arrives." : "Nothing. This campaign is finished."}</p>
+              <p className="fs-t-body" style={{ marginTop: 4 }}>{campaign.audience === "direct" && invite?.status === "sent" ? "No answer yet." : isOpen ? "Nothing yet." : "Nothing. This campaign is finished."}</p>
             ) : (
               <ul className="fs-plain-list" style={{ marginTop: 4 }}>
-                {needs.map((n) => <li key={n.label}><Link href={n.href} className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>{n.label} <ArrowRight size={18} aria-hidden /></Link></li>)}
+                {needs.map((n) => <li key={n.label}><Link href={n.href} className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>{n.label} <ArrowRight size={20} aria-hidden /></Link></li>)}
               </ul>
             )}
           </div>
@@ -140,7 +140,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
                             {media ? (/\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(media) ? <span className="fs-video-fallback" style={{ fontSize: 12 }}>Video</span> : <Img src={media} alt="" loading="lazy" />) : null}
                           </span>
                           <span className="fs-work-info">
-                            <span className="fs-work-title fs-t-task">{s.creator_name ?? s.creator_username}{s.creator_verified && <span className="fs-t-meta"> · Verified creator</span>}</span>
+                            <span className="fs-work-title fs-t-task">{s.creator_name ?? s.creator_username}{s.creator_verified && <span className="fs-t-meta"> · Verified</span>}</span>
                             <span className="fs-t-meta fs-meta-line"><span className={`fs-status is-${w.tone}`}>{w.label}</span><span>{fmtDay(s.created_at)}</span>{pendingReview ? <span>{story ? "Check the proof" : "Review the video"}</span> : s.status === "paid" ? <span>{formatMoney(campaign.pay_cents)} paid</span> : null}</span>
                           </span>
                         </Link>
@@ -162,7 +162,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
                       <span style={{ minWidth: 0 }}>
                         <span className="fs-t-task" style={{ display: "block" }}>{a.display_name ?? a.username} <span className="fs-t-meta">@{a.username}{a.city ? ` · ${a.city}` : ""}</span></span>
                         <span className="fs-t-meta" style={{ display: "block" }}>
-                          {[a.instagram_status === "connected" ? `Instagram connected${a.instagram_followers != null ? ` · ${a.instagram_followers.toLocaleString()} followers` : ""}` : null, a.verified ? "Verified creator" : null, a.completed_jobs > 0 ? `${a.completed_jobs} completed` : null].filter(Boolean).join(" · ") || "No provenance recorded"}
+                          {[a.instagram_status === "connected" ? `Instagram${a.instagram_followers != null ? ` · ${a.instagram_followers.toLocaleString()} followers` : ""}` : null, a.verified ? "Verified creator" : null, a.completed_jobs > 0 ? `${a.completed_jobs} completed` : null].filter(Boolean).join(" · ") || "No provenance recorded"}
                         </span>
                         {a.message && <span className="fs-t-body" style={{ display: "block", marginTop: 4 }}>{a.message}</span>}
                         {a.sample_url && <Link href={`/business/people/${a.username}`} className="fs-link-ink fs-link-ul fs-t-meta" style={{ display: "inline-block", marginTop: 4 }}>Approved work: {a.sample_title ?? "sample"}</Link>}
@@ -171,7 +171,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
                     <div className="fs-applicant-decision">
                       {a.status === "applied" ? (
                         <>
-                          <span className="fs-t-meta" style={{ display: "block" }}>Accepting lets them submit. {formatMoney(campaign.pay_cents)} is paid only when you approve their work.</span>
+                          <span className="fs-t-meta" style={{ display: "block" }}>Paid only when you approve their work.</span>
                           <ApplicantDecision applicationId={a.id} car={false} />
                         </>
                       ) : (
@@ -188,7 +188,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
             <>
               <Section title="Drivers who applied" id="drivers">
                 {drivers.length === 0 ? (
-                  <p className="fs-t-body" style={{ color: "var(--fs-muted)" }}>{isOpen ? `No drivers yet. Drivers in ${campaign.city ?? "your city"} whose car fits can apply.` : "No drivers applied."}</p>
+                  <p className="fs-t-body" style={{ color: "var(--fs-muted)" }}>{isOpen ? "No drivers yet." : "No drivers applied."}</p>
                 ) : (
                   <ul className="fs-work-list">
                     {drivers.map((a) => (
@@ -206,7 +206,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
                         <div className="fs-applicant-decision">
                           {a.status === "applied" ? (
                             <>
-                              <span className="fs-t-meta" style={{ display: "block" }}>Accepting books the car. Nothing is paid until you confirm the installation.</span>
+                              <span className="fs-t-meta" style={{ display: "block" }}>Paid once you confirm the install.</span>
                               <DriverDecision applicationId={a.id} />
                             </>
                           ) : <span className={`fs-status is-${a.status === "accepted" ? "confirmed" : a.status === "declined" ? "problem" : "neutral"}`}>{a.status === "accepted" ? "Accepted" : a.status === "declined" ? "Declined" : "Withdrawn"}</span>}
@@ -218,7 +218,7 @@ export default async function CampaignPage({ params, searchParams }: { params: P
               </Section>
               <Section title="Cars on this campaign" id="cars">
                 {bookings.length === 0 ? (
-                  <p className="fs-t-body" style={{ color: "var(--fs-muted)" }}>Accepted drivers appear here with their next step.</p>
+                  <p className="fs-t-body" style={{ color: "var(--fs-muted)" }}>No accepted drivers yet.</p>
                 ) : (
                   <ul className="fs-work-list">
                     {bookings.map((b) => <BookingRow key={b.id} b={b} campaignId={campaign.id} proofs={proofs.filter((p) => p.booking_id === b.id).length} months={monthsPaid[b.id] ?? 0} />)}

@@ -6,7 +6,7 @@ export function Footer({ year }: { year: number }) {
     <footer className="lp-footer">
       <div className="lp-wrap lp-footer-grid">
         <div>
-          <Wordmark size={22} />
+          <Wordmark size={24} />
           <p className="t-meta" style={{ marginTop: 12, maxWidth: "48ch" }}>Get paid to promote local businesses. People, businesses, campaigns and amounts shown on this page are examples, not real accounts.</p>
           <p className="t-meta" style={{ marginTop: 8 }}>© {year} TapMart</p>
         </div>

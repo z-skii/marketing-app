@@ -22,7 +22,7 @@ export function BackButton({ fallback, label }: { fallback: string; label?: stri
         else router.push(fallback);
       }}
     >
-      <CaretLeft size={22} weight="bold" aria-hidden />
+      <CaretLeft size={24} weight="bold" aria-hidden />
       {label && label !== "Back" && <span>{label}</span>}
     </button>
   );

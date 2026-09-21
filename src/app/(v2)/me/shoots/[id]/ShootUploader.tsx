@@ -96,7 +96,7 @@ export function ShootUploader({ shootId, initial, delivered }: { shootId: string
               </span>
               {d.kind === "video" && (
                 <span className="glass-tag absolute bottom-1.5 left-1.5 flex h-7 w-7 items-center justify-center rounded-full text-ink" aria-hidden>
-                  <Play size={14} weight="fill" />
+                  <Play size={16} weight="fill" />
                 </span>
               )}
             </li>
@@ -145,7 +145,7 @@ export function ShootUploader({ shootId, initial, delivered }: { shootId: string
       />
       <div className="mt-5 flex flex-wrap items-center gap-2">
         <label htmlFor="shoot-files" className={`btn ${delivered ? "" : "btn-signal"} cursor-pointer ${busy ? "pointer-events-none opacity-60" : ""}`}>
-          <UploadSimple size={18} weight="bold" aria-hidden />
+          <UploadSimple size={20} weight="bold" aria-hidden />
           {busy ? "Uploading" : items.length === 0 ? "Upload photos and videos" : "Add more"}
         </label>
         {!delivered && (
@@ -160,7 +160,7 @@ export function ShootUploader({ shootId, initial, delivered }: { shootId: string
               });
             }}
           >
-            <CheckCircle size={18} weight="fill" aria-hidden />
+            <CheckCircle size={20} weight="fill" aria-hidden />
             {pending ? "Saving" : "Mark delivered"}
           </button>
         )}

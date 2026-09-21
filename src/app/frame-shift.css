@@ -34,8 +34,8 @@
   --fs-problem: var(--tm-alert);
   --fs-studio-floor: var(--tm-surface3);
 
-  --fs-radius-media: 16px;
-  --fs-radius-control: 14px;
+  --fs-radius-media: 12px;
+  --fs-radius-control: 12px;
   --fs-radius-overlay: 20px;
   --fs-radius-sheet: 28px;
   --fs-shift-phone: 12px;
@@ -84,7 +84,7 @@ html.fs-doc body { background: var(--tm-bg); color: var(--tm-text); }
 
 /* ---------------------------------------------------------------- type */
 .fs .fs-display { font-family: var(--fs-display); }
-.fs .fs-t-page { font-family: var(--fs-display); font-weight: 500; font-size: 30px; line-height: 36px; letter-spacing: -0.03em; }
+.fs .fs-t-page { font-family: var(--fs-display); font-weight: 600; font-size: 28px; line-height: 32px; letter-spacing: -0.03em; }
 .fs .fs-t-section { font-family: var(--fs-display); font-weight: 500; font-size: 22px; line-height: 28px; letter-spacing: -0.02em; }
 .fs .fs-t-identity { font-family: var(--fs-display); font-weight: 500; font-size: 30px; line-height: 32px; letter-spacing: -0.03em; overflow-wrap: anywhere; }
 .fs .fs-t-task { font-weight: 500; font-size: 18px; line-height: 24px; }
@@ -93,9 +93,9 @@ html.fs-doc body { background: var(--tm-bg); color: var(--tm-text); }
 .fs .fs-t-label { font-weight: 500; font-size: 14px; line-height: 20px; }
 .fs .fs-money { font-family: var(--fs-display); font-weight: 700; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.02em; font-size: 30px; line-height: 34px; white-space: nowrap; }
 .fs .fs-money-record { font-family: var(--fs-display); font-weight: 700; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.02em; font-size: 28px; line-height: 32px; white-space: nowrap; }
-.fs .fs-money-balance { font-family: var(--fs-display); font-weight: 700; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.03em; font-size: 44px; line-height: 48px; white-space: nowrap; }
+.fs .fs-money-balance { font-family: var(--fs-display); font-weight: 700; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.03em; font-size: 40px; line-height: 44px; white-space: nowrap; }
 @media (min-width: 1024px) {
-  .fs .fs-t-page { font-size: 36px; line-height: 40px; }
+  .fs .fs-t-page { font-size: 34px; line-height: 38px; }
   .fs .fs-t-section { font-size: 24px; line-height: 30px; }
   .fs .fs-t-identity { font-size: 32px; line-height: 36px; }
   .fs .fs-money { font-size: 34px; line-height: 38px; }
@@ -106,12 +106,13 @@ html.fs-doc body { background: var(--tm-bg); color: var(--tm-text); }
 /* ------------------------------------------------------------ controls */
 .fs .fs-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px; padding: 0 20px; border-radius: 999px;
-  font-weight: 600; font-size: 16px; line-height: 20px; white-space: nowrap; text-align: center;
+  min-height: 40px; padding: 0 18px; border-radius: 999px;
+  font-weight: 600; font-size: 15px; line-height: 20px; white-space: nowrap; text-align: center;
   transition: background-color var(--fs-t-control) var(--fs-ease-out), transform var(--fs-t-control) var(--fs-ease-out), border-color var(--fs-t-control) var(--fs-ease-out), color var(--fs-t-control) var(--fs-ease-out);
 }
 .fs .fs-btn-wrap { white-space: normal; text-align: left; padding-block: 12px; line-height: 20px; height: auto; }
-.fs .fs-btn-primary { background: var(--fs-accent); color: #fff; box-shadow: var(--tm-shadow-primary); }
+.fs .fs-btn-primary { min-height: 48px; padding: 0 22px; font-size: 16px; background: var(--fs-accent); color: #fff; box-shadow: var(--tm-shadow-primary); }
+.fs .fs-btn-primary.fs-btn-sm { min-height: 32px; padding: 0 12px; font-size: 13px; }
 .fs .fs-btn-primary:hover { background: var(--fs-accent-hover); }
 .fs .fs-btn-primary:active { background: var(--fs-accent-pressed); transform: scale(0.98) translateY(1px); }
 .fs .fs-on-dark .fs-btn-primary { background: #fff; color: var(--fs-ink); box-shadow: none; }
@@ -122,11 +123,12 @@ html.fs-doc body { background: var(--tm-bg); color: var(--tm-text); }
 .fs .fs-btn-quiet { background: transparent; color: var(--fs-accent); padding: 0 8px; }
 .fs .fs-btn-quiet:hover { background: var(--fs-accent-wash); }
 .fs .fs-on-dark .fs-btn-quiet:hover { background: var(--fs-stage); }
-.fs .fs-btn-sm { min-height: 40px; font-size: 14px; }
+.fs .fs-btn-sm { min-height: 32px; padding: 0 12px; font-size: 13px; line-height: 16px; gap: 6px; }
+.fs .fs-btn-lg { min-height: 48px; padding: 0 22px; font-size: 16px; }
 .fs .fs-btn:disabled { opacity: 0.55; }
 .fs .fs-ledge-action { background: #fff; color: var(--fs-ink); border: 1px solid #fff; }
 .fs .fs-ledge-action:hover { background: var(--fs-accent-hover); border-color: #fff; }
-.fs .fs-icon-btn { position: relative; display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: var(--fs-radius-control); color: var(--fs-ink); }
+.fs .fs-icon-btn { position: relative; display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; color: var(--fs-ink); }
 .fs .fs-icon-btn:hover { background: var(--fs-underlay); }
 .fs .fs-on-dark .fs-icon-btn { color: var(--fs-on-dark); }
 .fs .fs-on-dark .fs-icon-btn:hover { background: var(--fs-stage); }
@@ -619,15 +621,24 @@ html.fs-doc body { background: var(--tm-bg); color: var(--tm-text); }
 /* ------------------------------------------- Stage 5: identity and management */
 /* Utility screens: one calm column, text-first rows, less graphite and less media than discovery. */
 .fs .fs-utility { max-width: 640px; }
-.fs .fs-settings-group { list-style: none; padding: 0; margin: 8px 0 0; }
-.fs .fs-settings-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 64px; padding: 10px 0; border-top: 1px solid var(--fs-divider); transition: background-color var(--fs-t-control) var(--fs-ease-out); }
+.fs .fs-settings-title { margin: 0 0 8px 16px; font-size: 12px; font-weight: 600; line-height: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fs-muted); }
+.fs .fs-settings-group { list-style: none; padding: 0 16px; margin: 0; background: var(--fs-surface); border-radius: 20px; box-shadow: var(--tm-shadow-card); }
+.fs .fs-settings-group + .fs-settings-group { margin-top: 16px; }
+.fs .fs-settings-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 52px; padding: 8px 0; border-top: 1px solid var(--fs-divider); transition: background-color var(--fs-t-control) var(--fs-ease-out); }
 .fs .fs-settings-group > li:first-child > .fs-settings-row { border-top: 0; }
-.fs a.fs-settings-row:hover, .fs button.fs-settings-row:hover { background: var(--fs-underlay); margin: 0 -8px; padding-left: 8px; padding-right: 8px; }
+.fs a.fs-settings-row:hover, .fs button.fs-settings-row:hover { background: var(--fs-underlay); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+.fs .fs-settings-group > li:first-child > a.fs-settings-row:hover, .fs .fs-settings-group > li:first-child > button.fs-settings-row:hover { border-radius: 20px 20px 0 0; }
+.fs .fs-settings-group > li:last-child > a.fs-settings-row:hover, .fs .fs-settings-group > li:last-child > button.fs-settings-row:hover { border-radius: 0 0 20px 20px; }
+.fs .fs-settings-group > li:only-child > a.fs-settings-row:hover, .fs .fs-settings-group > li:only-child > button.fs-settings-row:hover { border-radius: 20px; }
 .fs button.fs-settings-row { width: 100%; text-align: left; }
 .fs .fs-settings-row.is-disabled { color: var(--fs-muted); }
 .fs .fs-settings-row .fs-settings-end { display: inline-flex; align-items: center; gap: 8px; color: var(--fs-muted); white-space: nowrap; }
+.fs .fs-settings-row .fs-settings-value { font-size: 14px; color: var(--fs-muted); max-width: 44vw; overflow: hidden; text-overflow: ellipsis; }
 .fs .fs-settings-row .fs-settings-sub { display: block; overflow-wrap: anywhere; }
 .fs .fs-settings-lead { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: center; min-width: 0; }
+.fs .fs-settings-lead.is-icon { grid-template-columns: 32px minmax(0, 1fr); }
+.fs .fs-settings-icon { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--fs-underlay); color: var(--fs-ink); }
+.fs .fs-settings-icon.is-danger { background: rgba(224,33,43,0.1); color: var(--fs-problem); }
 .fs .fs-settings-lead > svg, .fs .fs-settings-lead > img, .fs .fs-settings-lead > span:first-child { flex: none; }
 .fs .fs-settings-lead .fs-settings-text { min-width: 0; }
 /* On/off: a 48x28 switch with the knob as the only moving part; cobalt only when on. */
@@ -736,3 +747,5 @@ html.fs-doc body { background: var(--tm-bg); color: var(--tm-text); }
   .fs .fs-composer { bottom: 0; }
   .fs .fs-biz-cover { max-height: 360px; }
 }
+/* The pay in the source assembly scales with the column it sits in, so it never clips beside the reference at 1024. */
+.fs .fs-op-recreate.is-detail .fs-money-detail { font-size: clamp(28px, 2.6vw, 40px); line-height: 1.1; }

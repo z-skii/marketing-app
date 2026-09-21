@@ -24,10 +24,10 @@ const VIDEO = /\.(mp4|webm|mov|m4v)(\?|#|$)/i;
 /** Literal provenance from the recorded fields; nothing inferred. */
 export function provenance(p: Person): string {
   const parts: string[] = [];
-  if (p.instagram?.status === "connected") parts.push("Instagram connected");
-  else if (p.instagram?.status === "pending") parts.push("Instagram not yet verified");
-  if (p.verification === "verified") parts.push("Verified creator");
-  else if (parts.length === 0) parts.push("Creator not verified");
+  if (p.instagram?.status === "connected") parts.push("Instagram");
+  else if (p.instagram?.status === "pending") parts.push("Instagram pending");
+  if (p.verification === "verified") parts.push("Verified");
+  else if (parts.length === 0) parts.push("Not verified");
   return parts.join(" · ");
 }
 
@@ -123,7 +123,7 @@ function Actions({ p, canRequest }: { p: Person; canRequest: boolean }) {
       <Link href={href} className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>View person</Link>
       {canRequest && (
         <details className="fs-request">
-          <summary className="fs-btn fs-btn-quiet" style={{ minHeight: 44 }} aria-haspopup="menu">Request <CaretDown size={14} aria-hidden /></summary>
+          <summary className="fs-btn fs-btn-quiet" style={{ minHeight: 44 }} aria-haspopup="menu">Request <CaretDown size={16} aria-hidden /></summary>
           <div className="fs-menu" role="menu">
             <Link href={`${href}?request=story`} role="menuitem">Request Story <ArrowRight size={16} aria-hidden /></Link>
             <Link href={`${href}?request=reel`} role="menuitem">Request Reel <ArrowRight size={16} aria-hidden /></Link>

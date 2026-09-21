@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CaretRight, Gear } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, CaretRight, Gear, PencilSimple } from "@phosphor-icons/react/dist/ssr";
 import { getV2Context } from "@/lib/v2/core";
 import { getMyVehicles } from "@/lib/v2/opportunities";
 import { countShootsAssignedTo } from "@/lib/business/shoots";
@@ -63,12 +63,12 @@ export default async function MePage() {
   const name = ctx.user.displayName ?? `@${ctx.user.username}`;
   const car = vehicles[0] ?? null;
   const ig = ctx.instagram;
-  const igTag = ig.status === "connected" ? `Instagram @${ig.handle ?? ""}` : ig.status === "pending" ? "Instagram checking" : ig.status === "error" ? "Instagram needs attention" : "Instagram not connected";
+  const igTag = ig.status === "connected" ? `@${ig.handle ?? ""}` : ig.status === "pending" ? "Instagram checking" : ig.status === "error" ? "Instagram issue" : "No Instagram";
   const igLine = ig.status === "connected"
-    ? `@${ig.handle ?? ""} · ${ig.verifiedBy === "api" ? "Connected" : "Confirmed manually"}${ig.followers != null ? ` · ${ig.followers.toLocaleString()} followers` : ""}`
+    ? `@${ig.handle ?? ""}${ig.followers != null ? ` · ${ig.followers.toLocaleString()} followers` : ""}`
     : ig.status === "pending" ? (ig.handle ? `@${ig.handle} · Checking` : "Checking")
-    : ig.status === "error" ? "Connection needs attention"
-    : "Not connected · Required for Reels and Stories";
+    : ig.status === "error" ? "Needs attention"
+    : "Not connected";
   const verification = creator?.verification ?? (ctx.isCreator ? "unverified" : null);
   const verificationLabel = verification === "verified" ? "Verified" : verification === "pending" ? "In review" : verification === "rejected" ? "Not approved" : "Not verified";
   const verificationTone = verification === "verified" ? "confirmed" : verification === "pending" ? "waiting" : verification === "rejected" ? "problem" : "neutral";
@@ -88,8 +88,8 @@ export default async function MePage() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 44, marginTop: 12 }}>
           <h1 className="fs-t-page">Profile</h1>
           <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <Link href="/me/edit" className="fs-btn fs-btn-quiet fs-link-ink">Edit profile</Link>
-            <Link href="/me/settings" className="fs-icon-btn" aria-label="Settings"><Gear size={22} aria-hidden /></Link>
+            <Link href="/me/edit" className="fs-btn fs-btn-quiet fs-link-ink"><PencilSimple size={20} aria-hidden />Edit</Link>
+            <Link href="/me/settings" className="fs-icon-btn" aria-label="Settings"><Gear size={24} aria-hidden /></Link>
           </span>
         </div>
 
@@ -114,7 +114,7 @@ export default async function MePage() {
           <section className="xs-pf-workwrap" aria-labelledby="work-h">
             <div className="x-pf-work-head"><h3 id="work-h" className="x-pf-work-h" style={{ color: "#fff" }}>Work</h3></div>
             {recent.length === 0 ? (
-              <p className="t-fact" style={{ marginTop: 8 }}>No submitted work yet. Approved work appears here.</p>
+              <p className="t-fact" style={{ marginTop: 8 }}>No work yet.</p>
             ) : (
               <div className="xs-pf-work">
                 {recent.map((w, i) => {
@@ -139,14 +139,14 @@ export default async function MePage() {
                 <div className="x-paper xs-sheet">
                   <h3 id="vehicle-h" className="t-object">{car.year} {car.make} {car.model}</h3>
                   <span className="t-fact">{carListing}<span aria-hidden> · </span>{carState}{car.city ? <><span aria-hidden> · </span>{car.city}</> : null}</span>
-                  <span className="xs-sheet-row"><span className="t-fact">{vehicles.length > 1 ? `${vehicles.length} vehicles` : "Your vehicle"}</span><Link href="/me/vehicles" className="link t-action">View</Link></span>
+                  <span className="xs-sheet-row"><span className="t-fact">{vehicles.length > 1 ? `${vehicles.length} cars` : "My car"}</span><Link href="/me/vehicles" className="link t-action">View</Link></span>
                 </div>
               </>
             ) : (
               <div className="x-paper xs-sheet" style={{ borderRadius: 10, width: "100%" }}>
-                <h3 id="vehicle-h" className="t-object">No vehicle yet</h3>
-                <span className="t-fact">Add your car to become available for car advertising.</span>
-                <span className="xs-sheet-row"><Link href="/me/vehicles/scan" className="link t-action">Scan my car</Link><Link href="/me/vehicles/new" className="link t-action">Add vehicle</Link></span>
+                <h3 id="vehicle-h" className="t-object">No car yet</h3>
+                <span className="t-fact">Add your car for car ads.</span>
+                <span className="xs-sheet-row"><Link href="/me/vehicles/scan" className="link t-action">Scan</Link><Link href="/me/vehicles/new" className="link t-action">Add car</Link></span>
               </div>
             )}
           </section>
@@ -163,31 +163,25 @@ export default async function MePage() {
           </Link>
           <hr className="fs-divider" />
           <Link href="/me/creator" className="fs-row-link" style={{ minHeight: 48 }}>
-            <span className="fs-t-body">Creator verification <Status tone={verificationTone}>· {verificationLabel}</Status></span>
+            <span className="fs-t-body">Verification <Status tone={verificationTone}>· {verificationLabel}</Status></span>
             <CaretRight size={20} aria-hidden style={{ color: "var(--fs-muted)", flexShrink: 0 }} />
           </Link>
         </section>
 
         <section aria-labelledby="earn-title" style={{ marginTop: 24 }}>
           <h2 id="earn-title" className="fs-t-section">Earnings</h2>
-          <p className="fs-t-task" style={{ marginTop: 12 }}>Available {formatMoney(available)}</p>
-          <p className="fs-t-meta" style={{ marginTop: 2 }}>From approved work</p>
-          {requested > 0 ? (
-            <>
-              <p className="fs-t-body" style={{ marginTop: 8 }}>Payout requested · {formatMoney(requested)}</p>
-              {payout?.at && <p className="fs-t-meta">{fmtDate(payout.at)}</p>}
-            </>
-          ) : <p className="fs-t-body" style={{ marginTop: 8 }}>No payout requested</p>}
-          <Link href="/earnings" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 8 }}>Open Earnings <ArrowRight size={18} aria-hidden /></Link>
+          <p className="fs-t-task" style={{ marginTop: 12 }}>{formatMoney(available)} <span className="fs-t-meta">available</span></p>
+          {requested > 0 && <p className="fs-t-meta" style={{ marginTop: 4 }}>Payout requested · {formatMoney(requested)}{payout?.at ? ` · ${fmtDate(payout.at)}` : ""}</p>}
+          <Link href="/earnings" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 8 }}>Earnings <ArrowRight size={20} aria-hidden /></Link>
         </section>
 
         <section aria-label="More" style={{ marginTop: 24 }}>
           {[
             ["Activity", "/activity"],
             ["Portfolio", "/me/portfolio"],
-            ["Share and earn · Coming soon", "/share"],
-            ["Public profile and reviews", `/u/${ctx.user.username}`],
-            ...(assignedShoots > 0 || ctx.isCreator ? [[assignedShoots > 0 ? `Your shoots · ${assignedShoots} assigned` : "Your shoots", "/me/shoots"]] : []),
+            ["Share · Coming soon", "/share"],
+            ["Public page", `/u/${ctx.user.username}`],
+            ...(assignedShoots > 0 || ctx.isCreator ? [[assignedShoots > 0 ? `Shoots · ${assignedShoots}` : "Shoots", "/me/shoots"]] : []),
             ["Settings", "/me/settings"],
           ].map(([label, href], i) => (
             <div key={label}>

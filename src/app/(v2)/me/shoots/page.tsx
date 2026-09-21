@@ -50,7 +50,7 @@ export default async function MyShootsPage() {
                     </span>
                   </span>
                   <Chip tone={shootStatusTone(s.status)}>{shootStatusLabel(s.status)}</Chip>
-                  <CaretRight size={18} className="shrink-0 text-ink-faint" aria-hidden />
+                  <CaretRight size={20} className="shrink-0 text-ink-faint" aria-hidden />
                 </Link>
               </li>
             );

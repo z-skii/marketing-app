@@ -34,18 +34,13 @@ export function PayoutRequest({ availableCents, minCents, feePct }: { availableC
         {pending ? "Requesting" : "Request payout"}
       </button>
       <p className="fs-t-meta" style={{ marginTop: 8 }}>
-        Minimum payout · {formatMoney(minCents)}{!enabled && availableCents > 0 ? ` · ${formatMoney(remaining)} more needed` : ""}
-      </p>
-      <p className="fs-t-meta" style={{ marginTop: 4 }}>
-        {enabled
-          ? `TapMart sends payouts by hand, usually within a few days. The ${feePct}% fee is already deducted.`
-          : "Approved work adds to this balance. TapMart sends payouts by hand, usually within a few days."}
+        {enabled ? "Usually a few days" : `Minimum ${formatMoney(minCents)}${availableCents > 0 ? ` · ${formatMoney(remaining)} to go` : ""}`} · {feePct}% fee deducted
       </p>
       {message && <p role="alert" className={message.ok ? "fs-status is-confirmed" : "fs-field-error"} style={{ marginTop: 8 }}>{message.text}</p>}
       <dialog ref={dialog} className="fs-dialog" aria-labelledby="fs-payout-title" onClose={close} onClick={(e) => { if (e.target === dialog.current) close(); }}>
         <p id="fs-payout-title" className="fs-t-section">Request payout</p>
         <p className="fs-money" style={{ marginTop: 12 }}>{formatMoney(availableCents)}</p>
-        <p className="fs-t-body" style={{ marginTop: 8 }}>The whole available balance is requested. TapMart sends it by hand, usually within a few days.</p>
+        <p className="fs-t-body" style={{ marginTop: 8 }}>Your whole available balance, sent within a few days.</p>
         <p className="fs-t-meta" style={{ marginTop: 4 }}>{feePct}% fee already deducted.</p>
         <div style={{ display: "flex", gap: 8, marginTop: 20 }}>
           <button
@@ -57,7 +52,7 @@ export function PayoutRequest({ availableCents, minCents, feePct }: { availableC
               if (result.ok) router.refresh();
             })}
           >
-            {pending ? "Requesting" : "Confirm request"}
+            {pending ? "Requesting" : "Confirm"}
           </button>
           <button type="button" className="fs-btn fs-btn-secondary" style={{ flex: 1 }} onClick={close}>Cancel</button>
         </div>

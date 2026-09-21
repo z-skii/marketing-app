@@ -34,16 +34,16 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Pr
   const href = (v: View) => (v === "active" ? "/business/campaigns" : `/business/campaigns?view=${v}`);
 
   const empty = {
-    active: { title: "No campaigns running.", body: "Start one from Create. It shows up here the moment it is published or saved as a draft." },
-    review: { title: "Nothing waiting on you.", body: "Submissions, Story proofs, driver applications and cars needing artwork appear here." },
-    completed: { title: "Nothing completed yet.", body: "Closed campaigns and answered direct requests appear here." },
+    active: { title: "No campaigns yet.", body: "Published and draft campaigns show here." },
+    review: { title: "Nothing to review.", body: "Submissions and applications land here." },
+    completed: { title: "Nothing completed yet.", body: "Closed campaigns show here." },
   }[view];
 
   return (
     <main className="fs-phone-main" id="main">
       <div className="ap-head">
-        <div><h1>Campaigns</h1><p className="ap-sub">Recreate, Story and Car, and what each one needs.</p></div>
-        <Link href="/business/create" className="btn btn-signal btn-sm shrink-0"><PlusIcon size={16} weight="bold" aria-hidden />Create</Link>
+        <div><h1>Campaigns</h1></div>
+        <Link href="/business/create" className="btn btn-signal btn-sm shrink-0"><PlusIcon size={16} weight="bold" aria-hidden />New</Link>
       </div>
       <nav className="ap-chips" aria-label="Views">
         {VIEWS.map((v) => <Link key={v.key} href={href(v.key)} className="pill" aria-current={view === v.key ? "page" : undefined}>{v.label}{counts[v.key] > 0 && <span style={{ opacity: 0.7, fontVariantNumeric: "tabular-nums" }}>{counts[v.key]}</span>}</Link>)}
@@ -55,7 +55,7 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Pr
         <section className="card" style={{ marginTop: 16, padding: 20, maxWidth: 560 }}>
           <p className="t-h3">{empty.title}</p>
           <p className="t-body" style={{ marginTop: 6, color: "var(--tm-text2)" }}>{empty.body}</p>
-          {view === "active" && rows.length === 0 && <Link href="/business/create" className="btn btn-signal" style={{ marginTop: 16 }}>Create a campaign <ArrowRightIcon size={16} aria-hidden /></Link>}
+          {view === "active" && rows.length === 0 && <Link href="/business/create" className="btn btn-signal" style={{ marginTop: 16 }}>New campaign <ArrowRightIcon size={16} aria-hidden /></Link>}
         </section>
       ) : (
         <ul className="ap-campaigns" style={{ listStyle: "none", padding: 0 }}>
@@ -81,16 +81,16 @@ function CampaignCard({ r }: { r: CampaignListRow }) {
   return (
     <article className={`ap-campaign ${action.needs ? "is-needs" : ""}`} aria-label={`${r.title}, ${status.label}${action.needs ? `, ${action.label}` : ""}`}>
       <div className={`ap-campaign-thumb ${KIND_CLASS[r.kind] ?? ""}`}>
-        <span className="ap-kind" aria-hidden><Icon size={14} weight={r.kind === "recreate_reel" ? "fill" : "regular"} /></span>
+        <span className="ap-kind" aria-hidden><Icon size={16} weight={r.kind === "recreate_reel" ? "fill" : "regular"} /></span>
         <CampaignThumb kind={r.kind} media={r.media} vehicle={r.vehicle} placements={r.placements ?? []} />
       </div>
       <div className="ap-campaign-main">
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}><Badge tone={tone} dot>{status.label}</Badge><span className="t-meta">{KIND_WORD[r.kind] ?? r.kind} · {audience}</span></div>
         <h2 className="ap-campaign-title"><Link href={`/business/campaigns/${r.id}`}>{r.title}</Link></h2>
         <div className="ap-campaign-stats">
-          <div><b>{done}<span style={{ display: "inline", color: "var(--tm-muted)", fontWeight: 500, fontSize: 13, textTransform: "none", letterSpacing: 0 }}> of {r.slots}</span></b><span>{r.kind === "car_ads" ? "Cars on the road" : "Approved"}</span></div>
+          <div><b>{done}<span style={{ display: "inline", color: "var(--tm-muted)", fontWeight: 500, fontSize: 13, textTransform: "none", letterSpacing: 0 }}> of {r.slots}</span></b><span>{r.kind === "car_ads" ? "Running" : "Approved"}</span></div>
           <div><b>{pending}</b><span>Pending</span></div>
-          <div><b>{left}</b><span>Spots left</span></div>
+          <div><b>{left}</b><span>Left</span></div>
         </div>
         <div className="ap-campaign-stats" style={{ gridTemplateColumns: "minmax(0, 1fr) auto", alignItems: "end" }}>
           <div><b>{formatMoney(r.pay_cents)}</b><span>{payUnit(r.kind)}</span></div>

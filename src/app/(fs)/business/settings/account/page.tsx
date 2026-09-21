@@ -12,17 +12,16 @@ export default async function AccountSettingsPage() {
   const n = ctx.businesses.length;
   return (
     <main className="fs-phone-main fs-utility" id="main">
-      <UtilityHead title="Account" back={<BackLink fallback="/business/settings" label="Settings" />} />
+      <UtilityHead title="Account" back={<BackLink fallback={ctx.mode === "business" ? "/business/settings" : "/me/settings"} label="Settings" />} />
       <SettingsGroup title="Account">
-        <SettingsRow title="Email" sub={ctx.user.email ?? "No email on file"} />
-        <SettingsRow href="/me/edit" title="Name" sub={ctx.user.displayName ?? "Not set"} />
-        <SettingsRow href="/me/edit" title="Username" sub={`@${ctx.user.username}`} />
-        <SettingsRow title="Member number" sub={`#${ctx.user.memberNo}`} />
+        <SettingsRow title="Email" value={ctx.user.email ?? "None"} />
+        <SettingsRow href="/me/edit" title="Name" value={ctx.user.displayName ?? "Not set"} />
+        <SettingsRow href="/me/edit" title="Username" value={`@${ctx.user.username}`} />
+        <SettingsRow title="Member" value={`#${ctx.user.memberNo}`} />
       </SettingsGroup>
       <SettingsGroup title="Session">
-        <SettingsRow title="Signed in as" sub={`${ctx.user.email ?? ctx.user.username} on this device`} />
-        <SettingsRow title="Stays signed in" sub="30 days, or until you log out" />
-        <SettingsRow href="/business/settings" title="Identities" sub={`Personal${n > 0 ? ` and ${n} ${n === 1 ? "business" : "businesses"}` : ""}`} />
+        <SettingsRow title="Stays signed in" value="30 days" />
+        <SettingsRow href={ctx.mode === "business" ? "/business/settings" : "/me/settings"} title="Identities" value={`Personal${n > 0 ? ` + ${n}` : ""}`} />
       </SettingsGroup>
       <SignOutRow />
     </main>

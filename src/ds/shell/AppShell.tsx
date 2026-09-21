@@ -46,7 +46,7 @@ export function AppShell({ mode, identity, unreadMessages, unreadNotifications, 
   return (
     <div className={`app-shell ${frame === "fs" ? "fs" : "app-root"}`}>
       <aside className="app-side">
-        <div className="app-side-wordmark"><Link href={homeHref} aria-label="TapMart home"><Wordmark size={22} /></Link></div>
+        <div className="app-side-wordmark"><Link href={homeHref} aria-label="TapMart home"><Wordmark size={24} /></Link></div>
         <Link href={settingsHref} className="app-identity" aria-label={identityLabel}>
           <Avatar src={identity.avatar} name={identity.name} size={36} square={identity.square} />
           <span className="min-w-0 flex-1">
@@ -55,7 +55,7 @@ export function AppShell({ mode, identity, unreadMessages, unreadNotifications, 
           </span>
           <ChevronDownIcon size={16} aria-hidden className="shrink-0 text-ink-faint" />
         </Link>
-        {create && <Link href={create.href} className="btn btn-signal app-create" aria-current={create.isActive(pathname) ? "page" : undefined}><create.icon size={20} weight="bold" aria-hidden />{create.label} campaign</Link>}
+        {create && <Link href={create.href} className="btn btn-signal app-create" aria-current={create.isActive(pathname) ? "page" : undefined}><create.icon size={20} weight="bold" aria-hidden />New campaign</Link>}
         <nav className="app-nav" aria-label="Main">
           {nav.filter((n) => !n.create).map((n) => (
             <Link key={n.href} href={n.href} aria-current={n.isActive(pathname) ? "page" : undefined}><n.icon size={20} aria-hidden />{n.label}</Link>
@@ -72,14 +72,14 @@ export function AppShell({ mode, identity, unreadMessages, unreadNotifications, 
 
       <div className="app-body">
         <header className={`app-top ${scrolled ? "is-scrolled" : ""}`}>
-          <Link href={settingsHref} className="app-top-identity" aria-label={identityLabel}>
+          <Link href={settingsHref} className="app-top-identity" aria-label={identityLabel} data-tip="Settings">
             <Avatar src={identity.avatar} name={identity.name} size={32} square={identity.square} />
           </Link>
-          <Link href={homeHref} className="app-wordmark" aria-label="TapMart home"><Wordmark size={21} /></Link>
+          <Link href={homeHref} className="app-wordmark" aria-label="TapMart home"><Wordmark size={24} /></Link>
           <span className="app-top-actions">
             {utils.map((u) => (
-              <Link key={u.href} href={u.href} className="iconbtn" aria-label={u.badge > 0 ? `${u.badge} unread ${u.label.toLowerCase()}` : u.label}>
-                <u.icon size={22} aria-hidden />{u.badge > 0 && <span aria-hidden className="app-dot" />}
+              <Link key={u.href} href={u.href} className="iconbtn" aria-label={u.badge > 0 ? `${u.badge} unread ${u.label.toLowerCase()}` : u.label} data-tip={u.label}>
+                <u.icon size={24} aria-hidden />{u.badge > 0 && <span aria-hidden className="app-dot" />}
               </Link>
             ))}
           </span>
@@ -90,7 +90,7 @@ export function AppShell({ mode, identity, unreadMessages, unreadNotifications, 
       <nav className={`tm-bottomnav app-tabs ${nav.length === 5 ? "grid-cols-5" : "grid-cols-4"}`} aria-label={mode === "business" ? "Business" : "Main"}>
         {nav.map((n) => (
           <Link key={n.href} href={n.href} aria-current={n.isActive(pathname) ? "page" : undefined} className={n.create ? "is-create" : undefined}>
-            <span className="inline-grid place-items-center"><n.icon size={22} weight={n.create ? "bold" : n.isActive(pathname) ? "fill" : "regular"} aria-hidden /></span>
+            <span className="inline-grid place-items-center"><n.icon size={24} weight={n.create ? "bold" : n.isActive(pathname) ? "fill" : "regular"} aria-hidden /></span>
             <span>{n.label}</span>
           </Link>
         ))}

@@ -50,15 +50,15 @@ export function CarFlow({ business, defaultCity, prefill, funding }: { business:
   const finalTitle = title.trim() || `Drivers wanted in ${city}`;
 
   const stepDefs: FlowStep[] = [
-    { key: "placement", label: "Where on the car", summary: placements.length ? zoneWords : null },
-    { key: "duration", label: "How long", summary: `${durationDays} days${startsOn ? ` from ${dayWord(startsOn)}` : ""}` },
-    { key: "pay", label: "Pay per car, per month", summary: payCents >= 2500 ? formatMoney(payCents) : null },
-    { key: "cars", label: "Which cars", summary: colors.length || bodies.length ? [colors.join(", "), bodies.join(", ")].filter(Boolean).join(" · ") : "Any car" },
-    { key: "where", label: "Where they drive", summary: city || null },
-    { key: "spots", label: "How many cars", summary: nSlots >= 1 ? `${nSlots} car${nSlots === 1 ? "" : "s"}` : null },
-    { key: "artwork", label: "The artwork", summary: artworkUrl ? "Artwork added" : "Later, after drivers are accepted" },
-    { key: "funding", label: "Publishing credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
-    { key: "publish", label: "Ready to publish", summary: null },
+    { key: "placement", label: "Placement", summary: placements.length ? zoneWords : null },
+    { key: "duration", label: "Duration", summary: `${durationDays} days${startsOn ? ` from ${dayWord(startsOn)}` : ""}` },
+    { key: "pay", label: "Pay", summary: payCents >= 2500 ? formatMoney(payCents) : null },
+    { key: "cars", label: "Cars", summary: colors.length || bodies.length ? [colors.join(", "), bodies.join(", ")].filter(Boolean).join(" · ") : "Any car" },
+    { key: "where", label: "City", summary: city || null },
+    { key: "spots", label: "Spots", summary: nSlots >= 1 ? `${nSlots} car${nSlots === 1 ? "" : "s"}` : null },
+    { key: "artwork", label: "Artwork", summary: artworkUrl ? "Artwork added" : "Later, after drivers are accepted" },
+    { key: "funding", label: "Credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
+    { key: "publish", label: "Review", summary: null },
   ];
   const valid = [placements.length > 0, true, payCents >= 2500 && payCents <= 500_000, true, city.trim().length > 0, nSlots >= 1 && nSlots <= 500, true, true, finalTitle.length >= 4 && finalBrief.trim().length >= 20];
 
@@ -85,7 +85,7 @@ export function CarFlow({ business, defaultCity, prefill, funding }: { business:
     >
       {index === 0 && (
         <>
-          <p className="fs-t-body">Pick every placement a driver may offer. The diagram shows where; it never shows an ad on a real car.</p>
+          <p className="fs-t-body">Pick every placement a driver may offer.</p>
           <CheckRows values={placements} onChange={(v) => setPlacements(v as Placement[])} noun="placement" options={PLACEMENTS.map((z) => ({ value: z, label: ZONE_LABELS[z], media: (on: boolean) => <PlacementDiagram zones={[z]} width={96} muted={!on} label={`${ZONE_LABELS[z]} on the diagram`} /> }))} />
         </>
       )}
@@ -144,7 +144,7 @@ export function CarFlow({ business, defaultCity, prefill, funding }: { business:
           <div style={{ marginTop: 16 }}>
             <Facts rows={[["Placements", zoneWords], ["Duration", `${durationDays} days${startsOn ? `, from ${dayWord(startsOn)}` : ""}`], ["Cars", String(nSlots)], ["Cars preferred", colors.length || bodies.length ? [colors.join(", "), bodies.join(", ")].filter(Boolean).join(" · ") : "Any"], ["Artwork", artworkUrl ? "Added" : "Not yet"], ["City", city]]} />
           </div>
-          <p className="fs-t-body" style={{ marginTop: 16 }}>Publishing needs credit for one {formatMoney(payCents)} payment. Nothing is held when you publish. Confirming an installation pays the first month. {fs.canPublish ? `Publishing tells drivers in ${city}.` : "Your credit is not enough for one payment yet. Save it as a draft and publish once credit is added."}</p>
+          <p className="fs-t-body" style={{ marginTop: 16 }}>Needs credit for one {formatMoney(payCents)} payment. Nothing is held. {fs.canPublish ? `Publishing tells people in ${city}.` : "Not enough credit yet. Save as a draft."}</p>
           <button type="button" className="fs-btn fs-btn-secondary" style={{ marginTop: 12 }} disabled={pending} onClick={() => submit(false)}>Save as draft</button>
         </>
       )}

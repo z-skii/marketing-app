@@ -125,11 +125,11 @@ export default async function InstagramPage({ searchParams }: { searchParams: Pr
         <ul className="row-list mt-2">
           <li className="card px-4 py-3">
             <p className="font-display text-[0.9375rem] font-600">Story campaigns</p>
-            <p className="text-sm text-ink-faint">Post a ready-made Story, keep it live, send a screenshot and the link, get paid.</p>
+            <p className="text-sm text-ink-faint">Post a ready Story, keep it live, send proof, get paid.</p>
           </li>
           <li className="card px-4 py-3">
             <p className="font-display text-[0.9375rem] font-600">Follower minimums</p>
-            <p className="text-sm text-ink-faint">Some campaigns ask for a minimum. A confirmed count decides which ones you see as ready to take.</p>
+            <p className="text-sm text-ink-faint">Some campaigns need a minimum.</p>
           </li>
         </ul>
       </div>

@@ -78,7 +78,7 @@ export function ScanStatus({ initial, devMode }: { initial: VehicleScan; devMode
       {confirmed && (
         <div className="mt-4 rounded-[var(--radius-card)] bg-surface p-4">
           <p className="flex items-center gap-2 font-display text-[1.125rem] font-700 tracking-[-0.02em]">
-            <CheckCircle size={22} weight="fill" className="text-signal" aria-hidden />
+            <CheckCircle size={24} weight="fill" className="text-signal" aria-hidden />
             {scan.model ? "Your 3D car is ready" : "Your car is on your profile"}
           </p>
           {!scan.model && (
@@ -117,7 +117,7 @@ function Retake({ scan, onUpdated, devMode }: { scan: VehicleScan; onUpdated: (s
   return (
     <div className="mt-3">
       {other.map((i) => (
-        <p key={i.code} className="flex items-center gap-2 text-sm text-ink-soft"><WarningCircle size={18} className="text-alert" aria-hidden />{i.label}</p>
+        <p key={i.code} className="flex items-center gap-2 text-sm text-ink-soft"><WarningCircle size={20} className="text-alert" aria-hidden />{i.label}</p>
       ))}
       {missing.length > 0 && (
         <ul className="mt-2 grid grid-cols-2 gap-2">

@@ -38,7 +38,7 @@ export function Nav({ open }: { open: { href: string; label: string } | null }) 
     <>
       <div className="lp-nav">
         <div className={`lp-nav-bar ${dark ? "is-dark" : ""}`}>
-          <Link href="#top" aria-label="TapMart, top of page" className="inline-flex items-center"><Wordmark size={21} dark={dark} /></Link>
+          <Link href="#top" aria-label="TapMart, top of page" className="inline-flex items-center"><Wordmark size={24} dark={dark} /></Link>
           <nav className="lp-nav-links" aria-label="Chapters">{LINKS.map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}</nav>
           <div className="lp-nav-actions">
             {open ? (
@@ -49,7 +49,7 @@ export function Nav({ open }: { open: { href: string; label: string } | null }) 
                 <Link href="/sign-up" className="btn btn-signal btn-sm">Start earning</Link>
               </>
             )}
-            <button type="button" className={`iconbtn lp-nav-menu ${dark ? "text-white" : ""}`} aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><ListIcon size={22} aria-hidden /></button>
+            <button type="button" className={`iconbtn lp-nav-menu ${dark ? "text-white" : ""}`} aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><ListIcon size={24} aria-hidden /></button>
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@ export function Nav({ open }: { open: { href: string; label: string } | null }) 
               <Wordmark size={20} />
               <button type="button" className="iconbtn" aria-label="Close menu" onClick={() => setMenu(false)}><CloseIcon size={20} aria-hidden /></button>
             </div>
-            <nav aria-label="Chapters">{LINKS.map((l) => <a key={l.href} href={l.href} onClick={() => setMenu(false)}>{l.label}<ArrowRightIcon size={18} aria-hidden /></a>)}</nav>
+            <nav aria-label="Chapters">{LINKS.map((l) => <a key={l.href} href={l.href} onClick={() => setMenu(false)}>{l.label}<ArrowRightIcon size={20} aria-hidden /></a>)}</nav>
             <div className="lp-menu-actions">
               {open ? <Link href={open.href} className="btn btn-signal">{open.label}</Link> : (
                 <>

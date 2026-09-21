@@ -41,7 +41,7 @@ export function TrendCard({ trend, large = false, index = 0 }: { trend: TrendIte
           <h3 className="line-clamp-2 font-display text-[1.375rem] leading-[1.1] font-700 tracking-[-0.02em] text-white">{trend.title}</h3>
           <p className="mt-1 flex items-center gap-x-3 text-sm text-white/80">
             {v && <span className="shrink-0 font-display font-600 text-white">{v}</span>}
-            {trend.growth_note && <span className="flex shrink-0 items-center gap-1"><TrendUp size={14} aria-hidden />{trend.growth_note}</span>}
+            {trend.growth_note && <span className="flex shrink-0 items-center gap-1"><TrendUp size={16} aria-hidden />{trend.growth_note}</span>}
             {trend.fit_note && <span className="truncate">{trend.fit_note}</span>}
           </p>
         </div>

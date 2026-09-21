@@ -44,7 +44,7 @@ export function CustomChips({ values, onChange, suggestions, max = 12 }: { value
     <div>
       <ul className="fs-chips" aria-label="Chosen">
         {values.map((v) => (
-          <li key={v}><span className="fs-chip is-on">{v}<button type="button" aria-label={`Remove ${v}`} onClick={() => onChange(values.filter((x) => x !== v))}><X size={14} aria-hidden /></button></span></li>
+          <li key={v}><span className="fs-chip is-on">{v}<button type="button" aria-label={`Remove ${v}`} onClick={() => onChange(values.filter((x) => x !== v))}><X size={16} aria-hidden /></button></span></li>
         ))}
         {values.length === 0 && <li className="fs-t-meta">Nothing yet.</li>}
       </ul>

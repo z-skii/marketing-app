@@ -9,7 +9,7 @@ import { Img } from "@/components/fs/Img";
 export const KIND_WORD: Record<string, string> = { recreate_reel: "Recreate", instagram_story: "Story", car_ads: "Car ad", ugc: "UGC", photography: "Photography", videography: "Video", content: "Content", general: "Campaign" };
 
 export function payUnit(kind: string): string {
-  return kind === "recreate_reel" ? "per approved video" : kind === "instagram_story" ? "per approved Story" : kind === "car_ads" ? "per car, per month" : "per approval";
+  return kind === "recreate_reel" ? "Per video" : kind === "instagram_story" ? "Per Story" : kind === "car_ads" ? "Per car a month" : "Per approval";
 }
 
 export function STATUS_WORD(r: { status: string; audience?: string; invite_status?: string | null }): { label: string; tone: "confirmed" | "waiting" | "problem" | "neutral" } {

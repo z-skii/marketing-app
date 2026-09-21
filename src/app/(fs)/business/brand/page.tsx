@@ -30,7 +30,7 @@ export default async function BrandPage() {
   const igState = connectionState(ig);
   return (
     <main className="fs-phone-main fs-utility" id="main" style={{ maxWidth: 816 }}>
-      <UtilityHead title="Brand kit" lede="What TapMart found in your real sources, what it suggests, and what you approve. Nothing changes without your decision." back={<BackLink fallback="/business/settings" label="Settings" />} />
+      <UtilityHead title="Brand kit" lede="Nothing changes without your approval." back={<BackLink fallback="/business/settings" label="Settings" />} />
       <BrandKitStudio
         record={record}
         businessName={business.name}

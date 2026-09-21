@@ -142,7 +142,7 @@ export function BrandStudio({
               : `TapMart found ${proposal.improvements.length} way${proposal.improvements.length === 1 ? "" : "s"} to make your brand more consistent.`}
           </p>
           <button type="button" className="btn btn-signal btn-lg mt-4 w-full" onClick={() => setStep("review")}>
-            Review improvements<CaretRight size={18} weight="bold" aria-hidden />
+            Review improvements<CaretRight size={20} weight="bold" aria-hidden />
           </button>
         </section>
       )}
@@ -338,7 +338,7 @@ function SourcesPanel({
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={url} alt="" className="h-full w-full object-cover" />
                   <button type="button" aria-label="Remove photo" className="glass-tag absolute top-1 right-1 flex h-7 w-7 items-center justify-center rounded-full text-ink" onClick={() => onPhotos(photos.filter((x) => x !== url))}>
-                    <X size={14} weight="bold" aria-hidden />
+                    <X size={16} weight="bold" aria-hidden />
                   </button>
                 </li>
               ))}
@@ -383,7 +383,7 @@ function Progress({ sources, photos, running }: { sources: BrandSources; photos:
           const current = i === shown - 1 && running;
           return (
             <li key={line} className="settle flex items-center gap-3 font-display text-[1.0625rem] font-600">
-              {current ? <span className="live-dot" aria-hidden /> : <CheckCircle size={18} weight="fill" className="text-rise" aria-hidden />}
+              {current ? <span className="live-dot" aria-hidden /> : <CheckCircle size={20} weight="fill" className="text-rise" aria-hidden />}
               <span className={current ? "text-ink" : "text-ink-soft"}>{line}</span>
             </li>
           );

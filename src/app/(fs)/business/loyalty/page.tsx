@@ -28,7 +28,7 @@ export default async function BusinessLoyaltyPage() {
   const counters = [["Members", UsersIcon], ["Repeat visits", RefreshIcon], ["Rewards redeemed", GiftIcon], ["Referrals", HandshakeIcon]] as const;
   return (
     <main className="fs-phone-main" id="main">
-      <div className="ap-head"><div><span className="badge is-ink">Coming soon</span><h1 style={{ marginTop: 10 }}>Loyalty</h1><p className="ap-sub">A stamp card in your customers&rsquo; Wallet, joined with one scan, credited to the creator who sent them. Not running yet for {business.name}: nothing is set up, counted or issued.</p></div></div>
+      <div className="ap-head"><div><span className="badge is-ink">Coming soon</span><h1 style={{ marginTop: 10 }}>Loyalty</h1><p className="ap-sub">A Wallet stamp card for repeat customers. Not running yet.</p></div></div>
 
       <div className="ap-loyalty-grid">
         <section className="ap-loyalty-stage" aria-label="Card preview">
@@ -42,17 +42,17 @@ export default async function BusinessLoyaltyPage() {
           </div>
           <div className="ap-soon-steps" style={{ marginTop: 16 }} aria-label="What it will do">
             {[
-              [QrIcon, "Customers join with one scan", "At the counter, on a receipt, in a creator's Story or from your TapMart page.", "Planned"],
-              [GiftIcon, "One reward on your own card", "A visits or points program; a visit counts once per business day; a ready reward is redeemed at the counter.", "Planned"],
-              [HandshakeIcon, "Creator referrals attributed", "Customers who joined through a creator stay credited to that creator.", "Planned"],
-              [BellIcon, "Notifications to members", "Reward ready, a new offer, a card update, sent through the Wallet.", "Planned"],
-              [RobotIcon, "Automations", "Welcome, reward reminders and win-back messages, on rules you set.", "Planned"],
+              [QrIcon, "Join with one scan", "At the counter or from a creator's Story.", "Planned"],
+              [GiftIcon, "One reward", "Visits or points, redeemed at the counter.", "Planned"],
+              [HandshakeIcon, "Creator referrals", "Customers stay credited to the creator who sent them.", "Planned"],
+              [BellIcon, "Member notifications", "Reward ready, new offer, card update.", "Planned"],
+              [RobotIcon, "Automations", "Welcome, reminders and win-back, on your rules.", "Planned"],
             ].map(([Icon, t, b, tag]) => { const I = Icon as typeof QrIcon; return <div key={t as string} className="ap-planned"><span className="icon-square is-ice"><I size={20} aria-hidden /></span><span style={{ minWidth: 0 }}><strong>{t as string}</strong><span className="t-meta">{b as string}</span></span><span className="badge">{tag as string}</span></div>; })}
           </div>
           <div className="ap-note" style={{ marginTop: 16 }}>
             <PaletteIcon size={20} aria-hidden style={{ color: "var(--tm-info)" }} />
             <span className="ap-note-text"><b style={{ fontWeight: 600 }}>Customise your card</b><span className="t-meta" style={{ display: "block" }}>The preview follows your approved brand kit: logo and colours.</span></span>
-            <Link href="/business/brand" className="btn btn-sm">Brand kit <ArrowRightIcon size={14} aria-hidden /></Link>
+            <Link href="/business/brand" className="btn btn-sm">Brand kit <ArrowRightIcon size={16} aria-hidden /></Link>
           </div>
           <p className="t-meta" style={{ marginTop: 14 }}>You will be told in Notifications when Loyalty opens for your business.</p>
         </div>

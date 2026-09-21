@@ -41,7 +41,7 @@ function Conditions({ card }: { card: Opportunity }) {
 function Actions({ card, label }: { card: Opportunity; label: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 4 }}>
-      <Link href={`/o/${card.id}`} className="fs-btn fs-btn-quiet" style={{ paddingLeft: 0 }}>{label} <ArrowRight size={18} aria-hidden /></Link>
+      <Link href={`/o/${card.id}`} className="fs-btn fs-btn-quiet" style={{ paddingLeft: 0 }}>{label} <ArrowRight size={20} aria-hidden /></Link>
       <SaveToggle itemType="campaign" itemId={card.id} initialSaved={card.saved} />
     </div>
   );

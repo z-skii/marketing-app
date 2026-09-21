@@ -20,7 +20,7 @@ export default async function EditBusinessPage() {
   const canEdit = ctx.activeBusiness.member_role === "owner" || ctx.activeBusiness.member_role === "manager" || ctx.user.role === "admin";
   return (
     <main className="fs-phone-main fs-utility" id="main">
-      <UtilityHead title="Business details" lede="What people and customers see. The essentials are on top." back={<BackLink fallback="/business/settings" label="Settings" />} />
+      <UtilityHead title="Business details" lede={undefined} back={<BackLink fallback="/business/settings" label="Settings" />} />
       {canEdit ? <BusinessDetailsForm business={business} /> : <p className="fs-t-body" style={{ marginTop: 16 }}>Only the owner or a manager can change these details.</p>}
     </main>
   );

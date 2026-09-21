@@ -52,7 +52,7 @@ export function AdPreview({
         <VehicleStage glbUrl={stage.glbUrl} posterUrl={stage.posterUrl} photos={stage.photos} label={stage.label} onAngleChange={setAngle}>
           {stage.glbUrl && previewZone && artwork ? (
             <span className="glass-tag absolute top-3 right-3 flex max-w-[70%] items-center gap-1.5 px-2.5 py-1 text-xs text-ink-soft">
-              <Cube size={14} aria-hidden />3D placement preview coming with the reconstruction provider
+              <Cube size={16} aria-hidden />3D placement preview coming with the reconstruction provider
             </span>
           ) : box ? (
             <>
@@ -103,7 +103,7 @@ export function AdPreview({
             <p className="truncate font-display text-[1rem] font-600">{driver.name}</p>
             <p className="tnum truncate text-sm text-ink-faint">
               {driver.ratingCount > 0 && driver.ratingAvg != null ? (
-                <><Star size={13} weight="fill" className="mr-1 inline-block align-[-1px] text-signal" aria-hidden />{driver.ratingAvg.toFixed(1)} ({driver.ratingCount} {driver.ratingCount === 1 ? "review" : "reviews"})</>
+                <><Star size={16} weight="fill" className="mr-1 inline-block align-[-1px] text-signal" aria-hidden />{driver.ratingAvg.toFixed(1)} ({driver.ratingCount} {driver.ratingCount === 1 ? "review" : "reviews"})</>
               ) : "No reviews yet"}
               <span className="mx-1.5">·</span>{available ? <span className="text-signal">Available</span> : "Paused"}
             </p>
@@ -117,7 +117,7 @@ export function AdPreview({
           ) : sent ? (
             <div className={justSent ? "pop" : ""}>
               <p className="flex items-center gap-2 font-display text-[1.125rem] font-700 tracking-[-0.02em] text-signal">
-                <CheckCircle size={22} weight="fill" aria-hidden />{justSent ? "Offer sent" : "Offer sent, waiting for an answer"}
+                <CheckCircle size={24} weight="fill" aria-hidden />{justSent ? "Offer sent" : "Offer sent, waiting for an answer"}
               </p>
               <p className="mt-1 text-sm text-ink-soft">{driver.name} gets a notification and can accept or decline.</p>
               <Link href={`/business/campaigns/${sent}`} className="link-row mt-1">Open the campaign<CaretRight size={16} aria-hidden /></Link>
@@ -125,7 +125,7 @@ export function AdPreview({
           ) : existing?.status === "accepted" ? (
             <div>
               <p className="flex items-center gap-2 font-display text-[1.125rem] font-700 tracking-[-0.02em] text-signal">
-                <CheckCircle size={22} weight="fill" aria-hidden />Offer accepted
+                <CheckCircle size={24} weight="fill" aria-hidden />Offer accepted
               </p>
               <Link href={`/business/campaigns/${existing.campaign_id}`} className="link-row mt-1">Open the campaign<CaretRight size={16} aria-hidden /></Link>
             </div>
@@ -233,7 +233,7 @@ function OfferSheet({
       <div role="dialog" aria-modal="true" aria-label={`Ad offer for ${name}`} className="glass spot-in relative max-h-[92dvh] w-full overflow-y-auto rounded-t-[var(--radius-sheet)] border px-5 pt-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:max-w-lg md:rounded-[var(--radius-sheet)]">
         <div className="flex items-center justify-between gap-3">
           <h2 className="font-display text-[1.375rem] font-700 tracking-[-0.02em]">Ad offer</h2>
-          <button type="button" aria-label="Close" className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-ink-soft can-hover:hover:text-ink" onClick={onClose}><X size={22} aria-hidden /></button>
+          <button type="button" aria-label="Close" className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-ink-soft can-hover:hover:text-ink" onClick={onClose}><X size={24} aria-hidden /></button>
         </div>
         <p className="mt-0.5 text-sm text-ink-soft">{name}</p>
 

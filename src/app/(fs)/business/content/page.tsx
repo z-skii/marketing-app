@@ -104,7 +104,7 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
     switch (info.state) {
       case "SUBSCRIBED_NO_SHOOT": return "Your first shoot is being scheduled.";
       case "SHOOT_SCHEDULED": return info.nextShoot?.scheduled_for ? `Next shoot booked for ${dayLabel(info.nextShoot.scheduled_for)}${shootTimeLabel(info.nextShoot.starts_at) ? ` at ${shootTimeLabel(info.nextShoot.starts_at)}` : ""}.` : "Next shoot booked.";
-      case "SHOOT_COMPLETED": return "Your shoot happened. Files appear here once the creator uploads them.";
+      case "SHOOT_COMPLETED": return "Files arrive once the creator uploads them.";
       case "CONTENT_PROCESSING": return "Content is on its way from your shoot.";
       default: return null;
     }
@@ -143,7 +143,7 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
             <p className="fs-t-body" style={{ marginTop: 12 }}><span className="fs-status is-problem">Delivered files could not be loaded.</span> <Link href={href(view)} className="fs-link-ink fs-link-ul">Try again</Link></p>
           ) : (view === "library" ? withPosts(libraryFiles) : withPosts(overviewFiles)).length === 0 ? (
             <div style={{ marginTop: 12, maxWidth: 560 }}>
-              <p className="fs-t-body" style={{ color: "var(--fs-muted)" }}>{subscribed ? (stateLine ?? "Photos and videos from completed shoots appear here.") : "Delivered files appear here once a plan is active and a shoot has happened."}</p>
+              <p className="fs-t-body" style={{ color: "var(--fs-muted)" }}>{subscribed ? (stateLine ?? "Shoot files land here.") : "Files land here once a plan is active."}</p>
             </div>
           ) : (
             <ContentWorkspace files={view === "library" ? withPosts(libraryFiles) : withPosts(overviewFiles)} timeZone={timeZone} timeZoneLabel={zoneLabel} defaultSlot={slot} shootLabels={shootLabels} />
@@ -173,7 +173,7 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
           {!postsR.ok ? (
             <p className="fs-t-body" style={{ marginTop: 12 }}><span className="fs-status is-problem">Posts could not be loaded.</span> <Link href={href(view)} className="fs-link-ink fs-link-ul">Try again</Link></p>
           ) : (view === "calendar" ? posts : upcoming).length === 0 ? (
-            <p className="fs-t-body" style={{ marginTop: 8, color: "var(--fs-muted)" }}>{view === "calendar" ? "No scheduled or published posts yet. Approve a file, then schedule it." : "No upcoming posts. Approved files can be scheduled from the file."}</p>
+            <p className="fs-t-body" style={{ marginTop: 8, color: "var(--fs-muted)" }}>{view === "calendar" ? "Nothing scheduled yet." : "No upcoming posts."}</p>
           ) : (
             <ul className="fs-content-rows" style={{ marginTop: 4 }}>
               {(view === "calendar" ? posts : upcoming).map((p) => <li key={p.id}><PostRowItem p={p} timeZone={timeZone} todayKey={todayKey} /></li>)}

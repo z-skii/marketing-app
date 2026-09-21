@@ -52,13 +52,13 @@ export function RecreateFlow({ business, defaultCity, prefill, storedBrief, fund
   const fs = fundingState(payCents, nSlots, funding);
 
   const stepDefs: FlowStep[] = [
-    { key: "reference", label: "Add the reference", summary: mediaUrl ? (VIDEO.test(mediaUrl) ? "Uploaded video" : "Uploaded image") : link ? "Linked Reel" : null },
-    { key: "brief", label: "Your campaign brief", summary: title ? title : null },
-    { key: "pay", label: "Pay per approved video", summary: payCents >= 500 ? formatMoney(payCents) : null },
-    { key: "spots", label: "How many approved videos", summary: nSlots >= 1 ? `${nSlots} spot${nSlots === 1 ? "" : "s"}` : null },
-    { key: "deadline", label: "Deadline and city", summary: deadline && city ? `${dayWord(deadline)} · ${city}` : null },
-    { key: "funding", label: "Publishing credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
-    { key: "publish", label: "Ready to publish", summary: null },
+    { key: "reference", label: "Reference", summary: mediaUrl ? (VIDEO.test(mediaUrl) ? "Uploaded video" : "Uploaded image") : link ? "Linked Reel" : null },
+    { key: "brief", label: "Campaign", summary: title ? title : null },
+    { key: "pay", label: "Pay", summary: payCents >= 500 ? formatMoney(payCents) : null },
+    { key: "spots", label: "Creators", summary: nSlots >= 1 ? `${nSlots} spot${nSlots === 1 ? "" : "s"}` : null },
+    { key: "deadline", label: "When and where", summary: deadline && city ? `${dayWord(deadline)} · ${city}` : null },
+    { key: "funding", label: "Credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
+    { key: "publish", label: "Review", summary: null },
   ];
   const valid = [
     hasReference,
@@ -108,7 +108,7 @@ export function RecreateFlow({ business, defaultCity, prefill, storedBrief, fund
     >
       {index === 0 && (
         <>
-          <p className="fs-t-body">The video creators will recreate. Upload it, or paste the link to the Reel.</p>
+          <p className="fs-t-body">Upload the Reel or paste its link.</p>
           <div style={{ marginTop: 12 }}>
             <FsUploader folder="campaigns" accept="video/*,image/*" label={mediaUrl ? "Replace the reference" : "Upload the video"} onUploaded={(u) => setMediaUrl(u[0])} id="fs-ref-upload" primary={!mediaUrl} />
           </div>
@@ -174,7 +174,7 @@ export function RecreateFlow({ business, defaultCity, prefill, storedBrief, fund
       {index === 6 && (
         <>
           <Facts rows={[["Reference", mediaUrl ? (VIDEO.test(mediaUrl) ? "Uploaded video" : "Uploaded image") : "Linked Reel"], ["Pay", `${formatMoney(payCents)} per approved video`], ["Spots", String(nSlots)], ["If every spot is approved", formatMoney(fs.total)], ["Last day to submit", dayWord(deadline)], ["City", city]]} />
-          <p className="fs-t-body" style={{ marginTop: 16 }}>Publishing needs credit for one {formatMoney(payCents)} payment. Nothing is held when you publish; credit leaves only when you approve a video. {fs.canPublish ? `Publishing tells people in ${city}.` : "Your credit is not enough for one payment yet. Save it as a draft and publish once credit is added."}</p>
+          <p className="fs-t-body" style={{ marginTop: 16 }}>Needs credit for one {formatMoney(payCents)} payment. Nothing is held. {fs.canPublish ? `Publishing tells people in ${city}.` : "Not enough credit yet. Save as a draft."}</p>
           <button type="button" className="fs-btn fs-btn-secondary" style={{ marginTop: 12 }} disabled={pending} onClick={() => submit(false)}>Save as draft</button>
         </>
       )}

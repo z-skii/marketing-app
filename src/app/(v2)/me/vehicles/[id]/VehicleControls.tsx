@@ -74,11 +74,11 @@ export function VerificationCard({
   const { pending, error, run } = useAction();
   const copy =
     verification === "verified"
-      ? { title: "Verified", sub: "TapMart checked the photos. Businesses see the mark when you apply." }
+      ? { title: "Verified", sub: "Businesses see the mark when you apply." }
       : verification === "pending"
-        ? { title: "Checking", sub: "TapMart is checking your photos. A person does this, usually within a day." }
+        ? { title: "Checking", sub: "Usually within a day." }
         : verification === "rejected"
-          ? { title: "Not verified", sub: note ?? "The photos did not pass. Retake them in daylight and try again." }
+          ? { title: "Not verified", sub: note ?? "Retake the photos in daylight and try again." }
           : { title: "Not verified yet", sub: "A verified car gets picked more often. TapMart checks the four photos by hand." };
   return (
     <div className="card flex items-center justify-between gap-3 px-4 py-3.5">

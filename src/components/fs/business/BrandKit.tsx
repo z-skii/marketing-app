@@ -157,9 +157,9 @@ export function BrandKitStudio({ record, businessName, sources: initialSources, 
           {canEdit ? (
             <div className="fs-plane is-decision" style={{ marginTop: 16 }} aria-label="Decision">
               <p className="fs-t-label">Your decision</p>
-              <p className="fs-t-body" style={{ marginTop: 4 }}>Approve replaces the kit in use with the proposal. Keep mine discards the proposal and changes nothing.</p>
+              <p className="fs-t-body" style={{ marginTop: 4 }}>Approve replaces your kit. Keep mine changes nothing.</p>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
-                <button type="button" className="fs-btn fs-btn-primary" disabled={deciding} onClick={approve}>{deciding ? "One moment" : "Approve the proposal"}</button>
+                <button type="button" className="fs-btn fs-btn-primary" disabled={deciding} onClick={approve}>{deciding ? "One moment" : "Approve"}</button>
                 <button type="button" className="fs-btn fs-btn-secondary" disabled={deciding} onClick={keepMine}>Keep mine</button>
               </div>
             </div>
@@ -190,7 +190,7 @@ function SourcesPanel({ title, back, sources, photos, canEdit, anySource, onWebs
     <section aria-label={title} style={{ marginTop: 16 }}>
       {back && <button type="button" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }} onClick={back}>Back to the current brand</button>}
       <p className="fs-t-task">{title}</p>
-      <p className="fs-t-meta" style={{ marginTop: 4 }}>TapMart reads what you already have and shows what it found before it suggests anything.</p>
+      <p className="fs-t-meta" style={{ marginTop: 4 }}>Built from what you already have.</p>
       <ul className="fs-plain-list" aria-label="Sources" style={{ marginTop: 8 }}>
         <li className="fs-conn-row">
           <span className="fs-t-label" aria-hidden>IG</span>
@@ -272,7 +272,7 @@ function Progress({ sources, photos, running }: { sources: BrandSources; photos:
       <ul className="fs-progress-lines">
         {lines.slice(0, shown).map((line, i) => {
           const current = i === shown - 1 && running;
-          return <li key={line} className="fs-t-body" style={{ display: "flex", alignItems: "center", gap: 12, color: current ? "var(--fs-ink)" : "var(--fs-muted)" }}>{current ? <span className="fs-live-dot" aria-hidden /> : <CheckCircle size={18} weight="fill" aria-hidden style={{ color: "var(--fs-confirmed)" }} />}{line}</li>;
+          return <li key={line} className="fs-t-body" style={{ display: "flex", alignItems: "center", gap: 12, color: current ? "var(--fs-ink)" : "var(--fs-muted)" }}>{current ? <span className="fs-live-dot" aria-hidden /> : <CheckCircle size={20} weight="fill" aria-hidden style={{ color: "var(--fs-confirmed)" }} />}{line}</li>;
         })}
       </ul>
     </section>

@@ -16,7 +16,6 @@ export default async function EditProfilePage() {
     <main id="main" className="mx-auto w-full max-w-2xl px-4 py-4 md:px-8 md:py-8">
       <BackButton fallback="/me" label="Profile" />
       <h1 className="mt-3 font-display text-[1.5rem] font-700 tracking-[-0.02em] md:text-[1.5rem]">Edit profile</h1>
-      <p className="mt-1 text-sm text-ink-faint">What businesses and other creators see when they open your profile.</p>
       <EditProfileForm
         initial={{
           displayName: ctx.user.displayName ?? "",

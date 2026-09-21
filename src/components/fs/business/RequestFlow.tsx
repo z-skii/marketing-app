@@ -146,7 +146,7 @@ export function RequestFlow({ kind, person, sample, creatives, funding, business
       )}
       {story && index === 2 && (
         <>
-          <p className="fs-t-body">Paid from your campaign credit when you approve the proof. Not before, and not if they decline.</p>
+          <p className="fs-t-body">Paid from credit only when you approve the proof.</p>
           <Presets values={[25, 40, 60]} current={pay} onPick={setPay} money />
           <Field id="fs-req-pay" label="Or another amount"><DollarInput id="fs-req-pay" value={pay} onChange={setPay} min={5} max={1000} /></Field>
         </>
@@ -170,7 +170,7 @@ export function RequestFlow({ kind, person, sample, creatives, funding, business
       )}
       {!story && index === 2 && (
         <>
-          <p className="fs-t-body">Paid from your campaign credit when you approve the video. Not before, and not if they decline.</p>
+          <p className="fs-t-body">Paid from credit only when you approve the video.</p>
           <Presets values={[50, 75, 100, 150]} current={pay} onPick={setPay} money />
           <Field id="fs-req-pay" label="Or another amount"><DollarInput id="fs-req-pay" value={pay} onChange={setPay} min={5} max={5000} /></Field>
         </>

@@ -76,11 +76,11 @@
   --env-on-dark-muted:#A5A9B1;
 
   /* shape: one system, pill actions, 20px objects, 28px sheets */
-  --tm-radius-xs:      8px;
-  --tm-radius-sm:      10px;
+  --tm-radius-xs:      8px;    /* micro: avatars in text, skeleton lines */
+  --tm-radius-sm:      12px;
   --tm-radius-md:      12px;   /* thumbnails, ad zone tiles */
-  --tm-radius-control: 14px;   /* icon buttons, inputs, 44px controls */
-  --tm-radius-row:     16px;   /* rows, secondary tiles */
+  --tm-radius-control: 12px;   /* inputs, tiles, rows: the small radius */
+  --tm-radius-row:     12px;   /* rows, secondary tiles */
   --tm-radius-button:  999px;  /* every action is a pill */
   --tm-radius-card:    20px;   /* hero, media and marketplace objects */
   --tm-radius-sheet:   28px;
@@ -106,10 +106,10 @@
   --tm-nav-height:     64px;
   --tm-nav-inset:      12px;
   --tm-nav-max:        456px;
-  --tm-button-height:  52px;
-  --tm-button-secondary: 48px;
-  --tm-iconbtn:        44px;
-  --tm-chip:           36px;
+  --tm-button-height:  48px;   /* large: the primary action */
+  --tm-button-secondary: 40px; /* default */
+  --tm-iconbtn:        40px;
+  --tm-chip:           40px;
   --tm-media-hero:     280px;
   --tm-media-car:      236px;
   --tm-story-w:        140px;
@@ -289,7 +289,7 @@
   .t-hero { font-family: var(--font-display); font-weight: 600; font-size: clamp(40px, 9vw, 96px); line-height: 0.98; letter-spacing: -0.045em; text-wrap: balance; }
   .t-h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 5vw, 56px); line-height: 1.02; letter-spacing: -0.04em; text-wrap: balance; }
   .t-h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(26px, 3.6vw, 40px); line-height: 1.08; letter-spacing: -0.03em; text-wrap: balance; }
-  .t-h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.15; letter-spacing: -0.02em; }
+  .t-h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.2; letter-spacing: -0.02em; }
   .t-lead { font-size: clamp(17px, 1.6vw, 21px); line-height: 1.45; color: var(--tm-text2); max-width: 36em; text-wrap: pretty; }
   .t-body { font-size: 15px; line-height: 1.55; }
   .t-meta { font-size: 13px; line-height: 1.4; color: var(--tm-muted); }
@@ -356,13 +356,17 @@
   .btn-glass { border: 1px solid var(--tm-glass-border); background: var(--tm-glass-control); -webkit-backdrop-filter: blur(var(--tm-pill-blur)) saturate(150%); backdrop-filter: blur(var(--tm-pill-blur)) saturate(150%); color: var(--tm-text); }
   .btn-glass.is-dark { background: var(--tm-glass-dark); color: #fff; border-color: rgba(255, 255, 255, 0.18); }
 
-  .btn-lg { min-height: var(--tm-button-height); padding: 0 24px; font-size: var(--tm-fs-button); }
-  .btn-sm { font-size: 13px; padding: 0 14px; min-height: 40px; }
-  .btn-ghost { background: transparent; border-color: transparent; box-shadow: none; color: var(--tm-text2); min-height: 44px; padding: 0 12px; font-weight: 600; }
+  /* Three heights only: 32 small, 40 default, 48 large (the primary action). */
+  .btn-lg, .btn-signal { min-height: var(--tm-button-height); padding: 0 24px; font-size: var(--tm-fs-button); }
+  .btn-signal.btn-sm { min-height: 32px; padding: 0 12px; font-size: 13px; }
+  .btn-signal.btn-md { min-height: 40px; padding: 0 18px; font-size: 15px; }
+  .btn-sm { font-size: 13px; line-height: 16px; padding: 0 12px; min-height: 32px; gap: 6px; }
+  .btn-ghost { background: transparent; border-color: transparent; box-shadow: none; color: var(--tm-text2); padding: 0 12px; font-weight: 600; }
   @media (hover: hover) { .btn-ghost:hover { background: var(--tm-surface2); } }
-  /* Everything tappable is at least 44px under a finger. */
+  /* Small controls keep a 44px touch target without growing visually. */
   @media (pointer: coarse) {
-    .btn-sm, .pill { min-height: 44px; }
+    .btn-sm, .iconbtn.is-sm { position: relative; }
+    .btn-sm::before, .iconbtn.is-sm::before { content: ""; position: absolute; inset: -6px; border-radius: inherit; }
     .link-row { padding-block: 0.75rem; }
   }
   /* Quiet inline links: ink, underline on hover, 44px tall on touch. */
@@ -524,7 +528,7 @@
   .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 9999px; background: var(--tm-success); box-shadow: 0 0 0 3px var(--tm-success-tint); flex-shrink: 0; }
 
   /* Status badge: a soft tinted pill with the word. */
-  .badge { display: inline-flex; align-items: center; gap: 6px; min-height: 26px; padding: 0 10px; border-radius: 9999px; font-size: 12px; line-height: 14px; font-weight: 600; background: var(--tm-surface2); color: var(--tm-text2); white-space: nowrap; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; min-height: 24px; padding: 0 10px; border-radius: 9999px; font-size: 12px; line-height: 14px; font-weight: 600; background: var(--tm-surface2); color: var(--tm-text2); white-space: nowrap; }
   .badge.is-success { background: var(--tm-success-tint); color: var(--tm-success); }
   .badge.is-warning { background: var(--tm-warning-tint); color: var(--tm-warning); }
   .badge.is-info { background: var(--tm-info-tint); color: var(--tm-info); }
@@ -641,8 +645,22 @@
     position: relative;
     transition: background var(--tm-t-fast) var(--tm-ease), transform var(--tm-t-fast) var(--tm-ease);
   }
+  .iconbtn.is-sm { width: 32px; height: 32px; }
+  .iconbtn.is-lg { width: 48px; height: 48px; }
   @media (hover: hover) { .iconbtn:hover { background: var(--tm-surface2); } }
   .iconbtn:active { background: var(--tm-surface3); transform: scale(0.94); }
+  /* Tooltips for icon only actions: desktop pointers only, after a short hover, never on touch. */
+  @media (hover: hover) and (pointer: fine) {
+    [data-tip] { position: relative; }
+    [data-tip]::after {
+      content: attr(data-tip); position: absolute; left: 50%; top: calc(100% + 8px); transform: translate(-50%, -4px);
+      padding: 6px 10px; border-radius: 8px; background: var(--tm-text); color: #fff; font-family: var(--font-display); font-size: 12px; line-height: 14px; font-weight: 500; white-space: nowrap;
+      opacity: 0; pointer-events: none; z-index: 60; transition: opacity var(--tm-t-fast) var(--tm-ease) 0.35s, transform var(--tm-t-fast) var(--tm-ease) 0.35s;
+    }
+    [data-tip]:hover::after, [data-tip]:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+    [data-tip].tip-up::after { top: auto; bottom: calc(100% + 8px); transform: translate(-50%, 4px); }
+    [data-tip].tip-up:hover::after, [data-tip].tip-up:focus-visible::after { transform: translate(-50%, 0); }
+  }
   .iconbtn.is-surface { background: var(--tm-glass-control); border: 1px solid var(--tm-glass-border); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
   @media (prefers-reduced-transparency: reduce) {
     .glass, .glass-panel { background: var(--tm-surface); -webkit-backdrop-filter: none; backdrop-filter: none; }

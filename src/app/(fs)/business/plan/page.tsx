@@ -36,7 +36,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
   const plans = PLANS.slice(0, 2);
   const current = active ? plans.find((p) => p.key === active.plan) ?? null : null;
   const credit = Number(wallet?.cents ?? 0);
-  const notice = params.checkout === "success" ? "Thanks. Your plan turns on as soon as Stripe confirms the payment, usually within a minute."
+  const notice = params.checkout === "success" ? "Thanks. Your plan turns on once Stripe confirms, usually within a minute."
     : params.checkout === "cancelled" ? "Checkout was cancelled. Nothing was charged."
     : params.activated === "dev" ? "Development billing: no card was charged." : null;
   const stateWord = !active ? { label: "No plan", tone: "neutral" as const } : active.status === "active" ? { label: "Active", tone: "confirmed" as const } : active.status === "trialing" ? { label: "Trial", tone: "waiting" as const } : { label: "Past due", tone: "problem" as const };
@@ -56,7 +56,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
               ["Billing", active.status === "past_due" ? "Past due. The last payment did not go through." : active.billing === "dev" ? "Development billing, no card on file" : active.billing === "stripe" ? "Card on file with Stripe" : "Billed manually"],
               [active.status === "trialing" ? "Trial ends" : "Renews", active.current_period_end ? fmtDate(active.current_period_end) : "Renewal date not recorded"],
               ["Shoots", shootsLine(current.shoots)],
-              ["Cancelling", "Stops the plan and its shoots at the end of the period. Campaigns and campaign credit stay."],
+              ["Cancelling", "Ends at the period end. Campaigns and credit stay."],
             ]} />
           </>
         ) : (
@@ -69,7 +69,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
 
       <section aria-labelledby="plans-title" style={{ marginTop: 32 }}>
         <h2 id="plans-title" className="fs-t-section">{active ? "The two plans" : "Choose a plan"}</h2>
-        <p className="fs-t-meta" style={{ marginTop: 4 }}>Plans never include campaign spend. Campaign budgets go to the people who do the work.</p>
+        <p className="fs-t-meta" style={{ marginTop: 4 }}>Campaign spend is separate.</p>
         <div className="fs-plan-grid">
           {plans.map((plan) => {
             const isCurrent = active?.plan === plan.key;
@@ -94,7 +94,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
             );
           })}
         </div>
-        {!billingLive && <p className="fs-t-meta" style={{ marginTop: 12 }}>{devAuthEnabled() ? "Card billing is not connected in this environment. Choosing a plan here turns it on without a charge." : "Billing is not connected yet. Plans go live when Stripe subscription prices are configured."}</p>}
+        {!billingLive && <p className="fs-t-meta" style={{ marginTop: 12 }}>{devAuthEnabled() ? "Development billing: no card is charged." : "Billing is not connected yet."}</p>}
         {active && isOwner && <div style={{ marginTop: 16 }}><CancelPlanButton businessId={business.id} /></div>}
       </section>
 
@@ -102,7 +102,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
         <h2 id="credit-title" className="fs-t-section">Campaign credit, kept separate</h2>
         <p className="fs-t-meta" style={{ marginTop: 4 }}>Pays creators and drivers when you approve work. Not part of the subscription.</p>
         <p className="fs-t-body" style={{ marginTop: 8 }}><span style={{ fontWeight: 500 }}>{formatMoney(credit)}</span> available now</p>
-        <Link href="/business/billing" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 4 }}>Campaign credit and spend <ArrowRight size={18} aria-hidden /></Link>
+        <Link href="/business/billing" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 4 }}>Campaign credit and spend <ArrowRight size={20} aria-hidden /></Link>
       </section>
     </main>
   );

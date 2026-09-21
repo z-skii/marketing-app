@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { SignOut } from "@phosphor-icons/react";
 import { signOut } from "@/app/sign-in/actions";
 
 /**
@@ -32,14 +33,14 @@ export function SignOutRow({ asButton = false }: { asButton?: boolean }) {
         <ul className="fs-settings-group" style={{ marginTop: 24 }}>
           <li>
             <button type="button" className="fs-settings-row" onClick={() => ref.current?.showModal()}>
-              <span><span className="fs-t-body" style={{ display: "block", fontWeight: 500, color: "var(--fs-problem)" }}>Log out</span><span className="fs-t-meta fs-settings-sub">Ends the session on this device only</span></span>
+              <span className="fs-settings-lead is-icon"><span className="fs-settings-icon is-danger" aria-hidden><SignOut size={20} aria-hidden /></span><span className="fs-t-body" style={{ display: "block", fontWeight: 500, color: "var(--fs-problem)" }}>Log out</span></span>
             </button>
           </li>
         </ul>
       )}
       <dialog ref={ref} className="fs-dialog" aria-labelledby="fs-logout-title" onClick={(e) => { if (e.target === ref.current) ref.current?.close(); }}>
         <p id="fs-logout-title" className="fs-t-section">Log out?</p>
-        <p className="fs-t-body" style={{ marginTop: 8, color: "var(--fs-muted)" }}>You will need your email and password to sign back in on this device.</p>
+        <p className="fs-t-body" style={{ marginTop: 8, color: "var(--fs-muted)" }}>This device only.</p>
         {error && <p role="alert" className="fs-field-error" style={{ marginTop: 8 }}>{error}</p>}
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 20 }}>
           <button type="button" className="fs-btn fs-btn-primary" disabled={pending} onClick={run} style={{ background: "var(--fs-problem)" }}>{pending ? "Logging out" : "Log out"}</button>

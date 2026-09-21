@@ -108,7 +108,7 @@ export function ContentWorkspace({ files, timeZone, timeZoneLabel, defaultSlot, 
                       f.thumbnail_url
                         // eslint-disable-next-line @next/next/no-img-element
                         ? <img src={f.thumbnail_url} alt="" loading="lazy" />
-                        : <span className="fs-video-fallback" style={{ padding: 4, fontSize: 12 }}><VideoCamera size={18} aria-hidden />Video</span>
+                        : <span className="fs-video-fallback" style={{ padding: 4, fontSize: 12 }}><VideoCamera size={20} aria-hidden />Video</span>
                     ) : (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={f.url} alt="" loading="lazy" />
@@ -140,14 +140,14 @@ export function ContentWorkspace({ files, timeZone, timeZoneLabel, defaultSlot, 
         ) : <p className="fs-t-meta" style={{ marginTop: 16 }}>No caption supplied.</p>}
         {selected.edit_note && <p className="fs-t-meta fs-note" style={{ marginTop: 12 }}>Edit note · {selected.edit_note}</p>}
         <p className="fs-t-meta" style={{ marginTop: 12 }}>Post · <span className={`fs-status is-${post.tone}`}>{post.label}</span>{post.detail ? ` · ${post.detail}` : ""}</p>
-        {post.label === "Scheduled" && <p className="fs-t-meta">Scheduling does not publish automatically. Post it, then mark it published.</p>}
+        {post.label === "Scheduled" && <p className="fs-t-meta">Post it yourself, then mark it published.</p>}
         {post.label === "Post failed" && <Link href="/business/connections" className="fs-btn fs-btn-secondary" style={{ marginTop: 8 }}>Open Connections</Link>}
 
         {error && <p role="alert" className="fs-field-error" style={{ marginTop: 12 }}>{error}</p>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 24 }}>
           {(selected.status === "new" || selected.status === "rejected") && (
-            <button type="button" className="fs-btn fs-btn-primary" disabled={pending} onClick={() => run(() => approveDeliverableAction(selected.id))}>{pending ? "Saving" : "Approve content"}</button>
+            <button type="button" className="fs-btn fs-btn-primary" disabled={pending} onClick={() => run(() => approveDeliverableAction(selected.id))}>{pending ? "Saving" : "Approve"}</button>
           )}
           {selected.status === "approved" && (
             <button type="button" className="fs-btn fs-btn-primary" disabled={pending} aria-expanded={panel === "schedule"} onClick={() => setPanel(panel === "schedule" ? null : "schedule")}>Schedule</button>
@@ -174,7 +174,7 @@ export function ContentWorkspace({ files, timeZone, timeZoneLabel, defaultSlot, 
             <div role="radiogroup" aria-label="Format" style={{ display: "flex", gap: 8, marginTop: 8 }}>
               {FORMATS.map((f) => <button key={f.key} type="button" role="radio" aria-checked={fmt === f.key} className={`fs-btn fs-btn-sm ${fmt === f.key ? "fs-btn-primary" : "fs-btn-secondary"}`} onClick={() => setFormat(f.key)}>{f.label}</button>)}
             </div>
-            <p className="fs-t-meta" style={{ marginTop: 8 }}>Scheduling puts it on your calendar. You post it yourself and mark it published.</p>
+            <p className="fs-t-meta" style={{ marginTop: 8 }}>Goes on your calendar. You post it yourself.</p>
             <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
               <button type="button" className="fs-btn fs-btn-primary" disabled={pending || !date || !time} onClick={() => run(() => scheduleDeliverableAction(selected.id, `${date}T${time}`, "instagram", fmt))}>{pending ? "Scheduling" : "Put it on the calendar"}</button>
               <button type="button" className="fs-btn fs-btn-secondary" onClick={() => setPanel(null)}>Cancel</button>
@@ -184,7 +184,7 @@ export function ContentWorkspace({ files, timeZone, timeZoneLabel, defaultSlot, 
         {panel === "edit" && (
           <div style={{ marginTop: 16 }}>
             <label><span className="fs-field-label">What should change</span><textarea className="fs-textarea" maxLength={1000} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Crop tighter on the cup, warmer colours" /></label>
-            <p className="fs-t-meta" style={{ marginTop: 4 }}>The original stays. The creator sees your note and uploads a new version.</p>
+            <p className="fs-t-meta" style={{ marginTop: 4 }}>The creator sees your note and uploads again.</p>
             <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
               <button type="button" className="fs-btn fs-btn-primary" disabled={pending || !note.trim()} onClick={() => run(() => requestEditAction(selected.id, note))}>{pending ? "Sending" : "Send to the creator"}</button>
               <button type="button" className="fs-btn fs-btn-secondary" onClick={() => setPanel(null)}>Cancel</button>

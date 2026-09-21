@@ -25,16 +25,16 @@ export function PersonCard({ p, canRequest, lead = false, priority = false }: { 
     <article className={`ap-card ap-person ${lead ? "is-lead" : ""}`} aria-labelledby={`person-${p.id}-t`}>
       <div className="ap-card-media">
         {src ? <MediaPreview src={src} alt="" priority={priority} sizes={lead ? "(min-width: 1280px) 720px, 100vw" : "(min-width: 640px) 40vw, 100vw"} /> : <span className="ap-empty">No portrait</span>}
-        <span className="glass-tag ap-card-tag">{p.verification === "verified" ? <><VerifiedIcon size={13} weight="fill" aria-hidden />Verified creator</> : p.instagram?.status === "connected" ? <><InstagramIcon size={13} aria-hidden />Instagram connected</> : "Creator"}</span>
-        {p.has_listed_vehicle && <span className="glass-tag" style={{ position: "absolute", top: 12, right: 12, zIndex: 2 }}><CarIcon size={13} aria-hidden />Car listed</span>}
+        <span className="glass-tag ap-card-tag">{p.verification === "verified" ? <><VerifiedIcon size={16} weight="fill" aria-hidden />Verified</> : p.instagram?.status === "connected" ? <><InstagramIcon size={16} aria-hidden />Instagram</> : "Creator"}</span>
+        {p.has_listed_vehicle && <span className="glass-tag" style={{ position: "absolute", top: 12, right: 12, zIndex: 2 }}><CarIcon size={16} aria-hidden />Car listed</span>}
         {stills.length > 0 && <span className="ap-samples" aria-label={`${stills.length} work samples`}>{stills.map((s) => <span key={s.url} title={s.title}><MediaPreview src={s.url} alt="" sizes="44px" /></span>)}</span>}
       </div>
       <div className="ap-card-body">
         <h2 id={`person-${p.id}-t`} className="ap-card-title"><Link href={`/business/people/${p.username}`}>{name}</Link></h2>
         <p className="t-meta">{provenance(p)}</p>
-        {facts.length > 0 && <p className="t-meta" style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>{p.rating_count > 0 && <StarIcon size={13} weight="fill" aria-hidden style={{ color: "var(--tm-warning)" }} />}{facts.join(" · ")}</p>}
+        {facts.length > 0 && <p className="t-meta" style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>{p.rating_count > 0 && <StarIcon size={16} weight="fill" aria-hidden style={{ color: "var(--tm-warning)" }} />}{facts.join(" · ")}</p>}
         <div className="ap-card-actions">
-          <Link href={`/business/people/${p.username}`} className="link-row">View person <ArrowRightIcon size={14} aria-hidden /></Link>
+          <Link href={`/business/people/${p.username}`} className="btn btn-sm">View <ArrowRightIcon size={16} aria-hidden /></Link>
           {canRequest && <Link href={`/business/people/${p.username}?request=story`} className="btn btn-dark btn-sm">Request</Link>}
         </div>
       </div>
@@ -51,14 +51,14 @@ export function CarCard({ c, priority = false }: { c: Car; priority?: boolean })
     <article className="ap-card" aria-labelledby={`car-${c.id}-t`}>
       <div className="ap-card-media" style={{ aspectRatio: "16 / 10" }}>
         {still ? <MediaPreview src={still} alt="" priority={priority} sizes="(min-width: 640px) 40vw, 100vw" /> : <span className="ap-empty">No photo yet</span>}
-        <span className="glass-tag ap-card-tag"><CarIcon size={13} aria-hidden />{zoneLine(c)}</span>
-        {min != null && <span className="ap-card-money"><b>{formatMoney(min).replace(/\.00$/, "")}</b><span>{priced.length > 1 ? "from, a month" : "a month asking"}</span></span>}
+        <span className="glass-tag ap-card-tag"><CarIcon size={16} aria-hidden />{zoneLine(c)}</span>
+        {min != null && <span className="ap-card-money"><b>{formatMoney(min).replace(/\.00$/, "")}</b><span>{priced.length > 1 ? "from, a month" : "a month"}</span></span>}
         {c.stage.glbUrl && <span className="glass-tag" style={{ position: "absolute", top: 12, right: 12, zIndex: 2 }}>3D model</span>}
       </div>
       <div className="ap-card-body">
         <h2 id={`car-${c.id}-t`} className="ap-card-title"><Link href={`/business/cars/${c.id}`}>{name}{c.color ? <span style={{ color: "var(--tm-muted)", fontWeight: 400 }}> · {c.color}</span> : null}</Link></h2>
-        <p className="t-meta">{c.owner_name}{c.city ? ` · ${c.city}` : ""}{priced.length > 1 ? ` · ${priced.length} placements priced` : min == null ? " · Asking price to be agreed" : ""}</p>
-        <div className="ap-card-actions"><Link href={`/business/cars/${c.id}`} className="link-row">View car <ArrowRightIcon size={14} aria-hidden /></Link></div>
+        <p className="t-meta">{c.owner_name}{c.city ? ` · ${c.city}` : ""}{priced.length > 1 ? ` · ${priced.length} placements` : min == null ? " · Price to agree" : ""}</p>
+        <div className="ap-card-actions"><Link href={`/business/cars/${c.id}`} className="btn btn-sm">View <ArrowRightIcon size={16} aria-hidden /></Link></div>
       </div>
     </article>
   );

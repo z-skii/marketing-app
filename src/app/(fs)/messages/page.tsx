@@ -25,7 +25,7 @@ export default async function MessagesPage() {
       {rows.length === 0 ? (
         <div style={{ marginTop: 24, maxWidth: 480 }}>
           <p className="fs-t-task">No conversations yet.</p>
-          <p className="fs-t-body" style={{ marginTop: 4, color: "var(--fs-muted)" }}>Threads start around campaigns, submissions, requests and car ads, with the person on the other side.</p>
+          <p className="fs-t-body" style={{ marginTop: 4, color: "var(--fs-muted)" }}>Threads start from campaigns and requests.</p>
           <Link href={ctx.mode === "business" ? "/business" : "/home"} className="fs-btn fs-btn-secondary" style={{ marginTop: 16 }}>{ctx.mode === "business" ? "Find people and cars" : "Find work"}</Link>
         </div>
       ) : (

@@ -19,7 +19,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="app-root flex min-h-dvh flex-col env-gradient-warm">
       <header className="mx-auto flex h-16 w-full max-w-5xl items-center px-5">
-        <Link href="/" className="inline-flex items-center" aria-label={`${SITE_NAME} home`}><Wordmark size={22} /></Link>
+        <Link href="/" className="inline-flex items-center" aria-label={`${SITE_NAME} home`}><Wordmark size={24} /></Link>
       </header>
       <main id="main" className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center px-5 py-10 md:py-16">
         {children}

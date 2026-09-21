@@ -5,7 +5,7 @@ import { listCarsForBusiness, listPeople, type Car, type Person } from "@/lib/v2
 import { listShoots } from "@/lib/business/shoots";
 import { PersonCard, CarCard } from "@/components/app/BusinessCards";
 import { Count } from "@/components/app/Count";
-import { PinIcon, ArrowRightIcon, CheckCircleIcon, ImageIcon, MegaphoneIcon, CameraIcon, SparkleIcon, LightningIcon } from "@/ds/icons";
+import { PinIcon, ArrowRightIcon, CheckCircleIcon, ImageIcon, MegaphoneIcon, CameraIcon, SparkleIcon, LightningIcon, CarIcon } from "@/ds/icons";
 
 export const metadata = { title: "Home" };
 export const dynamic = "force-dynamic";
@@ -76,44 +76,59 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
   const showPeople = !nearbyNoCity && tab !== "cars";
   const showCars = !nearbyNoCity && tab !== "people";
 
-  const next = decisions > 0
-    ? { href: "/business/campaigns?view=review", title: `Decide on ${decisions} submission${decisions === 1 ? "" : "s"}`, body: "Creators and drivers are waiting on you.", cta: "Review" }
-    : files > 0
-      ? { href: "/business/content", title: `Approve ${files} delivered file${files === 1 ? "" : "s"}`, body: "New content from your shoot is ready to check.", cta: "Open Content" }
-      : open === 0
-        ? { href: "/business/create", title: "Start your first campaign", body: "Recreate, Story or Car, set up one decision at a time.", cta: "Create" }
-        : { href: "/business/content", title: "Everything is moving", body: `${open} open campaign${open === 1 ? "" : "s"}. Check what is scheduled this week.`, cta: "Content" };
+  const attentionRows = [
+    ...(decisions > 0 ? [{ href: "/business/campaigns?view=review", icon: CheckCircleIcon, text: `${decisions} submission${decisions === 1 ? "" : "s"}`, cta: "Review" }] : []),
+    ...(files > 0 ? [{ href: "/business/content", icon: ImageIcon, text: `${files} file${files === 1 ? "" : "s"} to approve`, cta: "Open" }] : []),
+  ];
+  const next = open === 0
+    ? { href: "/business/create", title: "Start your first campaign", cta: "Create" }
+    : { href: "/business/content", title: `${open} campaign${open === 1 ? "" : "s"} running`, cta: "Content" };
 
   return (
     <main className="fs-phone-main" id="main">
       <div className="ap-head">
-        <div><h1>{business.name}</h1><p className="ap-sub">What needs your attention, what is working, what to do next.</p></div>
-        <Link href="/business/edit" className="btn btn-sm shrink-0" aria-label={city ? `Business city ${city}. Change it` : "Add your business city"}><PinIcon size={16} aria-hidden />{city ?? "Add your city"}</Link>
+        <div><h1>{business.name}</h1></div>
+        <Link href="/business/edit" className="btn btn-sm shrink-0" aria-label={city ? `Business city ${city}. Change it` : "Add your business city"}><PinIcon size={16} aria-hidden />{city ?? "Add city"}</Link>
       </div>
 
-      <div className="ap-attention" aria-label="Attention">
-        <Link href="/business/campaigns?view=review" className={`ap-attn ${decisions > 0 ? "is-hot" : ""}`}><span className="ap-attn-icon"><CheckCircleIcon size={18} aria-hidden /></span><b><Count value={decisions} /></b><span>Needs approval</span></Link>
-        <Link href="/business/content" className={`ap-attn ${files > 0 ? "is-hot" : ""}`}><span className="ap-attn-icon"><ImageIcon size={18} aria-hidden /></span><b><Count value={files} /></b><span>Content ready</span></Link>
-        <Link href="/business/campaigns" className="ap-attn"><span className="ap-attn-icon"><MegaphoneIcon size={18} aria-hidden /></span><b><Count value={open} /></b><span>Active campaigns{runningCars > 0 ? ` · ${runningCars} car${runningCars === 1 ? "" : "s"} on the road` : ""}</span></Link>
-        <Link href="/business/content?view=shoots" className="ap-attn"><span className="ap-attn-icon"><CameraIcon size={18} aria-hidden /></span><b style={{ fontSize: 20 }}>{shootLabel}</b><span>Next shoot</span></Link>
+      {attentionRows.length > 0 && (
+        <section className="ap-section" aria-labelledby="attn-h" style={{ marginTop: 16 }}>
+          <div className="ap-section-head"><h2 id="attn-h">Needs attention</h2></div>
+          <div className="ap-rows">
+            {attentionRows.map((r) => (
+              <Link key={r.href} href={r.href} className="ap-row is-hot">
+                <span className="ap-row-icon"><r.icon size={20} aria-hidden /></span>
+                <b>{r.text}</b>
+                <span className="btn btn-sm">{r.cta} <ArrowRightIcon size={16} aria-hidden /></span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+      <div className="ap-attention" aria-label="Overview" style={{ marginTop: attentionRows.length > 0 ? 16 : 16 }}>
+        <Link href="/business/campaigns" className="ap-attn"><span className="ap-attn-icon"><MegaphoneIcon size={20} aria-hidden /></span><b><Count value={open} /></b><span>Active</span></Link>
+        <Link href="/business/campaigns?view=review" className="ap-attn"><span className="ap-attn-icon"><CheckCircleIcon size={20} aria-hidden /></span><b><Count value={decisions} /></b><span>Pending</span></Link>
+        <Link href="/business/cars" className="ap-attn"><span className="ap-attn-icon"><CarIcon size={20} aria-hidden /></span><b><Count value={runningCars} /></b><span>Cars running</span></Link>
+        <Link href="/business/content?view=shoots" className="ap-attn"><span className="ap-attn-icon"><CameraIcon size={20} aria-hidden /></span><b style={{ fontSize: 20 }}>{shootLabel}</b><span>Next shoot</span></Link>
       </div>
-      <Link href={next.href} className="ap-next">
-        <span className="ap-next-icon"><LightningIcon size={20} aria-hidden /></span>
-        <span style={{ minWidth: 0 }}><b>{next.title}</b><span>{next.body}</span></span>
-        <span className="btn btn-glass is-dark btn-sm">{next.cta} <ArrowRightIcon size={14} aria-hidden /></span>
-      </Link>
+      {attentionRows.length === 0 && (
+        <Link href={next.href} className="ap-next">
+          <span className="ap-next-icon"><LightningIcon size={20} aria-hidden /></span>
+          <span style={{ minWidth: 0 }}><b>{next.title}</b></span>
+          <span className="btn btn-glass is-dark btn-sm">{next.cta} <ArrowRightIcon size={16} aria-hidden /></span>
+        </Link>
+      )}
 
       <section className="ap-section" aria-labelledby="market-h">
-        <div className="ap-section-head"><h2 id="market-h">Find people and cars</h2></div>
+        <div className="ap-section-head"><h2 id="market-h">People and cars</h2></div>
         <nav className="ap-chips" aria-label="Discovery" style={{ marginTop: 0 }}>
           {TABS.map((t) => <Link key={t.key} href={href(t.key)} className="pill" aria-current={tab === t.key ? "page" : undefined}>{t.label}</Link>)}
         </nav>
 
         {nearbyNoCity && (
           <div className="card" style={{ marginTop: 16, padding: 20, maxWidth: 560 }}>
-            <p className="t-h3">Nearby needs your business city.</p>
-            <p className="t-body" style={{ marginTop: 6, color: "var(--tm-text2)" }}>People and cars are matched to the city on your business profile.</p>
-            <Link href="/business/edit" className="btn btn-signal" style={{ marginTop: 16 }}>Add your city</Link>
+            <p className="t-h3">Add your city to see nearby.</p>
+            <Link href="/business/edit" className="btn btn-signal" style={{ marginTop: 16 }}>Add city</Link>
           </div>
         )}
 
@@ -122,20 +137,20 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
             {showPeople && (peopleFailed ? (
               <p className="t-body"><span className="badge is-alert">People could not be loaded.</span> <Link href={href(tab)} className="link-row">Try again</Link></p>
             ) : shownPeople.length === 0 ? (
-              <div className="card" style={{ padding: 20 }}><p className="t-h3">{tab === "nearby" ? `Nobody in ${city} is earning on TapMart yet.` : "Nobody is earning on TapMart yet."}</p><p className="t-meta" style={{ marginTop: 6 }}>People appear here as they join and share work.</p></div>
+              <div className="card" style={{ padding: 20 }}><p className="t-h3">{tab === "nearby" ? `Nobody in ${city} yet.` : "Nobody yet."}</p></div>
             ) : shownPeople.map((p, i) => <PersonCard key={p.id} p={p} canRequest={p.id !== ctx.user.id} lead={i === 0 && tab === "for_you"} priority={i === 0} />))}
             {showCars && (carsFailed ? (
               <p className="t-body"><span className="badge is-alert">Cars could not be loaded.</span> <Link href={href(tab)} className="link-row">Try again</Link></p>
             ) : shownCars.length === 0 ? (
-              <div className="card" style={{ padding: 20 }}><p className="t-h3">{tab === "nearby" ? `No cars in ${city} are listed for ads yet.` : "No cars are listed for ads yet."}</p><p className="t-meta" style={{ marginTop: 6 }}>Owners list their cars with the placements they offer and an asking price.</p></div>
+              <div className="card" style={{ padding: 20 }}><p className="t-h3">{tab === "nearby" ? `No cars in ${city} yet.` : "No cars yet."}</p></div>
             ) : shownCars.map((c, i) => <CarCard key={c.id} c={c} priority={i === 0 && !showPeople} />))}
           </div>
         )}
 
         {tab === "for_you" && !nearbyNoCity && (people.length > 4 || cars.length > 0) && (
           <div style={{ display: "flex", gap: 8, marginTop: 16, flexWrap: "wrap" }}>
-            {people.length > 4 && <Link href={href("people")} className="btn">See all people <ArrowRightIcon size={16} aria-hidden /></Link>}
-            {cars.length > 0 && <Link href={href("cars")} className="btn">See all cars <ArrowRightIcon size={16} aria-hidden /></Link>}
+            {people.length > 4 && <Link href={href("people")} className="btn">All people <ArrowRightIcon size={16} aria-hidden /></Link>}
+            {cars.length > 0 && <Link href={href("cars")} className="btn">All cars <ArrowRightIcon size={16} aria-hidden /></Link>}
           </div>
         )}
 
@@ -150,8 +165,8 @@ export default async function BusinessHome({ searchParams }: { searchParams: Pro
       <section className="ap-section" aria-label="More">
         <Link href="/business/loyalty" className="ap-note">
           <SparkleIcon size={20} aria-hidden style={{ color: "var(--tm-info)" }} />
-          <span className="ap-note-text"><b style={{ fontWeight: 600 }}>Loyalty</b> <span className="badge is-ink" style={{ marginLeft: 6, minHeight: 22 }}>Coming soon</span><span className="t-meta" style={{ display: "block" }}>A Wallet stamp card for repeat customers.</span></span>
-          <ArrowRightIcon size={18} aria-hidden style={{ color: "var(--tm-red)" }} />
+          <span className="ap-note-text"><b style={{ fontWeight: 600 }}>Loyalty</b> <span className="badge is-ink" style={{ marginLeft: 6 }}>Coming soon</span></span>
+          <ArrowRightIcon size={20} aria-hidden style={{ color: "var(--tm-red)" }} />
         </Link>
       </section>
     </main>

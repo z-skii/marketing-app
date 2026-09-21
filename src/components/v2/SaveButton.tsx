@@ -31,7 +31,7 @@ export function SaveButton({
       }}
       className={`glass-tag flex h-11 w-11 items-center justify-center rounded-full transition-colors ${saved ? "text-signal" : "text-ink"} ${className}`}
     >
-      <BookmarkSimple size={22} weight={saved ? "fill" : "regular"} className={pop ? "pop" : ""} aria-hidden />
+      <BookmarkSimple size={24} weight={saved ? "fill" : "regular"} className={pop ? "pop" : ""} aria-hidden />
     </button>
   );
 }

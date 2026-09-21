@@ -69,7 +69,7 @@ export function PortfolioManager({
         <div className="mt-4">
           <EmptyState
             title="Nothing here yet"
-            body="Upload photos or videos of your work. Businesses look at this before they hire."
+            body="Add photos or videos of your work."
           />
         </div>
       )}

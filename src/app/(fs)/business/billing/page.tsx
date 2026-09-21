@@ -49,7 +49,7 @@ export default async function BillingPage() {
       <UtilityHead title="Campaign credit" back={<BackLink fallback="/business/plan" label="Plan and billing" />} />
       <section className="fs-plane" style={{ marginTop: 16 }} aria-label="Campaign credit">
         <p className="fs-t-label">Available to pay people</p>
-        <Money cents={credit} className="fs-money-balance" per="Leaves only when you approve work or a car goes live. Publishing needs credit for one payment; nothing is held." />
+        <Money cents={credit} className="fs-money-balance" per="Leaves only when you approve work" />
       </section>
 
       <section aria-labelledby="add-title" style={{ marginTop: 32 }}>
@@ -81,7 +81,7 @@ export default async function BillingPage() {
       <section aria-labelledby="sub-title" style={{ marginTop: 32 }}>
         <h2 id="sub-title" className="fs-t-section">Subscription, kept separate</h2>
         <p className="fs-t-body" style={{ marginTop: 8 }}>{active ? `${PLAN_BY_KEY[active.plan].name} plan${active.status !== "active" ? `, ${active.status.replace("_", " ")}` : ""}` : "No plan"}<span className="fs-t-meta"> · {active?.billing === "stripe" ? "Billed to your card" : active?.billing === "manual" ? "Billed manually" : active ? "Development billing, no charge" : "Billed separately"}, never taken from campaign credit</span></p>
-        <Link href="/business/plan" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 4 }}>{active ? "Manage the plan" : "See the plans"} <ArrowRight size={18} aria-hidden /></Link>
+        <Link href="/business/plan" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 4 }}>{active ? "Manage the plan" : "See the plans"} <ArrowRight size={20} aria-hidden /></Link>
       </section>
     </main>
   );

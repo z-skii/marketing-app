@@ -17,17 +17,16 @@ export default async function SecuritySettingsPage() {
   const dev = devAuthEnabled();
   return (
     <main className="fs-phone-main fs-utility" id="main">
-      <UtilityHead title="Security" back={<BackLink fallback="/business/settings" label="Settings" />} />
+      <UtilityHead title="Security" back={<BackLink fallback={ctx.mode === "business" ? "/business/settings" : "/me/settings"} label="Settings" />} />
       <SettingsGroup title="Password">
         {dev
-          ? <SettingsRow title="Change password" sub="Development sign-in is on. Password changes go through the real sign-in in production." />
-          : <SettingsRow href="/reset" title="Change password" sub={`A reset link goes to ${ctx.user.email ?? "your email"}`} />}
+          ? <SettingsRow title="Change password" sub="Not available in development sign-in" />
+          : <SettingsRow href="/reset" title="Change password" sub={`Reset link to ${ctx.user.email ?? "your email"}`} />}
       </SettingsGroup>
       <SettingsGroup title="Sessions">
-        <SettingsRow title="This device" sub={`Signed in as ${ctx.user.email ?? ctx.user.username}`} />
-        <SettingsRow title="Expires" sub="30 days after sign in, or when you log out" />
+        <SettingsRow title="This device" value={ctx.user.email ?? ctx.user.username} />
+        <SettingsRow title="Expires" value="30 days" />
       </SettingsGroup>
-      <p className="fs-t-meta" style={{ marginTop: 12 }}>Logging out ends the session on this device only. To end a session on another device, log out there.</p>
       <SignOutRow />
     </main>
   );

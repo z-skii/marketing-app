@@ -56,8 +56,8 @@ export default async function GooglePage({ searchParams }: { searchParams: Promi
         <UtilityHead title="Google Business" back={back} />
         <div className="fs-plane is-decision" style={{ marginTop: 16 }}>
           <p className="fs-t-label">{state === "needs_reconnect" ? "Reconnect required" : state === "error" ? "Needs attention" : state === "connecting" ? "One step left" : "Not connected"}</p>
-          <p className="fs-t-task" style={{ marginTop: 4 }}>{state === "connecting" ? "Pick which Google location TapMart manages." : "Connect your Google Business Profile so TapMart can read the real listing."}</p>
-          <p className="fs-t-body" style={{ marginTop: 8, color: "var(--fs-muted)" }}>Until it is connected there is nothing to check. After it, TapMart shows only what Google returns: missing information, hours, category, photos and reviews, each with a fix you approve.</p>
+          <p className="fs-t-task" style={{ marginTop: 4 }}>{state === "connecting" ? "Pick the location TapMart manages." : "Connect your Google Business Profile."}</p>
+          <p className="fs-t-body" style={{ marginTop: 8, color: "var(--fs-muted)" }}>TapMart then shows what Google returns, with fixes you approve.</p>
           {state === "connecting" && (meta.locations?.length ?? 0) > 0
             ? <Link href="/business/settings/connections/google" className="fs-btn fs-btn-primary" style={{ marginTop: 16 }}>Pick your location</Link>
             : <ConnectGoogleButton configured={configured} label={state === "needs_reconnect" || state === "error" ? "Reconnect Google" : "Connect Google Business"} />}

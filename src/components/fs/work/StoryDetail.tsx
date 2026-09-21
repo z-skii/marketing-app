@@ -94,7 +94,7 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
             <Section title="Revision requested" id="work">
               <div className="fs-note">
                 <p className="fs-t-label">What {o.business_name} asked to change</p>
-                <p className="fs-t-body" style={{ marginTop: 4 }}>{latest.review_note ?? "Send new proof. The business did not leave a note."}</p>
+                <p className="fs-t-body" style={{ marginTop: 4 }}>{latest.review_note ?? "Send new proof."}</p>
               </div>
               <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginTop: 16 }}>
                 <WorkThumb src={latest.media_urls[0] ?? null} alt="Your previous proof" />
@@ -160,7 +160,7 @@ export function StoryDetail({ o, ctx, open, mine, invite, verification, paid, fe
                 {needsInstagram ? (
                   <Plane>
                     <p className="fs-t-label"><span className="fs-status is-problem">Instagram not connected</span></p>
-                    <p className="fs-t-meta" style={{ marginTop: 4 }}>Story campaigns pay per story on your own account. Add your handle once.</p>
+                    <p className="fs-t-meta" style={{ marginTop: 4 }}>Add your handle once.</p>
                     <Link href={`/me/instagram?return=${returnTo}`} className="fs-btn fs-btn-primary" style={{ marginTop: 12 }}>Connect Instagram</Link>
                   </Plane>
                 ) : tooFewFollowers ? (

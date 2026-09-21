@@ -44,13 +44,13 @@ function DriveVisual({ step }: { step: number }) {
       <AnimatePresence mode="popLayout">
         {step === 0 && (
           <motion.div key="s0" className="lp-car-annot" style={{ left: "4%", top: "0%" }} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.4 }}>
-            <span className="glass-panel is-dark lp-glass" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 14px" }}><CameraIcon size={18} aria-hidden />6 of 6 photos · <span style={{ color: "#8FE3B0" }}>Verified</span></span>
+            <span className="glass-panel is-dark lp-glass" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 14px" }}><CameraIcon size={20} aria-hidden />6 of 6 photos · <span style={{ color: "#8FE3B0" }}>Verified</span></span>
           </motion.div>
         )}
         {step === 1 && (
           <motion.div key="s1" className="lp-car-annot" style={{ right: "-4%", top: "-2%", display: "grid", gap: 8 }} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.4 }}>
             {[["Loopday Coffee", "Rear door · US$110 a month"], ["Spur Room Barbers", "Rear window · US$90 a month"]].map(([n, l], k) => (
-              <span key={n} className="glass-panel is-dark lp-glass" style={{ padding: "10px 14px", display: "block", transform: `translateX(${k * 10}px)` }}><span style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 600, fontSize: 14 }}><PinIcon size={14} aria-hidden />{n}</span><span className="t-meta" style={{ color: "var(--env-on-dark-muted)" }}>{l}</span></span>
+              <span key={n} className="glass-panel is-dark lp-glass" style={{ padding: "10px 14px", display: "block", transform: `translateX(${k * 10}px)` }}><span style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 600, fontSize: 14 }}><PinIcon size={16} aria-hidden />{n}</span><span className="t-meta" style={{ color: "var(--env-on-dark-muted)" }}>{l}</span></span>
             ))}
           </motion.div>
         )}

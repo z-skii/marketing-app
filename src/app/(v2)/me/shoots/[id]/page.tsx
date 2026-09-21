@@ -55,7 +55,7 @@ export default async function MyShootPage({ params }: { params: Promise<{ id: st
 
       {delivered && (
         <p className="mt-4 flex items-center gap-1.5 text-sm font-600 text-rise">
-          <CheckCircle size={18} weight="fill" aria-hidden />Delivered. The business has been told.
+          <CheckCircle size={20} weight="fill" aria-hidden />Delivered. The business has been told.
         </p>
       )}
 

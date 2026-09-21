@@ -25,3 +25,19 @@ export {
 export const ICON = { xs: 14, sm: 16, md: 20, lg: 24, xl: 28 } as const;
 /** One stroke: Phosphor "regular"; "bold" only for the filled Create control; "fill" for selected states. */
 export const ICON_WEIGHT = "regular" as const;
+
+// Polish pass: actions that became icons, settings rows.
+export { DotsThree as DotsIcon } from "@phosphor-icons/react/dist/ssr";
+export { PencilSimple as PencilIcon } from "@phosphor-icons/react/dist/ssr";
+export { ShareNetwork as ShareIcon } from "@phosphor-icons/react/dist/ssr";
+export { SlidersHorizontal as FilterIcon } from "@phosphor-icons/react/dist/ssr";
+export { XCircle as XCircleIcon } from "@phosphor-icons/react/dist/ssr";
+export { Flag as FlagIcon } from "@phosphor-icons/react/dist/ssr";
+export { SlidersHorizontal as SlidersIcon } from "@phosphor-icons/react/dist/ssr";
+export { ArrowsClockwise as ArrowsClockwiseIcon } from "@phosphor-icons/react/dist/ssr";
+export { Envelope as EnvelopeIcon } from "@phosphor-icons/react/dist/ssr";
+export { CreditCard as CreditCardIcon } from "@phosphor-icons/react/dist/ssr";
+export { Question as QuestionIcon } from "@phosphor-icons/react/dist/ssr";
+export { FileText as FileTextIcon } from "@phosphor-icons/react/dist/ssr";
+export { Plugs as PlugsIcon } from "@phosphor-icons/react/dist/ssr";
+export { Tag as TagIcon } from "@phosphor-icons/react/dist/ssr";

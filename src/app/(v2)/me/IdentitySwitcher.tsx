@@ -45,7 +45,7 @@ export function IdentitySwitcher({ identities, canAddBusiness }: { identities: I
           <Link href="/business/new" className="flex h-[58px] w-full items-center gap-3.5 px-[13px] transition-[background,transform] duration-100 can-hover:hover:bg-surface-3 active:scale-[0.985] active:bg-[color:var(--tm-pressed)]">
             <span aria-hidden className="flex h-11 w-11 items-center justify-center rounded-[14px] text-ink"><Plus size={20} weight="bold" /></span>
             <span className="flex-1 font-display text-[14px] leading-[18px] font-700">Add business</span>
-            <CaretRight size={18} className="text-ink-soft" aria-hidden />
+            <CaretRight size={20} className="text-ink-soft" aria-hidden />
           </Link>
         </li>
       )}

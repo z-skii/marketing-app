@@ -78,7 +78,7 @@ export function RecreateDetail({ o, ctx, open, rightsNote, mine, invite, paid, f
           </p>
           <BusinessLine o={o} />
           {o.reference_url && (
-            <a href={o.reference_url} target="_blank" rel="noopener noreferrer" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }}>Open the original <ArrowSquareOut size={18} aria-hidden /></a>
+            <a href={o.reference_url} target="_blank" rel="noopener noreferrer" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }}>Open the original <ArrowSquareOut size={20} aria-hidden /></a>
           )}
         </div>
 
@@ -123,7 +123,6 @@ export function RecreateDetail({ o, ctx, open, rightsNote, mine, invite, paid, f
             <Facts rows={[
               ["Length", `${guide.duration_seconds[0]} to ${guide.duration_seconds[1]} seconds`],
               ["Framing", guide.orientation === "vertical" ? "Vertical 9:16" : "Horizontal 16:9"],
-              ...(guide.rules.length ? [["Keep", guide.rules.join(" · ")] as [string, React.ReactNode]] : []),
               ...(guide.avoid.length ? [["Avoid", guide.avoid.join(", ")] as [string, React.ReactNode]] : []),
             ]} />
           </Section>
@@ -151,7 +150,7 @@ function WorkState({ o, latest, previous, canSubmit, guide, rightsNote, paid, ne
       <Section title="Revision requested" id="work">
         <div className="fs-note">
           <p className="fs-t-label">What {o.business_name} asked to change</p>
-          <p className="fs-t-body" style={{ marginTop: 4 }}>{latest.review_note ?? "Upload a new version. The business did not leave a note."}</p>
+          <p className="fs-t-body" style={{ marginTop: 4 }}>{latest.review_note ?? "Upload a new version."}</p>
         </div>
         <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginTop: 16 }}>
           <WorkThumb src={file} alt="Your previous version" />

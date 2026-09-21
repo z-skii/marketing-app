@@ -183,7 +183,7 @@ function TopPostTile({
       </span>
       {href && (
         <span className="glass-tag absolute top-3 right-3 flex h-9 w-9 items-center justify-center text-white">
-          <CaretRight size={18} aria-hidden />
+          <CaretRight size={20} aria-hidden />
         </span>
       )}
     </>

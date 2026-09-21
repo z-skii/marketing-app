@@ -71,7 +71,7 @@ export default async function ShootPage({ params }: { params: Promise<{ id: stri
                   </span>
                   {f.kind === "video" && (
                     <span className="glass-tag absolute bottom-1.5 left-1.5 flex h-7 w-7 items-center justify-center rounded-full text-ink" aria-hidden>
-                      <Play size={14} weight="fill" />
+                      <Play size={16} weight="fill" />
                     </span>
                   )}
                 </li>

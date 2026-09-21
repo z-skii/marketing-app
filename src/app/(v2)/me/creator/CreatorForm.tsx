@@ -35,7 +35,7 @@ export function CreatorForm({ initial }: { initial: { portfolioUrl: string; veri
               if (!saved.ok) { setMessage({ ok: false, text: saved.error ?? "Failed." }); return; }
               const result = await requestCreatorVerification();
               setMessage(result.ok
-                ? { ok: true, text: "Requested. TapMart checks your account, usually within a day." }
+                ? { ok: true, text: "Requested. Usually checked within a day." }
                 : { ok: false, text: result.error ?? "Failed." });
               if (result.ok) router.refresh();
             })}

@@ -96,25 +96,24 @@ export default async function EarningsPage() {
     }),
     ...payouts.map((p): Tx => {
       const st = PAYOUT[p.status] ?? { label: p.status, tone: "neutral" as const };
-      const sub = p.status === "paid" && p.processed_at ? `Sent ${fmtDate(p.processed_at)}` : p.status === "rejected" ? "See the note from TapMart in Messages" : "Sent by hand, usually within a few days";
-      return { id: `p-${p.id}`, when: p.created_at, title: "Payout to you", sub, status: st, amount: p.amount_cents, sign: "", media: null, href: null };
+      const sub = p.status === "paid" && p.processed_at ? `Sent ${fmtDate(p.processed_at)}` : p.status === "rejected" ? "See Messages" : "Usually a few days";
+      return { id: `p-${p.id}`, when: p.created_at, title: "Payout", sub, status: st, amount: p.amount_cents, sign: "", media: null, href: null };
     }),
   ].sort((a, b) => new Date(b.when).getTime() - new Date(a.when).getTime());
 
   return (
     <main className="fs-phone-main" id="main">
-      <div className="ap-head"><div><h1>Earnings</h1><p className="ap-sub">Approved work, the fee, what is yours.</p></div></div>
+      <div className="ap-head"><div><h1>Earnings</h1></div></div>
 
       <div className="fs-earnings-grid" style={{ marginTop: 16 }}>
         <div>
           <section className="ap-balance" aria-labelledby="fs-available">
-            <p id="fs-available" className="t-meta" style={{ fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontSize: 12 }}>Available</p>
             <p className="ap-balance-big">{formatMoney(available)}</p>
-            <p className="t-meta" style={{ marginTop: 8 }}>From approved work, after the {feePct}% TapMart fee</p>
+            <p id="fs-available" className="t-meta" style={{ fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontSize: 12, marginTop: 6 }}>Available</p>
             <div style={{ marginTop: 18 }}>
               {openPayout ? (
                 <div className="ap-note is-warm" style={{ marginBottom: 12 }}>
-                  <span className="ap-note-text"><span className={`badge is-${PAYOUT[openPayout.status]?.tone === "confirmed" ? "success" : PAYOUT[openPayout.status]?.tone === "problem" ? "alert" : "warning"}`}>{PAYOUT[openPayout.status]?.label ?? openPayout.status}</span> <b style={{ fontWeight: 600 }}>{formatMoney(openPayout.amount_cents)}</b><span className="t-meta" style={{ display: "block", marginTop: 4 }}>Requested {fmtDate(openPayout.created_at)}. TapMart sends it by hand, usually within a few days.</span></span>
+                  <span className="ap-note-text"><span className={`badge is-${PAYOUT[openPayout.status]?.tone === "confirmed" ? "success" : PAYOUT[openPayout.status]?.tone === "problem" ? "alert" : "warning"}`}>{PAYOUT[openPayout.status]?.label ?? openPayout.status}</span> <b style={{ fontWeight: 600 }}>{formatMoney(openPayout.amount_cents)}</b><span className="t-meta" style={{ display: "block", marginTop: 4 }}>Requested {fmtDate(openPayout.created_at)} · usually a few days</span></span>
                 </div>
               ) : null}
               <PayoutRequest availableCents={available} minCents={minPayout} feePct={feePct} />
@@ -122,19 +121,19 @@ export default async function EarningsPage() {
           </section>
 
           <div className="ap-metrics" style={{ ["--n" as string]: requested > 0 ? 3 : 2 }}>
-            <div className="ap-metric"><b>{formatMoney(pending)}</b><span>Pending · not yet released</span></div>
-            {requested > 0 && <div className="ap-metric"><b>{formatMoney(requested)}</b><span>Requested · in a payout</span></div>}
-            <div className="ap-metric"><b>{formatMoney(lifetime)}</b><span>Lifetime · earned on TapMart</span></div>
+            <div className="ap-metric"><b>{formatMoney(pending)}</b><span>Pending</span></div>
+            {requested > 0 && <div className="ap-metric"><b>{formatMoney(requested)}</b><span>Requested</span></div>}
+            <div className="ap-metric"><b>{formatMoney(lifetime)}</b><span>Lifetime</span></div>
           </div>
         </div>
 
         <section aria-labelledby="fs-tx" className="ap-section">
-          <div className="ap-section-head"><h2 id="fs-tx">Transactions</h2><span className="t-meta">Gross, fee and what you keep</span></div>
+          <div className="ap-section-head"><h2 id="fs-tx">History</h2></div>
           {tx.length === 0 ? (
             <section className="card" style={{ padding: 20, maxWidth: 560 }}>
               <p className="t-h3">No earnings yet.</p>
-              <p className="t-body" style={{ marginTop: 6, color: "var(--tm-text2)" }}>Approved Recreate, Story and Car work lands here with its fee shown.</p>
-              <Link href="/home" className="btn btn-signal" style={{ marginTop: 16 }}>Find paid work</Link>
+              <p className="t-body" style={{ marginTop: 6, color: "var(--tm-text2)" }}>Approved work lands here.</p>
+              <Link href="/home" className="btn btn-signal" style={{ marginTop: 16 }}>Find work</Link>
             </section>
           ) : (
             <ul className="ap-tx" style={{ listStyle: "none", padding: 0, margin: 0 }}>
@@ -149,8 +148,8 @@ export default async function EarningsPage() {
                       {t.gross != null && t.fee != null && t.fee > 0 && (
                         <span className="ap-fee" aria-label={`Gross ${formatMoney(t.gross)}, fee ${formatMoney(t.fee)}, you keep ${formatMoney(t.amount)}`}>
                           <span><b>{formatMoney(t.gross)}</b><span>Gross</span></span>
-                          <span><b>{formatMoney(t.fee)}</b><span>TapMart fee</span></span>
-                          <span><b>{formatMoney(t.amount)}</b><span>You keep</span></span>
+                          <span><b>{formatMoney(t.fee)}</b><span>Fee ({feePct}%)</span></span>
+                          <span><b>{formatMoney(t.amount)}</b><span>Yours</span></span>
                         </span>
                       )}
                     </span>

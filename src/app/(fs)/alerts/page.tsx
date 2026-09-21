@@ -86,8 +86,8 @@ export default async function AlertsPage() {
       {rows.length === 0 ? (
         <div style={{ marginTop: 24, maxWidth: 480 }}>
           <p className="fs-t-task">Nothing yet.</p>
-          <p className="fs-t-body" style={{ marginTop: 4, color: "var(--fs-muted)" }}>Submissions to review, answers to requests, campaign events, shoot updates and payments appear here.</p>
-          <Link href={ctx.mode === "business" ? "/business" : "/home"} className="fs-btn fs-btn-secondary" style={{ marginTop: 16 }}>{ctx.mode === "business" ? "Find people and cars" : "Browse opportunities"}</Link>
+          <p className="fs-t-body" style={{ marginTop: 4, color: "var(--fs-muted)" }}>Reviews, requests, shoots and payments land here.</p>
+          <Link href={ctx.mode === "business" ? "/business" : "/home"} className="fs-btn fs-btn-secondary" style={{ marginTop: 16 }}>{ctx.mode === "business" ? "Home" : "Find work"}</Link>
         </div>
       ) : (
         <ul className="fs-notif-list" aria-label="Notifications">

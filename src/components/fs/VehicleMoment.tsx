@@ -38,7 +38,7 @@ export function VehicleMoment({ vehicle: v, style }: { vehicle: VehicleSummary; 
           <p className="fs-t-task">{v.year} {v.make} {v.model}</p>
           <p className="fs-t-meta" style={{ marginTop: 4 }}>{[v.body_type, v.color].filter(Boolean).join(" · ") || listing}</p>
           <p className="fs-t-meta">{[v.city, v.body_type || v.color ? listing : null].filter(Boolean).join(" · ")}</p>
-          <Link href={`/me/vehicles/${v.id}`} className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>View vehicle <ArrowRight size={18} aria-hidden /></Link>
+          <Link href={`/me/vehicles/${v.id}`} className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, minHeight: 44 }}>View vehicle <ArrowRight size={20} aria-hidden /></Link>
         </div>
       </div>
       <p className="fs-t-meta" style={{ marginTop: 8 }}>Smart Vehicle · {state}{!has3d && !scanning && v.scan_id ? "" : ""}</p>

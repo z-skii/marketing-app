@@ -114,9 +114,9 @@ Recreate, Post, Drive, Get paid, then how businesses use TapMart
 1. **One system.** Tokens in globals.css: canvas `#F5F4F1`, surface
    white, ink `#121417`, muted `#6B7079`, TapMart red `#E0212B`,
    environments white, warm, ice, blush, cream, charcoal. Shape: pill
-   actions, 14px controls, 16px rows, 20px objects, 28px sheets and the
-   floating navigation. Shadows are soft and neutral; borders are never
-   decoration. Anything else is drift.
+   actions, 12px controls and rows, 20px cards and objects, 28px sheets
+   and the floating navigation. Shadows are soft and neutral; borders are
+   never decoration. Anything else is drift.
 2. **Real media first.** Reel frames, Story creatives, car photographs,
    deliverables, portraits, licensed photography chosen for the feature
    it explains. No stock filler, no placeholder illustrations, no icons
@@ -126,9 +126,13 @@ Recreate, Post, Drive, Get paid, then how businesses use TapMart
    one decision waiting and the brand mark.** Status uses the word with
    its own colour (success, warning, info, alert) beside it. Never every
    icon, border, badge or title.
-4. **Less text.** Card: title max 2 lines, the four answers (what do I
-   do, how much, how long, what is expected) never buried, no paragraphs
-   on discovery screens. No "we". No em dashes or en dashes.
+4. **Less text.** A card is image, kind or status chip, title (max 2
+   lines), one metadata row, pay and one action; the detail screen
+   answers what, how much, what do I do and when in its first viewport.
+   No paragraphs on discovery screens, no page subtitles that explain
+   the page, no description under every settings row. Labels are the
+   shortest clear word ("View", "Revise", "Near you", "Needs review",
+   "New campaign"). No "we". No em dashes or en dashes.
 5. **Fewer boxes.** Objects (cards) only where something must read as one
    thing; otherwise rows, rules and numbers standing on the page. No
    cards inside cards.
@@ -150,14 +154,30 @@ Recreate, Post, Drive, Get paid, then how businesses use TapMart
     built (Loyalty, Share and earn) or a number is unknown, say so in one
     line and label previews as previews. Never a fake score, a fake count
     or a fake scheduled post.
+12. **One action hierarchy.** One primary action, at most one secondary,
+    everything else inside a "More" menu (`src/ds/Menu.tsx`). Universally
+    understood actions carry their icon (approve check, reject x, edit
+    pencil, delete trash, share, download, filter, search, more, back).
+    Icon-only buttons always have an accessible name and, on desktop, a
+    tooltip (`data-tip`). Status is a chip with one word and one colour,
+    the same in both apps: Open, Live, Full, Submitted, In review,
+    Revision, Approved, Paid, Scheduled, Posted, Needs review
+    (`STATUS_LABEL` in `src/ds/ui.tsx`).
+13. **One scale for both apps.** Buttons and icon buttons 32, 40 or 48px;
+    icons 16, 20 or 24px; radii 12 (controls, rows), 20 (cards), 28
+    (sheets); spacing on 4, 8, 12, 16, 24, 32, 48, 64. Settings in both
+    apps are grouped icon rows (`SettingsGroup`, `SettingsRow`): Account,
+    Business or Creator, Notifications, Payments, Privacy and security,
+    Support; binary settings are switches.
 
 ## Type and spacing
 
-Everything is DM Sans. Display: `.t-hero` up to 96px, `.t-h1` up to
-56px, `.t-h2` up to 40px, `.t-h3` up to 26px, tight tracking; body 15
-to 16px; meta 13px; money is tabular and bold. Page heads (`.ap-head`)
-30px on the phone and 38px on the desktop. Sections start 28 to 32px
-below the previous block; cards sit 16 to 20px apart; rows 10px apart.
+Everything is DM Sans. Editorial display sizes (`.t-hero` up to 96px,
+`.t-h1` up to 56px) belong to the marketing site only. In the apps:
+page title 28 to 32px on the phone and 34 to 38px on the desktop,
+section 20 to 24px, card title 16 to 18px, body 14 to 16px, meta 12 to
+14px; money is tabular and bold. Sections start 24 to 32px below the
+previous block; cards sit 16px apart; rows 8px apart.
 
 ## What a reviewer should push toward
 

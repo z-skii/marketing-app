@@ -21,10 +21,10 @@ export type CarApplication = { id: string; status: string; vehicle_id: string | 
 export type Booking = { id: string; status: string; ends_on: string | null; starts_on: string | null; vehicle_id: string; zones: string[]; monthly_cents: number; artwork_url: string | null; months_paid: number } | null;
 
 const BOOKING: Record<string, { label: string; tone: "confirmed" | "waiting" | "problem" | "neutral"; body: string }> = {
-  creative_pending: { label: "Accepted", tone: "confirmed", body: "The business is preparing the artwork. Nothing is paid yet." },
-  installation_pending: { label: "Installation next", tone: "waiting", body: "The business arranges a time and place with you. The first month is paid when it confirms installation." },
-  active: { label: "Running", tone: "confirmed", body: "The business pays each month into your earnings. Send a photo of the decal when asked." },
-  proof_required: { label: "Photo needed", tone: "waiting", body: "The business wants to see the decal is still on. One clear photo is enough. This confirms the booking; it does not by itself pay a month." },
+  creative_pending: { label: "Accepted", tone: "confirmed", body: "Artwork in progress. Nothing paid yet." },
+  installation_pending: { label: "Installation next", tone: "waiting", body: "The business arranges the install with you. Month one is paid once it confirms." },
+  active: { label: "Running", tone: "confirmed", body: "Paid monthly into your earnings." },
+  proof_required: { label: "Photo needed", tone: "waiting", body: "One clear photo of the decal keeps the booking running." },
   completed: { label: "Completed", tone: "confirmed", body: "This campaign is done." },
   cancelled: { label: "Cancelled", tone: "neutral", body: "This booking was cancelled." },
   disputed: { label: "Under review", tone: "problem", body: "TapMart is looking into this booking." },
@@ -123,10 +123,10 @@ export function CarDetail({ o, ctx, open, vehicles, application, booking, invite
           )}
 
           {!live && !requestOpen && !declined && (
-            <Section title={vehicles.length === 0 ? "Add your vehicle to apply" : `Your ${vehicles.length === 1 ? "car" : "cars"}`} id="work">
+            <Section title={vehicles.length === 0 ? "Add your car to apply" : "My cars"} id="work">
               {vehicles.length === 0 ? (
                 <Plane>
-                  <p className="fs-t-body">Year, make, model, four photos and the areas you would let a business use. About five minutes, once.</p>
+                  <p className="fs-t-body">Four photos, about five minutes, once.</p>
                   <Link href={`/me/vehicles/new?return=${returnTo}`} className="fs-btn fs-btn-primary" style={{ marginTop: 12 }}>Add my car</Link>
                 </Plane>
               ) : (
@@ -151,7 +151,7 @@ export function CarDetail({ o, ctx, open, vehicles, application, booking, invite
                   ))}
                 </ul>
               )}
-              <p className="fs-t-meta" style={{ marginTop: 12 }}>Applying is not a booking. The business picks drivers; the first month is paid once the decal is installed.</p>
+              <p className="fs-t-meta" style={{ marginTop: 12 }}>The business picks drivers. Paid once the decal is on.</p>
             </Section>
           )}
 

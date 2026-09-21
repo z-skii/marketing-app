@@ -10,6 +10,8 @@ import { BackLink } from "@/components/fs/work/BackLink";
 import { Facts } from "@/components/fs/work/DetailParts";
 import { InspectButton } from "@/components/fs/SourceInspector";
 import { Img } from "@/components/fs/Img";
+import { Menu } from "@/ds/Menu";
+import { CheckCircleIcon, XCircleIcon, UserIcon, LinkIcon, DownloadIcon } from "@/ds/icons";
 import { SUBMISSION_WORD, fmtDay } from "./parts";
 import { useAction, ErrorLine } from "./Controls";
 import type { FundingFacts } from "@/components/fs/business/flows/FundingPlane";
@@ -73,8 +75,7 @@ export function SubmissionReview({ campaign, submission: s, provenance, funding 
                 ) : <span className="fs-video-fallback">Nothing attached</span>}
               </div>
               <div className="fs-source-actions">
-                {primary && !VIDEO.test(primary) && <InspectButton src={primary} alt={story ? "The submitted proof" : "The submitted image"} label={story ? "Open proof" : "Open the file"} className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }} />}
-                {primary && <a href={primary} target="_blank" rel="noreferrer" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }}>Open original</a>}
+                {primary && !VIDEO.test(primary) && <InspectButton src={primary} alt={story ? "The submitted proof" : "The submitted image"} label="Zoom" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }} />}
               </div>
               {s.media_urls.length > 1 && (
                 <ul className="fs-filmstrip" aria-label="More files">
@@ -104,8 +105,7 @@ export function SubmissionReview({ campaign, submission: s, provenance, funding 
             <Avatar src={s.creator_avatar} name={name} size={48} />
             <span style={{ minWidth: 0 }}>
               <span className="fs-t-task" style={{ display: "block" }}>{name} <span className="fs-t-meta">@{s.creator_username}</span></span>
-              <span className="fs-t-meta" style={{ display: "block" }}>{[provenance.verified ? "Verified creator" : "Creator not verified", provenance.instagram_status === "connected" ? `Instagram connected${provenance.instagram_handle ? ` · @${provenance.instagram_handle}` : ""}${provenance.instagram_followers != null ? ` · ${provenance.instagram_followers.toLocaleString()} followers` : ""}` : "Instagram not connected", provenance.completed_jobs > 0 ? `${provenance.completed_jobs} completed` : null].filter(Boolean).join(" · ")}</span>
-              <Link href={`/business/people/${s.creator_username}`} className="fs-link-ink fs-link-ul fs-t-meta" style={{ display: "inline-block", marginTop: 4 }}>View person</Link>
+              <span className="fs-t-meta" style={{ display: "block" }}>{[provenance.verified ? "Verified" : "Not verified", provenance.instagram_status === "connected" ? `${provenance.instagram_handle ? `@${provenance.instagram_handle}` : "Instagram"}${provenance.instagram_followers != null ? ` · ${provenance.instagram_followers.toLocaleString()} followers` : ""}` : "No Instagram", provenance.completed_jobs > 0 ? `${provenance.completed_jobs} completed` : null].filter(Boolean).join(" · ")}</span>
             </span>
           </div>
 
@@ -117,7 +117,7 @@ export function SubmissionReview({ campaign, submission: s, provenance, funding 
                 ["Must stay live", `${d.live_hours ?? 24} hours`],
                 ["Followers needed", d.min_followers ? `${d.min_followers.toLocaleString()} or more · ${provenance.instagram_followers != null ? `${provenance.instagram_followers.toLocaleString()} recorded` : "none recorded"}` : "Any"],
               ]} />
-              <p className="fs-t-meta" style={{ marginTop: 8 }}>TapMart has not checked this Story on Instagram. Your approval is the check.</p>
+              <p className="fs-t-meta" style={{ marginTop: 8 }}>Not checked by TapMart. Your approval is the check.</p>
             </div>
           )}
           {s.note && <p className="fs-t-body fs-note" style={{ marginTop: 16 }}>Their note · {s.note}</p>}
@@ -126,23 +126,26 @@ export function SubmissionReview({ campaign, submission: s, provenance, funding 
           <div className="fs-plane is-decision" style={{ marginTop: 16 }} aria-label="Decision">
             {reviewable ? (
               <>
-                <p className="fs-t-label">Paid now on approval</p>
+                <p className="fs-t-label">Paid on approval</p>
                 <div className="fs-review-money"><Money cents={campaign.pay_cents} per={story ? "for this Story" : "for this video"} className="fs-money-detail" /></div>
-                <p className="fs-t-meta" style={{ marginTop: 8 }}>{funding.feePct > 0 ? `${name} receives ${formatMoney(campaign.pay_cents - fee)} after the ${funding.feePct}% fee.` : `${name} receives ${formatMoney(campaign.pay_cents)}.`}</p>
-                <p className="fs-t-meta">Credit now {formatMoney(funding.walletCents)}{covered ? "" : " · not enough for this payment"}.</p>
-                {spotsLeft <= 0 && <p className="fs-t-meta" style={{ marginTop: 4 }}>Every spot is already approved. Approving one more is not possible.</p>}
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
-                  <button type="button" className="fs-btn fs-btn-primary fs-btn-wrap" disabled={pending || spotsLeft <= 0 || !covered} onClick={() => run(() => reviewSubmission(s.id, "approved", ""))}>{pending ? "Working" : `Approve and pay ${formatMoney(campaign.pay_cents)}`}</button>
-                  <button type="button" className="fs-btn fs-btn-secondary" disabled={pending} aria-expanded={panel === "changes"} onClick={() => setPanel(panel === "changes" ? null : "changes")}>Request changes</button>
-                  <button type="button" className="fs-btn fs-btn-quiet fs-link-ink" disabled={pending} aria-expanded={panel === "reject"} onClick={() => setPanel(panel === "reject" ? null : "reject")}>Reject</button>
+                <p className="fs-t-meta" style={{ marginTop: 8 }}>{funding.feePct > 0 ? `${formatMoney(campaign.pay_cents - fee)} to ${name} after the ${funding.feePct}% fee` : `${formatMoney(campaign.pay_cents)} to ${name}`} · Credit {formatMoney(funding.walletCents)}</p>
+                {spotsLeft <= 0 && <p className="fs-t-meta" style={{ marginTop: 4 }}>All spots approved.</p>}
+                <div className="ap-actions" style={{ marginTop: 12 }}>
+                  <button type="button" className="fs-btn fs-btn-primary" disabled={pending || spotsLeft <= 0 || !covered} onClick={() => run(() => reviewSubmission(s.id, "approved", ""))}><CheckCircleIcon size={20} weight="fill" aria-hidden />{pending ? "Working" : "Approve"}</button>
+                  <button type="button" className="fs-btn fs-btn-secondary" disabled={pending} aria-expanded={panel === "changes"} onClick={() => setPanel(panel === "changes" ? null : "changes")}>Revise</button>
+                  <Menu label="More" items={[
+                    { label: "View profile", href: `/business/people/${s.creator_username}`, icon: <UserIcon size={20} aria-hidden /> },
+                    ...(primary ? [{ label: "Open original", href: primary, external: true, icon: <LinkIcon size={20} aria-hidden /> }, { label: "Download", href: primary, external: true, icon: <DownloadIcon size={20} aria-hidden /> }] : []),
+                    { label: "Reject", onClick: () => setPanel(panel === "reject" ? null : "reject"), icon: <XCircleIcon size={20} aria-hidden />, danger: true },
+                  ]} />
                 </div>
-                {!covered && <p className="fs-t-meta" style={{ marginTop: 8 }}><Link href="/business/billing" className="fs-link-ink fs-link-ul">Add credit</Link> first.</p>}
+                {!covered && <p className="fs-t-meta" style={{ marginTop: 8 }}>Not enough credit. <Link href="/business/billing" className="fs-link-ink fs-link-ul">Add credit</Link></p>}
                 {panel && (
                   <div style={{ marginTop: 12 }}>
-                    <label htmlFor="fs-review-note" className="fs-field-label">{panel === "changes" ? "What should change" : "Why it is rejected"}</label>
+                    <label htmlFor="fs-review-note" className="fs-field-label">{panel === "changes" ? "What should change" : "Why"}</label>
                     <textarea id="fs-review-note" className="fs-textarea" rows={3} maxLength={1000} value={note} onChange={(e) => setNote(e.target.value)} placeholder={panel === "changes" ? "Keep the cup in frame the whole time." : "Tell them plainly."} />
-                    <p className="fs-t-meta" style={{ marginTop: 4 }}>{panel === "changes" ? "Their original stays. They see this note and can submit again." : "They see this note. Nothing is paid."}</p>
-                    <button type="button" className="fs-btn fs-btn-secondary" style={{ marginTop: 8 }} disabled={pending || note.trim().length < 3} onClick={() => run(() => reviewSubmission(s.id, panel === "changes" ? "revision_requested" : "rejected", note.trim()), () => { setPanel(null); setNote(""); })}>{pending ? "Sending" : panel === "changes" ? "Send the request" : "Reject with this note"}</button>
+                    <p className="fs-t-meta" style={{ marginTop: 4 }}>{panel === "changes" ? "They can submit again." : "Nothing is paid."}</p>
+                    <button type="button" className={`fs-btn ${panel === "changes" ? "fs-btn-secondary" : "fs-btn-secondary"}`} style={panel === "reject" ? { marginTop: 8, color: "var(--fs-problem)" } : { marginTop: 8 }} disabled={pending || note.trim().length < 3} onClick={() => run(() => reviewSubmission(s.id, panel === "changes" ? "revision_requested" : "rejected", note.trim()), () => { setPanel(null); setNote(""); })}>{pending ? "Sending" : panel === "changes" ? "Send" : "Reject"}</button>
                   </div>
                 )}
                 <ErrorLine error={error} />
@@ -150,7 +153,7 @@ export function SubmissionReview({ campaign, submission: s, provenance, funding 
             ) : (
               <>
                 <p className="fs-t-label">Decided</p>
-                <p className="fs-t-body" style={{ marginTop: 4 }}>{s.status === "paid" ? `Approved. ${formatMoney(campaign.pay_cents)} left your credit and ${formatMoney(campaign.pay_cents - fee)} went to ${name}.` : s.status === "approved" ? "Approved." : s.status === "rejected" ? "Rejected. Nothing was paid." : word.label}</p>
+                <p className="fs-t-body" style={{ marginTop: 4 }}>{s.status === "paid" ? `Approved · ${formatMoney(campaign.pay_cents - fee)} to ${name}` : s.status === "approved" ? "Approved" : s.status === "rejected" ? "Rejected · nothing paid" : word.label}</p>
               </>
             )}
           </div>

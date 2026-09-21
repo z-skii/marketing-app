@@ -31,14 +31,14 @@ const TABS: { key: Tab; label: string; bucket: "active" | "submitted" | "complet
 const ALIAS: Record<string, Tab> = { active: "todo", submitted: "review", completed: "history" };
 
 const EMPTY: Record<Tab, { title: string; body: string }> = {
-  todo: { title: "Nothing needs you right now.", body: "Accepted work, revisions and direct requests land here." },
-  review: { title: "Nothing in review.", body: "Work waiting on a business appears here after you send it." },
-  history: { title: "No finished work yet.", body: "Approved, paid and closed work lands here." },
-  saved: { title: "Nothing saved.", body: "Save work from Home to keep it here." },
+  todo: { title: "Nothing to do.", body: "Accepted work and revisions land here." },
+  review: { title: "Nothing in review.", body: "Work you sent shows here." },
+  history: { title: "No finished work yet.", body: "Approved and paid work lands here." },
+  saved: { title: "Nothing saved.", body: "Save work from Home." },
 };
 
-const KIND: Record<EarnKind, string> = { recreate_reel: "Recreate Reel", instagram_story: "Story ad", car_ads: "Car ad" };
-const BASIS: Record<EarnKind, string> = { recreate_reel: "per approved version", instagram_story: "after approval", car_ads: "per month" };
+const KIND: Record<EarnKind, string> = { recreate_reel: "Recreate", instagram_story: "Story", car_ads: "Car" };
+const BASIS: Record<EarnKind, string> = { recreate_reel: "per video", instagram_story: "per Story", car_ads: "a month" };
 
 export default async function ActivityPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const [ctx, params] = await Promise.all([getV2Context(), searchParams]);
@@ -60,7 +60,7 @@ export default async function ActivityPage({ searchParams }: { searchParams: Pro
 
   return (
     <main className="fs-phone-main fs-narrow" id="main">
-      <div className="ap-head"><div><h1>Activity</h1><p className="ap-sub">Your work, from accepted to paid.</p></div></div>
+      <div className="ap-head"><div><h1>Activity</h1></div></div>
       <nav className="ap-chips" aria-label="Activity views">
         {TABS.map((t) => (
           <Link key={t.key} href={t.key === "todo" ? "/activity" : `/activity?tab=${t.key}`} className="pill" aria-current={tab === t.key ? "page" : undefined}>
@@ -84,7 +84,7 @@ function Empty({ tab }: { tab: Tab }) {
     <section className="card" style={{ marginTop: 16, padding: 20, maxWidth: 560 }}>
       <p className="t-h3">{e.title}</p>
       <p className="t-body" style={{ marginTop: 6, color: "var(--tm-text2)" }}>{e.body}</p>
-      <Link href="/home" className="btn btn-signal" style={{ marginTop: 16 }}>Find paid work <ArrowRightIcon size={16} aria-hidden /></Link>
+      <Link href="/home" className="btn btn-signal" style={{ marginTop: 16 }}>Find work <ArrowRightIcon size={16} aria-hidden /></Link>
     </section>
   );
 }
@@ -100,15 +100,15 @@ function nextAction(it: ActivityItem): { text: string; mine: boolean } {
   const k = it.kind;
   if (it.record === "invite") {
     if (it.status === "sent") return { text: "Accept or decline", mine: true };
-    if (it.status === "accepted") return { text: k === "instagram_story" ? "Post the Story and send proof" : "Film and upload your version", mine: true };
+    if (it.status === "accepted") return { text: k === "instagram_story" ? "Post the Story" : "Film your version", mine: true };
   }
-  if (it.record === "submission" && it.status === "revision_requested") return { text: k === "instagram_story" ? "Send new proof" : "Upload a new version", mine: true };
+  if (it.record === "submission" && it.status === "revision_requested") return { text: k === "instagram_story" ? "Send new proof" : "Upload new version", mine: true };
   if (it.record === "application") {
-    if (it.status === "accepted") return { text: k === "instagram_story" ? "Post the Story and send proof" : k === "car_ads" ? "Artwork is being prepared" : "Film and upload your version", mine: k !== "car_ads" };
-    if (it.status === "applied") return { text: "Waiting for the business", mine: false };
+    if (it.status === "accepted") return { text: k === "instagram_story" ? "Post the Story" : k === "car_ads" ? "Artwork in progress" : "Film your version", mine: k !== "car_ads" };
+    if (it.status === "applied") return { text: "Waiting", mine: false };
   }
   if (it.record === "booking") {
-    if (it.status === "proof_required") return { text: "Upload a photo of the car", mine: true };
+    if (it.status === "proof_required") return { text: "Send car photo", mine: true };
     if (["creative_pending", "installation_pending", "active", "disputed"].includes(it.status)) return { text: "View booking", mine: false };
   }
   const { sub } = activityLabel(it);
@@ -145,10 +145,10 @@ function rail(it: ActivityItem): { stages: string[]; now: number; warn: boolean 
   return null;
 }
 
-const BOOKING_STATE: Record<string, string> = { creative_pending: "Accepted · artwork being prepared", installation_pending: "Awaiting installation", active: "Running · paid monthly", disputed: "Under review by TapMart" };
+const BOOKING_STATE: Record<string, string> = { creative_pending: "Artwork", installation_pending: "Install", active: "Running", disputed: "Disputed" };
 
 function Thumb({ src }: { src: string | null }) {
-  return <span className="ap-work-thumb" aria-hidden>{src ? <MediaPreview src={src} alt="" sizes="88px" /> : <ImageIcon size={22} aria-hidden />}</span>;
+  return <span className="ap-work-thumb" aria-hidden>{src ? <MediaPreview src={src} alt="" sizes="88px" /> : <ImageIcon size={24} aria-hidden />}</span>;
 }
 
 function Rail({ r }: { r: NonNullable<ReturnType<typeof rail>> }) {
@@ -176,7 +176,7 @@ function WorkRow({ item }: { item: ActivityItem }) {
           {action.mine && <Badge tone="red">Your move</Badge>}
         </div>
         <h2 className="ap-work-title"><Link href={`/o/${item.campaign_id}`}>{first}</Link></h2>
-        <p className="ap-work-meta">{KIND[item.kind]} · {item.business_name} · {item.title}</p>
+        <p className="ap-work-meta">{item.business_name} · {item.title}</p>
         {r && <Rail r={r} />}
       </div>
       <span className="ap-work-money">{formatMoney(item.pay_cents)}<span className="ap-work-meta" style={{ display: "block", fontWeight: 400 }}>{BASIS[item.kind]}</span></span>

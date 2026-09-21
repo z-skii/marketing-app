@@ -23,7 +23,7 @@ export function RunCheckButton() {
           });
         }}
       >
-        <ArrowsClockwise size={18} aria-hidden />
+        <ArrowsClockwise size={20} aria-hidden />
         {pending ? "Checking" : "Run the check again"}
       </button>
       {error && <p role="alert" className="mt-2 text-sm alert-text">{error}</p>}

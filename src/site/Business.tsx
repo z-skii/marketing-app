@@ -83,7 +83,7 @@ export function Business() {
               <Item key={t as string}>
                 <div className="lp-feature">
                   <div className="media-frame"><picture><source type="image/avif" srcSet={set.srcSet} sizes="(min-width: 768px) 25vw, 50vw" /><img src={set.fallback} alt="" loading="lazy" /></picture></div>
-                  <span className="icon-square" style={{ width: 36, height: 36, borderRadius: 10 }}><I size={18} aria-hidden /></span>
+                  <span className="icon-square" style={{ width: 36, height: 36, borderRadius: 10 }}><I size={20} aria-hidden /></span>
                   <strong>{t as string}</strong>
                   <span className="t-meta">{b as string}</span>
                 </div>

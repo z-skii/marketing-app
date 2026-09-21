@@ -43,14 +43,14 @@ export function StoryFlow({ business, defaultCity, prefill, approved, funding }:
   const finalBrief = briefEdited ? brief : autoBrief;
 
   const stepDefs: FlowStep[] = [
-    { key: "creative", label: "The Story creative", summary: creativeUrl ? "Creative added" : null },
-    { key: "who", label: "Who can post it", summary: `${minFollowers === "0" ? "Any follower count" : `${Number(minFollowers).toLocaleString()}+ followers`} · ${city}` },
-    { key: "live", label: "How long it stays live", summary: `${liveHours} hours` },
-    { key: "pay", label: "Pay per Story", summary: payCents >= 500 ? formatMoney(payCents) : null },
-    { key: "spots", label: "How many people", summary: nSlots >= 1 ? `${nSlots} spot${nSlots === 1 ? "" : "s"}` : null },
-    { key: "deadline", label: "Last day to post", summary: deadline ? dayWord(deadline) : null },
-    { key: "funding", label: "Publishing credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
-    { key: "publish", label: "Ready to publish", summary: null },
+    { key: "creative", label: "Creative", summary: creativeUrl ? "Creative added" : null },
+    { key: "who", label: "Creators", summary: `${minFollowers === "0" ? "Any follower count" : `${Number(minFollowers).toLocaleString()}+ followers`} · ${city}` },
+    { key: "live", label: "Live time", summary: `${liveHours} hours` },
+    { key: "pay", label: "Pay", summary: payCents >= 500 ? formatMoney(payCents) : null },
+    { key: "spots", label: "Spots", summary: nSlots >= 1 ? `${nSlots} spot${nSlots === 1 ? "" : "s"}` : null },
+    { key: "deadline", label: "Deadline", summary: deadline ? dayWord(deadline) : null },
+    { key: "funding", label: "Credit", summary: fs.canPublish ? "Enough for one payment" : "Not enough for one payment" },
+    { key: "publish", label: "Review", summary: null },
   ];
   const valid = [Boolean(creativeUrl), city.trim().length > 0, true, payCents >= 500 && payCents <= 100_000, nSlots >= 1 && nSlots <= 500, Boolean(deadline), true, title.trim().length >= 4 && finalBrief.trim().length >= 20];
 
@@ -138,7 +138,7 @@ export function StoryFlow({ business, defaultCity, prefill, approved, funding }:
           <div style={{ marginTop: 16 }}>
             <Facts rows={[["Pay", `${formatMoney(payCents)} per Story`], ["Stays live", `${liveHours} hours`], ["Followers", minFollowers === "0" ? "Any" : `${Number(minFollowers).toLocaleString()} or more`], ["Spots", String(nSlots)], ["If every spot is approved", formatMoney(fs.total)], ["Last day to post", dayWord(deadline)], ["City", city]]} />
           </div>
-          <p className="fs-t-body" style={{ marginTop: 16 }}>Publishing needs credit for one {formatMoney(payCents)} payment. Nothing is held when you publish; credit leaves only when you approve a Story. {fs.canPublish ? `Publishing tells people in ${city}.` : "Your credit is not enough for one payment yet. Save it as a draft and publish once credit is added."}</p>
+          <p className="fs-t-body" style={{ marginTop: 16 }}>Needs credit for one {formatMoney(payCents)} payment. Nothing is held. {fs.canPublish ? `Publishing tells people in ${city}.` : "Not enough credit yet. Save as a draft."}</p>
           <button type="button" className="fs-btn fs-btn-secondary" style={{ marginTop: 12 }} disabled={pending} onClick={() => submit(false)}>Save as draft</button>
         </>
       )}

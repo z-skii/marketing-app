@@ -44,7 +44,7 @@ export function TopBar({ homeHref, left, right, title }: { homeHref: string; lef
 export function TopIcon({ href, label, icon: IconC, badge = 0 }: { href: string; label: string; icon: Icon; badge?: number }) {
   return (
     <Link href={href} aria-label={badge > 0 ? `${badge} unread ${label.toLowerCase()}` : label} className="iconbtn">
-      <IconC size={22} aria-hidden />
+      <IconC size={24} aria-hidden />
       {badge > 0 && <span aria-hidden className="absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full bg-signal" />}
     </Link>
   );
@@ -58,7 +58,7 @@ export function BottomNav({ items, pathname, label }: { items: ChromeNavItem[]; 
         const on = isActivePath(item, pathname);
         return (
           <Link key={item.href} href={item.href} aria-current={on ? "page" : undefined} className={item.create ? "is-create" : undefined}>
-            <span className="inline-grid place-items-center"><item.icon size={22} weight={item.create ? "bold" : "regular"} aria-hidden /></span>
+            <span className="inline-grid place-items-center"><item.icon size={24} weight={item.create ? "bold" : "regular"} aria-hidden /></span>
             <span>{item.label}</span>
           </Link>
         );
@@ -103,7 +103,7 @@ function RailItem({ href, label, icon: IconC, active, badge = 0 }: { href: strin
       aria-label={badge > 0 ? `${label}, ${badge} unread` : label}
       className={`relative flex h-14 w-16 flex-col items-center justify-center gap-1 rounded-[12px] font-display text-[10px] leading-3 font-500 transition-colors duration-150 ${active ? "bg-surface-3 text-ink font-600" : "text-ink-soft can-hover:hover:bg-surface can-hover:hover:text-ink"}`}
     >
-      <IconC size={22} weight="regular" aria-hidden />
+      <IconC size={24} weight="regular" aria-hidden />
       {label}
       {badge > 0 && <span aria-hidden className="absolute top-2 right-3 h-1.5 w-1.5 rounded-full bg-signal" />}
     </Link>

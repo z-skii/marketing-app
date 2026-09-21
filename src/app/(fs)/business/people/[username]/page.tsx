@@ -106,7 +106,7 @@ export default async function BusinessPersonPage({ params, searchParams }: { par
                       <li key={i.id}>
                         <Link href={`/business/campaigns/${i.campaign_id}`} className="fs-row-link" style={{ minHeight: 44 }}>
                           <span><span className="fs-t-body" style={{ fontWeight: 500 }}>{kindWord(i.kind)} request · {formatMoney(i.pay_cents)}</span><span className="fs-t-meta" style={{ display: "block" }}><span className={`fs-status is-${i.status === "sent" ? "waiting" : "confirmed"}`}>{i.status === "sent" ? "Request sent" : "Accepted"}</span> · {i.status === "sent" ? "Waiting for an answer" : "Waiting for their work"} · {fmtDay(i.created_at)}</span></span>
-                          <ArrowRight size={18} aria-hidden style={{ color: "var(--fs-accent)" }} />
+                          <ArrowRight size={20} aria-hidden style={{ color: "var(--fs-accent)" }} />
                         </Link>
                       </li>
                     ))}
@@ -152,7 +152,7 @@ export default async function BusinessPersonPage({ params, searchParams }: { par
                   <li key={c.id}>
                     <Link href={`/business/cars/${c.id}`} className="fs-row-link" style={{ minHeight: 44 }}>
                       <span><span className="fs-t-body" style={{ fontWeight: 500 }}>{carName(c)}</span><span className="fs-t-meta" style={{ display: "block" }}>{askingLine(c)}</span></span>
-                      <ArrowRight size={18} aria-hidden style={{ color: "var(--fs-accent)" }} />
+                      <ArrowRight size={20} aria-hidden style={{ color: "var(--fs-accent)" }} />
                     </Link>
                   </li>
                 ))}

@@ -32,11 +32,11 @@ export function CampaignSource({ campaign }: { campaign: BusinessCampaign }) {
             <p className="fs-t-meta" style={{ marginTop: 4 }}>Your artwork, shown as artwork</p>
             <InspectButton src={d.artwork_url} alt="Campaign artwork" label="View artwork" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0 }} />
           </div>
-        ) : <p className="fs-t-meta" style={{ marginTop: 8 }}>No artwork yet. A car cannot be installed without it.</p>}
+        ) : <p className="fs-t-meta" style={{ marginTop: 8 }}>No artwork yet.</p>}
         <div className="fs-source-commit">
           <p className="fs-t-meta">{KIND_WORD[campaign.kind]} · {audience}</p>
           <Money cents={campaign.pay_cents} per={payUnit(campaign.kind)} className="fs-money-detail" />
-          <p className="fs-t-meta" style={{ marginTop: 8 }}>Paid when you confirm an installation, then each month you confirm.</p>
+          <p className="fs-t-meta" style={{ marginTop: 8 }}>Paid per confirmed month.</p>
         </div>
       </div>
     );

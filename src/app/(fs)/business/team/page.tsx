@@ -18,9 +18,9 @@ export const dynamic = "force-dynamic";
  * they are added, not before.
  */
 const ROLE: Record<string, { label: string; can: string }> = {
-  owner: { label: "Owner", can: "Everything: plan, campaign credit, details, connections, brand, campaigns, approvals" },
-  manager: { label: "Manager", can: "Details, connections, brand kit, campaigns and approvals. Not the plan or campaign credit" },
-  member: { label: "Member", can: "Sees the business. Cannot change settings, campaigns or money" },
+  owner: { label: "Owner", can: "Everything, including plan and credit" },
+  manager: { label: "Manager", can: "Campaigns, approvals, details and brand. Not plan or credit" },
+  member: { label: "Member", can: "View only" },
 };
 
 export default async function TeamPage() {
@@ -35,7 +35,7 @@ export default async function TeamPage() {
   );
   return (
     <main className="fs-phone-main fs-utility" id="main">
-      <UtilityHead title="Team" lede={members.length === 1 ? "Only you, for now." : `${members.length} people can act as ${business.name}.`} back={<BackLink fallback="/business/settings" label="Settings" />} />
+      <UtilityHead title="Team" lede={members.length === 1 ? "Only you" : `${members.length} people`} back={<BackLink fallback="/business/settings" label="Settings" />} />
       <ul className="fs-plain-list" aria-label="Members" style={{ marginTop: 16 }}>
         {members.map((m) => {
           const role = ROLE[m.member_role] ?? { label: m.member_role, can: "" };

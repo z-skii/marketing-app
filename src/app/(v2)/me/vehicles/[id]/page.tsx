@@ -98,11 +98,11 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
       {/* ------------------------------------------------ name and status */}
       <div className="mt-3 flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="icon-square"><CarIcon size={22} aria-hidden /></span>
+          <span className="icon-square"><CarIcon size={24} aria-hidden /></span>
           <div className="min-w-0">
             <h1 className="truncate font-display text-[1.25rem] leading-[1.2] font-600 tracking-[-0.02em]">
               {title}
-              {vehicle.verification === "verified" && <CheckCircle size={18} weight="fill" className="ml-1.5 inline-block align-[-2px] text-signal" aria-label="Verified" />}
+              {vehicle.verification === "verified" && <CheckCircle size={20} weight="fill" className="ml-1.5 inline-block align-[-2px] text-signal" aria-label="Verified" />}
             </h1>
             <p className="mt-0.5 truncate text-sm text-ink-soft">{vehicle.model_glb_url ? "3D model" : `${photos.length} ${photos.length === 1 ? "photo" : "photos"}`}{vehicle.color ? ` · ${vehicle.color}` : ""}</p>
           </div>
@@ -116,7 +116,7 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
       {/* --------------------------------------------------------- stage */}
       <div className="ap-carstage mt-4">
         <div className="ap-carstage-tags">
-          {vehicle.verification === "verified" && <span className="glass-tag is-dark"><CheckCircle size={14} weight="fill" aria-hidden />Verified</span>}
+          {vehicle.verification === "verified" && <span className="glass-tag is-dark"><CheckCircle size={16} weight="fill" aria-hidden />Verified</span>}
           {vehicle.model_glb_url && <span className="glass-tag is-dark">3D model from your scan</span>}
         </div>
         <div className="ap-carstage-photo">
@@ -148,7 +148,7 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
 
       {/* ------------------------------------------------- the model row */}
       <div className="row mt-4 flex items-center gap-3 px-3.5 py-3">
-        <span className="icon-square"><Cube size={22} aria-hidden /></span>
+        <span className="icon-square"><Cube size={24} aria-hidden /></span>
         <span className="min-w-0 flex-1">
           <span className="block font-display text-[1rem] leading-[1.3] font-600 tracking-[-0.01em]">
             {vehicle.model_glb_url ? "3D model from your scan" : `${photos.length} ${photos.length === 1 ? "photo" : "photos"} from your scan`}
@@ -182,7 +182,7 @@ export default async function ManageVehiclePage({ params }: { params: Promise<{ 
             ))}
           </ul>
         )}
-        <Link href="/home?f=cars" className="btn btn-signal btn-lg mt-4 w-full">See car campaigns<CaretRight size={18} weight="bold" aria-hidden /></Link>
+        <Link href="/home?f=cars" className="btn btn-signal btn-lg mt-4 w-full">See car campaigns<CaretRight size={20} weight="bold" aria-hidden /></Link>
       </section>
 
       <section className="mt-6">

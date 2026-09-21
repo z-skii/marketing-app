@@ -65,7 +65,7 @@ export function FixList({ fixes, canEdit }: { fixes: GoogleFix[]; canEdit: boole
           <div className="mt-3 flex flex-wrap items-center gap-3">
             {done[fix.key] ? (
               <span className="pop flex items-center gap-1.5 font-display text-sm font-600 text-signal">
-                <CheckCircle size={18} weight="fill" aria-hidden />{done[fix.key]}
+                <CheckCircle size={20} weight="fill" aria-hidden />{done[fix.key]}
               </span>
             ) : fix.canApply ? (
               <button type="button" className="btn btn-sm" disabled={!canEdit || busy !== null} onClick={() => approve(fix)}>
@@ -77,7 +77,7 @@ export function FixList({ fixes, canEdit }: { fixes: GoogleFix[]; canEdit: boole
                 {fix.href && (
                   fix.href.startsWith("/")
                     ? <a href={fix.href} className="link-row text-sm">Open in TapMart</a>
-                    : <a href={fix.href} target="_blank" rel="noreferrer" className="link-row text-sm">Open Google<ArrowSquareOut size={14} aria-hidden /></a>
+                    : <a href={fix.href} target="_blank" rel="noreferrer" className="link-row text-sm">Open Google<ArrowSquareOut size={16} aria-hidden /></a>
                 )}
               </>
             )}

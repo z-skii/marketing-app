@@ -186,7 +186,7 @@ export function VehicleWizard({ defaultCity, returnTo }: { defaultCity: string; 
                     className={`card-2 flex min-h-14 w-full items-center justify-between gap-2 px-4 py-3 text-left font-display text-[0.9375rem] font-600 transition-colors ${on ? "bg-signal text-signal-ink" : "hover:bg-rule-strong"}`}
                   >
                     {(ZONE_LABELS[zone] ?? zone)}
-                    {on && <CheckIcon size={18} weight="bold" aria-hidden />}
+                    {on && <CheckIcon size={20} weight="bold" aria-hidden />}
                   </button>
                 </li>
               );

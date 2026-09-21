@@ -61,7 +61,7 @@ export default async function ConnectionsPage({ searchParams }: { searchParams: 
 
   return (
     <main className="fs-phone-main fs-utility" id="main">
-      <UtilityHead title="Connections" lede="Each service shows the state TapMart has stored. Nothing is assumed." back={<BackLink fallback="/business/settings" label="Settings" />} />
+      <UtilityHead title="Connections" lede={undefined} back={<BackLink fallback="/business/settings" label="Settings" />} />
       {params.connected === "instagram" && igState === "connected" && <p role="status" className="fs-status is-confirmed" style={{ marginTop: 8 }}>Instagram is connected.</p>}
 
       <ul className="fs-plain-list" aria-label="Connections" style={{ marginTop: 16 }}>
@@ -95,7 +95,7 @@ export default async function ConnectionsPage({ searchParams }: { searchParams: 
           </div>
           {!gConfigured && googleState !== "connected" && <p className="fs-t-meta" style={{ marginTop: -4, paddingBottom: 12 }}>{GOOGLE_NOT_CONFIGURED}</p>}
           {(errorFor("google") ?? lastErrorFor(google, googleState)) && <p role="alert" className="fs-note is-problem fs-t-meta" style={{ marginBottom: 12 }}>{errorFor("google") ?? lastErrorFor(google, googleState)}</p>}
-          {googleState === "connected" && <Link href="/business/google" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: -4, marginBottom: 8 }}>Open Google Business <ArrowRight size={18} aria-hidden /></Link>}
+          {googleState === "connected" && <Link href="/business/google" className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: -4, marginBottom: 8 }}>Open Google Business <ArrowRight size={20} aria-hidden /></Link>}
         </li>
         {[{ name: "Facebook", Logo: FacebookLogo }, { name: "TikTok", Logo: TiktokLogo }].map((q) => (
           <li key={q.name} className="fs-conn-row" style={{ color: "var(--fs-muted)" }}>

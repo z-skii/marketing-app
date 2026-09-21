@@ -87,7 +87,7 @@ export function Facts({ rows }: { rows: [string, React.ReactNode][] }) {
 }
 
 export function GoLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return <Link href={href} className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 8 }}>{children} <ArrowRight size={18} aria-hidden /></Link>;
+  return <Link href={href} className="fs-btn fs-btn-quiet fs-link-ink" style={{ paddingLeft: 0, marginTop: 8 }}>{children} <ArrowRight size={20} aria-hidden /></Link>;
 }
 
 /** A submission thumbnail at source ratio: image, or an honest video fallback. */
@@ -96,7 +96,7 @@ export function WorkThumb({ src, alt, width = 104, height = 139 }: { src: string
   return (
     <div className="fs-media fs-contain fs-thumb" style={{ width, height, flexShrink: 0 }}>
       {!src ? <div className="fs-video-fallback">No file</div>
-        : video ? <div className="fs-video-fallback"><VideoCamera size={22} aria-hidden />Video<span className="fs-video-note">No preview available</span></div>
+        : video ? <div className="fs-video-fallback"><VideoCamera size={24} aria-hidden />Video<span className="fs-video-note">No preview available</span></div>
         // eslint-disable-next-line @next/next/no-img-element
         : <img src={src} alt={alt} loading="lazy" />}
     </div>

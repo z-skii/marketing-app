@@ -180,11 +180,11 @@ export function ScreenHeader({
       {right}
       {showSearch && (
         <Link href="/search" aria-label="Search" className="iconbtn">
-          <MagnifyingGlass size={18} aria-hidden />
+          <MagnifyingGlass size={20} aria-hidden />
         </Link>
       )}
       {bell && <Link href="/alerts" aria-label={unread > 0 ? `${unread} unread notifications` : "Notifications"} className="iconbtn rail:hidden">
-        <Bell size={18} aria-hidden />
+        <Bell size={20} aria-hidden />
         {unread > 0 && <span aria-hidden className="absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full bg-signal" />}
       </Link>}
     </header>
@@ -213,7 +213,7 @@ export function SurfaceRow({
       </span>
       {status && <span className={`status-text ${tone}`}><span aria-hidden className="status-dot" />{status}</span>}
       {trailing}
-      <CaretRight size={18} className="shrink-0 text-ink-soft" aria-hidden />
+      <CaretRight size={20} className="shrink-0 text-ink-soft" aria-hidden />
     </>
   );
   const cls = "row flex min-h-[72px] items-center gap-3 px-[13px] py-3 transition-[background,transform] duration-100 active:scale-[0.985] active:bg-[color:var(--tm-pressed)]";
