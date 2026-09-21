@@ -144,7 +144,8 @@ export default async function EarningsPage() {
                     <span className="ap-tx-thumb" aria-hidden>{t.media ? <MediaPreview src={t.media} alt="" sizes="44px" /> : <Wallet size={20} aria-hidden />}</span>
                     <span style={{ minWidth: 0 }}>
                       <span style={{ display: "block", fontWeight: 600, fontSize: 15, lineHeight: "20px" }}>{t.title}</span>
-                      <span className="t-meta" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, flexWrap: "wrap" }}><span className={`badge is-${badge}`} style={{ minHeight: 22 }}>{t.status.label}</span>{fmtDate(t.when)}{t.sub && <span> · {t.sub}</span>}</span>
+                      <span className="t-meta" style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, flexWrap: "wrap" }}><span className={`badge is-${badge}`} style={{ minHeight: 22 }}>{t.status.label}</span>{fmtDate(t.when)}</span>
+                      {t.sub && <span className="t-meta truncate" style={{ display: "block", marginTop: 2 }}>{t.sub}</span>}
                       {t.gross != null && t.fee != null && t.fee > 0 && (
                         <span className="ap-fee" aria-label={`Gross ${formatMoney(t.gross)}, fee ${formatMoney(t.fee)}, you keep ${formatMoney(t.amount)}`}>
                           <span><b>{formatMoney(t.gross)}</b><span>Gross</span></span>
