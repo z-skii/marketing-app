@@ -55,15 +55,31 @@ Rather than pretend, the engine ships on a legally clean placeholder mesh
 and is built so the licensed GLB drops in without touching the viewer,
 the editor or the thumbnails.
 
-Candidates found (verify the licence page yourself before use; all are
-Creative Commons Attribution, which allows commercial use and
-modification with credit to the creator):
+### Market research, 2026-09-22
 
-| Model | Creator | Licence | Faces | Link |
-| --- | --- | --- | --- | --- |
-| BMW M3 (G80) | alex20010804 | CC BY 4.0 | about 103k | https://sketchfab.com/3d-models/bmw-m3-g80-e7d8be35e2f34b7f84e0543fff7fda27 |
-| 2021 BMW M3 Competition (G80) | supercarmodels | CC BY 4.0 | about 415k | https://sketchfab.com/3d-models/a9027a26b7ee4da4b564d939b6c27559 |
-| Low Poly BMW G80 M3 | sharkycat109 | CC BY 4.0 | about 6.6k | https://sketchfab.com/3d-models/ea3e807ff69e40fe82c5577ee9f0a2f4 |
+The important fact first: BMW Group does not license its cars to the 3D
+marketplaces. BMW sued TurboSquid in 2016 and the marketplaces removed
+BMW models from sale; CGTrader's forum states BMW models are forbidden;
+Squir's own G80 product page carries the notice that BMW refuses to grant
+a licence to sell BMW, Mini and Rolls-Royce models. So a purchasable G80
+with a commercial licence does not exist on the mainstream stores. What
+exists is: (a) community uploads on Sketchfab under CC BY, where the
+uploader's own rights and the model's origin cannot be verified, (b)
+Sketchfab Store items under the Editorial licence, which forbids
+commercial use, (c) subscription libraries such as BlenderKit, whose
+royalty free terms cover the file but not BMW's design rights.
+
+Candidates checked (numbers from the Sketchfab API and the product pages):
+
+| Model | Source | Licence | Faces | Materials, textures | Notes |
+| --- | --- | --- | --- | --- | --- |
+| BMW M3 (G80), alex20010804 | https://sketchfab.com/3d-models/bmw-m3-g80-e7d8be35e2f34b7f84e0543fff7fda27 | CC BY 4.0, free, downloadable | 102,676 | 11 materials, 3 textures | "Low poly, no interior, no BMW logos". The most web ready of the free set. |
+| 2021 BMW M3 Competition (G80), supercarmodels | https://sketchfab.com/3d-models/2021-bmw-m3-competition-g80-a9027a26b7ee4da4b564d939b6c27559 | CC BY 4.0, free, downloadable | 415,715 | 100 materials, 121 textures | No description; the material count suggests many separate parts, typical of a game export. Origin unknown. |
+| BMW M3 Competition G80, SLBofficial | https://sketchfab.com/3d-models/bmw-m3-competition-g80-0550ac4d2a3846b3bb75370eb8ef84c1 | CC BY 4.0, free, downloadable | 1,630,102 | 30 materials, 2 textures | Highest detail; needs heavy decimation for the web. Origin unknown. |
+| BMW M3 Competition G80 2021, SQUIR3D | https://sketchfab.com/3d-models/bmw-m3-competition-g80-2021-a4ae8be4670a4ee48c4ba85fbabeb02d and https://squir.com/bmw-m3-competition-g80-2021.html | Editorial on Sketchfab (no commercial use); squir.com lists 129 EUR with the BMW licence notice | 1,415,498 (700k polygons on squir.com) | professional, interior included | Formats 3ds, c4d, fbx, lwo, max, obj, ma; no GLB. |
+| BMW M3 Competition G80, Zifir3D on BlenderKit | https://www.blendkit.com/asset-gallery-detail/291ec023-52c0-48f5-aaf5-cf4964c76ad3/ | Royalty free under the paid Full Plan | 320,270 | Cycles and Eevee materials | Blender file, export to GLB needed. |
+| Mid Poly BMW G80 M3 With Interior, FANNEC | https://sketchfab.com/3d-models/mid-poly-bmw-g80-m3-with-interior-c2cf67f9f000420c89a2e593dee1eef5 | Store listing, price and licence not shown to a signed out visitor | 34,740 | game ready, LODs | Openable doors and trunk, separate wheels and lights: the right structure for placement zones, low detail. |
+| BMW M3 G80 2025, Golden-Models | https://sketchfab.com/3d-models/bmw-m3-g80-2025-bb30c32dc0624ca89bd865aed5214ca3 | CC BY 4.0, free | 658,311 | 100 materials, 69 textures | The 2025 facelift (different lights), not the 2021 car. |
 
 Two things a person must decide before any of these ships:
 
