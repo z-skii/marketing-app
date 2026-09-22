@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0V60" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="600" rx="28" fill="#E0212B"/>
+  <rect width="1200" height="600" rx="28" fill="url(#grid)"/>
+  <rect x="24" y="24" width="1152" height="552" rx="20" fill="none" stroke="#ffffff" stroke-width="10"/>
+  <circle cx="90" cy="90" r="34" fill="#ffffff"/><circle cx="1110" cy="90" r="34" fill="#ffffff"/>
+  <circle cx="90" cy="510" r="34" fill="#ffffff"/><circle cx="1110" cy="510" r="34" fill="#ffffff"/>
+  <path d="M600 90 l-70 70 h40 v90 h60 v-90 h40 z" fill="#ffffff"/>
+  <text x="600" y="345" text-anchor="middle" font-family="DM Sans, Helvetica, Arial, sans-serif" font-size="150" font-weight="800" fill="#ffffff" letter-spacing="-6">TAPMART</text>
+  <text x="600" y="430" text-anchor="middle" font-family="DM Sans, Helvetica, Arial, sans-serif" font-size="44" font-weight="600" fill="#ffffff" fill-opacity="0.92">DEMO PLACEMENT CREATIVE</text>
+  <text x="120" y="530" font-family="DM Sans, Helvetica, Arial, sans-serif" font-size="30" font-weight="600" fill="#ffffff">LEFT</text>
+  <text x="1080" y="530" text-anchor="end" font-family="DM Sans, Helvetica, Arial, sans-serif" font-size="30" font-weight="600" fill="#ffffff">RIGHT</text>
+</svg>

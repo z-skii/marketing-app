@@ -1,0 +1,132 @@
+/*
+  The 3D vehicle system: the stage, its chrome (badge, presets, hint,
+  loading, fallback), thumbnails, the zone chooser and the placement
+  editor. Tokens from globals.css (--tm-*). The car is the hero; TapMart
+  red is an accent for the selected zone and the primary action only.
+  Prefix: v3d-.
+*/
+
+/* ------------------------------------------------------------ stage */
+.v3d-stage { position: relative; width: 100%; overflow: hidden; border-radius: 20px; isolation: isolate; background: radial-gradient(120% 90% at 50% 38%, #FFFFFF 0%, #EFEEEA 52%, #E1DFD9 100%); cursor: grab; -webkit-user-select: none; user-select: none; }
+.v3d-stage:active { cursor: grabbing; }
+.v3d-stage.is-hero { aspect-ratio: 16 / 11; max-height: 560px; }
+.v3d-stage.is-wide { aspect-ratio: 16 / 9; max-height: 560px; }
+.v3d-stage.is-square { aspect-ratio: 1; }
+.v3d-stage.is-fill { position: absolute; inset: 0; border-radius: 0; }
+@media (min-width: 768px) { .v3d-stage.is-hero { aspect-ratio: 16 / 9; } }
+.v3d-stage .v3d-canvas, .v3d-stage canvas { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; display: block; outline: none; }
+.v3d-stage .v3d-canvas { opacity: 0; transition: opacity 480ms var(--tm-ease, ease); }
+.v3d-stage.is-ready .v3d-canvas { opacity: 1; }
+
+/* loading: a quiet skeleton, no spinner */
+.v3d-loading { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px; z-index: 2; color: var(--tm-muted); font-size: 13px; font-weight: 500; pointer-events: none; }
+.v3d-loading-car { width: 44%; max-width: 260px; aspect-ratio: 5 / 2; border-radius: 40% 40% 18px 18px / 70% 70% 12px 12px; background: linear-gradient(90deg, var(--tm-surface3) 0%, #F6F5F2 45%, var(--tm-surface3) 90%); background-size: 220% 100%; animation: v3d-shimmer 1.6s ease-in-out infinite; }
+@keyframes v3d-shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+@media (prefers-reduced-motion: reduce) { .v3d-loading-car { animation: none; } }
+
+.v3d-fallback { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 4px; padding: 24px; text-align: center; z-index: 2; }
+.v3d-fallback b { font-size: 15px; font-weight: 600; color: var(--tm-text); }
+.v3d-fallback span { font-size: 13px; line-height: 18px; color: var(--tm-muted); max-width: 32ch; }
+
+/* chrome */
+.v3d-badge { position: absolute; top: 12px; left: 12px; z-index: 3; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; pointer-events: none; }
+.v3d-badge-tag { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; background: rgba(255, 255, 255, 0.86); color: var(--tm-text2); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.7); box-shadow: 0 4px 14px rgba(18, 20, 23, 0.08); }
+.v3d-badge-tag.is-demo { color: var(--tm-text2); }
+.v3d-badge-tag.is-preview { color: var(--tm-text2); }
+.v3d-badge-tag.is-confirmed { background: var(--tm-text); color: #fff; border-color: transparent; }
+.v3d-badge-caption { font-size: 13px; font-weight: 500; color: var(--tm-text2); padding-left: 2px; }
+.v3d-hint { position: absolute; right: 12px; top: 12px; z-index: 3; padding: 5px 10px; border-radius: 999px; font-size: 12px; color: var(--tm-muted); background: rgba(255, 255, 255, 0.7); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); pointer-events: none; opacity: 0; animation: v3d-hint 6s ease forwards; }
+@keyframes v3d-hint { 0% { opacity: 0; } 12% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+.v3d-toast { position: absolute; left: 50%; top: 14px; transform: translateX(-50%); z-index: 4; padding: 8px 14px; border-radius: 999px; background: var(--tm-text); color: #fff; font-size: 13px; white-space: nowrap; }
+.v3d-overlay { position: absolute; left: 12px; right: 12px; bottom: 60px; z-index: 3; display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none; }
+.v3d-overlay > * { pointer-events: auto; }
+.v3d-presets { position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 3; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+.v3d-presets::-webkit-scrollbar { display: none; }
+
+.v3d-chip { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; min-height: 34px; padding: 0 14px; border-radius: 999px; font: inherit; font-size: 13px; font-weight: 500; line-height: 1; color: var(--tm-text2); background: rgba(255, 255, 255, 0.92); border: 1px solid rgba(18, 20, 23, 0.08); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 4px 14px rgba(18, 20, 23, 0.08); cursor: pointer; transition: background 160ms ease, color 160ms ease, transform 160ms ease; }
+.v3d-chip:hover { background: #fff; color: var(--tm-text); }
+.v3d-chip:active { transform: scale(0.97); }
+.v3d-chip.is-on { background: var(--tm-text); color: #fff; border-color: var(--tm-text); }
+
+/* ------------------------------------------------------------- zones */
+.v3d-zones { display: flex; flex-wrap: wrap; gap: 6px; }
+.v3d-zone { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px 0 10px; border-radius: 999px; font: inherit; font-size: 13px; font-weight: 500; color: var(--tm-text2); background: var(--tm-surface); border: 1px solid var(--tm-line2); cursor: pointer; transition: border-color 160ms ease, background 160ms ease, color 160ms ease; }
+.v3d-overlay .v3d-zone { background: rgba(255, 255, 255, 0.86); border-color: rgba(255, 255, 255, 0.8); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 4px 14px rgba(18, 20, 23, 0.08); }
+.v3d-zone:hover { border-color: var(--tm-text); color: var(--tm-text); }
+.v3d-zone-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tm-line2); transition: background 160ms ease; }
+.v3d-zone.is-on { border-color: var(--tm-red); color: var(--tm-text); background: var(--tm-red-soft); }
+.v3d-zone.is-on .v3d-zone-dot { background: var(--tm-red); }
+.v3d-zones.is-compact .v3d-zone { min-height: 32px; font-size: 12px; }
+
+/* --------------------------------------------------------- thumbnail */
+.v3d-thumb { position: relative; width: 100%; overflow: hidden; background: radial-gradient(120% 90% at 50% 40%, #FFFFFF 0%, #EFEEEA 55%, #E3E1DB 100%); }
+.v3d-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 320ms ease; }
+.v3d-thumb.is-ready img { opacity: 1; }
+.v3d-thumb-skeleton { position: absolute; left: 30%; right: 30%; top: 40%; bottom: 36%; border-radius: 40% 40% 12px 12px / 70% 70% 8px 8px; background: var(--tm-surface3); }
+.v3d-thumb-fallback { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; color: var(--tm-muted); }
+.v3d-thumb-badge { position: absolute; top: 8px; left: 8px; }
+
+/* ------------------------------------------------------------ editor */
+.v3d-editor { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.v3d-editor-stage { position: relative; height: min(62vh, 560px); min-height: 320px; border-radius: 20px; overflow: hidden; box-shadow: var(--tm-shadow-card); background: #EFEEEA; }
+.v3d-editor-mode { display: flex; gap: 6px; }
+.v3d-editor-panel { display: flex; flex-direction: column; min-width: 0; background: var(--tm-surface); border-radius: 20px; box-shadow: var(--tm-shadow-card); }
+.v3d-sheet-handle { display: none; }
+.v3d-panel-body { display: flex; flex-direction: column; gap: 22px; padding: 18px 18px 8px; overflow-y: auto; }
+.v3d-panel-group { display: flex; flex-direction: column; gap: 10px; }
+.v3d-panel-title { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 15px; line-height: 20px; letter-spacing: -0.01em; color: var(--tm-text); }
+.v3d-panel-sub { font-family: var(--font-sans); font-weight: 500; font-size: 12px; color: var(--tm-muted); }
+.v3d-panel-note { margin: 0; font-size: 12px; line-height: 16px; color: var(--tm-muted2); }
+.v3d-panel-error { margin: 0 18px 14px; font-size: 13px; color: var(--tm-alert); }
+.v3d-side { display: flex; flex-direction: column; gap: 6px; }
+.v3d-side-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tm-muted2); }
+.v3d-creatives { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.v3d-creative { position: relative; aspect-ratio: 2 / 1; padding: 0; border-radius: 12px; overflow: hidden; background: var(--tm-surface2); border: 2px solid transparent; cursor: pointer; transition: border-color 160ms ease, transform 160ms ease; }
+.v3d-creative img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.v3d-creative:hover { transform: translateY(-1px); }
+.v3d-creative.is-on { border-color: var(--tm-red); }
+.v3d-creative.is-upload { display: grid; place-items: center; border: 1px dashed var(--tm-line2); background: transparent; }
+.v3d-creative.is-upload .fs-btn { min-height: 32px; padding: 0 12px; font-size: 13px; }
+.v3d-range { display: flex; flex-direction: column; gap: 6px; }
+.v3d-range-head { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; color: var(--tm-text2); }
+.v3d-range-head output { font-variant-numeric: tabular-nums; color: var(--tm-muted); }
+.v3d-range input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 28px; margin: 0; background: transparent; cursor: pointer; }
+.v3d-range input[type="range"]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: var(--tm-surface3); }
+.v3d-range input[type="range"]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--tm-surface3); }
+.v3d-range input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; margin-top: -9px; border-radius: 50%; background: #fff; border: 1px solid var(--tm-line2); box-shadow: 0 2px 8px rgba(18, 20, 23, 0.18); }
+.v3d-range input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 1px solid var(--tm-line2); box-shadow: 0 2px 8px rgba(18, 20, 23, 0.18); }
+.v3d-range input[type="range"]:focus-visible { outline: 2px solid var(--tm-text); outline-offset: 2px; border-radius: 4px; }
+.v3d-panel-actions { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 8px; padding: 12px 18px 18px; }
+.v3d-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 12px; font: inherit; font-size: 14px; font-weight: 600; color: var(--tm-text); background: var(--tm-surface2); border: 0; cursor: pointer; white-space: nowrap; transition: background 160ms ease, transform 160ms ease; }
+.v3d-btn:hover { background: var(--tm-surface3); }
+.v3d-btn:active { transform: scale(0.98); }
+.v3d-btn.is-on { background: var(--tm-text); color: #fff; }
+.v3d-btn.is-primary { background: var(--tm-red); color: #fff; box-shadow: var(--tm-shadow-primary); }
+.v3d-btn.is-primary:hover { background: var(--tm-red-hover); }
+.v3d-btn:disabled { opacity: 0.6; cursor: default; }
+
+/* desktop: the car large on the left, controls on the right */
+@media (min-width: 1024px) {
+  .v3d-editor { grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start; }
+  .v3d-editor-stage { position: sticky; top: 24px; height: min(72vh, 640px); }
+  .v3d-editor-panel { max-height: calc(100vh - 48px); }
+  .v3d-panel-body { padding: 22px 22px 10px; }
+  .v3d-panel-actions { padding: 14px 22px 22px; }
+}
+@media (min-width: 1440px) { .v3d-editor { grid-template-columns: minmax(0, 1fr) 380px; gap: 32px; } }
+
+/* phone: the controls become a sheet over the bottom of the screen, above the tab bar */
+@media (max-width: 1023px) {
+  .v3d-editor { padding-bottom: 140px; }
+  .v3d-editor.is-sheet-open { padding-bottom: calc(min(42vh, 420px) + 140px); }
+  .v3d-editor-panel { position: fixed; left: 8px; right: 8px; bottom: calc(64px + 20px + env(safe-area-inset-bottom)); z-index: 25; max-height: min(42vh, 420px); border-radius: 22px; box-shadow: 0 -8px 40px rgba(18, 20, 23, 0.16), 0 0 0 1px rgba(18, 20, 23, 0.06); transform: translateY(calc(100% - 56px)); transition: transform 320ms var(--tm-ease, ease); }
+  .v3d-editor.is-sheet-open .v3d-editor-panel { transform: translateY(0); }
+  .v3d-editor.is-preview .v3d-editor-panel { transform: translateY(calc(100% - 56px)); }
+  .v3d-sheet-handle { display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 56px; padding: 8px 0 0; font: inherit; font-size: 13px; font-weight: 600; color: var(--tm-text2); background: none; border: 0; cursor: pointer; }
+  .v3d-sheet-grip { width: 40px; height: 4px; border-radius: 2px; background: var(--tm-line2); }
+  .v3d-panel-body { padding: 4px 16px 8px; }
+  .v3d-panel-actions { padding: 10px 16px 16px; }
+  .v3d-editor-stage { height: min(48vh, 480px); }
+  @media (prefers-reduced-motion: reduce) { .v3d-editor-panel { transition: none; } }
+}
+@media (max-width: 1023px) and (min-width: 768px) { .v3d-editor-panel { left: auto; right: 24px; width: 380px; } }

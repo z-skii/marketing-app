@@ -4,6 +4,7 @@ import { siteMetadata } from "@/config/site";
 import { AuthHashForwarder } from "@/components/AuthHashForwarder";
 import { PresenceBeacon } from "@/components/PresenceBeacon";
 import "./globals.css";
+import "@/vehicle/vehicle.css";
 
 /**
  * One typeface for the whole product: DM Sans carries every size in the
