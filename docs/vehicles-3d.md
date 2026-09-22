@@ -40,6 +40,18 @@ A second candidate from Hunyuan3D 3.1 (47 MB, 300k triangles) was rejected
 without use: it came out as a recognisable BMW M3 replica, which is exactly
 the faked G80 the brief rules out. Its file was deleted.
 
+## The G80 chosen for the lab (prototype only)
+
+mo chose "BMW M3 (G80)" by alex20010804 on Sketchfab (CC BY 4.0) for the
+private placement lab. The catalog entry `bmw-m3-g80-alex` records the
+credit the licence requires, printed on the lab page as:
+"BMW M3 (G80)" by alex20010804 on Sketchfab, licensed CC BY 4.0, with links
+to the model, the author and the licence. The entry is marked
+commercialUse: false on purpose: the CC BY grant covers the file, not
+BMW's design rights or trademarks, so the asset is not endorsed by BMW and
+not cleared for production or commercial use. Only the four doors are
+offered as zones until they are exact on the mesh.
+
 ## The asset that is still needed
 
 The product's universal demonstration vehicle is a BMW M3 Competition

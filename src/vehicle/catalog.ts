@@ -147,8 +147,6 @@ const SEDAN_ZONES_FRACTION: PlacementZone[] = [
   { id: "driver_rear_door", label: "Driver rear door", side: "driver", units: "fraction", center: [-0.095, 0.42, 0.5], normal: [0, 0, 1], up: [0, 1, 0], size: [0.8, 0.46, 0.7], meshTargets: [], camera: "driver" },
   { id: "passenger_door", label: "Passenger front door", side: "passenger", units: "fraction", center: [0.095, 0.42, -0.5], normal: [0, 0, -1], up: [0, 1, 0], size: [0.86, 0.46, 0.7], meshTargets: [], camera: "passenger" },
   { id: "passenger_rear_door", label: "Passenger rear door", side: "passenger", units: "fraction", center: [-0.095, 0.42, -0.5], normal: [0, 0, -1], up: [0, 1, 0], size: [0.8, 0.46, 0.7], meshTargets: [], camera: "passenger" },
-  { id: "hood", label: "Hood", side: "top", units: "fraction", center: [0.36, 0.66, 0], normal: [0, 1, 0], up: [-1, 0, 0], size: [1.0, 0.8, 0.7], meshTargets: [], camera: "front" },
-  { id: "rear_panel", label: "Trunk lid", side: "rear", units: "fraction", center: [-0.49, 0.6, 0], normal: [-1, 0, 0], up: [0, 1, 0], size: [0.62, 0.24, 0.7], meshTargets: [], camera: "rear" },
 ];
 
 /** A generated sedan mesh used only to engineer the system; it is not a BMW and is never labelled as one. */
@@ -175,7 +173,49 @@ function generatedSedan(id: string, url: string, provider: string, rotationY: nu
 
 export const SEDAN_TRIPO = generatedSedan("gen-sedan-tripo", "/vehicles/tapmart-temp-sedan.glb", "Tripo (tripo_3d, detailed geometry and textures, PBR)", 0, { triangles: 138455, meshes: 1, textures: "3 WebP at 2048 px (base colour, occlusion roughness metallic, normal), Draco compressed geometry", fileBytes: 1000016, technique: "THREE.DecalGeometry projected onto the body triangles inside the selected zone box" });
 
-export const VEHICLES: Record<string, VehicleModel> = { [G80_DEMO.id]: G80_DEMO, [SEDAN_TRIPO.id]: SEDAN_TRIPO };
+/**
+ * The G80 for the placement lab: "BMW M3 (G80)" by alex20010804 on
+ * Sketchfab, CC BY 4.0. Prototype only. Attribution is required wherever
+ * it is shown, and it is neither endorsed by BMW nor cleared for
+ * production or commercial use (see docs/vehicles-3d.md). Zones are in
+ * metres in the vehicle frame and are calibrated against the mesh; only
+ * the four doors are offered until they are right.
+ */
+export const G80_ALEX: VehicleModel = {
+  id: "bmw-m3-g80-alex",
+  make: "BMW",
+  model: "M3 (G80)",
+  generation: "G80",
+  yearStart: 2021,
+  yearEnd: null,
+  bodyStyle: "Sedan",
+  demo: true,
+  asset: { kind: "glb", url: "/vehicles/bmw-m3-g80.glb", autoFit: true },
+  transform: { scale: 1, rotationY: 0, offset: [0, 0, 0] },
+  dims: { length: 4.794, width: 1.903, height: 1.433, wheelbase: 2.857 },
+  bodyMeshes: [],
+  zones: [
+    { id: "driver_door", label: "Driver front door", side: "driver", center: [0.5, 0.62, 0.93], normal: [0, 0, 1], up: [0, 1, 0], size: [0.86, 0.46, 0.5], meshTargets: [], camera: "driver" },
+    { id: "driver_rear_door", label: "Driver rear door", side: "driver", center: [-0.42, 0.62, 0.93], normal: [0, 0, 1], up: [0, 1, 0], size: [0.8, 0.46, 0.5], meshTargets: [], camera: "driver" },
+    { id: "passenger_door", label: "Passenger front door", side: "passenger", center: [0.5, 0.62, -0.93], normal: [0, 0, -1], up: [0, 1, 0], size: [0.86, 0.46, 0.5], meshTargets: [], camera: "passenger" },
+    { id: "passenger_rear_door", label: "Passenger rear door", side: "passenger", center: [-0.42, 0.62, -0.93], normal: [0, 0, -1], up: [0, 1, 0], size: [0.8, 0.46, 0.5], meshTargets: [], camera: "passenger" },
+  ],
+  cameras: G80_CAMERAS,
+  thumbnail: { preset: "hero", width: 640, height: 400 },
+  license: {
+    source: "Sketchfab, https://sketchfab.com/3d-models/bmw-m3-g80-e7d8be35e2f34b7f84e0543fff7fda27 (downloaded by TapMart from the author's page)",
+    creator: "alex20010804",
+    license: "CC BY 4.0",
+    commercialUse: false,
+    attributionRequired: true,
+    modificationAllowed: true,
+    notes: "Prototype use only. The CC BY licence covers the file and requires the credit shown on screen; it does not cover BMW's design rights or trademarks. Not endorsed by BMW and not cleared for production or commercial use.",
+  },
+};
+
+export const VEHICLES: Record<string, VehicleModel> = { [G80_DEMO.id]: G80_DEMO, [SEDAN_TRIPO.id]: SEDAN_TRIPO, [G80_ALEX.id]: G80_ALEX };
+/** The CC BY credit line, exactly as the lab prints it. */
+export const G80_ATTRIBUTION = { text: "\"BMW M3 (G80)\" by alex20010804 on Sketchfab, licensed CC BY 4.0", modelUrl: "https://sketchfab.com/3d-models/bmw-m3-g80-e7d8be35e2f34b7f84e0543fff7fda27", authorUrl: "https://sketchfab.com/alex20010804", licenseUrl: "https://creativecommons.org/licenses/by/4.0/" };
 /** The vehicle the placement lab shows: the licensed G80 once it exists, until then the best temporary mesh. */
 export const LAB_VEHICLE_ID = SEDAN_TRIPO.id;
 export const DEFAULT_VEHICLE_ID = G80_DEMO.id;
