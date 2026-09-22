@@ -4,7 +4,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import type { VehicleModel } from "../catalog";
+import type { PlacementZone, VehicleModel } from "../catalog";
 import { buildSedan, paintMaterial } from "./sedan";
 
 /**
@@ -13,7 +13,13 @@ import { buildSedan, paintMaterial } from "./sedan";
  * studio environment, the floor shadow and the faint reflection. One
  * code path, so a thumbnail and the interactive viewer show the same car.
  */
-export type LoadedVehicle = { root: THREE.Group; bodyMeshes: THREE.Mesh[]; dispose: () => void };
+export type LoadedVehicle = {
+  root: THREE.Group;
+  bodyMeshes: THREE.Mesh[];
+  /** The catalog entry with every zone in metres and dims measured from the fitted mesh. */
+  model: VehicleModel;
+  dispose: () => void;
+};
 
 THREE.Cache.enabled = true;
 const gltfLoader = new GLTFLoader();
@@ -36,13 +42,20 @@ export async function loadVehicle(vehicle: VehicleModel, paint: string, renderer
   if (vehicle.asset.kind === "procedural") {
     root = buildSedan(paint).group;
   } else {
-    const gltf = await withDecoders(renderer).loadAsync(vehicle.asset.url);
+    const asset = vehicle.asset;
+    const gltf = await withDecoders(renderer).loadAsync(asset.url);
     root = new THREE.Group();
     root.add(gltf.scene);
     const material = paintMaterial(paint);
     gltf.scene.traverse((o) => {
       const m = o as THREE.Mesh;
       if (!m.isMesh) return;
+      m.castShadow = false; m.receiveShadow = false;
+      if (asset.keepMaterials) {
+        const mat = m.material as THREE.MeshStandardMaterial;
+        if (mat && "envMapIntensity" in mat) { mat.envMapIntensity = 1.1; mat.needsUpdate = true; }
+        return;
+      }
       const isBody = vehicle.bodyMeshes.length ? vehicle.bodyMeshes.includes(m.name) : !EXCLUDED.test(m.name);
       if (isBody) m.material = material;
     });
@@ -52,13 +65,39 @@ export async function loadVehicle(vehicle: VehicleModel, paint: string, renderer
   root.rotation.y = rotationY;
   root.position.set(...offset);
   root.updateMatrixWorld(true);
+  const dims = { ...vehicle.dims };
+  if (vehicle.asset.kind === "glb" && vehicle.asset.autoFit) {
+    // Fit: longest horizontal axis becomes the length along X, scaled to the catalog length, centred, on the ground.
+    let box = new THREE.Box3().setFromObject(root);
+    const size = box.getSize(new THREE.Vector3());
+    if (size.z > size.x) { root.rotation.y += Math.PI / 2; root.updateMatrixWorld(true); box = new THREE.Box3().setFromObject(root); box.getSize(size); }
+    const k = vehicle.dims.length / Math.max(1e-6, size.x);
+    root.scale.multiplyScalar(k);
+    root.updateMatrixWorld(true);
+    box = new THREE.Box3().setFromObject(root);
+    const c = box.getCenter(new THREE.Vector3());
+    root.position.x -= c.x; root.position.z -= c.z; root.position.y -= box.min.y;
+    root.updateMatrixWorld(true);
+    box = new THREE.Box3().setFromObject(root);
+    box.getSize(size);
+    dims.length = size.x; dims.width = size.z; dims.height = size.y;
+  }
   const bodyMeshes: THREE.Mesh[] = [];
   root.traverse((o) => { const m = o as THREE.Mesh; if (m.isMesh && (vehicle.bodyMeshes.length ? vehicle.bodyMeshes.includes(m.name) : !EXCLUDED.test(m.name))) bodyMeshes.push(m); });
+  const model: VehicleModel = { ...vehicle, dims, zones: vehicle.zones.map((z) => resolveZone(z, dims)) };
   return {
     root,
     bodyMeshes,
+    model,
     dispose() { root.traverse((o) => { const m = o as THREE.Mesh; if (m.isMesh) { m.geometry?.dispose(); const mat = m.material; if (Array.isArray(mat)) mat.forEach((x) => x.dispose()); else mat?.dispose(); } }); },
   };
+}
+
+/** A fraction zone in metres for this body: x from the nose, y from the ground, z from the driver side. */
+function resolveZone(zone: PlacementZone, dims: VehicleModel["dims"]): PlacementZone {
+  if (zone.units !== "fraction") return zone;
+  const [fx, fy, fz] = zone.center;
+  return { ...zone, units: "m", center: [fx * dims.length, fy * dims.height, fz * dims.width] };
 }
 
 /** Studio lighting from a procedural room: no HDR download, works offline and in a thumbnail worker. */

@@ -19,12 +19,16 @@ const VehicleScene = dynamic(() => import("./VehicleScene"), { ssr: false, loadi
  */
 export type VehicleBadge = "demo" | "preview" | "confirmed" | null;
 
+/** Extra viewer options live on VehicleViewerProps below. */
 export type VehicleViewerProps = Omit<VehicleSceneProps, "onReady" | "onError" | "preset" | "presetNonce" | "reducedMotion" | "onViewChange"> & {
   badge?: VehicleBadge;
   /** Text under the badge, e.g. "2023 BMW M3 Competition". */
   caption?: string | null;
   /** Show the camera preset chips. */
   presets?: boolean;
+  /** Which presets to offer and how loudly ("subtle": small, bottom right, no Hero). */
+  presetKeys?: CameraPresetKey[];
+  presetStyle?: "chips" | "subtle";
   /** Initial camera preset. */
   initialPreset?: CameraPresetKey;
   /** Fired when a person chooses a preset chip or a zone moves the camera. */
@@ -36,11 +40,17 @@ export type VehicleViewerProps = Omit<VehicleSceneProps, "onReady" | "onError" |
   eager?: boolean;
   /** Turn the camera to the zone's preset whenever selectedZone changes. */
   followZone?: boolean;
+  /** Bring the camera in on the selected zone when its preset is used. */
+  focusSelected?: boolean;
+  /** The stage behind the car: light studio (default) or the dark hero stage. */
+  theme?: "light" | "dark";
+  /** Show the "Drag to rotate" hint. */
+  hint?: boolean;
 };
 
 const PRESET_ORDER: CameraPresetKey[] = ["hero", "front", "driver", "rear", "passenger"];
 
-export function VehicleViewer({ badge = null, caption = null, presets = true, initialPreset = "hero", aspect = "hero", className = "", children, eager = false, followZone = true, selectedZone, onSelectZone, ...scene }: VehicleViewerProps) {
+export function VehicleViewer({ badge = null, caption = null, presets = true, presetKeys, presetStyle = "chips", initialPreset = "hero", aspect = "hero", className = "", children, eager = false, followZone = true, theme = "light", hint = true, focusSelected = false, selectedZone, onSelectZone, ...scene }: VehicleViewerProps) {
   const vehicle = getVehicle(scene.vehicleId);
   const host = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(eager);
@@ -78,11 +88,11 @@ export function VehicleViewer({ badge = null, caption = null, presets = true, in
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedZone, followZone]);
 
-  const chips = useMemo(() => PRESET_ORDER.map((k) => vehicle.cameras.find((c) => c.key === k)).filter(Boolean) as typeof vehicle.cameras, [vehicle]);
+  const chips = useMemo(() => (presetKeys ?? PRESET_ORDER).map((k) => vehicle.cameras.find((c) => c.key === k)).filter(Boolean) as typeof vehicle.cameras, [vehicle, presetKeys]);
   const badgeText = badge === "demo" ? "Demo vehicle" : badge === "preview" ? "3D preview" : badge === "confirmed" ? "Your car" : null;
 
   return (
-    <div ref={host} className={`v3d-stage is-${aspect} ${ready ? "is-ready" : ""} ${className}`} data-vehicle={vehicle.id}>
+    <div ref={host} className={`v3d-stage is-${aspect} is-${theme} ${ready ? "is-ready" : ""} ${className}`} data-vehicle={vehicle.id}>
       {webgl === false ? (
         <Fallback title="3D preview unavailable" text="This browser cannot show 3D. The car, the placement and the size are still saved." />
       ) : error ? (
@@ -94,6 +104,7 @@ export function VehicleViewer({ badge = null, caption = null, presets = true, in
           onSelectZone={onSelectZone}
           preset={preset}
           presetNonce={nonce}
+          focusZone={focusSelected ? selectedZone ?? null : null}
           reducedMotion={reducedMotion}
           onReady={() => setReady(true)}
           onError={(e) => setError(e.message)}
@@ -120,12 +131,12 @@ export function VehicleViewer({ badge = null, caption = null, presets = true, in
 
       {children && <div className="v3d-overlay">{children}</div>}
 
-      {ready && scene.interactive !== false && (
+      {ready && hint && scene.interactive !== false && (
         <span className="v3d-hint" aria-hidden>Drag to rotate</span>
       )}
 
       {presets && ready && (
-        <div className="v3d-presets" role="group" aria-label="Camera angle">
+        <div className={`v3d-presets is-${presetStyle}`} role="group" aria-label="Camera angle">
           {chips.map((c) => (
             <button key={c.key} type="button" className={`v3d-chip ${view === c.key ? "is-on" : ""}`} aria-pressed={view === c.key} onClick={() => go(c.key)}>{c.label}</button>
           ))}

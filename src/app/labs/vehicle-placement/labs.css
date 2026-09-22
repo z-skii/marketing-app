@@ -1,0 +1,66 @@
+/* The placement lab: the car first, a quiet studio around it. Standalone page (no app shell). */
+.lab { min-height: 100dvh; background: #F5F4F1; color: var(--tm-text, #121417); font-family: var(--font-sans), "DM Sans", system-ui, sans-serif; }
+.lab * { box-sizing: border-box; }
+.lab-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 14px 16px 0; max-width: 1560px; margin: 0 auto; }
+.lab-kicker { font-size: 13px; line-height: 18px; color: var(--tm-muted, #6B7079); }
+.lab-kicker b { color: var(--tm-text); font-weight: 600; }
+.lab-title { margin: 2px 0 0; font-size: 26px; line-height: 30px; font-weight: 600; letter-spacing: -0.02em; }
+.lab-mark { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+.lab-mark i { width: 14px; height: 14px; border-radius: 4px; background: var(--tm-red, #E0212B); display: inline-block; }
+
+.lab-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 12px 12px 24px; max-width: 1560px; margin: 0 auto; }
+.lab-stage { position: relative; aspect-ratio: 4 / 5; max-height: 62vh; min-height: 360px; border-radius: 22px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(18, 20, 23, 0.35), 0 0 0 1px rgba(18, 20, 23, 0.05); background: #EFEEEA; }
+.lab-stage .v3d-stage { background: radial-gradient(120% 90% at 50% 34%, #FFFFFF 0%, #EEEDE9 50%, #DEDCD6 100%); }
+.lab-tip { position: absolute; left: 50%; bottom: 54px; transform: translateX(-50%); z-index: 4; padding: 8px 14px; border-radius: 999px; background: rgba(18, 20, 23, 0.82); color: #fff; font-size: 13px; font-weight: 500; white-space: nowrap; pointer-events: none; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); animation: lab-tip 420ms ease both; }
+@keyframes lab-tip { from { opacity: 0; transform: translate(-50%, 6px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.lab-stage .v3d-presets.is-subtle { bottom: 14px; }
+.lab-stage .v3d-badge { top: 14px; left: 14px; }
+
+.lab-panel { display: flex; flex-direction: column; gap: 14px; padding: 16px; border-radius: 20px; background: #fff; box-shadow: 0 1px 0 rgba(18, 20, 23, 0.04), 0 12px 30px -18px rgba(18, 20, 23, 0.25); }
+.lab-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 28px; }
+.lab-label { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--tm-muted2, #8E939B); }
+.lab-value { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.lab-value.is-empty { color: var(--tm-muted, #6B7079); font-weight: 500; }
+.lab-select { appearance: none; -webkit-appearance: none; font: inherit; font-size: 13px; font-weight: 500; color: var(--tm-text2, #3A3F46); background: var(--tm-surface2, #F3F2EF); border: 0; border-radius: 10px; padding: 8px 32px 8px 12px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%236B7079' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; max-width: 60%; }
+.lab-creative { display: flex; align-items: center; gap: 12px; }
+.lab-creative-thumb { width: 92px; aspect-ratio: 2 / 1; border-radius: 10px; overflow: hidden; background: var(--tm-surface2, #F3F2EF); flex-shrink: 0; }
+.lab-creative-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lab-creative-meta { min-width: 0; flex: 1; font-size: 13px; color: var(--tm-muted, #6B7079); line-height: 18px; }
+.lab-creative-meta b { display: block; color: var(--tm-text); font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lab-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px; border-radius: 10px; font: inherit; font-size: 13px; font-weight: 600; color: var(--tm-text); background: var(--tm-surface2, #F3F2EF); border: 0; cursor: pointer; white-space: nowrap; }
+.lab-btn:hover { background: var(--tm-surface3, #E8E6E1); }
+.lab-btn.is-on { background: var(--tm-text); color: #fff; }
+.lab-btn.is-primary { min-height: 48px; padding: 0 20px; font-size: 15px; border-radius: 14px; background: var(--tm-red, #E0212B); color: #fff; box-shadow: 0 10px 24px -10px rgba(224, 33, 43, 0.6); }
+.lab-btn.is-primary:hover { background: var(--tm-red-hover, #C71B25); }
+.lab-btn.is-primary:disabled { background: var(--tm-disabled, #B5B9BF); box-shadow: none; cursor: default; }
+.lab-btn.is-quiet { background: transparent; color: var(--tm-text2, #3A3F46); padding: 0 6px; min-height: 32px; }
+.lab-controls { display: grid; gap: 10px; }
+.lab-controls.is-off { opacity: 0.45; pointer-events: none; }
+.lab-more { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.lab-hint { font-size: 12px; line-height: 16px; color: var(--tm-muted2, #8E939B); }
+.lab-actions { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+.lab-actions .is-primary { flex: 1; }
+.lab-done { padding: 12px 14px; border-radius: 12px; background: var(--tm-red-soft, #FBECEE); font-size: 14px; line-height: 20px; }
+.lab-done b { font-weight: 600; }
+
+.lab-facts { max-width: 1560px; margin: 0 auto; padding: 0 16px 40px; font-size: 13px; line-height: 19px; color: var(--tm-muted, #6B7079); }
+.lab-facts h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--tm-muted2, #8E939B); margin: 0 0 6px; }
+.lab-facts dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: 0; }
+.lab-facts dt { font-weight: 600; color: var(--tm-text2, #3A3F46); }
+.lab-facts dd { margin: 0; overflow-wrap: anywhere; }
+.lab-facts .is-warn { color: var(--tm-alert, #B3261E); font-weight: 600; }
+
+@media (min-width: 768px) {
+  .lab-tip { bottom: 14px; }
+  .lab-top { padding: 20px 24px 0; }
+  .lab-grid { padding: 16px 24px 32px; gap: 16px; }
+  .lab-stage { aspect-ratio: 16 / 10; max-height: 66vh; }
+}
+/* desktop: the placement studio, seventy thirty */
+@media (min-width: 1024px) {
+  .lab-grid { grid-template-columns: minmax(0, 7fr) minmax(300px, 3fr); align-items: start; gap: 20px; padding: 16px 24px 32px; }
+  .lab-stage { aspect-ratio: auto; height: calc(100dvh - 150px); max-height: 760px; min-height: 520px; position: sticky; top: 16px; }
+  .lab-panel { padding: 20px; position: sticky; top: 16px; }
+  .lab-title { font-size: 30px; line-height: 34px; }
+}
+@media (min-width: 1440px) { .lab-grid { grid-template-columns: minmax(0, 72fr) minmax(320px, 28fr); gap: 24px; } }

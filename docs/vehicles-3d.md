@@ -17,7 +17,28 @@ a vehicle.
 | Highlight | Real: DecalGeometry clipped against the body triangles, so the red wash follows the panel. |
 | Artwork | Real: a DecalGeometry with the creative as its texture, clipped to the placement box inside the zone. It follows curvature, keeps perspective and stays attached under rotation and zoom. |
 | Thumbnails | Real: the same scene rendered once by a shared offscreen renderer and shown as an image. |
-| The G80 body | PLACEHOLDER. A sedan generated in code (src/vehicle/engine/sedan.ts) at the G80's outer dimensions. It is not a BMW model and is labelled "Demo vehicle" everywhere it appears. |
+| The G80 body | PLACEHOLDER. Two stand-ins exist: a sedan generated in code (src/vehicle/engine/sedan.ts) and, for the placement lab, a real GLB of a generic sports sedan generated for TapMart (public/vehicles/tapmart-temp-sedan.glb, see below). Neither is a BMW model; both are labelled on screen. |
+
+## The temporary engineering mesh (the placement lab)
+
+`/labs/vehicle-placement` runs on `public/vehicles/tapmart-temp-sedan.glb`:
+
+| Fact | Value |
+| --- | --- |
+| What | A generic four door sports sedan, no make or model, generated from a text prompt on 2026-09-22 |
+| How | Tripo text to 3D (`tripo_3d`, detailed geometry and textures, PBR) through TapMart's Higgsfield account, then optimised with glTF-Transform 4.5 (weld, simplify, Draco geometry, WebP textures at 2048 px) |
+| Cost | About 33 Higgsfield credits in total, including a second candidate that was rejected |
+| Rights | TapMart's own generated asset under the Higgsfield terms of service; commercial use and modification allowed, no attribution required |
+| Geometry | 1 mesh, 138,455 triangles (284,227 before simplification), position, normal and one UV set |
+| Textures | 3 WebP at 2048 x 2048: base colour, occlusion roughness metallic, normal |
+| File | 1,000,016 bytes |
+| Fitting | `autoFit`: the longest horizontal axis becomes the length along +X, scaled to 4.794 m, centred, on the ground; zones are given as fractions of the fitted body and resolved after load |
+| Zones | Driver front door, driver rear door, passenger front door, passenger rear door, hood, trunk lid. The rear window and quarters are not offered because the single mesh has no separate glass or panel boundaries to validate them against. |
+| Known artefacts | A generic emblem on the grille and boot from the generation; door seams and handles are baked into the texture, so a decal placed across a seam follows the surface, not the seam |
+
+A second candidate from Hunyuan3D 3.1 (47 MB, 300k triangles) was rejected
+without use: it came out as a recognisable BMW M3 replica, which is exactly
+the faked G80 the brief rules out. Its file was deleted.
 
 ## The asset that is still needed
 
@@ -102,6 +123,11 @@ src/vehicle/
   VehiclePlacementEditor.tsx  creative, placement, size, position, rotation, preview, save
   vehicle.css               all v3d- styles
 ```
+
+The engine also supports `keepMaterials` (a single textured mesh keeps its
+own PBR materials instead of being repainted) and `autoFit` (see the table
+above), so a licensed G80 export with named panels and a generated stand-in
+load through the same path.
 
 Placements are stored on campaigns as `details.placement_config` (jsonb,
 no migration): `{ zone, artworkUrl, scale, offsetX, offsetY, rotation }`.

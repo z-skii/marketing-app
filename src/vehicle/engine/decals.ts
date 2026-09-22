@@ -63,23 +63,58 @@ function decalGeometry(targets: THREE.Mesh[], position: THREE.Vector3, euler: TH
   return merged;
 }
 
-/** A translucent red wash over the whole printable area, with a slightly stronger rim so the panel reads as selected. */
-export function buildZoneHighlight(vehicle: VehicleModel, root: THREE.Object3D, zone: PlacementZone, strength: 1 | 0.5 = 1): THREE.Group {
+/**
+ * The zone as a premium selection: a faint fill over the printable area
+ * and a crisp TapMart red outline that follows the panel. Both are decals
+ * clipped to the body triangles; the outline is the same decal with its
+ * interior discarded in the shader, so it bends with the panel like tape.
+ * "hover" is the fill alone, lighter.
+ */
+export function buildZoneHighlight(vehicle: VehicleModel, root: THREE.Object3D, zone: PlacementZone, mode: "selected" | "hover" = "selected"): THREE.Group {
   const group = new THREE.Group();
   group.name = `zone-${zone.id}`;
   const targets = targetsOf(vehicle, root, zone);
   const { position } = zoneFrame(zone);
   const euler = projectorEuler(zone);
   const [w, h, d] = zone.size;
-  const outer = decalGeometry(targets, position, euler, new THREE.Vector3(w, h, d));
-  if (outer) {
-    group.add(new THREE.Mesh(outer, new THREE.MeshBasicMaterial({ color: ZONE_TINT, transparent: true, opacity: 0.42 * strength, depthTest: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 })));
-  }
-  const inner = decalGeometry(targets, position, euler, new THREE.Vector3(w - 0.05, h - 0.05, d));
-  if (inner) {
-    group.add(new THREE.Mesh(inner, new THREE.MeshBasicMaterial({ color: "#ffffff", transparent: true, opacity: 0.22 * strength, depthTest: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 })));
+  const geo = decalGeometry(targets, position, euler, new THREE.Vector3(w, h, d));
+  if (!geo) return group;
+  const fill = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: mode === "selected" ? ZONE_TINT : "#ffffff", transparent: true, opacity: mode === "selected" ? 0.16 : 0.22, depthTest: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 }));
+  fill.renderOrder = 1;
+  group.add(fill);
+  if (mode === "selected") {
+    const border = new THREE.MeshBasicMaterial({ color: ZONE_TINT, transparent: true, opacity: 0.95, depthTest: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 });
+    const bx = Math.min(0.2, 0.012 / w), by = Math.min(0.2, 0.012 / h);
+    border.onBeforeCompile = (shader) => {
+      shader.uniforms.uBorder = { value: new THREE.Vector2(bx, by) };
+      shader.vertexShader = shader.vertexShader.replace("#include <common>", "#include <common>\nvarying vec2 vZoneUv;").replace("#include <uv_vertex>", "#include <uv_vertex>\nvZoneUv = uv;");
+      shader.fragmentShader = shader.fragmentShader.replace("#include <common>", "#include <common>\nvarying vec2 vZoneUv;\nuniform vec2 uBorder;").replace("#include <clipping_planes_fragment>", "#include <clipping_planes_fragment>\nif (vZoneUv.x > uBorder.x && vZoneUv.x < 1.0 - uBorder.x && vZoneUv.y > uBorder.y && vZoneUv.y < 1.0 - uBorder.y) discard;");
+    };
+    border.customProgramCacheKey = () => `zone-border-${bx.toFixed(4)}-${by.toFixed(4)}`;
+    const outline = new THREE.Mesh(geo.clone(), border);
+    outline.renderOrder = 1;
+    group.add(outline);
   }
   return group;
+}
+
+/** The artwork's box inside its zone, in zone local metres: centre offset and half sizes. */
+export function artworkBox(zone: PlacementZone, placement: Placement, aspect: number): { dx: number; dy: number; hw: number; hh: number } {
+  const { w, h, dx, dy } = decalBox(zone, placement, aspect);
+  return { dx, dy, hw: w / 2, hh: h / 2 };
+}
+
+/** A world point expressed in the zone's frame: x along the panel, y up the panel, z out of it. */
+export function toZoneLocal(zone: PlacementZone, point: THREE.Vector3): { x: number; y: number; z: number } {
+  const { position, basis } = zoneFrame(zone);
+  const d = point.clone().sub(position);
+  return { x: d.dot(basis.x), y: d.dot(basis.y), z: d.dot(basis.z) };
+}
+
+/** The panel's plane in world space, for dragging artwork even when the pointer leaves the body. */
+export function zonePlane(zone: PlacementZone): THREE.Plane {
+  const { position, basis } = zoneFrame(zone);
+  return new THREE.Plane().setFromNormalAndCoplanarPoint(basis.z, position);
 }
 
 const textureCache = new Map<string, Promise<THREE.Texture>>();

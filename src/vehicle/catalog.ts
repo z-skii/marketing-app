@@ -28,8 +28,10 @@ export type PlacementZone = {
   normal: Vec3;
   /** Which way is "up" on the artwork, in the vehicle frame. */
   up: Vec3;
-  /** Width and height of the printable area, and the projector depth. */
+  /** Width and height of the printable area, and the projector depth (always metres). */
   size: [number, number, number];
+  /** "fraction": centre is given as fractions of the fitted body (length, height, width) and resolved after the mesh loads. */
+  units?: "m" | "fraction";
   /** Names of the meshes the artwork may project onto; empty means every body mesh. */
   meshTargets: string[];
   /** The camera preset that looks straight at it. */
@@ -50,7 +52,11 @@ export type LicenseMetadata = {
 };
 
 export type VehicleAsset =
-  | { kind: "glb"; url: string; draco?: boolean; meshopt?: boolean; ktx2?: boolean }
+  | { kind: "glb"; url: string; draco?: boolean; meshopt?: boolean; ktx2?: boolean;
+      /** Keep the file's own materials (a single textured mesh) instead of repainting body meshes. */
+      keepMaterials?: boolean;
+      /** Fit the loaded mesh to dims.length along its longest horizontal axis, centre it and put it on the ground. */
+      autoFit?: boolean }
   /** A mesh generated in code (src/vehicle/engine/sedan.ts). Legally clean; visibly a placeholder. */
   | { kind: "procedural"; generator: "sedan" };
 
@@ -75,6 +81,8 @@ export type VehicleModel = {
   cameras: CameraPreset[];
   thumbnail: { preset: CameraPresetKey; width: number; height: number };
   license: LicenseMetadata;
+  /** Measured facts about the asset file, for the honest report on screen. */
+  assetFacts?: { triangles: number; meshes: number; textures: string; fileBytes: number; technique: string };
 };
 
 const G80_CAMERAS: CameraPreset[] = [
@@ -128,7 +136,48 @@ export const G80_DEMO: VehicleModel = {
   },
 };
 
-export const VEHICLES: Record<string, VehicleModel> = { [G80_DEMO.id]: G80_DEMO };
+/**
+ * Zones for a single mesh sedan whose exact geometry is only known after
+ * it loads: centres as fractions of the fitted body (length from the nose,
+ * height from the ground, width from the driver side). Resolved in
+ * engine/scene.ts. Only surfaces a four door sedan really has.
+ */
+const SEDAN_ZONES_FRACTION: PlacementZone[] = [
+  { id: "driver_door", label: "Driver front door", side: "driver", units: "fraction", center: [0.095, 0.42, 0.5], normal: [0, 0, 1], up: [0, 1, 0], size: [0.86, 0.46, 0.7], meshTargets: [], camera: "driver" },
+  { id: "driver_rear_door", label: "Driver rear door", side: "driver", units: "fraction", center: [-0.095, 0.42, 0.5], normal: [0, 0, 1], up: [0, 1, 0], size: [0.8, 0.46, 0.7], meshTargets: [], camera: "driver" },
+  { id: "passenger_door", label: "Passenger front door", side: "passenger", units: "fraction", center: [0.095, 0.42, -0.5], normal: [0, 0, -1], up: [0, 1, 0], size: [0.86, 0.46, 0.7], meshTargets: [], camera: "passenger" },
+  { id: "passenger_rear_door", label: "Passenger rear door", side: "passenger", units: "fraction", center: [-0.095, 0.42, -0.5], normal: [0, 0, -1], up: [0, 1, 0], size: [0.8, 0.46, 0.7], meshTargets: [], camera: "passenger" },
+  { id: "hood", label: "Hood", side: "top", units: "fraction", center: [0.36, 0.66, 0], normal: [0, 1, 0], up: [-1, 0, 0], size: [1.0, 0.8, 0.7], meshTargets: [], camera: "front" },
+  { id: "rear_panel", label: "Trunk lid", side: "rear", units: "fraction", center: [-0.49, 0.6, 0], normal: [-1, 0, 0], up: [0, 1, 0], size: [0.62, 0.24, 0.7], meshTargets: [], camera: "rear" },
+];
+
+/** A generated sedan mesh used only to engineer the system; it is not a BMW and is never labelled as one. */
+function generatedSedan(id: string, url: string, provider: string, rotationY: number, facts: VehicleModel["assetFacts"]): VehicleModel {
+  return {
+    id, make: "Generic", model: "sports sedan (temporary engineering mesh)", generation: null, yearStart: 2026, yearEnd: null, bodyStyle: "Sedan", demo: false,
+    asset: { kind: "glb", url, keepMaterials: true, autoFit: true },
+    transform: { scale: 1, rotationY, offset: [0, 0, 0] },
+    dims: { length: 4.794, width: 1.903, height: 1.433, wheelbase: 2.857 },
+    bodyMeshes: [],
+    zones: SEDAN_ZONES_FRACTION,
+    cameras: G80_CAMERAS,
+    thumbnail: { preset: "hero", width: 640, height: 400 },
+    license: {
+      source: `Generated for TapMart on 2026-09-22 with ${provider} through TapMart's Higgsfield account (text to 3D, prompt: unbranded four door sports sedan)`,
+      creator: "TapMart (AI generated)",
+      license: "TapMart's own generated asset under the Higgsfield terms of service",
+      commercialUse: true, attributionRequired: false, modificationAllowed: true,
+      notes: "A generic sedan generated from a text prompt so the placement engine can be built and tested on real geometry. It is not the BMW M3 Competition G80: a licensed G80 GLB is still required for the demo vehicle and drops into this catalog entry.",
+    },
+    assetFacts: facts,
+  };
+}
+
+export const SEDAN_TRIPO = generatedSedan("gen-sedan-tripo", "/vehicles/tapmart-temp-sedan.glb", "Tripo (tripo_3d, detailed geometry and textures, PBR)", 0, { triangles: 138455, meshes: 1, textures: "3 WebP at 2048 px (base colour, occlusion roughness metallic, normal), Draco compressed geometry", fileBytes: 1000016, technique: "THREE.DecalGeometry projected onto the body triangles inside the selected zone box" });
+
+export const VEHICLES: Record<string, VehicleModel> = { [G80_DEMO.id]: G80_DEMO, [SEDAN_TRIPO.id]: SEDAN_TRIPO };
+/** The vehicle the placement lab shows: the licensed G80 once it exists, until then the best temporary mesh. */
+export const LAB_VEHICLE_ID = SEDAN_TRIPO.id;
 export const DEFAULT_VEHICLE_ID = G80_DEMO.id;
 
 export function getVehicle(id: string | null | undefined): VehicleModel {
@@ -144,10 +193,27 @@ export const CAMERA_FOV = 26;
  * the whole car still fits with the same margin.
  */
 export function framePreset(preset: CameraPreset, aspect: number): { position: Vec3; target: Vec3; fit: number } {
-  const fit = Math.max(1, 1.9 / Math.max(0.5, aspect));
+  // Measured on the lab page: about 75 percent of the stage width on a desktop studio, 85 percent on a 4:5 phone stage.
+  const fit = Math.max(0.9, Math.pow(1.45 / Math.max(0.5, aspect), 0.7));
   const [tx, ty, tz] = preset.target;
   const [px, py, pz] = preset.position;
   return { position: [tx + (px - tx) * fit, ty + (py - ty) * fit, tz + (pz - tz) * fit], target: preset.target, fit };
+}
+
+/**
+ * Framing for one zone: the zone's own preset direction, the target moved
+ * onto the panel and the camera brought in so the placement reads while
+ * most of the car stays in view. Narrow stages keep more distance.
+ */
+export function frameZone(vehicle: VehicleModel, zone: PlacementZone, aspect: number): { position: Vec3; target: Vec3; fit: number } {
+  const preset = vehicle.cameras.find((c) => c.key === zone.camera) ?? vehicle.cameras[0];
+  const framed = framePreset(preset, aspect);
+  const [cx, cy, cz] = zone.center;
+  const target: Vec3 = [cx * 0.6, Math.max(0.5, cy * 0.85), cz * 0.6];
+  const [px, py, pz] = framed.position;
+  const [tx, ty, tz] = framed.target;
+  const k = 0.95 * Math.sqrt(framed.fit);
+  return { position: [target[0] + (px - tx) * k, target[1] + (py - ty) * k, target[2] + (pz - tz) * k], target, fit: framed.fit };
 }
 
 export function zoneOf(vehicle: VehicleModel, id: string | null | undefined): PlacementZone | null {
