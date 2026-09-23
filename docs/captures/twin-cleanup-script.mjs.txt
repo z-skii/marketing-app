@@ -1,0 +1,176 @@
+// Raw Meshy reconstruction -> cleaned, segmented digital twin.
+// usage: node cleanup.mjs <raw.glb> <out-uncompressed.glb> [--smooth N] [--simplify RATIO]
+// Steps (all logged): weld by position, drop degenerate faces, keep every connected component (body + 4 wheels),
+// Taubin smoothing per component, optional silhouette preserving simplification, fresh smooth normals,
+// region segmentation by connectivity + geometry + texture colour, split into named meshes with PBR materials.
+import { createRequire } from "node:module";
+const require = createRequire("/home/user/marketing-app/package.json");
+const { NodeIO, Document, Accessor, Primitive } = require("@gltf-transform/core");
+const { weld, prune, dedup, simplify, normals } = require("@gltf-transform/functions");
+const { KHRMaterialsClearcoat, KHRMaterialsIOR, ALL_EXTENSIONS } = require("@gltf-transform/extensions");
+const { MeshoptSimplifier } = require("meshoptimizer");
+const sharp = require("sharp");
+const [inFile, outFile, ...rest] = process.argv.slice(2);
+const opt = (k, d) => { const i = rest.indexOf(k); return i >= 0 ? Number(rest[i + 1]) : d; };
+const SMOOTH = opt("--smooth", 6), SIMPLIFY = opt("--simplify", 0);
+const log = (...a) => console.log(...a);
+
+const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
+const doc = await io.read(inFile);
+const root = doc.getRoot();
+const mesh0 = root.listMeshes()[0];
+const prim0 = mesh0.listPrimitives()[0];
+const baseTex = prim0.getMaterial()?.getBaseColorTexture();
+const texImg = baseTex ? await sharp(Buffer.from(baseTex.getImage())).raw().toBuffer({ resolveWithObject: true }) : null;
+log("texture:", texImg ? `${texImg.info.width}x${texImg.info.height}` : "none");
+
+// --- 1. weld by position (exact, after rounding to 0.01 mm): the raw file splits every UV seam and hard edge into duplicate vertices
+const rawP = prim0.getAttribute("POSITION").getArray(); const rawI = prim0.getIndices().getArray(); const rawUV = prim0.getAttribute("TEXCOORD_0")?.getArray() ?? null;
+const keyMap = new Map(); const remap = new Int32Array(rawP.length / 3); const Pw = []; const UVw = [];
+for (let i = 0; i < rawP.length / 3; i++) { const k = `${Math.round(rawP[i*3] * 1e5)},${Math.round(rawP[i*3+1] * 1e5)},${Math.round(rawP[i*3+2] * 1e5)}`; let j = keyMap.get(k); if (j === undefined) { j = Pw.length / 3; keyMap.set(k, j); Pw.push(rawP[i*3], rawP[i*3+1], rawP[i*3+2]); if (rawUV) UVw.push(rawUV[i*2], rawUV[i*2+1]); } remap[i] = j; }
+let P = Pw; let I = Array.from(rawI, (v) => remap[v]); const UV = rawUV ? UVw : null;
+let nv = P.length / 3, nt = I.length / 3;
+log("raw vertices", rawP.length / 3, "welded", nv, "triangles", nt);
+
+// --- 2. drop degenerate faces
+{ const keep = []; for (let t = 0; t < nt; t++) { const a = I[t*3], b = I[t*3+1], c = I[t*3+2]; if (a !== b && b !== c && a !== c) keep.push(a, b, c); } log("degenerate removed:", nt - keep.length / 3); I = keep; nt = I.length / 3; }
+
+// --- 3. components
+const parent = new Int32Array(nv).map((_, i) => i);
+const find = (x) => { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; };
+for (let t = 0; t < nt; t++) { const a = find(I[t*3]), b = find(I[t*3+1]), c = find(I[t*3+2]); parent[a] = b; parent[find(b)] = find(c); }
+const comp = new Array(nv); const compSize = new Map();
+for (let i = 0; i < nv; i++) { comp[i] = find(i); compSize.set(comp[i], (compSize.get(comp[i]) ?? 0) + 1); }
+const comps = [...compSize.entries()].sort((a, b) => b[1] - a[1]);
+log("components:", comps.length, comps.slice(0, 8).map((c) => c[1]).join(", "));
+const bodyComp = comps[0][0];
+const MIN_KEEP = 200; // floating fragments under this many vertices are removed
+const drop = new Set(comps.filter((c) => c[1] < MIN_KEEP).map((c) => c[0]));
+if (drop.size) { const keep = []; for (let t = 0; t < nt; t++) if (!drop.has(comp[I[t*3]])) keep.push(I[t*3], I[t*3+1], I[t*3+2]); log("floating fragments removed:", drop.size, "triangles", nt - keep.length / 3); I = keep; nt = I.length / 3; }
+
+// --- 4. Taubin smoothing (lambda 0.5, mu -0.53): shrink free, keeps volume and silhouette; boundary vertices are pinned
+const adj = Array.from({ length: nv }, () => new Set());
+const edgeUse = new Map();
+for (let t = 0; t < nt; t++) { const a = I[t*3], b = I[t*3+1], c = I[t*3+2]; adj[a].add(b); adj[a].add(c); adj[b].add(a); adj[b].add(c); adj[c].add(a); adj[c].add(b); for (const [u, v] of [[a, b], [b, c], [c, a]]) { const k = u < v ? u * 4294967296 + v : v * 4294967296 + u; edgeUse.set(k, (edgeUse.get(k) ?? 0) + 1); } }
+const boundaryV = []; let boundaryEdges = 0;
+for (const [k, c] of edgeUse) if (c === 1) { boundaryEdges++; const u = Math.floor(k / 4294967296), v = k % 4294967296; boundaryV[u] = 1; boundaryV[v] = 1; }
+log("boundary edges (holes):", boundaryEdges);
+// hole repair: walk boundary loops, fan fill loops of up to 40 edges from their centroid (larger openings are left open and reported)
+{
+  const bnext = new Map();
+  for (let t = 0; t < nt; t++) { const a = I[t*3], b = I[t*3+1], c = I[t*3+2]; for (const [u, v] of [[a, b], [b, c], [c, a]]) { const k = u < v ? u * 4294967296 + v : v * 4294967296 + u; if (edgeUse.get(k) === 1) bnext.set(u, v); } }
+  const seen = new Set(); let filled = 0, filledTris = 0, left = 0;
+  for (const start of bnext.keys()) { if (seen.has(start)) continue; const loop = [start]; seen.add(start); let v = bnext.get(start); let guard = 0; while (v !== undefined && v !== start && guard++ < 5000) { if (seen.has(v)) break; loop.push(v); seen.add(v); v = bnext.get(v); }
+    if (v !== start) { left++; continue; }
+    if (loop.length > 40) { left++; continue; }
+    const c = [0, 0, 0]; for (const u of loop) { c[0] += P[u*3]; c[1] += P[u*3+1]; c[2] += P[u*3+2]; } const ci = P.length / 3; P.push(c[0] / loop.length, c[1] / loop.length, c[2] / loop.length); adj.push(new Set()); const cls0 = comp[loop[0]]; comp[ci] = cls0;
+    for (let k = 0; k < loop.length; k++) { const u = loop[k], w = loop[(k + 1) % loop.length]; I.push(w, u, ci); adj[ci].add(u); adj[u].add(ci); filledTris++; }
+    filled++; }
+  nv = P.length / 3; nt = I.length / 3;
+  log("holes filled:", filled, "triangles added", filledTris, "openings left:", left);
+}
+function laplace(factor) {
+  const Q = P.slice();
+  for (let i = 0; i < nv; i++) { if (boundaryV[i] || adj[i].size === 0) continue; let sx = 0, sy = 0, sz = 0; for (const j of adj[i]) { sx += P[j*3]; sy += P[j*3+1]; sz += P[j*3+2]; } const n = adj[i].size; Q[i*3] = P[i*3] + factor * (sx / n - P[i*3]); Q[i*3+1] = P[i*3+1] + factor * (sy / n - P[i*3+1]); Q[i*3+2] = P[i*3+2] + factor * (sz / n - P[i*3+2]); }
+  P = Q;
+}
+const before = bbox(P);
+for (let k = 0; k < SMOOTH; k++) { laplace(0.5); laplace(-0.53); }
+const after = bbox(P);
+log(`taubin ${SMOOTH} passes: bbox before ${before.map((v) => v.toFixed(4)).join(" x ")}, after ${after.map((v) => v.toFixed(4)).join(" x ")}`);
+
+// --- 5. segmentation
+const [L, H, W] = after; // x length, y height, z width (Meshy frame: x is the long axis)
+const mn = minOf(P);
+const cx = mn[0] + L / 2, cz = mn[2] + W / 2;
+// nose direction: the end with more vertices in the lower front (bumper/grille) is ambiguous; use the wheel components: mirrors are near the front. Instead use the label from the catalog run: this mesh's nose points to -x (the viewer turns it). We verify with the tail light colour test below.
+const wheelComps = comps.slice(1, 5).map((c) => c[0]);
+const wheelInfo = new Map();
+for (const wc of wheelComps) { let sx = 0, sy = 0, sz = 0, n = 0; for (let i = 0; i < nv; i++) if (comp[i] === wc) { sx += P[i*3]; sy += P[i*3+1]; sz += P[i*3+2]; n++; } const c = [sx / n, sy / n, sz / n]; let r = 0; for (let i = 0; i < nv; i++) if (comp[i] === wc) { const d = Math.hypot(P[i*3] - c[0], P[i*3+1] - c[1]); if (d > r) r = d; } wheelInfo.set(wc, { c, r }); }
+log("wheels:", [...wheelInfo.values()].map((w) => `centre ${w.c.map((v) => v.toFixed(3)).join(",")} r ${w.r.toFixed(3)}`).join(" | "));
+const texel = (i) => { if (!texImg || !UV) return [128, 128, 128]; const u = UV[i*2] - Math.floor(UV[i*2]), v = UV[i*2+1] - Math.floor(UV[i*2+1]); const x = Math.min(texImg.info.width - 1, Math.floor(u * texImg.info.width)), y = Math.min(texImg.info.height - 1, Math.floor(v * texImg.info.height)); const o = (y * texImg.info.width + x) * texImg.info.channels; return [texImg.data[o], texImg.data[o+1], texImg.data[o+2]]; };
+// vertex normals for rules
+const VN = new Float32Array(nv * 3);
+for (let t = 0; t < nt; t++) { const a = I[t*3], b = I[t*3+1], c = I[t*3+2]; const ax = P[b*3]-P[a*3], ay = P[b*3+1]-P[a*3+1], az = P[b*3+2]-P[a*3+2], bx = P[c*3]-P[a*3], by = P[c*3+1]-P[a*3+1], bz = P[c*3+2]-P[a*3+2]; const nx = ay*bz-az*by, ny = az*bx-ax*bz, nz = ax*by-ay*bx; for (const v of [a, b, c]) { VN[v*3] += nx; VN[v*3+1] += ny; VN[v*3+2] += nz; } }
+// decide nose sign by red tail lights: count red texels at each x end in the light band
+let redPos = 0, redNeg = 0;
+for (let i = 0; i < nv; i++) { if (comp[i] !== bodyComp) continue; const fx = (P[i*3] - cx) / L; const h = (P[i*3+1] - mn[1]) / H; if (Math.abs(fx) > 0.38 && h > 0.35 && h < 0.62) { const [r, g, b] = texel(i); if (r > 120 && r > g * 1.8 && r > b * 1.8) { if (fx > 0) redPos++; else redNeg++; } } }
+let mirrorX = 0, mirrorN = 0;
+for (let i = 0; i < nv; i++) { if (comp[i] !== bodyComp) continue; const h = (P[i*3+1] - mn[1]) / H; const fz = Math.abs(P[i*3+2] - cz) / W; if (h > 0.48 && h < 0.66 && fz > 0.485) { mirrorX += P[i*3] - cx; mirrorN++; } }
+const noseSign = mirrorN > 0 ? Math.sign(mirrorX) : (redPos > redNeg ? -1 : 1);
+log("red texels +x", redPos, "-x", redNeg, "| mirror vertices", mirrorN, "mean x", (mirrorN ? mirrorX / mirrorN : 0).toFixed(3), "=> nose points", noseSign > 0 ? "+x" : "-x");
+const CLASSES = ["body", "glass", "wheels", "tyres", "lights", "grille", "trim"];
+const cls = new Uint8Array(nv);
+const counts = new Array(CLASSES.length).fill(0);
+for (let i = 0; i < nv; i++) {
+  const x = P[i*3], y = P[i*3+1], z = P[i*3+2];
+  const fx = ((x - cx) / L) * noseSign; // +0.5 nose, -0.5 tail
+  const h = (y - mn[1]) / H; const fz = Math.abs(z - cz) / W;
+  const ln = Math.hypot(VN[i*3], VN[i*3+1], VN[i*3+2]) || 1; const nx = (VN[i*3] / ln) * noseSign, ny = VN[i*3+1] / ln;
+  const [r, g, b] = texel(i); const lum = (r + g + b) / 3;
+  let c = 0;
+  if (comp[i] !== bodyComp) { const w = wheelInfo.get(comp[i]); c = w && Math.hypot(x - w.c[0], y - w.c[1]) > 0.74 * w.r ? 3 : 2; }
+  else if (fx < -0.43 && h > 0.40 && h < 0.60 && nx < -0.35 && r > 110 && r > g * 1.6 && r > b * 1.6) c = 4;  // tail light: red texel on the tail face
+  else if (fx > 0.43 && h > 0.35 && h < 0.54 && fz > 0.2 && fz < 0.48 && nx > 0.35 && ny < 0.6 && (lum > 70 || (b > r + 10 && b > g + 4))) c = 4; // headlight: bright, outer front face, not the hood
+  else if (fx > 0.43 && fz < 0.25 && h > 0.16 && h < 0.52 && nx > 0.45 && lum < 90) c = 5;                   // grille: dark, central, facing forward
+  else if (h > 0.665 && ny < 0.8 && fz < 0.47 && fx > -0.32 && fx < 0.23) c = 1;                             // greenhouse glass above the sill between the A and C pillars
+  else if (h < 0.15) c = 6;                                                                                   // rockers, splitter, diffuser
+  else if (Math.abs(fx) > 0.42 && h < 0.30 && lum < 60) c = 6;                                                // dark lower bumper intakes
+  else if (h > 0.5 && h < 0.62 && fz > 0.47 && fx > 0.05 && fx < 0.25) c = 6;                                 // mirror caps as trim
+  cls[i] = c; counts[c]++;
+}
+for (let pass = 0; pass < 2; pass++) {
+  const next = new Uint8Array(cls);
+  for (let i = 0; i < nv; i++) { if (comp[i] !== bodyComp) continue; const tally = new Array(CLASSES.length).fill(0); tally[cls[i]] += cls[i] === 4 || cls[i] === 5 ? 3 : 1; for (const j of adj[i]) tally[cls[j]]++; let best = 0; for (let k = 1; k < CLASSES.length; k++) if (tally[k] > tally[best]) best = k; next[i] = best; }
+  cls.set(next);
+}
+counts.fill(0); for (let i = 0; i < nv; i++) counts[cls[i]]++;
+log("classes after majority filter (vertices):", CLASSES.map((n, k) => `${n} ${counts[k]}`).join(", "));
+// triangles by majority class
+const triCls = new Uint8Array(nt);
+for (let t = 0; t < nt; t++) { const a = cls[I[t*3]], b = cls[I[t*3+1]], c = cls[I[t*3+2]]; triCls[t] = a === b || a === c ? a : (b === c ? b : a); }
+
+// --- 6. build the clean document: one node per class, shared positions, smooth normals per class after simplification
+const out = new Document();
+const buffer = out.createBuffer();
+const scene = out.createScene("twin");
+const clearcoatExt = out.createExtension(KHRMaterialsClearcoat); const iorExt = out.createExtension(KHRMaterialsIOR);
+const mat = (name, base, metal, rough, extra = {}) => { const m = out.createMaterial(name).setBaseColorFactor(base).setMetallicFactor(metal).setRoughnessFactor(rough); if (extra.clearcoat) m.setExtension("KHR_materials_clearcoat", clearcoatExt.createClearcoat().setClearcoatFactor(extra.clearcoat).setClearcoatRoughnessFactor(0.06)); if (extra.alpha != null) m.setAlpha(extra.alpha).setAlphaMode("BLEND").setDoubleSided(false); if (extra.emissive) m.setEmissiveFactor(extra.emissive); if (extra.ior) m.setExtension("KHR_materials_ior", iorExt.createIOR().setIOR(extra.ior)); return m; };
+const MATS = {
+  body: mat("paint_graphite", [0.030, 0.032, 0.037, 1], 0.35, 0.42, { clearcoat: 0.6 }),
+  glass: mat("glass_tinted", [0.008, 0.01, 0.013, 1], 0.0, 0.18, { alpha: 0.93, ior: 1.5 }),
+  wheels: mat("wheel_dark_metal", [0.04, 0.04, 0.045, 1], 0.55, 0.45),
+  tyres: mat("tyre_rubber", [0.03, 0.03, 0.03, 1], 0.0, 0.92),
+  lights: mat("light_lens", [0.42, 0.46, 0.52, 1], 0.35, 0.15, { emissive: [0.03, 0.035, 0.05] }),
+  grille: mat("grille_black", [0.02, 0.02, 0.02, 1], 0.2, 0.75),
+  trim: mat("trim_satin_black", [0.03, 0.03, 0.03, 1], 0.3, 0.55),
+};
+let totalTris = 0; const perClass = {};
+for (let k = 0; k < CLASSES.length; k++) {
+  const name = CLASSES[k];
+  const tris = []; for (let t = 0; t < nt; t++) if (triCls[t] === k) tris.push(t);
+  if (!tris.length) continue;
+  // compact vertex list for this class
+  const map = new Map(); const pos = []; const idx = [];
+  for (const t of tris) for (const v of [I[t*3], I[t*3+1], I[t*3+2]]) { let j = map.get(v); if (j === undefined) { j = map.size; map.set(v, j); pos.push(P[v*3], P[v*3+1], P[v*3+2]); } idx.push(j); }
+  const posAcc = out.createAccessor(`${name}_pos`).setType(Accessor.Type.VEC3).setArray(new Float32Array(pos)).setBuffer(buffer);
+  const idxAcc = out.createAccessor(`${name}_idx`).setType(Accessor.Type.SCALAR).setArray(new Uint32Array(idx)).setBuffer(buffer);
+  const p = out.createPrimitive().setAttribute("POSITION", posAcc).setIndices(idxAcc).setMaterial(MATS[name]).setMode(Primitive.Mode.TRIANGLES);
+  const m = out.createMesh(name).addPrimitive(p);
+  const n = out.createNode(name).setMesh(m); scene.addChild(n);
+  perClass[name] = idx.length / 3; totalTris += idx.length / 3;
+}
+log("split:", JSON.stringify(perClass), "total", totalTris);
+let finalTris = 0;
+for (const m of out.getRoot().listMeshes()) for (const p of m.listPrimitives()) {
+  const pos = p.getAttribute("POSITION").getArray(); const idx = p.getIndices().getArray(); const n = new Float32Array(pos.length);
+  for (let t = 0; t < idx.length; t += 3) { const a = idx[t], b = idx[t+1], c = idx[t+2]; const ax = pos[b*3]-pos[a*3], ay = pos[b*3+1]-pos[a*3+1], az = pos[b*3+2]-pos[a*3+2], bx = pos[c*3]-pos[a*3], by = pos[c*3+1]-pos[a*3+1], bz = pos[c*3+2]-pos[a*3+2]; const nx = ay*bz-az*by, ny = az*bx-ax*bz, nz = ax*by-ay*bx; for (const v of [a, b, c]) { n[v*3] += nx; n[v*3+1] += ny; n[v*3+2] += nz; } }
+  for (let i = 0; i < n.length; i += 3) { const l = Math.hypot(n[i], n[i+1], n[i+2]) || 1; n[i] /= l; n[i+1] /= l; n[i+2] /= l; }
+  p.setAttribute("NORMAL", out.createAccessor(`${m.getName()}_nrm`).setType(Accessor.Type.VEC3).setArray(n).setBuffer(buffer));
+  finalTris += idx.length / 3;
+}
+log("final triangles:", finalTris);
+await io.write(outFile, out);
+log("wrote", outFile);
+function bbox(A) { const mn = [Infinity, Infinity, Infinity], mx = [-Infinity, -Infinity, -Infinity]; for (let i = 0; i < A.length; i += 3) for (let k = 0; k < 3; k++) { if (A[i+k] < mn[k]) mn[k] = A[i+k]; if (A[i+k] > mx[k]) mx[k] = A[i+k]; } return [mx[0]-mn[0], mx[1]-mn[1], mx[2]-mn[2]]; }
+function minOf(A) { const mn = [Infinity, Infinity, Infinity]; for (let i = 0; i < A.length; i += 3) for (let k = 0; k < 3; k++) if (A[i+k] < mn[k]) mn[k] = A[i+k]; return mn; }

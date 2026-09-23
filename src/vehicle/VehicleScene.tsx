@@ -43,6 +43,10 @@ export type VehicleSceneProps = {
   reducedMotion?: boolean;
   /** The renderer's device pixel ratio range. */
   dpr?: [number, number];
+  /** Diagnostic: replace every material with a neutral clay so the geometry alone is visible. */
+  clay?: boolean;
+  /** Studio lighting: the default studio or the stronger configurator style key, fill and rim. */
+  studio?: "default" | "premium";
   onReady?: () => void;
   onError?: (error: Error) => void;
   onArtworkError?: (error: Error) => void;
@@ -78,7 +82,7 @@ export default function VehicleScene(props: VehicleSceneProps) {
       onCreated={({ gl }) => { gl.toneMapping = THREE.ACESFilmicToneMapping; gl.toneMappingExposure = 1.05; gl.outputColorSpace = THREE.SRGBColorSpace; }}
       style={{ touchAction: "none" }}
     >
-      <Studio />
+      <Studio premium={props.studio === "premium"} />
       <Vehicle vehicle={vehicle} {...props} />
       <OrbitControlsRig vehicle={vehicle} preset={props.preset ?? "hero"} nonce={props.presetNonce ?? 0} focusZone={props.focusZone ?? null} interactive={props.interactive ?? true} reducedMotion={!!props.reducedMotion} onViewChange={props.onViewChange} />
     </Canvas>
@@ -92,14 +96,29 @@ function presetOf(vehicle: VehicleModel, key: CameraPresetKey) {
 type Goal = { position: THREE.Vector3; target: THREE.Vector3; key: CameraPresetKey };
 
 /** Environment, intensity and lights on the scene; returns the teardown. Plain three.js so React never sees the mutation. */
-function mountStudio(scene: THREE.Scene, gl: THREE.WebGLRenderer): () => void {
+function mountStudio(scene: THREE.Scene, gl: THREE.WebGLRenderer, premium = false): () => void {
   const env = studioEnvironment(gl);
   scene.environment = env;
-  scene.environmentIntensity = 0.9;
+  scene.environmentIntensity = premium ? 0.95 : 0.9;
   const lights = new THREE.Group(); lights.name = "studio-lights";
-  addStudioLights(lights as unknown as THREE.Scene);
+  if (premium) addPremiumLights(lights); else addStudioLights(lights as unknown as THREE.Scene);
   scene.add(lights);
   return () => { scene.environment = null; env.dispose(); scene.remove(lights); };
+}
+
+/** Configurator style lighting: a large soft key from above and the front quarter, a soft fill, a controlled rim, a little ambient. */
+function addPremiumLights(group: THREE.Group) {
+  const key = new THREE.DirectionalLight("#ffffff", 1.35); key.position.set(5, 8, 6);
+  const fill = new THREE.DirectionalLight("#dfe6f2", 0.45); fill.position.set(-7, 4, -2);
+  const rim = new THREE.DirectionalLight("#ffffff", 0.8); rim.position.set(-3, 5, 7);
+  const rim2 = new THREE.DirectionalLight("#ffffff", 0.5); rim2.position.set(4, 3, -8);
+  group.add(key, fill, rim, rim2, new THREE.AmbientLight("#ffffff", 0.14));
+}
+
+/** Diagnostic clay: the same geometry under one neutral, slightly rough material, so only the surfaces speak. */
+function applyClay(root: THREE.Object3D) {
+  const clay = new THREE.MeshStandardMaterial({ color: "#6C6C6A", roughness: 0.8, metalness: 0.0, envMapIntensity: 0.5 });
+  root.traverse((o) => { const m = o as THREE.Mesh; if (m.isMesh) { m.material = clay; } });
 }
 
 function setCursor(gl: THREE.WebGLRenderer, cursor: string) { gl.domElement.style.cursor = cursor; }
@@ -140,17 +159,17 @@ function stepTowards(camera: THREE.Camera, controls: OrbitControlsImpl, goal: Go
 }
 
 /** Room environment for reflections plus three directional lights so the paint reads as paint. */
-function Studio() {
+function Studio({ premium = false }: { premium?: boolean }) {
   const { gl, scene } = useThree();
   useEffect(() => {
-    const teardown = mountStudio(scene, gl);
+    const teardown = mountStudio(scene, gl, premium);
     invalidate();
     return teardown;
-  }, [gl, scene]);
+  }, [gl, scene, premium]);
   return null;
 }
 
-function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "all", onSelectZone, reflection = true, showHighlight = true, hoverHighlight = true, onReady, onError, onArtworkError, onPlacementDrag, onPlacementDragEnd }: VehicleSceneProps & { vehicle: VehicleModel }) {
+function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "all", onSelectZone, reflection = true, showHighlight = true, hoverHighlight = true, onReady, onError, onArtworkError, onPlacementDrag, onPlacementDragEnd, clay = false }: VehicleSceneProps & { vehicle: VehicleModel }) {
   const { gl, controls } = useThree();
   const [loaded, setLoaded] = useState<LoadedVehicle | null>(null);
   const [hover, setHover] = useState<ZoneKey | null>(null);
@@ -165,13 +184,14 @@ function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "a
     let current: LoadedVehicle | null = null;
     loadVehicle(vehicle, paintHex, gl).then((v) => {
       if (!alive) { v.dispose(); return; }
+      if (clay) applyClay(v.root);
       current = v; setLoaded(v); invalidate();
       // Ready once the first frame with the car has been drawn.
       requestAnimationFrame(() => requestAnimationFrame(() => { if (alive) onReady?.(); }));
     }).catch((e) => { if (alive) onError?.(e instanceof Error ? e : new Error(String(e))); });
     return () => { alive = false; current?.dispose(); setLoaded(null); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vehicle, paintHex, gl]);
+  }, [vehicle, paintHex, gl, clay]);
 
   // Artwork texture.
   const artworkUrl = placement?.artworkUrl ?? null;
