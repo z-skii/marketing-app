@@ -304,7 +304,33 @@ export const AI_G80_REPORT: AiReport = {
   rights: "An experiment, not a product asset. The photo licence requires this credit and share alike terms for derived work; BMW's design rights and trademarks are not covered by it or by the generation terms, so this model is not cleared for commercial use.",
 };
 
-export const VEHICLES: Record<string, VehicleModel> = { [G80_DEMO.id]: G80_DEMO, [SEDAN_TRIPO.id]: SEDAN_TRIPO, [G80_ALEX.id]: G80_ALEX, ...AI_G80_CANDIDATES };
+
+/**
+ * CONTROLLED SYNTHETIC CAPTURE TEST (Prototype 2). Sixteen AI generated
+ * views of one consistent G80 (docs/captures/ai-g80-controlled) were the
+ * capture; the four orthogonal views went to two providers blind. Nothing
+ * here is a downloaded model. Facts are measured after the run.
+ */
+function synG80(id: string, url: string, provider: string, rotationY: number, facts?: VehicleModel["assetFacts"]): VehicleModel {
+  return {
+    ...aiG80(id, url, provider, rotationY, AI_G80_ZONES, facts),
+    model: "M3 Competition (synthetic capture reconstruction)",
+    license: {
+      source: "Generated for TapMart on 2026-09-23 through TapMart's Higgsfield account from sixteen AI generated reference views of one consistent car (Nano Banana, Google) and BMW's published dimensions",
+      creator: `AI reconstruction: ${provider}`,
+      license: "TapMart's own generated asset under the Higgsfield terms of service",
+      commercialUse: false, attributionRequired: false, modificationAllowed: true,
+      notes: "Controlled synthetic capture test. Generated geometry that resembles a BMW design is not cleared for commercial use.",
+    },
+  };
+}
+
+export const SYN_G80: Record<string, VehicleModel> = {
+  "syn-g80-meshy": synG80("syn-g80-meshy", "/vehicles/syn-g80-meshy.glb", "Meshy multi image to 3D, four synthetic views", Math.PI, { triangles: 308192, meshes: 1, textures: "4 WebP at 2048 px (base colour, normal, metallic roughness, emissive); Draco geometry", fileBytes: 3617168, technique: "THREE.DecalGeometry projected onto the generated body triangles inside the door box" }),
+  "syn-g80-tripo": synG80("syn-g80-tripo", "/vehicles/syn-g80-tripo.glb", "Tripo H3.1 multiview to 3D, four synthetic views", Math.PI, { triangles: 477892, meshes: 1, textures: "3 WebP at 2048 px (base colour, occlusion roughness metallic, normal), from 4096 px JPEG originals; Draco geometry; simplified from 1,911,614 triangles", fileBytes: 2203280, technique: "THREE.DecalGeometry projected onto the generated body triangles inside the door box" }),
+};
+
+export const VEHICLES: Record<string, VehicleModel> = { [G80_DEMO.id]: G80_DEMO, [SEDAN_TRIPO.id]: SEDAN_TRIPO, [G80_ALEX.id]: G80_ALEX, ...AI_G80_CANDIDATES, ...SYN_G80 };
 /** The CC BY credit line, exactly as the lab prints it. */
 export const G80_ATTRIBUTION = { text: "\"BMW M3 (G80)\" by alex20010804 on Sketchfab, licensed CC BY 4.0", modelUrl: "https://sketchfab.com/3d-models/bmw-m3-g80-e7d8be35e2f34b7f84e0543fff7fda27", authorUrl: "https://sketchfab.com/alex20010804", licenseUrl: "https://creativecommons.org/licenses/by/4.0/" };
 /** The vehicle the placement lab shows: the licensed G80 once it exists, until then the best temporary mesh. */

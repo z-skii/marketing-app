@@ -1,0 +1,45 @@
+{
+ "model": "gpt-5.5",
+ "seconds": 12,
+ "usage": {
+  "model": "gpt-5.5",
+  "input_tokens": 6861,
+  "output_tokens": 580,
+  "total_tokens": 7441,
+  "reasoning_tokens": 178
+ },
+ "result": {
+  "make": "BMW",
+  "body_style": "sedan",
+  "confidence": {
+   "body_style": 0.98,
+   "model": 0.96,
+   "generation": 0.9,
+   "trim": 0.25,
+   "year_range": 0.75,
+   "make": 0.99
+  },
+  "evidence": [
+   "BMW roundel visible on front grille, wheels, and rear trunk.",
+   "M3 badge visible in the front grille and on the rear trunk lid.",
+   "Large vertical BMW kidney grille, flared fenders, side gill trim, quad exhaust outlets, and aggressive bumpers match the G80-generation BMW M3 sedan.",
+   "Four doors and separate trunk indicate a sedan body style."
+  ],
+  "year_max": null,
+  "model": "M3",
+  "colour": {
+   "hex_estimate": "#4B4A4E",
+   "name": "dark metallic grey",
+   "finish": "metallic/gloss"
+  },
+  "generation": "G80",
+  "trim": null,
+  "wheels": {
+   "colour": "black",
+   "style_description": "black multi-spoke alloy wheels with BMW center caps",
+   "spoke_count": 10
+  },
+  "modifications": [],
+  "year_min": 2021
+ }
+}

@@ -24,6 +24,10 @@ export function TwinCompare() {
           <p className="twc-sub">{c.vehicle.identification}. Real dimensions {c.vehicle.dims.length_mm} x {c.vehicle.dims.width_mirrors_mm} (over mirrors) x {c.vehicle.dims.height_mm} mm, wheelbase {c.vehicle.dims.wheelbase_mm} mm ({c.vehicle.dimsSource}).</p>
         </div>
       </header>
+      <div className="twc-actions">
+        <a className="aig-btn" href={c.captureSheetUrl} target="_blank" rel="noreferrer">View source capture</a>
+        <span className="twc-note">{c.captureNote}</span>
+      </div>
       {c.status === "placeholder" && <p className="twc-banner">{c.vehicle.label}. The real capture replaces both models here once it is reconstructed.</p>}
       <div className="twc-grid">
         {c.models.map((m) => <Pane key={m.slot} model={m} winner={c.winner === m.slot} surface={c.winner === m.slot ? c.approvedSurface : null} initial={initial} />)}
@@ -46,19 +50,19 @@ export function TwinCompare() {
 function Pane({ model, winner, surface, initial }: { model: CompareModel; winner: boolean; surface: "driver_door" | null; initial: "hero" | "front" | "driver" | "rear" | "passenger" }) {
   const vehicle = getVehicle(model.vehicleId);
   const [ad, setAd] = useState(false);
+  const [gen, setGen] = useState(0);
   const zone = surface ? vehicle.zones.find((z) => z.id === surface) ?? null : null;
   const placement: Placement | null = ad && zone ? { ...makePlacement("driver_door", TEST_CREATIVE), scale: 0.82 } : null;
   const pct = Math.round(model.score * 100);
   return (
     <section className="twc-pane" aria-label={`Model ${model.slot}`}>
       <div className="twc-stage">
-        <VehicleViewer vehicleId={vehicle.id} paint="#2A2D31" placement={placement} selectedZone={ad && zone ? "driver_door" : null} selectableZones="none" showHighlight={false} theme="dark" aspect="fill" eager presets presetKeys={["front", "driver", "rear", "passenger"]} presetStyle="subtle" followZone={false} initialPreset={initial} hint={false} />
+        <VehicleViewer key={gen} vehicleId={vehicle.id} paint="#2A2D31" placement={placement} selectedZone={ad && zone ? "driver_door" : null} selectableZones="none" showHighlight={false} theme="dark" aspect="fill" eager presets presetKeys={["front", "driver", "rear", "passenger"]} presetStyle="subtle" followZone={false} initialPreset={initial} hint={false} />
         <div className="twc-slot"><b className={winner ? "is-winner" : ""}>Model {model.slot}{winner ? " · chosen" : ""}</b><span>{model.provider}</span></div>
-        {zone && (
-          <div className="twc-tools">
-            <button type="button" className={`aig-btn ${ad ? "is-on" : ""}`} aria-pressed={ad} onClick={() => setAd((a) => !a)}>{ad ? "Hide test ad" : "Test ad on driver door"}</button>
-          </div>
-        )}
+        <div className="twc-tools">
+          {zone && <button type="button" className={`aig-btn ${ad ? "is-on" : ""}`} aria-pressed={ad} onClick={() => setAd((a) => !a)}>{ad ? "Ad off" : "Ad on"}</button>}
+          <button type="button" className="aig-btn" onClick={() => setGen((g) => g + 1)} title="Reset camera">Reset</button>
+        </div>
       </div>
       <div className="twc-card">
         <div className="twc-score"><b>{pct}%</b><span>geometry score against real dimensions</span></div>

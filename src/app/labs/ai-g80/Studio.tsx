@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { AI_G80, AI_G80_CANDIDATES, AI_G80_REPORT } from "@/vehicle/catalog";
+import { AI_G80, AI_G80_REPORT, VEHICLES } from "@/vehicle/catalog";
 import { makePlacement, type Placement } from "@/vehicle/placement";
 import { VehicleViewer } from "@/vehicle/VehicleViewer";
 
@@ -19,7 +19,7 @@ export function AiG80Studio() {
   const wanted = params.get("v");
   const view = params.get("view");
   const initial = (["hero", "front", "driver", "rear", "passenger"] as const).find((k) => k === view) ?? "hero";
-  const vehicle = wanted && AI_G80_CANDIDATES[wanted] ? AI_G80_CANDIDATES[wanted] : AI_G80;
+  const vehicle = wanted && VEHICLES[wanted] ? VEHICLES[wanted] : AI_G80;
   const [ad, setAd] = useState(false);
   const [facts, setFacts] = useState(false);
   const door = vehicle.zones.find((z) => z.id === "driver_door") ?? null;

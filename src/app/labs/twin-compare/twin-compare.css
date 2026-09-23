@@ -39,3 +39,6 @@
 .twc-facts dt { color: #8B9099; }
 .twc-facts dd { margin: 0; }
 @media (max-width: 767px) { .twc-facts dl { grid-template-columns: 1fr; } .twc-facts dt { margin-top: 6px; } }
+.twc-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 0 20px 10px; }
+.twc-actions .aig-btn { text-decoration: none; }
+.twc-note { font-size: 12px; color: #FFD08A; }
