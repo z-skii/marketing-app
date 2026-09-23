@@ -1,0 +1,722 @@
+{
+ "10": {
+  "view": "10-passenger-side",
+  "init": {
+   "az": 270,
+   "el": 2.5
+  },
+  "params": {
+   "az": 270.5,
+   "el": 7.9,
+   "dist": 8.600000000000001,
+   "sx": -0.03,
+   "sy": 0,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 0.65,
+  "dark_iou": 0.849,
+  "bbox_render": {
+   "minx": 68,
+   "maxx": 575,
+   "miny": 129,
+   "maxy": 297
+  },
+  "bbox_dark": {
+   "minx": 68,
+   "maxx": 575,
+   "miny": 126,
+   "maxy": 293
+  },
+  "three": {
+   "position": [
+    0.1043,
+    1.8329,
+    -8.5178
+   ],
+   "target": [
+    0.03,
+    0.6509,
+    0.0003
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "11": {
+  "view": "11-front-passenger-int",
+  "init": {
+   "az": 295,
+   "el": 2.5
+  },
+  "params": {
+   "az": 316.75,
+   "el": 4,
+   "dist": 7.8,
+   "sx": -0.30750000000000005,
+   "sy": 0,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 0.98,
+  "dark_iou": 0.84,
+  "bbox_render": {
+   "minx": 89,
+   "maxx": 552,
+   "miny": 122,
+   "maxy": 322
+  },
+  "bbox_dark": {
+   "minx": 89,
+   "maxx": 552,
+   "miny": 120,
+   "maxy": 318
+  },
+  "three": {
+   "position": [
+    5.8781,
+    1.195,
+    -5.1074
+   ],
+   "target": [
+    0.2107,
+    0.6509,
+    0.224
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "12": {
+  "view": "12-front-passenger-34",
+  "init": {
+   "az": 315,
+   "el": 2.5
+  },
+  "params": {
+   "az": 317,
+   "el": 4.0375,
+   "dist": 7.8,
+   "sx": -0.30000000000000004,
+   "sy": 0,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 1,
+  "dark_iou": 0.845,
+  "bbox_render": {
+   "minx": 89,
+   "maxx": 550,
+   "miny": 122,
+   "maxy": 322
+  },
+  "bbox_dark": {
+   "minx": 91,
+   "maxx": 550,
+   "miny": 120,
+   "maxy": 318
+  },
+  "three": {
+   "position": [
+    5.895,
+    1.2001,
+    -5.087
+   ],
+   "target": [
+    0.2046,
+    0.6509,
+    0.2194
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "13": {
+  "view": "13-front-driver-34-high",
+  "init": {
+   "az": 45,
+   "el": 12
+  },
+  "params": {
+   "az": 39.5,
+   "el": 16.5,
+   "dist": 8.7,
+   "sx": 0.26,
+   "sy": -0.15,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 1.7,
+  "dark_iou": 0.903,
+  "bbox_render": {
+   "minx": 114,
+   "maxx": 511,
+   "miny": 102,
+   "maxy": 331
+  },
+  "bbox_dark": {
+   "minx": 114,
+   "maxx": 512,
+   "miny": 100,
+   "maxy": 329
+  },
+  "three": {
+   "position": [
+    6.6349,
+    2.978,
+    5.1325
+   ],
+   "target": [
+    0.1983,
+    0.5071,
+    -0.1735
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "14": {
+  "view": "14-rear-driver-34-high",
+  "init": {
+   "az": 135,
+   "el": 12
+  },
+  "params": {
+   "az": 123.75,
+   "el": 21.9375,
+   "dist": 8.58125,
+   "sx": -0.2,
+   "sy": 0.06874999999999999,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 2.55,
+  "dark_iou": 0.867,
+  "bbox_render": {
+   "minx": 85,
+   "maxx": 547,
+   "miny": 132,
+   "maxy": 356
+  },
+  "bbox_dark": {
+   "minx": 85,
+   "maxx": 547,
+   "miny": 121,
+   "maxy": 356
+  },
+  "three": {
+   "position": [
+    -4.5743,
+    3.9206,
+    6.4859
+   ],
+   "target": [
+    -0.152,
+    0.7147,
+    -0.1325
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "15": {
+  "view": "15-rear-passenger-34-high",
+  "init": {
+   "az": 225,
+   "el": 12
+  },
+  "params": {
+   "az": 221.75,
+   "el": 11.55,
+   "dist": 7.5,
+   "sx": 0.30000000000000004,
+   "sy": 0,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 3.86,
+  "dark_iou": 0.891,
+  "bbox_render": {
+   "minx": 77,
+   "maxx": 557,
+   "miny": 119,
+   "maxy": 350
+  },
+  "bbox_dark": {
+   "minx": 77,
+   "maxx": 556,
+   "miny": 114,
+   "maxy": 350
+  },
+  "three": {
+   "position": [
+    -5.6819,
+    2.1526,
+    -4.6692
+   ],
+   "target": [
+    -0.1998,
+    0.6509,
+    0.2238
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "16": {
+  "view": "16-front-passenger-34-high",
+  "init": {
+   "az": 315,
+   "el": 12
+  },
+  "params": {
+   "az": 322,
+   "el": 16.5,
+   "dist": 8.4,
+   "sx": -0.27,
+   "sy": -0.025,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 1.14,
+  "dark_iou": 0.876,
+  "bbox_render": {
+   "minx": 116,
+   "maxx": 520,
+   "miny": 110,
+   "maxy": 353
+  },
+  "bbox_dark": {
+   "minx": 115,
+   "maxx": 519,
+   "miny": 109,
+   "maxy": 349
+  },
+  "three": {
+   "position": [
+    6.5185,
+    3.0127,
+    -4.7502
+   ],
+   "target": [
+    0.1718,
+    0.6269,
+    0.2084
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "02": {
+  "view": "02-front-driver-34",
+  "init": {
+   "az": 45,
+   "el": 2.5
+  },
+  "params": {
+   "az": 40,
+   "el": 2.2,
+   "dist": 7.5,
+   "sx": 0.29625000000000007,
+   "sy": 0.025,
+   "fov": 27.0625,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 1.21,
+  "dark_iou": 0.842,
+  "bbox_render": {
+   "minx": 82,
+   "maxx": 548,
+   "miny": 122,
+   "maxy": 324
+  },
+  "bbox_dark": {
+   "minx": 82,
+   "maxx": 548,
+   "miny": 120,
+   "maxy": 318
+  },
+  "three": {
+   "position": [
+    5.9308,
+    0.9638,
+    4.5898
+   ],
+   "target": [
+    0.1897,
+    0.6759,
+    -0.2276
+   ],
+   "fov": 27.06,
+   "aspect": 1.5
+  }
+ },
+ "04": {
+  "view": "04-driver-side",
+  "init": {
+   "az": 90,
+   "el": 2.5
+  },
+  "params": {
+   "az": 88.25,
+   "el": 5.200000000000001,
+   "dist": 8.1,
+   "sx": -0.015,
+   "sy": -0.0125,
+   "fov": 27.25,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 0.74,
+  "dark_iou": 0.835,
+  "bbox_render": {
+   "minx": 47,
+   "maxx": 582,
+   "miny": 124,
+   "maxy": 297
+  },
+  "bbox_dark": {
+   "minx": 47,
+   "maxx": 583,
+   "miny": 118,
+   "maxy": 293
+  },
+  "three": {
+   "position": [
+    0.2314,
+    1.3726,
+    8.0645
+   ],
+   "target": [
+    -0.015,
+    0.6384,
+    0.0016
+   ],
+   "fov": 27.25,
+   "aspect": 1.5
+  }
+ },
+ "01": {
+  "view": "01-front",
+  "init": {
+   "az": 0,
+   "el": 2.5
+  },
+  "params": {
+   "az": 0.5,
+   "el": 7.6000000000000005,
+   "dist": 7.2,
+   "sx": 0,
+   "sy": 0,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 0.47,
+  "dark_iou": 0.894,
+  "bbox_render": {
+   "minx": 170,
+   "maxx": 465,
+   "miny": 111,
+   "maxy": 345
+  },
+  "bbox_dark": {
+   "minx": 161,
+   "maxx": 470,
+   "miny": 115,
+   "maxy": 345
+  },
+  "three": {
+   "position": [
+    7.1365,
+    1.6031,
+    0.0623
+   ],
+   "target": [
+    0,
+    0.6509,
+    0
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "03": {
+  "view": "03-front-driver-int",
+  "init": {
+   "az": 60,
+   "el": 2.5
+  },
+  "params": {
+   "az": 41,
+   "el": 2.6500000000000004,
+   "dist": 7.5,
+   "sx": 0.30000000000000004,
+   "sy": 0.0125,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 1.37,
+  "dark_iou": 0.824,
+  "bbox_render": {
+   "minx": 78,
+   "maxx": 550,
+   "miny": 120,
+   "maxy": 324
+  },
+  "bbox_dark": {
+   "minx": 78,
+   "maxx": 550,
+   "miny": 119,
+   "maxy": 318
+  },
+  "three": {
+   "position": [
+    5.8507,
+    1.0101,
+    4.6884
+   ],
+   "target": [
+    0.1964,
+    0.6634,
+    -0.2268
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "05": {
+  "view": "05-rear-driver-int",
+  "init": {
+   "az": 125,
+   "el": 2.5
+  },
+  "params": {
+   "az": 123.25,
+   "el": 1.9000000000000006,
+   "dist": 7.8,
+   "sx": -0.23,
+   "sy": 0.037500000000000006,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 1,
+  "dark_iou": 0.87,
+  "bbox_render": {
+   "minx": 59,
+   "maxx": 574,
+   "miny": 121,
+   "maxy": 313
+  },
+  "bbox_dark": {
+   "minx": 59,
+   "maxx": 574,
+   "miny": 119,
+   "maxy": 307
+  },
+  "three": {
+   "position": [
+    -4.466,
+    0.947,
+    6.3923
+   ],
+   "target": [
+    -0.1917,
+    0.6884,
+    -0.1271
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "06": {
+  "view": "06-rear-driver-34",
+  "init": {
+   "az": 135,
+   "el": 2.5
+  },
+  "params": {
+   "az": 128.25,
+   "el": 6.85,
+   "dist": 8.600000000000001,
+   "sx": -0.23,
+   "sy": 0,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 1.32,
+  "dark_iou": 0.825,
+  "bbox_render": {
+   "minx": 89,
+   "maxx": 542,
+   "miny": 130,
+   "maxy": 313
+  },
+  "bbox_dark": {
+   "minx": 90,
+   "maxx": 542,
+   "miny": 126,
+   "maxy": 313
+  },
+  "three": {
+   "position": [
+    -5.4668,
+    1.6766,
+    6.5631
+   ],
+   "target": [
+    -0.1806,
+    0.6509,
+    -0.1424
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ },
+ "07": {
+  "view": "07-rear",
+  "init": {
+   "az": 180,
+   "el": 2.5
+  },
+  "params": {
+   "az": 180.125,
+   "el": 8.950000000000001,
+   "dist": 7.8,
+   "sx": 0,
+   "sy": 0.06874999999999999,
+   "fov": 27.5,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 0.39,
+  "dark_iou": 0.898,
+  "bbox_render": {
+   "minx": 190,
+   "maxx": 442,
+   "miny": 133,
+   "maxy": 334
+  },
+  "bbox_dark": {
+   "minx": 190,
+   "maxx": 441,
+   "miny": 128,
+   "maxy": 334
+  },
+  "three": {
+   "position": [
+    -7.6943,
+    1.9323,
+    -0.0168
+   ],
+   "target": [
+    0.0107,
+    0.7188,
+    0
+   ],
+   "fov": 27.5,
+   "aspect": 1.5
+  }
+ },
+ "08": {
+  "view": "08-rear-passenger-34",
+  "init": {
+   "az": 225,
+   "el": 2.5
+  },
+  "params": {
+   "az": 233,
+   "el": 5.2,
+   "dist": 7.5,
+   "sx": 0.21500000000000002,
+   "sy": 0,
+   "fov": 29,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 1.12,
+  "dark_iou": 0.813,
+  "bbox_render": {
+   "minx": 76,
+   "maxx": 564,
+   "miny": 123,
+   "maxy": 317
+  },
+  "bbox_dark": {
+   "minx": 73,
+   "maxx": 563,
+   "miny": 120,
+   "maxy": 317
+  },
+  "three": {
+   "position": [
+    -4.6667,
+    1.3306,
+    -5.8357
+   ],
+   "target": [
+    -0.1717,
+    0.6509,
+    0.1294
+   ],
+   "fov": 29,
+   "aspect": 1.5
+  }
+ },
+ "09": {
+  "view": "09-rear-passenger-int",
+  "init": {
+   "az": 245,
+   "el": 2.5
+  },
+  "params": {
+   "az": 266.25,
+   "el": 26.8,
+   "dist": 8.85,
+   "sx": 0,
+   "sy": 0.025,
+   "fov": 27,
+   "cx": 0,
+   "cy": 0.6508917434047443
+  },
+  "chamfer_px_632": 3.02,
+  "dark_iou": 0.839,
+  "bbox_render": {
+   "minx": 76,
+   "maxx": 561,
+   "miny": 124,
+   "maxy": 321
+  },
+  "bbox_dark": {
+   "minx": 74,
+   "maxx": 563,
+   "miny": 120,
+   "maxy": 317
+  },
+  "three": {
+   "position": [
+    -0.5159,
+    4.6635,
+    -7.8712
+   ],
+   "target": [
+    0.0007,
+    0.6732,
+    0.0112
+   ],
+   "fov": 27,
+   "aspect": 1.5
+  }
+ }
+}

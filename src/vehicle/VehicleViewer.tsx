@@ -46,11 +46,13 @@ export type VehicleViewerProps = Omit<VehicleSceneProps, "onReady" | "onError" |
   theme?: "light" | "dark";
   /** Show the "Drag to rotate" hint. */
   hint?: boolean;
+  /** The preset the camera has settled on, or null while orbiting freely. */
+  onView?: (preset: CameraPresetKey | null) => void;
 };
 
 const PRESET_ORDER: CameraPresetKey[] = ["hero", "front", "driver", "rear", "passenger"];
 
-export function VehicleViewer({ badge = null, caption = null, presets = true, presetKeys, presetStyle = "chips", initialPreset = "hero", aspect = "hero", className = "", children, eager = false, followZone = true, theme = "light", hint = true, focusSelected = false, selectedZone, onSelectZone, ...scene }: VehicleViewerProps) {
+export function VehicleViewer({ badge = null, caption = null, presets = true, presetKeys, presetStyle = "chips", initialPreset = "hero", aspect = "hero", className = "", children, eager = false, followZone = true, theme = "light", hint = true, focusSelected = false, selectedZone, onSelectZone, onView, ...scene }: VehicleViewerProps) {
   const vehicle = getVehicle(scene.vehicleId);
   const host = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(eager);
@@ -109,7 +111,7 @@ export function VehicleViewer({ badge = null, caption = null, presets = true, pr
           onReady={() => setReady(true)}
           onError={(e) => setError(e.message)}
           onArtworkError={() => setArtworkError(true)}
-          onViewChange={setView}
+          onViewChange={(p) => { setView(p); onView?.(p); }}
         />
       ) : null}
 

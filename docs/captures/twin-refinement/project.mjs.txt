@@ -1,0 +1,198 @@
+// Multi view semantic projection onto the cleaned twin, curvature aware smoothing of painted panels, panel line distances,
+// source appearance projection for wheels, lights, grille and trim, and export of the refined and semantic GLBs.
+// usage: node project.mjs [--out /path/refined.glb] [--semantic /path/semantic.glb] [--smooth 10] [--no-smooth]
+import { createRequire } from "node:module";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { makeCamera } from "./cam.mjs";
+import { rasterize } from "./raster.mjs";
+import { CLASS_NAMES, CLASS_RGB, PANELS } from "./rasterize.mjs";
+const require = createRequire("/home/user/marketing-app/package.json");
+const sharp = require("sharp");
+const { Document, Accessor, Primitive, NodeIO } = require("@gltf-transform/core");
+const { KHRMaterialsClearcoat, KHRMaterialsIOR, KHRMaterialsUnlit, ALL_EXTENSIONS } = require("@gltf-transform/extensions");
+const SP = "/tmp/claude-0/-home-user-marketing-app/5bc8c68e-4818-566d-ac70-747f6aee3573/scratchpad/ref/";
+const SRC = "/home/user/marketing-app/docs/captures/ai-g80-controlled/";
+const argv = process.argv.slice(2); const opt = (k, d) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : d; };
+const OUT = opt("--out", `${SP}out/refined.glb`), SEM = opt("--semantic", `${SP}out/semantic.glb`), SMOOTH = argv.includes("--no-smooth") ? 0 : Number(opt("--smooth", 10));
+const log = (...a) => console.log(...a);
+const W = 1264, H = 848;
+// panel lines: only views that see the surface nearly head on count (frontal polygon edges are the reliable ones), a line needs agreement
+const SEAM_FACING = Number(opt("--seam-facing", 0.5)), SEAM_RADIUS = Number(opt("--seam-radius", 0.35)), SEAM_TOP = Number(opt("--seam-top", 2));
+const P = new Float32Array(readFileSync(`${SP}cache/P.f32`).buffer.slice(0)); const I = new Uint32Array(readFileSync(`${SP}cache/I.u32`).buffer.slice(0)); const C0 = new Uint8Array(readFileSync(`${SP}cache/C.u8`));
+const meta = JSON.parse(readFileSync(`${SP}cache/meta.json`, "utf8")); const nv = meta.nv, nt = meta.nt;
+const cams = JSON.parse(readFileSync(`${SP}cameras.json`, "utf8"));
+const VIEWS = Object.keys(cams).sort().filter((n) => existsSync(`${SP}seg/${n}-cls.u8`));
+log("views with segmentation and camera:", VIEWS.join(" "));
+const NC = CLASS_NAMES.length; // 0 none .. 9 MIRROR
+// --- geometry helpers
+const triN = new Float32Array(nt * 3), triC = new Float32Array(nt * 3);
+function faceNormals() { for (let t = 0; t < nt; t++) { const a = I[t*3], b = I[t*3+1], c = I[t*3+2]; const ax = P[b*3]-P[a*3], ay = P[b*3+1]-P[a*3+1], az = P[b*3+2]-P[a*3+2], bx = P[c*3]-P[a*3], by = P[c*3+1]-P[a*3+1], bz = P[c*3+2]-P[a*3+2]; let nx = ay*bz-az*by, ny = az*bx-ax*bz, nz = ax*by-ay*bx; const l = Math.hypot(nx, ny, nz) || 1; triN[t*3] = nx / l; triN[t*3+1] = ny / l; triN[t*3+2] = nz / l; triC[t*3] = (P[a*3]+P[b*3]+P[c*3])/3; triC[t*3+1] = (P[a*3+1]+P[b*3+1]+P[c*3+1])/3; triC[t*3+2] = (P[a*3+2]+P[b*3+2]+P[c*3+2])/3; } }
+faceNormals();
+// vertex adjacency and triangle adjacency (edge shared)
+const vadj = Array.from({ length: nv }, () => []); const vtris = Array.from({ length: nv }, () => []);
+for (let t = 0; t < nt; t++) { const a = I[t*3], b = I[t*3+1], c = I[t*3+2]; vadj[a].push(b, c); vadj[b].push(a, c); vadj[c].push(a, b); vtris[a].push(t); vtris[b].push(t); vtris[c].push(t); }
+for (let i = 0; i < nv; i++) vadj[i] = [...new Set(vadj[i])];
+const tadj = Array.from({ length: nt }, () => []);
+{ const em = new Map(); for (let t = 0; t < nt; t++) { const a = I[t*3], b = I[t*3+1], c = I[t*3+2]; for (const [u, v] of [[a, b], [b, c], [c, a]]) { const k = u < v ? u * 4294967296 + v : v * 4294967296 + u; const o = em.get(k); if (o === undefined) em.set(k, t); else { tadj[t].push(o); tadj[o].push(t); } } } }
+// --- 1. votes
+const votes = new Float32Array(nt * NC); const seen = new Float32Array(nt); const panVotes = new Float32Array(nt * PANELS.length);
+const colSum = new Float32Array(nt * 3), colW = new Float32Array(nt); const seamV = new Float32Array(nv).fill(0.08); const visCount = new Uint8Array(nt);
+const seamClouds = []; // per view 3D panel line points
+const seamP = new Float32Array(nv * 3); // nearest panel line point per vertex (far above the car when none)
+const viewWeight = (n) => ({ "01": 1.2, "04": 1.2, "07": 1.2, "10": 1.2 }[n] ?? 1.0);
+for (const n of VIEWS) {
+  const cp = cams[n].params; const cam = makeCamera(cp, W, H);
+  const r = rasterize(cam, P, I, nt, W, H, { ids: true });
+  const cls = new Uint8Array(readFileSync(`${SP}seg/${n}-cls.u8`)); const pan = new Uint8Array(readFileSync(`${SP}seg/${n}-pan.u8`));
+  const { data: img } = await sharp(`${SRC}${cams[n].view}.jpg`).resize(W, H).raw().toBuffer({ resolveWithObject: true });
+  // seam map: boundaries between two different painted panels (not glass, not background)
+  // panel polygons leave small gaps at their shared edges: grow every panel by 3 px, then a seam is where two different panels touch
+  let pd = pan; for (let k = 0; k < 3; k++) { const nx = new Uint8Array(pd); for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) { const i = y * W + x; if (pd[i]) continue; for (const j of [i - 1, i + 1, i - W, i + W]) if (pd[j]) { nx[i] = pd[j]; break; } } pd = nx; }
+  const seam = new Uint8Array(W * H); for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) { const i = y * W + x; const p = pd[i]; if (!p) continue; for (const j of [i - 1, i + 1, i - W, i + W]) { const q = pd[j]; if (q && q !== p) { seam[i] = 1; break; } } }
+  const D = new Float32Array(W * H).fill(60); for (let i = 0; i < W * H; i++) if (seam[i]) D[i] = 0;
+  for (let y = 1; y < H; y++) for (let x = 1; x < W - 1; x++) { const i = y * W + x; D[i] = Math.min(D[i], D[i-1] + 1, D[i-W] + 1, D[i-W-1] + 1.4, D[i-W+1] + 1.4); }
+  for (let y = H - 2; y >= 0; y--) for (let x = W - 2; x >= 1; x--) { const i = y * W + x; D[i] = Math.min(D[i], D[i+1] + 1, D[i+W] + 1, D[i+W-1] + 1.4, D[i+W+1] + 1.4); }
+  const vw = viewWeight(n); let voted = 0;
+  for (let t = 0; t < nt; t++) {
+    const q = cam.project(triC[t*3], triC[t*3+1], triC[t*3+2]); if (!q) continue; const x = q[0] | 0, y = q[1] | 0; if (x < 1 || y < 1 || x >= W - 1 || y >= H - 1) continue;
+    const i = y * W + x; if (r.zb[i] < q[2] - 0.02 * q[2]) continue; // occluded
+    // the depth test already proves visibility; the mesh winding is not consistent, so the facing weight uses the absolute cosine
+    const dx = cam.pos[0] - triC[t*3], dy = cam.pos[1] - triC[t*3+1], dz = cam.pos[2] - triC[t*3+2]; const dl = Math.hypot(dx, dy, dz); const facing = Math.abs(triN[t*3] * dx + triN[t*3+1] * dy + triN[t*3+2] * dz) / dl;
+    if (facing < 0.15) continue;
+    visCount[t]++; const w = vw * facing;
+    const c = cls[i]; if (c) { votes[t * NC + c] += w; voted++; } seen[t] += w;
+    const p = pan[i]; if (p) panVotes[t * PANELS.length + p] += w;
+    colSum[t*3] += img[i*3] * w; colSum[t*3+1] += img[i*3+1] * w; colSum[t*3+2] += img[i*3+2] * w; colW[t] += w;
+  }
+  // panel line points: every seam pixel is unprojected with the z buffer into a 3D point on the mesh, kept per view with the facing of the triangle under it
+  const pts = []; let seamed = 0;
+  for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) { const i = y * W + x; if (!seam[i] || r.tid[i] < 0) continue; const z = r.zb[i]; const t = r.tid[i];
+    const px = (x + 0.5 - W / 2) / cam.f * z, py = -(y + 0.5 - H / 2) / cam.f * z;
+    const X = cam.pos[0] + cam.fwd[0] * z + cam.right[0] * px + cam.up[0] * py, Y = cam.pos[1] + cam.fwd[1] * z + cam.right[1] * px + cam.up[1] * py, Z = cam.pos[2] + cam.fwd[2] * z + cam.right[2] * px + cam.up[2] * py;
+    const dx = cam.pos[0] - X, dy = cam.pos[1] - Y, dz = cam.pos[2] - Z; const dl = Math.hypot(dx, dy, dz); const facing = Math.abs(triN[t*3] * dx + triN[t*3+1] * dy + triN[t*3+2] * dz) / dl;
+    if (facing < SEAM_FACING) continue; pts.push(X, Y, Z); seamed++; }
+  seamClouds.push({ n, cam, pts: new Float32Array(pts) });
+  log(`view ${n}: triangles voted ${voted}, panel line points ${seamed}`);
+}
+// per vertex: the view that sees the vertex most head on decides; its nearest panel line point within SEAM_RADIUS gives the distance
+let seamVerts = 0;
+{ const CELL = 0.12; const key = (x, y, z) => `${Math.floor(x / CELL)},${Math.floor(y / CELL)},${Math.floor(z / CELL)}`;
+  const grids = seamClouds.map((c) => { const g = new Map(); for (let i = 0; i < c.pts.length; i += 3) { const k = key(c.pts[i], c.pts[i+1], c.pts[i+2]); let a = g.get(k); if (!a) { a = []; g.set(k, a); } a.push(i); } return g; });
+  const nearest = (c, g, x, y, z) => { let best = Infinity, bi = -1; const cx = Math.floor(x / CELL), cy = Math.floor(y / CELL), cz = Math.floor(z / CELL); for (let ix = -3; ix <= 3; ix++) for (let iy = -3; iy <= 3; iy++) for (let iz = -3; iz <= 3; iz++) { const a = g.get(`${cx + ix},${cy + iy},${cz + iz}`); if (!a) continue; for (const i of a) { const d = Math.hypot(c.pts[i] - x, c.pts[i+1] - y, c.pts[i+2] - z); if (d < best) { best = d; bi = i; } } } return [best, bi]; };
+  for (let v = 0; v < nv; v++) { if (vtris[v].length === 0) continue; const t = vtris[v][0]; const x = P[v*3], y = P[v*3+1], z = P[v*3+2];
+    const order = seamClouds.map((c, k) => { const dx = c.cam.pos[0] - x, dy = c.cam.pos[1] - y, dz = c.cam.pos[2] - z; const dl = Math.hypot(dx, dy, dz); return [Math.abs(triN[t*3] * dx + triN[t*3+1] * dy + triN[t*3+2] * dz) / dl, k]; }).filter((o) => o[0] >= SEAM_FACING).sort((a, b) => b[0] - a[0]).slice(0, SEAM_TOP);
+    let best = Infinity, bk = -1, bi = -1; for (const [, k] of order) { const [d, i] = nearest(seamClouds[k], grids[k], x, y, z); if (d < best) { best = d; bk = k; bi = i; } }
+    // the nearest line point itself is stored per vertex (_SEAMP): inside a triangle whose vertices all point at the same straight line, the interpolated point is the fragment's own foot on the line, so the shader gets an exact distance even though flat panels are triangulated at 10 to 25 cm
+    if (best < SEAM_RADIUS) { seamV[v] = best; const c = seamClouds[bk].pts; seamP[v*3] = c[bi]; seamP[v*3+1] = c[bi+1]; seamP[v*3+2] = c[bi+2]; seamVerts++; } else { seamP[v*3] = x; seamP[v*3+1] = y + 9; seamP[v*3+2] = z; } }
+}
+log("panel line vertices:", seamVerts, "from", seamClouds.reduce((s, c) => s + c.pts.length / 3, 0), "projected line points");
+// --- 2. labels: geometry classes for wheels and tyres, votes elsewhere, fallbacks by rule
+const label = new Uint8Array(nt), conf = new Float32Array(nt), nviews = new Uint8Array(nt);
+let noVote = 0;
+for (let t = 0; t < nt; t++) {
+  nviews[t] = visCount[t];
+  if (C0[t] === 2 || C0[t] === 3) { label[t] = C0[t] === 2 ? 6 : 7; conf[t] = 1; continue; }
+  let best = 0, tot = 0; for (let c = 1; c < NC; c++) { tot += votes[t * NC + c]; if (votes[t * NC + c] > votes[t * NC + best]) best = c; }
+  if (best === 6 || best === 7) best = 1; // image wheel votes on body triangles are arch paint; wheels come from the geometry
+  if (best === 0 || tot === 0) { noVote++; label[t] = triC[t*3+1] < 0.22 ? 8 : 1; conf[t] = 0; continue; }
+  label[t] = best; conf[t] = votes[t * NC + best] / (seen[t] || tot);
+}
+log("triangles without any vote:", noVote, "of", nt);
+const count = () => { const c = new Array(NC).fill(0); for (let t = 0; t < nt; t++) c[label[t]]++; return CLASS_NAMES.map((n, k) => `${n} ${c[k]}`).join(", "); };
+log("raw labels:", count());
+// majority filter on the triangle graph (2 passes), wheels fixed
+for (let pass = 0; pass < 2; pass++) { const next = new Uint8Array(label); for (let t = 0; t < nt; t++) { if (C0[t] === 2 || C0[t] === 3) continue; const tally = new Float32Array(NC); tally[label[t]] += 1 + 2 * conf[t]; for (const u of tadj[t]) tally[label[u]] += 1 + conf[u]; let b = 0; for (let c = 1; c < NC; c++) if (tally[c] > tally[b]) b = c; next[t] = b; } label.set(next); }
+// island removal: connected same label components under MIN_ISLAND triangles take the majority label around them
+const MIN_ISLAND = 80; { const compId = new Int32Array(nt).fill(-1); let ncomp = 0; const st = new Int32Array(nt); let absorbed = 0;
+  for (let s = 0; s < nt; s++) { if (compId[s] >= 0) continue; let sp = 0; st[sp++] = s; compId[s] = ncomp; const members = []; while (sp) { const t = st[--sp]; members.push(t); for (const u of tadj[t]) if (compId[u] < 0 && label[u] === label[s]) { compId[u] = ncomp; st[sp++] = u; } }
+    if (members.length < MIN_ISLAND && !(C0[s] === 2 || C0[s] === 3)) { const tally = new Float32Array(NC); for (const t of members) for (const u of tadj[t]) if (label[u] !== label[s]) tally[label[u]]++; let b = -1; for (let c = 1; c < NC; c++) if (b < 0 || tally[c] > tally[b]) b = c; if (b > 0 && tally[b] > 0 && b !== 6 && b !== 7) { for (const t of members) { label[t] = b; conf[t] *= 0.5; } absorbed++; } }
+    ncomp++; }
+  log("label components:", ncomp, "islands absorbed:", absorbed); }
+log("final labels:", count());
+// panel per triangle (majority of panel votes), used for the door decal target and the confidence report
+const panel = new Uint8Array(nt); for (let t = 0; t < nt; t++) { let b = 0; for (let p = 1; p < PANELS.length; p++) if (panVotes[t * PANELS.length + p] > panVotes[t * PANELS.length + b]) b = p; panel[t] = b; }
+for (let pass = 0; pass < 2; pass++) { const next = new Uint8Array(panel); for (let t = 0; t < nt; t++) { if (label[t] !== 1) { next[t] = 0; continue; } const tally = new Float32Array(PANELS.length); tally[panel[t]] += 2; for (const u of tadj[t]) tally[panel[u]]++; let b = 0; for (let p = 1; p < PANELS.length; p++) if (tally[p] > tally[b]) b = p; next[t] = b; } panel.set(next); }
+{ const c = new Array(PANELS.length).fill(0); for (let t = 0; t < nt; t++) c[panel[t]]++; log("panels:", PANELS.map((n, k) => c[k] ? `${n} ${c[k]}` : null).filter(Boolean).join(", ")); }
+// --- 3. curvature aware smoothing of large painted panels only
+const bboxOf = () => { const mn = [Infinity, Infinity, Infinity], mx = [-Infinity, -Infinity, -Infinity]; for (let i = 0; i < nv; i++) for (let k = 0; k < 3; k++) { if (P[i*3+k] < mn[k]) mn[k] = P[i*3+k]; if (P[i*3+k] > mx[k]) mx[k] = P[i*3+k]; } return { mn, mx, size: [mx[0]-mn[0], mx[1]-mn[1], mx[2]-mn[2]] }; };
+const before = bboxOf();
+const vlabel = new Uint8Array(nv); // vertex label: majority of incident triangles
+for (let v = 0; v < nv; v++) { const tally = new Array(NC).fill(0); for (const t of vtris[v]) tally[label[t]]++; let b = 0; for (let c = 1; c < NC; c++) if (tally[c] > tally[b]) b = c; vlabel[v] = b; }
+let smoothed = 0, eligibleN = 0;
+if (SMOOTH > 0) {
+  // curvature proxy: uniform Laplacian magnitude over mean edge length, and normal variation across the 1 ring
+  const curv = new Float32Array(nv);
+  for (let v = 0; v < nv; v++) { const nb = vadj[v]; if (!nb.length) { curv[v] = 9; continue; } let sx = 0, sy = 0, sz = 0, el = 0; for (const j of nb) { sx += P[j*3]; sy += P[j*3+1]; sz += P[j*3+2]; el += Math.hypot(P[j*3]-P[v*3], P[j*3+1]-P[v*3+1], P[j*3+2]-P[v*3+2]); } const n = nb.length; el /= n; const lap = Math.hypot(sx / n - P[v*3], sy / n - P[v*3+1], sz / n - P[v*3+2]);
+    let nvar = 0; const ts = vtris[v]; for (let a = 0; a < ts.length; a++) for (let b = a + 1; b < ts.length; b++) { const d = triN[ts[a]*3] * triN[ts[b]*3] + triN[ts[a]*3+1] * triN[ts[b]*3+1] + triN[ts[a]*3+2] * triN[ts[b]*3+2]; nvar = Math.max(nvar, 1 - d); }
+    curv[v] = lap / (el || 1) + nvar * 2; }
+  // eligible: every incident triangle is BODY_PAINT, every ring neighbour is BODY_PAINT (keeps class boundaries), low curvature, away from a panel line
+  const elig = new Uint8Array(nv);
+  for (let v = 0; v < nv; v++) { if (vlabel[v] !== 1) continue; let ok = true; for (const t of vtris[v]) if (label[t] !== 1) { ok = false; break; } if (!ok) continue; for (const j of vadj[v]) if (vlabel[j] !== 1) { ok = false; break; } if (!ok) continue; if (seamV[v] < 0.035) continue; if (curv[v] > 0.55) continue; elig[v] = 1; eligibleN++; }
+  // a vertex on the extreme of any axis is pinned so the measured dimensions cannot change
+  const ext = new Uint8Array(nv); for (let v = 0; v < nv; v++) for (let k = 0; k < 3; k++) if (Math.abs(P[v*3+k] - before.mn[k]) < 0.01 || Math.abs(P[v*3+k] - before.mx[k]) < 0.01) ext[v] = 1;
+  const lap = (f) => { const Q = P.slice(); for (let v = 0; v < nv; v++) { if (!elig[v] || ext[v]) continue; let sx = 0, sy = 0, sz = 0; const nb = vadj[v]; for (const j of nb) { sx += P[j*3]; sy += P[j*3+1]; sz += P[j*3+2]; } const n = nb.length; Q[v*3] = P[v*3] + f * (sx / n - P[v*3]); Q[v*3+1] = P[v*3+1] + f * (sy / n - P[v*3+1]); Q[v*3+2] = P[v*3+2] + f * (sz / n - P[v*3+2]); } P.set(Q); };
+  for (let k = 0; k < SMOOTH; k++) { lap(0.5); lap(-0.53); }
+  smoothed = eligibleN; faceNormals();
+}
+const after = bboxOf();
+log(`smoothing: ${SMOOTH} Taubin passes on ${smoothed} eligible painted vertices of ${nv}; bbox before ${before.size.map((v) => v.toFixed(4)).join(" x ")} after ${after.size.map((v) => v.toFixed(4)).join(" x ")}`);
+// --- 4. per vertex attributes: colour (appearance), confidence, seam distance
+const vcol = new Float32Array(nv * 3), vconf = new Float32Array(nv);
+for (let v = 0; v < nv; v++) { let r = 0, g = 0, b = 0, w = 0, cf = 0; for (const t of vtris[v]) { if (colW[t] > 0 && label[t] === vlabel[v]) { r += colSum[t*3]; g += colSum[t*3+1]; b += colSum[t*3+2]; w += colW[t]; } cf += conf[t]; } if (w > 0) { vcol[v*3] = r / w / 255; vcol[v*3+1] = g / w / 255; vcol[v*3+2] = b / w / 255; } else { vcol[v*3] = vcol[v*3+1] = vcol[v*3+2] = 0.12; } vconf[v] = cf / (vtris[v].length || 1); }
+// one smoothing pass of colours within the same label
+{ const Q = vcol.slice(); for (let v = 0; v < nv; v++) { let r = vcol[v*3], g = vcol[v*3+1], b = vcol[v*3+2], n = 1; for (const j of vadj[v]) if (vlabel[j] === vlabel[v]) { r += vcol[j*3]; g += vcol[j*3+1]; b += vcol[j*3+2]; n++; } Q[v*3] = r / n; Q[v*3+1] = g / n; Q[v*3+2] = b / n; } vcol.set(Q); }
+// --- 5. region report
+const report = { views: VIEWS, triangles: nt, vertices: nv, regions: {}, panels: {}, smoothing: { passes: SMOOTH, eligible_vertices: smoothed, bbox_before: before.size, bbox_after: after.size }, no_vote_triangles: noVote };
+for (let c = 1; c < NC; c++) { let n = 0, cs = 0, hi = 0, lo = 0, vs = 0; for (let t = 0; t < nt; t++) if (label[t] === c) { n++; cs += conf[t]; vs += nviews[t]; if (conf[t] >= 0.6) hi++; if (conf[t] < 0.35) lo++; } if (n) report.regions[CLASS_NAMES[c]] = { triangles: n, mean_confidence: +(cs / n).toFixed(3), confident_share: +(hi / n).toFixed(3), uncertain_share: +(lo / n).toFixed(3), mean_views: +(vs / n).toFixed(2) }; }
+{ let hi = 0, lo = 0, vis = 0, vhi = 0, vlo = 0; for (let t = 0; t < nt; t++) { if (conf[t] >= 0.6) hi++; if (conf[t] < 0.35) lo++; if (nviews[t] > 0) { vis++; if (conf[t] >= 0.6) vhi++; if (conf[t] < 0.35) vlo++; } } report.confident_share = +(hi / nt).toFixed(3); report.uncertain_share = +(lo / nt).toFixed(3); report.visible_triangles = vis; report.visible_confident_share = +(vhi / vis).toFixed(3); report.visible_uncertain_share = +(vlo / vis).toFixed(3); }
+for (let p = 1; p < PANELS.length; p++) { let n = 0; for (let t = 0; t < nt; t++) if (panel[t] === p) n++; if (n) report.panels[PANELS[p]] = n; }
+log(JSON.stringify(report.regions, null, 0));
+// --- 6. export
+const MESH_OF = (t) => { const c = label[t]; if (c === 1) return panel[t] === PANELS.indexOf("door_front_left") ? "body_door_fl" : "body"; return ["none", "body", "glass", "headlights", "taillights", "grille", "wheels", "tyres", "trim", "mirrors"][c]; };
+const lin = (c) => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+function buildDoc(semantic) {
+  const doc = new Document(); const buffer = doc.createBuffer(); const scene = doc.createScene("twin");
+  const cc = doc.createExtension(KHRMaterialsClearcoat), ior = doc.createExtension(KHRMaterialsIOR), unlit = doc.createExtension(KHRMaterialsUnlit);
+  const mat = (name, base, metal, rough, extra = {}) => { const m = doc.createMaterial(name).setBaseColorFactor(base).setMetallicFactor(metal).setRoughnessFactor(rough); if (extra.clearcoat) m.setExtension("KHR_materials_clearcoat", cc.createClearcoat().setClearcoatFactor(extra.clearcoat).setClearcoatRoughnessFactor(extra.ccRough ?? 0.05)); if (extra.alpha != null) m.setAlpha(extra.alpha).setAlphaMode("BLEND"); if (extra.emissive) m.setEmissiveFactor(extra.emissive); if (extra.ior) m.setExtension("KHR_materials_ior", ior.createIOR().setIOR(extra.ior)); if (extra.unlit) m.setExtension("KHR_materials_unlit", unlit.createUnlit()); if (extra.double) m.setDoubleSided(true); return m; };
+  const paint = () => mat("paint_graphite_metallic", [0.034, 0.036, 0.040, 1], 0.42, 0.40, { clearcoat: 1.0, ccRough: 0.08 });
+  const MATS = semantic ? {} : {
+    body: paint(), body_door_fl: paint(), mirrors: mat("mirror_paint", [0.034, 0.036, 0.040, 1], 0.42, 0.42, { clearcoat: 1.0 }),
+    glass: mat("glass_tinted", [0.02, 0.025, 0.03, 1], 0.0, 0.08, { alpha: 0.9, ior: 1.5 }),
+    headlights: mat("headlight_unit", [1, 1, 1, 1], 0.1, 0.12, { clearcoat: 1.0, emissive: [0.04, 0.05, 0.08] }),
+    taillights: mat("taillight_unit", [1, 1, 1, 1], 0.05, 0.14, { clearcoat: 1.0, emissive: [0.10, 0.012, 0.008] }),
+    grille: mat("grille_mesh", [1, 1, 1, 1], 0.25, 0.7), wheels: mat("wheel_gloss_black", [1, 1, 1, 1], 0.6, 0.32, { clearcoat: 0.8 }), tyres: mat("tyre_rubber", [1, 1, 1, 1], 0.0, 0.92), trim: mat("trim_satin_black", [1, 1, 1, 1], 0.3, 0.6),
+  };
+  const groups = new Map(); for (let t = 0; t < nt; t++) { const k = semantic ? CLASS_NAMES[label[t]] : MESH_OF(t); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(t); }
+  const perMesh = {};
+  for (const [name, tris] of groups) {
+    const map = new Map(); const pos = [], idx = [], col = [], cf = [], sm = [], sp = [];
+    const useColour = semantic || ["wheels", "tyres", "headlights", "taillights", "grille", "trim"].includes(name);
+    const ccol = semantic ? CLASS_RGB[CLASS_NAMES.indexOf(name)].map((v) => v / 255) : null;
+    for (const t of tris) for (const v of [I[t*3], I[t*3+1], I[t*3+2]]) { let j = map.get(v); if (j === undefined) { j = map.size; map.set(v, j); pos.push(P[v*3], P[v*3+1], P[v*3+2]); cf.push(vconf[v]); sm.push(Math.min(0.05, seamV[v])); sp.push(seamP[v*3], seamP[v*3+1], seamP[v*3+2]);
+      // COLOR_0 is linear in glTF; the class colours and the source pixels are sRGB, so convert before storing
+      if (semantic) { const k = 0.3 + 0.7 * Math.min(1, vconf[v]); col.push(lin(0.5 * (1 - k) + ccol[0] * k), lin(0.5 * (1 - k) + ccol[1] * k), lin(0.5 * (1 - k) + ccol[2] * k)); } else if (useColour) { const lift = name === "grille" ? 1.15 : name === "tyres" ? 0.9 : name === "wheels" ? 1.05 : 1.2; col.push(lin(Math.min(1, vcol[v*3] * lift)), lin(Math.min(1, vcol[v*3+1] * lift)), lin(Math.min(1, vcol[v*3+2] * lift))); } } idx.push(j); }
+    const npos = pos.length / 3;
+    // smooth normals for this mesh; wheels and tyres get two extra normal smoothing passes (normal cleanup without moving geometry)
+    const nrm = new Float32Array(npos * 3); const adjL = Array.from({ length: npos }, () => []);
+    for (let t = 0; t < idx.length; t += 3) { const a = idx[t], b = idx[t+1], c = idx[t+2]; const ax = pos[b*3]-pos[a*3], ay = pos[b*3+1]-pos[a*3+1], az = pos[b*3+2]-pos[a*3+2], bx = pos[c*3]-pos[a*3], by = pos[c*3+1]-pos[a*3+1], bz = pos[c*3+2]-pos[a*3+2]; const nx = ay*bz-az*by, ny = az*bx-ax*bz, nz = ax*by-ay*bx; for (const v of [a, b, c]) { nrm[v*3] += nx; nrm[v*3+1] += ny; nrm[v*3+2] += nz; } adjL[a].push(b, c); adjL[b].push(a, c); adjL[c].push(a, b); }
+    const normalize = () => { for (let i = 0; i < npos; i++) { const l = Math.hypot(nrm[i*3], nrm[i*3+1], nrm[i*3+2]) || 1; nrm[i*3] /= l; nrm[i*3+1] /= l; nrm[i*3+2] /= l; } }; normalize();
+    const extra = (name === "wheels" || name === "tyres" || name === "WHEEL" || name === "TIRE") ? 2 : 0;
+    for (let k = 0; k < extra; k++) { const Q = nrm.slice(); for (let i = 0; i < npos; i++) { let x = nrm[i*3], y = nrm[i*3+1], z = nrm[i*3+2]; for (const j of adjL[i]) { x += nrm[j*3]; y += nrm[j*3+1]; z += nrm[j*3+2]; } Q[i*3] = x; Q[i*3+1] = y; Q[i*3+2] = z; } nrm.set(Q); normalize(); }
+    const prim = doc.createPrimitive().setMode(Primitive.Mode.TRIANGLES)
+      .setAttribute("POSITION", doc.createAccessor(`${name}_pos`).setType(Accessor.Type.VEC3).setArray(new Float32Array(pos)).setBuffer(buffer))
+      .setAttribute("NORMAL", doc.createAccessor(`${name}_nrm`).setType(Accessor.Type.VEC3).setArray(nrm).setBuffer(buffer))
+      .setIndices(doc.createAccessor(`${name}_idx`).setType(Accessor.Type.SCALAR).setArray(new Uint32Array(idx)).setBuffer(buffer));
+    if (col.length) prim.setAttribute("COLOR_0", doc.createAccessor(`${name}_col`).setType(Accessor.Type.VEC3).setArray(new Float32Array(col)).setBuffer(buffer));
+    if (!semantic && (name === "body" || name === "body_door_fl" || name === "mirrors")) prim.setAttribute("_SEAMP", doc.createAccessor(`${name}_seamp`).setType(Accessor.Type.VEC3).setArray(new Float32Array(sp)).setBuffer(buffer));
+    if (!semantic) { prim.setAttribute("_SEAM", doc.createAccessor(`${name}_seam`).setType(Accessor.Type.SCALAR).setArray(new Float32Array(sm)).setBuffer(buffer)); prim.setAttribute("_CONF", doc.createAccessor(`${name}_conf`).setType(Accessor.Type.SCALAR).setArray(new Float32Array(cf)).setBuffer(buffer)); }
+    prim.setMaterial(semantic ? mat(`sem_${name}`, [1, 1, 1, 1], 0, 1, { unlit: true }) : MATS[name]);
+    scene.addChild(doc.createNode(name).setMesh(doc.createMesh(name).addPrimitive(prim)));
+    perMesh[name] = idx.length / 3;
+  }
+  return { doc, perMesh };
+}
+const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
+const refined = buildDoc(false); await io.write(OUT, refined.doc); log("wrote", OUT, JSON.stringify(refined.perMesh));
+const sem = buildDoc(true); await io.write(SEM, sem.doc); log("wrote", SEM, JSON.stringify(sem.perMesh));
+report.meshes = refined.perMesh;
+writeFileSync(`${SP}out/report.json`, JSON.stringify(report, null, 1));

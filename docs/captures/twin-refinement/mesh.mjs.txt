@@ -1,0 +1,39 @@
+// Cleaned Meshy twin -> one welded mesh in the viewer's world frame (rotation Y pi, length along +X = 4.794 m, centred, on the ground).
+// Writes cache/P.f32 (positions), cache/I.u32 (indices), cache/C.u8 (per triangle class from the cleanup step), cache/meta.json
+import { createRequire } from "node:module";
+import { writeFileSync } from "node:fs";
+const require = createRequire("/home/user/marketing-app/package.json");
+const { NodeIO } = require("@gltf-transform/core");
+const { ALL_EXTENSIONS } = require("@gltf-transform/extensions");
+const SRC = "/tmp/claude-0/-home-user-marketing-app/5bc8c68e-4818-566d-ac70-747f6aee3573/scratchpad/clean/meshy-clean-raw.glb";
+const OUT = new URL("./cache/", import.meta.url).pathname;
+const LENGTH = 4.794;
+const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
+const doc = await io.read(SRC);
+const CLASSES = ["body", "glass", "wheels", "tyres", "lights", "grille", "trim"];
+const keyMap = new Map(); const P = []; const I = []; const C = [];
+for (const mesh of doc.getRoot().listMeshes()) {
+  const k = CLASSES.indexOf(mesh.getName());
+  for (const prim of mesh.listPrimitives()) {
+    const pos = prim.getAttribute("POSITION").getArray(); const idx = prim.getIndices().getArray();
+    const remap = new Int32Array(pos.length / 3);
+    for (let i = 0; i < pos.length / 3; i++) { const key = `${Math.round(pos[i*3] * 1e5)},${Math.round(pos[i*3+1] * 1e5)},${Math.round(pos[i*3+2] * 1e5)}`; let j = keyMap.get(key); if (j === undefined) { j = P.length / 3; keyMap.set(key, j); P.push(pos[i*3], pos[i*3+1], pos[i*3+2]); } remap[i] = j; }
+    for (let t = 0; t < idx.length; t += 3) { I.push(remap[idx[t]], remap[idx[t+1]], remap[idx[t+2]]); C.push(k); }
+  }
+}
+const nv = P.length / 3, nt = I.length / 3;
+// transform like loadVehicle: rotate pi about Y, then fit
+for (let i = 0; i < nv; i++) { P[i*3] = -P[i*3]; P[i*3+2] = -P[i*3+2]; }
+const mn = [Infinity, Infinity, Infinity], mx = [-Infinity, -Infinity, -Infinity];
+for (let i = 0; i < nv; i++) for (let k = 0; k < 3; k++) { if (P[i*3+k] < mn[k]) mn[k] = P[i*3+k]; if (P[i*3+k] > mx[k]) mx[k] = P[i*3+k]; }
+const size = [mx[0]-mn[0], mx[1]-mn[1], mx[2]-mn[2]];
+if (size[2] > size[0]) throw new Error("length axis is z, unexpected");
+const s = LENGTH / size[0];
+const c = [(mn[0]+mx[0])/2, mn[1], (mn[2]+mx[2])/2];
+for (let i = 0; i < nv; i++) { P[i*3] = (P[i*3] - c[0]) * s; P[i*3+1] = (P[i*3+1] - c[1]) * s; P[i*3+2] = (P[i*3+2] - c[2]) * s; }
+writeFileSync(`${OUT}P.f32`, Buffer.from(new Float32Array(P).buffer));
+writeFileSync(`${OUT}I.u32`, Buffer.from(new Uint32Array(I).buffer));
+writeFileSync(`${OUT}C.u8`, Buffer.from(new Uint8Array(C)));
+const meta = { nv, nt, scale: s, dims: { length: LENGTH, height: size[1] * s, width: size[2] * s }, classes: CLASSES, counts: CLASSES.map((n, k) => [n, C.filter((x) => x === k).length]) };
+writeFileSync(`${OUT}meta.json`, JSON.stringify(meta, null, 1));
+console.log(JSON.stringify(meta));

@@ -18,6 +18,8 @@ import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
  * nothing. Nothing here exposes technical 3D controls; the viewer decides
  * what a person sees around it.
  */
+export type CameraLock = { position: [number, number, number]; target: [number, number, number]; fov: number };
+
 export type VehicleSceneProps = {
   vehicleId?: string;
   /** Paint hex; the catalog's paintFor() maps colour names. */
@@ -47,6 +49,10 @@ export type VehicleSceneProps = {
   clay?: boolean;
   /** Studio lighting: the default studio or the stronger configurator style key, fill and rim. */
   studio?: "default" | "premium";
+  /** Refined twin shading: panel lines from the _SEAM vertex attribute and a metallic flake in the paint (meshes that carry the attribute only). */
+  refined?: boolean;
+  /** Lock the camera to a registered source view (position, target, vertical fov); orbiting is off while set. */
+  cameraLock?: CameraLock | null;
   onReady?: () => void;
   onError?: (error: Error) => void;
   onArtworkError?: (error: Error) => void;
@@ -84,7 +90,7 @@ export default function VehicleScene(props: VehicleSceneProps) {
     >
       <Studio premium={props.studio === "premium"} />
       <Vehicle vehicle={vehicle} {...props} />
-      <OrbitControlsRig vehicle={vehicle} preset={props.preset ?? "hero"} nonce={props.presetNonce ?? 0} focusZone={props.focusZone ?? null} interactive={props.interactive ?? true} reducedMotion={!!props.reducedMotion} onViewChange={props.onViewChange} />
+      <OrbitControlsRig vehicle={vehicle} preset={props.preset ?? "hero"} nonce={props.presetNonce ?? 0} focusZone={props.focusZone ?? null} interactive={props.interactive ?? true} reducedMotion={!!props.reducedMotion} onViewChange={props.onViewChange} lock={props.cameraLock ?? null} />
     </Canvas>
   );
 }
@@ -123,8 +129,48 @@ function applyClay(root: THREE.Object3D) {
 
 function setCursor(gl: THREE.WebGLRenderer, cursor: string) { gl.domElement.style.cursor = cursor; }
 
+/**
+ * Refined twin shading. The mesh carries a per vertex distance to the nearest
+ * projected panel line (_SEAM, metres, clamped at 5 cm) and the paint is a
+ * MeshPhysicalMaterial from the GLB. The line is drawn in the shader as a
+ * darker, rougher groove; nothing is cut. A hashed world position gives the
+ * metallic paint a fine flake in roughness and normal.
+ */
+function applyRefinedShading(root: THREE.Object3D) {
+  root.traverse((o) => {
+    const m = o as THREE.Mesh;
+    if (!m.isMesh || !m.geometry.getAttribute("_seam")) return;
+    const hasPoint = !!m.geometry.getAttribute("_seamp");
+    const mat = m.material as THREE.MeshPhysicalMaterial;
+    if (!mat || !("clearcoat" in mat)) return;
+    const paint = mat.clearcoat > 0.5;
+    mat.onBeforeCompile = (shader) => {
+      shader.vertexShader = shader.vertexShader
+        .replace("#include <common>", `#include <common>\nattribute float _seam;\nvarying float vSeam;\nvarying vec3 vWp;\n${hasPoint ? "attribute vec3 _seamp;\nvarying vec3 vSeamP;\nvarying vec3 vLocalP;" : ""}`)
+        .replace("#include <begin_vertex>", `#include <begin_vertex>\nvSeam = _seam;\nvWp = (modelMatrix * vec4(position, 1.0)).xyz;\n${hasPoint ? "vSeamP = _seamp;\nvLocalP = position;" : ""}`);
+      shader.fragmentShader = shader.fragmentShader
+        .replace("#include <common>", `#include <common>\nvarying float vSeam;\nvarying vec3 vWp;\n${hasPoint ? "varying vec3 vSeamP;\nvarying vec3 vLocalP;" : ""}\nfloat tmHash(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }`)
+        .replace("#include <color_fragment>", `#include <color_fragment>\nfloat tmDist = ${hasPoint ? "distance(vLocalP, vSeamP)" : "vSeam"};\nfloat tmLine = 1.0 - smoothstep(0.004, 0.011, tmDist);\nfloat tmFlake = tmHash(floor(vWp * 1100.0));\ndiffuseColor.rgb *= 1.0 - tmLine * 0.8;`)
+        .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>\nroughnessFactor = clamp(roughnessFactor + tmLine * 0.5 ${paint ? "+ (tmFlake - 0.5) * 0.10" : ""}, 0.02, 1.0);`)
+        .replace("#include <metalnessmap_fragment>", "#include <metalnessmap_fragment>\nmetalnessFactor *= 1.0 - tmLine * 0.8;")
+        .replace("#include <dithering_fragment>", "#include <dithering_fragment>\ngl_FragColor.rgb *= 1.0 - tmLine * 0.55;")
+        .replace("#include <normal_fragment_maps>", `#include <normal_fragment_maps>\n${paint ? "normal = normalize(normal + (vec3(tmHash(floor(vWp * 1100.0) + 1.0), tmHash(floor(vWp * 1100.0) + 2.0), tmHash(floor(vWp * 1100.0) + 3.0)) - 0.5) * 0.035);" : ""}`);
+    };
+    mat.customProgramCacheKey = () => `tm-refined-${paint ? "paint" : "part"}-${hasPoint ? "point" : "scalar"}`;
+    mat.needsUpdate = true;
+  });
+}
+
 /** Pause or resume orbiting while the artwork is being dragged. Plain three.js so React never sees the mutation. */
 function setControlsEnabled(controls: unknown, enabled: boolean) { const c = controls as OrbitControlsImpl | null; if (c) c.enabled = enabled; }
+
+/** Set the vertical fov; true when it changed. */
+function setFov(camera: THREE.Camera, fov: number): boolean {
+  const cam = camera as THREE.PerspectiveCamera;
+  if (!cam.isPerspectiveCamera || cam.fov === fov) return false;
+  cam.fov = fov; cam.updateProjectionMatrix();
+  return true;
+}
 
 function jumpTo(camera: THREE.Camera, controls: OrbitControlsImpl | null, goal: Goal) {
   camera.position.copy(goal.position);
@@ -169,7 +215,7 @@ function Studio({ premium = false }: { premium?: boolean }) {
   return null;
 }
 
-function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "all", onSelectZone, reflection = true, showHighlight = true, hoverHighlight = true, onReady, onError, onArtworkError, onPlacementDrag, onPlacementDragEnd, clay = false }: VehicleSceneProps & { vehicle: VehicleModel }) {
+function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "all", onSelectZone, reflection = true, showHighlight = true, hoverHighlight = true, onReady, onError, onArtworkError, onPlacementDrag, onPlacementDragEnd, clay = false, refined = false }: VehicleSceneProps & { vehicle: VehicleModel }) {
   const { gl, controls } = useThree();
   const [loaded, setLoaded] = useState<LoadedVehicle | null>(null);
   const [hover, setHover] = useState<ZoneKey | null>(null);
@@ -185,13 +231,14 @@ function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "a
     loadVehicle(vehicle, paintHex, gl).then((v) => {
       if (!alive) { v.dispose(); return; }
       if (clay) applyClay(v.root);
+      if (refined) applyRefinedShading(v.root);
       current = v; setLoaded(v); invalidate();
       // Ready once the first frame with the car has been drawn.
       requestAnimationFrame(() => requestAnimationFrame(() => { if (alive) onReady?.(); }));
     }).catch((e) => { if (alive) onError?.(e instanceof Error ? e : new Error(String(e))); });
     return () => { alive = false; current?.dispose(); setLoaded(null); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vehicle, paintHex, gl, clay]);
+  }, [vehicle, paintHex, gl, clay, refined]);
 
   // Artwork texture.
   const artworkUrl = placement?.artworkUrl ?? null;
@@ -318,13 +365,28 @@ function zonesFor(vehicle: VehicleModel, which: readonly ZoneKey[] | "all" | "no
  * Orbit with damping, no pan, the camera kept above the floor and off the
  * paint. Presets tween the camera and the target; a drag cancels the tween.
  */
-function OrbitControlsRig({ vehicle, preset, nonce, focusZone, interactive, reducedMotion, onViewChange }: { vehicle: VehicleModel; preset: CameraPresetKey; nonce: number; focusZone: ZoneKey | null; interactive: boolean; reducedMotion: boolean; onViewChange?: (p: CameraPresetKey | null) => void }) {
+function OrbitControlsRig({ vehicle, preset, nonce, focusZone, interactive, reducedMotion, onViewChange, lock }: { vehicle: VehicleModel; preset: CameraPresetKey; nonce: number; focusZone: ZoneKey | null; interactive: boolean; reducedMotion: boolean; onViewChange?: (p: CameraPresetKey | null) => void; lock: CameraLock | null }) {
   const controls = useRef<OrbitControlsImpl>(null);
   const { camera, size } = useThree();
   const aspect = size.height > 0 ? size.width / size.height : 1.9;
   const fit = framePreset(presetOf(vehicle, "hero"), aspect).fit;
   const goal = useRef<Goal | null>(null);
   const settled = useRef<CameraPresetKey | null>(null);
+  // A registered source camera: jump there, set its fov, and stop orbiting until the lock is released.
+  useEffect(() => {
+    if (lock) {
+      goal.current = null;
+      setFov(camera, lock.fov);
+      jumpTo(camera, controls.current, { position: new THREE.Vector3(...lock.position), target: new THREE.Vector3(...lock.target), key: preset });
+      settled.current = null; onViewChange?.(null);
+    } else if (setFov(camera, CAMERA_FOV)) {
+      const p = presetOf(vehicle, preset);
+      const framed = framePreset(p, size.height > 0 ? size.width / size.height : 1.9);
+      goal.current = { position: new THREE.Vector3(...framed.position), target: new THREE.Vector3(...framed.target), key: p.key };
+    }
+    invalidate();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lock]);
 
   useEffect(() => {
     const p = presetOf(vehicle, preset);
@@ -341,7 +403,12 @@ function OrbitControlsRig({ vehicle, preset, nonce, focusZone, interactive, redu
 
   useFrame((_, delta) => {
     const g = goal.current, c = controls.current;
-    if (!g || !c) return;
+    if (lock && c) { // hold the registered camera exactly (the controls mount after the first lock effect)
+      camera.position.set(lock.position[0], lock.position[1], lock.position[2]); c.target.set(lock.target[0], lock.target[1], lock.target[2]); c.update();
+      setFov(camera, lock.fov);
+      return;
+    }
+    if (!g || !c || lock) return;
     if (stepTowards(camera, c, g, Math.min(delta, 1 / 8))) {
       settled.current = g.key; goal.current = null; onViewChange?.(g.key);
     }
@@ -351,7 +418,7 @@ function OrbitControlsRig({ vehicle, preset, nonce, focusZone, interactive, redu
   return (
     <OrbitControls
       ref={controls}
-      enabled={interactive}
+      enabled={interactive && !lock}
       enablePan={false}
       enableDamping
       dampingFactor={0.08}
@@ -359,8 +426,8 @@ function OrbitControlsRig({ vehicle, preset, nonce, focusZone, interactive, redu
       zoomSpeed={0.6}
       minDistance={DIST.min * fit}
       maxDistance={DIST.max * fit}
-      minPolarAngle={Math.PI / 5}
-      maxPolarAngle={Math.PI / 2.06}
+      minPolarAngle={lock ? 0 : Math.PI / 5}
+      maxPolarAngle={lock ? Math.PI : Math.PI / 2.06}
       target={presetOf(vehicle, "hero").target}
       onStart={() => { goal.current = null; if (settled.current) { settled.current = null; onViewChange?.(null); } }}
       makeDefault

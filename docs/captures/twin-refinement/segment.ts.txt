@@ -1,0 +1,55 @@
+// Part segmentation of one source view by the vision model: polygons and circles in pixel coordinates of the grid image (1264x848).
+// usage: NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt npx tsx --tsconfig scripts/tsconfig.cli.json segment.ts <NN> [<NN>...]
+import { readFileSync, writeFileSync } from "node:fs";
+import { respond, type InputPart } from "/home/user/marketing-app/src/lib/openai/client";
+import { route } from "/home/user/marketing-app/src/lib/openai/models";
+const SP = "/tmp/claude-0/-home-user-marketing-app/5bc8c68e-4818-566d-ac70-747f6aee3573/scratchpad/ref/";
+const VIEWS: Record<string, string> = {
+  "01": "straight front view (nose toward the camera; the car's left side is on the viewer's right)",
+  "02": "front driver side three quarter view (the car's LEFT side and the front are visible; nose toward the viewer's right)",
+  "03": "front driver side intermediate view (the car's LEFT side and the front are visible; nose toward the viewer's right)",
+  "04": "straight driver side view (the car's LEFT side; nose toward the viewer's right)",
+  "05": "rear driver side intermediate view (the car's LEFT side and the rear are visible; nose toward the viewer's right)",
+  "06": "rear driver side three quarter view (the car's LEFT side and the rear are visible; tail toward the viewer's left)",
+  "07": "straight rear view (tail toward the camera; the car's left side is on the viewer's left)",
+  "08": "rear passenger side three quarter view (the car's RIGHT side and the rear are visible; tail toward the viewer's right)",
+  "09": "rear passenger side intermediate view (the car's RIGHT side and the rear are visible; nose toward the viewer's left)",
+  "10": "straight passenger side view (the car's RIGHT side; nose toward the viewer's left)",
+  "11": "front passenger side intermediate view (the car's RIGHT side and the front are visible; nose toward the viewer's left)",
+  "12": "front passenger side three quarter view (the car's RIGHT side and the front are visible; nose toward the viewer's left)",
+  "13": "elevated front driver side three quarter view (the car's LEFT side, the front, the hood and the roof are visible; nose toward the viewer's right)",
+  "14": "elevated rear driver side three quarter view (the car's LEFT side, the rear, the trunk and the roof are visible; tail toward the viewer's left)",
+  "15": "elevated rear passenger side three quarter view (the car's RIGHT side, the rear, the trunk and the roof are visible; tail toward the viewer's right)",
+  "16": "elevated front passenger side three quarter view (the car's RIGHT side, the front, the hood and the roof are visible; nose toward the viewer's left)",
+};
+const PARTS = ["windshield", "rear_glass", "window_front_left", "window_rear_left", "quarter_glass_left", "window_front_right", "window_rear_right", "quarter_glass_right",
+  "headlight_left", "headlight_right", "taillight_left", "taillight_right", "kidney_grille", "lower_intake_center", "lower_intake_left", "lower_intake_right",
+  "wheel_front_left", "wheel_rear_left", "wheel_front_right", "wheel_rear_right", "mirror_left", "mirror_right", "door_handle_front_left", "door_handle_rear_left", "door_handle_front_right", "door_handle_rear_right",
+  "rocker_trim_left", "rocker_trim_right", "front_splitter", "rear_diffuser", "roof_carbon", "side_gill_left", "side_gill_right", "exhaust_tips", "badge_front", "badge_rear",
+  "hood", "trunk_lid", "roof_panel", "front_bumper", "rear_bumper", "front_fender_left", "front_fender_right", "door_front_left", "door_rear_left", "door_front_right", "door_rear_right", "rear_quarter_left", "rear_quarter_right", "a_pillar_left", "a_pillar_right", "b_pillar_left", "b_pillar_right", "c_pillar_left", "c_pillar_right", "trunk_spoiler_lip"];
+const schema = { name: "vehicle_part_segmentation", schema: { type: "object", additionalProperties: false, properties: {
+  visible_side: { type: "string", enum: ["left", "right", "both", "none"] },
+  regions: { type: "array", items: { type: "object", additionalProperties: false, properties: {
+    part: { type: "string", enum: PARTS },
+    kind: { type: "string", enum: ["polygon", "circle"] },
+    points: { type: "array", items: { type: "array", items: { type: "number" }, minItems: 2, maxItems: 2 } },
+    circle: { type: ["object", "null"], additionalProperties: false, properties: { cx: { type: "number" }, cy: { type: "number" }, r_tyre: { type: "number" }, r_rim: { type: "number" } }, required: ["cx", "cy", "r_tyre", "r_rim"] },
+    confidence: { type: "number" },
+  }, required: ["part", "kind", "points", "circle", "confidence"] } },
+}, required: ["visible_side", "regions"] } };
+async function one(n: string) {
+  const img = readFileSync(`${SP}grid/${n}.jpg`).toString("base64");
+  const parts: InputPart[] = [
+    { type: "input_image", image_url: `data:image/jpeg;base64,${img}`, detail: "high" },
+    { type: "input_text", text: `This is a ${VIEWS[n]} of a dark grey BMW M3 sedan in a studio. The image is 1264 x 848 pixels; cyan grid lines with labels every 100 pixels help you read coordinates (x from the left, y from the top).
+Trace every listed part that is actually visible in this view, one region per part instance, as a polygon of 6 to 24 points in pixel coordinates that follows the part's true outline tightly. Wheels are circles (centre, outer tyre radius, rim radius). Panels (hood, trunk lid, roof panel, bumpers, fenders, doors, rear quarters, pillars) are the painted body panels bounded by their panel gaps; the pillar polygons are the painted or black pillar strips between glass panes, never the glass. Window polygons cover only the glass pane, never the pillars or rubber seals. Headlight and taillight polygons cover the whole lamp unit. The roof is never glass: the windshield polygon ends where the glass meets the roof's front edge, the roof_panel is its own polygon (this car has a dark carbon roof), and the rear_glass is its own polygon at the back. Trace each side window pane separately, including the small rear quarter glass behind the rear door. Skip a part that is hidden or barely visible in this view. Give an honest confidence from 0 to 1 per region.` },
+  ];
+  const r = route("minor_qa");
+  const started = Date.now();
+  const res = await respond<Record<string, unknown>>({ model: r.model, effort: "medium", instructions: "You are a precise image annotation tool for vehicle part segmentation. Output only coordinates you can justify from the pixels; keep polygons inside the part and use the grid to read coordinates carefully.", content: parts, schema, maxOutputTokens: 30000 });
+  writeFileSync(`${SP}seg/${n}.json`, JSON.stringify({ view: n, model: res.usage.model, seconds: Math.round((Date.now() - started) / 1000), usage: res.usage, result: res.data }, null, 1));
+  const regions = (res.data as { regions: { part: string }[] }).regions;
+  console.log(n, "regions", regions.length, "seconds", Math.round((Date.now() - started) / 1000), regions.map((x) => x.part).join(","));
+}
+async function main() { const ids = process.argv.slice(2); const pool = 4; let i = 0; await Promise.all(Array.from({ length: pool }, async () => { while (i < ids.length) { const n = ids[i++]; try { await one(n); } catch (e) { console.error(n, "failed", (e as Error).message); } } })); }
+main();

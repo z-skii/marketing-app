@@ -1,0 +1,141 @@
+{
+ "views": [
+  "01",
+  "02",
+  "03",
+  "04",
+  "05",
+  "06",
+  "07",
+  "08",
+  "09",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16"
+ ],
+ "triangles": 308200,
+ "vertices": 152184,
+ "regions": {
+  "BODY_PAINT": {
+   "triangles": 223024,
+   "mean_confidence": 0.315,
+   "confident_share": 0.294,
+   "uncertain_share": 0.616,
+   "mean_views": 1.9
+  },
+  "GLASS": {
+   "triangles": 18075,
+   "mean_confidence": 0.64,
+   "confident_share": 0.56,
+   "uncertain_share": 0.133,
+   "mean_views": 5.99
+  },
+  "HEADLIGHT": {
+   "triangles": 2292,
+   "mean_confidence": 0.589,
+   "confident_share": 0.389,
+   "uncertain_share": 0.15,
+   "mean_views": 3.8
+  },
+  "TAILLIGHT": {
+   "triangles": 1248,
+   "mean_confidence": 0.632,
+   "confident_share": 0.499,
+   "uncertain_share": 0.089,
+   "mean_views": 4.28
+  },
+  "GRILLE": {
+   "triangles": 9319,
+   "mean_confidence": 0.669,
+   "confident_share": 0.582,
+   "uncertain_share": 0.135,
+   "mean_views": 5.82
+  },
+  "WHEEL": {
+   "triangles": 23131,
+   "mean_confidence": 1,
+   "confident_share": 1,
+   "uncertain_share": 0,
+   "mean_views": 5.38
+  },
+  "TIRE": {
+   "triangles": 19464,
+   "mean_confidence": 1,
+   "confident_share": 1,
+   "uncertain_share": 0,
+   "mean_views": 2.99
+  },
+  "TRIM": {
+   "triangles": 10438,
+   "mean_confidence": 0.434,
+   "confident_share": 0.206,
+   "uncertain_share": 0.386,
+   "mean_views": 4.77
+  },
+  "MIRROR": {
+   "triangles": 1209,
+   "mean_confidence": 0.53,
+   "confident_share": 0.327,
+   "uncertain_share": 0.135,
+   "mean_views": 6.8
+  }
+ },
+ "panels": {
+  "hood": 20335,
+  "trunk_lid": 4664,
+  "roof_panel": 184,
+  "front_bumper": 9761,
+  "rear_bumper": 6516,
+  "front_fender_left": 5206,
+  "front_fender_right": 8661,
+  "door_front_left": 7515,
+  "door_rear_left": 4897,
+  "door_front_right": 9699,
+  "door_rear_right": 4967,
+  "rear_quarter_left": 5214,
+  "rear_quarter_right": 4233,
+  "a_pillar_left": 296,
+  "a_pillar_right": 769,
+  "b_pillar_left": 381,
+  "b_pillar_right": 388,
+  "c_pillar_left": 690,
+  "c_pillar_right": 458,
+  "trunk_spoiler_lip": 164
+ },
+ "smoothing": {
+  "passes": 10,
+  "eligible_vertices": 36544,
+  "bbox_before": [
+   4.794000148773193,
+   1.4464261531829834,
+   2.0012803077697754
+  ],
+  "bbox_after": [
+   4.794000148773193,
+   1.4464261531829834,
+   2.0012803077697754
+  ]
+ },
+ "no_vote_triangles": 127273,
+ "confident_share": 0.414,
+ "uncertain_share": 0.473,
+ "visible_triangles": 179680,
+ "visible_confident_share": 0.688,
+ "visible_uncertain_share": 0.118,
+ "meshes": {
+  "trim": 10438,
+  "grille": 9319,
+  "body": 215509,
+  "headlights": 2292,
+  "glass": 18075,
+  "body_door_fl": 7515,
+  "mirrors": 1209,
+  "taillights": 1248,
+  "wheels": 23131,
+  "tyres": 19464
+ }
+}

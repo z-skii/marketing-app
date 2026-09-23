@@ -1,0 +1,49 @@
+// Vision polygons -> per view label map (1264x848, one byte per pixel) and a QA overlay.
+// Classes (semantic): 0 none, 1 BODY_PAINT, 2 GLASS, 3 HEADLIGHT, 4 TAILLIGHT, 5 GRILLE, 6 WHEEL, 7 TIRE, 8 TRIM, 9 MIRROR
+// Panels (for panel lines and the door decal): separate byte map with panel ids.
+import { createRequire } from "node:module";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
+const require = createRequire("/home/user/marketing-app/package.json");
+const sharp = require("sharp");
+const SP = "/tmp/claude-0/-home-user-marketing-app/5bc8c68e-4818-566d-ac70-747f6aee3573/scratchpad/ref/";
+const W = 1264, H = 848;
+export const CLASS_NAMES = ["none", "BODY_PAINT", "GLASS", "HEADLIGHT", "TAILLIGHT", "GRILLE", "WHEEL", "TIRE", "TRIM", "MIRROR"];
+export const CLASS_RGB = [[0,0,0],[70,110,200],[110,220,240],[255,235,120],[235,60,60],[40,40,40],[190,190,200],[90,70,60],[20,20,20],[240,140,40]];
+export const PANELS = ["none", "hood", "trunk_lid", "roof_panel", "front_bumper", "rear_bumper", "front_fender_left", "front_fender_right", "door_front_left", "door_rear_left", "door_front_right", "door_rear_right", "rear_quarter_left", "rear_quarter_right", "a_pillar_left", "a_pillar_right", "b_pillar_left", "b_pillar_right", "c_pillar_left", "c_pillar_right", "trunk_spoiler_lip"];
+const partClass = (p) => /^(windshield|rear_glass|window_|quarter_glass)/.test(p) ? 2 : /^headlight/.test(p) ? 3 : /^taillight/.test(p) ? 4 : /grille|intake/.test(p) ? 5 : /^wheel/.test(p) ? 6 : /^mirror/.test(p) ? 9 : /rocker|splitter|diffuser|roof_carbon|side_gill|exhaust|badge|door_handle/.test(p) ? 8 : /pillar/.test(p) ? 10 : PANELS.includes(p) ? 1 : 0;
+// draw order: large first, small parts last so they win
+const ORDER = (p) => PANELS.includes(p) ? 0 : /pillar/.test(p) ? 1 : partClass(p) === 2 ? 2 : partClass(p) === 8 ? 3 : partClass(p) === 5 ? 4 : (partClass(p) === 3 || partClass(p) === 4) ? 5 : partClass(p) === 9 ? 6 : partClass(p) === 6 ? 7 : 8;
+function fillPoly(map, pts, val, pan) {
+  const n = pts.length; if (n < 3) return; let miny = H, maxy = 0; for (const [, y] of pts) { miny = Math.min(miny, Math.floor(y)); maxy = Math.max(maxy, Math.ceil(y)); }
+  for (let y = Math.max(0, miny); y <= Math.min(H - 1, maxy); y++) { const xs = []; const sy = y + 0.5; for (let i = 0; i < n; i++) { const [x0, y0] = pts[i], [x1, y1] = pts[(i + 1) % n]; if ((y0 <= sy && y1 > sy) || (y1 <= sy && y0 > sy)) xs.push(x0 + (sy - y0) * (x1 - x0) / (y1 - y0)); } xs.sort((a, b) => a - b);
+    for (let k = 0; k + 1 < xs.length; k += 2) for (let x = Math.max(0, Math.ceil(xs[k])); x < Math.min(W, xs[k + 1]); x++) { const i = y * W + x; if (val != null) map[i] = val; if (pan) pan.map[i] = pan.val; } }
+}
+export function buildMaps(n) {
+  const seg = JSON.parse(readFileSync(`${SP}seg/${n}.json`, "utf8")).result;
+  const cls = new Uint8Array(W * H); const pan = new Uint8Array(W * H); const wheels = [];
+  const regions = [...seg.regions].sort((a, b) => ORDER(a.part) - ORDER(b.part));
+  for (const r of regions) {
+    const c = partClass(r.part); if (r.confidence < 0.3) continue;
+    if (r.kind === "circle" && r.circle) { wheels.push({ ...r.circle, part: r.part }); const { cx, cy, r_tyre, r_rim } = r.circle; for (let y = Math.max(0, cy - r_tyre | 0); y <= Math.min(H - 1, cy + r_tyre); y++) for (let x = Math.max(0, cx - r_tyre | 0); x <= Math.min(W - 1, cx + r_tyre); x++) { const d = Math.hypot(x + 0.5 - cx, y + 0.5 - cy); if (d <= r_tyre) cls[y * W + x] = d <= r_rim ? 6 : 7; } continue; }
+    const pid = PANELS.indexOf(r.part);
+    if (c === 10) { fillPoly(cls, r.points, 1, pid > 0 ? { map: pan, val: pid } : null); continue; } // pillars: painted or black, kept as body paint (source colour decides later)
+    fillPoly(cls, r.points, c === 0 ? null : c, pid > 0 ? { map: pan, val: pid } : null);
+  }
+  return { cls, pan, wheels, regions: seg.regions.length };
+}
+if (process.argv[1].endsWith("rasterize.mjs")) {
+  const ids = process.argv.slice(2);
+  for (const n of ids) {
+    if (!existsSync(`${SP}seg/${n}.json`)) { console.log(n, "no segmentation"); continue; }
+    const { cls, pan, wheels, regions } = buildMaps(n);
+    writeFileSync(`${SP}seg/${n}-cls.u8`, Buffer.from(cls)); writeFileSync(`${SP}seg/${n}-pan.u8`, Buffer.from(pan));
+    const { data } = await sharp(`${SP}grid/${n}.jpg`).raw().toBuffer({ resolveWithObject: true });
+    const src = await sharp(`/home/user/marketing-app/docs/captures/ai-g80-controlled/`).metadata().catch(() => null);
+    const qa = Buffer.from(data);
+    for (let i = 0; i < W * H; i++) { const c = cls[i]; if (!c) continue; const rgb = CLASS_RGB[c]; const a = c === 1 ? 0.25 : 0.55; qa[i*3] = qa[i*3] * (1 - a) + rgb[0] * a; qa[i*3+1] = qa[i*3+1] * (1 - a) + rgb[1] * a; qa[i*3+2] = qa[i*3+2] * (1 - a) + rgb[2] * a;
+      const p = pan[i]; if (p && (pan[i-1] !== p || pan[i+1] !== p || pan[i-W] !== p || pan[i+W] !== p)) { qa[i*3] = 255; qa[i*3+1] = 255; qa[i*3+2] = 255; } }
+    await sharp(qa, { raw: { width: W, height: H, channels: 3 } }).resize(1000).jpeg({ quality: 82 }).toFile(`${SP}seg/${n}-qa.jpg`);
+    const counts = {}; for (let i = 0; i < W * H; i++) if (cls[i]) counts[CLASS_NAMES[cls[i]]] = (counts[CLASS_NAMES[cls[i]]] ?? 0) + 1;
+    console.log(n, "regions", regions, "wheels", wheels.length, JSON.stringify(counts));
+  }
+}

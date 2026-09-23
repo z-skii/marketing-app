@@ -1,0 +1,93 @@
+// Camera registration of the 16 source views against the cleaned mesh.
+// Method: known capture angle as the initial camera, then automatic refinement of azimuth, elevation, distance, target shift and fov
+// by coordinate descent on (a) one directional chamfer distance from the rendered mesh outline to the image edge map and
+// (b) a bounding box prior from the dark car pixels (horizontal extent and tyre contact). Writes cameras.json and QA overlays.
+import { createRequire } from "node:module";
+import { readFileSync, writeFileSync } from "node:fs";
+import { makeCamera } from "./cam.mjs";
+import { rasterize } from "./raster.mjs";
+import { existsSync } from "node:fs";
+const require = createRequire("/home/user/marketing-app/package.json");
+const sharp = require("sharp");
+const SP = "/tmp/claude-0/-home-user-marketing-app/5bc8c68e-4818-566d-ac70-747f6aee3573/scratchpad/ref/";
+const SRC = "/home/user/marketing-app/docs/captures/ai-g80-controlled/";
+const only = process.argv[2] ? process.argv[2].split(",") : null;
+const P = new Float32Array(readFileSync(`${SP}cache/P.f32`).buffer.slice(0)); const meta = JSON.parse(readFileSync(`${SP}cache/meta.json`, "utf8"));
+const I = new Uint32Array(readFileSync(`${SP}cache/I.u32`).buffer.slice(0)); const nv = meta.nv, nt = meta.nt; const W = 632, H = 424; const FULLW = 2528;
+const VIEWS = [
+  ["01", "01-front", 0, 2.5], ["02", "02-front-driver-34", 45, 2.5], ["03", "03-front-driver-int", 60, 2.5], ["04", "04-driver-side", 90, 2.5],
+  ["05", "05-rear-driver-int", 125, 2.5], ["06", "06-rear-driver-34", 135, 2.5], ["07", "07-rear", 180, 2.5], ["08", "08-rear-passenger-34", 225, 2.5],
+  ["09", "09-rear-passenger-int", 245, 2.5], ["10", "10-passenger-side", 270, 2.5], ["11", "11-front-passenger-int", 295, 2.5], ["12", "12-front-passenger-34", 315, 2.5],
+  ["13", "13-front-driver-34-high", 45, 12], ["14", "14-rear-driver-34-high", 135, 12], ["15", "15-rear-passenger-34-high", 225, 12], ["16", "16-front-passenger-34-high", 315, 12],
+];
+// every 2nd vertex is enough for the silhouette at this resolution
+const SIL = []; for (let i = 0; i < nv; i += 1) SIL.push(i);
+const cy0 = meta.dims.height * 0.45;
+let FINE = false;
+function renderSil(p) {
+  const cam = makeCamera({ ...p, cx: 0, cy: cy0 }, W, H); let img;
+  if (FINE) img = rasterize(cam, P, I, nt, W, H).cov;
+  else { img = new Uint8Array(W * H); for (let i = 0; i < nv; i++) { const q = cam.project(P[i*3], P[i*3+1], P[i*3+2]); if (!q) continue; const x = q[0] | 0, y = q[1] | 0; if (x < 0 || y < 0 || x >= W - 1 || y >= H - 1) continue; const k = y * W + x; img[k] = 1; img[k + 1] = 1; img[k + W] = 1; img[k + W + 1] = 1; } }
+  const d = new Uint8Array(W * H); for (let i = 0; i < W * H; i++) if (img[i]) { d[i] = 1; if (i > 0) d[i-1] = 1; if (i + 1 < W * H) d[i+1] = 1; if (i >= W) d[i-W] = 1; if (i + W < W * H) d[i+W] = 1; }
+  const e = new Uint8Array(W * H); for (let i = W; i < W * H - W; i++) if (d[i] && d[i-1] && d[i+1] && d[i-W] && d[i+W]) e[i] = 1;
+  return e;
+}
+function outline(sil) { const o = []; for (let i = W; i < W * H - W; i++) if (sil[i] && (!sil[i-1] || !sil[i+1] || !sil[i-W] || !sil[i+W])) o.push(i); return o; }
+function bboxOf(mask) { let minx = W, maxx = -1, miny = H, maxy = -1; for (let i = 0; i < W * H; i++) if (mask[i]) { const y = (i / W) | 0, x = i - y * W; if (x < minx) minx = x; if (x > maxx) maxx = x; if (y < miny) miny = y; if (y > maxy) maxy = y; } return { minx, maxx, miny, maxy }; }
+function dt(edge) { // chamfer distance transform (3-4), truncated at 40
+  const D = new Float32Array(W * H).fill(40); for (let i = 0; i < W * H; i++) if (edge[i]) D[i] = 0;
+  for (let y = 1; y < H; y++) for (let x = 1; x < W - 1; x++) { const i = y * W + x; D[i] = Math.min(D[i], D[i-1] + 1, D[i-W] + 1, D[i-W-1] + 1.4, D[i-W+1] + 1.4); }
+  for (let y = H - 2; y >= 0; y--) for (let x = W - 2; x >= 1; x--) { const i = y * W + x; D[i] = Math.min(D[i], D[i+1] + 1, D[i+W] + 1, D[i+W-1] + 1.4, D[i+W+1] + 1.4); }
+  return D;
+}
+const cameras = {};
+for (const [n, file, az0, el0] of VIEWS) {
+  if (only && !only.includes(n)) continue;
+  const { data } = await sharp(`${SRC}${file}.jpg`).resize(W, H).blur(1).raw().toBuffer({ resolveWithObject: true });
+  const lum = new Float32Array(W * H); for (let i = 0; i < W * H; i++) lum[i] = 0.299 * data[i*3] + 0.587 * data[i*3+1] + 0.114 * data[i*3+2];
+  const edge = new Uint8Array(W * H); for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) { const i = y * W + x; const gx = lum[i+1] - lum[i-1], gy = lum[i+W] - lum[i-W]; if (Math.hypot(gx, gy) > 14) edge[i] = 1; }
+  const D = dt(edge);
+  // dark car pixels: largest blob of lum < 95
+  const dark = new Uint8Array(W * H); for (let i = 0; i < W * H; i++) dark[i] = lum[i] < 95 ? 1 : 0;
+  const lab = new Int32Array(W * H).fill(-1); const sizes = []; const st = new Int32Array(W * H);
+  for (let s = 0; s < W * H; s++) { if (!dark[s] || lab[s] >= 0) continue; const id = sizes.length; let sp = 0, c = 0; st[sp++] = s; lab[s] = id; while (sp) { const i = st[--sp]; c++; for (const j of [i-1, i+1, i-W, i+W]) if (j >= 0 && j < W * H && dark[j] && lab[j] < 0) { lab[j] = id; st[sp++] = j; } } sizes.push(c); }
+  let big = 0; for (let k = 1; k < sizes.length; k++) if (sizes[k] > sizes[big]) big = k;
+  let blob = new Uint8Array(W * H); for (let i = 0; i < W * H; i++) blob[i] = lab[i] === big ? 1 : 0;
+  let prior = "dark blob";
+  if (existsSync(`${SP}seg/${n}-cls.u8`)) { // union of every vision polygon: the whole car, downscaled 2x, then closed
+    const full = new Uint8Array(readFileSync(`${SP}seg/${n}-cls.u8`)); const u = new Uint8Array(W * H); for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const i2 = (y * 2) * (W * 2) + x * 2; if (full[i2] || full[i2 + 1] || full[i2 + W * 2] || full[i2 + W * 2 + 1]) u[y * W + x] = 1; }
+    for (let i = 0; i < W * H; i++) if (blob[i]) u[i] = 1; // dark car pixels join the mask (tyres, lower bumper)
+    const d = new Uint8Array(W * H); for (let i = 0; i < W * H; i++) if (u[i]) { d[i] = 1; for (const j of [i-1, i+1, i-W, i+W, i-2, i+2, i-2*W, i+2*W]) if (j >= 0 && j < W * H) d[j] = 1; }
+    const e = new Uint8Array(W * H); for (let i = 2 * W; i < W * H - 2 * W; i++) if (d[i] && d[i-1] && d[i+1] && d[i-W] && d[i+W] && d[i-2] && d[i+2] && d[i-2*W] && d[i+2*W]) e[i] = 1;
+    blob = e; prior = "polygon union"; }
+  const bb = bboxOf(blob);
+  const cost = (p) => { const sil = renderSil(p); const o = outline(sil); if (o.length < 50) return 1e9; let s = 0; for (const i of o) s += D[i]; const rb = bboxOf(sil);
+    const e = (Math.abs(rb.minx - bb.minx) + Math.abs(rb.maxx - bb.maxx)) / W + (Math.abs(rb.maxy - bb.maxy) + 0.5 * Math.abs(rb.miny - bb.miny)) / H;
+    const clip = (rb.minx <= 1 && bb.minx > 4) || (rb.maxx >= W - 2 && bb.maxx < W - 5) || (rb.miny <= 1) || (rb.maxy >= H - 2) ? 20 : 0;
+    let inter = 0, uni = 0; for (let i = 0; i < W * H; i++) { if (sil[i] && blob[i]) inter++; if (sil[i] || blob[i]) uni++; } const iou = inter / (uni || 1);
+    return s / o.length + (prior === "polygon union" ? 40 * (1 - iou) + 40 * e : 120 * e) + clip; };
+  const clamp = (k, v) => Math.min(lim[k][1], Math.max(lim[k][0], v));
+  // known capture angle prior: straight views were generated as exactly straight (wheels are circles), so azimuth may only move a few degrees;
+  // three quarter views may move 20 degrees; the elevated views keep a raised camera
+  const straight = ["01", "04", "07", "10"].includes(n); const high = ["13", "14", "15", "16"].includes(n);
+  const lim = { az: [az0 - (straight ? 5 : 20), az0 + (straight ? 5 : 20)], el: high ? [8, 22] : [-3, 9], dist: [4, 16], sx: [-1.5, 1.5], sy: [-1.5, 1.5], fov: [16, 45] };
+  const keys = ["dist", "sx", "sy", "az", "el", "fov"];
+  function descend(p0, step0, rounds, skipFovFirst) { let p = { ...p0 }; const step = { ...step0 }; let best = cost(p);
+    for (let round = 0; round < rounds; round++) { let improved = false;
+      for (const k of keys) { if (skipFovFirst && round === 0 && k === "fov") continue; for (const dir of [1, -1]) { let q = { ...p, [k]: clamp(k, p[k] + dir * step[k]) }; let c = cost(q); while (c < best) { best = c; p = q; improved = true; q = { ...p, [k]: clamp(k, p[k] + dir * step[k]) }; c = cost(q); } } }
+      if (!improved) for (const k of keys) step[k] *= 0.5; }
+    return { p, best }; }
+  let p = null, best = Infinity;
+  for (const d0 of [6, 7.5, 9, 11]) for (const da of (straight ? [0] : [-10, 0, 10])) { const r = descend({ az: az0 + da, el: el0, dist: d0, sx: 0, sy: 0, fov: 27 }, { az: 5, el: 3, dist: 1.2, sx: 0.4, sy: 0.3, fov: 4 }, 5, true); if (r.best < best) { best = r.best; p = r.p; } }
+  FINE = true; ({ p, best } = descend(p, { az: 1, el: 0.6, dist: 0.3, sx: 0.06, sy: 0.05, fov: 1 }, 5, false)); FINE = false;
+  FINE = true; const sil = renderSil(p); FINE = false; const o = outline(sil); let ch = 0; for (const i of o) ch += D[i]; ch /= o.length;
+  const rb = bboxOf(sil); const inter = blob.reduce((s, v, i) => s + (v && sil[i] ? 1 : 0), 0); const uni = blob.reduce((s, v, i) => s + (v || sil[i] ? 1 : 0), 0);
+  const cam = makeCamera({ ...p, cx: 0, cy: cy0 }, W, H);
+  cameras[n] = { view: file, init: { az: az0, el: el0 }, params: { ...p, cx: 0, cy: cy0 }, chamfer_px_632: +ch.toFixed(2), dark_iou: +(inter / uni).toFixed(3), bbox_render: rb, bbox_dark: bb, three: { position: cam.pos.map((v) => +v.toFixed(4)), target: cam.target.map((v) => +v.toFixed(4)), fov: +p.fov.toFixed(2), aspect: 1.5 } };
+  console.log(n, file, prior, JSON.stringify(cameras[n].params), "chamfer", ch.toFixed(2), "px", "darkIoU", (inter / uni).toFixed(3));
+  // QA overlay: green rendered outline, blue image edges (faint)
+  const qa = Buffer.from(data); for (let i = 0; i < W * H; i++) if (edge[i]) { qa[i*3+2] = Math.min(255, qa[i*3+2] + 90); } for (const i of o) { qa[i*3] = 40; qa[i*3+1] = 255; qa[i*3+2] = 60; }
+  await sharp(qa, { raw: { width: W, height: H, channels: 3 } }).jpeg({ quality: 85 }).toFile(`${SP}masks/${n}-reg.jpg`);
+}
+const prev = (() => { try { return JSON.parse(readFileSync(`${SP}cameras.json`, "utf8")); } catch { return {}; } })();
+writeFileSync(`${SP}cameras.json`, JSON.stringify({ ...prev, ...cameras }, null, 1));

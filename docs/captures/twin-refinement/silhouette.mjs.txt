@@ -1,0 +1,40 @@
+// Foreground silhouette of each source view by region growing from the frame border over the smooth studio background.
+// usage: node silhouette.mjs   (reads docs/captures/ai-g80-controlled/NN-*.jpg, writes masks/NN.png at 1264x848 and QA jpgs)
+import { createRequire } from "node:module";
+import { readdirSync } from "node:fs";
+const require = createRequire("/home/user/marketing-app/package.json");
+const sharp = require("sharp");
+const SRC = "/home/user/marketing-app/docs/captures/ai-g80-controlled";
+const OUT = new URL("./masks/", import.meta.url).pathname;
+const W = 1264, H = 848;
+const files = readdirSync(SRC).filter((f) => /^\d\d-.*\.jpg$/.test(f)).sort();
+for (const f of files) {
+  const n = f.slice(0, 2);
+  const { data } = await sharp(`${SRC}/${f}`).resize(W, H).blur(0.8).raw().toBuffer({ resolveWithObject: true });
+  const lum = new Float32Array(W * H);
+  for (let i = 0; i < W * H; i++) lum[i] = 0.299 * data[i*3] + 0.587 * data[i*3+1] + 0.114 * data[i*3+2];
+  // region grow background from the border: step tolerance small, absolute floor: background is never darker than 70
+  const bg = new Uint8Array(W * H); const q = new Int32Array(W * H); let qh = 0, qt = 0;
+  const push = (i) => { if (!bg[i]) { bg[i] = 1; q[qt++] = i; } };
+  for (let x = 0; x < W; x++) { push(x); push((H - 1) * W + x); } for (let y = 0; y < H; y++) { push(y * W); push(y * W + W - 1); }
+  const TOL = 3.5, FLOOR = 72;
+  while (qh < qt) { const i = q[qh++]; const y = (i / W) | 0, x = i - y * W; const l = lum[i];
+    for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) { const nx = x + dx, ny = y + dy; if (nx < 0 || ny < 0 || nx >= W || ny >= H) continue; const j = ny * W + nx; if (bg[j]) continue; if (lum[j] < FLOOR) continue; if (Math.abs(lum[j] - l) <= TOL) push(j); } }
+  // foreground = not background; then fill enclosed holes (windows reflections etc. are inside anyway); remove specks by opening
+  let fg = new Uint8Array(W * H); for (let i = 0; i < W * H; i++) fg[i] = bg[i] ? 0 : 255;
+  // keep only the largest connected foreground blob (drops shadow fragments and noise), then close holes
+  const lab = new Int32Array(W * H).fill(-1); const sizes = []; const stack = new Int32Array(W * H);
+  for (let s = 0; s < W * H; s++) { if (!fg[s] || lab[s] >= 0) continue; const id = sizes.length; let sp = 0, cnt = 0; stack[sp++] = s; lab[s] = id; while (sp) { const i = stack[--sp]; cnt++; const y = (i / W) | 0, x = i - y * W; for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) { const nx = x + dx, ny = y + dy; if (nx < 0 || ny < 0 || nx >= W || ny >= H) continue; const j = ny * W + nx; if (fg[j] && lab[j] < 0) { lab[j] = id; stack[sp++] = j; } } } sizes.push(cnt); }
+  let big = 0; for (let k = 1; k < sizes.length; k++) if (sizes[k] > sizes[big]) big = k;
+  for (let i = 0; i < W * H; i++) fg[i] = lab[i] === big ? 255 : 0;
+  // fill holes: background components not touching the border become foreground
+  const lab2 = new Int32Array(W * H).fill(-1); const touches = [];
+  for (let s = 0; s < W * H; s++) { if (fg[s] || lab2[s] >= 0) continue; const id = touches.length; let sp = 0, t = false; stack[sp++] = s; lab2[s] = id; while (sp) { const i = stack[--sp]; const y = (i / W) | 0, x = i - y * W; if (x === 0 || y === 0 || x === W - 1 || y === H - 1) t = true; for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) { const nx = x + dx, ny = y + dy; if (nx < 0 || ny < 0 || nx >= W || ny >= H) continue; const j = ny * W + nx; if (!fg[j] && lab2[j] < 0) { lab2[j] = id; stack[sp++] = j; } } } touches.push(t); }
+  for (let i = 0; i < W * H; i++) if (!fg[i] && !touches[lab2[i]]) fg[i] = 255;
+  let area = 0, minx = W, maxx = 0, miny = H, maxy = 0; for (let i = 0; i < W * H; i++) if (fg[i]) { area++; const y = (i / W) | 0, x = i - y * W; if (x < minx) minx = x; if (x > maxx) maxx = x; if (y < miny) miny = y; if (y > maxy) maxy = y; }
+  await sharp(Buffer.from(fg), { raw: { width: W, height: H, channels: 1 } }).png().toFile(`${OUT}${n}.png`);
+  // QA: red edge over the image
+  const qa = Buffer.from(data); for (let i = 0; i < W * H; i++) { const y = (i / W) | 0, x = i - y * W; if (!fg[i]) continue; const edge = x === 0 || y === 0 || x === W - 1 || y === H - 1 || !fg[i-1] || !fg[i+1] || !fg[i-W] || !fg[i+W]; if (edge) { qa[i*3] = 255; qa[i*3+1] = 30; qa[i*3+2] = 30; } }
+  await sharp(qa, { raw: { width: W, height: H, channels: 3 } }).jpeg({ quality: 80 }).toFile(`${OUT}${n}-qa.jpg`);
+  console.log(n, "area", (area / (W * H) * 100).toFixed(1) + "%", "bbox", minx, miny, maxx, maxy, "blobs", sizes.length);
+}

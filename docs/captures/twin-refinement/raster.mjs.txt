@@ -1,0 +1,27 @@
+// Triangle rasterizer: silhouette (coverage) or z-buffer with triangle ids.
+export function rasterize(cam, P, I, nt, W, H, opts = {}) {
+  const { ids = false } = opts;
+  const cov = new Uint8Array(W * H); const zb = ids ? new Float32Array(W * H).fill(Infinity) : null; const tid = ids ? new Int32Array(W * H).fill(-1) : null;
+  const nv = P.length / 3; const px = new Float32Array(nv), py = new Float32Array(nv), pz = new Float32Array(nv);
+  for (let i = 0; i < nv; i++) { const q = cam.project(P[i*3], P[i*3+1], P[i*3+2]); if (q) { px[i] = q[0]; py[i] = q[1]; pz[i] = q[2]; } else { pz[i] = -1; } }
+  for (let t = 0; t < nt; t++) {
+    const a = I[t*3], b = I[t*3+1], c = I[t*3+2]; if (pz[a] < 0 || pz[b] < 0 || pz[c] < 0) continue;
+    const x0 = px[a], y0 = py[a], x1 = px[b], y1 = py[b], x2 = px[c], y2 = py[c];
+    const minx = Math.max(0, Math.floor(Math.min(x0, x1, x2))), maxx = Math.min(W - 1, Math.ceil(Math.max(x0, x1, x2)));
+    const miny = Math.max(0, Math.floor(Math.min(y0, y1, y2))), maxy = Math.min(H - 1, Math.ceil(Math.max(y0, y1, y2)));
+    if (minx > maxx || miny > maxy) continue;
+    const area = (x1 - x0) * (y2 - y0) - (x2 - x0) * (y1 - y0); if (Math.abs(area) < 1e-9) continue; const inv = 1 / area;
+    for (let y = miny; y <= maxy; y++) for (let x = minx; x <= maxx; x++) {
+      const sx = x + 0.5, sy = y + 0.5;
+      let w0 = ((x1 - sx) * (y2 - sy) - (x2 - sx) * (y1 - sy)) * inv; let w1 = ((x2 - sx) * (y0 - sy) - (x0 - sx) * (y2 - sy)) * inv; let w2 = 1 - w0 - w1;
+      if (w0 < -1e-4 || w1 < -1e-4 || w2 < -1e-4) { // tiny triangles: also mark the pixel that contains a vertex so sub pixel triangles still cover
+        continue; }
+      const i = y * W + x; cov[i] = 1;
+      if (ids) { const z = w0 * pz[a] + w1 * pz[b] + w2 * pz[c]; if (z < zb[i]) { zb[i] = z; tid[i] = t; } }
+    }
+    if (ids) { // ensure sub pixel triangles still register at their centroid pixel
+      const cx = ((x0 + x1 + x2) / 3) | 0, cy = ((y0 + y1 + y2) / 3) | 0; if (cx >= 0 && cy >= 0 && cx < W && cy < H) { const i = cy * W + cx; const z = (pz[a] + pz[b] + pz[c]) / 3; if (z < zb[i]) { zb[i] = z; tid[i] = t; } cov[i] = 1; }
+    } else { const cx = ((x0 + x1 + x2) / 3) | 0, cy = ((y0 + y1 + y2) / 3) | 0; if (cx >= 0 && cy >= 0 && cx < W && cy < H) cov[cy * W + cx] = 1; }
+  }
+  return { cov, zb, tid, px, py, pz };
+}
