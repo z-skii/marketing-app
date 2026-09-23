@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { AiG80Studio } from "./Studio";
 import "./ai-g80.css";
 
@@ -10,5 +11,5 @@ export const metadata: Metadata = { title: "AI 3D test: G80 reference reconstruc
  * that takes a decal? Nothing here touches the rest of TapMart.
  */
 export default function AiG80LabPage() {
-  return <AiG80Studio />;
+  return <Suspense fallback={null}><AiG80Studio /></Suspense>;
 }

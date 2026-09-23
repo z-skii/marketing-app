@@ -53,9 +53,17 @@ Round two, submitted 02:44 UTC, after the background cutouts had arrived
 | ai-g80-tripo1 | Tripo H3.1 image to 3D, detailed geometry and texture, PBR | cutout of 8 only | GLB, 1 mesh, 1,883,593 triangles, 3 JPEG textures 4096 px, 56.2 MB | 02:48 (about 4 min) | 18 |
 | ai-g80-hunyuan2 | Hunyuan3D v3 image to 3D with multiple views, PBR, 300k faces | cutouts of 10, 17, 12 and the original 14 | GLB, 1 mesh, 300,000 triangles, 3 PNG textures 4096 px, 31.7 MB | 02:48 (about 4 min) | 23 |
 
+Round three, submitted 03:14 UTC, after mo chose the Meshy result for its
+proportions and asked for a cleaner one:
+
+| Candidate | Model | Inputs | Output | Done | Credits |
+| --- | --- | --- | --- | --- | --- |
+| ai-g80-meshy (final) | Meshy multi image to 3D, texture + PBR, 300k target, symmetry on | cutouts of 8, 12, 10, 17 | GLB, 1 mesh, 309,236 triangles, 4 textures 2048 px, 27.0 MB | 03:19 (about 4 min) | 30 |
+
 Web files were made with gltf-transform 4.5 (Draco geometry, WebP textures at
 2048 px; the Tripo mesh simplified to 475,008 triangles):
-ai-g80-tripo.glb 2.16 MB, ai-g80-meshy.glb 2.47 MB, ai-g80-hunyuan.glb 1.37 MB.
+ai-g80-tripo.glb 2.16 MB, ai-g80-meshy.glb 3.53 MB (round three),
+ai-g80-hunyuan2.glb 1.29 MB.
 Every candidate has positions, normals and one UV set, one material, no
 separate parts: wheels, glass, lights and body are one surface.
 
@@ -71,6 +79,7 @@ Bounding box of each raw mesh, scaled so the length is 4,794 mm:
 | Hunyuan | 1.93 | 2.43 | 2,485 | 1,969 |
 | Tripo, one cutout (round two) | 2.30 | 2.84 | 2,087 | 1,686 |
 | Hunyuan, cutouts (round two) | 1.88 | 2.48 | 2,543 | 1,932 |
+| Meshy, cutouts (round three, final) | 2.31 | 3.14 | 2,073 | 1,528 |
 
 Meshy is within 1 percent of the real width over mirrors and 6 percent tall.
 The round one Tripo and Hunyuan meshes are about 25 percent too short for
@@ -82,41 +91,46 @@ Hunyuan the cause is the missing true side view, not the background.
 
 ## What is on /labs/ai-g80
 
-The default is the round one Tripo multiview mesh: the most detailed of the
-five, with both ends true to the photographs. `?v=ai-g80-meshy` and
-`?v=ai-g80-hunyuan2` show the other two kept for comparison; the round one
-Hunyuan mesh and the single photo Tripo mesh were measured and then dropped
-from the repository (their numbers are above). The page is a dark studio, the
+The default is the round three Meshy mesh: the only provider whose
+proportions match the real car, rebuilt from the background cutouts, which
+removed the dark blob on the fender and most of the muddy texture of round
+one. `?v=ai-g80-tripo` (the most detailed but a quarter too short) and
+`?v=ai-g80-hunyuan2` (the cleanest surfaces but a two door side, also too
+short) stay for comparison; the round one Hunyuan and Meshy meshes and the
+single photo Tripo mesh were measured and then dropped from the repository
+(their numbers are above). The page is a dark studio, the
 car nearly edge to edge, drag to orbit, pinch or scroll to zoom, four view
 chips, a "Test ad on driver door" toggle and a facts sheet with everything in
 this document. Screenshots: desktop 1440 and phone 390 through Playwright
 (software WebGL); no console errors on either.
 
-## Visual comparison against the photographs (default mesh)
+## Visual comparison against the photographs (default mesh, Meshy round three)
 
 Accurate:
 
-- Front: vertical kidney grille, slim headlights, three part lower bumper and
-  splitter. A person who knows the car reads "M3 G80" at once.
+- Proportions: length to width within 1 percent of the real car over the
+  mirrors, height 7 percent tall. The side view and the wheelbase read as a
+  G80, which no other provider managed.
+- Front: vertical kidney grille, slim headlights and the lower bumper read as
+  an M3 Competition G80.
 - Rear: light shape, diffuser and four exhaust tips match.
-- Details the photographs showed: fender gills, M mirrors, spoiler lip, wheel
-  design, red calipers, roof panel.
-- Stance from the front and rear three quarter views.
+- Fender gills, M mirrors, spoiler lip, wheel design and roof panel are where
+  they should be.
 
 Wrong or invented:
 
-- Proportions: about 25 percent too short for its width and height. The side
-  view shows a tall, short sedan with a short wheelbase. This is the biggest
-  error and it comes from the inputs: no straight side view, and three quarter
-  photographs in the model's left and right slots.
-- Side surfaces: glass and door areas are wrinkled; door shut lines are faint
-  and partly invented; the panoramic roof edge is smeared.
-- Hood and roof carry texture noise from the car park lighting.
-- Wheels are part of the body surface, not separate parts; tyres are thin in
-  places.
-- Meshy: right proportions, muddy surfaces and textures, a dark blob where the
-  fender gill should be. Hunyuan3D: the cleanest surfaces and the best front
-  and rear, but a two door side with no door lines, and also too short.
+- The grille bars and the headlight interiors are painted into the texture
+  rather than modelled; up close they are shallow and soft.
+- Surface texture is softer than the photographs: door shut lines, the hood
+  crease and the window frames are painted on, and the white paint has a
+  mottled, chalky look under studio light.
+- Wheels are part of the body surface, not separate parts.
+- Everything the photographs did not show (underside, roof edge, far side
+  details) was invented.
+- For comparison: Tripo has far crisper detail (grille, lights, gills,
+  calipers) but is a quarter too short with wrinkled side glass; Hunyuan3D has
+  the cleanest surfaces and the best front and rear but a two door side with
+  no door lines, also too short.
 
 ## Test ad
 
@@ -130,8 +144,8 @@ matter because the box stops below it.
 
 ## Credits and time
 
-Five generations and five cutouts used 116 Higgsfield credits from the
-account's existing Plus plan (967.5 before, 851.5 after). Each generation took
+Six generations and five cutouts used 146 Higgsfield credits from the
+account's existing Plus plan (967.5 before, 821.5 after). Each generation took
 3 to 5 minutes. No new key, account or purchase was needed; the direct Tripo
 API would price the same multiview job at 30 credits, 1 credit = 0.01 USD.
 
@@ -159,9 +173,10 @@ Good enough for placing advertisements, not yet:
    digital twin library that reuses a validated mesh per make, model and
    generation is therefore the right shape: reconstruct once from a complete
    capture, validate by a person, reuse for every customer with that car.
-4. The best surfaces and the best proportions came from different providers,
-   so a real pipeline needs the provider abstraction and a measurable selection
-   step, not one fixed provider.
+4. The best surfaces (Hunyuan3D), the best detail (Tripo) and the best
+   proportions (Meshy) came from different providers, and clean cutouts
+   improved Meshy visibly, so a real pipeline needs the provider abstraction,
+   a cutout step and a measurable selection step, not one fixed provider.
 5. Rights: a mesh that reproduces a BMW design is still a BMW design. The
    photo licence and the generation terms do not clear commercial use.
 
