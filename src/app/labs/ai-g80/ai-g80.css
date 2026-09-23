@@ -1,0 +1,44 @@
+/* AI 3D test: a dark studio, the car nearly edge to edge, almost no chrome. */
+.aig { position: fixed; inset: 0; background: #0B0C0E; color: #F3F4F6; font-family: var(--font-sans), "DM Sans", system-ui, sans-serif; overflow: hidden; }
+.aig * { box-sizing: border-box; }
+.aig-stage { position: absolute; inset: 0; }
+.aig .v3d-stage.is-dark { background: radial-gradient(110% 80% at 50% 42%, #2A2D33 0%, #16181B 46%, #0B0C0E 100%); }
+.aig .v3d-loading { color: #9AA0A8; }
+.aig .v3d-loading-car { background: linear-gradient(90deg, #1E2125 0%, #2C3036 45%, #1E2125 90%); background-size: 220% 100%; }
+.aig .v3d-fallback b { color: #fff; }
+.aig .v3d-fallback span { color: #9AA0A8; }
+.aig .v3d-hint { background: rgba(255, 255, 255, 0.1); color: #C9CDD3; top: auto; bottom: 64px; right: auto; left: 50%; transform: translateX(-50%); }
+.aig .v3d-presets.is-subtle { left: 50%; right: auto; bottom: 18px; transform: translateX(-50%); gap: 6px; }
+.aig .v3d-presets.is-subtle .v3d-chip { background: rgba(255, 255, 255, 0.08); color: #D4D7DC; border-color: rgba(255, 255, 255, 0.1); min-height: 32px; padding: 0 12px; }
+.aig .v3d-presets.is-subtle .v3d-chip:hover { background: rgba(255, 255, 255, 0.16); color: #fff; }
+.aig .v3d-presets.is-subtle .v3d-chip.is-on { background: #fff; color: #0B0C0E; border-color: #fff; }
+.aig .v3d-toast { background: #fff; color: #0B0C0E; }
+
+.aig-label { position: absolute; left: 20px; top: 18px; z-index: 5; pointer-events: none; }
+.aig-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #fff; background: rgba(224, 33, 43, 0.92); }
+.aig-tag i { width: 6px; height: 6px; border-radius: 50%; background: #fff; display: inline-block; animation: aig-pulse 1.8s ease-in-out infinite; }
+@keyframes aig-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.aig-title { margin: 10px 0 0; font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: -0.01em; color: #fff; }
+.aig-sub { margin: 2px 0 0; font-size: 12px; line-height: 16px; color: #9AA0A8; }
+
+.aig-tools { position: absolute; right: 16px; top: 18px; z-index: 5; display: flex; gap: 6px; }
+.aig-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px; border-radius: 999px; font: inherit; font-size: 12px; font-weight: 600; color: #D4D7DC; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.aig-btn:hover { background: rgba(255, 255, 255, 0.16); color: #fff; }
+.aig-btn.is-on { background: #fff; color: #0B0C0E; border-color: #fff; }
+.aig-btn:disabled { opacity: 0.4; cursor: default; }
+
+.aig-facts { position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 6; max-height: min(64vh, 560px); overflow-y: auto; padding: 16px 18px 18px; border-radius: 18px; background: rgba(14, 15, 18, 0.92); border: 1px solid rgba(255, 255, 255, 0.08); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); font-size: 13px; line-height: 18px; color: #C9CDD3; }
+.aig-facts h2 { margin: 0 0 10px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; }
+.aig-facts dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 0; }
+.aig-facts dt { color: #8B9099; font-weight: 500; }
+.aig-facts dd { margin: 0; }
+.aig-facts a { color: #fff; text-decoration: underline; }
+.aig-facts .is-warn { color: #FFB4B9; }
+.aig-facts ul { margin: 0; padding-left: 16px; }
+@media (min-width: 900px) { .aig-facts { left: auto; width: 480px; } }
+@media (max-width: 767px) {
+  .aig-label { left: 14px; top: 14px; }
+  .aig-tools { right: 10px; top: 12px; }
+  .aig-facts dl { grid-template-columns: 1fr; gap: 2px; }
+  .aig-facts dt { margin-top: 8px; }
+}
