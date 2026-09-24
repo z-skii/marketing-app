@@ -1,372 +1,306 @@
-# TapMart Vehicle Twin Engine V1: research and engineering plan
+# TapMart Vehicle Twin Engine V1: automatic vehicle builder plan (revision 2)
 
-Status: proposal, 2026-09-24. No code, no credits, no deployment. Not committed.
+Status: proposal, revised 2026-09-24 after the decision that the engine must
+construct the generation twin itself and people only correct what it flags.
+No code, no credits, no deployment.
 
 ## The honest headline
 
-No 2026 system turns arbitrary phone photos or video of a car into the green
-reference quality automatically. The best image to 3D generators (TRELLIS.2,
-Hunyuan3D 3.1, Rodin Gen-2, Hitem3D, Tripo 3.1, Meshy 7) produce one dense
-surface with baked appearance; at 1024 to 1536 voxel resolution the shape is
-plausible but never a structured, clean-topology, part-separated asset, and a
-full car from uncontrolled captures degrades further (our G80 is the proof).
-Feed-forward multi-view geometry (MapAnything, Depth Anything 3, VGGT) and
-Gaussian splatting give real, metric evidence of the user's car but not a
-usable surface on reflective paint and glass. Part generators (PartCrafter,
-Hunyuan3D-Part, Tripo segmentation) give parts, but generic ones.
+An automatic structured builder is technically feasible in 2026, with one
+qualification: the body, panels, glass, pillars, wheel placement, arches and
+the main character lines can be built and fitted automatically from photos
+plus known dimensions; the parts that carry brand identity in small areas
+(grille internals, light signatures, unusual wheels, badges) can be built to
+a plausible level automatically but will need a human to confirm or correct
+on the first vehicle of a generation. Expect the engine to deliver 80 to 90
+percent of a professional exterior on its own and to hand a person two to
+four flagged components, not a whole car. That replaces "an artist models
+every generation" with "a reviewer fixes a grille", which is the change
+requested.
 
-What does reach the target is a hybrid: identify the exact generation, fit a
-clean parametric template (quad topology, named panels, part slots) to every
-view at once under real dimensions, fill part slots with dedicated
-reconstruction or library parts, refine with differentiable rendering,
-validate by reprojection, have a person sign off, and bank the result as a
-generation twin so the next owner costs minutes. The first vehicle of a
-generation is artist-in-the-loop; every one after is automatic fitting.
+The design decision behind this: the universal prior is a curve network,
+not a mesh. Professional automotive surfacing is curve first (feature
+curves, then Class-A patches between them). Feature curves are exactly what
+photos constrain best (silhouettes, beltline, roofline, window boundaries,
+seams, arches, bumper edges), what multi-view curve reconstruction recovers
+in 2026, and what makes an M3 differ from a Camry. Surfaces are then
+generated from the curves with continuity constraints, so they are clean by
+construction.
 
-## 1. End to end architecture
+## Research findings
+
+1. Parametric vehicle reconstruction. Vehicle-specific priors work when they
+   are part aware and fitted with differentiable rendering: CADSim (Waabi,
+   2023) fits a small set of CAD car priors with articulated wheels to
+   in-the-wild sensor data; 3DRealCar (ICCV 2025) gives 2,500 real scanned
+   cars with dimensions for benchmarking; Common3D (CVPR 2025) learns a
+   category template plus deformation field from casual videos, code
+   released. Classic PCA car shape spaces exist but are too blunt for
+   brand identity; they are useful only as a coarse initialiser.
+2. Image to CAD and B-rep generation. CADENA (2026, code released), CAD-Recode
+   (ICCV 2025), CADCrafter, BrepGen, BrepDiff, AutoBrep, BrepGPT and
+   DreamCAD (ECCV 2026, differentiable Bezier patch tessellation, code to be
+   released) show that programs and B-reps can be inferred and optimised
+   against images. They are trained on mechanical parts (sketch and extrude,
+   ABC, DeepCAD); none targets free-form car bodies. Their usable lesson is
+   the representation: parametric patches with a differentiable tessellation
+   can be optimised against images end to end.
+3. Subdivision and patch fitting. Catmull-Clark subdivision is a linear
+   operator on control points, so a control cage can be optimised through a
+   differentiable renderer directly; Loop and Catmull-Clark fitting to
+   targets is mature. OpenCASCADE (LGPL) provides constrained surface
+   filling with G1 and G2 continuity (BRepFill_Filling, GeomPlate) and Gordon
+   curve network interpolation through occ_gordon (Python). This is the
+   "clean surfaces by construction" toolset.
+4. Multi-view curve reconstruction. CGGT (SIGGRAPH Asia 2026) reconstructs
+   parametric 3D curves feed-forward from sparse unposed photos and
+   separates structural edges from silhouette and texture edges; SGCR,
+   CurveGaussian, SketchSplat, EMAP and NEF do it by optimisation. This is
+   new since our last plan and it is the piece that makes a curve-first
+   builder practical.
+5. Procedural and agentic construction. LL3M, Procedura (2026), MeshCoder
+   and the 3DCodeBench and P3D-Bench benchmarks (2026) show VLM agents can
+   write part-structured procedural programs and improve them in a render,
+   critique, rebuild loop; Procedura produces the sharpest edges of any
+   method on hard-surface benchmarks. The same benchmarks report the limits:
+   assemblies are the hardest case, global shape is recovered but precise
+   parametric geometry is not, and free Blender code produces floating
+   parts. Conclusion for TapMart: the agent decides structure and diagnoses
+   defects; numerical optimisation owns every dimension and curve.
+6. Part-aware generation. PartCrafter (MIT), PartPacker, OmniPart, HoloPart,
+   FullPart, Hunyuan3D-Part (P3-SAM segmentation of any mesh, X-Part
+   completion; community licence, not EU) and Tripo mesh segmentation give
+   part candidates from crops or meshes. Quality is generic; a G80 kidney
+   grille comes back plausible, not exact. Good enough as a candidate that
+   is retopologised (QuadWild, feature-line driven pure quad remeshing) and
+   fitted into a slot, never as truth.
+7. Automotive surfacing. Class-A reconstruction from feature curves is an
+   established industrial workflow (PDE surfaces from feature curves,
+   QuickSurface 2026 curve-based patching, PolyWorks automatic surfacing).
+   The engine copies the workflow, not the tools.
+8. Data for a universal prior. Objaverse and Objaverse-XL objects carry
+   Creative Commons licences and MeshFleet (2025) is a filtered, quality
+   annotated vehicle subset intended for domain generative modelling;
+   ShapeNet is non-commercial. Fitting the curve network to a few hundred
+   CC-BY car meshes gives a statistical prior on curve control points per
+   body style without touching any branded commercial model.
+9. Wheels. DeepWheel (2025) shows wheel geometry from images is tractable;
+   for TapMart a parametric wheel builder (rim, spoke count and profile from
+   the straight side view, tyre torus) is simpler and exact enough.
+10. Single-image generators remain evidence. SAM 3D reports symmetry errors,
+    floaters and lost thin structures on wheels; TRELLIS.2 and Hunyuan 3.1
+    give one surface. They stay in the pipeline as coarse volumetric hints
+    and as part candidates only.
+
+## Revised architecture
 
 ```
 CAPTURE (photos, video, optional VIN)
-  -> A. Intake and quality gate
-  -> B. Identification (ensemble, evidence weighted)
-  -> C. Reference intelligence (dimensions, options, generation record)
-  -> D. Evidence extraction (cameras, depth, masks per part, landmarks, splat)
-  -> E. Library lookup: generation twin exists?
-       yes -> F2. Instance fit (template + options + wheels + colour)
-       no  -> F1. Generation build (template fit + part reconstruction + artist finish)
-  -> G. Validation loop (render, compare, error map, refine, repeat)
-  -> H. Review (automatic pass or human queue)
-  -> I. Master asset (USD, parts, semantics, ad surfaces) -> LODs -> web GLBs
-  -> J. Library update (generation twin, variants, ad-safe surfaces)
+ -> A intake and coverage gate
+ -> B identification (VLM + VMMR API + VIN decode, fused)
+ -> C reference intelligence (official dimensions, option matrix, generation record)
+ -> D evidence: cameras and metric depth, SAM 3 part masks, 2D edges, 3D feature curves, wheel centres and radii, coarse volumetric hint
+ -> E library lookup
+      hit  -> F2 instance solve (facelift, trim, wheels, options, colour, modifications)
+      miss -> F1 VEHICLE BUILDER
+              F1.1 chassis: wheelbase, track, wheel centres, axles, ride height, ground plane
+              F1.2 skeleton: body-style curve network initialised from the universal prior and dimensions
+              F1.3 curve fit: every curve optimised against all views (masks, edges, 3D curves, silhouettes)
+              F1.4 body surfacing: patches from the curve network with G1 and G2 continuity, symmetry, crease constraints
+              F1.5 panel split: doors, hood, trunk, fenders, quarters, bumpers, roof, pillars, glass from the seam curves, real gaps
+              F1.6 part builders: wheels, tyres, mirrors, handles, grille, intakes, lights, spoiler, exhaust, badge pucks
+              F1.7 assembly with mates and symmetry
+ -> G BUILD, RENDER, CRITIQUE, REBUILD loop with component scores
+ -> H confidence gate: components under threshold to a reviewer, everything else auto approved
+ -> I master (USD, B-rep where available, parts, semantics, ad surfaces) -> LODs -> web GLBs
+ -> J library: frozen, versioned generation twin
 ```
 
-Stage by stage:
+### The universal vehicle prior
 
-A. Intake: photos or video (video is sampled to keyframes by blur and overlap
-   scoring); EXIF focal length; optional LiDAR depth from iPhone; optional VIN
-   photo or typed VIN. Quality gate: coverage map of the car (12 sectors),
-   blur, exposure, distance. Fails fast with a specific ask ("walk around the
-   rear right").
+Eight body-style skeletons (sedan, coupe, hatchback, wagon, SUV and
+crossover, pickup, van, sports car), each a named curve network of about 40
+to 60 B-spline curves (roofline, beltline, shoulder line, sill, rocker,
+DLO and window boundaries, A B C pillar edges, hood centre and edges,
+cowl, trunk edges, bumper edges, wheel arches, fender lines, door seams,
+grille outline, light outlines, mirror base, spoiler edge) plus a patch
+layout graph that says which curves bound which panel. The curves carry
+identity; the layout carries topology. Each skeleton has a statistical prior
+on control points learned from CC-BY vehicle meshes, used only to
+initialise and regularise. This is built once per body style by an engineer
+and a modeller, which is the one-time human investment, not per generation.
 
-B. Identification: three independent signals, fused with confidence:
-   VLM on the multi-view set (GPT-5.5 through our client, structured output,
-   already proven at 0.90 to 0.99 on the G80), a fine-grained make model
-   generation classifier API (Carnet.ai claims 97 percent to generation level;
-   Plate Recognizer VMMR as alternative), and, when available, the VIN decoded
-   through NHTSA vPIC (free, official, definitive make, model, year, body,
-   trim, doors). Disagreement or confidence under 0.85 on generation or
-   facelift goes to the user as a two option question with photos, never
-   guessed.
+Why this beats a mesh template: two sedans with the same layout but
+different curves are different cars; a lattice-deformed mesh template
+cannot move a shoulder line without dragging the whole surface. Why this
+beats free procedural code: the program is a fixed vocabulary (curves,
+patches, part builders, mates) so an agent can only choose and parameterise,
+never invent unconnected geometry.
 
-C. Reference intelligence (legally safe): official dimension facts from
-   Transport Canada's Canadian Vehicle Specifications (length, width, height,
-   wheelbase, front and rear track, overhangs, side glass height, 1972 to
-   2027, public), NHTSA vPIC (body class, doors, plant, GVWR), manufacturer
-   press specifications (facts are not copyrightable), tyre and wheel sizes
-   from the fitment data on the door jamb label (the user photographs it).
-   Press photography is used only as human reference for the artist during a
-   first generation build; nothing is copied into the asset. No commercial 3D
-   model is downloaded or traced. The generation record stores the option
-   matrix (wheel designs, spoilers, packages) as a checklist for evidence.
+### Curves as the fitted quantity
 
-D. Evidence extraction on the user's images:
-   cameras and metric geometry: MapAnything (Apache 2.0 checkpoint) or Depth
-   Anything 3 (Apache 2.0); VGGT only with the commercial checkpoint. A
-   gsplat scene (Apache 2.0) trained for a few minutes gives a dense
-   silhouette and novel views for the fit, never the final surface.
-   Part masks: SAM 3 with concept prompts ("headlight", "kidney grille",
-   "door handle", "side mirror", "wheel", "windshield") on every keyframe,
-   tracked in video, giving per part masks with confidence; far better than
-   the polygons we used.
-   Landmarks: wheel centres and arch apexes from masks and depth; body
-   creases and panel gaps from edge maps constrained to the template's seam
-   set.
+Per view, SAM 3 masks give part boundaries, edge maps give creases, the
+cameras come from MapAnything or Depth Anything 3, and a CGGT-style curve
+lift (or our own multi-view curve optimisation on the registered cameras)
+gives 3D curve estimates. The fitter minimises, over all views together,
+mask boundary distance, edge chamfer, silhouette IoU, 3D curve distance,
+wheel centre and radius error, symmetry violation and curvature roughness,
+with official dimensions as hard constraints. One coherent car, never one
+view at a time.
 
-E. Library lookup by generation and facelift code.
+### Surfaces by construction
 
-F1. Generation build (first vehicle of a generation):
-   1. Body style template: TapMart owns a small set of canonical quad
-      templates (sedan, coupe, hatch, wagon, SUV, pickup, van), each with named
-      panels, seams, pillars, glass, part slots and a low-dimensional
-      deformation basis (blend shapes plus free-form lattice). This is the
-      "clean topology from the beginning" answer: the mesh never comes from a
-      generator, so it is clean by construction.
-   2. Coarse fit: dimensions from C fix scale, wheelbase, track, overhangs,
-      glass height; silhouettes and depth from D fit the lattice; then per
-      vertex refinement with differentiable rendering (PyTorch3D, BSD, or
-      Mitsuba 3, BSD; nvdiffrast is non-commercial and is excluded) against
-      silhouettes, part masks, normals from the splat, and seam positions,
-      with symmetry and smoothness priors and dimensions as hard constraints.
-      One coherent model against all views at once.
-   3. Part slots: headlights, taillights, grille and intakes, mirrors,
-      handles, wheels, spoiler, exhaust. Each slot has a bounding frame on
-      the template. Candidates come from (a) the TapMart part library when a
-      matching part exists, (b) a part generator conditioned on the user's
-      crops (TRELLIS.2 at part scale, MIT; PartCrafter, MIT; Hunyuan3D-Part
-      X-Part under Tencent's community licence, not in the EU), (c) an
-      artist. Wheels are built from a parametric rim and tyre with the spoke
-      pattern reconstructed from the straight side view (count, shape,
-      concavity), never a solid disc.
-   4. Coarse AI evidence: a single high resolution generation (TRELLIS.2 or
-      Hunyuan 3.1 with multi view) is run once as a volumetric hint for the
-      fit and for the artist, not as the asset.
-   5. Artist finish: a modeller opens the fitted template in Blender with the
-      evidence overlays, corrects creases, seams and part slots, and signs
-      off. Expected 4 to 12 hours for a first generation. This is the step
-      that makes the twin look like the green reference.
+Patches are generated from the fitted curves with OpenCASCADE constrained
+filling and Gordon interpolation (G1 default, G2 on large panels), creases
+as tangent-discontinuous curve constraints, arches as procedural flares,
+symmetry enforced by mirroring the driver side unless evidence marks an
+asymmetric detail. Output is a real B-rep body, tessellated at 1 to 2 mm
+for the master. A Catmull-Clark cage path in Blender is the fallback when
+a patch fails to fill. No triangles are ever smoothed after the fact.
 
-F2. Instance fit (a generation twin exists): identify options from evidence
-   (wheel design, spoiler, splitter, facelift lights), select variants, fit
-   the instance lattice within tight bounds, detect body colour, fit wheels,
-   flag aftermarket parts. Fully automatic; minutes.
+### Parts
 
-G. Validation loop: for every source view, render silhouette, part id map,
-   normals and seams with the registered camera; compare against SAM 3 masks
-   (IoU per part), edge chamfer, landmark error, seam distance; dimensions
-   against C. Produce a per panel error heat map. Refine the worst panels
-   (local lattice or vertex optimisation, or a part slot re-candidate) and
-   repeat until thresholds hold or the budget is spent.
+Each slot has a builder in order of preference: parametric (wheels, tyres,
+handles, mirrors, exhaust, badge pucks, simple grilles and intakes as
+outline plus bar or mesh pattern), library (a validated part from another
+generation), generative candidate (TRELLIS.2 or PartCrafter on the user's
+crops, retopologised with QuadWild, scaled and oriented into the slot,
+mirrored), then review. A candidate is accepted only when its reprojection
+matches the crops in every view that sees it.
 
-H. Review: automatic pass if all thresholds hold and identification is
-   confident; else a reviewer sees the overlays and either accepts, fixes in
-   the tool, or requests capture ("need clearer front left headlight").
+### Build, render, critique, rebuild
 
-I. Master and LODs (section 10 to 12).
+After every pass, the car is rendered in the source cameras with a
+component id map. Scores are computed per component and per view: silhouette
+IoU, part mask IoU, boundary chamfer, curve reprojection error, dimension
+error, symmetry error. A VLM critic receives the source crop and the render
+crop for each component and returns a defect label and a severity, never a
+number that overrides the metrics. The controller picks the worst component,
+applies the diagnosed fix (refit its curves, swap the part candidate, adjust
+a builder parameter), re-renders, and repeats until every component passes
+or the budget is spent. Component level, not one global loss.
 
-J. Library: the approved generation twin, its variants, the part library
-   entries, the ad-safe surfaces and the validation report are stored;
-   instance twins reference the generation twin.
+### Confidence gate
 
-## 2. Which model, service or library performs each stage
+Each component ends with a confidence from its metric margins and view
+agreement. Above threshold: auto approved. Below: the reviewer sees only
+those components with overlays and three actions (approve, correct in the
+tool, request capture). The engine reruns validation after corrections.
 
-| Stage | Component | Licence or terms |
-| --- | --- | --- |
-| A quality gate | Custom (OpenCV, EXIF, coverage model) | Ours |
-| B identification | GPT-5.5 vision (existing client); Carnet.ai or Plate Recognizer VMMR; NHTSA vPIC VIN decode | OpenAI terms; commercial APIs; public data |
-| C dimensions | Transport Canada CVS, NHTSA vPIC, OEM press specs | Public facts |
-| D cameras and depth | MapAnything (Apache checkpoint), Depth Anything 3 | Apache 2.0 |
-| D splat evidence | gsplat (nerfstudio) | Apache 2.0 |
-| D part masks | SAM 3 | SAM licence, commercial allowed |
-| D landmarks | Custom | Ours |
-| F1 template | TapMart canonical templates (commissioned) | Ours |
-| F1 fit | Custom on PyTorch3D or Mitsuba 3 | BSD |
-| F1 parts | TRELLIS.2 (MIT, 24 GB VRAM), PartCrafter (MIT), Hunyuan3D-Part (community licence, not EU), Tripo mesh segmentation (API), TapMart part library | Mixed, see 19 |
-| F1 coarse hint | TRELLIS.2 self hosted, or Hunyuan3D 3.1 API with multi view | MIT or Tencent enterprise terms |
-| F1 artist finish | Blender (GPL tool, assets are ours), Quad Remesher (per seat, not SDK) | Ours |
-| G validation | Custom renderer on PyTorch3D or Mitsuba 3 | BSD |
-| H review tool | Custom web tool (our lab viewer is the seed) | Ours |
-| I master and LODs | OpenUSD, Blender, meshoptimizer, gltf-transform, Draco | Apache or BSD |
-| J library | Postgres plus object storage | Ours |
+### Frozen generation twin
 
-Excluded on purpose: nvdiffrast (non-commercial), the original 3D Gaussian
-Splatting and 2DGS code (Inria non-commercial), Kaolin's non_commercial
-module, VGGT research checkpoint, Meshy or Tripo generation as the geometry
-source, marketplace car models (branded models are editorial only).
+Approval freezes and versions the generation twin: curve network, B-rep,
+parts, variants, ad surfaces, validation report. Later owners of the same
+generation run F2 only: facelift and trim check, wheel refit, options,
+colour, user modifications, validation.
 
-## 3. Custom TapMart code
+## What still genuinely needs a person
 
-Intake and coverage scoring, identification fusion, reference record, the
-template format and deformation basis, the multi-view fitter and validation
-renderer, part slot management, wheel parametric builder, symmetry logic,
-review tool, master export, LOD build, library schema and versioning, ad
-surface definitions. Everything in the middle of the pipeline is ours; the
-external models are evidence providers.
+1. One-time: designing the eight body-style skeletons and their patch
+   layouts (engineer plus modeller, weeks, done once).
+2. First vehicle of a generation: confirming or correcting the components
+   the engine flags, typically grille internals, light signatures, unusual
+   wheels, spoilers and aftermarket parts. Estimate one to three hours,
+   falling as the part library grows.
+3. Threshold calibration during the first few dozen generations.
+4. Legal decisions on badge artwork and design rights (unchanged from the
+   previous plan): neutral emblem geometry by default, brand names in text,
+   real logo artwork only under licence or counsel sign-off; US first; a
+   legal opinion on rendering a customer's own car for that customer's ads.
 
-## 4. GPU stages
+## Realistic accuracy
 
-MapAnything or DA3 (8 to 16 GB), gsplat (8 GB), SAM 3 (8 GB), TRELLIS.2
-(24 GB), PartCrafter (8 GB), the differentiable fit and validation renders
-(8 to 16 GB). One L40S 48 GB or A100 80 GB worker covers all of it; Modal or
-RunPod serverless at about 1.3 to 2 USD per hour. Identification, review
-tool, LOD build and library are CPU.
+Automatic, without correction: dimensions within 1 percent (they are
+constraints); body silhouette within 3 px at 1264 px in every view; panels,
+seams, glass and pillars in place; wheels with the right diameter, width,
+offset and spoke count; main creases present. Not reliable without a
+person: exact grille bar geometry, headlight and taillight internal
+signatures, badges, very subtle surface transitions. Not achievable at all
+from photos: interior, underbody, dents, sub-millimetre surfaces.
 
-## 5. Processing time, first vehicle of a generation
+## Prototype: the G80 builder
 
-Automatic stages: intake 1 min, identification 1 min, evidence 5 to 10 min,
-coarse hint 2 min, template fit 10 to 20 min, part candidates 5 min,
-validation loop 10 min: about 40 to 60 minutes of GPU wall time. Then artist
-finish and review: 4 to 12 hours of a person. Calendar time one to two days.
+One question: can TapMart automatically construct a professional structured
+G80 exterior substantially closer to the green reference than Meshy did,
+without starting from any pre-existing BMW 3D model. Evidence set: the 16
+controlled G80 images and BMW's published dimensions. No database, no
+accounts, no scan UI, no mobile capture.
 
-## 6. Processing time when the generation twin exists
+Scope: 16 images -> structured G80 master -> validation -> interactive
+viewer.
 
-Intake 1 min, identification 1 min, evidence 3 to 5 min, instance fit 2 to
-4 min, validation 2 min, LOD build 1 min: 10 to 15 minutes automatic, plus a
-2 minute human glance while we are still calibrating the thresholds.
+Steps:
+1. Evidence: MapAnything cameras (replacing our silhouette registration),
+   SAM 3 masks for about 25 concepts, edge maps, 3D feature curves by
+   multi-view optimisation on the registered cameras (CGGT if released and
+   licensed, otherwise our own lift), wheel centres and radii.
+2. Sedan skeleton: the first of the eight, about 48 named curves and its
+   patch layout, initialised from dimensions and a prior fitted to CC-BY
+   sedan meshes. This is the largest engineering piece.
+3. Curve fitter in PyTorch3D (BSD) or Mitsuba 3 (BSD): all 16 views at once.
+4. Surfacing with OpenCASCADE through build123d or occ_gordon: B-rep body,
+   panel split along seam curves with 4 mm gaps, tessellation at 1 to 2 mm.
+5. Part builders: parametric wheels and tyres from the side view, mirrors
+   and handles from mask contours, kidney grille as outline plus bar pattern
+   from the front view, headlights and taillights as outline plus lens plus
+   a generative interior candidate (TRELLIS.2 on crops, MIT), spoiler lip,
+   exhaust, badge pucks. Symmetry by construction.
+6. Loop: render, component scores, VLM critique, targeted rebuild, five
+   rounds maximum.
+7. Confidence report and a review screen listing only flagged components.
+8. Master in USD plus the B-rep, LOD0 GLB, the TapMart standard style, the
+   door ad on the named door panel, one lab page.
 
-## 7. Cost, first generation
+Pass criteria, all measured in the 16 registered views unless stated:
+- Dimensions: length, width, height, wheelbase, front and rear track within
+  1 percent of the BMW sheet; overhangs within 2 percent.
+- Silhouette: whole-car IoU at least 0.95 in every view, boundary chamfer
+  under 3 px at 1264 px.
+- Wheel placement: wheel centre error under 1 cm, radius error under 3
+  percent, wheels parallel to the body axis, four wheels symmetric.
+- Roofline and beltline: reprojected curve error under 3 px in the four
+  straight views and under 5 px in the three-quarter views.
+- Windows and pillars: glass mask IoU at least 0.85 per pane, pillars
+  present as separate solids with correct widths within 10 percent.
+- Doors, hood, trunk: seam reprojection error under 4 px, panels closed
+  solids with 4 mm gaps, door panel area within 5 percent of the mask.
+- Headlights and taillights: outline IoU at least 0.8, lens surface a
+  separate solid, an interior candidate present or the component flagged.
+- Grille: outline IoU at least 0.85, opening count and bar orientation
+  matching the front view, a separate solid.
+- Bumpers: front and rear silhouette IoU at least 0.9 in the straight
+  views, intakes as real openings.
+- Mirrors: position error under 1 cm, mask IoU at least 0.7.
+- Wheel geometry: spoke count and spoke shape class matching the side view,
+  rim and tyre as separate solids with correct width.
+- Panel boundaries: every seam a real edge in the geometry, none painted.
+- Structure: every part a closed manifold with a name, symmetry pairs
+  mirrored within 2 mm, no floating geometry, no intersections.
 
-GPU about 1 to 2 USD; APIs (VMMR call, one Hunyuan 3.1 or Rodin generation
-as a hint, Tripo segmentation if used) 2 to 5 USD; identification tokens
-under 0.5 USD; artist 4 to 12 hours: 200 to 900 USD at freelance rates, less
-in house. Budget 300 to 1,000 USD per generation, dominated by the person.
-Roughly 2,000 to 3,000 generations cover the cars TapMart will see most.
+Visual test: six views (front, rear, driver, passenger, front three-quarter,
+rear three-quarter) in the TapMart standard style, judged blind against the
+Meshy twin and against the reference screenshot by a VLM panel and by mo:
+pass only if it reads as a professionally modelled G80 from every angle,
+the M3 is identifiable from the grille, lights and arches without a badge,
+and no view shows a scan-like surface.
 
-## 8. Cost, subsequent users of the same generation
+Time and cost: five to seven weeks of engineering for the first working
+builder (the skeleton and fitter are new engine code, not a lab page); GPU
+about 30 to 60 USD over the period; model API tokens under 100 USD; no
+artist; one to three hours of review at the end for flagged components. A
+second generation through the same builder should take under an hour of
+compute and the same review pattern, which is the real test of the
+approach.
 
-GPU 0.3 to 0.5 USD, identification under 0.2 USD, no artist, optional
-2 minute review. Under 1 USD compute, under 3 USD with review.
+Fallback if the prototype fails the visual test: the failure will be
+localised by component, so the fix is a better builder for that component
+(or a part library entry), not a return to whole-car generation.
 
-## 9. Data and storage architecture
+## Unchanged from the previous revision
 
-Postgres (existing): vehicle_generations (make, model, code, years, body
-style, facelift, option matrix, dimensions with source), twin_templates
-(body style templates, versions), generation_twins (master asset ref, parts,
-seams, ad surfaces, validation report, approval), part_library (part class,
-generation or generic, asset ref), captures (user, frames, EXIF, quality
-report), evidence (cameras, masks, landmarks refs), instance_twins
-(generation twin ref, options, colour, wheels, modifications, validation,
-LOD refs), reviews (who, what, when). Object storage (Supabase Storage or
-S3): originals, keyframes, masks, splat, masters, LODs; content addressed,
-immutable versions. Never delete masters.
-
-## 10. Master mesh format
-
-OpenUSD (usdc) as the master: quads preserved, a real hierarchy (vehicle,
-body shell, panels, glass, pillars, lights, grille, mirrors, handles,
-wheels, tyres, trim, badges), variant sets for options and colours, material
-bindings by semantic class, custom attributes for seams and ad surfaces.
-Blender file kept as the working source. glTF is the delivery format, not
-the master (it has no quads and flattens hierarchy semantics into names).
-
-## 11. Target triangle count for the master
-
-Body shell 400k to 800k quads (0.8 to 1.6M triangles) with creases and
-seams modelled, plus wheels 150k to 300k triangles for four, lights and
-grille 150k to 300k, mirrors, handles, trim 100k. Master 1.5 to 3M
-triangles. Quality first; nothing is decimated at this stage.
-
-## 12. LOD strategy for web and mobile
-
-LOD0 desktop 300 to 500k triangles with 4k normal and 2k material masks
-baked from the master; LOD1 tablet 120 to 180k; LOD2 mobile 50 to 80k with
-normal maps carrying creases; LOD3 thumbnail 15k. Built with meshoptimizer
-simplification per part (seams and silhouettes protected), Draco or meshopt
-compression, KTX2 textures. Parts stay separate meshes so semantics, ads and
-materials survive at every LOD.
-
-## 13. How semantic components are stored
-
-As geometry: each component is its own prim in USD and its own mesh in the
-GLBs, with attributes semantic_class (nine classes for rendering), part_id
-(door_front_left and so on), side, symmetry_pair, confidence, evidence
-sources, and ad_surface definitions (UV rectangle, size in metres, safe
-margin, curvature limit). Labels are never painted onto one surface again.
-
-## 14. Dimension validation
-
-Length, width, height, wheelbase, front and rear track, front and rear
-overhang, side glass height from CVS or OEM specs, compared with the fitted
-template: tolerance 1 percent on wheelbase and track, 1.5 percent on length,
-width and height, 3 percent on glass height. Failures block approval. The
-user's capture is also checked for scale drift (LiDAR or wheel diameter from
-the tyre label).
-
-## 15. Multi-view reprojection validation
-
-For every keyframe with a registered camera: render silhouette, part id map,
-seam map and normals from the model; compare with SAM 3 masks (IoU per part,
-target 0.9 body, 0.8 lights and grille, 0.85 wheels), edge chamfer under
-3 px at 1264 px, landmark error under 4 px, seam distance under 2 cm; build a
-per panel error heat map; refine the worst panels; iterate at most five
-rounds. The report is stored and shown in the review tool. Our refinement
-lab already holds the registration and overlay parts of this.
-
-## 16. Missing component reconstruction
-
-Per part, in order: symmetry mirror from the opposite side when the part is
-symmetric and the other side is confident; the generation part library;
-a part generator conditioned on the user's crops, fitted into the slot and
-validated by reprojection; the user is asked for a closer photo; the part is
-flagged for review. A part is never left melted and never invented silently.
-
-## 17. User modifications
-
-The instance layer records deviations from the generation twin: wheel design
-(parametric refit from the side view), spoiler or splitter (part swap or
-generator), wrap or colour, facelift mismatch (re-identify), aftermarket
-parts (flag, generator, review). Modifications are stored as a diff against
-the generation twin, so library improvements propagate.
-
-## 18. Badges and logos
-
-Geometry: the template carries emblem placeholders at the correct positions
-and sizes (a plain puck or plate). Artwork: manufacturer logos are trademarks;
-naming the make and model in text is nominative use, showing the roundel in
-advertising renders is not clearly covered and TurboSquid style marketplaces
-mark such models editorial only for that reason. Default: neutral emblem
-geometry, brand names in text. Real logo artwork only under a brand licence,
-or with counsel's sign off for a specific use. Design rights on the car
-shape itself are a separate question: in the EU, since May 2025, virtual
-reproductions of registered designs are within design law; in the US trade
-dress and design patents apply and the AM General v Activision ruling
-protected expressive uses, not advertising. Recommendation: US launch first,
-a legal opinion on rendering a customer's own car for that customer's
-advertising, and a licensing conversation with the first two or three OEMs
-whose cars dominate the fleet.
-
-## 19. Commercial and licensing notes per external component
-
-TRELLIS.2 MIT; PartCrafter MIT; Depth Anything 3 Apache 2.0; MapAnything
-Apache checkpoint only; gsplat Apache 2.0; SAM 3 and SAM 3D SAM licence
-(commercial allowed, no military); VGGT research weights non-commercial,
-commercial checkpoint by application; Hunyuan3D 2.1, 3D-Part community
-licences exclude EU, UK, South Korea and cap at 1M MAU; Hunyuan 3.1 API under
-Tencent enterprise terms; Rodin, Meshy, Tripo, Hitem3D outputs owned on paid
-plans, terms change without notice; nvdiffrast non-commercial; Inria
-Gaussian splatting code non-commercial; Quad Remesher per seat, no SDK
-without agreement; Blender GPL (tool only); marketplace branded car models
-editorial only; OEM press photos copyrighted, reference only; dimension
-databases public facts.
-
-## 20. What can be automated
-
-Intake, identification, reference lookup, evidence extraction, instance
-fitting, part candidate generation, validation, LOD build, library storage,
-ad surface derivation. After the first hundred generations most of the fleet
-never touches a person.
-
-## 21. What still needs human review
-
-The first build of every generation (artist finish and approval), any
-instance under threshold, aftermarket parts, ambiguous identification, and a
-periodic audit sample of automatic passes.
-
-## 22. Realistic accuracy
-
-With the hybrid: dimensions within 1 to 1.5 percent, silhouettes within
-3 px at 1264 px in every view, panels and seams in the right place, parts
-defined. Not achievable: sub-millimetre surface accuracy, dents, interior,
-exact aftermarket parts without review. The visual target is reachable
-because the surface quality comes from the template and the artist, not the
-capture; the capture decides fit and options.
-
-## 23. Failure conditions that ask for more capture
-
-Coverage sector missing; wheels not seen straight from the side; lights or
-grille only seen obliquely; blur or exposure fail; identification ambiguous
-between facelifts; scale not recoverable; a part slot without a confident
-candidate. The message names the missing view.
-
-## 24. How the library improves over time
-
-Every approved generation twin, part and validated instance is banked; part
-library reuse grows across generations of the same brand; templates gain
-deformation modes from fitted instances; thresholds are calibrated from
-review outcomes; ad surfaces are defined once per generation. The first G80
-costs a day; the thousandth costs minutes and cents.
-
-## 25. Exact next prototype
-
-Generation twin of the G80 through the real pipeline, judged against the
-green reference, three weeks:
-1. Commission one canonical sedan template (quads, named panels, seams,
-   part slots, lattice) from a modeller, TapMart owned.
-2. Fitter: dimensions plus multi-view fit of the template to our 16 views
-   with PyTorch3D, using SAM 3 masks and MapAnything cameras.
-3. Part slots: parametric wheels from the side view; lights, grille and
-   mirrors from a part generator and the artist.
-4. Validation loop and review tool (from the refinement lab's overlays).
-5. Artist finish, USD master, LODs, the standard style, the door ad on the
-   named door panel, a lab page.
-Cost: one artist week plus about 20 USD of GPU and API. Decision at the end:
-does it read like the reference from every angle.
+Identification, reference intelligence, storage, master format, triangle
+budget, LODs, semantic storage, dimension validation, reprojection
+validation, user modifications, badge treatment, licensing notes, failure
+conditions and library growth are as in the first revision; the only change
+is that the generation twin is built by the engine and corrected by a
+person, not modelled by an artist.
