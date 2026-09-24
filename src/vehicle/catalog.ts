@@ -327,7 +327,7 @@ function synG80(id: string, url: string, provider: string, rotationY: number, fa
 
 /** Closer presets for the cleanup lab: the car fills most of the stage. */
 /** Product presentation: the car fills most of the stage, the hero a little lower and closer than the lab views. */
-const STYLE_CAMERAS: CameraPreset[] = G80_CAMERAS.map((c) => { const k = c.key === "hero" ? 0.74 : c.key === "driver" || c.key === "passenger" ? 0.82 : 0.74; return { ...c, position: [c.target[0] + (c.position[0] - c.target[0]) * k, c.target[1] + (c.position[1] - c.target[1]) * k, c.target[2] + (c.position[2] - c.target[2]) * k] as Vec3 }; });
+const STYLE_CAMERAS: CameraPreset[] = G80_CAMERAS.map((c) => { const k = c.key === "hero" ? 0.74 : c.key === "driver" || c.key === "passenger" ? 0.96 : 0.74; return { ...c, position: [c.target[0] + (c.position[0] - c.target[0]) * k, c.target[1] + (c.position[1] - c.target[1]) * k, c.target[2] + (c.position[2] - c.target[2]) * k] as Vec3 }; });
 const TWIN_CAMERAS: CameraPreset[] = G80_CAMERAS.map((c) => ({ ...c, position: [c.target[0] + (c.position[0] - c.target[0]) * 0.78, c.target[1] + (c.position[1] - c.target[1]) * 0.78, c.target[2] + (c.position[2] - c.target[2]) * 0.78] as Vec3 }));
 
 export const SYN_G80: Record<string, VehicleModel> = {
