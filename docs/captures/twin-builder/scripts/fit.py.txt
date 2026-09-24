@@ -1,0 +1,783 @@
+"""Joint fit of the sedan curve prior and the 16 cameras to the extracted evidence.
+
+Unknowns: control points of every left and centre curve (right curves are mirrors), the two wheel x positions and
+five parameters per camera (azimuth, elevation, distance, two target shifts). Observations: part polygon contours
+(model to contour distance through a distance transform, contour to model through fixed nearest neighbour
+correspondences refreshed each outer iteration), the whole car silhouette, wheel ellipses and centres, the official
+dimensions, curve junctions, smoothness and the prior itself. Solved with scipy least_squares (soft L1, sparse
+finite difference Jacobian).
+
+Outputs: out/skeleton.json, out/overlays/NN.jpg, out/metrics.json
+"""
+import json, os, sys, math, time
+import numpy as np
+import cv2
+from scipy.optimize import least_squares
+from scipy.ndimage import map_coordinates
+from scipy.spatial import cKDTree
+from scipy.sparse import lil_matrix, csr_matrix
+import prior
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = "/home/user/marketing-app"
+SRC = f"{ROOT}/docs/captures/ai-g80-controlled"
+EV = f"{HERE}/evidence"
+OUT = f"{HERE}/out"
+os.makedirs(f"{OUT}/overlays", exist_ok=True)
+W, H = 1264, 848
+CY = 0.6508917434047443
+FILES = {n: f for n, f in ((f[:2], f) for f in sorted(os.listdir(SRC)) if f[2] == "-" and f.endswith(".jpg"))}
+VIEWS = sorted(FILES)
+CAMS0 = json.load(open(f"{ROOT}/docs/captures/twin-refinement/cameras.json"))
+
+# weights (residuals are in pixels at 1264 wide; metre quantities are scaled so 1 cm is a few px)
+W_A, W_B, W_S, W_WC, W_WE = 1.0, 0.5, 0.4, 2.0, 0.8
+W_DIM, W_TIE, W_SMOOTH, W_PRIOR, W_MID = 2000.0, 2000.0, 120.0, 25.0, 2000.0
+W_DIM_SOFT = 300.0   # length, width, height and tyre radius are priors: the synthetic car need not match the spec
+F_DATA, F_WHEEL = 6.0, 10.0   # IRLS scales (px)
+TYRE_HALF = 0.135
+CAM_SCALE = {"az": 3.0, "el": 3.0, "dist": 0.3, "sx": 0.1, "sy": 0.1}   # one unit of each costs 10 px
+B_MAXD, S_MAXD = 40.0, 30.0
+
+
+# ---------------------------------------------------------------- curves
+def catmull_rom_matrix(n, closed, per_seg):
+    """Sampling matrix S (m x n): samples = S @ P for uniform Catmull-Rom through the n control points."""
+    rows = []
+    segs = n if closed else n - 1
+    for i in range(segs):
+        k = per_seg[i]
+        ts = np.linspace(0, 1, k, endpoint=False) if (closed or i < segs - 1) else np.linspace(0, 1, k + 1)
+        for t in ts:
+            row = np.zeros(n)
+            idx = [i - 1, i, i + 1, i + 2]
+            if closed:
+                idx = [j % n for j in idx]
+            else:
+                idx = [min(max(j, 0), n - 1) for j in idx]
+            t2, t3 = t * t, t * t * t
+            b = [-0.5 * t3 + t2 - 0.5 * t, 1.5 * t3 - 2.5 * t2 + 1, -1.5 * t3 + 2 * t2 + 0.5 * t, 0.5 * t3 - 0.5 * t2]
+            for j, bj in zip(idx, b):
+                row[j] += bj
+            rows.append(row)
+    return np.array(rows)
+
+
+class Model:
+    def __init__(self):
+        C0, wheels0 = prior.build()
+        self.names = list(C0)
+        self.left = [n for n in self.names if n.endswith("_l")]
+        self.centre = [n for n in self.names if not n.endswith("_l")]
+        self.P0 = {n: np.array(C0[n], float) for n in self.names}
+        self.closed = {n: (n in prior.CLOSED) for n in self.names}
+        # free parameter layout
+        self.slots = {}          # curve name -> (offset, n_free)
+        self.mirror = {}         # centre curve -> M (n x n_free)
+        off = 0
+        for n in self.names:
+            P = self.P0[n]; k = len(P)
+            if n.endswith("_l"):
+                self.slots[n] = (off, k); off += 3 * k
+            else:
+                h = (k + 1) // 2
+                M = np.zeros((k, h))
+                for i in range(k):
+                    M[i, i if i < h else k - 1 - i] = 1
+                self.mirror[n] = M
+                self.slots[n] = (off, h); off += 3 * h
+        self.n_curve_params = off
+        self.wheel_off = off; off += 3   # front x, rear x, tyre radius
+        self.cam_off = off; off += 5 * len(VIEWS)
+        self.n_params = off
+        self.wheels0 = wheels0
+        # sampling matrices; instances = left, right (mirror of left) and centre
+        self.S = {}; self.S_raw = {}
+        for n in self.names:
+            P = self.P0[n]; k = len(P)
+            seglen = [np.linalg.norm(P[(i + 1) % k] - P[i]) for i in range(k if self.closed[n] else k - 1)]
+            per = [int(np.clip(round(l / 0.045), 3, 14)) for l in seglen]
+            S = catmull_rom_matrix(k, self.closed[n], per)
+            self.S_raw[n] = S
+            self.S[n] = S if n.endswith("_l") else S @ self.mirror[n]
+        self.instances = []       # (inst_name, base_name, side)
+        for n in self.names:
+            if n.endswith("_l"):
+                self.instances.append((n, n, "l")); self.instances.append((n[:-2] + "_r", n, "r"))
+            else:
+                self.instances.append((n, n, "c"))
+        self.inst_index = {i[0]: k for k, i in enumerate(self.instances)}
+        # global sample layout
+        self.samp_off = {}; off = 0
+        for inst, base, side in self.instances:
+            m = self.S[base].shape[0]; self.samp_off[inst] = (off, m); off += m
+        self.n_samples = off
+        # per-sample dependency on free parameter columns (for the jacobian sparsity)
+        self.samp_cols = [None] * self.n_samples
+        self.samp_normal = np.zeros((self.n_samples, 3))
+        for inst, base, side in self.instances:
+            o, m = self.samp_off[inst]; so, nf = self.slots[base]
+            nrm = np.array(prior.NORMALS[base], float); nrm /= np.linalg.norm(nrm)
+            if side == "r":
+                nrm = nrm * [1, 1, -1]
+            for j in range(m):
+                nz = np.nonzero(np.abs(self.S[base][j]) > 1e-9)[0]
+                self.samp_cols[o + j] = np.array([so + 3 * p + c for p in nz for c in range(3)])
+                self.samp_normal[o + j] = nrm
+        self.x0 = self.pack_initial()
+
+    def pack_initial(self):
+        x = np.zeros(self.n_params)
+        for n in self.names:
+            so, nf = self.slots[n]
+            x[so:so + 3 * nf] = self.P0[n][:nf].ravel()
+        x[self.wheel_off] = self.wheels0["front"][0]; x[self.wheel_off + 1] = self.wheels0["rear"][0]; x[self.wheel_off + 2] = prior.DIMS["tyre_r_front"]
+        for vi, v in enumerate(VIEWS):
+            p = CAMS0[v]["params"]
+            x[self.cam_off + 5 * vi:self.cam_off + 5 * vi + 5] = [p["az"], p["el"], p["dist"], p["sx"], p["sy"]]
+        return x
+
+    def full_control(self, x, inst):
+        """Full control polygon of an instance (n x 3)."""
+        base = inst if inst in self.slots else inst[:-2] + "_l"
+        so, nf = self.slots[base]
+        F = x[so:so + 3 * nf].reshape(nf, 3)
+        if base.endswith("_l"):
+            P = F
+        else:
+            M = self.mirror[base]; k = M.shape[0]; h = nf
+            P = M @ F
+            P = P.copy(); P[h:, 2] *= -1
+        if inst.endswith("_r"):
+            P = P * [1, 1, -1]
+        return P
+
+    def samples(self, x):
+        X = np.zeros((self.n_samples, 3))
+        for inst, base, side in self.instances:
+            o, m = self.samp_off[inst]
+            X[o:o + m] = self.S_raw[base] @ self.full_control(x, inst)
+        return X
+
+    def wheel_centres(self, x):
+        xf, xr, rt = x[self.wheel_off], x[self.wheel_off + 1], x[self.wheel_off + 2]
+        d = prior.DIMS
+        return {"front_left": np.array([xf, rt, d["track_front"] / 2]), "front_right": np.array([xf, rt, -d["track_front"] / 2]),
+                "rear_left": np.array([xr, rt, d["track_rear"] / 2]), "rear_right": np.array([xr, rt, -d["track_rear"] / 2])}
+
+    def cam(self, x, vi):
+        az, el, dist, sx, sy = x[self.cam_off + 5 * vi:self.cam_off + 5 * vi + 5]
+        return Camera(az, el, dist, sx, sy, CAMS0[VIEWS[vi]]["params"]["fov"])
+
+
+# centre curves: the mirrored half needs z negated. Build a signed S: split S into (x,y) and z parts by applying
+# the sign to the mirror columns. Simplest: keep one S but apply the sign per coordinate at sampling time.
+def _centre_sample(model, x, n):
+    so, nf = model.slots[n]
+    F = x[so:so + 3 * nf].reshape(nf, 3)
+    M = model.mirror[n]; k = M.shape[0]
+    P = M @ F; P[nf:, 2] *= -1
+    return P
+
+
+class Camera:
+    def __init__(self, az, el, dist, sx, sy, fov):
+        a, e = math.radians(az), math.radians(el)
+        d = np.array([math.cos(e) * math.cos(a), math.sin(e), math.cos(e) * math.sin(a)])
+        t0 = np.array([0.0, CY, 0.0]); pos0 = t0 + d * dist
+        fwd = -d / np.linalg.norm(d)
+        right = np.cross(fwd, [0, 1, 0]); right /= np.linalg.norm(right)
+        up = np.cross(right, fwd)
+        shift = right * sx + up * sy
+        self.pos = pos0 + shift; self.target = t0 + shift; self.fwd, self.right, self.up = fwd, right, up
+        self.f = (H / 2) / math.tan(math.radians(fov) / 2); self.fov = fov
+        self.az, self.el, self.dist, self.sx, self.sy = az, el, dist, sx, sy
+
+    def project(self, X):
+        d = X - self.pos
+        zc = d @ self.fwd; xc = d @ self.right; yc = d @ self.up
+        zc = np.maximum(zc, 0.05)
+        return np.stack([W / 2 + self.f * xc / zc, H / 2 - self.f * yc / zc], 1)
+
+    def visible(self, X, N):
+        v = self.pos - X
+        v /= np.linalg.norm(v, axis=1, keepdims=True)
+        return np.einsum("ij,ij->i", v, N) > 0.2
+
+
+# ---------------------------------------------------------------- evidence
+def loop_instances(poly_name):
+    """Instances (curve instance names) whose samples form the boundary of this polygon, and whether it is a full loop."""
+    if poly_name in prior.OPEN:
+        return prior.OPEN[poly_name], False
+    base = poly_name.split("#")[0]
+    if base in prior.LOOPS:
+        return [c for c, _ in prior.LOOPS[base]], True
+    if base.endswith("_right"):
+        lname = base[:-6] + "_left"
+        if lname in prior.LOOPS:
+            out = []
+            for c, _ in prior.LOOPS[lname]:
+                out.append(c[:-2] + "_r" if c.endswith("_l") else (c[:-2] + "_l" if c.endswith("_r") else c))
+            return out, True
+    if base in ("c_pillar_right", "a_pillar_right"):
+        return [c[:-2] + "_r" for c in prior.OPEN[base[:-6] + "_left"]], False
+    return None, False
+
+
+def subsample(pts, step):
+    pts = np.asarray(pts, float)
+    if len(pts) < 3:
+        return pts
+    d = np.r_[0, np.cumsum(np.linalg.norm(np.diff(pts, axis=0), axis=1))]
+    keep = [0]
+    for i in range(1, len(pts)):
+        if d[i] - d[keep[-1]] >= step:
+            keep.append(i)
+    return pts[keep]
+
+
+SWAP_SIDES = {"01", "07"}   # straight views: the labeller's "left" is the opposite side from the three quarter and side views
+
+
+def swap_name(name):
+    if name.endswith("_left"):
+        return name[:-5] + "_right"
+    if name.endswith("_right"):
+        return name[:-6] + "_left"
+    if "_left#" in name:
+        return name.replace("_left#", "_right#")
+    if "_right#" in name:
+        return name.replace("_right#", "_left#")
+    return name
+
+
+class ViewEvidence:
+    def __init__(self, model, v):
+        self.v = v; self.vi = VIEWS.index(v)
+        ev = json.load(open(f"{EV}/{v}.json"))
+        if v in SWAP_SIDES:
+            ev["parts"] = {swap_name(k): p for k, p in ev["parts"].items()}
+            ev["wheels"] = {swap_name(k): w for k, w in ev["wheels"].items()}
+        self.sil = subsample(ev["silhouette"], 7.0)
+        canvas = np.full((H, W), 255, np.uint8)
+        cv2.polylines(canvas, [np.round(np.array(ev["silhouette"], float)).astype(np.int32)], True, 0, 1)
+        self.sil_dt = cv2.distanceTransform(canvas, cv2.DIST_L2, 5).astype(np.float32)
+        sa = np.array(ev["silhouette"], float); self.sil_bbox = (sa.min(0), sa.max(0))
+        self.polys = {}
+        for name, part in ev["parts"].items():
+            insts, full = loop_instances(name)
+            if insts is None:
+                continue
+            insts = [i for i in insts if i in model.inst_index]
+            if not insts:
+                continue
+            pts = np.array(part["polyline"], float)
+            if len(pts) < 6:
+                continue
+            x0, y0 = np.floor(pts.min(0)).astype(int) - 90; x1, y1 = np.ceil(pts.max(0)).astype(int) + 90
+            x0, y0 = max(x0, 0), max(y0, 0); x1, y1 = min(x1, W), min(y1, H)
+            canvas = np.full((y1 - y0, x1 - x0), 255, np.uint8)
+            cv2.polylines(canvas, [np.round(pts - [x0, y0]).astype(np.int32)], part.get("closed", True), 0, 1)
+            dt = cv2.distanceTransform(canvas, cv2.DIST_L2, 5).astype(np.float32)
+            conf = 0.6 if part.get("method") == "polygon" else 1.0
+            self.polys[name] = {"insts": insts, "full": full, "pts": subsample(pts, 6.0), "dt": dt, "org": (x0, y0), "w": conf,
+                                "closed": part.get("closed", True), "base": name.split("#")[0]}
+        self.wheels = {}
+        straight = abs(math.sin(math.radians(CAMS0[v]["params"]["az"]))) < 0.35
+        for k, w in ev["wheels"].items():
+            if straight:
+                continue
+            side = "left" if k.endswith("_left") else "right"; axle = "front" if "front" in k else "rear"
+            self.wheels[f"{axle}_{side}"] = w
+        # kidney grille split (two polygons) or union (one polygon)
+        kg = [n for n in self.polys if n.startswith("kidney_grille")]
+        self.grille_mode = "split" if len(kg) == 2 else ("union" if len(kg) == 1 else "none")
+
+    def dt_at(self, name, uv):
+        p = self.polys[name]; x0, y0 = p["org"]
+        c = np.stack([uv[:, 1] - y0, uv[:, 0] - x0])
+        return map_coordinates(p["dt"], c, order=1, mode="nearest")
+
+
+# ---------------------------------------------------------------- residual assembly
+class Problem:
+    def __init__(self, model, views):
+        self.m = model
+        self.views = [ViewEvidence(model, v) for v in views]
+        # per-instance sample index arrays
+        self.inst_samples = {inst: np.arange(o, o + n) for inst, (o, n) in model.samp_off.items()}
+        self.sil_samples = np.concatenate([self.inst_samples[i] for i in self.sil_instances()])
+        self.sample_x = None
+
+    def sil_instances(self):
+        out = []
+        for c in prior.SILHOUETTE_CURVES:
+            out.append(c)
+            if c.endswith("_l"):
+                out.append(c[:-2] + "_r")
+        return out
+
+    # --- correspondences (fixed during an inner solve)
+    def build_correspondences(self, x):
+        m = self.m
+        X = m.samples(x); N = m.samp_normal
+        self.blocks = []   # list of dict(type, view, ...)
+        for ve in self.views:
+            cam = m.cam(x, ve.vi)
+            vis = cam.visible(X, N); uv = cam.project(X)
+            for name, p in ve.polys.items():
+                idx = np.concatenate([self.inst_samples[i] for i in p["insts"]])
+                if name.startswith("kidney_grille"):
+                    if ve.grille_mode == "split":
+                        # assign this polygon to the kidney whose projection is nearest in u
+                        cu = uv[idx][vis[idx]][:, 0].mean() if vis[idx].any() else uv[idx][:, 0].mean()
+                        gl = self.inst_samples["grille_l"]; gr = self.inst_samples["grille_r"]
+                        pu = p["pts"][:, 0].mean()
+                        ul, ur = uv[gl][:, 0].mean(), uv[gr][:, 0].mean()
+                        idx = gl if abs(pu - ul) <= abs(pu - ur) else gr
+                        full = True
+                    else:
+                        full = False
+                else:
+                    full = p["full"]
+                vi_idx = idx[vis[idx]]
+                if len(vi_idx) == 0:
+                    continue
+                if name.startswith("kidney_grille") and ve.grille_mode == "union":
+                    # model to contour only for the outer parts of each kidney
+                    vi_idx = vi_idx[np.abs(X[vi_idx][:, 2]) > 0.25]
+                    if len(vi_idx) == 0:
+                        continue
+                self.blocks.append({"type": "A", "view": ve, "name": name, "idx": vi_idx, "w": W_A * p["w"]})
+                if full or (name.startswith("kidney_grille") and ve.grille_mode == "union"):
+                    # contour points to nearest visible model sample
+                    tree = cKDTree(uv[vi_idx]); d, j = tree.query(p["pts"])
+                    ok = d < B_MAXD
+                    if ok.sum() >= 3:
+                        self.blocks.append({"type": "B", "view": ve, "name": name, "idx": vi_idx[j[ok]], "pts": p["pts"][ok], "w": W_B * p["w"]})
+            # silhouette
+            sidx = self.sil_samples[vis[self.sil_samples]]
+            if len(sidx):
+                tree = cKDTree(uv[sidx]); d, j = tree.query(ve.sil)
+                ok = d < S_MAXD
+                if ok.sum() >= 3:
+                    self.blocks.append({"type": "S", "view": ve, "idx": sidx[j[ok]], "pts": ve.sil[ok], "w": W_S})
+        # residual layout and jacobian sparsity
+        m = self.m
+        rows = []
+        n = 0
+        self.layout = []
+        for b in self.blocks:
+            k = len(b["idx"]) * (1 if b["type"] == "A" else 2)
+            self.layout.append((n, k)); n += k
+        self.n_data = n
+        # wheels
+        self.wheel_blocks = []
+        for ve in self.views:
+            for key, w in ve.wheels.items():
+                self.wheel_blocks.append((ve, key, w)); n += 2 + 24
+        # dims 4, wheel arch ties 2 (x2 sides handled by mirror), mid z, ties, smooth, prior, cams
+        self.n_dims = 6; n += self.n_dims
+        self.ties = self.find_ties(); n += 3 * len(self.ties)
+        self.mid = [(name, (len(m.P0[name]) + 1) // 2 - 1) for name in m.centre if len(m.P0[name]) % 2 == 1]; n += len(self.mid)
+        self.smooth = [(name, i) for name in m.names for i in range(1, len(m.P0[name]) - 1) if name.endswith("_l") or i + 1 < (len(m.P0[name]) + 1) // 2]
+        n += 3 * len(self.smooth)
+        n += m.n_curve_params            # prior
+        n += 5 * len(self.views)         # cameras
+        self.n_res = n
+        self.build_sparsity()
+
+    def find_ties(self):
+        m = self.m
+        pts = {}
+        for name in m.names:
+            so, nf = m.slots[name]
+            for i in range(nf):
+                key = tuple(np.round(m.P0[name][i], 4))
+                pts.setdefault(key, []).append(so + 3 * i)
+        ties = []
+        for key, lst in pts.items():
+            for a, b in zip(lst[:-1], lst[1:]):
+                ties.append((a, b))
+        return ties
+
+    def build_sparsity(self):
+        m = self.m
+        J = lil_matrix((self.n_res, m.n_params), dtype=np.int8)
+        r = 0
+        for b, (o, k) in zip(self.blocks, self.layout):
+            cam_cols = np.arange(m.cam_off + 5 * b["view"].vi, m.cam_off + 5 * b["view"].vi + 5)
+            per = 1 if b["type"] == "A" else 2
+            for t, s in enumerate(b["idx"]):
+                cols = np.concatenate([m.samp_cols[s], cam_cols])
+                for q in range(per):
+                    J[r + per * t + q, cols] = 1
+            r += k
+        for ve, key, w in self.wheel_blocks:
+            cam_cols = np.arange(m.cam_off + 5 * ve.vi, m.cam_off + 5 * ve.vi + 5)
+            wcol = m.wheel_off + (0 if key.startswith("front") else 1)
+            cols = np.r_[cam_cols, wcol, m.wheel_off + 2]
+            for q in range(26):
+                J[r + q, cols] = 1
+            r += 26
+        # dims: length (splitter, diffuser), width (arch apex z), height (roof_crown mid y), wheelbase, arch/wheel x ties
+        self.dim_cols = self.dim_columns()
+        for cols in self.dim_cols:
+            J[r, cols] = 1; r += 1
+        for a, b in self.ties:
+            for q in range(3):
+                J[r, [a + q, b + q]] = 1; r += 1
+        for name, i in self.mid:
+            so, nf = m.slots[name]; J[r, so + 3 * i + 2] = 1; r += 1
+        for name, i in self.smooth:
+            so, nf = m.slots[name]
+            for q in range(3):
+                J[r, [so + 3 * (i - 1) + q, so + 3 * i + q, so + 3 * (i + 1) + q]] = 1; r += 1
+        for c in range(m.n_curve_params):
+            J[r, c] = 1; r += 1
+        for ve in self.views:
+            for q in range(5):
+                J[r, m.cam_off + 5 * ve.vi + q] = 1; r += 1
+        assert r == self.n_res, (r, self.n_res)
+        self.J = csr_matrix(J)
+
+    def update_weights(self, x, f=F_DATA):
+        """IRLS row weights: Cauchy-like down weighting of the data and wheel residuals, constraints stay quadratic.
+        f is annealed from coarse to fine across the outer iterations so early large errors still pull."""
+        self.rw = None
+        r = self.residuals(x, weighted=False)
+        w = np.ones(self.n_res)
+        nd = self.n_data; nw = 26 * len(self.wheel_blocks)
+        w[:nd] = 1 / np.sqrt(1 + (r[:nd] / f) ** 2)
+        w[nd:nd + nw] = 1 / np.sqrt(1 + (r[nd:nd + nw] / max(f, F_WHEEL)) ** 2)
+        self.rw = w
+
+    def dim_columns(self):
+        m = self.m
+        def col(name, i, c):
+            so, nf = m.slots[name]; return so + 3 * i + c
+        length = [col("splitter", 0, 0), col("diffuser", 0, 0), col("grille_l", 2, 0), col("rear_bumper_top", 0, 0)]
+        width = [col("arch_front_l", 4, 2), col("arch_rear_l", 4, 2)]
+        height = [col("roof_crown", 3, 1)]
+        wb = [m.wheel_off, m.wheel_off + 1]
+        arch = [col("arch_front_l", 4, 0), col("arch_rear_l", 4, 0), m.wheel_off, m.wheel_off + 1]
+        return [length, width, height, wb, arch, [m.wheel_off + 2]]
+
+    def dim_values(self, x):
+        m = self.m; d = prior.DIMS
+        P = lambda n: m.full_control(x, n)
+        length = max(P("splitter")[0, 0], P("grille_l")[2, 0]) - min(P("diffuser")[0, 0], P("rear_bumper_top")[0, 0])
+        width = P("arch_front_l")[4, 2] + P("arch_rear_l")[4, 2]   # both apex half widths
+        height = P("roof_crown")[3, 1]
+        wb = x[m.wheel_off] - x[m.wheel_off + 1]
+        return length, width, height, wb
+
+    # --- residuals
+    def residuals(self, x, weighted=True):
+        m = self.m
+        X = m.samples(x)
+        r = np.zeros(self.n_res); k = 0
+        cams = {}
+        for b, (o, n) in zip(self.blocks, self.layout):
+            ve = b["view"]
+            if ve.vi not in cams:
+                cams[ve.vi] = (m.cam(x, ve.vi), None)
+            cam = cams[ve.vi][0]
+            uv = cam.project(X[b["idx"]])
+            if b["type"] == "A":
+                r[o:o + n] = ve.dt_at(b["name"], uv) * b["w"]
+            else:
+                r[o:o + n] = ((uv - b["pts"]) * b["w"]).ravel()
+        k = self.n_data
+        wc = m.wheel_centres(x); d = prior.DIMS
+        for ve, key, w in self.wheel_blocks:
+            cam = m.cam(x, ve.vi) if ve.vi not in cams else cams[ve.vi][0]
+            c = wc[key]
+            zs = c[2] + (TYRE_HALF if key.endswith("left") else -TYRE_HALF)
+            uv = cam.project(np.array([[c[0], c[1], zs]]))[0]      # the ellipse seen in the image is the outer tyre face
+            r[k:k + 2] = (uv - [w["cx"], w["cy"]]) * W_WC; k += 2
+            rt = x[m.wheel_off + 2]
+            t = np.linspace(0, 2 * np.pi, 24, endpoint=False)
+            ring = np.stack([c[0] + rt * np.cos(t), c[1] + rt * np.sin(t), np.full(24, zs)], 1)
+            puv = cam.project(ring)
+            ang = math.radians(w["angle"]); ca, sa = math.cos(ang), math.sin(ang)
+            dx = puv[:, 0] - w["cx"]; dy = puv[:, 1] - w["cy"]
+            u = (dx * ca + dy * sa) / w["axes"][0]; v = (-dx * sa + dy * ca) / w["axes"][1]
+            # the tyre outline is the face only in near side views; in three quarter views the tread widens it
+            side_on = abs(math.sin(math.radians(cam.az))) > 0.9
+            r[k:k + 24] = (np.hypot(u, v) - 1) * math.sqrt(w["axes"][0] * w["axes"][1]) * (W_WE if side_on else 0.0); k += 24
+        length, width, height, wb = self.dim_values(x)
+        r[k] = (length - d["length"]) * W_DIM_SOFT; r[k + 1] = (width - d["width"]) * W_DIM_SOFT; r[k + 2] = (height - d["height"]) * W_DIM_SOFT
+        r[k + 3] = (wb - d["wheelbase"]) * W_DIM
+        Pf = m.full_control(x, "arch_front_l"); Pr = m.full_control(x, "arch_rear_l")
+        r[k + 4] = ((Pf[4, 0] - x[m.wheel_off]) + (Pr[4, 0] - x[m.wheel_off + 1])) * W_DIM
+        r[k + 5] = (x[m.wheel_off + 2] - d["tyre_r_front"]) * W_DIM_SOFT
+        k += 6
+        for a, b in self.ties:
+            r[k:k + 3] = (x[a:a + 3] - x[b:b + 3]) * W_TIE; k += 3
+        for name, i in self.mid:
+            so, nf = m.slots[name]; r[k] = x[so + 3 * i + 2] * W_MID; k += 1
+        for name, i in self.smooth:
+            so, nf = m.slots[name]
+            p = x[so + 3 * (i - 1):so + 3 * (i + 2)].reshape(3, 3); p0 = m.P0[name][i - 1:i + 2]
+            r[k:k + 3] = ((p[0] - 2 * p[1] + p[2]) - (p0[0] - 2 * p0[1] + p0[2])) * W_SMOOTH; k += 3
+        r[k:k + m.n_curve_params] = (x[:m.n_curve_params] - m.x0[:m.n_curve_params]) * W_PRIOR; k += m.n_curve_params
+        for ve in self.views:
+            c0 = m.x0[m.cam_off + 5 * ve.vi:m.cam_off + 5 * ve.vi + 5]; c1 = x[m.cam_off + 5 * ve.vi:m.cam_off + 5 * ve.vi + 5]
+            sc = np.array([CAM_SCALE[q] for q in ("az", "el", "dist", "sx", "sy")])
+            r[k:k + 5] = (c1 - c0) / sc * 10; k += 5
+        assert k == self.n_res
+        if weighted and getattr(self, "rw", None) is not None:
+            r = r * self.rw
+        return r
+
+    def solve(self, x, free_mask, max_nfev=20, verbose=0):
+        idx = np.nonzero(free_mask)[0]
+        full = x.copy()
+        def fun(z):
+            full[idx] = z
+            return self.residuals(full)
+        Js = self.J[:, idx]
+        res = least_squares(fun, x[idx], jac="2-point", jac_sparsity=Js, loss="linear", max_nfev=max_nfev,
+                            tr_solver="lsmr", x_scale="jac", verbose=verbose)
+        full[idx] = res.x
+        return full, res
+
+
+# ---------------------------------------------------------------- coarse camera search
+def coarse_camera(model, prob, x, ve, az_grid, el_grid, dist0, fov):
+    """Grid search over azimuth and elevation; distance and target shifts from the silhouette bounding box.
+    Score: model silhouette samples to silhouette outline, silhouette points to nearest model sample, wheel centres."""
+    X = model.samples(x); N = model.samp_normal
+    sidx = prob.sil_samples
+    wc = model.wheel_centres(x)
+    (s0, s1) = ve.sil_bbox; sil_c = (s0 + s1) / 2; sil_w = s1[0] - s0[0]
+    best = None
+    for az in az_grid:
+        for el in el_grid:
+            cam = Camera(az, el, dist0, 0.0, 0.0, fov)
+            vis = cam.visible(X[sidx], N[sidx]); pts = X[sidx][vis]
+            if len(pts) < 20:
+                continue
+            uv = cam.project(pts); mw = uv[:, 0].max() - uv[:, 0].min()
+            dist = dist0 * mw / max(sil_w, 1)
+            cam = Camera(az, el, dist, 0.0, 0.0, fov); uv = cam.project(pts)
+            mc = (uv.min(0) + uv.max(0)) / 2; delta = sil_c - mc
+            sx = -delta[0] * dist / cam.f; sy = delta[1] * dist / cam.f
+            cam = Camera(az, el, dist, sx, sy, fov); uv = cam.project(pts)
+            a = np.minimum(map_coordinates(ve.sil_dt, np.stack([uv[:, 1], uv[:, 0]]), order=1, mode="nearest"), 40).mean()
+            d, _ = cKDTree(uv).query(ve.sil); b = np.minimum(d, 40).mean()
+            wterm = 0.0
+            for key, w in ve.wheels.items():
+                c = wc[key]; zs = c[2] + (TYRE_HALF if key.endswith("left") else -TYRE_HALF)
+                p = cam.project(np.array([[c[0], c[1], zs]]))[0]
+                wterm += min(np.hypot(p[0] - w["cx"], p[1] - w["cy"]), 150) / 4
+            score = a + b + wterm
+            if best is None or score < best[0]:
+                best = (score, az, el, dist, sx, sy)
+    return best
+
+
+def init_cameras(model, prob, x):
+    for ve in prob.views:
+        p0 = CAMS0[ve.v]["params"]
+        fov = p0["fov"]
+        b1 = coarse_camera(model, prob, x, ve, p0["az"] + np.arange(-50, 51, 5.0), np.arange(0, 33, 4.0), p0["dist"], fov)
+        b2 = coarse_camera(model, prob, x, ve, np.arange(b1[1] - 6, b1[1] + 6.1, 1.0), np.arange(max(b1[2] - 5, 0), b1[2] + 5.1, 1.0), b1[3], fov)
+        score, az, el, dist, sx, sy = b2
+        o = model.cam_off + 5 * ve.vi
+        x[o:o + 5] = [az % 360, el, dist, sx, sy]
+        print(f"  cam {ve.v}: az {az % 360:.0f} el {el:.0f} dist {dist:.2f} (registered {p0['az']:.0f}/{p0['el']:.0f}/{p0['dist']:.2f}) score {score:.1f}", flush=True)
+    model.x0[model.cam_off:] = x[model.cam_off:]
+    return x
+
+
+# ---------------------------------------------------------------- metrics and overlays
+def evaluate(model, problem, x):
+    """Per instance and per view errors, statuses, wheel and dimension errors."""
+    X = model.samples(x)
+    per_inst = {inst: {"views": {}, "n": 0} for inst, _, _ in model.instances}
+    for b, (o, n) in zip(problem.blocks, problem.layout):
+        if b["type"] != "A":
+            continue
+        ve = b["view"]; cam = model.cam(x, ve.vi)
+        uv = cam.project(X[b["idx"]]); d = ve.dt_at(b["name"], uv)
+        for inst, _, _ in model.instances:
+            so, m = model.samp_off[inst]
+            sel = (b["idx"] >= so) & (b["idx"] < so + m)
+            if sel.sum() >= 3:
+                e = d[sel]
+                rec = per_inst[inst]["views"].setdefault(ve.v, [])
+                rec.append((float(e.mean()), float((e < 12).mean()), int(sel.sum()), b["name"]))
+    metres_per_px = np.mean([model.cam(x, vi).dist * 2 * math.tan(math.radians(model.cam(x, vi).fov) / 2) / H for vi in range(len(VIEWS))])
+    summary = {}
+    for inst, base, side in model.instances:
+        recs = per_inst[inst]["views"]
+        if not recs:
+            summary[inst] = {"status": "prior", "views": 0, "error_px": None, "coverage": None, "detail": {}}
+            continue
+        errs, covs = [], []
+        detail = {}
+        for v, lst in recs.items():
+            tot = sum(l[2] for l in lst)
+            e = sum(l[0] * l[2] for l in lst) / tot; c = sum(l[1] * l[2] for l in lst) / tot
+            errs.append(e); covs.append(c); detail[v] = {"error_px": round(e, 2), "coverage": round(c, 2), "polygons": sorted(set(l[3] for l in lst))}
+        me, mc = float(np.mean(errs)), float(np.mean(covs))
+        good = [1 for e, c in zip(errs, covs) if e <= 8 and c >= 0.6]
+        if len(good) >= 2 and me <= 9 and mc >= 0.55:
+            status = "recovered"
+        elif len(good) >= 1 and me <= 14:
+            status = "partial"
+        else:
+            status = "uncertain"
+        summary[inst] = {"status": status, "views": len(recs), "error_px": round(me, 2), "error_mm": round(me * metres_per_px * 1000, 1), "coverage": round(mc, 2), "detail": detail}
+    # wheels
+    wc = model.wheel_centres(x); wheel_err = []
+    for ve, key, w in problem.wheel_blocks:
+        cam = model.cam(x, ve.vi); c = wc[key]
+        uv = cam.project(np.array([[c[0], c[1], c[2] + (TYRE_HALF if key.endswith("left") else -TYRE_HALF)]]))[0]
+        e = float(np.hypot(uv[0] - w["cx"], uv[1] - w["cy"]))
+        wheel_err.append({"view": ve.v, "wheel": key, "error_px": round(e, 2), "error_mm": round(e * metres_per_px * 1000, 1), "projected": [round(float(uv[0]), 1), round(float(uv[1]), 1)], "evidence": [round(w["cx"], 1), round(w["cy"], 1)]})
+    length, width, height, wb = problem.dim_values(x)
+    d = prior.DIMS
+    length, width, height, wb = [float(q) for q in (length, width, height, wb)]
+    dims = {"length": {"fitted": round(length, 4), "official": d["length"], "error_mm": round((length - d["length"]) * 1000, 1)},
+            "width": {"fitted": round(width, 4), "official": d["width"], "error_mm": round((width - d["width"]) * 1000, 1)},
+            "height": {"fitted": round(height, 4), "official": d["height"], "error_mm": round((height - d["height"]) * 1000, 1)},
+            "wheelbase": {"fitted": round(wb, 4), "official": d["wheelbase"], "error_mm": round((wb - d["wheelbase"]) * 1000, 1)},
+            "tyre_radius": {"fitted": round(float(x[model.wheel_off + 2]), 4), "official": d["tyre_r_front"], "error_mm": round((float(x[model.wheel_off + 2]) - d["tyre_r_front"]) * 1000, 1)}}
+    return summary, wheel_err, dims, metres_per_px
+
+
+COLOURS = {"recovered": (90, 220, 90), "partial": (60, 200, 255), "uncertain": (60, 60, 255), "prior": (200, 160, 60)}
+
+
+def draw_overlays(model, x, summary, outdir, wheel_ev):
+    X = model.samples(x); N = model.samp_normal
+    for vi, v in enumerate(VIEWS):
+        img = cv2.resize(cv2.imread(f"{SRC}/{FILES[v]}"), (W, H), interpolation=cv2.INTER_AREA)
+        over = img.copy()
+        cam = model.cam(x, vi); uv = cam.project(X); vis = cam.visible(X, N)
+        # hidden first, faint
+        for inst, base, side in model.instances:
+            o, m = model.samp_off[inst]
+            pts = uv[o:o + m]; vv = vis[o:o + m]
+            closed = model.closed[base]
+            segs = []
+            n = m if closed else m - 1
+            for j in range(n):
+                a, b = j, (j + 1) % m
+                if vv[a] and vv[b]:
+                    segs.append((pts[a], pts[b], True))
+                else:
+                    segs.append((pts[a], pts[b], False))
+            for a, b, on in segs:
+                if not on:
+                    cv2.line(over, tuple(np.round(a).astype(int)), tuple(np.round(b).astype(int)), (120, 120, 120), 1, cv2.LINE_AA)
+        img = cv2.addWeighted(over, 0.35, img, 0.65, 0)
+        for inst, base, side in model.instances:
+            o, m = model.samp_off[inst]
+            pts = uv[o:o + m]; vv = vis[o:o + m]
+            col = COLOURS[summary[inst]["status"]]
+            n = m if model.closed[base] else m - 1
+            for j in range(n):
+                a, b = j, (j + 1) % m
+                if vv[a] and vv[b]:
+                    cv2.line(img, tuple(np.round(pts[a]).astype(int)), tuple(np.round(pts[b]).astype(int)), col, 2, cv2.LINE_AA)
+        # wheels
+        wc = model.wheel_centres(x); d = prior.DIMS
+        for key, c in wc.items():
+            nrm = np.array([0, 0, 1 if key.endswith("left") else -1.0])
+            if not cam.visible(c[None], nrm[None])[0]:
+                continue
+            rt = float(x[model.wheel_off + 2])
+            zs = c[2] + (TYRE_HALF if key.endswith("left") else -TYRE_HALF)
+            t = np.linspace(0, 2 * np.pi, 48)
+            ring = cam.project(np.stack([c[0] + rt * np.cos(t), c[1] + rt * np.sin(t), np.full(48, zs)], 1))
+            cv2.polylines(img, [np.round(ring).astype(np.int32)], True, (255, 220, 40), 2, cv2.LINE_AA)
+            cu = cam.project(np.array([[c[0], c[1], zs]]))[0]
+            cv2.drawMarker(img, tuple(np.round(cu).astype(int)), (255, 220, 40), cv2.MARKER_CROSS, 18, 2, cv2.LINE_AA)
+            ev = [w for w in wheel_ev if w["view"] == v and w["wheel"] == key]
+            if ev:
+                cv2.circle(img, (int(round(ev[0]["evidence"][0])), int(round(ev[0]["evidence"][1]))), 5, (0, 140, 255), 2, cv2.LINE_AA)
+        # legend
+        cv2.rectangle(img, (12, 12), (560, 44), (20, 20, 20), -1)
+        cv2.putText(img, f"{v} {FILES[v][3:-4]}  skeleton overlay  green recovered  cyan partial  red uncertain  amber prior", (20, 34), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (235, 235, 235), 1, cv2.LINE_AA)
+        cv2.imwrite(f"{outdir}/{v}.jpg", img, [cv2.IMWRITE_JPEG_QUALITY, 86])
+
+
+def export(model, problem, x, summary, wheel_err, dims, mpp, tag):
+    X = model.samples(x)
+    curves = []
+    for inst, base, side in model.instances:
+        o, m = model.samp_off[inst]
+        P = model.full_control(x, inst)
+        curves.append({"name": inst, "base": base, "side": side, "closed": model.closed[base], "status": summary[inst]["status"],
+                       "error_px": summary[inst]["error_px"], "error_mm": summary[inst].get("error_mm"), "coverage": summary[inst]["coverage"],
+                       "views": summary[inst]["views"], "control": np.round(P, 4).tolist(), "samples": np.round(X[o:o + m], 4).tolist(),
+                       "detail": summary[inst]["detail"]})
+    wc = model.wheel_centres(x); d = prior.DIMS
+    wheels = {k: {"centre": np.round(v, 4).tolist(), "tyre_r": round(float(x[model.wheel_off + 2]), 4),
+                  "rim_r": d["rim_r_front"] if k.startswith("front") else d["rim_r_rear"]} for k, v in wc.items()}
+    cams = {}
+    for vi, v in enumerate(VIEWS):
+        c = model.cam(x, vi)
+        cams[v] = {"file": FILES[v], "az": round(c.az, 3), "el": round(c.el, 3), "dist": round(c.dist, 3), "sx": round(c.sx, 4), "sy": round(c.sy, 4), "fov": c.fov,
+                   "position": np.round(c.pos, 4).tolist(), "target": np.round(c.target, 4).tolist(),
+                   "initial": {k: CAMS0[v]["params"][k] for k in ("az", "el", "dist", "sx", "sy")}}
+    groups = {}
+    for g, lst in prior.REPORT_GROUPS.items():
+        insts = []
+        for c in lst:
+            if c.startswith("wheel_"):
+                continue
+            insts.append(c)
+            if c.endswith("_l"):
+                insts.append(c[:-2] + "_r")
+        st = [summary[i]["status"] for i in insts if i in summary]
+        errs = [summary[i]["error_px"] for i in insts if i in summary and summary[i]["error_px"] is not None]
+        groups[g] = {"curves": insts, "statuses": st, "error_px": round(float(np.mean(errs)), 2) if errs else None}
+    out = {"label": "CONTROLLED SYNTHETIC CAPTURE TEST", "frame": "x forward (nose +x), y up (ground 0), z driver side (+z), metres", "tag": tag,
+           "image_size": [W, H], "metres_per_px_mean": round(float(mpp), 5), "dims": dims, "wheels": wheels, "wheel_errors": wheel_err,
+           "cameras": cams, "curves": curves, "groups": groups,
+           "status_counts": {s: sum(1 for c in curves if c["status"] == s) for s in ("recovered", "partial", "uncertain", "prior")}}
+    json.dump(out, open(f"{OUT}/skeleton.json", "w"))
+    return out
+
+
+def main():
+    t0 = time.time()
+    model = Model()
+    prob = Problem(model, VIEWS)
+    x = model.x0.copy()
+    print("params", model.n_params, "samples", model.n_samples, "views", len(prob.views), "polys", sum(len(v.polys) for v in prob.views))
+    x = init_cameras(model, prob, x)
+    print(f"coarse cameras {time.time()-t0:.0f}s", flush=True)
+    cam_mask = np.zeros(model.n_params, bool); cam_mask[model.cam_off:] = True
+    wheel_mask = np.zeros(model.n_params, bool); wheel_mask[model.wheel_off:model.wheel_off + 3] = True
+    all_mask = np.ones(model.n_params, bool)
+    stages = [("cameras+wheels", cam_mask | wheel_mask, 12, 40.0), ("cameras+wheels 2", cam_mask | wheel_mask, 12, 25.0)]
+    stages += [(f"joint {i+1}", all_mask, 15, f) for i, f in enumerate([30, 22, 16, 12, 9, 7, 6, 6, 6, 6])]
+    for name, mask, nfev, f in stages:
+        prob.build_correspondences(x)
+        prob.update_weights(x, f)
+        r0 = prob.residuals(x, weighted=False)
+        data = r0[:prob.n_data]
+        x, res = prob.solve(x, mask, max_nfev=nfev)
+        r1 = prob.residuals(x, weighted=False)
+        print(f"[{name} f={f}] rows {prob.n_res} data {prob.n_data}  cost {res.cost:.0f}  data rms {np.sqrt((data**2).mean()):.2f} -> {np.sqrt((r1[:prob.n_data]**2).mean()):.2f} px  nfev {res.nfev}  {time.time()-t0:.0f}s", flush=True)
+    prob.build_correspondences(x); prob.update_weights(x)
+    summary, wheel_err, dims, mpp = evaluate(model, prob, x)
+    out = export(model, prob, x, summary, wheel_err, dims, mpp, "phase1")
+    np.save(f"{OUT}/x.npy", x)
+    draw_overlays(model, x, summary, f"{OUT}/overlays", wheel_err)
+    print("status", out["status_counts"]); print("dims", dims)
+    print("wheel err px", [w["error_px"] for w in wheel_err])
+    for g, gg in out["groups"].items():
+        print(f"  {g:32s} {gg['error_px']}  {dict((s, gg['statuses'].count(s)) for s in set(gg['statuses']))}")
+    print("done", f"{time.time()-t0:.0f}s")
+
+
+if __name__ == "__main__":
+    main()

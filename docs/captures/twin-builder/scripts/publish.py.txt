@@ -1,0 +1,17 @@
+"""Copy the fitter outputs into the repo: public assets for the lab and the archive under docs/captures/twin-builder."""
+import json, os, shutil, cv2
+HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = "/home/user/marketing-app"
+PUB = f"{ROOT}/public/labs/twin-builder"; DOC = f"{ROOT}/docs/captures/twin-builder"
+for d in (f"{PUB}/overlays", f"{PUB}/thumbs", f"{DOC}/evidence", f"{DOC}/scripts"): os.makedirs(d, exist_ok=True)
+sk = json.load(open(f"{HERE}/out/skeleton.json"))
+for c in sk["cameras"].values(): c["az"] = round(c["az"] % 360, 3)
+json.dump(sk, open(f"{PUB}/skeleton.json", "w"), separators=(",", ":"))
+json.dump(sk, open(f"{DOC}/skeleton.json", "w"), indent=1)
+for v in sorted(sk["cameras"]):
+    src = f"{HERE}/out/overlays/{v}.jpg"; shutil.copy(src, f"{PUB}/overlays/{v}.jpg")
+    im = cv2.imread(src); cv2.imwrite(f"{PUB}/thumbs/{v}.jpg", cv2.resize(im, (632, 424), interpolation=cv2.INTER_AREA), [cv2.IMWRITE_JPEG_QUALITY, 82])
+    shutil.copy(f"{HERE}/evidence/{v}.json", f"{DOC}/evidence/{v}.json")
+    cv2.imwrite(f"{DOC}/evidence/{v}-qa.jpg", cv2.resize(cv2.imread(f"{HERE}/evidence/{v}-qa.jpg"), (632, 424), interpolation=cv2.INTER_AREA), [cv2.IMWRITE_JPEG_QUALITY, 80])
+for f in ("evidence.py", "wheels.py", "prior.py", "fit.py", "publish.py"): shutil.copy(f"{HERE}/{f}", f"{DOC}/scripts/{f}.txt")
+shutil.copy(f"{HERE}/out/fit.log", f"{DOC}/fit.log")
+print("published", os.path.getsize(f"{PUB}/skeleton.json") // 1024, "KB skeleton")

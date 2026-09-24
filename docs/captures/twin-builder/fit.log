@@ -1,0 +1,52 @@
+params 794 samples 2006 views 16 polys 405
+  cam 01: az 360 el 12 dist 7.31 (registered 0/8/7.20) score 32.8
+  cam 02: az 46 el 9 dist 8.71 (registered 40/2/7.50) score 74.8
+  cam 03: az 49 el 8 dist 8.80 (registered 41/3/7.50) score 75.1
+  cam 04: az 84 el 15 dist 8.30 (registered 88/5/8.10) score 63.8
+  cam 05: az 118 el 8 dist 8.01 (registered 123/2/7.80) score 71.6
+  cam 06: az 127 el 8 dist 9.02 (registered 128/7/8.60) score 65.9
+  cam 07: az 180 el 20 dist 8.31 (registered 180/9/7.80) score 37.4
+  cam 08: az 235 el 7 dist 7.85 (registered 233/5/7.50) score 63.2
+  cam 09: az 235 el 7 dist 8.46 (registered 266/27/8.85) score 64.8
+  cam 10: az 272 el 15 dist 8.86 (registered 270/8/8.60) score 62.1
+  cam 11: az 315 el 9 dist 8.77 (registered 317/4/7.80) score 76.9
+  cam 12: az 316 el 4 dist 8.73 (registered 317/4/7.80) score 75.4
+  cam 13: az 44 el 22 dist 9.98 (registered 40/16/8.70) score 76.7
+  cam 14: az 122 el 26 dist 8.89 (registered 124/22/8.58) score 68.2
+  cam 15: az 229 el 16 dist 8.41 (registered 222/12/7.50) score 66.8
+  cam 16: az 323 el 17 dist 9.27 (registered 322/16/8.40) score 81.5
+coarse cameras 5s
+[cameras+wheels f=40.0] rows 59561 data 57522  cost 3002258  data rms 16.56 -> 14.87 px  nfev 12  10s
+[cameras+wheels 2 f=25.0] rows 60965 data 58926  cost 2006924  data rms 14.38 -> 13.80 px  nfev 12  14s
+[joint 1 f=30] rows 61122 data 59083  cost 1497107  data rms 13.73 -> 10.73 px  nfev 15  27s
+[joint 2 f=22] rows 63728 data 61689  cost 1153953  data rms 10.47 -> 9.88 px  nfev 15  39s
+[joint 3 f=16] rows 64353 data 62314  cost 888026  data rms 9.85 -> 9.65 px  nfev 15  51s
+[joint 4 f=12] rows 64790 data 62751  cost 691138  data rms 9.66 -> 9.58 px  nfev 14  61s
+[joint 5 f=9] rows 65075 data 63036  cost 526163  data rms 9.63 -> 9.60 px  nfev 15  73s
+[joint 6 f=7] rows 65147 data 63108  cost 406434  data rms 9.62 -> 9.63 px  nfev 15  85s
+[joint 7 f=6] rows 65234 data 63195  cost 342840  data rms 9.63 -> 9.65 px  nfev 15  96s
+[joint 8 f=6] rows 65278 data 63239  cost 340044  data rms 9.65 -> 9.67 px  nfev 15  108s
+[joint 9 f=6] rows 65291 data 63252  cost 338393  data rms 9.67 -> 9.68 px  nfev 14  119s
+[joint 10 f=6] rows 65326 data 63287  cost 336964  data rms 9.68 -> 9.70 px  nfev 15  130s
+status {'recovered': 38, 'partial': 31, 'uncertain': 21, 'prior': 7}
+dims {'length': {'fitted': 4.7504, 'official': 4.794, 'error_mm': -43.6}, 'width': {'fitted': 1.8715, 'official': 1.903, 'error_mm': -31.5}, 'height': {'fitted': 1.433, 'official': 1.433, 'error_mm': -0.0}, 'wheelbase': {'fitted': 2.8574, 'official': 2.857, 'error_mm': 0.4}, 'tyre_radius': {'fitted': 0.3552, 'official': 0.3375, 'error_mm': 17.7}}
+wheel err px [18.72, 19.43, 19.31, 21.45, 7.4, 4.98, 9.95, 3.68, 8.53, 13.82, 8.63, 21.65, 17.81, 15.69, 5.87, 9.32, 8.84, 26.07, 8.57, 23.13, 25.16, 14.7, 21.25, 21.9, 6.56, 17.45, 10.89, 13.36]
+  roofline                         7.13  {'prior': 1, 'partial': 1, 'recovered': 5}
+  beltline                         8.65  {'prior': 2, 'partial': 2, 'recovered': 4}
+  shoulder line                    None  {'prior': 2}
+  hood perimeter and creases       8.5  {'prior': 2, 'partial': 2, 'recovered': 2}
+  trunk perimeter                  14.56  {'partial': 1, 'uncertain': 3}
+  windshield boundary              7.04  {'partial': 2, 'recovered': 2}
+  side window boundaries           9.89  {'partial': 1, 'uncertain': 3, 'recovered': 8}
+  pillars                          11.54  {'partial': 4, 'uncertain': 3, 'recovered': 3}
+  wheel centres                    None  {}
+  wheel arches                     13.8  {'partial': 2, 'uncertain': 2}
+  rocker and sill                  14.88  {'partial': 5, 'uncertain': 3, 'recovered': 2}
+  front bumper outline             9.05  {'partial': 4, 'recovered': 4}
+  rear bumper outline              12.59  {'partial': 3, 'uncertain': 3, 'recovered': 2}
+  grille outline                   10.15  {'partial': 3, 'recovered': 2}
+  headlight outlines               4.4  {'recovered': 2}
+  taillight outlines               5.49  {'recovered': 2}
+  four door boundaries             10.11  {'partial': 5, 'uncertain': 2, 'recovered': 7}
+  mirrors and handles              4.87  {'recovered': 6}
+done 133s

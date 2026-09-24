@@ -1,0 +1,164 @@
+"""Sedan skeleton prior: a named 3D curve network built from a few proportions and the official dimensions.
+
+Frame: x forward (nose +x), y up (ground 0), z to the driver side (+z). Metres.
+Left curves end in _l and are mirrored to _r by the fitter; centre curves are single.
+Each curve is a polyline of control points; loops (parts) reference curves with a direction and
+map to the polygon names of the evidence. This is the universal sedan prior of the plan, Phase 1 version:
+authored proportions, not learned yet.
+"""
+import numpy as np
+
+DIMS = {"length": 4.794, "width": 1.903, "height": 1.433, "wheelbase": 2.857, "track_front": 1.617, "track_rear": 1.605, "width_mirrors": 2.067,
+        "tyre_r_front": 0.3375, "tyre_r_rear": 0.3395, "rim_r_front": 0.2413, "rim_r_rear": 0.254}
+
+
+def lin(a, b, n):
+    a = np.array(a, float); b = np.array(b, float)
+    return np.array([a + (b - a) * t for t in np.linspace(0, 1, n)])
+
+
+def arc(cx, cy, r, z, a0, a1, n):
+    return np.array([[cx + r * np.cos(t), cy + r * np.sin(t), z] for t in np.linspace(a0, a1, n)])
+
+
+def build(d=DIMS):
+    L, Wb, Hh, WB = d["length"], d["width"], d["height"], d["wheelbase"]
+    nose, tail = L / 2, -L / 2
+    xf = nose - 0.86                      # front wheel centre
+    xr = xf - WB                          # rear wheel centre
+    yw = d["tyre_r_front"]                # wheel centre height
+    zt = d["track_front"] / 2
+    zb = 0.94                             # body side at the doors (half width)
+    zs = 0.90                             # sill half width
+    ybelt, ysill = 0.99, 0.30
+    yroof, yhoodf, ycowl, ytrunk = Hh, 0.80, 1.02, 0.96
+    x_cowl, x_apt, x_rrt, x_rgb, x_trk = 0.78, 0.30, -1.08, -1.58, -2.22   # cowl, A pillar top, roof rear top, rear glass base, trunk edge
+    x_sfd, x_sdd, x_sdq = 0.72, -0.42, -1.28                               # seams: fender door, door door, door quarter
+    z_roof_f, z_roof, z_roof_r = 0.60, 0.66, 0.58
+    C = {}
+    # centre transverse curves (left to right), y up
+    C["hood_front"] = lin([2.02, yhoodf, 0.84], [2.02, yhoodf, -0.84], 7)
+    C["hood_front"][:, 1] += 0.03 * (1 - (C["hood_front"][:, 2] / 0.84) ** 2)
+    C["cowl"] = lin([x_cowl, ycowl, 0.74], [x_cowl, ycowl, -0.74], 7)
+    C["roof_front"] = lin([x_apt, 1.37, z_roof_f], [x_apt, 1.37, -z_roof_f], 7)
+    C["roof_front"][:, 1] += 0.03 * (1 - (C["roof_front"][:, 2] / z_roof_f) ** 2)
+    C["roof_rear"] = lin([x_rrt, 1.36, z_roof_r], [x_rrt, 1.36, -z_roof_r], 7)
+    C["roof_rear"][:, 1] += 0.03 * (1 - (C["roof_rear"][:, 2] / z_roof_r) ** 2)
+    C["rear_glass_base"] = lin([x_rgb, 1.10, 0.72], [x_rgb, 1.10, -0.72], 7)
+    C["trunk_edge"] = lin([x_trk, ytrunk, 0.80], [x_trk, ytrunk, -0.80], 7)
+    C["rear_bumper_top"] = lin([-2.30, 0.82, 0.88], [-2.30, 0.82, -0.88], 7)
+    C["splitter"] = lin([2.36, 0.16, 0.86], [2.36, 0.16, -0.86], 7)
+    C["diffuser"] = lin([-2.36, 0.24, 0.80], [-2.36, 0.24, -0.80], 7)
+    C["roof_crown"] = lin([x_sdd, 1.41, z_roof + 0.02], [x_sdd, 1.41, -(z_roof + 0.02)], 7)   # ends coincide with rail_b_l and rail_b_r
+    C["roof_crown"][:, 1] += 0.03 * (1 - (C["roof_crown"][:, 2] / (z_roof + 0.02)) ** 2)
+    # left side curves
+    C["hood_side_l"] = lin([2.02, yhoodf, 0.84], [x_cowl, ycowl, 0.74], 6)
+    C["hood_crease_l"] = lin([1.95, 0.84, 0.30], [x_cowl, 1.03, 0.36], 6)
+    C["a_pillar_l"] = lin([x_cowl, ycowl, 0.74], [x_apt, 1.37, z_roof_f], 5)
+    C["rail_front_l"] = lin([x_apt, 1.37, z_roof_f], [x_sdd, 1.41, z_roof + 0.02], 5)
+    C["rail_b_l"] = lin([x_sdd, 1.41, z_roof + 0.02], [x_sdd - 0.10, 1.41, z_roof + 0.02], 2)
+    C["rail_rear_l"] = lin([x_sdd - 0.10, 1.41, z_roof + 0.02], [x_rrt, 1.36, z_roof_r], 5)
+    C["c_pillar_upper_l"] = lin([x_rrt, 1.36, z_roof_r], [x_rgb, 1.10, 0.72], 4)
+    C["c_pillar_lower_l"] = lin([x_rgb - 0.10, 1.12, 0.78], [x_sdq - 0.12, ybelt, zb - 0.02], 4)
+    C["belt_fender_l"] = lin([1.55, 0.92, zb - 0.02], [x_sfd, ybelt - 0.02, zb], 4)
+    C["belt_door_front_l"] = lin([x_sfd, ybelt - 0.02, zb], [x_sdd, ybelt, zb], 5)
+    C["belt_door_rear_l"] = lin([x_sdd, ybelt, zb], [x_sdq, ybelt + 0.01, zb - 0.01], 5)
+    C["belt_quarter_l"] = lin([x_sdq, ybelt + 0.01, zb - 0.01], [-2.20, 0.98, 0.86], 5)
+    C["seam_fender_door_l"] = lin([x_sfd, ybelt - 0.02, zb], [x_sfd + 0.02, ysill, zs], 5)
+    C["seam_doors_l"] = lin([x_sdd, ybelt, zb], [x_sdd, ysill, zs], 5)
+    C["seam_door_quarter_l"] = lin([x_sdq, ybelt + 0.01, zb - 0.01], [x_sdq + 0.04, ysill, zs], 5)
+    C["sill_door_front_l"] = lin([x_sfd + 0.02, ysill, zs], [x_sdd, ysill, zs], 4)
+    C["sill_door_rear_l"] = lin([x_sdd, ysill, zs], [x_sdq + 0.04, ysill, zs], 4)
+    ra = d["tyre_r_front"] + 0.075
+    C["arch_front_l"] = arc(xf, yw, ra, zb + 0.01, np.pi * 1.0, 0.0, 9)      # from rear of arch over the top to the front
+    C["arch_rear_l"] = arc(xr, yw, d["tyre_r_rear"] + 0.075, zb + 0.01, np.pi * 1.0, 0.0, 9)
+    C["sill_fender_l"] = lin([xf - ra, ysill, zs], [x_sfd + 0.02, ysill, zs], 3)
+    C["sill_quarter_l"] = lin([x_sdq + 0.04, ysill, zs], [xr + d["tyre_r_rear"] + 0.075, ysill, zs], 3)
+    C["fbumper_seam_l"] = lin([2.02, yhoodf, 0.84], [1.60, 0.72, 0.95], 4)           # bumper to fender seam
+    C["fbumper_side_l"] = lin([1.60, 0.72, 0.95], [1.75, 0.30, 0.92], 4)
+    C["fbumper_low_l"] = lin([1.75, 0.30, 0.92], [2.36, 0.16, 0.86], 4)
+    C["fender_front_l"] = lin([1.60, 0.72, 0.95], [xf + ra, ysill, zs], 4)          # fender lower front edge to the arch
+    C["headlight_l"] = np.array([[2.02, 0.84, 0.82], [2.16, 0.86, 0.62], [2.27, 0.84, 0.44], [2.28, 0.74, 0.42], [2.18, 0.71, 0.60], [2.03, 0.70, 0.84]])
+    C["grille_l"] = np.array([[2.34, 0.82, 0.40], [2.39, 0.80, 0.16], [2.40, 0.55, 0.06], [2.39, 0.33, 0.10], [2.34, 0.30, 0.38], [2.30, 0.55, 0.44]])
+    C["intake_side_l"] = np.array([[2.26, 0.50, 0.82], [2.33, 0.46, 0.50], [2.34, 0.22, 0.48], [2.27, 0.20, 0.86]])
+    C["intake_center"] = np.array([[2.37, 0.34, 0.34], [2.37, 0.18, 0.36], [2.37, 0.18, -0.36], [2.37, 0.34, -0.34]])
+    C["mirror_l"] = np.array([[0.60, 1.10, 0.95], [0.55, 1.15, 1.03], [0.45, 1.13, 1.03], [0.44, 1.03, 0.97], [0.55, 1.02, 0.95]])
+    C["handle_front_l"] = np.array([[0.02, 0.90, zb], [-0.20, 0.90, zb]])
+    C["handle_rear_l"] = np.array([[-1.02, 0.90, zb], [-1.22, 0.90, zb]])
+    C["taillight_l"] = np.array([[-2.28, 0.98, 0.90], [-2.36, 0.99, 0.62], [-2.37, 0.90, 0.46], [-2.34, 0.85, 0.66], [-2.22, 0.86, 0.92]])
+    C["trunk_side_l"] = lin([x_rgb, 1.10, 0.72], [x_trk, ytrunk, 0.80], 4)
+    C["quarter_taillight_l"] = lin([-2.20, 0.98, 0.86], [-2.28, 0.86, 0.94], 3)
+    C["rbumper_seam_l"] = lin([-2.30, 0.82, 0.88], [-1.95, 0.72, 0.95], 4)
+    C["rbumper_side_l"] = lin([-1.95, 0.72, 0.95], [-2.05, 0.30, 0.92], 4)
+    C["rbumper_low_l"] = lin([-2.05, 0.30, 0.92], [-2.36, 0.24, 0.80], 4)
+    C["quarter_rear_l"] = lin([-1.95, 0.72, 0.95], [xr - d["tyre_r_rear"] - 0.075, ysill, zs], 4)
+    C["shoulder_l"] = lin([1.98, 0.86, 0.88], [-2.25, 0.90, 0.90], 8)
+    C["rocker_l"] = np.array([[1.10, ysill, zs], [1.10, 0.17, zs - 0.03], [-0.85, 0.17, zs - 0.03], [-0.85, ysill, zs]])
+    C["bpillar_front_l"] = lin([x_sdd, ybelt, zb], [x_sdd, 1.41, z_roof + 0.02], 4)
+    C["bpillar_rear_l"] = lin([x_sdd - 0.10, ybelt, zb], [x_sdd - 0.10, 1.41, z_roof + 0.02], 4)
+    C["quarter_glass_l"] = np.array([[x_sdq, ybelt + 0.01, zb - 0.02], [x_sdq - 0.14, ybelt + 0.01, zb - 0.03], [x_sdq - 0.06, 1.24, 0.72]])
+    wheels = {"front": [xf, yw, zt], "rear": [xr, d["tyre_r_rear"], d["track_rear"] / 2]}
+    return C, wheels
+
+
+# Loops: evidence polygon name -> list of (curve, direction, side) ; side 'l' curves may be mirrored to 'r' loops by the fitter
+LOOPS = {
+    "windshield": [("cowl", 1), ("a_pillar_r", 1), ("roof_front", -1), ("a_pillar_l", -1)],
+    "hood": [("hood_front", 1), ("hood_side_r", 1), ("cowl", -1), ("hood_side_l", -1)],
+    "roof_panel": [("roof_front", 1), ("rail_front_r", 1), ("rail_b_r", 1), ("rail_rear_r", 1), ("roof_rear", -1), ("rail_rear_l", -1), ("rail_b_l", -1), ("rail_front_l", -1)],
+    "roof_carbon": [("roof_front", 1), ("rail_front_r", 1), ("rail_b_r", 1), ("rail_rear_r", 1), ("roof_rear", -1), ("rail_rear_l", -1), ("rail_b_l", -1), ("rail_front_l", -1)],
+    "rear_glass": [("roof_rear", 1), ("c_pillar_upper_r", 1), ("rear_glass_base", -1), ("c_pillar_upper_l", -1)],
+    "trunk_lid": [("rear_glass_base", 1), ("trunk_side_r", 1), ("trunk_edge", -1), ("trunk_side_l", -1)],
+    "window_front_left": [("a_pillar_l", 1), ("rail_front_l", 1), ("bpillar_front_l", -1), ("belt_door_front_l", -1)],
+    "window_rear_left": [("bpillar_rear_l", 1), ("rail_rear_l", 1), ("c_pillar_lower_l", 1), ("belt_door_rear_l", -1)],
+    "quarter_glass_left": [("quarter_glass_l", 1)],
+    "door_front_left": [("seam_fender_door_l", -1), ("belt_door_front_l", 1), ("seam_doors_l", 1), ("sill_door_front_l", -1)],
+    "door_rear_left": [("seam_doors_l", -1), ("belt_door_rear_l", 1), ("seam_door_quarter_l", 1), ("sill_door_rear_l", -1)],
+    "front_fender_left": [("hood_side_l", 1), ("seam_fender_door_l", 1), ("sill_fender_l", -1), ("arch_front_l", 1), ("fender_front_l", -1), ("fbumper_seam_l", -1)],
+    "rear_quarter_left": [("seam_door_quarter_l", -1), ("belt_quarter_l", 1), ("quarter_taillight_l", 1), ("quarter_rear_l", 1), ("arch_rear_l", 1), ("sill_quarter_l", -1)],
+    "front_bumper": [("hood_front", 1), ("fbumper_seam_r", 1), ("fbumper_side_r", 1), ("fbumper_low_r", 1), ("splitter", -1), ("fbumper_low_l", -1), ("fbumper_side_l", -1), ("fbumper_seam_l", -1)],
+    "rear_bumper": [("rear_bumper_top", 1), ("rbumper_seam_r", 1), ("rbumper_side_r", 1), ("rbumper_low_r", 1), ("diffuser", -1), ("rbumper_low_l", -1), ("rbumper_side_l", -1), ("rbumper_seam_l", -1)],
+    "headlight_left": [("headlight_l", 1)], "taillight_left": [("taillight_l", 1)], "kidney_grille_left": [("grille_l", 1)],
+    "lower_intake_left": [("intake_side_l", 1)], "lower_intake_center": [("intake_center", 1)], "mirror_left": [("mirror_l", 1)],
+    "rocker_trim_left": [("rocker_l", 1)], "door_handle_front_left": [("handle_front_l", 1)], "door_handle_rear_left": [("handle_rear_l", 1)],
+    "b_pillar_left": [("bpillar_front_l", 1), ("rail_b_l", 1), ("bpillar_rear_l", -1)],
+}
+# curves whose projections should touch the whole car silhouette (one directional: silhouette -> nearest of these)
+SILHOUETTE_CURVES = ["hood_front", "hood_side_l", "hood_crease_l", "cowl", "roof_front", "rail_front_l", "rail_b_l", "rail_rear_l", "roof_rear",
+                     "rear_glass_base", "trunk_side_l", "trunk_edge", "rear_bumper_top", "splitter", "diffuser", "sill_door_front_l", "sill_door_rear_l",
+                     "sill_fender_l", "sill_quarter_l", "arch_front_l", "arch_rear_l", "fbumper_side_l", "fbumper_low_l", "rbumper_side_l", "rbumper_low_l",
+                     "shoulder_l", "belt_quarter_l", "belt_fender_l", "quarter_rear_l", "fender_front_l", "mirror_l", "c_pillar_upper_l", "a_pillar_l"]
+# the user's list of skeleton elements, mapped to curves, for the report
+REPORT_GROUPS = {
+    "roofline": ["rail_front_l", "rail_b_l", "rail_rear_l", "roof_crown"], "beltline": ["belt_fender_l", "belt_door_front_l", "belt_door_rear_l", "belt_quarter_l"],
+    "shoulder line": ["shoulder_l"], "hood perimeter and creases": ["hood_front", "hood_side_l", "cowl", "hood_crease_l"], "trunk perimeter": ["rear_glass_base", "trunk_side_l", "trunk_edge"],
+    "windshield boundary": ["cowl", "a_pillar_l", "roof_front"], "side window boundaries": ["belt_door_front_l", "belt_door_rear_l", "bpillar_front_l", "bpillar_rear_l", "c_pillar_lower_l", "quarter_glass_l"],
+    "pillars": ["a_pillar_l", "bpillar_front_l", "bpillar_rear_l", "c_pillar_upper_l", "c_pillar_lower_l"], "wheel centres": ["wheel_front", "wheel_rear"],
+    "wheel arches": ["arch_front_l", "arch_rear_l"], "rocker and sill": ["sill_fender_l", "sill_door_front_l", "sill_door_rear_l", "sill_quarter_l", "rocker_l"],
+    "front bumper outline": ["hood_front", "fbumper_seam_l", "fbumper_side_l", "fbumper_low_l", "splitter"], "rear bumper outline": ["rear_bumper_top", "rbumper_seam_l", "rbumper_side_l", "rbumper_low_l", "diffuser"],
+    "grille outline": ["grille_l", "intake_side_l", "intake_center"], "headlight outlines": ["headlight_l"], "taillight outlines": ["taillight_l"],
+    "four door boundaries": ["seam_fender_door_l", "seam_doors_l", "seam_door_quarter_l", "sill_door_front_l", "sill_door_rear_l", "belt_door_front_l", "belt_door_rear_l"],
+    "mirrors and handles": ["mirror_l", "handle_front_l", "handle_rear_l"],
+}
+
+# closed curves (single curve loops)
+CLOSED = {"headlight_l", "grille_l", "intake_side_l", "intake_center", "mirror_l", "rocker_l", "taillight_l", "quarter_glass_l"}
+# outward normal per left or centre curve (unit-ish); right curves mirror z. Used for visibility in each view.
+NORMALS = {
+    "hood_front": (0.6, 0.8, 0), "cowl": (0.2, 1, 0), "roof_front": (0.1, 1, 0), "roof_rear": (-0.1, 1, 0), "rear_glass_base": (-0.3, 1, 0),
+    "trunk_edge": (-0.6, 0.8, 0), "rear_bumper_top": (-0.8, 0.6, 0), "splitter": (0.9, -0.3, 0), "diffuser": (-0.9, -0.3, 0), "roof_crown": (0, 1, 0),
+    "intake_center": (1, 0, 0),
+    "hood_side_l": (0.2, 0.6, 0.8), "hood_crease_l": (0.1, 1, 0.1), "a_pillar_l": (0.3, 0.5, 0.8), "rail_front_l": (0, 0.7, 0.7), "rail_b_l": (0, 0.7, 0.7),
+    "rail_rear_l": (0, 0.7, 0.7), "c_pillar_upper_l": (-0.3, 0.5, 0.8), "c_pillar_lower_l": (-0.2, 0.3, 0.9), "belt_fender_l": (0.1, 0.2, 1),
+    "belt_door_front_l": (0, 0.2, 1), "belt_door_rear_l": (0, 0.2, 1), "belt_quarter_l": (-0.1, 0.2, 1), "seam_fender_door_l": (0, 0, 1),
+    "seam_doors_l": (0, 0, 1), "seam_door_quarter_l": (0, 0, 1), "sill_door_front_l": (0, -0.2, 1), "sill_door_rear_l": (0, -0.2, 1),
+    "arch_front_l": (0, 0, 1), "arch_rear_l": (0, 0, 1), "sill_fender_l": (0, -0.2, 1), "sill_quarter_l": (0, -0.2, 1), "fbumper_seam_l": (0.5, 0.3, 0.8),
+    "fbumper_side_l": (0.5, 0, 0.9), "fbumper_low_l": (0.6, -0.2, 0.8), "fender_front_l": (0.4, 0, 0.9), "headlight_l": (0.7, 0.3, 0.6), "grille_l": (1, 0, 0.1),
+    "intake_side_l": (0.8, 0, 0.5), "mirror_l": (0.3, 0.3, 0.9), "handle_front_l": (0, 0, 1), "handle_rear_l": (0, 0, 1), "taillight_l": (-0.7, 0.3, 0.6),
+    "trunk_side_l": (-0.2, 0.8, 0.5), "quarter_taillight_l": (-0.4, 0.3, 0.9), "rbumper_seam_l": (-0.5, 0.3, 0.8), "rbumper_side_l": (-0.5, 0, 0.9),
+    "rbumper_low_l": (-0.6, -0.2, 0.8), "quarter_rear_l": (-0.4, 0, 0.9), "shoulder_l": (0, 0.3, 1), "rocker_l": (0, -0.1, 1), "bpillar_front_l": (0, 0.2, 1),
+    "bpillar_rear_l": (0, 0.2, 1), "quarter_glass_l": (0, 0.3, 1),
+}
+# polygons whose boundary carries these curves without a full loop model (model to contour distance only)
+OPEN = {"front_splitter": ["splitter"], "rear_diffuser": ["diffuser"], "trunk_spoiler_lip": ["trunk_edge"], "c_pillar_left": ["c_pillar_upper_l", "c_pillar_lower_l"],
+        "a_pillar_left": ["a_pillar_l"], "kidney_grille": ["grille_l", "grille_r"]}

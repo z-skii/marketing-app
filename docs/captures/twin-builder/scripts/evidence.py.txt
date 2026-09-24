@@ -1,0 +1,225 @@
+"""Phase 1 evidence extraction, zero cost and local.
+
+Per source view (1264 x 848):
+  - whole car silhouette: GrabCut initialised from the union of the part polygons and the dark pixels
+  - contrast parts (glass, lights, grille, intakes, wheels, mirrors, rocker, splitter, diffuser): GrabCut initialised
+    from the polygon, contour extracted
+  - painted panels (doors, hood, trunk, fenders, quarters, bumpers, roof, pillars): polygon edges snapped to image
+    gradients with a dynamic programme along the boundary (seams are thin dark lines, so gradient peaks bracket them)
+  - wheels: GrabCut on the circle, ellipse fitted to the mask contour (a circle in the straight side views)
+Writes evidence/NN.json (polylines in 1264 x 848 pixel space) and evidence/NN-qa.jpg.
+The polygons come from the refinement experiment (already paid for); nothing here calls a paid API.
+"""
+import json, sys, os, math
+import numpy as np
+import cv2
+
+ROOT = "/home/user/marketing-app"
+SEG = f"{ROOT}/docs/captures/twin-refinement/segmentation"
+SRC = f"{ROOT}/docs/captures/ai-g80-controlled"
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "evidence")
+os.makedirs(OUT, exist_ok=True)
+W, H = 1264, 848
+FILES = {n: f for n, f in ((f[:2], f) for f in sorted(os.listdir(SRC)) if f[2] == "-" and f.endswith(".jpg"))}
+
+CONTRAST = {"windshield", "rear_glass", "window_front_left", "window_rear_left", "quarter_glass_left", "window_front_right", "window_rear_right",
+            "quarter_glass_right", "headlight_left", "headlight_right", "taillight_left", "taillight_right", "kidney_grille", "lower_intake_center",
+            "lower_intake_left", "lower_intake_right", "mirror_left", "mirror_right", "rocker_trim_left", "rocker_trim_right", "front_splitter",
+            "rear_diffuser", "roof_carbon", "side_gill_left", "side_gill_right", "exhaust_tips", "door_handle_front_left", "door_handle_rear_left",
+            "door_handle_front_right", "door_handle_rear_right"}
+PANELS = {"hood", "trunk_lid", "roof_panel", "front_bumper", "rear_bumper", "front_fender_left", "front_fender_right", "door_front_left",
+          "door_rear_left", "door_front_right", "door_rear_right", "rear_quarter_left", "rear_quarter_right", "a_pillar_left", "a_pillar_right",
+          "b_pillar_left", "b_pillar_right", "c_pillar_left", "c_pillar_right", "trunk_spoiler_lip"}
+
+
+def poly_mask(pts, dil=0):
+    m = np.zeros((H, W), np.uint8)
+    cv2.fillPoly(m, [np.round(np.array(pts)).astype(np.int32)], 255)
+    if dil > 0:
+        m = cv2.dilate(m, np.ones((dil * 2 + 1, dil * 2 + 1), np.uint8))
+    elif dil < 0:
+        m = cv2.erode(m, np.ones((-dil * 2 + 1, -dil * 2 + 1), np.uint8))
+    return m
+
+
+def grabcut(img, sure_fg, prob_fg, prob_bg, iters=5):
+    mask = np.full((H, W), cv2.GC_BGD, np.uint8)
+    mask[prob_bg > 0] = cv2.GC_PR_BGD
+    mask[prob_fg > 0] = cv2.GC_PR_FGD
+    mask[sure_fg > 0] = cv2.GC_FGD
+    bgd = np.zeros((1, 65), np.float64); fgd = np.zeros((1, 65), np.float64)
+    try:
+        cv2.grabCut(img, mask, None, bgd, fgd, iters, cv2.GC_INIT_WITH_MASK)
+    except cv2.error:
+        return prob_fg
+    out = np.where((mask == cv2.GC_FGD) | (mask == cv2.GC_PR_FGD), 255, 0).astype(np.uint8)
+    return out
+
+
+def largest_contour(mask, min_area=80):
+    cs, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    cs = [c for c in cs if cv2.contourArea(c) >= min_area]
+    if not cs:
+        return None
+    c = max(cs, key=cv2.contourArea)
+    return c[:, 0, :].astype(float)
+
+
+def keep_largest(mask):
+    n, lab, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+    if n <= 1:
+        return mask
+    k = 1 + int(np.argmax(stats[1:, cv2.CC_STAT_AREA]))
+    return np.where(lab == k, 255, 0).astype(np.uint8)
+
+
+def fill_holes(mask):
+    inv = cv2.bitwise_not(mask)
+    n, lab, stats, _ = cv2.connectedComponentsWithStats(inv, 4)
+    out = mask.copy()
+    for k in range(1, n):
+        x, y, w, h = stats[k, :4]
+        if x > 0 and y > 0 and x + w < W and y + h < H:
+            out[lab == k] = 255
+    return out
+
+
+def densify(pts, step=3.0, closed=True):
+    pts = np.array(pts, float)
+    seq = np.vstack([pts, pts[:1]]) if closed else pts
+    out = []
+    for a, b in zip(seq[:-1], seq[1:]):
+        d = np.linalg.norm(b - a)
+        n = max(1, int(d / step))
+        for i in range(n):
+            out.append(a + (b - a) * i / n)
+    if not closed:
+        out.append(seq[-1])
+    return np.array(out)
+
+
+def snap_polyline(grad, pts, closed=True, R=14, sigma=7.0, lam=0.35):
+    """Move each sample along its normal to a gradient ridge; dynamic programme keeps the offsets smooth."""
+    P = densify(pts, 3.0, closed)
+    n = len(P)
+    nxt = np.roll(P, -1, axis=0) if closed else np.vstack([P[1:], P[-1:]])
+    prv = np.roll(P, 1, axis=0) if closed else np.vstack([P[:1], P[:-1]])
+    t = nxt - prv
+    t /= (np.linalg.norm(t, axis=1, keepdims=True) + 1e-9)
+    nrm = np.stack([-t[:, 1], t[:, 0]], axis=1)
+    offs = np.arange(-R, R + 1, 1.0)
+    K = len(offs)
+    score = np.zeros((n, K))
+    for k, o in enumerate(offs):
+        q = P + nrm * o
+        x = np.clip(np.round(q[:, 0]).astype(int), 0, W - 1); y = np.clip(np.round(q[:, 1]).astype(int), 0, H - 1)
+        score[:, k] = grad[y, x] * math.exp(-(o * o) / (2 * sigma * sigma))
+    # Viterbi over offsets with a smoothness penalty
+    cost = -score
+    trans = lam * np.abs(offs[:, None] - offs[None, :])
+    D = cost[0].copy(); back = np.zeros((n, K), int)
+    for i in range(1, n):
+        tot = D[:, None] + trans
+        back[i] = np.argmin(tot, axis=0)
+        D = tot[back[i], np.arange(K)] + cost[i]
+    k = int(np.argmin(D)); path = [k]
+    for i in range(n - 1, 0, -1):
+        k = back[i][k]; path.append(k)
+    path = path[::-1]
+    Q = P + nrm * offs[np.array(path)][:, None]
+    conf = float(np.mean([score[i, path[i]] for i in range(n)]))
+    return Q, conf
+
+
+def contour_from_mask(mask):
+    c = largest_contour(mask)
+    if c is None:
+        return None
+    return c[::2]
+
+
+def main(ids):
+    for n in ids:
+        seg = json.load(open(f"{SEG}/{n}.json"))
+        img = cv2.imread(f"{SRC}/{FILES[n]}")
+        img = cv2.resize(img, (W, H), interpolation=cv2.INTER_AREA)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        blur = cv2.GaussianBlur(gray, (0, 0), 1.2)
+        gx = cv2.Sobel(blur, cv2.CV_32F, 1, 0, ksize=3); gy = cv2.Sobel(blur, cv2.CV_32F, 0, 1, ksize=3)
+        grad = cv2.magnitude(gx, gy); grad = grad / (np.percentile(grad, 99.5) + 1e-6); grad = np.clip(grad, 0, 1)
+        regions = [r for r in seg["regions"] if r["confidence"] >= 0.3]
+        # whole car: union of polygons and circles plus dark pixels, then GrabCut
+        union = np.zeros((H, W), np.uint8)
+        for r in regions:
+            if r["kind"] == "circle" and r["circle"]:
+                c = r["circle"]; cv2.circle(union, (int(c["cx"]), int(c["cy"])), int(c["r_tyre"]), 255, -1)
+            elif len(r["points"]) >= 3:
+                union |= poly_mask(r["points"])
+        dark = (gray < 95).astype(np.uint8) * 255
+        union |= keep_largest(dark)
+        union = fill_holes(keep_largest(cv2.morphologyEx(union, cv2.MORPH_CLOSE, np.ones((15, 15), np.uint8))))
+        sure = cv2.erode(union, np.ones((25, 25), np.uint8))
+        prob_fg = cv2.dilate(union, np.ones((9, 9), np.uint8))
+        prob_bg = cv2.dilate(union, np.ones((61, 61), np.uint8))
+        car = grabcut(img, sure, prob_fg, prob_bg, 6)
+        car = fill_holes(keep_largest(cv2.morphologyEx(car, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))))
+        ev = {"view": n, "file": FILES[n], "silhouette": contour_from_mask(car).tolist(), "parts": {}, "wheels": {}}
+        # parts
+        for r in regions:
+            part = r["part"]
+            if r["kind"] == "circle" and r["circle"]:
+                c = r["circle"]; cx, cy, rt = c["cx"], c["cy"], c["r_tyre"]
+                m = np.zeros((H, W), np.uint8); cv2.circle(m, (int(cx), int(cy)), int(rt), 255, -1)
+                sure = cv2.erode(m, np.ones((int(rt * 0.5) * 2 + 1,) * 2, np.uint8))
+                pf = cv2.dilate(m, np.ones((int(rt * 0.25) * 2 + 1,) * 2, np.uint8))
+                pb = cv2.dilate(m, np.ones((int(rt * 0.7) * 2 + 1,) * 2, np.uint8))
+                wm = grabcut(img, sure, pf, pb, 5); wm = keep_largest(cv2.morphologyEx(wm, cv2.MORPH_OPEN, np.ones((7, 7), np.uint8)))
+                cnt = largest_contour(wm)
+                if cnt is not None and len(cnt) >= 20:
+                    (ex, ey), (ma, mi), ang = cv2.fitEllipse(cnt.astype(np.float32))
+                    ev["wheels"][part] = {"cx": float(ex), "cy": float(ey), "axes": [float(ma) / 2, float(mi) / 2], "angle": float(ang),
+                                          "init": {"cx": cx, "cy": cy, "r": rt}, "contour": cnt[::3].tolist()}
+                continue
+            pts = r["points"]
+            if len(pts) < 3:
+                continue
+            if part in CONTRAST:
+                m = poly_mask(pts)
+                sure = cv2.erode(m, np.ones((9, 9), np.uint8))
+                pf = cv2.dilate(m, np.ones((7, 7), np.uint8))
+                pb = cv2.dilate(m, np.ones((41, 41), np.uint8))
+                pm = grabcut(img, sure, pf, pb, 5)
+                pm = keep_largest(cv2.morphologyEx(pm, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8)))
+                area_ratio = float(pm.sum() / 255) / max(1.0, float(m.sum() / 255))
+                if area_ratio < 0.35 or area_ratio > 2.5 or pm.sum() == 0:
+                    cnt, conf, method = densify(pts, 4.0), 0.3, "polygon"
+                else:
+                    cnt, conf, method = contour_from_mask(pm), 0.8, "grabcut"
+            else:
+                cnt, conf = snap_polyline(grad, pts, True)
+                method = "snap"
+            if cnt is None:
+                continue
+            key = part
+            if key in ev["parts"]:
+                key = f"{part}#{sum(1 for k in ev['parts'] if k.startswith(part))}"
+            ev["parts"][key] = {"polyline": np.round(np.array(cnt), 1).tolist(), "closed": True, "method": method, "confidence": float(conf), "polygon_confidence": r["confidence"]}
+        json.dump(ev, open(f"{OUT}/{n}.json", "w"))
+        # QA
+        qa = img.copy()
+        sil = np.array(ev["silhouette"], np.int32)
+        cv2.polylines(qa, [sil], True, (0, 255, 0), 2)
+        for k, p in ev["parts"].items():
+            col = (255, 200, 0) if p["method"] == "grabcut" else (255, 80, 255) if p["method"] == "snap" else (0, 0, 255)
+            cv2.polylines(qa, [np.round(np.array(p["polyline"])).astype(np.int32)], True, col, 1)
+        for k, w in ev["wheels"].items():
+            cv2.ellipse(qa, ((w["cx"], w["cy"]), (w["axes"][0] * 2, w["axes"][1] * 2), w["angle"]), (0, 255, 255), 2)
+            cv2.circle(qa, (int(w["cx"]), int(w["cy"])), 4, (0, 255, 255), -1)
+        cv2.imwrite(f"{OUT}/{n}-qa.jpg", qa, [cv2.IMWRITE_JPEG_QUALITY, 82])
+        print(n, "parts", len(ev["parts"]), "wheels", len(ev["wheels"]), "silhouette pts", len(ev["silhouette"]),
+              "methods", {m: sum(1 for p in ev["parts"].values() if p["method"] == m) for m in ("grabcut", "snap", "polygon")})
+
+
+if __name__ == "__main__":
+    ids = sys.argv[1:] or sorted(FILES)
+    main(ids)
