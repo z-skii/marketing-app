@@ -9,6 +9,7 @@ import type { Placement } from "./placement";
 import { addStudioLights, buildFloor, disposeFloor, loadVehicle, studioEnvironment, type LoadedVehicle } from "./engine/scene";
 import { artworkBox, buildArtworkDecal, buildZoneHighlight, disposeObject, loadArtworkTexture, textureAspect, toZoneLocal, zoneAtPoint, zonePlane } from "./engine/decals";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import { applyStandardStyle, type StandardHandle, type StandardStyle } from "./style/standard";
 
 /**
  * The interactive vehicle scene: one React Three Fiber canvas around the
@@ -48,11 +49,15 @@ export type VehicleSceneProps = {
   /** Diagnostic: replace every material with a neutral clay so the geometry alone is visible. */
   clay?: boolean;
   /** Studio lighting: the default studio or the stronger configurator style key, fill and rim. */
-  studio?: "default" | "premium";
+  studio?: "default" | "premium" | "tapmart";
   /** Refined twin shading: panel lines from the _SEAM vertex attribute and a metallic flake in the paint (meshes that carry the attribute only). */
   refined?: boolean;
   /** Lock the camera to a registered source view (position, target, vertical fov); orbiting is off while set. */
   cameraLock?: CameraLock | null;
+  /** Multiplier on the preset camera distance (1 = the catalog framing); full screen phone stages use a little more. */
+  distance?: number;
+  /** TapMart Standard style: replace the asset's materials by class materials (semantic classes, not make or model). */
+  standard?: StandardStyle | null;
   onReady?: () => void;
   onError?: (error: Error) => void;
   onArtworkError?: (error: Error) => void;
@@ -88,9 +93,9 @@ export default function VehicleScene(props: VehicleSceneProps) {
       onCreated={({ gl }) => { gl.toneMapping = THREE.ACESFilmicToneMapping; gl.toneMappingExposure = 1.05; gl.outputColorSpace = THREE.SRGBColorSpace; }}
       style={{ touchAction: "none" }}
     >
-      <Studio premium={props.studio === "premium"} />
+      <Studio kind={props.studio ?? "default"} />
       <Vehicle vehicle={vehicle} {...props} />
-      <OrbitControlsRig vehicle={vehicle} preset={props.preset ?? "hero"} nonce={props.presetNonce ?? 0} focusZone={props.focusZone ?? null} interactive={props.interactive ?? true} reducedMotion={!!props.reducedMotion} onViewChange={props.onViewChange} lock={props.cameraLock ?? null} />
+      <OrbitControlsRig vehicle={vehicle} preset={props.preset ?? "hero"} nonce={props.presetNonce ?? 0} focusZone={props.focusZone ?? null} interactive={props.interactive ?? true} reducedMotion={!!props.reducedMotion} onViewChange={props.onViewChange} lock={props.cameraLock ?? null} distance={props.distance ?? 1} />
     </Canvas>
   );
 }
@@ -102,12 +107,13 @@ function presetOf(vehicle: VehicleModel, key: CameraPresetKey) {
 type Goal = { position: THREE.Vector3; target: THREE.Vector3; key: CameraPresetKey };
 
 /** Environment, intensity and lights on the scene; returns the teardown. Plain three.js so React never sees the mutation. */
-function mountStudio(scene: THREE.Scene, gl: THREE.WebGLRenderer, premium = false): () => void {
+type StudioKind = "default" | "premium" | "tapmart";
+function mountStudio(scene: THREE.Scene, gl: THREE.WebGLRenderer, kind: StudioKind = "default"): () => void {
   const env = studioEnvironment(gl);
   scene.environment = env;
-  scene.environmentIntensity = premium ? 0.95 : 0.9;
+  scene.environmentIntensity = kind === "premium" ? 0.95 : kind === "tapmart" ? 0.8 : 0.9;
   const lights = new THREE.Group(); lights.name = "studio-lights";
-  if (premium) addPremiumLights(lights); else addStudioLights(lights as unknown as THREE.Scene);
+  if (kind === "premium") addPremiumLights(lights); else if (kind === "tapmart") addTapmartLights(lights); else addStudioLights(lights as unknown as THREE.Scene);
   scene.add(lights);
   return () => { scene.environment = null; env.dispose(); scene.remove(lights); };
 }
@@ -119,6 +125,15 @@ function addPremiumLights(group: THREE.Group) {
   const rim = new THREE.DirectionalLight("#ffffff", 0.8); rim.position.set(-3, 5, 7);
   const rim2 = new THREE.DirectionalLight("#ffffff", 0.5); rim2.position.set(4, 3, -8);
   group.add(key, fill, rim, rim2, new THREE.AmbientLight("#ffffff", 0.14));
+}
+
+/** TapMart Standard studio: soft, neutral, product photography style. A wide soft key from high front, cool fill, a gentle top light, more ambient than the configurator so satin paint does not go black. */
+function addTapmartLights(group: THREE.Group) {
+  const key = new THREE.DirectionalLight("#ffffff", 1.0); key.position.set(4, 9, 6);
+  const fill = new THREE.DirectionalLight("#e8edf5", 0.55); fill.position.set(-8, 5, -3);
+  const top = new THREE.DirectionalLight("#ffffff", 0.35); top.position.set(0, 10, 0);
+  const rim = new THREE.DirectionalLight("#ffffff", 0.3); rim.position.set(-3, 4, 8);
+  group.add(key, fill, top, rim, new THREE.HemisphereLight("#ffffff", "#c9cbd0", 0.45));
 }
 
 /** Diagnostic clay: the same geometry under one neutral, slightly rough material, so only the surfaces speak. */
@@ -205,17 +220,17 @@ function stepTowards(camera: THREE.Camera, controls: OrbitControlsImpl, goal: Go
 }
 
 /** Room environment for reflections plus three directional lights so the paint reads as paint. */
-function Studio({ premium = false }: { premium?: boolean }) {
+function Studio({ kind = "default" }: { kind?: StudioKind }) {
   const { gl, scene } = useThree();
   useEffect(() => {
-    const teardown = mountStudio(scene, gl, premium);
+    const teardown = mountStudio(scene, gl, kind);
     invalidate();
     return teardown;
-  }, [gl, scene, premium]);
+  }, [gl, scene, kind]);
   return null;
 }
 
-function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "all", onSelectZone, reflection = true, showHighlight = true, hoverHighlight = true, onReady, onError, onArtworkError, onPlacementDrag, onPlacementDragEnd, clay = false, refined = false }: VehicleSceneProps & { vehicle: VehicleModel }) {
+function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "all", onSelectZone, reflection = true, showHighlight = true, hoverHighlight = true, onReady, onError, onArtworkError, onPlacementDrag, onPlacementDragEnd, clay = false, refined = false, standard = null, studio = "default" }: VehicleSceneProps & { vehicle: VehicleModel }) {
   const { gl, controls } = useThree();
   const [loaded, setLoaded] = useState<LoadedVehicle | null>(null);
   const [hover, setHover] = useState<ZoneKey | null>(null);
@@ -223,6 +238,8 @@ function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "a
   const decals = useRef<THREE.Group>(null);
   const dragRef = useRef<{ zone: PlacementZone; plane: THREE.Plane; startX: number; startY: number; startOffX: number; startOffY: number; roomX: number; roomY: number } | null>(null);
   const paintHex = paint ?? "#B9BCC1";
+  const styleHandle = useRef<StandardHandle | null>(null);
+  const [colourNonce, setColourNonce] = useState(0);
 
   // Load (or generate) the car into the vehicle frame.
   useEffect(() => {
@@ -232,13 +249,17 @@ function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "a
       if (!alive) { v.dispose(); return; }
       if (clay) applyClay(v.root);
       if (refined) applyRefinedShading(v.root);
+      if (standard) { styleHandle.current?.dispose(); styleHandle.current = applyStandardStyle(v.root, standard); }
       current = v; setLoaded(v); invalidate();
       // Ready once the first frame with the car has been drawn.
       requestAnimationFrame(() => requestAnimationFrame(() => { if (alive) onReady?.(); }));
     }).catch((e) => { if (alive) onError?.(e instanceof Error ? e : new Error(String(e))); });
     return () => { alive = false; current?.dispose(); setLoaded(null); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vehicle, paintHex, gl, clay, refined]);
+  }, [vehicle, paintHex, gl, clay, refined, !!standard]);
+  // A recolour is one uniform change on the shared paint material; the floor mirror is rebuilt so its cloned materials follow.
+  const bodyHex = standard?.bodyHex ?? null;
+  useEffect(() => { if (bodyHex && styleHandle.current) { styleHandle.current.setBody(bodyHex); setColourNonce((n) => n + 1); invalidate(); } }, [bodyHex]);
 
   // Artwork texture.
   const artworkUrl = placement?.artworkUrl ?? null;
@@ -256,11 +277,11 @@ function Vehicle({ vehicle, paint, placement, selectedZone, selectableZones = "a
   // Floor: shadow and reflection follow the loaded car.
   useEffect(() => {
     if (!loaded || !decals.current) return;
-    const floor = buildFloor(loaded, loaded.model.dims, reflection);
+    const floor = buildFloor(loaded, loaded.model.dims, reflection, studio === "tapmart" ? { reflectionOpacity: 0.045, shadowOpacity: 0.55, shadowScale: 1.08 } : undefined);
     decals.current.parent?.add(floor);
     invalidate();
     return () => { disposeFloor(floor); };
-  }, [loaded, reflection]);
+  }, [loaded, reflection, studio, colourNonce]);
 
   // Highlights and artwork are rebuilt whenever what they depend on changes. Cheap: a decal is a few hundred triangles.
   const selectable = useMemo(() => zonesFor(model, selectableZones), [model, selectableZones]);
@@ -365,7 +386,7 @@ function zonesFor(vehicle: VehicleModel, which: readonly ZoneKey[] | "all" | "no
  * Orbit with damping, no pan, the camera kept above the floor and off the
  * paint. Presets tween the camera and the target; a drag cancels the tween.
  */
-function OrbitControlsRig({ vehicle, preset, nonce, focusZone, interactive, reducedMotion, onViewChange, lock }: { vehicle: VehicleModel; preset: CameraPresetKey; nonce: number; focusZone: ZoneKey | null; interactive: boolean; reducedMotion: boolean; onViewChange?: (p: CameraPresetKey | null) => void; lock: CameraLock | null }) {
+function OrbitControlsRig({ vehicle, preset, nonce, focusZone, interactive, reducedMotion, onViewChange, lock, distance }: { vehicle: VehicleModel; preset: CameraPresetKey; nonce: number; focusZone: ZoneKey | null; interactive: boolean; reducedMotion: boolean; onViewChange?: (p: CameraPresetKey | null) => void; lock: CameraLock | null; distance: number }) {
   const controls = useRef<OrbitControlsImpl>(null);
   const { camera, size } = useThree();
   const aspect = size.height > 0 ? size.width / size.height : 1.9;
@@ -392,14 +413,15 @@ function OrbitControlsRig({ vehicle, preset, nonce, focusZone, interactive, redu
     const p = presetOf(vehicle, preset);
     const fz = focusZone ? vehicle.zones.find((z) => z.id === focusZone) : null;
     const framed = fz && fz.camera === p.key ? frameZone(vehicle, fz, aspect) : framePreset(p, aspect);
-    goal.current = { position: new THREE.Vector3(...framed.position), target: new THREE.Vector3(...framed.target), key: p.key };
+    const t = new THREE.Vector3(...framed.target);
+    goal.current = { position: new THREE.Vector3(...framed.position).sub(t).multiplyScalar(distance).add(t), target: t, key: p.key };
     if (reducedMotion) {
       jumpTo(camera, controls.current, goal.current);
       goal.current = null; settled.current = p.key; onViewChange?.(p.key);
     }
     invalidate();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vehicle, preset, nonce, focusZone, reducedMotion]);
+  }, [vehicle, preset, nonce, focusZone, reducedMotion, distance]);
 
   useFrame((_, delta) => {
     const g = goal.current, c = controls.current;

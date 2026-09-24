@@ -326,6 +326,8 @@ function synG80(id: string, url: string, provider: string, rotationY: number, fa
 }
 
 /** Closer presets for the cleanup lab: the car fills most of the stage. */
+/** Product presentation: the car fills most of the stage, the hero a little lower and closer than the lab views. */
+const STYLE_CAMERAS: CameraPreset[] = G80_CAMERAS.map((c) => { const k = c.key === "hero" ? 0.74 : c.key === "driver" || c.key === "passenger" ? 0.82 : 0.74; return { ...c, position: [c.target[0] + (c.position[0] - c.target[0]) * k, c.target[1] + (c.position[1] - c.target[1]) * k, c.target[2] + (c.position[2] - c.target[2]) * k] as Vec3 }; });
 const TWIN_CAMERAS: CameraPreset[] = G80_CAMERAS.map((c) => ({ ...c, position: [c.target[0] + (c.position[0] - c.target[0]) * 0.78, c.target[1] + (c.position[1] - c.target[1]) * 0.78, c.target[2] + (c.position[2] - c.target[2]) * 0.78] as Vec3 }));
 
 export const SYN_G80: Record<string, VehicleModel> = {
@@ -333,6 +335,7 @@ export const SYN_G80: Record<string, VehicleModel> = {
   "syn-g80-meshy-lab": { ...synG80("syn-g80-meshy-lab", "/vehicles/syn-g80-meshy.glb", "Meshy multi image to 3D, four synthetic views", Math.PI, { triangles: 308192, meshes: 1, textures: "4 WebP at 2048 px; Draco geometry", fileBytes: 3617168, technique: "THREE.DecalGeometry projected onto the generated body triangles inside the door box" }), cameras: TWIN_CAMERAS },
   "syn-g80-meshy-clean": { ...synG80("syn-g80-meshy-clean", "/vehicles/syn-g80-meshy-clean.glb", "Meshy multi image to 3D, cleaned and segmented by TapMart", Math.PI), cameras: TWIN_CAMERAS },
   "syn-g80-meshy-refined": { ...synG80("syn-g80-meshy-refined", "/vehicles/syn-g80-meshy-refined.glb", "Meshy multi image to 3D, cleaned, then refined from the source views by TapMart", 0), cameras: TWIN_CAMERAS, zones: AI_G80_ZONES.map((z) => z.id === "driver_door" ? { ...z, meshTargets: ["body_door_fl"] } : z) },
+  "syn-g80-meshy-standard": { ...synG80("syn-g80-meshy-standard", "/vehicles/syn-g80-meshy-refined.glb", "Meshy multi image to 3D, cleaned and refined by TapMart; rendered in the TapMart Standard style", 0), cameras: STYLE_CAMERAS, zones: AI_G80_ZONES.map((z) => z.id === "driver_door" ? { ...z, meshTargets: ["body_door_fl"] } : z) },
   "syn-g80-meshy-semantic": { ...synG80("syn-g80-meshy-semantic", "/vehicles/syn-g80-meshy-semantic.glb", "Semantic surface map of the refined twin (unlit class colours, darker where the projection was uncertain)", 0), cameras: TWIN_CAMERAS },
   "syn-g80-tripo": synG80("syn-g80-tripo", "/vehicles/syn-g80-tripo.glb", "Tripo H3.1 multiview to 3D, four synthetic views", Math.PI, { triangles: 477892, meshes: 1, textures: "3 WebP at 2048 px (base colour, occlusion roughness metallic, normal), from 4096 px JPEG originals; Draco geometry; simplified from 1,911,614 triangles", fileBytes: 2203280, technique: "THREE.DecalGeometry projected onto the generated body triangles inside the door box" }),
 };

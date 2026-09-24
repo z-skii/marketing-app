@@ -133,9 +133,11 @@ function shadowTexture(): THREE.CanvasTexture {
  * fades out with depth in its own shader, so no colour matching against
  * the page is needed. No extra render pass.
  */
-export function buildFloor(vehicle: LoadedVehicle, dims: VehicleModel["dims"], reflection = true): THREE.Group {
+export type FloorOptions = { reflectionOpacity?: number; shadowOpacity?: number; shadowScale?: number };
+export function buildFloor(vehicle: LoadedVehicle, dims: VehicleModel["dims"], reflection = true, opts: FloorOptions = {}): THREE.Group {
+  const { reflectionOpacity = 0.18, shadowOpacity = 0.85, shadowScale = 1 } = opts;
   const g = new THREE.Group(); g.name = "floor";
-  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(dims.length * 1.5, dims.width * 2.2), new THREE.MeshBasicMaterial({ map: shadowTexture(), transparent: true, depthWrite: false, opacity: 0.85 }));
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(dims.length * 1.5 * shadowScale, dims.width * 2.2 * shadowScale), new THREE.MeshBasicMaterial({ map: shadowTexture(), transparent: true, depthWrite: false, opacity: shadowOpacity }));
   shadow.name = "floor-shadow";
   shadow.rotation.x = -Math.PI / 2; shadow.position.y = 0.004; shadow.renderOrder = 2;
   g.add(shadow);
@@ -146,7 +148,7 @@ export function buildFloor(vehicle: LoadedVehicle, dims: VehicleModel["dims"], r
       const m = o as THREE.Mesh;
       if (!m.isMesh) return;
       const src = m.material as THREE.Material;
-      const mat = src.clone(); mat.transparent = true; mat.opacity = 0.18; mat.depthWrite = false; mat.side = THREE.BackSide;
+      const mat = src.clone(); mat.transparent = true; mat.opacity = reflectionOpacity; mat.depthWrite = false; mat.side = THREE.BackSide;
       mat.onBeforeCompile = fadeWithDepth;
       m.material = mat;
       m.renderOrder = 0;
