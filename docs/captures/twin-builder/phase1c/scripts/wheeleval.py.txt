@@ -1,0 +1,126 @@
+"""Honest wheel metric for Phase 1C.
+
+1. Keep only rim observations that pass the shape gates and have quality >= Q_MIN.
+2. Joint solve: one shared body offset (dx, dy) relative to the locked chassis plus every reference camera, using rims and
+   the body evidence already fitted. The chassis (wheelbase, tracks, radii, symmetry, ground) never moves.
+3. Held-out check: in every photograph with two good wheels, solve the camera with the body evidence and ONE wheel, then
+   measure the OTHER wheel. A camera can always be bent onto a single wheel it was fitted to; the held-out wheel shows
+   whether chassis, body and camera actually agree.
+"""
+import json, os, sys, math
+import numpy as np
+from scipy.optimize import least_squares
+
+HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
+import wheels1c as w1  # noqa: E402
+import fit1b  # noqa: E402
+import fit  # noqa: E402
+from fit1b import Camera as Camera0  # noqa: E402
+
+K1 = os.environ.get("K1", "0") == "1"
+
+
+class Camera(Camera0):
+    """Pinhole plus one radial distortion term k1 (phone lenses); p may carry a 7th value."""
+    def __init__(self, *args):
+        if len(args) == 9:
+            *p, k1, W, H = args
+        else:
+            *p, W, H = args; k1 = 0.0
+        super().__init__(*p, W, H); self.k1 = k1
+
+    def project(self, X):
+        uv = super().project(X)
+        if self.k1 == 0.0:
+            return uv
+        d = (uv - [self.W / 2, self.H / 2]) / self.f
+        r2 = (d ** 2).sum(1, keepdims=True)
+        return [self.W / 2, self.H / 2] + d * (1 + self.k1 * r2) * self.f
+
+Q_MIN = float(os.environ.get("Q_MIN", "0.25"))
+SK = w1.SK; OUT = w1.OUT
+EV = {}
+for f in sorted(os.listdir(OUT)):
+    if f.startswith("ref") and f.endswith(".json"):
+        key = f[:-5]; ev = json.load(open(f"{OUT}/{f}"))[key]["evidence"]
+        ok = {k: v for k, v in ev.items() if v.get("status") == "ok" and v.get("quality", 0) >= Q_MIN}
+        if ok:
+            EV[key] = ok
+KEYS = sorted(EV)
+tmp = fit.Model()
+VE = {k: fit1b.ViewEvidence(tmp, 0, str(int(k[3:])), "ref") for k in KEYS}
+NP = 7 if K1 else 6
+P0 = {k: np.array([SK["cameras"][k][q] for q in ("az", "el", "dist", "sx", "sy", "fov")] + ([0.0] if K1 else [])) for k in KEYS}
+SC = np.array([3.0, 3.0, 0.3, 0.1, 0.1, 8.0] + ([0.1] if K1 else [])); XS0 = w1.XS.copy(); SEL = {}
+
+
+def body(cam, k, off):
+    if k not in SEL:
+        SEL[k] = w1.body_selection(Camera(*P0[k], *SK["cameras"][k]["size"]), VE[k])
+    w1.XS = XS0 + np.array([off[0], off[1], 0.0])
+    try:
+        return w1.body_residuals(cam, VE[k], SEL[k])
+    finally:
+        w1.XS = XS0
+
+
+def wheel_res(cam, wk, w):
+    axle = "front" if wk.startswith("front") else "rear"
+    rim, _ = w1.face_points(wk, w1.RIM_R[axle], w1.RIM_FACE, 24)
+    hu, _ = w1.proj_ellipse_centre(cam, wk); e = w["ellipse"]
+    return np.r_[(hu - [e["cx"], e["cy"]]) * 3.0, w1.ellipse_radial(e, cam.project(rim))] * math.sqrt(w["quality"])
+
+
+def cam_res(cp, k, off, wheels, body_w=0.35):
+    cam = Camera(*cp, *SK["cameras"][k]["size"]); r = []
+    for wk in wheels:
+        r.append(wheel_res(cam, wk, EV[k][wk]))
+    b = body(cam, k, off)
+    r.append(np.sqrt(2 * (np.sqrt(1 + (b / 4.0) ** 2) - 1)) * 4.0 * body_w)
+    r.append((cp - P0[k]) / SC * 2.0)
+    return np.concatenate(r)
+
+
+def joint():
+    def res(p):
+        off = p[:2]; r = [off / 0.05 * 0.5]
+        for i, k in enumerate(KEYS):
+            r.append(cam_res(p[2 + NP * i:2 + NP * (i + 1)], k, off, list(EV[k])))
+        return np.concatenate(r)
+    x0 = np.concatenate([[0.0, 0.0]] + [P0[k] for k in KEYS])
+    sol = least_squares(res, x0, x_scale=np.concatenate([[0.05, 0.05]] + [SC] * len(KEYS)), max_nfev=200)
+    return sol.x
+
+
+def errors(cam, k):
+    return w1.centre_errors(cam, EV[k])
+
+
+if __name__ == "__main__":
+    base = {k: errors(Camera(*P0[k], *SK["cameras"][k]["size"]), k) for k in KEYS}
+    p = joint(); off = p[:2]
+    fitted = {k: errors(Camera(*p[2 + NP * i:2 + NP * (i + 1)], *SK["cameras"][k]["size"]), k) for i, k in enumerate(KEYS)}
+    held = []
+    for i, k in enumerate(KEYS):
+        wks = list(EV[k])
+        if len(wks) < 2:
+            continue
+        for target in wks:
+            others = [w for w in wks if w != target]
+            sol = least_squares(lambda cp: cam_res(cp, k, off, others), p[2 + NP * i:2 + NP * (i + 1)], x_scale=SC, max_nfev=200)
+            e = errors(Camera(*sol.x, *SK["cameras"][k]["size"]), k)[target]
+            held.append({"ref": k, "wheel": target, "mm": e["mm"], "px": e["px"], "quality": round(EV[k][target]["quality"], 2)})
+    b_mm = [v["mm"] for k in KEYS for v in base[k].values()]; f_mm = [v["mm"] for k in KEYS for v in fitted[k].values()]; h_mm = [h["mm"] for h in held]
+    stat = lambda a: {"n": len(a), "mean": round(float(np.mean(a)), 1), "median": round(float(np.median(a)), 1), "max": round(float(np.max(a)), 1)} if a else None
+    body_before = {k: round(float(np.sqrt((body(Camera(*P0[k], *SK["cameras"][k]["size"]), k, [0, 0]) ** 2).mean())), 2) for k in KEYS}
+    body_after = {k: round(float(np.sqrt((body(Camera(*p[2 + NP * i:2 + NP * (i + 1)], *SK["cameras"][k]["size"]), k, off) ** 2).mean())), 2) for i, k in enumerate(KEYS)}
+    rep = {"q_min": Q_MIN, "references": KEYS, "observations": len(b_mm), "body_offset_mm": {"x": round(float(off[0]) * 1000, 1), "y": round(float(off[1]) * 1000, 1)},
+           "phase1b_cameras": stat(b_mm), "joint_fit": stat(f_mm), "held_out": stat(h_mm), "held_out_detail": held,
+           "per_reference": {k: {"phase1b": base[k], "joint": fitted[k], "body_rms_before": body_before[k], "body_rms_after": body_after[k],
+                                 "camera": dict(zip(["az", "el", "dist", "sx", "sy", "fov"], [round(float(v), 4) for v in p[2 + NP * i:2 + NP * (i + 1)]]))} for i, k in enumerate(KEYS)},
+           "quality": {k: {wk: round(w["quality"], 2) for wk, w in EV[k].items()} for k in KEYS}}
+    json.dump(rep, open(f"{OUT}/eval.json", "w"), indent=1)
+    print("refs", len(KEYS), "obs", len(b_mm), "offset", rep["body_offset_mm"], "\nphase1b", rep["phase1b_cameras"], "\njoint", rep["joint_fit"], "\nheld out", rep["held_out"])
+    for h in held:
+        print("  held", h)
+    print("body rms mean", round(np.mean(list(body_before.values())), 2), "->", round(np.mean(list(body_after.values())), 2))

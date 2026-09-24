@@ -1,0 +1,51 @@
+{
+ "job": "crop-ref061-TAILLIGHT_LENS_R",
+ "usage": {
+  "input_tokens": 2085,
+  "output_tokens": 136,
+  "total_tokens": 2221,
+  "reasoning_tokens": 0
+ },
+ "cost_usd": 0.01451,
+ "result": {
+  "regions": [
+   {
+    "region_id": "TAILLIGHT_LENS_R",
+    "visible": true,
+    "candidate_is_exact": true,
+    "confidence": 0.9,
+    "positive_points": [
+     [
+      31,
+      48
+     ],
+     [
+      56,
+      54
+     ]
+    ],
+    "best_candidate": 0,
+    "negative_points": [
+     [
+      38,
+      36
+     ],
+     [
+      62,
+      46
+     ],
+     [
+      50,
+      66
+     ],
+     [
+      79,
+      54
+     ]
+    ],
+    "label": "TAILLIGHT_LENS",
+    "note": "Candidate 0 closely follows the full right tail lamp lens, including the quarter-panel piece and trunk-lid piece split by the shut line. Negatives are on adjacent painted bodywork, trunk trim/body area, and license-plate surround."
+   }
+  ]
+ }
+}

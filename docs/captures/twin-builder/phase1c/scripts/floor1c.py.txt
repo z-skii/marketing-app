@@ -1,0 +1,20 @@
+"""Diagnostic: fit each observation alone (cameras fixed) to get the shape floor, versus the joint multi view fit.
+A large gap means the views disagree with each other through their cameras, not that the boundaries are bad."""
+import json, sys, numpy as np
+import measure1c as M
+out = {}
+for lab in sys.argv[1:]:
+    obs = M.load_observations(lab)
+    joint = M.run(lab, obs); joint.pop("x")
+    single = []
+    for o in obs:
+        x = M.refit(lab, [o], M.X0.copy()); a, b = o.error(x)
+        single.append({"ref": o.ref, "side": o.side, "origin": o.origin, "alone_px": round(float((a.mean() + b.mean()) / 2), 2)})
+    jm = {(p["ref"], p["side"]): p["error_px"] for p in joint["after"]}
+    for s in single:
+        s["joint_px"] = jm.get((s["ref"], s["side"]))
+    out[lab] = {"single": single, "alone_mean": round(float(np.mean([s["alone_px"] for s in single])), 2), "joint_mean": joint["after_mean_px"], "before_mean": joint["before_mean_px"]}
+    print(lab, "before", joint["before_mean_px"], "joint", joint["after_mean_px"], "each view alone", out[lab]["alone_mean"])
+    for s in single:
+        print("   ", s)
+json.dump(out, open(f"{M.HERE}/out/floor1c.json", "w"), indent=1)

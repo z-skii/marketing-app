@@ -1,0 +1,33 @@
+{
+ "id": "crop-ref213-WINDSHIELD_GLASS",
+ "instructions": "You are a precise automotive part annotator for a 3D reconstruction pipeline. You never draw outlines; you only mark points and choose among numbered candidate masks. Coordinates are percentages of the image width and height (0 to 100), read from the grid. Positive points must lie clearly inside the requested region, away from its edge. Negative points must lie on the neighbouring surface most easily confused with it (frame, trim, pillar, housing, bodywork). If the region is not visible, say so.",
+ "text": "Image 1 is a crop of a real photograph of a BMW M3 sedan (G80). Image 2 is the same crop with numbered candidate masks (0 green, 1 orange, 2 magenta) from a segmentation model. Region WINDSHIELD_GLASS: the transparent windshield glass only. Not the black ceramic border if clearly separable, not the A pillars, not the roof, not the hood. Return one region with region_id 'WINDSHIELD_GLASS' and label 'WINDSHIELD_GLASS': 1 to 3 positive points inside it (give one point per separate piece if it is split), 2 to 4 negative points on the neighbouring surfaces most easily confused with it, the candidate number that best matches the region (or -1 if none does), whether that candidate is exact (its outline follows the region's real boundary), a confidence from 0 to 1 and a short note.",
+ "images": [
+  {
+   "path": "<scratchpad>/ref1c/out/vision/ref213-WINDSHIELD_GLASS-a.jpg",
+   "detail": "high"
+  },
+  {
+   "path": "<scratchpad>/ref1c/out/vision/ref213-WINDSHIELD_GLASS-b.jpg",
+   "detail": "high"
+  }
+ ],
+ "maxOutputTokens": 6000,
+ "effort": "low",
+ "meta": {
+  "mode": "crop",
+  "ref": "ref213",
+  "component": "WINDSHIELD_GLASS",
+  "crop": [
+   445,
+   0,
+   1525,
+   721
+  ],
+  "size": [
+   1024,
+   684
+  ],
+  "scale_to_crop": 0.9481481481481482
+ }
+}

@@ -1,0 +1,137 @@
+[
+ {
+  "job": "crop-ref108-TAILLIGHT_LENS_R",
+  "input_tokens": 2315,
+  "output_tokens": 174,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.0168,
+  "seconds": 9,
+  "at": "2026-09-24T11:05:40.928Z"
+ },
+ {
+  "job": "crop-ref061-QUARTER_GLASS_R",
+  "input_tokens": 2888,
+  "output_tokens": 158,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.01918,
+  "seconds": 4,
+  "at": "2026-09-24T11:05:54.826Z"
+ },
+ {
+  "job": "crop-ref061-TAILLIGHT_LENS_R",
+  "input_tokens": 2085,
+  "output_tokens": 136,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.01451,
+  "seconds": 4,
+  "at": "2026-09-24T11:05:58.632Z"
+ },
+ {
+  "job": "crop-ref072-QUARTER_GLASS_L",
+  "input_tokens": 2888,
+  "output_tokens": 1155,
+  "reasoning_tokens": 508,
+  "cost_usd": 0.04909,
+  "seconds": 14,
+  "at": "2026-09-24T11:06:12.332Z"
+ },
+ {
+  "job": "crop-ref072-SIDE_GLASS_FRONT_L",
+  "input_tokens": 2277,
+  "output_tokens": 140,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.01559,
+  "seconds": 7,
+  "at": "2026-09-24T11:06:19.433Z"
+ },
+ {
+  "job": "crop-ref082-WINDSHIELD_GLASS",
+  "input_tokens": 1661,
+  "output_tokens": 855,
+  "reasoning_tokens": 351,
+  "cost_usd": 0.03395,
+  "seconds": 10,
+  "at": "2026-09-24T11:06:29.762Z"
+ },
+ {
+  "job": "crop-ref084-HEADLIGHT_LENS_L",
+  "input_tokens": 1970,
+  "output_tokens": 123,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.01354,
+  "seconds": 4,
+  "at": "2026-09-24T11:06:33.606Z"
+ },
+ {
+  "job": "crop-ref088-TAILLIGHT_LENS_L",
+  "input_tokens": 2545,
+  "output_tokens": 144,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.01705,
+  "seconds": 4,
+  "at": "2026-09-24T11:06:37.523Z"
+ },
+ {
+  "job": "crop-ref108-TAILLIGHT_LENS_L",
+  "input_tokens": 2315,
+  "output_tokens": 143,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.01587,
+  "seconds": 4,
+  "at": "2026-09-24T11:06:41.433Z"
+ },
+ {
+  "job": "crop-ref117-SIDE_GLASS_FRONT_L",
+  "input_tokens": 2277,
+  "output_tokens": 702,
+  "reasoning_tokens": 286,
+  "cost_usd": 0.03245,
+  "seconds": 11,
+  "at": "2026-09-24T11:06:52.175Z"
+ },
+ {
+  "job": "crop-ref213-HEADLIGHT_LENS_L",
+  "input_tokens": 1816,
+  "output_tokens": 532,
+  "reasoning_tokens": 198,
+  "cost_usd": 0.02504,
+  "seconds": 10,
+  "at": "2026-09-24T11:07:02.429Z"
+ },
+ {
+  "job": "crop-ref213-WINDSHIELD_GLASS",
+  "input_tokens": 2121,
+  "output_tokens": 1009,
+  "reasoning_tokens": 432,
+  "cost_usd": 0.04088,
+  "seconds": 14,
+  "at": "2026-09-24T11:07:16.692Z"
+ },
+ {
+  "job": "full-ref072",
+  "input_tokens": 2766,
+  "output_tokens": 381,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.02526,
+  "seconds": 7,
+  "at": "2026-09-24T11:07:23.836Z"
+ },
+ {
+  "job": "full-ref108",
+  "input_tokens": 2800,
+  "output_tokens": 240,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.0212,
+  "seconds": 8,
+  "at": "2026-09-24T11:07:31.883Z"
+ },
+ {
+  "job": "full-ref213",
+  "input_tokens": 2766,
+  "output_tokens": 406,
+  "reasoning_tokens": 0,
+  "cost_usd": 0.02601,
+  "seconds": 7,
+  "at": "2026-09-24T11:07:39.037Z"
+ }
+]

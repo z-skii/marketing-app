@@ -1,0 +1,51 @@
+{
+ "job": "crop-ref072-SIDE_GLASS_FRONT_L",
+ "usage": {
+  "input_tokens": 2277,
+  "output_tokens": 140,
+  "total_tokens": 2417,
+  "reasoning_tokens": 0
+ },
+ "cost_usd": 0.01559,
+ "result": {
+  "regions": [
+   {
+    "region_id": "SIDE_GLASS_FRONT_L",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.78,
+    "positive_points": [
+     [
+      33,
+      48
+     ],
+     [
+      49,
+      56
+     ]
+    ],
+    "best_candidate": 0,
+    "negative_points": [
+     [
+      22,
+      72
+     ],
+     [
+      52,
+      72
+     ],
+     [
+      43,
+      39
+     ],
+     [
+      57,
+      69
+     ]
+    ],
+    "label": "SIDE_GLASS_FRONT",
+    "note": "Front door glass is the dark window area between the B-pillar and A-pillar, above the beltline and behind the mirror. Candidate 0 covers much of this glass but also includes some frame/trim and is incomplete/noisy, so it is not exact."
+   }
+  ]
+ }
+}

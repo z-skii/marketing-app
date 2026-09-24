@@ -1,0 +1,163 @@
+{
+ "HEADLIGHT_LENS": {
+  "single": [
+   {
+    "ref": "ref072",
+    "side": "l",
+    "origin": "vision+sam",
+    "alone_px": 1.39,
+    "joint_px": 15.54
+   },
+   {
+    "ref": "ref082",
+    "side": "l",
+    "origin": "sam",
+    "alone_px": 1.79,
+    "joint_px": 10.14
+   },
+   {
+    "ref": "ref082",
+    "side": "r",
+    "origin": "sam",
+    "alone_px": 1.56,
+    "joint_px": 8.18
+   },
+   {
+    "ref": "ref084",
+    "side": "l",
+    "origin": "vision+sam",
+    "alone_px": 2.45,
+    "joint_px": 18.8
+   },
+   {
+    "ref": "ref099",
+    "side": "l",
+    "origin": "sam",
+    "alone_px": 2.14,
+    "joint_px": 12.58
+   },
+   {
+    "ref": "ref165",
+    "side": "l",
+    "origin": "sam",
+    "alone_px": 1.83,
+    "joint_px": 3.81
+   },
+   {
+    "ref": "ref165",
+    "side": "r",
+    "origin": "sam",
+    "alone_px": 2.47,
+    "joint_px": 11.07
+   },
+   {
+    "ref": "ref204",
+    "side": "l",
+    "origin": "sam",
+    "alone_px": 2.05,
+    "joint_px": 7.22
+   },
+   {
+    "ref": "ref204",
+    "side": "r",
+    "origin": "sam",
+    "alone_px": 11.65,
+    "joint_px": 28.77
+   },
+   {
+    "ref": "ref213",
+    "side": "l",
+    "origin": "vision+sam",
+    "alone_px": 2.53,
+    "joint_px": 27.03
+   }
+  ],
+  "alone_mean": 2.99,
+  "joint_mean": 14.31,
+  "before_mean": 19.04
+ },
+ "TAILLIGHT_LENS": {
+  "single": [
+   {
+    "ref": "ref061",
+    "side": "r",
+    "origin": "vision+sam",
+    "alone_px": 9.89,
+    "joint_px": 11.01
+   },
+   {
+    "ref": "ref088",
+    "side": "l",
+    "origin": "vision+sam",
+    "alone_px": 3.61,
+    "joint_px": 14.82
+   },
+   {
+    "ref": "ref108",
+    "side": "l",
+    "origin": "vision+sam",
+    "alone_px": 7.05,
+    "joint_px": 9.08
+   },
+   {
+    "ref": "ref108",
+    "side": "r",
+    "origin": "vision+sam",
+    "alone_px": 4.39,
+    "joint_px": 10.69
+   }
+  ],
+  "alone_mean": 6.24,
+  "joint_mean": 11.4,
+  "before_mean": 32.51
+ },
+ "SIDE_GLASS_FRONT": {
+  "single": [
+   {
+    "ref": "ref062",
+    "side": "r",
+    "origin": "sam",
+    "alone_px": 12.48,
+    "joint_px": 10.94
+   },
+   {
+    "ref": "ref072",
+    "side": "l",
+    "origin": "vision+sam",
+    "alone_px": 4.43,
+    "joint_px": 4.72
+   },
+   {
+    "ref": "ref117",
+    "side": "l",
+    "origin": "vision+sam",
+    "alone_px": 6.7,
+    "joint_px": 6.45
+   }
+  ],
+  "alone_mean": 7.87,
+  "joint_mean": 7.37,
+  "before_mean": 19.79
+ },
+ "WINDSHIELD_GLASS": {
+  "single": [
+   {
+    "ref": "ref082",
+    "side": "c",
+    "origin": "vision+sam",
+    "alone_px": 16.59,
+    "joint_px": 17.99
+   },
+   {
+    "ref": "ref213",
+    "side": "c",
+    "origin": "vision+sam",
+    "alone_px": 12.5,
+    "joint_px": 10.25
+   }
+  ],
+  "alone_mean": 14.54,
+  "joint_mean": 14.12,
+  "before_mean": 45.94
+ }
+}

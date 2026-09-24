@@ -1,0 +1,241 @@
+"""Phase 1C local precision evidence: skeleton guided SAM 2.1 on full resolution references, local first routing.
+
+For every registered reference and every visible precision component (glass panes, lights, rocker), project the Phase 1B
+skeleton, crop around it at full resolution, prompt SAM 2.1 with a box, one interior point and outward negative points,
+score the three candidates against the geometric prior and under prompt jitter, and route:
+  ACCEPT  one high confidence unambiguous candidate          -> multi view validation (no paid call)
+  VISION  several plausible candidates or weak semantics      -> vision reviewer (paid, only when approved)
+  REJECT  nothing plausible (occluded, off frame, wrong prior) -> uncertain
+Output: out/precision/<ref>.json (evidence in the Phase 1 schema, reference thumbnail coordinates), a routing table,
+crops and QA images. Zero cost.
+"""
+import json, os, sys, math, time
+import numpy as np
+import cv2
+import torch
+from PIL import Image
+
+HERE = os.path.dirname(os.path.abspath(__file__)); R1B = os.path.join(HERE, "..", "ref1b"); SKELD = os.path.join(HERE, "..", "skel")
+sys.path.insert(0, R1B); sys.path.insert(0, SKELD)
+import prior  # noqa: E402
+import fit    # noqa: E402
+from fit1b import Camera  # noqa: E402
+
+OUT = f"{HERE}/out/" + os.environ.get("PREC_OUT", "precision"); os.makedirs(f"{OUT}/qa", exist_ok=True); os.makedirs(f"{OUT}/crops", exist_ok=True)
+SK = json.load(open(f"{R1B}/out/skeleton1b.json"))
+MODEL = fit.Model(); X_CURVES = np.load(f"{R1B}/out/x_curves.npy")
+XS = MODEL.samples(X_CURVES); NS = MODEL.samp_normal
+SAM_NAME = os.environ.get("SAM_MODEL", "facebook/sam2.1-hiera-large")
+USE_ORIG = os.environ.get("USE_ORIG", "1") == "1"
+
+# component -> (evidence part name in the Phase 1 schema, loop name in prior.LOOPS, side, kind)
+COMPONENTS = []
+for s, side_name in (("l", "left"), ("r", "right")):
+    COMPONENTS += [(f"HEADLIGHT_LENS_{s.upper()}", f"headlight_{side_name}", "headlight_left", s, "light"),
+                   (f"TAILLIGHT_LENS_{s.upper()}", f"taillight_{side_name}", "taillight_left", s, "light"),
+                   (f"SIDE_GLASS_FRONT_{s.upper()}", f"window_front_{side_name}", "window_front_left", s, "glass"),
+                   (f"SIDE_GLASS_REAR_{s.upper()}", f"window_rear_{side_name}", "window_rear_left", s, "glass"),
+                   (f"QUARTER_GLASS_{s.upper()}", f"quarter_glass_{side_name}", "quarter_glass_left", s, "glass"),
+                   (f"ROCKER_{s.upper()}", f"rocker_trim_{side_name}", "rocker_trim_left", s, "trim")]
+COMPONENTS += [("WINDSHIELD_GLASS", "windshield", "windshield", "c", "glass")]
+
+
+def loop_points(loop, side):
+    pts = []; idx = []
+    for c, d in prior.LOOPS[loop]:
+        inst = c
+        if side == "r":
+            inst = c[:-2] + "_r" if c.endswith("_l") else (c[:-2] + "_l" if c.endswith("_r") else c)
+        o, m = MODEL.samp_off[inst]
+        seg = np.arange(o, o + m)
+        idx.append(seg if d > 0 else seg[::-1])
+    idx = np.concatenate(idx)
+    return idx
+
+
+def load_image(key):
+    i = int(key[3:])
+    p_orig = f"{HERE}/orig/{i:03d}.jpg"; p_thumb = f"{R1B}/thumbs/{i:03d}.jpg"
+    thumb = cv2.imread(p_thumb); th, tw = thumb.shape[:2]
+    if USE_ORIG and os.path.exists(p_orig):
+        img = cv2.imread(p_orig)
+        if img is not None and abs(img.shape[1] / img.shape[0] - tw / th) < 0.01:
+            return img, img.shape[1] / tw, "original"
+    return thumb, 1.0, "working copy"
+
+
+def interior_point(mask):
+    dt = cv2.distanceTransform(mask, cv2.DIST_L2, 5)
+    y, x = np.unravel_index(np.argmax(dt), dt.shape)
+    return float(x), float(y), float(dt[y, x])
+
+
+def contour_of(mask):
+    cs, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    if not cs:
+        return None
+    c = max(cs, key=cv2.contourArea)
+    return c[:, 0, :].astype(float)
+
+
+def sym_contour_dist(a, b):
+    from scipy.spatial import cKDTree
+    if a is None or b is None or len(a) < 3 or len(b) < 3:
+        return 99.0
+    d1, _ = cKDTree(b).query(a); d2, _ = cKDTree(a).query(b)
+    return float((d1.mean() + d2.mean()) / 2)
+
+
+class Sam:
+    def __init__(self):
+        from transformers import Sam2Model, Sam2Processor
+        self.proc = Sam2Processor.from_pretrained(SAM_NAME); self.model = Sam2Model.from_pretrained(SAM_NAME).eval()
+
+    def run(self, crop_rgb, box, pos, neg, jitter=None):
+        """crop_rgb: HxWx3 uint8; box [x0,y0,x1,y1]; pos, neg: lists of (x,y). Returns masks (3,H,W) bool, scores (3,)."""
+        pil = Image.fromarray(crop_rgb)
+        pts = [list(p) for p in pos] + [list(p) for p in neg]; labels = [1] * len(pos) + [0] * len(neg)
+        kw = {"input_boxes": [[box]]} if box is not None else {}
+        inputs = self.proc(images=pil, input_points=[[pts]], input_labels=[[labels]], return_tensors="pt", **kw)
+        # cache key from the content, not id(): a freed crop's address can be reused by the next crop
+        ek = (crop_rgb.shape, hash(crop_rgb[::7, ::7].tobytes()))
+        with torch.no_grad():
+            if getattr(self, "_emb_key", None) != ek:
+                self._emb = self.model.get_image_embeddings(inputs["pixel_values"]); self._emb_key = ek
+            out = self.model(input_points=inputs["input_points"], input_labels=inputs["input_labels"], input_boxes=inputs.get("input_boxes"), image_embeddings=self._emb, multimask_output=True)
+        area = crop_rgb.shape[0] * crop_rgb.shape[1]
+        masks = self.proc.post_process_masks(out.pred_masks, inputs["original_sizes"], max_hole_area=0.002 * area, max_sprinkle_area=0.002 * area)[0][0].numpy().astype(bool)
+        return masks, out.iou_scores[0, 0].numpy()
+
+
+def iou(a, b):
+    u = np.logical_or(a, b).sum()
+    return float(np.logical_and(a, b).sum() / u) if u else 0.0
+
+
+def process(sam, key, comps_filter=None, save_crops=True):
+    cam_d = SK["cameras"][key]
+    img, scale, src = load_image(key)
+    H, W = img.shape[:2]
+    cam = Camera(cam_d["az"], cam_d["el"], cam_d["dist"], cam_d["sx"], cam_d["sy"], cam_d["fov"], W, H)
+    uv = cam.project(XS); vis = cam.visible(XS, NS)
+    rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    results = []
+    for comp, part, loop, side, kind in COMPONENTS:
+        if comps_filter and comp not in comps_filter:
+            continue
+        loop_name = loop if side != "r" else loop
+        idx = loop_points(loop_name, side)
+        if vis[idx].mean() < float(os.environ.get("VIS_MIN", "0.9")):
+            continue
+        P = uv[idx]
+        if P[:, 0].min() < 2 or P[:, 1].min() < 2 or P[:, 0].max() > W - 3 or P[:, 1].max() > H - 3:
+            continue
+        x0, y0 = P.min(0); x1, y1 = P.max(0); size = max(x1 - x0, y1 - y0)
+        if size < 40 * scale:
+            continue
+        pad = 0.3 * size
+        cx0, cy0 = int(max(0, x0 - pad)), int(max(0, y0 - pad)); cx1, cy1 = int(min(W, x1 + pad)), int(min(H, y1 + pad))
+        crop = np.ascontiguousarray(rgb[cy0:cy1, cx0:cx1]); ch, cw = crop.shape[:2]
+        Pc = P - [cx0, cy0]
+        prior_mask = np.zeros((ch, cw), np.uint8); cv2.fillPoly(prior_mask, [np.round(Pc).astype(np.int32)], 1)
+        if prior_mask.sum() < 50:
+            continue
+        px, py, rad = interior_point(prior_mask)
+        # negatives: outward from the prior outline at 12 % of the size, only where still inside the crop
+        hull = cv2.convexHull(Pc.astype(np.float32))[:, 0, :]; ctr = hull.mean(0)
+        neg = []
+        for t in np.linspace(0, 1, 8, endpoint=False):
+            q = hull[int(t * len(hull)) % len(hull)]; v = q - ctr; v /= (np.linalg.norm(v) + 1e-6)
+            nq = q + v * 0.12 * size
+            if 2 < nq[0] < cw - 2 and 2 < nq[1] < ch - 2:
+                neg.append((float(nq[0]), float(nq[1])))
+        box = [float(Pc[:, 0].min() - 0.04 * size), float(Pc[:, 1].min() - 0.04 * size), float(Pc[:, 0].max() + 0.04 * size), float(Pc[:, 1].max() + 0.04 * size)]
+        t0 = time.time()
+        masks, scores = sam.run(crop, box, [(px, py)], neg)
+        # jitter for stability: shift the point, scale the box
+        jit = []
+        for dx, dy, bs in ((0.05, 0.0, 1.06), (-0.05, 0.03, 0.95)):
+            b2 = [box[0] - (bs - 1) * size / 2, box[1] - (bs - 1) * size / 2, box[2] + (bs - 1) * size / 2, box[3] + (bs - 1) * size / 2]
+            m2, s2 = sam.run(crop, b2, [(px + dx * size, py + dy * size)], neg)
+            jit.append((m2, s2))
+        dt_s = time.time() - t0
+        dil = cv2.dilate(prior_mask, np.ones((int(0.2 * size) * 2 + 1,) * 2, np.uint8)).astype(bool)
+        cands = []
+        for k in range(masks.shape[0]):
+            m = masks[k]
+            if m.sum() < 30:
+                continue
+            pi = iou(m, prior_mask.astype(bool))
+            # stability: best matching jitter mask per run
+            cont = contour_of(m)
+            stab = []
+            for m2, _ in jit:
+                j = int(np.argmax([iou(m, m2[q]) for q in range(m2.shape[0])]))
+                stab.append(sym_contour_dist(cont, contour_of(m2[j])))
+            stab_px = float(np.mean(stab)) / scale      # in working copy pixels
+            touches = m[0, :].any() or m[-1, :].any() or m[:, 0].any() or m[:, -1].any()
+            contain = float(np.logical_and(m, dil).sum() / max(1, m.sum())); area_ratio = float(m.sum() / max(1, prior_mask.sum()))
+            cands.append({"k": k, "sam": float(scores[k]), "prior_iou": pi, "contain": contain, "area_ratio": area_ratio, "stab_px": stab_px, "touches": bool(touches), "area": int(m.sum()), "mask": m, "contour": cont})
+        route, chosen, reason = "REJECT", None, "no candidate"
+        if cands:
+            def compatible(c):
+                return c["contain"] >= 0.9 and 0.35 <= c["area_ratio"] <= 1.3 and not c["touches"]
+            for c in cands:
+                c["combined"] = c["sam"] + 0.3 * c["prior_iou"] - 0.1 * min(c["stab_px"], 5.0) - (1.0 if not compatible(c) else 0.0)
+            cands.sort(key=lambda c: -c["combined"])
+            b = cands[0]
+            rivals = [c for c in cands[1:] if compatible(c) and c["sam"] >= b["sam"] - 0.1 and iou(c["mask"], b["mask"]) < 0.85]
+            if compatible(b) and b["sam"] >= 0.85 and b["stab_px"] <= 1.5 and not rivals:
+                route, chosen, reason = "ACCEPT", b, "unambiguous: SAM %.2f, inside prior region %.2f, area ratio %.2f, stability %.2f px" % (b["sam"], b["contain"], b["area_ratio"], b["stab_px"])
+            else:
+                why = "rival candidates" if rivals else ("no candidate compatible with the registered geometry" if not compatible(b) else "low SAM confidence or unstable boundary")
+                route, chosen, reason = "VISION", (b if compatible(b) else None), why + ": SAM %.2f, inside %.2f, area ratio %.2f, stability %.2f px" % (b["sam"], b["contain"], b["area_ratio"], b["stab_px"])
+        rec = {"ref": key, "component": comp, "part": part, "kind": kind, "route": route, "reason": reason, "source": src, "scale": scale, "crop": [cx0, cy0, cx1, cy1],
+               "prompt": {"box": box, "pos": [(px, py)], "neg": neg}, "seconds": round(dt_s, 1),
+               "candidates": [{k: v for k, v in c.items() if k not in ("mask", "contour")} for c in cands]}
+        if chosen is not None:
+            cont = chosen["contour"] + [cx0, cy0]
+            rec["contour_thumb"] = np.round(cont / scale, 2).tolist()
+            # before: distance from the Phase 1B projected loop to the SAM boundary, in working copy pixels (and 1264 width units)
+            rec["phase1b_error_px"] = round(sym_contour_dist(P / scale, cont / scale) * 1264.0 / (W / scale), 2)
+            rec["chosen"] = chosen["k"]
+        rec["prior_mm_per_px"] = round(float(np.mean((XS[idx] - cam.pos) @ cam.fwd) / cam.f * 1000), 2)
+        rec["view_cos"] = round(float(np.mean(np.einsum("ij,ij->i", (cam.pos - XS[idx]) / np.linalg.norm(cam.pos - XS[idx], axis=1, keepdims=True), NS[idx]))), 3)
+        results.append(rec)
+        if save_crops:
+            vis_img = cv2.cvtColor(crop, cv2.COLOR_RGB2BGR).copy()
+            cols = [(0, 255, 0), (0, 160, 255), (255, 0, 255)]
+            for c in cands:
+                cs, _ = cv2.findContours(c["mask"].astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+                cv2.drawContours(vis_img, cs, -1, cols[c["k"]], max(1, int(2 * scale)), cv2.LINE_AA)
+            cv2.polylines(vis_img, [np.round(Pc).astype(np.int32)], True, (255, 255, 255), max(1, int(scale)), cv2.LINE_AA)
+            cv2.circle(vis_img, (int(px), int(py)), max(3, int(4 * scale)), (0, 255, 0), -1)
+            for q in neg:
+                cv2.circle(vis_img, (int(q[0]), int(q[1])), max(3, int(4 * scale)), (0, 0, 255), -1)
+            f = 900 / max(vis_img.shape[:2]); vis_img = cv2.resize(vis_img, None, fx=f, fy=f, interpolation=cv2.INTER_AREA)
+            cv2.rectangle(vis_img, (0, 0), (vis_img.shape[1], 24), (20, 20, 20), -1)
+            cv2.putText(vis_img, f"{key} {comp} {route} {src} " + (f"best k{cands[0]['k']} IoU {cands[0]['prior_iou']:.2f} SAM {cands[0]['sam']:.2f} stab {cands[0]['stab_px']:.1f}px" if cands else ""), (6, 17), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.imwrite(f"{OUT}/crops/{key}-{comp}.jpg", vis_img, [cv2.IMWRITE_JPEG_QUALITY, 82])
+            np.savez_compressed(f"{OUT}/crops/{key}-{comp}.npz", masks=np.stack([c["mask"] for c in cands]) if cands else np.zeros((0, 1, 1), bool), crop=np.array([cx0, cy0, cx1, cy1]))
+    return results
+
+
+def main(keys, comps=None):
+    sam = Sam()
+    allres = []
+    for key in keys:
+        t = time.time(); res = process(sam, key, comps)
+        allres += res
+        print(key, len(res), "components", {r["component"]: r["route"] for r in res}, f"{time.time()-t:.0f}s", flush=True)
+        if comps and os.path.exists(f"{OUT}/{key}.json"):       # partial rerun: merge, keep the other components
+            old = [r for r in json.load(open(f"{OUT}/{key}.json")) if r["component"] not in {r2["component"] for r2 in res}]
+            res = old + res
+        json.dump(res, open(f"{OUT}/{key}.json", "w"))
+    return allres
+
+
+if __name__ == "__main__":
+    keys = sys.argv[1:] or [k for k, c in SK["cameras"].items() if c["kind"] == "ref"]
+    comps = os.environ.get("COMPS", "").split(",") if os.environ.get("COMPS") else None
+    main(keys, comps)

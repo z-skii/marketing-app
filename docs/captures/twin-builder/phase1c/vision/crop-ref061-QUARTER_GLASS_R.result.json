@@ -1,0 +1,51 @@
+{
+ "job": "crop-ref061-QUARTER_GLASS_R",
+ "usage": {
+  "input_tokens": 2888,
+  "output_tokens": 158,
+  "total_tokens": 3046,
+  "reasoning_tokens": 0
+ },
+ "cost_usd": 0.01918,
+ "result": {
+  "regions": [
+   {
+    "region_id": "QUARTER_GLASS_R",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.78,
+    "positive_points": [
+     [
+      57,
+      43
+     ],
+     [
+      62,
+      56
+     ]
+    ],
+    "best_candidate": 2,
+    "negative_points": [
+     [
+      44,
+      50
+     ],
+     [
+      64,
+      75
+     ],
+     [
+      73,
+      55
+     ],
+     [
+      58,
+      25
+     ]
+    ],
+    "label": "QUARTER_GLASS",
+    "note": "The quarter glass is the small fixed pane behind the rear door glass, bounded by the slanted divider at left and C-pillar/black trim at right. Candidate 2 best follows the outer triangular/rounded glass area, but it includes some trim/edge and is not an exact boundary; candidate 0 covers mostly interior glass but misses boundaries."
+   }
+  ]
+ }
+}

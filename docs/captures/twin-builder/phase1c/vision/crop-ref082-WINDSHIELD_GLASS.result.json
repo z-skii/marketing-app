@@ -1,0 +1,55 @@
+{
+ "job": "crop-ref082-WINDSHIELD_GLASS",
+ "usage": {
+  "input_tokens": 1661,
+  "output_tokens": 855,
+  "total_tokens": 2516,
+  "reasoning_tokens": 351
+ },
+ "cost_usd": 0.03395,
+ "result": {
+  "regions": [
+   {
+    "region_id": "WINDSHIELD_GLASS",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.78,
+    "positive_points": [
+     [
+      50,
+      44
+     ],
+     [
+      34,
+      51
+     ],
+     [
+      66,
+      50
+     ]
+    ],
+    "best_candidate": 0,
+    "negative_points": [
+     [
+      50,
+      25
+     ],
+     [
+      50,
+      75
+     ],
+     [
+      18,
+      43
+     ],
+     [
+      82,
+      43
+     ]
+    ],
+    "label": "WINDSHIELD_GLASS",
+    "note": "The windshield glass is the large slightly tinted transparent pane between roof and hood. Candidate 0 has some coverage inside the glass but is very fragmented and includes extra areas, so it is not an exact outline; candidates 1 and 2 mainly follow border/trim strips rather than the glass."
+   }
+  ]
+ }
+}

@@ -1,0 +1,51 @@
+{
+ "job": "crop-ref072-QUARTER_GLASS_L",
+ "usage": {
+  "input_tokens": 2888,
+  "output_tokens": 1155,
+  "total_tokens": 4043,
+  "reasoning_tokens": 508
+ },
+ "cost_usd": 0.04909,
+ "result": {
+  "regions": [
+   {
+    "region_id": "QUARTER_GLASS_L",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.62,
+    "positive_points": [
+     [
+      89,
+      38
+     ],
+     [
+      93,
+      42
+     ]
+    ],
+    "best_candidate": -1,
+    "negative_points": [
+     [
+      70,
+      55
+     ],
+     [
+      81,
+      45
+     ],
+     [
+      96,
+      36
+     ],
+     [
+      93,
+      51
+     ]
+    ],
+    "label": "QUARTER_GLASS",
+    "note": "The small fixed quarter glass is the dark triangular/trapezoid pane at the far right, behind the rear door window and below the roof rail. None of the numbered masks isolates this pane; nearby masks cover larger window/body areas instead."
+   }
+  ]
+ }
+}

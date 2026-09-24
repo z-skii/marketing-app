@@ -1,0 +1,2366 @@
+[
+ {
+  "ref": "ref061",
+  "component": "QUARTER_GLASS_R",
+  "origin": "crop",
+  "accepted": false,
+  "source": "original",
+  "sam": 0.3280324637889862,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": 0.197,
+  "quality": 0.262,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.05229918658733368,
+    "pos_in": 0.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.5768724679946899,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.5802822113037109,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.3280324637889862,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.6440584063529968,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.7378395199775696,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.3003656268119812,
+    "pos_in": 0.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.5569172501564026,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.8740875720977783,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.12019793689250946,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.8862559199333191,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.3206263780593872,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.7316166162490845,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 2,
+   "candidate_is_exact": false,
+   "confidence": 0.78,
+   "note": "The quarter glass is the small fixed pane behind the rear door glass, bounded by the slanted divider at left and C-pillar/black trim at right. Candidate 2 best follows the outer triangular/rounded glass area, but it includes some trim/edge and is not an exact boundary; candidate 0 covers mostly interior glass but misses boundaries."
+  }
+ },
+ {
+  "ref": "ref061",
+  "component": "TAILLIGHT_LENS_R",
+  "origin": "crop",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.8399946093559265,
+  "strategy": "positives",
+  "agreement_with_reviewer_pick": 0.577,
+  "quality": 0.672,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.7324878573417664,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.6422408819198608,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.8286835551261902,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.788601815700531,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.4710197448730469,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.7955986261367798,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.7364750504493713,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.6291927695274353,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.8896152377128601,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.8399946093559265,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.05705887824296951,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.6187712550163269,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.5537620782852173,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 0,
+   "candidate_is_exact": true,
+   "confidence": 0.9,
+   "note": "Candidate 0 closely follows the full right tail lamp lens, including the quarter-panel piece and trunk-lid piece split by the shut line. Negatives are on adjacent painted bodywork, trunk trim/body area, and license-plate surround."
+  }
+ },
+ {
+  "ref": "ref072",
+  "component": "QUARTER_GLASS_L",
+  "origin": "crop",
+  "accepted": false,
+  "source": "original",
+  "sam": 0.22908782958984375,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": null,
+  "quality": 0.183,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.0012532883556559682,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": true
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.008449900895357132,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.003084840252995491,
+    "pos_in": 0.0,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.22908782958984375,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.034621987491846085,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.04280071705579758,
+    "pos_in": 0.5,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.07515286654233932,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": true
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.5402618646621704,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.36136293411254883,
+    "pos_in": 0.5,
+    "neg_out": 0.5,
+    "touches": true
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.04706793278455734,
+    "pos_in": 0.5,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.9721644520759583,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.28542327880859375,
+    "pos_in": 0.5,
+    "neg_out": 0.5,
+    "touches": true
+   }
+  ],
+  "reviewer": {
+   "best_candidate": -1,
+   "candidate_is_exact": false,
+   "confidence": 0.62,
+   "note": "The small fixed quarter glass is the dark triangular/trapezoid pane at the far right, behind the rear door window and below the roof rail. None of the numbered masks isolates this pane; nearby masks cover larger window/body areas instead."
+  }
+ },
+ {
+  "ref": "ref072",
+  "component": "SIDE_GLASS_FRONT_L",
+  "origin": "crop",
+  "accepted": false,
+  "source": "original",
+  "sam": 0.596422016620636,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": 0.464,
+  "quality": 0.477,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.1312875598669052,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.4654390513896942,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.5446617603302002,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.596422016620636,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.663874089717865,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.8037716746330261,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.7722792029380798,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.6009145379066467,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.8159973621368408,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.09604527056217194,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.9845194816589355,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.2942945063114166,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.010252960957586765,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 0,
+   "candidate_is_exact": false,
+   "confidence": 0.78,
+   "note": "Front door glass is the dark window area between the B-pillar and A-pillar, above the beltline and behind the mirror. Candidate 0 covers much of this glass but also includes some frame/trim and is incomplete/noisy, so it is not exact."
+  }
+ },
+ {
+  "ref": "ref082",
+  "component": "WINDSHIELD_GLASS",
+  "origin": "crop",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.9407318830490112,
+  "strategy": "box+positives",
+  "agreement_with_reviewer_pick": 0.087,
+  "quality": 0.753,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.8783251643180847,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.835448145866394,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.952540934085846,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.8949629068374634,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.7472818493843079,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.9754679799079895,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.9407318830490112,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.883236289024353,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.9652349352836609,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.9613008499145508,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.5194114446640015,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.6908377408981323,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.38158175349235535,
+    "pos_in": 0.0,
+    "neg_out": 1.0,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 0,
+   "candidate_is_exact": false,
+   "confidence": 0.78,
+   "note": "The windshield glass is the large slightly tinted transparent pane between roof and hood. Candidate 0 has some coverage inside the glass but is very fragmented and includes extra areas, so it is not an exact outline; candidates 1 and 2 mainly follow border/trim strips rather than the glass."
+  }
+ },
+ {
+  "ref": "ref084",
+  "component": "HEADLIGHT_LENS_L",
+  "origin": "crop",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.7321287393569946,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": 0.714,
+  "quality": 0.586,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.1633303016424179,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.5223138928413391,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.6354602575302124,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.7321287393569946,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.7928833961486816,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.9559937715530396,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.841195285320282,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.575438380241394,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.9072553515434265,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.9716126322746277,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.1897241175174713,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.5999899506568909,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.8636980056762695,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 2,
+   "candidate_is_exact": true,
+   "confidence": 0.9,
+   "note": "Magenta candidate 2 closely follows the clear outer headlight lens boundary. Negatives are placed on adjacent painted hood/fender/bumper surfaces near the lens."
+  }
+ },
+ {
+  "ref": "ref088",
+  "component": "TAILLIGHT_LENS_L",
+  "origin": "crop",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.9007108211517334,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": 0.614,
+  "quality": 0.721,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.7437396049499512,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.47005078196525574,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.7885208129882812,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.6735956072807312,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.5637519955635071,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.9007108211517334,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.5345675945281982,
+    "pos_in": 0.6666666666666666,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.46034735441207886,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.7448848485946655,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.535885751247406,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.26127174496650696,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.2440422624349594,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.7782427072525024,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 2,
+   "candidate_is_exact": false,
+   "confidence": 0.78,
+   "note": "Left tail lamp lens is visible as the L-shaped smoked/red unit split by the trunk shut line; points cover trunk-lid and quarter-panel pieces. Candidate 2 broadly follows the lens outer area but includes/omits some surrounding details and is not exact."
+  }
+ },
+ {
+  "ref": "ref108",
+  "component": "TAILLIGHT_LENS_L",
+  "origin": "crop",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.884670078754425,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": 0.885,
+  "quality": 0.708,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.7159674167633057,
+    "pos_in": 0.6666666666666666,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.47513526678085327,
+    "pos_in": 0.6666666666666666,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.8158541321754456,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.6440439224243164,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.6309293508529663,
+    "pos_in": 0.6666666666666666,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.884670078754425,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.5002371072769165,
+    "pos_in": 0.6666666666666666,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.4854356050491333,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.8324382305145264,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.5521996021270752,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.16157671809196472,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.6126711964607239,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.6121096014976501,
+    "pos_in": 0.6666666666666666,
+    "neg_out": 1.0,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 0,
+   "candidate_is_exact": false,
+   "confidence": 0.74,
+   "note": "The left tail lamp lens is visible as the L-shaped red/smoked unit spanning the trunk-lid piece and the rear-quarter piece. Candidate 0 best follows the lamp outline but is not exact, missing/including some trim and having rough boundaries."
+  }
+ },
+ {
+  "ref": "ref108",
+  "component": "TAILLIGHT_LENS_R",
+  "origin": "crop",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.9314748048782349,
+  "strategy": "positives",
+  "agreement_with_reviewer_pick": 0.562,
+  "quality": 0.745,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.7713724970817566,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.6727442145347595,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.7650389671325684,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.8499294519424438,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.8439868092536926,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.8930867910385132,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.7945066094398499,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.5842709541320801,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.7566000819206238,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.9314748048782349,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.06744024157524109,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.47245949506759644,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.5218996405601501,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 2,
+   "candidate_is_exact": false,
+   "confidence": 0.78,
+   "note": "Right tail lamp lens is visible as the L-shaped red/smoked unit split by the trunk shut line; positives mark the quarter-panel piece and trunk-lid piece. Candidate 2 covers much of the lamp but also includes extra body/bumper areas and does not cleanly follow the real lens boundary."
+  }
+ },
+ {
+  "ref": "ref117",
+  "component": "SIDE_GLASS_FRONT_L",
+  "origin": "crop",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.9158427715301514,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": 0.568,
+  "quality": 0.733,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.07764866203069687,
+    "pos_in": 0.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.5586758852005005,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.7607589960098267,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.6796750426292419,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.6061319708824158,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.9158427715301514,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.8313760161399841,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.6192108392715454,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.8452364206314087,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.11266238987445831,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.9811137318611145,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.35774657130241394,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.005024998914450407,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 2,
+   "candidate_is_exact": false,
+   "confidence": 0.78,
+   "note": "Front door side glass is the dark trapezoid between the B-pillar and sloping A-pillar. Candidate 2 best follows this window area, but is noisy/partial and not an exact boundary."
+  }
+ },
+ {
+  "ref": "ref213",
+  "component": "HEADLIGHT_LENS_L",
+  "origin": "crop",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.9310991168022156,
+  "strategy": "positives",
+  "agreement_with_reviewer_pick": 0.013,
+  "quality": 0.745,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.4969923794269562,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.43453529477119446,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.7441494464874268,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.5582607984542847,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.5866034626960754,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.9024369120597839,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.42683112621307373,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.4007435739040375,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.5990156531333923,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.21295171976089478,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.19918279349803925,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.9310991168022156,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.27616995573043823,
+    "pos_in": 0.0,
+    "neg_out": 0.75,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 1,
+   "candidate_is_exact": false,
+   "confidence": 0.78,
+   "note": "The headlight lens is the clear, elongated lamp cover across the upper front corner. Candidate 1 follows much of the lamp outline but also spills into the bumper/lower bright bodywork, so it is not exact."
+  }
+ },
+ {
+  "ref": "ref213",
+  "component": "WINDSHIELD_GLASS",
+  "origin": "crop",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.706059992313385,
+  "strategy": "box+points",
+  "agreement_with_reviewer_pick": 0.674,
+  "quality": 0.565,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.3300853669643402,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.5452800989151001,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.706059992313385,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.11846121400594711,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.461184561252594,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.5411336421966553,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.5352784395217896,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.7359387278556824,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": false
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.7825655937194824,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.00515563040971756,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.4840160608291626,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.5137379765510559,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 12,
+    "strategy": "reviewer_pick",
+    "sam": 0.15614573657512665,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "best_candidate": 0,
+   "candidate_is_exact": false,
+   "confidence": 0.74,
+   "note": "Windshield glass is the large sloped transparent pane above the hood. Candidate 0 follows much of the windshield perimeter better than the others, but it includes/bleeds into black ceramic border and adjacent trim and is not an exact glass-only mask."
+  }
+ },
+ {
+  "ref": "ref072",
+  "component": "HEADLIGHT_LENS_L",
+  "origin": "full",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.924883246421814,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": null,
+  "quality": 0.74,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.44761911034584045,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.3169425129890442,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": false
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.8353677988052368,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.7920029163360596,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.2992957830429077,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.924883246421814,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.49737823009490967,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.7639800310134888,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.8532299399375916,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.7087403535842896,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.33420172333717346,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.20637615025043488,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": true
+   }
+  ],
+  "reviewer": {
+   "confidence": 0.86,
+   "note": "Clear left headlight lens on the visible front corner; negatives on hood/bumper and adjacent grille/painted trim."
+  }
+ },
+ {
+  "ref": "ref072",
+  "component": "SIDE_GLASS_FRONT_L",
+  "origin": "full",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.8276263475418091,
+  "strategy": "box+points",
+  "agreement_with_reviewer_pick": null,
+  "quality": 0.662,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.25843098759651184,
+    "pos_in": 0.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.5728467106819153,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.8276263475418091,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.5833985805511475,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.3063693046569824,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.4062606394290924,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.8170803785324097,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.6286817789077759,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.7796031832695007,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.03498373553156853,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.9860825538635254,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.1587975025177002,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": true
+   }
+  ],
+  "reviewer": {
+   "confidence": 0.87,
+   "note": "Front door window glass between A-pillar/mirror area and B-pillar; negatives on black pillars, lower door trim/bodywork, and windshield/roof edge."
+  }
+ },
+ {
+  "ref": "ref072",
+  "component": "QUARTER_GLASS_L",
+  "origin": "full",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.803074836730957,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": null,
+  "quality": 0.642,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.590280294418335,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.5862745642662048,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 2,
+    "strategy": "points",
+    "sam": 0.41981545090675354,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.6502819061279297,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.803074836730957,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 5,
+    "strategy": "box+positives",
+    "sam": 0.18325281143188477,
+    "pos_in": 0.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.7532294988632202,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.6521153450012207,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": false
+   },
+   {
+    "k": 8,
+    "strategy": "positives",
+    "sam": 0.19152311980724335,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.9769570827484131,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.3713063597679138,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": true
+   }
+  ],
+  "reviewer": {
+   "confidence": 0.82,
+   "note": "Small fixed triangular rear quarter glass behind the rear door window; negatives on adjacent rear door glass/frame, C-pillar and body panel."
+  }
+ },
+ {
+  "ref": "ref108",
+  "component": "TAILLIGHT_LENS_L",
+  "origin": "full",
+  "accepted": true,
+  "source": "original",
+  "sam": 0.7418670058250427,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": null,
+  "quality": 0.593,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.4247855842113495,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.3623843491077423,
+    "pos_in": 1.0,
+    "neg_out": 0.3333333333333333,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.7094910144805908,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.4840821921825409,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.23969979584217072,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.7418670058250427,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.5593942999839783,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.4486134350299835,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.8306784629821777,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.33670148253440857,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.16521741449832916,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.7938549518585205,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "confidence": 0.93,
+   "note": "Right-side tail lamp lens is visible as smoked upper band and red lower L-shaped section, split by trunk shut line."
+  }
+ },
+ {
+  "ref": "ref108",
+  "component": "TAILLIGHT_LENS_R",
+  "origin": "full",
+  "accepted": false,
+  "source": "original",
+  "sam": 0.565898597240448,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": null,
+  "quality": 0.453,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.45902377367019653,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.5070679187774658,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": false
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.5990227460861206,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.565898597240448,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.4166244864463806,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.6745834946632385,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.7068873047828674,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.6875455975532532,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.8044909834861755,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.24360769987106323,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.22243699431419373,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.6894235610961914,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "confidence": 0.93,
+   "note": "Left-side tail lamp lens is visible as smoked upper band and red lower L-shaped section, split by trunk shut line."
+  }
+ },
+ {
+  "ref": "ref213",
+  "component": "HEADLIGHT_LENS_L",
+  "origin": "full",
+  "accepted": false,
+  "source": "original",
+  "sam": 0.44029492139816284,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": null,
+  "quality": 0.352,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.3260738253593445,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.34349486231803894,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.42994368076324463,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.44029492139816284,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.5187235474586487,
+    "pos_in": 1.0,
+    "neg_out": 0.3333333333333333,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.43773242831230164,
+    "pos_in": 1.0,
+    "neg_out": 0.3333333333333333,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.2700716257095337,
+    "pos_in": 0.5,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.44852110743522644,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": false
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.5755051374435425,
+    "pos_in": 1.0,
+    "neg_out": 0.6666666666666666,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.0967860072851181,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.21230745315551758,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.8518080115318298,
+    "pos_in": 1.0,
+    "neg_out": 0.3333333333333333,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "confidence": 0.9,
+   "note": "Clear left headlight outer lens is visible across the front corner; positives placed on the transparent lamp cover, negatives on adjacent blue hood/bumper and grille area."
+  }
+ },
+ {
+  "ref": "ref213",
+  "component": "SIDE_GLASS_FRONT_L",
+  "origin": "full",
+  "accepted": false,
+  "source": "original",
+  "sam": 0.5157645344734192,
+  "strategy": "box+points",
+  "agreement_with_reviewer_pick": null,
+  "quality": 0.413,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.5157645344734192,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.5983092784881592,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.7045539617538452,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.3589131832122803,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.5048492550849915,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.5504586100578308,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": true
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.7020049095153809,
+    "pos_in": 0.5,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.6513051390647888,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.7967095971107483,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.08374731987714767,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.9164608120918274,
+    "pos_in": 1.0,
+    "neg_out": 0.0,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.28567036986351013,
+    "pos_in": 1.0,
+    "neg_out": 0.5,
+    "touches": true
+   }
+  ],
+  "reviewer": {
+   "confidence": 0.86,
+   "note": "Front door window glass is visible behind the A-pillar and before the B-pillar; positives are inside the transparent side glass, negatives on black/blue pillars, door skin, and upper trim."
+  }
+ },
+ {
+  "ref": "ref213",
+  "component": "WINDSHIELD_GLASS",
+  "origin": "full",
+  "accepted": false,
+  "source": "original",
+  "sam": 0.3406484127044678,
+  "strategy": "points",
+  "agreement_with_reviewer_pick": null,
+  "quality": 0.273,
+  "candidates": [
+   {
+    "k": 0,
+    "strategy": "box+points",
+    "sam": 0.15641896426677704,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 1,
+    "strategy": "box+points",
+    "sam": 0.29845696687698364,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 2,
+    "strategy": "box+points",
+    "sam": 0.5137673020362854,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 3,
+    "strategy": "points",
+    "sam": 0.3406484127044678,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 4,
+    "strategy": "points",
+    "sam": 0.24559782445430756,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": true
+   },
+   {
+    "k": 5,
+    "strategy": "points",
+    "sam": 0.16068615019321442,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 6,
+    "strategy": "box+positives",
+    "sam": 0.5533252954483032,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 7,
+    "strategy": "box+positives",
+    "sam": 0.7322129607200623,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": false
+   },
+   {
+    "k": 8,
+    "strategy": "box+positives",
+    "sam": 0.7274808883666992,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   },
+   {
+    "k": 9,
+    "strategy": "positives",
+    "sam": 0.026306135579943657,
+    "pos_in": 1.0,
+    "neg_out": 1.0,
+    "touches": false
+   },
+   {
+    "k": 10,
+    "strategy": "positives",
+    "sam": 0.2776983976364136,
+    "pos_in": 1.0,
+    "neg_out": 0.25,
+    "touches": true
+   },
+   {
+    "k": 11,
+    "strategy": "positives",
+    "sam": 0.17819960415363312,
+    "pos_in": 1.0,
+    "neg_out": 0.75,
+    "touches": false
+   }
+  ],
+  "reviewer": {
+   "confidence": 0.87,
+   "note": "Windshield glass is visible from the A-pillar base up toward the roof with reflections; positives placed within the transparent windshield, negatives on adjacent A-pillar/roof/hood areas."
+  }
+ }
+]

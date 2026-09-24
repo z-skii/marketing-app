@@ -1,0 +1,121 @@
+{
+ "job": "full-ref213",
+ "usage": {
+  "input_tokens": 2766,
+  "output_tokens": 406,
+  "total_tokens": 3172,
+  "reasoning_tokens": 0
+ },
+ "cost_usd": 0.02601,
+ "result": {
+  "regions": [
+   {
+    "region_id": "R1",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.9,
+    "positive_points": [
+     [
+      58.2,
+      58.7
+     ],
+     [
+      67.3,
+      59.3
+     ]
+    ],
+    "best_candidate": -1,
+    "negative_points": [
+     [
+      57.9,
+      54.4
+     ],
+     [
+      73.5,
+      57.1
+     ],
+     [
+      78.2,
+      60.9
+     ]
+    ],
+    "label": "HEADLIGHT_LENS_L",
+    "note": "Clear left headlight outer lens is visible across the front corner; positives placed on the transparent lamp cover, negatives on adjacent blue hood/bumper and grille area."
+   },
+   {
+    "region_id": "R2",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.86,
+    "positive_points": [
+     [
+      29.6,
+      20
+     ],
+     [
+      36.9,
+      20.7
+     ]
+    ],
+    "best_candidate": -1,
+    "negative_points": [
+     [
+      25.1,
+      20.4
+     ],
+     [
+      40.8,
+      20.3
+     ],
+     [
+      31.7,
+      28
+     ],
+     [
+      34.4,
+      11.1
+     ]
+    ],
+    "label": "SIDE_GLASS_FRONT_L",
+    "note": "Front door window glass is visible behind the A-pillar and before the B-pillar; positives are inside the transparent side glass, negatives on black/blue pillars, door skin, and upper trim."
+   },
+   {
+    "region_id": "R3",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.87,
+    "positive_points": [
+     [
+      47.8,
+      20
+     ],
+     [
+      53.8,
+      23.1
+     ]
+    ],
+    "best_candidate": -1,
+    "negative_points": [
+     [
+      43.3,
+      17.2
+     ],
+     [
+      56.3,
+      26.8
+     ],
+     [
+      60.2,
+      30.6
+     ],
+     [
+      49.7,
+      12.3
+     ]
+    ],
+    "label": "WINDSHIELD_GLASS",
+    "note": "Windshield glass is visible from the A-pillar base up toward the roof with reflections; positives placed within the transparent windshield, negatives on adjacent A-pillar/roof/hood areas."
+   }
+  ]
+ }
+}

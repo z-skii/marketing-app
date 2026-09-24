@@ -1,0 +1,61 @@
+"""Held-out test: can precise contours re-register the reference cameras?
+Jointly solve headlight curves + every reference camera (tied to the Phase 1B body evidence and a camera prior, as in
+wheeleval) using only LEFT side observations; then measure the RIGHT side observations, which never entered the fit.
+Mirror symmetry means the right lamp is the same 3D curve reflected, so a right side error is an honest held-out error."""
+import json, sys, numpy as np
+from scipy.optimize import least_squares
+import measure1c as M
+import wheels1c as w1, fit1b, fit
+from fit1b import Camera
+
+LAB = sys.argv[1] if len(sys.argv) > 1 else "HEADLIGHT_LENS"
+obs = M.load_observations(LAB)
+train = [o for o in obs if o.side == "l"]; test = [o for o in obs if o.side == "r"]
+refs = sorted(set(o.ref for o in obs))
+SK = M.SK; P0 = {k: np.array([SK["cameras"][k][q] for q in ("az", "el", "dist", "sx", "sy", "fov")]) for k in refs}
+SC = np.array([3.0, 3.0, 0.3, 0.1, 0.1, 8.0])
+tmp = fit.Model(); VE = {k: fit1b.ViewEvidence(tmp, 0, str(int(k[3:])), "ref") for k in refs}; SEL = {}
+cols = np.array(M.free_columns(LAB)); nC = len(cols)
+
+def cam(k, cp):
+    W, H = SK["cameras"][k]["size"]; return Camera(*cp, W, H)
+
+def body(k, c):
+    if k not in SEL:
+        SEL[k] = w1.body_selection(cam(k, P0[k]), VE[k])
+    return w1.body_residuals(c, VE[k], SEL[k])
+
+def unpack(z):
+    x = M.X0.copy(); x[cols] = z[:nC]
+    return x, {k: z[nC + 6 * i:nC + 6 * (i + 1)] for i, k in enumerate(refs)}
+
+def res(z, body_w):
+    x, cps = unpack(z); r = []
+    for o in train:
+        o.cam = cam(o.ref, cps[o.ref]); a, b = o.error(x)
+        r += [np.sqrt(2 * (np.sqrt(1 + (a / 3.0) ** 2) - 1)) * 3.0, np.sqrt(2 * (np.sqrt(1 + (b / 3.0) ** 2) - 1)) * 2.1]
+    for k in refs:
+        bb = body(k, cam(k, cps[k])); r.append(np.sqrt(2 * (np.sqrt(1 + (bb / 4.0) ** 2) - 1)) * 4.0 * body_w)
+        r.append((cps[k] - P0[k]) / SC * 2.0)
+    r.append((x[cols] - M.X0[cols]) * 20.0)
+    return np.concatenate(r)
+
+def score(x, cps, group):
+    out = []
+    for o in group:
+        o.cam = cam(o.ref, cps[o.ref]); a, b = o.error(x); out.append(round(float((a.mean() + b.mean()) / 2), 2))
+    return out
+
+z0 = np.concatenate([M.X0[cols]] + [P0[k] for k in refs])
+x0, c0 = unpack(z0)
+rep = {"label": LAB, "train": [(o.ref, o.side) for o in train], "test": [(o.ref, o.side) for o in test],
+       "phase1b": {"train": score(x0, c0, train), "test": score(x0, c0, test)}}
+for bw in (0.35, 0.1):
+    sol = least_squares(lambda z: res(z, bw), z0, max_nfev=80)
+    x1, c1 = unpack(sol.x)
+    rep[f"body_w_{bw}"] = {"train": score(x1, c1, train), "test": score(x1, c1, test),
+                           "body_rms": {k: round(float(np.sqrt((body(k, cam(k, c1[k])) ** 2).mean())), 2) for k in refs},
+                           "body_rms_phase1b": {k: round(float(np.sqrt((body(k, cam(k, P0[k])) ** 2).mean())), 2) for k in refs}}
+    print(LAB, "body weight", bw, "train", rep[f"body_w_{bw}"]["train"], "held-out right", rep[f"body_w_{bw}"]["test"])
+print("phase1b cameras: train", rep["phase1b"]["train"], "held-out right", rep["phase1b"]["test"])
+json.dump(rep, open(f"{M.HERE}/out/camrefine1c-{LAB}.json", "w"), indent=1)

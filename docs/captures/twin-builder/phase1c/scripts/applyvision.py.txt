@@ -1,0 +1,116 @@
+"""Apply vision reviewer results: vision points -> SAM 2.1 at full resolution -> accepted boundary (or not).
+
+For each result (crop mode or full image mode) and each region: convert the percentage points to crop pixels, run SAM with
+the positive and negative points plus the skeleton box, pick the candidate that contains every positive point, excludes the
+negatives and has the best score; compare it with the candidate the reviewer chose from the local set. Output per region:
+out/vision/applied/<ref>-<component>.json (accepted flag, contour in working copy pixels, SAM score, agreement)."""
+import json, os, sys, glob
+import numpy as np
+import cv2
+
+HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
+from precision import Sam, load_image, contour_of, iou  # noqa: E402
+
+VOUT = f"{HERE}/out/vision"; APP = f"{VOUT}/" + os.environ.get("APPLIED", "applied2"); os.makedirs(APP, exist_ok=True)
+
+
+def apply_region(sam, key, comp, crop_box, pos_px, neg_px, chosen_k, origin, rec):
+    img, scale, src = load_image(key)
+    H0, W0 = img.shape[:2]
+    x0, y0, x1, y1 = crop_box
+    # widen the working crop so a region the skeleton crop clipped can close inside it; points shift with the origin
+    ex = int(0.15 * (x1 - x0)); ey = int(0.15 * (y1 - y0))
+    X0, Y0, X1, Y1 = max(0, x0 - ex), max(0, y0 - ey), min(W0, x1 + ex), min(H0, y1 + ey)
+    dx, dy = x0 - X0, y0 - Y0
+    pos = [(p[0] + dx, p[1] + dy) for p in pos_px]; neg = [(p[0] + dx, p[1] + dy) for p in neg_px]
+    crop = np.ascontiguousarray(cv2.cvtColor(img[Y0:Y1, X0:X1], cv2.COLOR_BGR2RGB))
+    b = rec["prompt"]["box"]; box = [b[0] + dx, b[1] + dy, b[2] + dx, b[3] + dy]
+    h, w = crop.shape[:2]
+
+    def inside(m, p):
+        x, y = int(round(p[0])), int(round(p[1]))
+        return 0 <= x < w and 0 <= y < h and bool(m[y, x])
+    cands = []
+
+    def add(m, score, strategy):
+        if m.sum() < 30:
+            return
+        pin = np.mean([inside(m, p) for p in pos]) if pos else 0.0
+        nout = np.mean([not inside(m, p) for p in neg]) if neg else 1.0
+        touches = m[0, :].any() or m[-1, :].any() or m[:, 0].any() or m[:, -1].any()
+        cands.append({"k": len(cands), "strategy": strategy, "sam": float(score), "pos_in": float(pin), "neg_out": float(nout), "touches": bool(touches), "mask": m})
+    # local prompt strategies, all free: box + all points, all points only, box + positives, positives only
+    for name, bx, pp, nn in (("box+points", box, pos, neg), ("points", None, pos, neg), ("box+positives", box, pos, []), ("positives", None, pos, [])):
+        masks, scores = sam.run(crop, bx, [tuple(p) for p in pp], [tuple(p) for p in nn])
+        for k in range(masks.shape[0]):
+            add(masks[k], scores[k], name)
+    # the reviewer's pick among the local candidates (crop mode only)
+    npz = f"{HERE}/out/precision/crops/{key}-{comp}.npz"; local = None
+    if chosen_k is not None and chosen_k >= 0 and os.path.exists(npz):
+        loc = np.load(npz)["masks"]; ks = [c["k"] for c in rec["candidates"]]
+        if chosen_k in ks:
+            lm = loc[ks.index(chosen_k)]; local = np.zeros((h, w), bool); local[dy:dy + lm.shape[0], dx:dx + lm.shape[1]] = lm
+            add(local, rec["candidates"][ks.index(chosen_k)]["sam"], "reviewer_pick")
+    ok = [c for c in cands if c["pos_in"] == 1.0 and c["neg_out"] == 1.0 and not c["touches"]]
+    out = {"ref": key, "component": comp, "origin": origin, "accepted": False, "source": src}
+    if ok:
+        best = max(ok, key=lambda c: c["sam"])
+        cont = contour_of(best["mask"])
+        agree = round(iou(best["mask"], local), 3) if local is not None else None
+        out.update({"accepted": best["sam"] >= 0.7, "sam": best["sam"], "strategy": best["strategy"], "agreement_with_reviewer_pick": agree,
+                    "contour_thumb": np.round((cont + [X0, Y0]) / scale, 2).tolist(), "quality": round(best["sam"] * 0.8, 3)})
+        vis = cv2.cvtColor(crop, cv2.COLOR_RGB2BGR).copy()
+        cv2.drawContours(vis, [np.round(cont).astype(np.int32)], -1, (0, 255, 0), max(2, int(2 * scale)), cv2.LINE_AA)
+        for p in pos:
+            cv2.circle(vis, (int(p[0]), int(p[1])), max(4, int(5 * scale)), (0, 255, 0), -1)
+        for p in neg:
+            cv2.circle(vis, (int(p[0]), int(p[1])), max(4, int(5 * scale)), (0, 0, 255), -1)
+        f = 900 / max(vis.shape[:2]); vis = cv2.resize(vis, None, fx=f, fy=f, interpolation=cv2.INTER_AREA)
+        cv2.putText(vis, f"{key} {comp} {origin} {best['strategy']} SAM {best['sam']:.2f} {'ACCEPT' if out['accepted'] else 'LOW'}", (8, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2, cv2.LINE_AA)
+        cv2.imwrite(f"{APP}/{key}-{comp}-{origin}.jpg", vis, [cv2.IMWRITE_JPEG_QUALITY, 84])
+    out["candidates"] = [{k: v for k, v in c.items() if k != "mask"} for c in cands]
+    return out
+
+
+def main():
+    sam = Sam(); summary = []
+    for rp in sorted(glob.glob(f"{VOUT}/*.result.json")):
+        res = json.load(open(rp)); job = json.load(open(rp.replace(".result.json", ".job.json"))); meta = job["meta"]
+        regions = (res.get("result") or {}).get("regions", [])
+        if meta["mode"] == "crop":
+            key, comp = meta["ref"], meta["component"]
+            rec = next(r for r in json.load(open(f"{HERE}/out/precision/{key}.json")) if r["component"] == comp)
+            for g in regions:
+                if not g.get("visible", True):
+                    continue
+                f = meta["scale_to_crop"]; W, H = meta["size"]
+                pos = [(p[0] / 100 * W / f, p[1] / 100 * H / f) for p in g["positive_points"]]
+                neg = [(p[0] / 100 * W / f, p[1] / 100 * H / f) for p in g["negative_points"]]
+                o = apply_region(sam, key, comp, rec["crop"], pos, neg, g.get("best_candidate"), "crop", rec)
+                o.update({"reviewer": {k: g[k] for k in ("best_candidate", "candidate_is_exact", "confidence", "note")}})
+                json.dump(o, open(f"{APP}/{key}-{comp}-crop.json", "w")); summary.append(o)
+        else:
+            key = meta["ref"]; recs = {r["component"]: r for r in json.load(open(f"{HERE}/out/precision/{key}.json"))}
+            W, H = meta["size"]; f = meta["scale_to_full"]
+            for g in regions:
+                reg = next((r for r in meta["regions"] if r["id"] == g["region_id"]), None)
+                if reg is None or not g.get("visible", True):
+                    continue
+                comp = reg["component"]; rec = recs[comp]; cx0, cy0 = rec["crop"][:2]
+                pos = [(p[0] / 100 * W / f - cx0, p[1] / 100 * H / f - cy0) for p in g["positive_points"]]
+                neg = [(p[0] / 100 * W / f - cx0, p[1] / 100 * H / f - cy0) for p in g["negative_points"]]
+                o = apply_region(sam, key, comp, rec["crop"], pos, neg, None, "full", rec)
+                o.update({"reviewer": {k: g[k] for k in ("confidence", "note")}})
+                json.dump(o, open(f"{APP}/{key}-{comp}-full.json", "w")); summary.append(o)
+    # the observation used by the measurement: crop mode result if accepted, else full image mode
+    for o in summary:
+        base = f"{APP}/{o['ref']}-{o['component']}.json"
+        if o["accepted"] and (o["origin"] == "crop" or not os.path.exists(base)):
+            json.dump(o, open(base, "w"))
+    json.dump([{k: v for k, v in o.items() if k != "contour_thumb"} for o in summary], open(f"{APP}/summary.json", "w"), indent=1)
+    for o in summary:
+        print(o["ref"], o["component"], o["origin"], "accepted" if o["accepted"] else "not accepted", "SAM", round(o.get("sam", 0), 2), o.get("strategy"), "agree", o.get("agreement_with_reviewer_pick"))
+
+
+if __name__ == "__main__":
+    main()

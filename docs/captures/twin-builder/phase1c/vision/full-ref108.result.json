@@ -1,0 +1,80 @@
+{
+ "job": "full-ref108",
+ "usage": {
+  "input_tokens": 2800,
+  "output_tokens": 240,
+  "total_tokens": 3040,
+  "reasoning_tokens": 0
+ },
+ "cost_usd": 0.0212,
+ "result": {
+  "regions": [
+   {
+    "region_id": "R1",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.93,
+    "positive_points": [
+     [
+      71.2,
+      39.4
+     ],
+     [
+      80.2,
+      43.6
+     ]
+    ],
+    "best_candidate": -1,
+    "negative_points": [
+     [
+      72.8,
+      36.6
+     ],
+     [
+      80.5,
+      47.8
+     ],
+     [
+      77.6,
+      43
+     ]
+    ],
+    "label": "TAILLIGHT_LENS_L",
+    "note": "Right-side tail lamp lens is visible as smoked upper band and red lower L-shaped section, split by trunk shut line."
+   },
+   {
+    "region_id": "R2",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.93,
+    "positive_points": [
+     [
+      28.9,
+      39.5
+     ],
+     [
+      19.7,
+      43.4
+     ]
+    ],
+    "best_candidate": -1,
+    "negative_points": [
+     [
+      27.5,
+      36.6
+     ],
+     [
+      19.2,
+      47.4
+     ],
+     [
+      23.6,
+      43
+     ]
+    ],
+    "label": "TAILLIGHT_LENS_R",
+    "note": "Left-side tail lamp lens is visible as smoked upper band and red lower L-shaped section, split by trunk shut line."
+   }
+  ]
+ }
+}

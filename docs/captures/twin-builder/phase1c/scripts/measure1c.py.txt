@@ -1,0 +1,158 @@
+"""Multi view consistency and reprojection error for Phase 1C precision components.
+
+Observations: accepted SAM boundaries (local, or vision assisted) per reference photograph, in working copy pixels.
+For each component: the curves it bounds are refitted (cameras and every other curve fixed; left and right share one set of
+parameters through the model's mirror symmetry) against all observations of both sides. Observations that disagree with the
+consensus (more than max(4 px, median + 3 robust sigma)) are rejected and the component is refitted once more.
+Errors are reported at the 1264 px working width used throughout Phase 1."""
+import json, os, sys, math, glob
+import numpy as np
+import cv2
+from scipy.optimize import least_squares
+from scipy.spatial import cKDTree
+
+HERE = os.path.dirname(os.path.abspath(__file__)); R1B = os.path.join(HERE, "..", "ref1b"); SKELD = os.path.join(HERE, "..", "skel")
+sys.path.insert(0, R1B); sys.path.insert(0, SKELD); sys.path.insert(0, HERE)
+import prior  # noqa: E402
+import fit  # noqa: E402
+from fit1b import Camera  # noqa: E402
+
+SK = json.load(open(f"{R1B}/out/skeleton1b.json"))
+MODEL = fit.Model(); X0 = np.load(f"{R1B}/out/x_curves.npy")
+LOOP = {"HEADLIGHT_LENS": "headlight_left", "TAILLIGHT_LENS": "taillight_left", "SIDE_GLASS_FRONT": "window_front_left", "SIDE_GLASS_REAR": "window_rear_left",
+        "QUARTER_GLASS": "quarter_glass_left", "ROCKER": "rocker_trim_left", "WINDSHIELD_GLASS": "windshield"}
+
+
+def loop_insts(label, side):
+    out = []
+    for c, d in prior.LOOPS[LOOP[label]]:
+        inst = c
+        if side == "r":
+            inst = c[:-2] + "_r" if c.endswith("_l") else (c[:-2] + "_l" if c.endswith("_r") else c)
+        out.append((inst, d))
+    return out
+
+
+def base_of(inst):
+    return inst if inst in MODEL.slots else inst[:-2] + "_l"
+
+
+def loop_samples(x, label, side):
+    X = MODEL.samples(x); pts = []
+    for inst, d in loop_insts(label, side):
+        o, m = MODEL.samp_off[inst]; seg = X[o:o + m]
+        pts.append(seg if d > 0 else seg[::-1])
+    return np.vstack(pts)
+
+
+def densify(P, step=2.0):
+    out = []
+    for a, b in zip(P, np.roll(P, -1, 0)):
+        n = max(1, int(np.linalg.norm(b - a) / step)); out += [a + (b - a) * t / n for t in range(n)]
+    return np.array(out)
+
+
+class Obs:
+    def __init__(self, ref, label, side, contour, quality, origin):
+        self.ref, self.label, self.side, self.origin = ref, label, side, origin
+        c = SK["cameras"][ref]; self.W, self.H = c["size"]
+        self.cam = Camera(c["az"], c["el"], c["dist"], c["sx"], c["sy"], c["fov"], self.W, self.H)
+        self.contour = np.asarray(contour, float); self.quality = quality
+        self.k = 1264.0 / self.W
+        canvas = np.full((self.H, self.W), 255, np.uint8); cv2.polylines(canvas, [np.round(self.contour).astype(np.int32)], True, 0, 1)
+        self.dt = cv2.distanceTransform(canvas, cv2.DIST_L2, 5).astype(np.float32)
+        self.sub = self.contour[:: max(1, len(self.contour) // 80)]
+
+    def error(self, x):
+        P = self.cam.project(loop_samples(x, self.label, self.side))
+        Pd = densify(P, 2.0)
+        xi = np.clip(np.round(P[:, 0]).astype(int), 0, self.W - 1); yi = np.clip(np.round(P[:, 1]).astype(int), 0, self.H - 1)
+        a = self.dt[yi, xi]
+        b, _ = cKDTree(Pd).query(self.sub)
+        return a * self.k, b * self.k
+
+
+def free_columns(label):
+    cols = []
+    for inst, _ in loop_insts(label, "l"):
+        so, nf = MODEL.slots[base_of(inst)]
+        cols += list(range(so, so + 3 * nf))
+    return sorted(set(cols))
+
+
+def refit(label, obs, x0):
+    cols = np.array(free_columns(label)); xb = x0.copy()
+    names = sorted(set(base_of(i) for i, _ in loop_insts(label, "l")))
+    def res(z):
+        x = xb.copy(); x[cols] = z; r = []
+        for o in obs:
+            a, b = o.error(x); w = math.sqrt(o.quality)
+            r.append(np.sqrt(2 * (np.sqrt(1 + (a / 3.0) ** 2) - 1)) * 3.0 * w)
+            r.append(np.sqrt(2 * (np.sqrt(1 + (b / 3.0) ** 2) - 1)) * 3.0 * w * 0.7)
+        for n in names:                                    # keep the curve shape smooth relative to the prior
+            so, nf = MODEL.slots[n]; P = x[so:so + 3 * nf].reshape(nf, 3); P0 = MODEL.P0[n][:nf]
+            if nf >= 3:
+                r.append(((P[:-2] - 2 * P[1:-1] + P[2:]) - (P0[:-2] - 2 * P0[1:-1] + P0[2:])).ravel() * 150.0)
+        r.append((x[cols] - x0[cols]) * 20.0)
+        return np.concatenate(r)
+    sol = least_squares(res, x0[cols], method="trf", max_nfev=60)
+    x = xb.copy(); x[cols] = sol.x
+    return x
+
+
+def summarize(obs, x):
+    per = []
+    for o in obs:
+        a, b = o.error(x); per.append({"ref": o.ref, "side": o.side, "origin": o.origin, "quality": round(o.quality, 2), "error_px": round(float((a.mean() + b.mean()) / 2), 2)})
+    return per
+
+
+def run(label, obs):
+    x0 = X0.copy()
+    before = summarize(obs, x0)
+    x1 = refit(label, obs, x0); after1 = summarize(obs, x1)
+    e = np.array([p["error_px"] for p in after1]); med = float(np.median(e)); mad = float(np.median(np.abs(e - med))) * 1.4826
+    thr = max(4.0, med + 3 * mad)
+    keep = [o for o, p in zip(obs, after1) if p["error_px"] <= thr]
+    rejected = [p for p in after1 if p["error_px"] > thr]
+    x2 = refit(label, keep, x0) if len(keep) >= 2 and len(keep) < len(obs) else x1
+    after = summarize(keep, x2)
+    ea = np.array([p["error_px"] for p in after]) if after else np.array([np.nan])
+    return {"label": label, "observations": len(obs), "kept": len(keep), "rejected": rejected, "threshold_px": round(thr, 2),
+            "before_mean_px": round(float(np.mean([p["error_px"] for p in before])), 2), "after_mean_px": round(float(np.nanmean(ea)), 2),
+            "after_median_px": round(float(np.nanmedian(ea)), 2), "after_max_px": round(float(np.nanmax(ea)), 2), "consistency_mad_px": round(float(np.median(np.abs(ea - np.nanmedian(ea))) * 1.4826), 2),
+            "before": before, "after": after, "x": x2}
+
+
+def load_observations(label, include_vision=True):
+    obs = []
+    for f in sorted(glob.glob(f"{HERE}/out/precision/ref*.json")):
+        for r in json.load(open(f)):
+            if r["component"].rsplit("_", 1)[0] if r["component"].endswith(("_L", "_R")) else r["component"]:
+                pass
+            lab = r["component"].rsplit("_", 1)[0] if r["component"].endswith(("_L", "_R")) else r["component"]
+            if lab != label:
+                continue
+            side = "c" if r["component"] == "WINDSHIELD_GLASS" else r["component"][-1].lower()
+            vpath = f"{HERE}/out/vision/" + os.environ.get("APPLIED", "applied2") + f"/{r['ref']}-{r['component']}.json"
+            if include_vision and os.path.exists(vpath):
+                v = json.load(open(vpath))
+                if v.get("accepted"):
+                    obs.append(Obs(r["ref"], label, side, v["contour_thumb"], v.get("quality", 0.6), "vision+sam")); continue
+            if r["route"] == "ACCEPT" and "contour_thumb" in r:
+                q = min(1.0, r["candidates"][0]["sam"]) * max(0.2, r.get("view_cos", 0.5))
+                obs.append(Obs(r["ref"], label, side, r["contour_thumb"], q, "sam"))
+    return obs
+
+
+if __name__ == "__main__":
+    labels = sys.argv[1:] or list(LOOP)
+    out = {}
+    for lab in labels:
+        obs = load_observations(lab)
+        if len(obs) < 1:
+            print(lab, "no accepted observations"); continue
+        res = run(lab, obs); res.pop("x")
+        out[lab] = res
+        print(lab, "obs", res["observations"], "kept", res["kept"], "before", res["before_mean_px"], "after", res["after_mean_px"], "median", res["after_median_px"], "max", res["after_max_px"], "mad", res["consistency_mad_px"])
+    json.dump(out, open(f"{HERE}/out/measure1c.json", "w"), indent=1)

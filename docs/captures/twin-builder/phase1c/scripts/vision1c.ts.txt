@@ -1,0 +1,50 @@
+// Phase 1C vision reviewer runner with a hard spend guard.
+// usage: npx tsx --tsconfig scripts/tsconfig.cli.json vision1c.ts <job.json> [<job.json> ...]
+// A job: { id, instructions, text, images: [{ path, detail }], schema, maxOutputTokens }
+// Ledger: out/vision/ledger.json. Refuses any call whose worst case (estimated input + maxOutputTokens at list price)
+// would push the total past CAP_USD. Credentials are never read, printed or stored here.
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { respond, type InputPart } from "/home/user/marketing-app/src/lib/openai/client";
+import { route } from "/home/user/marketing-app/src/lib/openai/models";
+
+const HERE = "<scratchpad>/ref1c";
+const LEDGER = `${HERE}/out/vision/ledger.json`;
+const CAP_USD = Number(process.env.CAP_USD ?? "5");
+const PRICE_IN = 5 / 1e6, PRICE_OUT = 30 / 1e6;           // reviewer model list price per token
+const EST_IMAGE_TOKENS = 1600;                             // per high detail image up to about 1600 px, calibrated on Phase 1 (1980 tokens per 1264 px view with prompt)
+
+type Entry = { job: string; model: string; input_tokens: number; output_tokens: number; reasoning_tokens: number; cost_usd: number; seconds: number; at: string };
+type Job = { id: string; instructions: string; text: string; images: { path: string; detail: "high" | "low" | "auto" }[]; schema: { name: string; schema: Record<string, unknown> }; maxOutputTokens: number; effort?: "low" | "medium" | "minimal" };
+
+function ledger(): Entry[] { return existsSync(LEDGER) ? JSON.parse(readFileSync(LEDGER, "utf8")) : []; }
+function spent(l: Entry[]) { return l.reduce((s, e) => s + e.cost_usd, 0); }
+
+async function run(path: string) {
+  const job: Job = JSON.parse(readFileSync(path, "utf8"));
+  const l = ledger();
+  const worst = (EST_IMAGE_TOKENS * job.images.length + Math.ceil(job.text.length / 3) + 800) * PRICE_IN + job.maxOutputTokens * PRICE_OUT;
+  if (spent(l) + worst > CAP_USD) {
+    console.log(`REFUSED ${job.id}: spent $${spent(l).toFixed(4)} + worst case $${worst.toFixed(4)} would exceed the $${CAP_USD} cap`);
+    return;
+  }
+  const r = route("minor_qa", job.effort ?? "low");
+  const parts: InputPart[] = [{ type: "input_text", text: job.text }];
+  for (const im of job.images) parts.push({ type: "input_image", image_url: `data:image/jpeg;base64,${readFileSync(im.path).toString("base64")}`, detail: im.detail });
+  const started = Date.now();
+  const res = await respond<Record<string, unknown>>({ model: r.model, effort: r.effort, instructions: job.instructions, content: parts, schema: job.schema, maxOutputTokens: job.maxOutputTokens });
+  const u = res.usage;
+  const cost = (u.input_tokens ?? 0) * PRICE_IN + (u.output_tokens ?? 0) * PRICE_OUT;
+  const e: Entry = { job: job.id, model: u.model, input_tokens: u.input_tokens ?? 0, output_tokens: u.output_tokens ?? 0, reasoning_tokens: u.reasoning_tokens ?? 0, cost_usd: Number(cost.toFixed(5)), seconds: Math.round((Date.now() - started) / 1000), at: new Date().toISOString() };
+  l.push(e); writeFileSync(LEDGER, JSON.stringify(l, null, 1));
+  writeFileSync(path.replace(/\.job\.json$/, ".result.json"), JSON.stringify({ job: job.id, usage: u, cost_usd: e.cost_usd, result: res.data }, null, 1));
+  console.log(`${job.id}: ${e.input_tokens} in, ${e.output_tokens} out (${e.reasoning_tokens} reasoning), $${e.cost_usd.toFixed(4)}, ${e.seconds}s; total $${spent(l).toFixed(4)}`);
+}
+
+async function main() {
+  mkdirSync(`${HERE}/out/vision`, { recursive: true });
+  for (const p of process.argv.slice(2)) {
+    try { await run(p); } catch (err) { console.log(`FAILED ${p}: ${(err as Error).message.slice(0, 200)}`); }
+  }
+  console.log(`ledger total $${spent(ledger()).toFixed(4)} of $${CAP_USD}`);
+}
+main();

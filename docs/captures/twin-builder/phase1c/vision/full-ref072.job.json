@@ -1,0 +1,54 @@
+{
+ "id": "full-ref072",
+ "instructions": "You are a precise automotive part annotator for a 3D reconstruction pipeline. You never draw outlines; you only mark points and choose among numbered candidate masks. Coordinates are percentages of the image width and height (0 to 100), read from the grid. Positive points must lie clearly inside the requested region, away from its edge. Negative points must lie on the neighbouring surface most easily confused with it (frame, trim, pillar, housing, bodywork). If the region is not visible, say so.",
+ "text": "This is a real photograph of a BMW M3 sedan (G80) with numbered yellow boxes. Each box contains one region to annotate:\nR1 (HEADLIGHT_LENS_L): the clear outer lens of the headlight: the whole glass cover of the lamp unit. Not the painted bumper, fender or hood around it, not the grille.\nR2 (SIDE_GLASS_FRONT_L): the transparent glass of the front door window only. Not the black window frame or trim strip around it, not the B pillar cover, not the mirror, not the windshield.\nR3 (QUARTER_GLASS_L): the small fixed triangular glass behind the rear door window, in front of the C pillar. Not the rear door window, not the C pillar.\nFor every box return one region with region_id 'R<n>' and its label: 1 to 3 positive points inside the region (one per separate piece), 2 to 4 negative points on the most confusable neighbouring surface, best_candidate -1 (no candidates are shown in this mode), candidate_is_exact false, a confidence from 0 to 1 and a short note. Points are percentages of the whole image, read from the grid.",
+ "images": [
+  {
+   "path": "<scratchpad>/ref1c/out/vision/ref072-full.jpg",
+   "detail": "high"
+  }
+ ],
+ "maxOutputTokens": 8000,
+ "effort": "low",
+ "meta": {
+  "mode": "full",
+  "ref": "ref072",
+  "regions": [
+   {
+    "id": "R1",
+    "component": "HEADLIGHT_LENS_L",
+    "crop": [
+     2324,
+     1377,
+     3030,
+     1774
+    ]
+   },
+   {
+    "id": "R2",
+    "component": "SIDE_GLASS_FRONT_L",
+    "crop": [
+     1302,
+     988,
+     2071,
+     1553
+    ]
+   },
+   {
+    "id": "R3",
+    "component": "QUARTER_GLASS_L",
+    "crop": [
+     900,
+     1142,
+     1208,
+     1443
+    ]
+   }
+  ],
+  "size": [
+   1600,
+   1200
+  ],
+  "scale_to_full": 0.4166666666666667
+ }
+}

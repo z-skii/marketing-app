@@ -1,0 +1,108 @@
+"""Build vision reviewer jobs for Phase 1C: crop mode (one call per region) and full image mode (one call per reference).
+
+Both modes ask only for semantics: inside points, outside points on the confusable neighbour, and which numbered SAM
+candidate (if any) is the requested region. Pixel boundaries always come from SAM 2.1 locally."""
+import json, os, sys
+import numpy as np
+import cv2
+
+HERE = os.path.dirname(os.path.abspath(__file__)); VOUT = f"{HERE}/out/vision"; os.makedirs(VOUT, exist_ok=True)
+sys.path.insert(0, HERE)
+from precision import load_image  # noqa: E402
+
+DEFS = {
+    "HEADLIGHT_LENS": "the clear outer lens of the headlight: the whole glass cover of the lamp unit. Not the painted bumper, fender or hood around it, not the grille.",
+    "TAILLIGHT_LENS": "the red or smoked outer lens of the tail lamp. On this car each tail lamp is one L shaped unit split by the trunk shut line into a piece on the rear quarter panel and a piece on the trunk lid; the lens is the union of both pieces. Not the painted bodywork, not the badge, not the reflector in the bumper.",
+    "SIDE_GLASS_FRONT": "the transparent glass of the front door window only. Not the black window frame or trim strip around it, not the B pillar cover, not the mirror, not the windshield.",
+    "SIDE_GLASS_REAR": "the transparent glass of the rear door window only (the main pane). Not the small fixed quarter glass behind it, not the frame, not the B or C pillar.",
+    "QUARTER_GLASS": "the small fixed triangular glass behind the rear door window, in front of the C pillar. Not the rear door window, not the C pillar.",
+    "WINDSHIELD_GLASS": "the transparent windshield glass only. Not the black ceramic border if clearly separable, not the A pillars, not the roof, not the hood.",
+    "ROCKER": "the black side sill trim running along the bottom of the doors between the wheel arches. Not the door skin above it, not the ground or shadow below it.",
+}
+SCHEMA = {"name": "regions", "schema": {"type": "object", "additionalProperties": False, "required": ["regions"], "properties": {"regions": {"type": "array", "items": {
+    "type": "object", "additionalProperties": False,
+    "required": ["region_id", "label", "visible", "positive_points", "negative_points", "best_candidate", "candidate_is_exact", "confidence", "note"],
+    "properties": {"region_id": {"type": "string"}, "label": {"type": "string"}, "visible": {"type": "boolean"},
+                   "positive_points": {"type": "array", "items": {"type": "array", "items": {"type": "number"}}},
+                   "negative_points": {"type": "array", "items": {"type": "array", "items": {"type": "number"}}},
+                   "best_candidate": {"type": "integer"}, "candidate_is_exact": {"type": "boolean"}, "confidence": {"type": "number"}, "note": {"type": "string"}}}}}}}
+INSTRUCTIONS = ("You are a precise automotive part annotator for a 3D reconstruction pipeline. You never draw outlines; you only mark points and choose "
+                "among numbered candidate masks. Coordinates are percentages of the image width and height (0 to 100), read from the grid. "
+                "Positive points must lie clearly inside the requested region, away from its edge. Negative points must lie on the neighbouring "
+                "surface most easily confused with it (frame, trim, pillar, housing, bodywork). If the region is not visible, say so.")
+
+
+def grid(img, step=10):
+    h, w = img.shape[:2]; out = img.copy()
+    for p in range(step, 100, step):
+        x = int(w * p / 100); y = int(h * p / 100)
+        cv2.line(out, (x, 0), (x, h), (255, 255, 255), 1, cv2.LINE_AA); cv2.line(out, (0, y), (w, y), (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(out, str(p), (x + 2, 14), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 255, 0), 1, cv2.LINE_AA)
+        cv2.putText(out, str(p), (2, y - 3), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 255, 0), 1, cv2.LINE_AA)
+    return out
+
+
+def label_of(component):
+    return component.rsplit("_", 1)[0] if component.endswith(("_L", "_R")) else component
+
+
+def crop_job(rec, ref_json_dir=f"{HERE}/out/precision"):
+    key, comp = rec["ref"], rec["component"]
+    img, scale, src = load_image(key)
+    x0, y0, x1, y1 = rec["crop"]; crop = img[y0:y1, x0:x1]
+    f = 1024 / max(crop.shape[:2]); cropr = cv2.resize(crop, None, fx=f, fy=f, interpolation=cv2.INTER_AREA if f < 1 else cv2.INTER_CUBIC)
+    a = grid(cropr)
+    npz = np.load(f"{ref_json_dir}/crops/{key}-{comp}.npz"); masks = npz["masks"]
+    b = cropr.copy(); cols = [(0, 255, 0), (0, 160, 255), (255, 0, 255)]
+    ks = [c["k"] for c in rec["candidates"]]
+    for i, m in enumerate(masks):
+        k = ks[i] if i < len(ks) else i
+        mm = cv2.resize(m.astype(np.uint8), (cropr.shape[1], cropr.shape[0]), interpolation=cv2.INTER_NEAREST)
+        cs, _ = cv2.findContours(mm, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        cv2.drawContours(b, cs, -1, cols[k % 3], 3, cv2.LINE_AA)
+        ys, xs = np.nonzero(mm)
+        if len(xs):
+            cv2.putText(b, str(k), (int(xs.mean()), int(ys.mean())), cv2.FONT_HERSHEY_SIMPLEX, 1.4, cols[k % 3], 4, cv2.LINE_AA)
+    b = grid(b)
+    pa, pb = f"{VOUT}/{key}-{comp}-a.jpg", f"{VOUT}/{key}-{comp}-b.jpg"
+    cv2.imwrite(pa, a, [cv2.IMWRITE_JPEG_QUALITY, 88]); cv2.imwrite(pb, b, [cv2.IMWRITE_JPEG_QUALITY, 88])
+    lab = label_of(comp)
+    text = (f"Image 1 is a crop of a real photograph of a BMW M3 sedan (G80). Image 2 is the same crop with numbered candidate masks "
+            f"(0 green, 1 orange, 2 magenta) from a segmentation model. Region {comp}: {DEFS[lab]} Return one region with region_id '{comp}' "
+            f"and label '{lab}': 1 to 3 positive points inside it (give one point per separate piece if it is split), 2 to 4 negative points "
+            f"on the neighbouring surfaces most easily confused with it, the candidate number that best matches the region (or -1 if none does), "
+            f"whether that candidate is exact (its outline follows the region's real boundary), a confidence from 0 to 1 and a short note.")
+    return {"id": f"crop-{key}-{comp}", "instructions": INSTRUCTIONS, "text": text, "images": [{"path": pa, "detail": "high"}, {"path": pb, "detail": "high"}],
+            "schema": SCHEMA, "maxOutputTokens": 6000, "effort": "low", "meta": {"mode": "crop", "ref": key, "component": comp, "crop": rec["crop"], "size": [cropr.shape[1], cropr.shape[0]], "scale_to_crop": f}}
+
+
+def full_job(key, recs):
+    img, scale, src = load_image(key)
+    H, W = img.shape[:2]; f = 1600 / max(W, H); im = cv2.resize(img, None, fx=f, fy=f, interpolation=cv2.INTER_AREA)
+    for i, r in enumerate(recs):
+        x0, y0, x1, y1 = [int(v * f) for v in r["crop"]]
+        cv2.rectangle(im, (x0, y0), (x1, y1), (0, 255, 255), 2)
+        cv2.putText(im, f"R{i + 1}", (x0 + 4, y0 + 22), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
+    im = grid(im)
+    p = f"{VOUT}/{key}-full.jpg"; cv2.imwrite(p, im, [cv2.IMWRITE_JPEG_QUALITY, 88])
+    lines = [f"R{i + 1} ({r['component']}): {DEFS[label_of(r['component'])]}" for i, r in enumerate(recs)]
+    text = ("This is a real photograph of a BMW M3 sedan (G80) with numbered yellow boxes. Each box contains one region to annotate:\n" + "\n".join(lines) +
+            "\nFor every box return one region with region_id 'R<n>' and its label: 1 to 3 positive points inside the region (one per separate piece), "
+            "2 to 4 negative points on the most confusable neighbouring surface, best_candidate -1 (no candidates are shown in this mode), "
+            "candidate_is_exact false, a confidence from 0 to 1 and a short note. Points are percentages of the whole image, read from the grid.")
+    return {"id": f"full-{key}", "instructions": INSTRUCTIONS, "text": text, "images": [{"path": p, "detail": "high"}], "schema": SCHEMA, "maxOutputTokens": 8000, "effort": "low",
+            "meta": {"mode": "full", "ref": key, "regions": [{"id": f"R{i + 1}", "component": r["component"], "crop": r["crop"]} for i, r in enumerate(recs)], "size": [im.shape[1], im.shape[0]], "scale_to_full": f}}
+
+
+if __name__ == "__main__":
+    tests = json.load(open(f"{HERE}/out/validation_set.json"))
+    jobs = []
+    for t in tests["crop"]:
+        rec = next(r for r in json.load(open(f"{HERE}/out/precision/{t['ref']}.json")) if r["component"] == t["component"])
+        j = crop_job(rec); jobs.append(j)
+    for key, comps in tests["full"].items():
+        recs = [r for r in json.load(open(f"{HERE}/out/precision/{key}.json")) if r["component"] in comps]
+        jobs.append(full_job(key, recs))
+    for j in jobs:
+        json.dump(j, open(f"{VOUT}/{j['id']}.job.json", "w"), indent=1)
+    print(len(jobs), "jobs:", [j["id"] for j in jobs])

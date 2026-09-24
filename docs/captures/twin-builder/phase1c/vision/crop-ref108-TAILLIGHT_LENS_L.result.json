@@ -1,0 +1,55 @@
+{
+ "job": "crop-ref108-TAILLIGHT_LENS_L",
+ "usage": {
+  "input_tokens": 2315,
+  "output_tokens": 143,
+  "total_tokens": 2458,
+  "reasoning_tokens": 0
+ },
+ "cost_usd": 0.01587,
+ "result": {
+  "regions": [
+   {
+    "region_id": "TAILLIGHT_LENS_L",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.74,
+    "positive_points": [
+     [
+      42,
+      50
+     ],
+     [
+      66,
+      49
+     ],
+     [
+      72,
+      39
+     ]
+    ],
+    "best_candidate": 0,
+    "negative_points": [
+     [
+      43,
+      42
+     ],
+     [
+      65,
+      43
+     ],
+     [
+      73,
+      55
+     ],
+     [
+      60,
+      32
+     ]
+    ],
+    "label": "TAILLIGHT_LENS",
+    "note": "The left tail lamp lens is visible as the L-shaped red/smoked unit spanning the trunk-lid piece and the rear-quarter piece. Candidate 0 best follows the lamp outline but is not exact, missing/including some trim and having rough boundaries."
+   }
+  ]
+ }
+}

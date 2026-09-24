@@ -1,0 +1,154 @@
+{
+ "references": [
+  "ref062",
+  "ref072",
+  "ref117"
+ ],
+ "wheel_observations": 5,
+ "body_offset_mm": {
+  "x": -2.8,
+  "y": 20.9
+ },
+ "before": {
+  "mean_mm": 53.0,
+  "median_mm": 59.1,
+  "max_mm": 79.8
+ },
+ "after": {
+  "mean_mm": 21.5,
+  "median_mm": 19.0,
+  "max_mm": 36.8
+ },
+ "body_rms_before": {
+  "ref062": 11.14,
+  "ref072": 9.88,
+  "ref117": 8.8
+ },
+ "body_rms_after": {
+  "ref062": 13.09,
+  "ref072": 10.06,
+  "ref117": 9.01
+ },
+ "per_reference": {
+  "ref062": {
+   "wheels": {
+    "front_right": {
+     "px": 6.13,
+     "mm": 19.0
+    }
+   },
+   "body_rms": 13.09,
+   "camera": {
+    "az": 301.6203,
+    "el": -0.3307,
+    "dist": 6.7455,
+    "sx": -0.2172,
+    "sy": 0.1969,
+    "fov": 28.5871
+   }
+  },
+  "ref072": {
+   "wheels": {
+    "front_left": {
+     "px": 1.7,
+     "mm": 7.2
+    },
+    "rear_left": {
+     "px": 6.91,
+     "mm": 36.8
+    }
+   },
+   "body_rms": 10.06,
+   "camera": {
+    "az": 49.5125,
+    "el": -0.3461,
+    "dist": 8.9205,
+    "sx": 0.1343,
+    "sy": 0.2875,
+    "fov": 31.3215
+   }
+  },
+  "ref117": {
+   "wheels": {
+    "front_left": {
+     "px": 3.6,
+     "mm": 14.6
+    },
+    "rear_left": {
+     "px": 5.73,
+     "mm": 29.9
+    }
+   },
+   "body_rms": 9.01,
+   "camera": {
+    "az": 48.5839,
+    "el": 0.0388,
+    "dist": 8.2508,
+    "sx": 0.185,
+    "sy": 0.2642,
+    "fov": 32.9326
+   }
+  }
+ },
+ "per_reference_before": {
+  "ref062": {
+   "wheels": {
+    "front_right": {
+     "px": 21.0,
+     "mm": 59.1
+    }
+   },
+   "body_rms": 11.14,
+   "camera": {
+    "az": 302.823,
+    "el": -0.128,
+    "dist": 5.301,
+    "sx": -0.2176,
+    "sy": 0.1819,
+    "fov": 35.73
+   }
+  },
+  "ref072": {
+   "wheels": {
+    "front_left": {
+     "px": 4.73,
+     "mm": 19.8
+    },
+    "rear_left": {
+     "px": 14.73,
+     "mm": 79.8
+    }
+   },
+   "body_rms": 9.88,
+   "camera": {
+    "az": 49.84,
+    "el": -0.199,
+    "dist": 8.038,
+    "sx": 0.1463,
+    "sy": 0.2586,
+    "fov": 35.084
+   }
+  },
+  "ref117": {
+   "wheels": {
+    "front_left": {
+     "px": 10.38,
+     "mm": 41.7
+    },
+    "rear_left": {
+     "px": 12.28,
+     "mm": 64.8
+    }
+   },
+   "body_rms": 8.8,
+   "camera": {
+    "az": 48.603,
+    "el": 0.051,
+    "dist": 7.714,
+    "sx": 0.2019,
+    "sy": 0.2353,
+    "fov": 35.43
+   }
+  }
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "job": "crop-ref084-HEADLIGHT_LENS_L",
+ "usage": {
+  "input_tokens": 1970,
+  "output_tokens": 123,
+  "total_tokens": 2093,
+  "reasoning_tokens": 0
+ },
+ "cost_usd": 0.01354,
+ "result": {
+  "regions": [
+   {
+    "region_id": "HEADLIGHT_LENS_L",
+    "visible": true,
+    "candidate_is_exact": true,
+    "confidence": 0.9,
+    "positive_points": [
+     [
+      35,
+      56
+     ],
+     [
+      51,
+      62
+     ],
+     [
+      67,
+      65
+     ]
+    ],
+    "best_candidate": 2,
+    "negative_points": [
+     [
+      33,
+      43
+     ],
+     [
+      57,
+      50
+     ],
+     [
+      73,
+      58
+     ],
+     [
+      50,
+      75
+     ]
+    ],
+    "label": "HEADLIGHT_LENS",
+    "note": "Magenta candidate 2 closely follows the clear outer headlight lens boundary. Negatives are placed on adjacent painted hood/fender/bumper surfaces near the lens."
+   }
+  ]
+ }
+}

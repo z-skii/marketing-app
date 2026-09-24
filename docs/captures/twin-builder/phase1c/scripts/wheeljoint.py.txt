@@ -1,0 +1,84 @@
+"""Joint wheel solve over every reference with rim evidence: one shared body offset relative to the locked chassis
+(front overhang and ride height, which Phase 1B inherited from the synthetic capture) plus each reference camera.
+The chassis itself (wheelbase, tracks, tyre and rim radii, symmetry, ground plane) never changes."""
+import json, os, sys, math
+import numpy as np
+from scipy.optimize import least_squares
+
+HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
+import wheels1c as w1  # noqa: E402
+import fit1b  # noqa: E402
+import fit  # noqa: E402
+from fit1b import Camera  # noqa: E402
+
+SK = w1.SK
+REPORT = json.load(open(f"{w1.OUT}/report.json"))
+EV = {}
+for key in REPORT:
+    p = f"{w1.OUT}/{key}.json"
+    if os.path.exists(p):
+        ev = json.load(open(p))[key]["evidence"]
+        ok = {k: v for k, v in ev.items() if v.get("status") == "ok"}
+        if ok:
+            EV[key] = ok
+KEYS = sorted(EV)
+tmp = fit.Model()
+VE = {k: fit1b.ViewEvidence(tmp, 0, str(int(k[3:])), "ref") for k in KEYS}
+P0 = {k: np.array([SK["cameras"][k][q] for q in ("az", "el", "dist", "sx", "sy", "fov")]) for k in KEYS}
+SC = np.array([3.0, 3.0, 0.3, 0.1, 0.1, 8.0])
+XS0 = w1.XS.copy()
+
+
+SEL = {}
+
+
+def body_res(cam, ve, off, key):
+    if key not in SEL:
+        SEL[key] = w1.body_selection(cam, ve)
+    w1.XS = XS0 + np.array([off[0], off[1], 0.0])
+    try:
+        return w1.body_residuals(cam, ve, SEL[key])
+    finally:
+        w1.XS = XS0
+
+
+def residuals(p, body_w=0.35):
+    off = p[:2]; r = [off / 0.05 * 0.5]      # weak prior: 5 cm offset costs 0.5
+    for i, k in enumerate(KEYS):
+        cp = p[2 + 6 * i: 8 + 6 * i]; W, H = SK["cameras"][k]["size"]; cam = Camera(*cp, W, H)
+        for wk, w in EV[k].items():
+            axle = "front" if wk.startswith("front") else "rear"
+            rim, hub = w1.face_points(wk, w1.RIM_R[axle], w1.RIM_FACE, 24)
+            hu, _ = w1.proj_ellipse_centre(cam, wk); e = w["ellipse"]
+            r.append((hu - [e["cx"], e["cy"]]) * 3.0); r.append(w1.ellipse_radial(e, cam.project(rim)))
+        b = body_res(cam, VE[k], off, k)
+        r.append(np.sqrt(2 * (np.sqrt(1 + (b / 4.0) ** 2) - 1)) * 4.0 * body_w)
+        r.append((cp - P0[k]) / SC * 2.0)
+    return np.concatenate([np.ravel(a) for a in r])
+
+
+def evaluate(p):
+    out = {}; off = p[:2]
+    for i, k in enumerate(KEYS):
+        cp = p[2 + 6 * i: 8 + 6 * i]; W, H = SK["cameras"][k]["size"]; cam = Camera(*cp, W, H)
+        ce = w1.centre_errors(cam, EV[k])
+        b = body_res(cam, VE[k], off, k)
+        out[k] = {"wheels": ce, "body_rms": round(float(np.sqrt((b ** 2).mean())), 2), "camera": dict(zip(["az", "el", "dist", "sx", "sy", "fov"], [round(float(v), 4) for v in cp]))}
+    return out
+
+
+if __name__ == "__main__":
+    x0 = np.concatenate([[0.0, 0.0]] + [P0[k] for k in KEYS])
+    base = evaluate(x0)
+    sol = least_squares(residuals, x0, x_scale=np.concatenate([[0.05, 0.05]] + [SC] * len(KEYS)), max_nfev=300)
+    after = evaluate(sol.x)
+    mm = [v["mm"] for k in KEYS for v in after[k]["wheels"].values()]
+    mm0 = [v["mm"] for k in KEYS for v in base[k]["wheels"].values()]
+    rep = {"references": KEYS, "wheel_observations": len(mm), "body_offset_mm": {"x": round(float(sol.x[0]) * 1000, 1), "y": round(float(sol.x[1]) * 1000, 1)},
+           "before": {"mean_mm": round(float(np.mean(mm0)), 1), "median_mm": round(float(np.median(mm0)), 1), "max_mm": round(float(np.max(mm0)), 1)},
+           "after": {"mean_mm": round(float(np.mean(mm)), 1), "median_mm": round(float(np.median(mm)), 1), "max_mm": round(float(np.max(mm)), 1)},
+           "body_rms_before": {k: base[k]["body_rms"] for k in KEYS}, "body_rms_after": {k: after[k]["body_rms"] for k in KEYS}, "per_reference": after, "per_reference_before": base}
+    json.dump(rep, open(f"{w1.OUT}/joint.json", "w"), indent=1)
+    print("refs", len(KEYS), "obs", len(mm), "body offset mm", rep["body_offset_mm"], "before", rep["before"], "after", rep["after"])
+    for k in KEYS:
+        print(" ", k, {w: v["mm"] for w, v in after[k]["wheels"].items()}, "body rms", base[k]["body_rms"], "->", after[k]["body_rms"])

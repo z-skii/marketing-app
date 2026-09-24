@@ -1,0 +1,68 @@
+{
+ "crop": [
+  {
+   "ref": "ref213",
+   "component": "WINDSHIELD_GLASS"
+  },
+  {
+   "ref": "ref082",
+   "component": "WINDSHIELD_GLASS"
+  },
+  {
+   "ref": "ref072",
+   "component": "SIDE_GLASS_FRONT_L"
+  },
+  {
+   "ref": "ref117",
+   "component": "SIDE_GLASS_FRONT_L"
+  },
+  {
+   "ref": "ref072",
+   "component": "QUARTER_GLASS_L"
+  },
+  {
+   "ref": "ref061",
+   "component": "QUARTER_GLASS_R"
+  },
+  {
+   "ref": "ref084",
+   "component": "HEADLIGHT_LENS_L"
+  },
+  {
+   "ref": "ref213",
+   "component": "HEADLIGHT_LENS_L"
+  },
+  {
+   "ref": "ref108",
+   "component": "TAILLIGHT_LENS_L"
+  },
+  {
+   "ref": "ref088",
+   "component": "TAILLIGHT_LENS_L"
+  },
+  {
+   "ref": "ref108",
+   "component": "TAILLIGHT_LENS_R"
+  },
+  {
+   "ref": "ref061",
+   "component": "TAILLIGHT_LENS_R"
+  }
+ ],
+ "full": {
+  "ref072": [
+   "HEADLIGHT_LENS_L",
+   "SIDE_GLASS_FRONT_L",
+   "QUARTER_GLASS_L"
+  ],
+  "ref108": [
+   "TAILLIGHT_LENS_L",
+   "TAILLIGHT_LENS_R"
+  ],
+  "ref213": [
+   "WINDSHIELD_GLASS",
+   "SIDE_GLASS_FRONT_L",
+   "HEADLIGHT_LENS_L"
+  ]
+ }
+}

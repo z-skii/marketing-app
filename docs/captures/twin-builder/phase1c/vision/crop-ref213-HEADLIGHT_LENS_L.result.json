@@ -1,0 +1,55 @@
+{
+ "job": "crop-ref213-HEADLIGHT_LENS_L",
+ "usage": {
+  "input_tokens": 1816,
+  "output_tokens": 532,
+  "total_tokens": 2348,
+  "reasoning_tokens": 198
+ },
+ "cost_usd": 0.02504,
+ "result": {
+  "regions": [
+   {
+    "region_id": "HEADLIGHT_LENS_L",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.78,
+    "positive_points": [
+     [
+      29,
+      35
+     ],
+     [
+      51,
+      38
+     ],
+     [
+      74,
+      43
+     ]
+    ],
+    "best_candidate": 1,
+    "negative_points": [
+     [
+      50,
+      17
+     ],
+     [
+      58,
+      61
+     ],
+     [
+      10,
+      42
+     ],
+     [
+      91,
+      58
+     ]
+    ],
+    "label": "HEADLIGHT_LENS",
+    "note": "The headlight lens is the clear, elongated lamp cover across the upper front corner. Candidate 1 follows much of the lamp outline but also spills into the bumper/lower bright bodywork, so it is not exact."
+   }
+  ]
+ }
+}

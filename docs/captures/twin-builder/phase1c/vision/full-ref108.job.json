@@ -1,0 +1,44 @@
+{
+ "id": "full-ref108",
+ "instructions": "You are a precise automotive part annotator for a 3D reconstruction pipeline. You never draw outlines; you only mark points and choose among numbered candidate masks. Coordinates are percentages of the image width and height (0 to 100), read from the grid. Positive points must lie clearly inside the requested region, away from its edge. Negative points must lie on the neighbouring surface most easily confused with it (frame, trim, pillar, housing, bodywork). If the region is not visible, say so.",
+ "text": "This is a real photograph of a BMW M3 sedan (G80) with numbered yellow boxes. Each box contains one region to annotate:\nR1 (TAILLIGHT_LENS_L): the red or smoked outer lens of the tail lamp. On this car each tail lamp is one L shaped unit split by the trunk shut line into a piece on the rear quarter panel and a piece on the trunk lid; the lens is the union of both pieces. Not the painted bodywork, not the badge, not the reflector in the bumper.\nR2 (TAILLIGHT_LENS_R): the red or smoked outer lens of the tail lamp. On this car each tail lamp is one L shaped unit split by the trunk shut line into a piece on the rear quarter panel and a piece on the trunk lid; the lens is the union of both pieces. Not the painted bodywork, not the badge, not the reflector in the bumper.\nFor every box return one region with region_id 'R<n>' and its label: 1 to 3 positive points inside the region (one per separate piece), 2 to 4 negative points on the most confusable neighbouring surface, best_candidate -1 (no candidates are shown in this mode), candidate_is_exact false, a confidence from 0 to 1 and a short note. Points are percentages of the whole image, read from the grid.",
+ "images": [
+  {
+   "path": "<scratchpad>/ref1c/out/vision/ref108-full.jpg",
+   "detail": "high"
+  }
+ ],
+ "maxOutputTokens": 8000,
+ "effort": "low",
+ "meta": {
+  "mode": "full",
+  "ref": "ref108",
+  "regions": [
+   {
+    "id": "R1",
+    "component": "TAILLIGHT_LENS_L",
+    "crop": [
+     2109,
+     730,
+     3616,
+     1819
+    ]
+   },
+   {
+    "id": "R2",
+    "component": "TAILLIGHT_LENS_R",
+    "crop": [
+     147,
+     750,
+     1533,
+     1788
+    ]
+   }
+  ],
+  "size": [
+   1600,
+   1200
+  ],
+  "scale_to_full": 0.4166666666666667
+ }
+}

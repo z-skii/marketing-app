@@ -1,0 +1,218 @@
+"""Phase 1C wheels: rim circles from SAM 2.1 against the locked chassis; only reference cameras move.
+
+Chassis (not optimised): axles from the Phase 1B fit (wheelbase exactly 2857 mm), tracks 1617 / 1605 mm, tyre radius
+338.5 mm, rims 19 in front and 20 in rear (radius 241.3 and 254.0 mm), wheel centres at tyre radius above the ground plane,
+left and right symmetric. For each reference photograph and each visible wheel: SAM 2.1 segments the wheel from a prompt at
+the projected hub; the rim candidate is the one whose size matches the projected rim; a robust ellipse is fitted to its
+outline. Each reference camera is then re-solved with the chassis fixed, using the rim ellipses plus the body evidence the
+camera already fitted (so a camera cannot be bent to fit the wheels at the expense of the rest of the car).
+Wheel centre error = distance between the rim ellipse centre and the projected hub centre on the rim face, in mm at the
+wheel's depth. Zero cost.
+"""
+import json, os, sys, math, time
+import numpy as np
+import cv2
+from scipy.optimize import least_squares
+
+HERE = os.path.dirname(os.path.abspath(__file__)); R1B = os.path.join(HERE, "..", "ref1b"); SKELD = os.path.join(HERE, "..", "skel")
+sys.path.insert(0, R1B); sys.path.insert(0, SKELD); sys.path.insert(0, HERE)
+import fit      # noqa: E402
+import fit1b    # noqa: E402
+from fit1b import Camera  # noqa: E402
+from precision import Sam, load_image, contour_of  # noqa: E402
+
+OUT = f"{HERE}/out/wheels"; os.makedirs(OUT, exist_ok=True)
+SK = json.load(open(f"{R1B}/out/skeleton1b.json"))
+TYRE_R = 0.3385; RIM_R = {"front": 0.2413, "rear": 0.254}; TRACK = {"front": 1.617, "rear": 1.605}
+RIM_FACE = 0.105          # rim lip plane outboard of the wheel centre plane (inside the 135 mm tyre half width)
+WC = {k: np.array(v["centre"]) for k, v in SK["wheels"].items()}   # front_left etc., chassis from Phase 1B, not changed here
+MODEL = fit.Model(); XC = np.load(f"{R1B}/out/x_curves.npy"); XS = MODEL.samples(XC); NS = MODEL.samp_normal
+
+
+def face_points(key, r, z_off, n=36):
+    c = WC[key]; s = 1.0 if key.endswith("left") else -1.0
+    t = np.linspace(0, 2 * np.pi, n, endpoint=False)
+    return np.stack([c[0] + r * np.cos(t), c[1] + r * np.sin(t), np.full(n, c[2] + s * z_off)], 1), np.array([c[0], c[1], c[2] + s * z_off])
+
+
+def robust_ellipse(pts):
+    p = pts.astype(np.float32); keep = np.ones(len(p), bool)
+    for _ in range(5):
+        (ex, ey), (ma, mi), ang = cv2.fitEllipse(p[keep])
+        t = math.radians(ang); c, s = math.cos(t), math.sin(t)
+        dx = p[:, 0] - ex; dy = p[:, 1] - ey
+        rho = np.hypot((dx * c + dy * s) / (ma / 2 + 1e-6), (-dx * s + dy * c) / (mi / 2 + 1e-6))
+        res = np.abs(rho - 1); thr = max(0.02, np.percentile(res[keep], 75) * 1.5); keep = res < thr
+        if keep.sum() < 20:
+            break
+    (ex, ey), (ma, mi), ang = cv2.fitEllipse(p[keep])
+    t = math.radians(ang); c, s = math.cos(t), math.sin(t); dx = p[:, 0] - ex; dy = p[:, 1] - ey
+    rho = np.hypot((dx * c + dy * s) / (ma / 2), (-dx * s + dy * c) / (mi / 2))
+    return {"cx": float(ex), "cy": float(ey), "a": float(ma / 2), "b": float(mi / 2), "angle": float(ang), "inliers": float(keep.mean()), "rms": float(np.sqrt(((rho[keep] - 1) ** 2).mean()) * math.sqrt(ma * mi) / 2)}
+
+
+def ellipse_radial(e, P):
+    t = math.radians(e["angle"]); c, s = math.cos(t), math.sin(t)
+    dx = P[:, 0] - e["cx"]; dy = P[:, 1] - e["cy"]
+    return (np.hypot((dx * c + dy * s) / e["a"], (-dx * s + dy * c) / e["b"]) - 1) * math.sqrt(e["a"] * e["b"])
+
+
+def rim_evidence(sam, key):
+    c = SK["cameras"][key]
+    img, scale, src = load_image(key); H, W = img.shape[:2]
+    cam = Camera(c["az"], c["el"], c["dist"], c["sx"], c["sy"], c["fov"], W, H)
+    rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB); out = {}
+    for wk in WC:
+        s = 1.0 if wk.endswith("left") else -1.0
+        if cam.pos[2] * s < 1.2:
+            continue
+        axle = "front" if wk.startswith("front") else "rear"
+        tyre, _ = face_points(wk, TYRE_R, 0.135); rim, hub = face_points(wk, RIM_R[axle], RIM_FACE)
+        tu = cam.project(tyre); ru = cam.project(rim); hu = cam.project(hub[None])[0]
+        if tu[:, 0].min() < 0 or tu[:, 1].min() < 0 or tu[:, 0].max() > W or tu[:, 1].max() > H:
+            continue
+        x0, y0 = tu.min(0); x1, y1 = tu.max(0); pad = 0.25 * max(x1 - x0, y1 - y0)
+        cx0, cy0, cx1, cy1 = int(max(0, x0 - pad)), int(max(0, y0 - pad)), int(min(W, x1 + pad)), int(min(H, y1 + pad))
+        crop = np.ascontiguousarray(rgb[cy0:cy1, cx0:cx1])
+        rb = ru - [cx0, cy0]; rbox = [float(rb[:, 0].min()), float(rb[:, 1].min()), float(rb[:, 0].max()), float(rb[:, 1].max())]
+        hc = (float(hu[0] - cx0), float(hu[1] - cy0))
+        # prompt 1: rim box and hub point; prompt 2: tyre box and hub point (the rim is usually one of the nested candidates)
+        tb = tu - [cx0, cy0]; tbox = [float(tb[:, 0].min()), float(tb[:, 1].min()), float(tb[:, 0].max()), float(tb[:, 1].max())]
+        cands = []
+        for box in (rbox, tbox):
+            masks, scores = sam.run(crop, box, [hc], [])
+            for k in range(masks.shape[0]):
+                cont = contour_of(masks[k])
+                if cont is None or len(cont) < 40:
+                    continue
+                hull = cv2.convexHull(cont.astype(np.float32))[:, 0, :]          # the rim lip is convex; spokes and calipers are not
+                d = np.r_[0, np.cumsum(np.linalg.norm(np.diff(np.vstack([hull, hull[:1]]), axis=0), axis=1))]
+                t = np.linspace(0, d[-1], 180, endpoint=False)
+                hp = np.stack([np.interp(t, d, np.r_[hull[:, 0], hull[0, 0]]), np.interp(t, d, np.r_[hull[:, 1], hull[0, 1]])], 1)
+                e = robust_ellipse(hp); cont = hp
+                fill = float(masks[k].sum() / (math.pi * e["a"] * e["b"] + 1e-6))
+                r_eq = math.sqrt(e["a"] * e["b"])
+                r_rim_proj = float(np.mean(np.hypot(rb[:, 0] - rb[:, 0].mean(), rb[:, 1] - rb[:, 1].mean())))
+                (_, _), (pma, pmi), pang = cv2.fitEllipse(rb.astype(np.float32))
+                axis_ratio = (min(e["a"], e["b"]) / max(e["a"], e["b"])) / (min(pma, pmi) / max(pma, pmi))
+                dang = abs(((e["angle"] - pang) + 90) % 180 - 90)
+                cands.append({"box": "rim" if box is rbox else "tyre", "k": k, "sam": float(scores[k]), "ellipse": e, "ratio": r_eq / r_rim_proj, "fill": fill,
+                              "axis_ratio": float(axis_ratio), "angle_diff": float(dang), "r_px": r_eq, "contour": cont})
+        def elongated(cd):
+            return max(cd["ellipse"]["a"], cd["ellipse"]["b"]) / min(cd["ellipse"]["a"], cd["ellipse"]["b"]) > 1.25
+        rims = [cd for cd in cands if 0.8 <= cd["ratio"] <= 1.2 and cd["ellipse"]["inliers"] > 0.6 and cd["sam"] > 0.7 and cd["fill"] >= 0.8
+                and 0.75 <= cd["axis_ratio"] <= 1.33 and (not elongated(cd) or cd["angle_diff"] <= 20)]
+        if not rims:
+            out[wk] = {"status": "no rim candidate", "source": src, "candidates": [{k: v for k, v in cd.items() if k != "contour"} for cd in cands]}
+            continue
+        best = min(rims, key=lambda cd: cd["ellipse"]["rms"] / max(cd["sam"], 0.1))
+        e = dict(best["ellipse"]); e["cx"] += cx0; e["cy"] += cy0
+        # convert to working copy pixels (the reference camera's image size)
+        for q in ("cx", "cy", "a", "b"):
+            e[q] /= scale
+        view_cos = float(abs(np.dot((cam.pos - hub) / np.linalg.norm(cam.pos - hub), [0, 0, 1.0 if wk.endswith("left") else -1.0])))
+        quality = float(min(1.0, best["r_px"] / scale / 60.0) * view_cos * best["sam"] * best["fill"])
+        out[wk] = {"status": "ok", "source": src, "scale": scale, "ellipse": e, "sam": best["sam"], "ratio": best["ratio"], "prompt": best["box"], "fill": best["fill"],
+                   "axis_ratio": best["axis_ratio"], "rim_radius_px": best["r_px"] / scale, "view_cos": view_cos, "quality": quality,
+                   "contour_thumb": np.round((best["contour"] + [cx0, cy0]) / scale, 2).tolist()}
+        vis = cv2.cvtColor(crop, cv2.COLOR_RGB2BGR).copy()
+        cv2.drawContours(vis, [np.round(best["contour"]).astype(np.int32)], -1, (0, 255, 0), 2, cv2.LINE_AA)
+        be = best["ellipse"]
+        cv2.ellipse(vis, ((be["cx"], be["cy"]), (be["a"] * 2, be["b"] * 2), be["angle"]), (0, 160, 255), 2, cv2.LINE_AA)
+        cv2.polylines(vis, [np.round(rb).astype(np.int32)], True, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.drawMarker(vis, (int(hc[0]), int(hc[1])), (255, 255, 255), cv2.MARKER_CROSS, 20, 2)
+        cv2.drawMarker(vis, (int(be["cx"]), int(be["cy"])), (0, 160, 255), cv2.MARKER_CROSS, 20, 2)
+        cv2.imwrite(f"{OUT}/{key}-{wk}.jpg", cv2.resize(vis, None, fx=600 / vis.shape[1], fy=600 / vis.shape[1]), [cv2.IMWRITE_JPEG_QUALITY, 82])
+    return out
+
+
+def proj_ellipse_centre(cam, wk):
+    axle = "front" if wk.startswith("front") else "rear"
+    rim, hub = face_points(wk, RIM_R[axle], RIM_FACE, 72)
+    (ex, ey), _, _ = cv2.fitEllipse(cam.project(rim).astype(np.float32))
+    return np.array([ex, ey]), hub
+
+
+def centre_errors(cam, ev):
+    res = {}
+    for wk, w in ev.items():
+        if w.get("status") != "ok":
+            continue
+        hu, hub = proj_ellipse_centre(cam, wk)
+        depth = float((hub - cam.pos) @ cam.fwd)
+        e = w["ellipse"]; px = float(np.hypot(hu[0] - e["cx"], hu[1] - e["cy"]))
+        res[wk] = {"px": round(px, 2), "mm": round(px * depth / cam.f * 1000, 1)}
+    return res
+
+
+def body_selection(cam, ve):
+    """Visible skeleton samples per evidence contour, frozen at the starting camera so the residual length never changes."""
+    vis = cam.visible(XS, NS); sel = {}
+    for name, p in ve.polys.items():
+        idx = np.concatenate([np.arange(MODEL.samp_off[i][0], MODEL.samp_off[i][0] + MODEL.samp_off[i][1]) for i in p["insts"]])
+        idx = idx[vis[idx]]
+        if len(idx) >= 3:
+            sel[name] = idx
+    return sel
+
+
+def body_residuals(cam, ve, sel=None):
+    """Distance of the fixed skeleton to the evidence contours already used in Phase 1B for this photograph (working px)."""
+    sel = sel if sel is not None else body_selection(cam, ve)
+    uv = cam.project(XS)
+    out = [ve.dt_at(name, uv[idx]) for name, idx in sel.items()]
+    return np.concatenate(out) if out else np.zeros(0)
+
+
+def solve_camera(key, ev, ve, body_weight=0.35):
+    c = SK["cameras"][key]; W, H = c["size"]
+    p0 = np.array([c["az"], c["el"], c["dist"], c["sx"], c["sy"], c["fov"]])
+    sc = np.array([3.0, 3.0, 0.3, 0.1, 0.1, 8.0])
+    wheels = [(wk, w) for wk, w in ev.items() if w.get("status") == "ok"]
+    sel = body_selection(Camera(*p0, W, H), ve)
+
+    def res(p):
+        cam = Camera(*p, W, H); r = []
+        for wk, w in wheels:
+            axle = "front" if wk.startswith("front") else "rear"
+            rim, hub = face_points(wk, RIM_R[axle], RIM_FACE, 24)
+            hu, _ = proj_ellipse_centre(cam, wk); ru = cam.project(rim); e = w["ellipse"]
+            r.append((hu - [e["cx"], e["cy"]]) * 3.0)
+            r.append(ellipse_radial(e, ru) * 1.0)
+        b = body_residuals(cam, ve, sel)
+        r.append(np.sqrt(2 * (np.sqrt(1 + (b / 4.0) ** 2) - 1)) * 4.0 * body_weight)     # soft L1 on the body evidence
+        r.append((p - p0) / sc * 2.0)
+        return np.concatenate([np.ravel(a) for a in r])
+    sol = least_squares(res, p0, method="trf", x_scale=sc, max_nfev=400)
+    return sol.x
+
+
+def main(keys):
+    sam = Sam(); tmp = fit.Model()
+    report = json.load(open(f"{OUT}/report.json")) if os.path.exists(f"{OUT}/report.json") else {}
+    for key in keys:
+        if key in report and os.environ.get("REDO") != "1":
+            continue
+        t = time.time()
+        ev = rim_evidence(sam, key)
+        c = SK["cameras"][key]; W, H = c["size"]
+        cam0 = Camera(c["az"], c["el"], c["dist"], c["sx"], c["sy"], c["fov"], W, H)
+        ve = fit1b.ViewEvidence(tmp, 0, str(int(key[3:])), "ref")
+        before = centre_errors(cam0, ev); body0 = body_residuals(cam0, ve)
+        rec = {"evidence": {k: {q: v for q, v in w.items() if q != "contour_thumb"} for k, w in ev.items()}, "before": before, "body_rms_before": round(float(np.sqrt((body0 ** 2).mean())), 2) if len(body0) else None}
+        if before:
+            p = solve_camera(key, ev, ve); cam1 = Camera(*p, W, H)
+            body1 = body_residuals(cam1, ve)
+            pw = solve_camera(key, ev, ve, body_weight=0.0); camw = Camera(*pw, W, H)
+            rec["wheels_only_diagnostic"] = {"after": centre_errors(camw, ev), "body_rms": round(float(np.sqrt((body_residuals(camw, ve) ** 2).mean())), 2)}
+            rec.update({"camera_after": dict(zip(["az", "el", "dist", "sx", "sy", "fov"], [round(float(v), 4) for v in p])), "after": centre_errors(cam1, ev),
+                        "body_rms_after": round(float(np.sqrt((body1 ** 2).mean())), 2), "camera_before": {q: c[q] for q in ("az", "el", "dist", "sx", "sy", "fov")}})
+        report[key] = rec
+        json.dump({key: {"evidence": ev}}, open(f"{OUT}/{key}.json", "w"))
+        json.dump(report, open(f"{OUT}/report.json", "w"), indent=1)
+        print(key, "wheels", {k: w.get("status") for k, w in ev.items()}, "before", before, "after", rec.get("after"), "body rms", rec["body_rms_before"], "->", rec.get("body_rms_after"), "| wheels only", rec.get("wheels_only_diagnostic"), f"{time.time()-t:.0f}s", flush=True)
+    json.dump(report, open(f"{OUT}/report.json", "w"), indent=1)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:] or [k for k, c in SK["cameras"].items() if c["kind"] == "ref"])

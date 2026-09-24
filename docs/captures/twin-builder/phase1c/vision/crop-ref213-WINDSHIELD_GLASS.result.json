@@ -1,0 +1,55 @@
+{
+ "job": "crop-ref213-WINDSHIELD_GLASS",
+ "usage": {
+  "input_tokens": 2121,
+  "output_tokens": 1009,
+  "total_tokens": 3130,
+  "reasoning_tokens": 432
+ },
+ "cost_usd": 0.04088,
+ "result": {
+  "regions": [
+   {
+    "region_id": "WINDSHIELD_GLASS",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.74,
+    "positive_points": [
+     [
+      34,
+      39
+     ],
+     [
+      48,
+      43
+     ],
+     [
+      20,
+      43
+     ]
+    ],
+    "best_candidate": 0,
+    "negative_points": [
+     [
+      36,
+      24
+     ],
+     [
+      39,
+      58
+     ],
+     [
+      58,
+      35
+     ],
+     [
+      7,
+      44
+     ]
+    ],
+    "label": "WINDSHIELD_GLASS",
+    "note": "Windshield glass is the large sloped transparent pane above the hood. Candidate 0 follows much of the windshield perimeter better than the others, but it includes/bleeds into black ceramic border and adjacent trim and is not an exact glass-only mask."
+   }
+  ]
+ }
+}

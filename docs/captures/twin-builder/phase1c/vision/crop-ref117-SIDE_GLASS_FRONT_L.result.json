@@ -1,0 +1,51 @@
+{
+ "job": "crop-ref117-SIDE_GLASS_FRONT_L",
+ "usage": {
+  "input_tokens": 2277,
+  "output_tokens": 702,
+  "total_tokens": 2979,
+  "reasoning_tokens": 286
+ },
+ "cost_usd": 0.03245,
+ "result": {
+  "regions": [
+   {
+    "region_id": "SIDE_GLASS_FRONT_L",
+    "visible": true,
+    "candidate_is_exact": false,
+    "confidence": 0.78,
+    "positive_points": [
+     [
+      34,
+      62
+     ],
+     [
+      43,
+      72
+     ]
+    ],
+    "best_candidate": 2,
+    "negative_points": [
+     [
+      20,
+      62
+     ],
+     [
+      56,
+      58
+     ],
+     [
+      52,
+      79
+     ],
+     [
+      35,
+      41
+     ]
+    ],
+    "label": "SIDE_GLASS_FRONT",
+    "note": "Front door side glass is the dark trapezoid between the B-pillar and sloping A-pillar. Candidate 2 best follows this window area, but is noisy/partial and not an exact boundary."
+   }
+  ]
+ }
+}

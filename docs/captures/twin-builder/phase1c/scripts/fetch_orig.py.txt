@@ -1,0 +1,33 @@
+"""Slowly download full resolution originals of the selected Wikimedia references (CC licensed). Provenance kept per file."""
+import json, os, time, hashlib, urllib.request, sys
+UA = "TapMartTwinBuilder/0.1 (https://tapmart.live; vehicle twin research prototype)"
+R1B = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ref1b")
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "orig")
+items = list(json.load(open(f"{R1B}/meta/openverse.json")).values()); sel = json.load(open(f"{R1B}/meta/selection.json"))
+prov = json.load(open(f"{OUT}/provenance.json")) if os.path.exists(f"{OUT}/provenance.json") else {}
+todo = [(k, items[int(k)]) for k in sel if items[int(k)]["source"] == "wikimedia"]
+for k, it in todo:
+    dst = f"{OUT}/{int(k):03d}.jpg"
+    if os.path.exists(dst) and k in prov:
+        continue
+    for attempt in range(6):
+        try:
+            url = it["url"]
+            if "/wikipedia/commons/" in url:
+                path = url.split("/wikipedia/commons/")[1]; name = path.split("/")[-1]
+                w = 3840 if (it["width"] or 0) >= 3840 else 1920
+                url = f"https://upload.wikimedia.org/wikipedia/commons/thumb/{path}/{w}px-{name}"
+            req = urllib.request.Request(url, headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=120) as r:
+                data = r.read()
+            open(dst, "wb").write(data)
+            prov[k] = {"file": os.path.basename(dst), "url": url, "original_url": it["url"], "note": "largest rendition Wikimedia serves to this client (the original file endpoint returned 429)", "landing": it["foreign_landing_url"], "creator": it["creator"], "license": it["license"], "license_version": it["license_version"],
+                       "license_url": it["license_url"], "title": it["title"], "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data), "fetched": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+            json.dump(prov, open(f"{OUT}/provenance.json", "w"), indent=1)
+            print(k, "ok", len(data) // 1024, "KB", flush=True)
+            break
+        except Exception as e:
+            wait = 30 * (attempt + 1)
+            print(k, "retry", attempt, str(e)[:60], "wait", wait, flush=True); time.sleep(wait)
+    time.sleep(12)
+print("done", len(prov), "of", len(todo))
