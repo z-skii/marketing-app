@@ -82,3 +82,34 @@
   .twb-grid { grid-template-columns: 1fr; }
   .twb td, .twb th { white-space: normal; }
 }
+
+/* Phase 1B: reference stage and provenance */
+.twb-credit { position: absolute; left: 10px; bottom: 8px; margin: 0; padding: 3px 8px; border-radius: 4px; background: rgba(15, 17, 19, 0.75); font-size: 11px; color: #c9cdd4; pointer-events: none; }
+.twb-selected h3 em { margin-left: 8px; font-style: normal; font-weight: 500; font-size: 11px; color: #8b919c; }
+.twb-labels { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 !important; }
+.twb-labels span { padding: 1px 6px; border-radius: 4px; background: #23262b; font-family: var(--font-mono); font-size: 10px; color: #c9cdd4; }
+.twb-ref { padding: 14px 20px 32px; }
+.twb-ref-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+.twb-card { padding: 14px 16px; border-radius: 10px; background: #15181c; border: 1px solid #23262b; min-width: 0; }
+.twb-card-wide { grid-column: 1 / -1; }
+.twb-card h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #8b919c; margin: 0 0 8px; }
+.twb-card h2 + h2, .twb-card ul + h2, .twb-card table + h2, .twb-card table + table { margin-top: 14px; }
+.twb-card dl { display: grid; grid-template-columns: max-content 1fr; gap: 3px 14px; margin: 0; font-size: 12.5px; }
+.twb-card dt { color: #8b919c; text-transform: capitalize; }
+.twb-card dd { margin: 0; color: #e6e7ea; }
+.twb-card .twb-muted { margin: 10px 0 0; font-size: 12px; }
+.twb-card table + table { margin-top: 12px; }
+.twb-learned { margin: 0; padding: 0; list-style: none; font-size: 12.5px; line-height: 18px; color: #c9cdd4; }
+.twb-learned li { padding: 4px 0; border-bottom: 1px solid #1f2227; }
+.twb-learned b { color: #e6e7ea; margin-right: 4px; }
+.twb-cov td, .twb-cov th { white-space: nowrap; }
+.twb-bar { display: inline-block; width: 60px; height: 6px; margin-right: 6px; border-radius: 3px; background: #23262b; vertical-align: middle; overflow: hidden; }
+.twb-bar i { display: block; height: 100%; border-radius: 3px; }
+.twb-toggle { margin-top: 12px; min-height: 28px; padding: 0 10px; border-radius: 6px; border: 1px solid #23262b; background: #15181c; color: #c9cdd4; font: inherit; font-size: 12px; cursor: pointer; }
+.twb-graph { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 12px 0 0; font-size: 12px; }
+.twb-graph dt { color: #8b919c; text-transform: uppercase; letter-spacing: 0.06em; font-size: 11px; }
+.twb-graph dd { margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.twb-graph dd span { padding: 1px 7px; border-radius: 4px; background: #1c1f24; color: #c9cdd4; }
+.twb-grid figcaption a { color: #c9cdd4; }
+@media (max-width: 1023px) { .twb-ref-grid { grid-template-columns: 1fr; } }
+@media (max-width: 767px) { .twb-ref { padding-left: 16px; padding-right: 16px; } .twb-graph, .twb-card dl { grid-template-columns: 1fr; } }

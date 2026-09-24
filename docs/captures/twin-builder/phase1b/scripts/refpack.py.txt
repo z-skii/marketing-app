@@ -1,0 +1,185 @@
+"""Build the experimental G80 VehicleReferencePack from the class A sources and the Phase 1B fit, and publish the lab assets."""
+import json, os, shutil, datetime, hashlib
+import numpy as np
+import cv2
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = "/home/user/marketing-app"
+PUB = f"{ROOT}/public/labs/twin-builder"; DOC = f"{ROOT}/docs/captures/twin-builder/phase1b"
+for d in (f"{PUB}/reference", f"{PUB}/overlays", f"{PUB}/thumbs", f"{DOC}/evidence", f"{DOC}/scripts"):
+    os.makedirs(d, exist_ok=True)
+SEL = json.load(open(f"{HERE}/meta/selection.json"))
+META = json.load(open(f"{HERE}/meta/openverse.json")); ITEMS = list(META.values())
+SK = json.load(open(f"{HERE}/out/skeleton1b.json"))
+CURVES = {c["name"]: c for c in SK["curves"]}
+
+FEATURES = {
+    "roofline": ["rail_front_l", "rail_b_l", "rail_rear_l", "roof_crown"],
+    "greenhouse": ["cowl", "roof_front", "roof_rear", "rear_glass_base", "a_pillar_l", "belt_door_front_l", "belt_door_rear_l", "rail_front_l", "rail_rear_l"],
+    "A pillar": ["a_pillar_l"], "B pillar": ["bpillar_front_l", "bpillar_rear_l"], "C pillar": ["c_pillar_upper_l", "c_pillar_lower_l"], "quarter glass": ["quarter_glass_l"],
+    "hood": ["hood_front", "hood_side_l", "cowl"], "hood creases": ["hood_crease_l"], "trunk": ["rear_glass_base", "trunk_side_l", "trunk_edge"],
+    "shoulder line": ["shoulder_l"], "beltline": ["belt_fender_l", "belt_door_front_l", "belt_door_rear_l", "belt_quarter_l"],
+    "rockers and sills": ["rocker_l", "sill_fender_l", "sill_door_front_l", "sill_door_rear_l", "sill_quarter_l"],
+    "front arches": ["arch_front_l"], "rear arches": ["arch_rear_l"], "lower fenders": ["fender_front_l", "sill_fender_l"], "rear quarters": ["quarter_rear_l", "belt_quarter_l", "quarter_taillight_l"],
+    "kidney grille": ["grille_l", "intake_center", "intake_side_l"], "headlights": ["headlight_l"], "taillights": ["taillight_l"],
+    "front bumper": ["fbumper_seam_l", "fbumper_side_l", "fbumper_low_l", "splitter"], "rear bumper": ["rear_bumper_top", "rbumper_seam_l", "rbumper_side_l", "rbumper_low_l", "diffuser"],
+    "mirrors": ["mirror_l"], "door seams": ["seam_fender_door_l", "seam_doors_l", "seam_door_quarter_l"], "handles": ["handle_front_l", "handle_rear_l"],
+    "side gill": [], "spoiler lip": [], "exhaust layout": [], "wheel and tyre relationship": [],
+}
+ORDER = ["reference_confirmed", "measured", "partial", "uncertain", "prior"]
+
+
+def both(names):
+    out = []
+    for n in names:
+        out.append(n)
+        if n.endswith("_l"):
+            out.append(n[:-2] + "_r")
+    return [n for n in out if n in CURVES]
+
+
+def coverage():
+    cov = {}
+    for f, names in FEATURES.items():
+        cs = [CURVES[n] for n in both(names)]
+        if not cs:
+            note = {"side gill": "not a fitted curve yet: seen in reference details, knowledge graph only", "spoiler lip": "represented by the trunk edge curve; the lip itself is a variant part",
+                    "exhaust layout": "quad tips: knowledge graph only, no curve", "wheel and tyre relationship": "chassis: see wheel summary"}[f]
+            if f == "wheel and tyre relationship":
+                ws = SK["wheel_summary"]["ref"]
+                st = "reference_confirmed" if ws["centre_error_mm_mean"] is not None and ws["centre_error_mm_mean"] <= 10 else "partial"
+                cov[f] = {"ref_views": ws["n"], "syn_views": SK["wheel_summary"]["syn"]["n"], "status": st,
+                          "error_px": None, "confidence": round(max(0.0, 1 - (ws["centre_error_mm_mean"] or 50) / 40), 2), "curves": [], "note": f"centre error on real references mean {ws['centre_error_mm_mean']} mm, capture {SK['wheel_summary']['syn']['centre_error_mm_mean']} mm"}
+            else:
+                cov[f] = {"ref_views": 0, "syn_views": 0, "status": "prior", "error_px": None, "confidence": 0.0, "curves": [], "note": note}
+            continue
+        ref = int(round(np.mean([c["ref_views"] for c in cs]))); syn = int(round(np.mean([c["syn_views"] for c in cs])))
+        errs = [c["error_px"] for c in cs if c["error_px"] is not None]
+        conf = float(np.mean([c["confidence"] for c in cs]))
+        sts = sorted((c["status"] for c in cs), key=ORDER.index)
+        status = sts[len(sts) // 2]
+        cov[f] = {"ref_views": ref, "syn_views": syn, "status": status, "error_px": round(float(np.mean(errs)), 2) if errs else None, "confidence": round(conf, 2), "curves": [c["name"] for c in cs]}
+    return cov
+
+
+def learned(cov):
+    out = []
+    for f, c in cov.items():
+        if c.get("note") and not c["curves"]:
+            out.append({"feature": f, "statement": c["note"], "status": c["status"], "confidence": c["confidence"]}); continue
+        mm = np.mean([CURVES[n]["error_mm"] for n in c["curves"] if CURVES[n]["error_mm"] is not None]) if c["curves"] else None
+        s = f"{c['ref_views']} reference views, {c['syn_views']} capture views"
+        if c["error_px"] is not None:
+            s += f", mean error {c['error_px']} px (about {round(float(mm))} mm)"
+        labels = sorted(set(l for n in c["curves"] for l in CURVES[n]["labels"]))
+        s += "; " + ", ".join(labels).lower().replace("_", " ")
+        out.append({"feature": f, "statement": s, "status": c["status"], "confidence": c["confidence"]})
+    return out
+
+
+def main():
+    refs = []
+    for k, sel in SEL.items():
+        i = int(k); item = ITEMS[i]
+        src = f"{HERE}/thumbs/{i:03d}.jpg"
+        if not os.path.exists(src):
+            continue
+        im = cv2.imread(src); h, w = im.shape[:2]
+        sc = min(1.0, 1000 / w); im2 = cv2.resize(im, (int(w * sc), int(h * sc)), interpolation=cv2.INTER_AREA)
+        cv2.imwrite(f"{PUB}/reference/{i:03d}.jpg", im2, [cv2.IMWRITE_JPEG_QUALITY, 82])
+        cam = None; iou = None
+        evp = f"{HERE}/evidence/{i:03d}.json"
+        fitted = sel.get("fit", True) and f"ref{i:03d}" in SK["cameras"]
+        if fitted:
+            c = SK["cameras"][f"ref{i:03d}"]; cam = {"az": c["az"], "el": c["el"], "fov": c["fov"], "dist": c["dist"]}
+            ev = json.load(open(evp)); iou = round(1 - ev["camera_init"]["score"], 3)
+            ov = f"{HERE}/out/overlays/ref{i:03d}.jpg"
+            if os.path.exists(ov):
+                o = cv2.imread(ov); sc2 = min(1.0, 1000 / o.shape[1])
+                cv2.imwrite(f"{PUB}/overlays/ref{i:03d}.jpg", cv2.resize(o, (int(o.shape[1] * sc2), int(o.shape[0] * sc2)), interpolation=cv2.INTER_AREA), [cv2.IMWRITE_JPEG_QUALITY, 82])
+            shutil.copy(evp, f"{DOC}/evidence/{i:03d}.json")
+        refs.append({"id": item["id"], "index": i, "role": sel["role"], "variant": sel.get("variant", "generation"), "creator": item["creator"], "license": item["license"], "license_version": item["license_version"],
+                     "license_url": item["license_url"], "source": item["source"], "page_url": item["foreign_landing_url"], "image": f"/labs/twin-builder/reference/{i:03d}.jpg",
+                     "overlay": f"/labs/twin-builder/overlays/ref{i:03d}.jpg" if fitted else None, "width": im2.shape[1], "height": im2.shape[0], "used_for_fit": bool(fitted), "camera": cam, "iou": iou,
+                     "sha256": hashlib.sha256(open(src, "rb").read()).hexdigest(), "title": item["title"], "original_url": item["url"], "rights_class": "A",
+                     "permitted_uses": ["store", "measure", "fit_evidence", "display_with_attribution"]})
+    cov = coverage()
+    d1 = SK["dims"]; p1 = SK["comparison"]["phase1"]["dims"]
+    conflicts = [
+        {"topic": "length", "synthetic": f"fits {p1['length']['fitted']} m when free (Phase 1)", "reference": "4.794 m official", "resolution": "dimension held to the specification; the capture cameras absorb the difference"},
+        {"topic": "width", "synthetic": f"fits {p1['width']['fitted']} m when free (Phase 1)", "reference": "1.903 m official", "resolution": "held to the specification"},
+        {"topic": "tyre radius", "synthetic": f"{SK['wheel_summary']['radius_ratio_syn']} of the fitment radius in the capture views", "reference": f"{SK['wheel_summary']['radius_ratio_ref']} in the reference photographs", "resolution": "radius fixed from the fitment table (275/35 R19, 285/30 R20); the synthetic car's wheels are drawn too large"},
+        {"topic": "proportions", "synthetic": "front view width to height 1.29 with mirrors", "reference": "1.44 official with mirrors", "resolution": "the synthetic car is not dimensionally a G80; trusted dimensions override it"},
+    ]
+    for f, c in cov.items():
+        cs = [CURVES[n] for n in c["curves"]]
+        r = [x["ref_error_px"] for x in cs if x["ref_error_px"] is not None]; s = [x["syn_error_px"] for x in cs if x["syn_error_px"] is not None]
+        if r and s and (np.mean(s) > 2 * np.mean(r) + 4 or np.mean(r) > 2 * np.mean(s) + 4):
+            conflicts.append({"topic": f, "synthetic": f"{round(float(np.mean(s)), 1)} px", "reference": f"{round(float(np.mean(r)), 1)} px", "resolution": "the tier with the smaller error dominates; the other is down weighted by the robust loss"})
+    pack = {
+        "label": "CONTROLLED SYNTHETIC CAPTURE TEST plus CC licensed real G80 references",
+        "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat(), "approved": False,
+        "identity": {"make": "BMW", "model": "M3", "generation": "G80 (sedan)", "years": "2021 to 2027", "facelift": "LCI from July 2024 production: headlight inner graphics only; grille, body and rear unchanged",
+                     "trims_in_pack": "M3, M3 Competition, M3 Competition xDrive (same body); CS, Touring (G81) and M Performance part cars excluded", "captured_car": "M3 Competition, synthetic capture (16 views)",
+                     "identification_note": "identity of the generation confirmed by the kidney grille, headlight housing, gill, taillights and quad exhaust in the references; year and trim of the captured car not verifiable from synthetic images"},
+        "dimensions": {"length": {"value": 4794, "unit": "mm", "source": "BMW Media Information 03/2021, M3 Sedan specifications", "confidence": "official"},
+                       "width": {"value": 1903, "unit": "mm", "source": "same", "confidence": "official"}, "height": {"value": 1433, "unit": "mm", "source": "same", "confidence": "official"},
+                       "wheelbase": {"value": 2857, "unit": "mm", "source": "same", "confidence": "official"}, "track_front": {"value": 1617, "unit": "mm", "source": "same", "confidence": "official"},
+                       "track_rear": {"value": 1605, "unit": "mm", "source": "same", "confidence": "official"}, "ground_clearance": {"value": 120, "unit": "mm", "source": "same", "confidence": "official, not yet used as a constraint"},
+                       "drag_area": {"value": 0.33 * 2.34, "unit": "m2 (cd x A)", "source": "same", "confidence": "official"}},
+        "wheels_tyres": [{"years": "2021 to 2027", "trim": "Competition, standard staggered set", "front": "275/35 R19", "rear": "285/30 R20", "tyre_r_front": 0.3375, "tyre_r_rear": 0.3395, "source": "wheel-size.com G80 fitment table"},
+                         {"years": "2021 to 2027", "trim": "M3 base, 18 and 19 inch set", "front": "275/40 R18", "rear": "285/35 R19", "tyre_r_front": 0.3386, "tyre_r_rear": 0.3411, "source": "wheel-size.com G80 fitment table"}],
+        "sources": [
+            {"id": "bmw-spec-2021", "kind": "official specification", "title": "BMW Media Information 03/2021, M3 Sedan and M3 Competition Sedan specifications", "url": "https://www.press.bmwgroup.com/global/article/attachment/T0316649EN/476823", "rights_class": "A (facts)", "licence": "copyrighted document, numbers extracted", "used_for": "trusted dimensions"},
+            {"id": "wheel-size", "kind": "fitment table", "title": "wheel-size.com BMW M3 G80", "url": "https://www.wheel-size.com/size/bmw/m3/g80-2020-2022/", "rights_class": "A (facts)", "licence": "site content copyrighted, numbers extracted", "used_for": "tyre and rim radii"},
+            {"id": "openverse", "kind": "image index", "title": "Openverse API (Wikimedia Commons and Flickr, commercial CC licences only)", "url": "https://api.openverse.org/", "rights_class": "A per item", "licence": "CC BY, CC BY SA, CC0 per image", "used_for": "reference photographs with licence metadata"},
+            {"id": "commons", "kind": "photographs", "title": "Wikimedia Commons categories BMW M3 (G80), M3 Competition (G80)", "url": "https://commons.wikimedia.org/wiki/Category:BMW_M3_Competition_(G80)", "rights_class": "A per file", "licence": "CC BY SA 4.0 mostly", "used_for": "reference photographs (through Openverse; the Commons API rate limited this container)"},
+            {"id": "meshy-syn", "kind": "AI hypothesis", "title": "TapMart's Meshy reconstruction of the synthetic capture (semantic class boundaries)", "url": "/vehicles/syn-g80-meshy-semantic.glb", "rights_class": "A (own output)", "licence": "TapMart's own generated asset", "used_for": "tier 5 weak 3D prior for glass, light, grille and mirror outlines"},
+            {"id": "tripo-syn", "kind": "AI hypothesis", "title": "TapMart's Tripo reconstruction of the synthetic capture", "url": "/vehicles/syn-g80-tripo.glb", "rights_class": "A (own output)", "licence": "TapMart's own generated asset", "used_for": "not used in this fit (no semantic classes; kept as a candidate)"},
+            {"id": "pressclub-photos", "kind": "official photographs", "title": "BMW Group PressClub launch gallery", "url": "https://www.press.bmwgroup.com/global/article/detail/T0316649EN", "rights_class": "C (editorial only)", "licence": "editorial use", "used_for": "nothing automated; not stored"},
+            {"id": "squir-hum3d", "kind": "commercial 3D models", "title": "Squir and Hum3D BMW M3 G80 models", "url": "https://squir.com/bmw-m3-competition-g80-2021.html", "rights_class": "B", "licence": "store licences, no redistribution or extraction", "used_for": "nothing; not purchased, not ingested"},
+            {"id": "sketchfab-cc", "kind": "CC 3D model", "title": "BMW M3 (G80) by Cherk on Sketchfab, CC BY 4.0, low poly", "url": "https://sketchfab.com/3d-models/bmw-m3-g80-e7d8be35e2f34b7f84e0543fff7fda27", "rights_class": "A", "licence": "CC BY 4.0", "used_for": "not used in this fit (artist approximation; would need attribution and a separate hypothesis slot)"},
+        ],
+        "references": refs, "coverage": cov, "features_learned": learned(cov),
+        "variants": [
+            {"name": "LCI 2024 headlights", "affects": ["headlight inner graphics"], "note": "Housing outline unchanged; one reference (ref062) is an LCI car and is used for everything except headlight internals"},
+            {"name": "wheels by year and trim", "affects": ["rim design", "tyre size"], "note": "Competition staggered 19/20 assumed for the chassis; tyre radius differs by 1 to 3 mm across fitments"},
+            {"name": "Competition trim parts", "affects": ["spoiler lip", "exhaust tips finish", "window surrounds"], "note": "Lip and trim colour are variant parts on the same body"},
+            {"name": "M Performance parts", "affects": ["front splitter", "rear diffuser", "spoiler"], "note": "Cars carrying them were excluded from the references"},
+            {"name": "CS", "affects": ["hood", "splitter", "lip", "wheels"], "note": "Excluded; different hood geometry"},
+            {"name": "Touring (G81)", "affects": ["rear body"], "note": "Excluded; separate generation entry"},
+        ],
+        "knowledge_graph": {
+            "body": ["four door sedan", "framed doors", "flared arches front and rear", "carbon roof with two ridges (Competition)", "trunk lip spoiler"],
+            "front": ["vertical twin kidney grille, tall, frameless, black surround", "slim angled headlights", "three intakes, black splitter", "hood power dome with two creases"],
+            "side": ["strongly flared arches", "vertical gill behind the front arch", "six light greenhouse with Hofmeister kink", "pull handles at the beltline", "M mirror on the door skin", "black sill trim with lower lip", "shoulder line fading into the quarter", "beltline rising to the rear"],
+            "rear": ["slim L shaped taillights wrapping into the quarter", "high deck with lip spoiler", "black diffuser with quad round tips"],
+            "wheels": ["staggered 19 front, 20 rear (Competition)", "M double spoke designs"],
+        },
+        "conflicts": conflicts,
+        "provenance_notes": [
+            "Only class A material feeds geometry or evidence: official specification numbers, fitment numbers, CC BY, CC BY SA and CC0 photographs, TapMart's own AI reconstructions.",
+            "Class B and C sources (commercial models, press photographs, parts diagrams, configurators, videos) were neither downloaded nor used; they are listed for completeness only.",
+            "Every reference carries creator, licence, licence version, source page and a SHA256 of the working copy. Overlays drawn on CC BY SA photographs are shared under the same licence.",
+            "The Commons API returned 429 for this container; images came through the Openverse index (which carries the Commons licence metadata) and the Wikimedia upload host at 1280 px.",
+            "AI hypotheses (Meshy semantic boundaries) enter the fit at 1 cm = 0.6 px, an order of magnitude below any photograph, and are labelled AI_HYPOTHESIS only where they agree with the fitted curve within 4 cm.",
+        ],
+    }
+    json.dump(pack, open(f"{PUB}/reference-pack.json", "w"), separators=(",", ":"))
+    json.dump(pack, open(f"{DOC}/reference-pack.json", "w"), indent=1)
+    # skeleton for the lab and the archive
+    json.dump(SK, open(f"{PUB}/skeleton.json", "w"), separators=(",", ":"))
+    json.dump(SK, open(f"{DOC}/skeleton1b.json", "w"), indent=1)
+    for v in [k for k, c in SK["cameras"].items() if c["kind"] == "syn"]:
+        src = f"{HERE}/out/overlays/{v}.jpg"; shutil.copy(src, f"{PUB}/overlays/{v}.jpg")
+        im = cv2.imread(src); cv2.imwrite(f"{PUB}/thumbs/{v}.jpg", cv2.resize(im, (632, 424), interpolation=cv2.INTER_AREA), [cv2.IMWRITE_JPEG_QUALITY, 82])
+    for f in ("harvest2.py", "thumbs.py", "refevidence.py", "fit1b.py", "refpack.py"):
+        shutil.copy(f"{HERE}/{f}", f"{DOC}/scripts/{f}.txt")
+    shutil.copy(f"{HERE}/meta/selection.json", f"{DOC}/selection.json")
+    if os.path.exists(f"{HERE}/out/fit1b.log"):
+        shutil.copy(f"{HERE}/out/fit1b.log", f"{DOC}/fit1b.log")
+    print("pack", len(refs), "references,", sum(1 for r in refs if r["used_for_fit"]), "fitted; coverage", {f: c["status"] for f, c in cov.items()})
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,143 @@
+{
+ "84": {
+  "role": "front",
+  "az": 0
+ },
+ "82": {
+  "role": "front",
+  "az": 0
+ },
+ "99": {
+  "role": "front",
+  "az": 0
+ },
+ "204": {
+  "role": "front",
+  "az": 0
+ },
+ "79": {
+  "role": "rear",
+  "az": 180
+ },
+ "108": {
+  "role": "rear",
+  "az": 180
+ },
+ "148": {
+  "role": "rear",
+  "az": 180
+ },
+ "23": {
+  "role": "rear",
+  "az": 180
+ },
+ "7": {
+  "role": "side",
+  "az": 80
+ },
+ "135": {
+  "role": "side_high",
+  "az": 85
+ },
+ "72": {
+  "role": "side",
+  "az": 275
+ },
+ "117": {
+  "role": "side",
+  "az": 265
+ },
+ "62": {
+  "role": "side",
+  "az": 280,
+  "variant": "LCI"
+ },
+ "20": {
+  "role": "front34",
+  "az": 40
+ },
+ "187": {
+  "role": "front34",
+  "az": 45
+ },
+ "33": {
+  "role": "front34",
+  "az": 35
+ },
+ "213": {
+  "role": "front34",
+  "az": 40
+ },
+ "132": {
+  "role": "front34",
+  "az": 320
+ },
+ "6": {
+  "role": "front34_high",
+  "az": 320
+ },
+ "165": {
+  "role": "front34",
+  "az": 320
+ },
+ "237": {
+  "role": "front34",
+  "az": 320
+ },
+ "3": {
+  "role": "rear34_high",
+  "az": 135
+ },
+ "61": {
+  "role": "rear34",
+  "az": 130
+ },
+ "126": {
+  "role": "rear34",
+  "az": 135
+ },
+ "68": {
+  "role": "rear34_high",
+  "az": 140
+ },
+ "22": {
+  "role": "rear34",
+  "az": 225
+ },
+ "158": {
+  "role": "rear34",
+  "az": 225
+ },
+ "280": {
+  "role": "rear34",
+  "az": 230
+ },
+ "88": {
+  "role": "rear34",
+  "az": 225
+ },
+ "188": {
+  "role": "rear34",
+  "az": 225
+ },
+ "56": {
+  "role": "detail_headlight",
+  "fit": false
+ },
+ "242": {
+  "role": "detail_taillight",
+  "fit": false
+ },
+ "73": {
+  "role": "detail_wheel",
+  "fit": false
+ },
+ "253": {
+  "role": "detail_gill",
+  "fit": false
+ },
+ "259": {
+  "role": "detail_exhaust",
+  "fit": false
+ }
+}

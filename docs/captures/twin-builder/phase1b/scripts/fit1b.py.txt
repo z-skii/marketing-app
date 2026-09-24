@@ -1,0 +1,726 @@
+"""Phase 1B joint fit: G80 reference pack evidence hierarchy.
+
+Tiers: trusted dimensions (hard constraints) > validated reference consensus (CC photographs of real G80s, each with
+its own camera) > synthetic capture multi view evidence > single view evidence > our two AI hypotheses (Meshy semantic
+boundaries as a weak 3D prior) > the generic sedan prior (connectivity and smoothness only).
+Reuses the Phase 1 model (curve network, sampling, sparsity) from skel/fit.py.
+"""
+import json, os, sys, math, time
+import numpy as np
+import cv2
+from scipy.optimize import least_squares
+from scipy.ndimage import map_coordinates
+from scipy.spatial import cKDTree
+from scipy.sparse import lil_matrix, csr_matrix
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "skel"))
+import prior
+import fit
+from fit import Model, subsample, swap_name, SWAP_SIDES, CAMS0, FILES, SRC, CY
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SKEL = os.path.join(HERE, "..", "skel")
+OUT = f"{HERE}/out"; os.makedirs(f"{OUT}/overlays", exist_ok=True)
+SYN_VIEWS = sorted(FILES)
+SEL = json.load(open(f"{HERE}/meta/selection.json"))
+def _iou(k):
+    return 1 - json.load(open(f"{HERE}/evidence/{int(k):03d}.json"))["camera_init"]["score"]
+REF_VIEWS = [k for k, v in SEL.items() if v.get("fit", True) and os.path.exists(f"{HERE}/evidence/{int(k):03d}.json") and _iou(k) >= float(os.environ.get("MIN_IOU", "0.78"))]
+TYRE_R, TYRE_HALF = 0.3385, 0.135
+GROUND_CLEARANCE = 0.12          # 275/35 R19 front and 285/30 R20 rear give 0.3375 and 0.3395 m
+T_REF, T_SYN = 1.4, 1.0                    # tier weights on data residuals
+W_A, W_B, W_S = 1.0, 0.5, 0.4
+W_WC, W_WH, W_WE = 2.0, 1.0, 0.8
+W_DIM, W_TIE, W_SMOOTH, W_PRIOR, W_MID = 2000.0, 2000.0, 120.0, 25.0, 2000.0
+W_AI = 60.0                                # 1 cm = 0.6 px: a hypothesis, never a measurement
+CAM_SCALE = {"az": 3.0, "el": 3.0, "dist": 0.3, "sx": 0.1, "sy": 0.1}
+FOV_SCALE = {"syn": 0.2, "ref": 8.0}
+B_MAXD, S_MAXD, AI_MAXD = 40.0, 30.0, 0.15
+F_WHEEL = 10.0
+DIM_CURVES = {"splitter", "diffuser", "grille_l", "rear_bumper_top", "arch_front_l", "arch_rear_l", "roof_crown"}
+AI_MAP = {"headlight_l": ("HEADLIGHT", 1), "headlight_r": ("HEADLIGHT", -1), "taillight_l": ("TAILLIGHT", 1), "taillight_r": ("TAILLIGHT", -1),
+          "grille_l": ("GRILLE", 1), "grille_r": ("GRILLE", -1), "mirror_l": ("MIRROR", 1), "mirror_r": ("MIRROR", -1),
+          "a_pillar_l": ("GLASS", 1), "a_pillar_r": ("GLASS", -1), "cowl": ("GLASS", 0), "roof_front": ("GLASS", 0), "roof_rear": ("GLASS", 0),
+          "rear_glass_base": ("GLASS", 0), "c_pillar_upper_l": ("GLASS", 1), "c_pillar_upper_r": ("GLASS", -1), "belt_door_front_l": ("GLASS", 1),
+          "belt_door_front_r": ("GLASS", -1), "belt_door_rear_l": ("GLASS", 1), "belt_door_rear_r": ("GLASS", -1), "bpillar_front_l": ("GLASS", 1),
+          "bpillar_front_r": ("GLASS", -1), "bpillar_rear_l": ("GLASS", 1), "bpillar_rear_r": ("GLASS", -1), "quarter_glass_l": ("GLASS", 1), "quarter_glass_r": ("GLASS", -1),
+          "rail_front_l": ("GLASS", 1), "rail_front_r": ("GLASS", -1), "rail_rear_l": ("GLASS", 1), "rail_rear_r": ("GLASS", -1), "c_pillar_lower_l": ("GLASS", 1), "c_pillar_lower_r": ("GLASS", -1)}
+
+
+class Camera:
+    def __init__(self, az, el, dist, sx, sy, fov, W, H):
+        a, e = math.radians(az), math.radians(el)
+        d = np.array([math.cos(e) * math.cos(a), math.sin(e), math.cos(e) * math.sin(a)])
+        t0 = np.array([0.0, CY, 0.0]); pos0 = t0 + d * dist
+        fwd = -d / np.linalg.norm(d)
+        right = np.cross(fwd, [0, 1, 0]); right /= np.linalg.norm(right)
+        up = np.cross(right, fwd)
+        shift = right * sx + up * sy
+        self.pos = pos0 + shift; self.target = t0 + shift; self.fwd, self.right, self.up = fwd, right, up
+        self.W, self.H = W, H
+        self.f = (H / 2) / math.tan(math.radians(fov) / 2); self.fov = fov
+        self.az, self.el, self.dist, self.sx, self.sy = az, el, dist, sx, sy
+
+    def project(self, X):
+        d = X - self.pos
+        zc = d @ self.fwd; xc = d @ self.right; yc = d @ self.up
+        zc = np.maximum(zc, 0.05)
+        return np.stack([self.W / 2 + self.f * xc / zc, self.H / 2 - self.f * yc / zc], 1)
+
+    def visible(self, X, N):
+        v = self.pos - X
+        v /= np.linalg.norm(v, axis=1, keepdims=True)
+        return np.einsum("ij,ij->i", v, N) > 0.2
+
+    def metres_per_px(self):
+        return self.dist * 2 * math.tan(math.radians(self.fov) / 2) / self.H
+
+
+def loop_instances(poly_name):
+    if poly_name.startswith("curve:"):
+        return [poly_name[6:]], False
+    return fit.loop_instances(poly_name)
+
+
+class Model1B(Model):
+    """Six camera parameters per view (field of view included); tyre radius is a constant of the chassis."""
+    def __init__(self, views_meta):
+        self.views_meta = views_meta
+        super().__init__()
+        self.cam_off = self.wheel_off + 3
+        self.n_params = self.cam_off + 6 * len(views_meta)
+        self.x0 = self.pack_initial()
+
+    def pack_initial(self):
+        self.cam_off = self.wheel_off + 3
+        self.n_params = self.cam_off + 6 * len(self.views_meta)
+        x = np.zeros(self.n_params)
+        for n in self.names:
+            so, nf = self.slots[n]
+            x[so:so + 3 * nf] = self.P0[n][:nf].ravel()
+        x[self.wheel_off] = self.wheels0["front"][0]; x[self.wheel_off + 1] = self.wheels0["rear"][0]; x[self.wheel_off + 2] = TYRE_R
+        for vi, vm in enumerate(self.views_meta):
+            c = vm["cam0"]
+            x[self.cam_off + 6 * vi:self.cam_off + 6 * vi + 6] = [c["az"], c["el"], c["dist"], c["sx"], c["sy"], c["fov"]]
+        return x
+
+    def wheel_centres(self, x):
+        xf, xr = x[self.wheel_off], x[self.wheel_off + 1]
+        d = prior.DIMS
+        return {"front_left": np.array([xf, TYRE_R, d["track_front"] / 2]), "front_right": np.array([xf, TYRE_R, -d["track_front"] / 2]),
+                "rear_left": np.array([xr, TYRE_R, d["track_rear"] / 2]), "rear_right": np.array([xr, TYRE_R, -d["track_rear"] / 2])}
+
+    def cam(self, x, vi):
+        o = self.cam_off + 6 * vi
+        vm = self.views_meta[vi]
+        return Camera(*x[o:o + 6], vm["W"], vm["H"])
+
+
+class ViewEvidence:
+    def __init__(self, model, vi, key, kind):
+        self.vi, self.key, self.kind = vi, key, kind
+        self.tier = T_SYN if kind == "syn" else T_REF
+        if kind == "syn":
+            ev = json.load(open(f"{SKEL}/evidence/{key}.json"))
+            self.W, self.H = 1264, 848
+            self.image = f"{SRC}/{FILES[key]}"
+            if key in SWAP_SIDES:
+                ev["parts"] = {swap_name(k): p for k, p in ev["parts"].items()}
+                ev["wheels"] = {swap_name(k): w for k, w in ev["wheels"].items()}
+            p0 = CAMS0[key]["params"]
+            self.cam0 = {"az": p0["az"], "el": p0["el"], "dist": p0["dist"], "sx": p0["sx"], "sy": p0["sy"], "fov": p0["fov"]}
+            self.label = f"{key} {FILES[key][3:-4]}"
+            self.provenance = {"kind": "synthetic capture", "file": FILES[key], "label": "CONTROLLED SYNTHETIC CAPTURE TEST"}
+        else:
+            ev = json.load(open(f"{HERE}/evidence/{int(key):03d}.json"))
+            self.W, self.H = ev["size"]
+            self.image = f"{HERE}/thumbs/{int(key):03d}.jpg"
+            self.cam0 = {k: ev["camera_init"][k] for k in ("az", "el", "dist", "sx", "sy", "fov")}
+            self.label = f"ref{int(key):03d} {SEL[key]['role']}"
+            self.provenance = ev["provenance"]
+        W, H = self.W, self.H
+        self.sil = subsample(ev["silhouette"], 7.0)
+        self.polys = {}
+        for name, part in ev["parts"].items():
+            insts, full = loop_instances(name)
+            if insts is None:
+                continue
+            insts = [i for i in insts if i in model.inst_index]
+            if not insts:
+                continue
+            pts = np.array(part["polyline"], float)
+            if len(pts) < 6:
+                continue
+            x0, y0 = np.floor(pts.min(0)).astype(int) - 90; x1, y1 = np.ceil(pts.max(0)).astype(int) + 90
+            x0, y0 = max(x0, 0), max(y0, 0); x1, y1 = min(x1, W), min(y1, H)
+            canvas = np.full((y1 - y0, x1 - x0), 255, np.uint8)
+            cv2.polylines(canvas, [np.round(pts - [x0, y0]).astype(np.int32)], bool(part.get("closed", True)), 0, 1)
+            dt = cv2.distanceTransform(canvas, cv2.DIST_L2, 5).astype(np.float32)
+            conf = 0.6 if part.get("method") == "polygon" else (0.8 if (kind == "ref" and part.get("method") == "grabcut") else 1.0)
+            self.polys[name] = {"insts": insts, "full": full, "pts": subsample(pts, 6.0), "dt": dt, "org": (x0, y0), "w": conf, "closed": part.get("closed", True), "base": name.split("#")[0]}
+        self.wheels = {}
+        straight = abs(math.sin(math.radians(self.cam0["az"]))) < 0.35
+        for k, w in ev["wheels"].items():
+            if straight:
+                continue
+            side = "left" if k.endswith("_left") else "right"; axle = "front" if "front" in k else "rear"
+            ww = dict(w); ww["contour_sub"] = subsample(np.array(w["contour"], float), 8.0) if w.get("contour") else None
+            self.wheels[f"{axle}_{side}"] = ww
+        kg = [n for n in self.polys if n.startswith("kidney_grille")]
+        self.grille_mode = "split" if len(kg) == 2 else ("union" if len(kg) == 1 else "none")
+
+    def dt_at(self, name, uv):
+        p = self.polys[name]; x0, y0 = p["org"]
+        c = np.stack([uv[:, 1] - y0, uv[:, 0] - x0])
+        return map_coordinates(p["dt"], c, order=1, mode="nearest")
+
+
+def seg_dist(P, A, B):
+    """Distance from points P (n,2) to segments A->B (m,2): returns (n,) min distance."""
+    AB = B - A; L2 = np.maximum((AB ** 2).sum(1), 1e-9)
+    t = ((P[:, None, :] - A[None]) * AB[None]).sum(2) / L2[None]
+    t = np.clip(t, 0, 1)
+    C = A[None] + t[..., None] * AB[None]
+    return np.sqrt(((P[:, None, :] - C) ** 2).sum(2)).min(1)
+
+
+def wheel_hull(cam, c, side_sign):
+    t = np.linspace(0, 2 * np.pi, 24, endpoint=False)
+    zs = [c[2] + side_sign * TYRE_HALF, c[2] - side_sign * TYRE_HALF]
+    ring = np.stack([np.concatenate([c[0] + TYRE_R * np.cos(t)] * 2), np.concatenate([c[1] + TYRE_R * np.sin(t)] * 2), np.concatenate([np.full(24, zs[0]), np.full(24, zs[1])])], 1)
+    uv = cam.project(ring)
+    hull = cv2.convexHull(uv.astype(np.float32))[:, 0, :]
+    return hull, uv
+
+
+class Problem:
+    def __init__(self, model, views, ai):
+        self.m = model; self.views = views; self.ai = ai
+        self.inst_samples = {inst: np.arange(o, o + n) for inst, (o, n) in model.samp_off.items()}
+        sil = []
+        for c in prior.SILHOUETTE_CURVES:
+            sil.append(c)
+            if c.endswith("_l"):
+                sil.append(c[:-2] + "_r")
+        self.sil_samples = np.concatenate([self.inst_samples[i] for i in sil])
+        self.ai_trees = {cls: cKDTree(np.array(ai[cls]["points"])) for cls in ai}
+
+    def build_correspondences(self, x):
+        m = self.m
+        X = m.samples(x); N = m.samp_normal
+        self.blocks = []
+        for ve in self.views:
+            cam = m.cam(x, ve.vi)
+            vis = cam.visible(X, N); uv = cam.project(X)
+            for name, p in ve.polys.items():
+                idx = np.concatenate([self.inst_samples[i] for i in p["insts"]])
+                full = p["full"]
+                if name.startswith("kidney_grille"):
+                    if ve.grille_mode == "split":
+                        gl = self.inst_samples["grille_l"]; gr = self.inst_samples["grille_r"]
+                        pu = p["pts"][:, 0].mean(); ul, ur = uv[gl][:, 0].mean(), uv[gr][:, 0].mean()
+                        idx = gl if abs(pu - ul) <= abs(pu - ur) else gr; full = True
+                    else:
+                        full = False
+                vi_idx = idx[vis[idx]]
+                if name.startswith("kidney_grille") and ve.grille_mode == "union":
+                    vi_idx = vi_idx[np.abs(X[vi_idx][:, 2]) > 0.25]
+                if len(vi_idx) == 0:
+                    continue
+                self.blocks.append({"type": "A", "view": ve, "name": name, "idx": vi_idx, "w": W_A * p["w"] * ve.tier})
+                if full or (name.startswith("kidney_grille") and ve.grille_mode == "union") or not p["closed"]:
+                    tree = cKDTree(uv[vi_idx]); d, j = tree.query(p["pts"])
+                    ok = d < B_MAXD
+                    if ok.sum() >= 3:
+                        self.blocks.append({"type": "B", "view": ve, "name": name, "idx": vi_idx[j[ok]], "pts": p["pts"][ok], "w": W_B * p["w"] * ve.tier})
+            sidx = self.sil_samples[vis[self.sil_samples]]
+            if len(sidx):
+                tree = cKDTree(uv[sidx]); d, j = tree.query(ve.sil)
+                ok = d < S_MAXD
+                if ok.sum() >= 3:
+                    self.blocks.append({"type": "S", "view": ve, "idx": sidx[j[ok]], "pts": ve.sil[ok], "w": W_S * ve.tier})
+        # AI hypothesis correspondences (3D)
+        self.ai_blocks = []
+        for inst, (cls, sign) in AI_MAP.items():
+            if cls not in self.ai_trees or inst not in m.inst_index:
+                continue
+            idx = self.inst_samples[inst]
+            P = X[idx]
+            d, j = self.ai_trees[cls].query(P)
+            pts = np.array(self.ai[cls]["points"])[j]
+            ok = d < AI_MAXD
+            if sign != 0:
+                ok &= np.sign(pts[:, 2]) == sign
+            if ok.sum() >= 3:
+                self.ai_blocks.append({"inst": inst, "idx": idx[ok], "pts": pts[ok]})
+        n = 0; self.layout = []
+        for b in self.blocks:
+            k = len(b["idx"]) * (1 if b["type"] == "A" else 2)
+            self.layout.append((n, k)); n += k
+        self.n_data = n
+        self.wheel_blocks = []
+        for ve in self.views:
+            for key, w in ve.wheels.items():
+                nc = len(w["contour_sub"]) if w["contour_sub"] is not None else 0
+                self.wheel_blocks.append((ve, key, w, nc)); n += 2 + 48 + nc
+        self.n_wheel = n - self.n_data
+        self.ai_off = n
+        for b in self.ai_blocks:
+            n += 3 * len(b["idx"])
+        self.n_dims = 6; n += self.n_dims
+        self.floor_cols = [c for c in range(1, m.n_curve_params, 3)]   # every y coordinate of the curve control points
+        n += len(self.floor_cols)
+        self.ties = self.find_ties(); n += 3 * len(self.ties)
+        self.mid = [(name, (len(m.P0[name]) + 1) // 2 - 1) for name in m.centre if len(m.P0[name]) % 2 == 1]; n += len(self.mid)
+        self.smooth = [(name, i) for name in m.names for i in range(1, len(m.P0[name]) - 1) if name.endswith("_l") or i + 1 < (len(m.P0[name]) + 1) // 2]
+        n += 3 * len(self.smooth)
+        n += m.n_curve_params
+        n += 6 * len(self.views)
+        self.n_res = n
+        self.build_sparsity()
+
+    def find_ties(self):
+        m = self.m; pts = {}
+        for name in m.names:
+            so, nf = m.slots[name]
+            for i in range(nf):
+                pts.setdefault(tuple(np.round(m.P0[name][i], 4)), []).append(so + 3 * i)
+        return [(a, b) for lst in pts.values() for a, b in zip(lst[:-1], lst[1:])]
+
+    def dim_columns(self):
+        m = self.m
+        def col(name, i, c):
+            so, nf = m.slots[name]; return so + 3 * i + c
+        return [[col("splitter", 0, 0), col("diffuser", 0, 0), col("grille_l", 2, 0), col("rear_bumper_top", 0, 0)],
+                [col("arch_front_l", 4, 2), col("arch_rear_l", 4, 2)], [col("roof_crown", 3, 1)], [m.wheel_off, m.wheel_off + 1],
+                [col("arch_front_l", 4, 0), col("arch_rear_l", 4, 0), m.wheel_off, m.wheel_off + 1], [m.wheel_off + 2]]
+
+    def build_sparsity(self):
+        m = self.m
+        J = lil_matrix((self.n_res, m.n_params), dtype=np.int8)
+        r = 0
+        for b, (o, k) in zip(self.blocks, self.layout):
+            cam_cols = np.arange(m.cam_off + 6 * b["view"].vi, m.cam_off + 6 * b["view"].vi + 6)
+            per = 1 if b["type"] == "A" else 2
+            for t, s in enumerate(b["idx"]):
+                cols = np.concatenate([m.samp_cols[s], cam_cols])
+                for q in range(per):
+                    J[r + per * t + q, cols] = 1
+            r += k
+        for ve, key, w, nc in self.wheel_blocks:
+            cam_cols = np.arange(m.cam_off + 6 * ve.vi, m.cam_off + 6 * ve.vi + 6)
+            cols = np.r_[cam_cols, m.wheel_off + (0 if key.startswith("front") else 1), m.wheel_off + 2]
+            for q in range(2 + 48 + nc):
+                J[r + q, cols] = 1
+            r += 2 + 48 + nc
+        for b in self.ai_blocks:
+            for s in b["idx"]:
+                for q in range(3):
+                    J[r + q, m.samp_cols[s]] = 1
+                r += 3
+        for cols in self.dim_columns():
+            J[r, cols] = 1; r += 1
+        for c in self.floor_cols:
+            J[r, c] = 1; r += 1
+        for a, b in self.ties:
+            for q in range(3):
+                J[r, [a + q, b + q]] = 1; r += 1
+        for name, i in self.mid:
+            so, nf = m.slots[name]; J[r, so + 3 * i + 2] = 1; r += 1
+        for name, i in self.smooth:
+            so, nf = m.slots[name]
+            for q in range(3):
+                J[r, [so + 3 * (i - 1) + q, so + 3 * i + q, so + 3 * (i + 1) + q]] = 1; r += 1
+        for c in range(m.n_curve_params):
+            J[r, c] = 1; r += 1
+        for ve in self.views:
+            for q in range(6):
+                J[r, m.cam_off + 6 * ve.vi + q] = 1; r += 1
+        assert r == self.n_res, (r, self.n_res)
+        self.J = csr_matrix(J)
+
+    def dim_values(self, x):
+        m = self.m
+        P = lambda n: m.full_control(x, n)
+        length = max(P("splitter")[0, 0], P("grille_l")[2, 0]) - min(P("diffuser")[0, 0], P("rear_bumper_top")[0, 0])
+        width = P("arch_front_l")[4, 2] + P("arch_rear_l")[4, 2]
+        height = P("roof_crown")[3, 1]
+        wb = x[m.wheel_off] - x[m.wheel_off + 1]
+        return float(length), float(width), float(height), float(wb)
+
+    def update_weights(self, x, f):
+        self.rw = None
+        r = self.residuals(x, weighted=False)
+        w = np.ones(self.n_res)
+        nd, nw = self.n_data, self.n_wheel
+        w[:nd] = 1 / np.sqrt(1 + (r[:nd] / f) ** 2)
+        w[nd:nd + nw] = 1 / np.sqrt(1 + (r[nd:nd + nw] / max(f, F_WHEEL)) ** 2)
+        self.rw = w
+
+    def residuals(self, x, weighted=True):
+        m = self.m
+        X = m.samples(x)
+        r = np.zeros(self.n_res)
+        cams = {}
+        for b, (o, n) in zip(self.blocks, self.layout):
+            ve = b["view"]
+            if ve.vi not in cams:
+                cams[ve.vi] = m.cam(x, ve.vi)
+            cam = cams[ve.vi]
+            uv = cam.project(X[b["idx"]])
+            if b["type"] == "A":
+                r[o:o + n] = ve.dt_at(b["name"], uv) * b["w"]
+            else:
+                r[o:o + n] = ((uv - b["pts"]) * b["w"]).ravel()
+        k = self.n_data
+        wc = m.wheel_centres(x)
+        for ve, key, w, nc in self.wheel_blocks:
+            cam = cams.get(ve.vi) or m.cam(x, ve.vi)
+            c = wc[key]; sign = 1.0 if key.endswith("left") else -1.0
+            side_on = abs(math.sin(math.radians(cam.az))) > 0.9
+            zs = c[2] + sign * TYRE_HALF
+            uvc = cam.project(np.array([[c[0], c[1], zs]]))[0]
+            face = ve.kind == "ref"       # reference wheel evidence is the tyre face ellipse; synthetic evidence is the whole outline
+            r[k:k + 2] = (uvc - [w["cx"], w["cy"]]) * (W_WC if (side_on or face) else 0.0) * ve.tier; k += 2
+            hull, ring_uv = wheel_hull(cam, c, sign)
+            ang = math.radians(w["angle"]); ca, sa = math.cos(ang), math.sin(ang)
+            dx = ring_uv[:, 0] - w["cx"]; dy = ring_uv[:, 1] - w["cy"]
+            u = (dx * ca + dy * sa) / w["axes"][0]; v = (-dx * sa + dy * ca) / w["axes"][1]
+            rho = np.hypot(u, v)
+            if face:
+                r[k:k + 48] = np.r_[(rho[:24] - 1) * math.sqrt(w["axes"][0] * w["axes"][1]), np.zeros(24)] * W_WE * ve.tier; k += 48
+                if nc:
+                    r[k:k + nc] = 0.0; k += nc
+            else:
+                # only the outer part of the projected cylinder lies on the tyre outline: keep the ring points on the hull
+                onhull = seg_dist(ring_uv, hull, np.roll(hull, -1, axis=0)) < 1.0
+                r[k:k + 48] = np.where(onhull, (rho - 1) * math.sqrt(w["axes"][0] * w["axes"][1]), 0.0) * W_WE * ve.tier; k += 48
+                if nc:
+                    r[k:k + nc] = seg_dist(w["contour_sub"], hull, np.roll(hull, -1, axis=0)) * W_WH * ve.tier; k += nc
+        for b in self.ai_blocks:
+            n3 = 3 * len(b["idx"])
+            r[k:k + n3] = ((X[b["idx"]] - b["pts"]) * W_AI).ravel(); k += n3
+        d = prior.DIMS
+        length, width, height, wb = self.dim_values(x)
+        r[k] = (length - d["length"]) * W_DIM; r[k + 1] = (width - d["width"]) * W_DIM; r[k + 2] = (height - d["height"]) * W_DIM
+        r[k + 3] = (wb - d["wheelbase"]) * W_DIM * 50
+        Pf = m.full_control(x, "arch_front_l"); Pr = m.full_control(x, "arch_rear_l")
+        r[k + 4] = ((Pf[4, 0] - x[m.wheel_off]) + (Pr[4, 0] - x[m.wheel_off + 1])) * W_DIM
+        r[k + 5] = (x[m.wheel_off + 2] - TYRE_R) * 20000.0
+        k += 6
+        # ground clearance (official 120 mm): no body curve control point below it
+        ys = x[self.floor_cols]
+        r[k:k + len(self.floor_cols)] = np.maximum(0.0, GROUND_CLEARANCE + 0.01 - ys) * W_DIM; k += len(self.floor_cols)
+        for a, b in self.ties:
+            r[k:k + 3] = (x[a:a + 3] - x[b:b + 3]) * W_TIE; k += 3
+        for name, i in self.mid:
+            so, nf = m.slots[name]; r[k] = x[so + 3 * i + 2] * W_MID; k += 1
+        for name, i in self.smooth:
+            so, nf = m.slots[name]
+            p = x[so + 3 * (i - 1):so + 3 * (i + 2)].reshape(3, 3); p0 = m.P0[name][i - 1:i + 2]
+            r[k:k + 3] = ((p[0] - 2 * p[1] + p[2]) - (p0[0] - 2 * p0[1] + p0[2])) * W_SMOOTH; k += 3
+        r[k:k + m.n_curve_params] = (x[:m.n_curve_params] - m.x0[:m.n_curve_params]) * W_PRIOR; k += m.n_curve_params
+        for ve in self.views:
+            o = m.cam_off + 6 * ve.vi
+            c0 = m.x0[o:o + 6]; c1 = x[o:o + 6]
+            sc = np.array([CAM_SCALE[q] for q in ("az", "el", "dist", "sx", "sy")] + [FOV_SCALE[ve.kind]])
+            r[k:k + 6] = (c1 - c0) / sc * 10; k += 6
+        assert k == self.n_res
+        if weighted and getattr(self, "rw", None) is not None:
+            r = r * self.rw
+        return r
+
+    def solve(self, x, free_mask, max_nfev=15):
+        idx = np.nonzero(free_mask)[0]
+        full = x.copy()
+        def fun(z):
+            full[idx] = z
+            return self.residuals(full)
+        res = least_squares(fun, x[idx], jac="2-point", jac_sparsity=self.J[:, idx], loss="linear", max_nfev=max_nfev, tr_solver="lsmr", x_scale="jac")
+        full[idx] = res.x
+        return full, res
+
+
+# ---------------------------------------------------------------- evaluation
+def evaluate(model, prob, x):
+    X = model.samples(x)
+    per = {inst: {"ref": {}, "syn": {}} for inst, _, _ in model.instances}
+    for b, (o, n) in zip(prob.blocks, prob.layout):
+        if b["type"] != "A":
+            continue
+        ve = b["view"]; cam = model.cam(x, ve.vi)
+        uv = cam.project(X[b["idx"]]); d = ve.dt_at(b["name"], uv)
+        scale = 1264.0 / ve.W                      # errors compared at the 1264 px working width
+        for inst, _, _ in model.instances:
+            so, m = model.samp_off[inst]
+            sel = (b["idx"] >= so) & (b["idx"] < so + m)
+            if sel.sum() >= 3:
+                e = d[sel] * scale
+                per[inst][ve.kind].setdefault(ve.key, []).append((float(e.mean()), float((e < 12).mean()), int(sel.sum()), b["name"], float(e.mean() / scale * cam.metres_per_px() * 1000)))
+    ai_agree = {}
+    for b in prob.ai_blocks:
+        dd = np.linalg.norm(X[b["idx"]] - b["pts"], axis=1)
+        ai_agree[b["inst"]] = float(dd.mean())
+    summary = {}
+    for inst, base, side in model.instances:
+        rec = {}
+        for kind in ("ref", "syn"):
+            views = per[inst][kind]
+            if not views:
+                rec[kind] = {"views": 0, "error_px": None, "error_mm": None, "coverage": None, "detail": {}}
+                continue
+            errs, covs, mms, detail = [], [], [], {}
+            for v, lst in views.items():
+                tot = sum(l[2] for l in lst)
+                e = sum(l[0] * l[2] for l in lst) / tot; c = sum(l[1] * l[2] for l in lst) / tot; mm = sum(l[4] * l[2] for l in lst) / tot
+                errs.append(e); covs.append(c); mms.append(mm); detail[v] = {"error_px": round(e, 2), "error_mm": round(mm, 1), "coverage": round(c, 2), "polygons": sorted(set(l[3] for l in lst))}
+            rec[kind] = {"views": len(views), "error_px": round(float(np.mean(errs)), 2), "error_mm": round(float(np.mean(mms)), 1), "coverage": round(float(np.mean(covs)), 2), "detail": detail,
+                         "good_views": int(sum(1 for e, c in zip(errs, covs) if e <= 8 and c >= 0.6))}
+        labels = []
+        r, s = rec["ref"], rec["syn"]
+        ref_ok = r["views"] >= 2 and r["error_px"] is not None and r["error_px"] <= 6.5 and r["coverage"] >= 0.55 or (r["views"] == 1 and r["error_px"] is not None and r["error_px"] <= 4 and r["coverage"] >= 0.7)
+        syn_ok = s["views"] >= 2 and s["error_px"] is not None and s["error_px"] <= 8 and s["coverage"] >= 0.55
+        if ref_ok:
+            labels.append("REFERENCE_CONFIRMED")
+        if syn_ok:
+            labels.append("MEASURED_FROM_CAPTURE")
+        if base in DIM_CURVES:
+            labels.append("DIMENSION_CONSTRAINED")
+        if side == "r" or side == "c":
+            labels.append("SYMMETRY_DERIVED")
+        if inst in ai_agree and ai_agree[inst] <= 0.04:
+            labels.append("AI_HYPOTHESIS")
+        has_evidence = r["views"] > 0 or s["views"] > 0
+        if not has_evidence:
+            labels.append("GENERIC_PRIOR")
+        def tier_conf(t):
+            if t["views"] == 0 or t["error_px"] is None:
+                return 0.0
+            return float(np.clip(1 - t["error_px"] / 12.0, 0, 1) * min(1.0, t["views"] / 2.0) * t["coverage"])
+        conf = max(tier_conf(r), tier_conf(s))
+        if ref_ok and syn_ok:
+            conf = min(1.0, conf + 0.1)
+        if not has_evidence:
+            conf = 0.3 if inst in ai_agree and ai_agree[inst] <= 0.04 else 0.15
+        # Phase 1 style status for the comparison, over all views
+        allv = {**{("ref", k): v for k, v in per[inst]["ref"].items()}, **{("syn", k): v for k, v in per[inst]["syn"].items()}}
+        if not allv:
+            p1 = "prior"
+        else:
+            errs = []; covs = []; good = 0
+            for lst in allv.values():
+                tot = sum(l[2] for l in lst); e = sum(l[0] * l[2] for l in lst) / tot; c = sum(l[1] * l[2] for l in lst) / tot
+                errs.append(e); covs.append(c); good += 1 if (e <= 8 and c >= 0.6) else 0
+            me, mc = float(np.mean(errs)), float(np.mean(covs))
+            p1 = "recovered" if (good >= 2 and me <= 9 and mc >= 0.55) else ("partial" if (good >= 1 and me <= 14) else "uncertain")
+        status = "reference_confirmed" if ref_ok else ("measured" if syn_ok else ("partial" if p1 == "partial" or (has_evidence and p1 == "recovered") else ("uncertain" if has_evidence else "prior")))
+        allerr = [t["error_px"] for t in (r, s) if t["error_px"] is not None]
+        allmm = [t["error_mm"] for t in (r, s) if t["error_mm"] is not None]
+        summary[inst] = {"status": status, "phase1_status": p1, "labels": labels, "confidence": round(conf, 2), "ref": r, "syn": s,
+                         "error_px": round(float(np.mean(allerr)), 2) if allerr else None, "error_mm": round(float(np.mean(allmm)), 1) if allmm else None,
+                         "views": r["views"] + s["views"], "coverage": round(float(np.mean([t["coverage"] for t in (r, s) if t["coverage"] is not None])), 2) if allerr else None,
+                         "ai_agreement_mm": round(ai_agree[inst] * 1000, 1) if inst in ai_agree else None, "detail": {**{f"ref{int(k):03d}": v for k, v in r["detail"].items()}, **s["detail"]}}
+    # wheels
+    wc = model.wheel_centres(x); wheel_err = []
+    for ve, key, w, nc in prob.wheel_blocks:
+        cam = model.cam(x, ve.vi); c = wc[key]; sign = 1.0 if key.endswith("left") else -1.0
+        hull, ring_uv = wheel_hull(cam, c, sign)
+        mpp = cam.metres_per_px()
+        rec = {"view": ve.key if ve.kind == "syn" else f"ref{int(ve.key):03d}", "kind": ve.kind, "wheel": key}
+        if ve.kind == "ref":
+            uvf = cam.project(np.array([[c[0], c[1], c[2] + sign * TYRE_HALF]]))[0]
+            ang = math.radians(w["angle"]); ca, sa = math.cos(ang), math.sin(ang)
+            dx = ring_uv[:24, 0] - w["cx"]; dy = ring_uv[:24, 1] - w["cy"]
+            rho = np.hypot((dx * ca + dy * sa) / w["axes"][0], (-dx * sa + dy * ca) / w["axes"][1])
+            rr_face = np.hypot(ring_uv[:24, 0] - ring_uv[:24, 0].mean(), ring_uv[:24, 1] - ring_uv[:24, 1].mean()).mean()
+            e = float(np.hypot(uvf[0] - w["cx"], uvf[1] - w["cy"]))
+            rec.update({"outline_rms_px": round(float(np.sqrt(((rho - 1) ** 2).mean()) * rr_face), 2), "outline_rms_mm": round(float(np.sqrt(((rho - 1) ** 2).mean()) * rr_face * mpp * 1000), 1),
+                        "centre_error_px": round(e, 1), "centre_error_mm": round(e * mpp * 1000, 1), "ellipse_centre_delta_px": round(e, 1),
+                        "projected": [round(float(uvf[0]), 1), round(float(uvf[1]), 1)], "evidence": [round(w["cx"], 1), round(w["cy"], 1)],
+                        "radius_ratio": round(float(math.sqrt(w["axes"][0] * w["axes"][1]) / rr_face), 3)})
+            wheel_err.append(rec); continue
+        if nc:
+            P = w["contour_sub"]
+            d0 = seg_dist(P, hull, np.roll(hull, -1, axis=0))
+            # tread aware centre error: the shift of the projected tyre outline that best matches the evidence contour
+            best = (d0.mean(), 0.0, 0.0)
+            for dx in np.arange(-24, 25, 2.0):
+                for dy in np.arange(-24, 25, 2.0):
+                    hh = hull + [dx, dy]
+                    dd = seg_dist(P, hh, np.roll(hh, -1, axis=0)).mean()
+                    if dd < best[0]:
+                        best = (dd, dx, dy)
+            rec.update({"outline_rms_px": round(float(np.sqrt((d0 ** 2).mean())), 2), "outline_rms_mm": round(float(np.sqrt((d0 ** 2).mean()) * mpp * 1000), 1),
+                        "centre_error_px": round(float(np.hypot(best[1], best[2])), 1), "centre_error_mm": round(float(np.hypot(best[1], best[2]) * mpp * 1000), 1)})
+        uvc = cam.project(np.array([[c[0], c[1], c[2] + sign * TYRE_HALF]]))[0]
+        rec["ellipse_centre_delta_px"] = round(float(np.hypot(uvc[0] - w["cx"], uvc[1] - w["cy"])), 1)
+        rec["projected"] = [round(float(uvc[0]), 1), round(float(uvc[1]), 1)]; rec["evidence"] = [round(w["cx"], 1), round(w["cy"], 1)]
+        # radius check: evidence ellipse mean radius against the projected outline mean radius
+        rr = np.hypot(hull[:, 0] - hull[:, 0].mean(), hull[:, 1] - hull[:, 1].mean()).mean()
+        rec["radius_ratio"] = round(float(math.sqrt(w["axes"][0] * w["axes"][1]) / rr), 3)
+        wheel_err.append(rec)
+    length, width, height, wb = prob.dim_values(x); d = prior.DIMS
+    dims = {"length": {"fitted": round(length, 4), "official": d["length"], "error_mm": round((length - d["length"]) * 1000, 1)},
+            "width": {"fitted": round(width, 4), "official": d["width"], "error_mm": round((width - d["width"]) * 1000, 1)},
+            "height": {"fitted": round(height, 4), "official": d["height"], "error_mm": round((height - d["height"]) * 1000, 1)},
+            "wheelbase": {"fitted": round(wb, 4), "official": d["wheelbase"], "error_mm": round((wb - d["wheelbase"]) * 1000, 1)},
+            "tyre_radius": {"fitted": round(float(x[model.wheel_off + 2]), 4), "official": TYRE_R, "error_mm": round((float(x[model.wheel_off + 2]) - TYRE_R) * 1000, 1)},
+            "track_front": {"fitted": d["track_front"], "official": d["track_front"], "error_mm": 0.0}, "track_rear": {"fitted": d["track_rear"], "official": d["track_rear"], "error_mm": 0.0}}
+    return summary, wheel_err, dims
+
+
+COLOURS = {"reference_confirmed": (90, 220, 90), "measured": (200, 220, 60), "partial": (60, 200, 255), "uncertain": (60, 60, 255), "prior": (200, 160, 60)}
+
+
+def draw_overlays(model, x, summary, views, wheel_err):
+    X = model.samples(x); N = model.samp_normal
+    for ve in views:
+        img = cv2.imread(ve.image)
+        if ve.kind == "syn":
+            img = cv2.resize(img, (1264, 848), interpolation=cv2.INTER_AREA)
+        cam = model.cam(x, ve.vi); uv = cam.project(X); vis = cam.visible(X, N)
+        over = img.copy()
+        for inst, base, side in model.instances:
+            o, m = model.samp_off[inst]
+            pts = uv[o:o + m]; vv = vis[o:o + m]
+            n = m if model.closed[base] else m - 1
+            for j in range(n):
+                a, b = j, (j + 1) % m
+                if not (vv[a] and vv[b]):
+                    cv2.line(over, tuple(np.round(pts[a]).astype(int)), tuple(np.round(pts[b]).astype(int)), (120, 120, 120), 1, cv2.LINE_AA)
+        img = cv2.addWeighted(over, 0.35, img, 0.65, 0)
+        for inst, base, side in model.instances:
+            o, m = model.samp_off[inst]
+            pts = uv[o:o + m]; vv = vis[o:o + m]
+            col = COLOURS[summary[inst]["status"]]
+            n = m if model.closed[base] else m - 1
+            for j in range(n):
+                a, b = j, (j + 1) % m
+                if vv[a] and vv[b]:
+                    cv2.line(img, tuple(np.round(pts[a]).astype(int)), tuple(np.round(pts[b]).astype(int)), col, 2, cv2.LINE_AA)
+        wc = model.wheel_centres(x)
+        for key, c in wc.items():
+            sign = 1.0 if key.endswith("left") else -1.0
+            if not cam.visible(c[None], np.array([[0, 0, sign]]))[0]:
+                continue
+            hull, _ = wheel_hull(cam, c, sign)
+            cv2.polylines(img, [np.round(hull).astype(np.int32)], True, (255, 220, 40), 2, cv2.LINE_AA)
+            cu = cam.project(np.array([[c[0], c[1], c[2] + sign * TYRE_HALF]]))[0]
+            cv2.drawMarker(img, tuple(np.round(cu).astype(int)), (255, 220, 40), cv2.MARKER_CROSS, 18, 2, cv2.LINE_AA)
+        tag = ve.label
+        cv2.rectangle(img, (10, 10), (min(img.shape[1] - 10, 700), 44), (20, 20, 20), -1)
+        cv2.putText(img, f"{tag}  green ref confirmed  yellow measured  orange partial  red uncertain  blue prior", (18, 33), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (235, 235, 235), 1, cv2.LINE_AA)
+        if ve.kind == "ref":
+            p = ve.provenance
+            attribution = f"{p.get('creator')}, CC {p.get('license', '').upper()} {p.get('license_version', '')} via {p.get('source')}; overlay shares the licence"
+            cv2.rectangle(img, (10, img.shape[0] - 34), (min(img.shape[1] - 10, 20 + 8 * len(attribution)), img.shape[0] - 8), (20, 20, 20), -1)
+            cv2.putText(img, attribution, (18, img.shape[0] - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (235, 235, 235), 1, cv2.LINE_AA)
+        name = ve.key if ve.kind == "syn" else f"ref{int(ve.key):03d}"
+        cv2.imwrite(f"{OUT}/overlays/{name}.jpg", img, [cv2.IMWRITE_JPEG_QUALITY, 86])
+
+
+def export(model, prob, x, summary, wheel_err, dims, views, before):
+    X = model.samples(x)
+    curves = []
+    for inst, base, side in model.instances:
+        o, m = model.samp_off[inst]
+        s = summary[inst]
+        curves.append({"name": inst, "base": base, "side": side, "closed": model.closed[base], "status": s["status"], "phase1_status": s["phase1_status"], "labels": s["labels"],
+                       "confidence": s["confidence"], "error_px": s["error_px"], "error_mm": s["error_mm"], "coverage": s["coverage"], "views": s["views"],
+                       "ref_views": s["ref"]["views"], "ref_error_px": s["ref"]["error_px"], "syn_views": s["syn"]["views"], "syn_error_px": s["syn"]["error_px"],
+                       "ai_agreement_mm": s["ai_agreement_mm"], "control": np.round(model.full_control(x, inst), 4).tolist(), "samples": np.round(X[o:o + m], 4).tolist(), "detail": s["detail"]})
+    wc = model.wheel_centres(x)
+    wheels = {k: {"centre": np.round(v, 4).tolist(), "tyre_r": TYRE_R, "rim_r": prior.DIMS["rim_r_front"] if k.startswith("front") else prior.DIMS["rim_r_rear"]} for k, v in wc.items()}
+    cams = {}
+    for ve in views:
+        c = model.cam(x, ve.vi); name = ve.key if ve.kind == "syn" else f"ref{int(ve.key):03d}"
+        cams[name] = {"kind": ve.kind, "label": ve.label, "az": round(c.az % 360, 3), "el": round(c.el, 3), "dist": round(c.dist, 3), "sx": round(c.sx, 4), "sy": round(c.sy, 4), "fov": round(c.fov, 3),
+                      "size": [ve.W, ve.H], "position": np.round(c.pos, 4).tolist(), "target": np.round(c.target, 4).tolist(), "initial": ve.cam0, "provenance": ve.provenance,
+                      "image": (f"/captures/ai-g80-controlled/views/{ve.key}.jpg" if ve.kind == "syn" else f"/labs/twin-builder/reference/{int(ve.key):03d}.jpg")}
+    groups = {}
+    for g, lst in prior.REPORT_GROUPS.items():
+        insts = []
+        for c in lst:
+            if c.startswith("wheel_"):
+                continue
+            insts.append(c)
+            if c.endswith("_l"):
+                insts.append(c[:-2] + "_r")
+        st = [summary[i]["status"] for i in insts if i in summary]
+        errs = [summary[i]["error_px"] for i in insts if i in summary and summary[i]["error_px"] is not None]
+        groups[g] = {"curves": insts, "statuses": st, "error_px": round(float(np.mean(errs)), 2) if errs else None}
+    counts = {s: sum(1 for c in curves if c["status"] == s) for s in ("reference_confirmed", "measured", "partial", "uncertain", "prior")}
+    p1counts = {s: sum(1 for c in curves if c["phase1_status"] == s) for s in ("recovered", "partial", "uncertain", "prior")}
+    label_counts = {}
+    for c in curves:
+        for l in c["labels"]:
+            label_counts[l] = label_counts.get(l, 0) + 1
+    we = [w for w in wheel_err if "centre_error_px" in w]
+    wr = [w for w in we if w["kind"] == "ref"]; wsn = [w for w in we if w["kind"] == "syn"]
+    out = {"label": "CONTROLLED SYNTHETIC CAPTURE TEST plus CC licensed real G80 references", "phase": "1B", "frame": "x forward (nose +x), y up (ground 0), z driver side (+z), metres",
+           "dims": dims, "wheels": wheels, "wheel_errors": wheel_err,
+           "wheel_summary": {"n": len(we), "centre_error_mm_mean": round(float(np.mean([w["centre_error_mm"] for w in we])), 1) if we else None,
+                             "centre_error_mm_median": round(float(np.median([w["centre_error_mm"] for w in we])), 1) if we else None,
+                             "centre_error_mm_max": round(float(np.max([w["centre_error_mm"] for w in we])), 1) if we else None,
+                             "outline_rms_mm_mean": round(float(np.mean([w["outline_rms_mm"] for w in we])), 1) if we else None,
+                             "ref": {"n": len(wr), "centre_error_mm_mean": round(float(np.mean([w["centre_error_mm"] for w in wr])), 1) if wr else None, "centre_error_mm_median": round(float(np.median([w["centre_error_mm"] for w in wr])), 1) if wr else None, "centre_error_mm_max": round(float(np.max([w["centre_error_mm"] for w in wr])), 1) if wr else None},
+                             "syn": {"n": len(wsn), "centre_error_mm_mean": round(float(np.mean([w["centre_error_mm"] for w in wsn])), 1) if wsn else None, "centre_error_mm_median": round(float(np.median([w["centre_error_mm"] for w in wsn])), 1) if wsn else None, "centre_error_mm_max": round(float(np.max([w["centre_error_mm"] for w in wsn])), 1) if wsn else None},
+                             "radius_ratio_mean": round(float(np.mean([w["radius_ratio"] for w in wheel_err])), 3) if wheel_err else None,
+                             "radius_ratio_ref": round(float(np.mean([w["radius_ratio"] for w in wheel_err if w["kind"] == "ref"])), 3) if any(w["kind"] == "ref" for w in wheel_err) else None,
+                             "radius_ratio_syn": round(float(np.mean([w["radius_ratio"] for w in wheel_err if w["kind"] == "syn"])), 3) if any(w["kind"] == "syn" for w in wheel_err) else None},
+           "cameras": cams, "curves": curves, "groups": groups, "status_counts": counts, "phase1_status_counts": p1counts, "label_counts": label_counts,
+           "comparison": {"phase1": before}}
+    json.dump(out, open(f"{OUT}/skeleton1b.json", "w"))
+    return out
+
+
+def main():
+    t0 = time.time()
+    views_meta = []
+    keys = [(k, "syn") for k in SYN_VIEWS] + [(k, "ref") for k in REF_VIEWS]
+    tmp_model = Model()
+    views = []
+    for vi, (k, kind) in enumerate(keys):
+        ve = ViewEvidence(tmp_model, vi, k, kind); views.append(ve)
+        views_meta.append({"cam0": ve.cam0, "W": ve.W, "H": ve.H})
+    model = Model1B(views_meta)
+    ai = json.load(open(f"{HERE}/ai/meshy-boundaries.json"))
+    prob = Problem(model, views, ai)
+    x = model.x0.copy()
+    print("views", len(views), "(syn", len(SYN_VIEWS), "ref", len(REF_VIEWS), ") params", model.n_params, "polys", sum(len(v.polys) for v in views), flush=True)
+    cam_mask = np.zeros(model.n_params, bool); cam_mask[model.cam_off:] = True
+    wheel_mask = np.zeros(model.n_params, bool); wheel_mask[model.wheel_off:model.wheel_off + 2] = True
+    all_mask = np.ones(model.n_params, bool)
+    stages = [("cameras+wheels", cam_mask | wheel_mask, 12, 40.0), ("cameras+wheels 2", cam_mask | wheel_mask, 12, 25.0)]
+    stages += [(f"joint {i+1}", all_mask, 15, f) for i, f in enumerate([30, 22, 16, 12, 9, 7, 6, 6, 6, 6, 6])]
+    for name, mask, nfev, f in stages:
+        prob.build_correspondences(x); prob.update_weights(x, f)
+        r0 = prob.residuals(x, weighted=False)
+        x, res = prob.solve(x, mask, max_nfev=nfev)
+        r1 = prob.residuals(x, weighted=False)
+        print(f"[{name} f={f}] rows {prob.n_res} data {prob.n_data} data rms {np.sqrt((r0[:prob.n_data]**2).mean()):.2f} -> {np.sqrt((r1[:prob.n_data]**2).mean()):.2f} px  nfev {res.nfev}  {time.time()-t0:.0f}s", flush=True)
+    prob.build_correspondences(x); prob.update_weights(x, 6.0)
+    r = prob.residuals(x, weighted=False)
+    rms_all = float(np.sqrt((r[:prob.n_data] ** 2).mean()))
+    syn_rows = np.concatenate([np.arange(o, o + n) for b, (o, n) in zip(prob.blocks, prob.layout) if b["view"].kind == "syn"])
+    ref_rows = np.concatenate([np.arange(o, o + n) for b, (o, n) in zip(prob.blocks, prob.layout) if b["view"].kind == "ref"])
+    summary, wheel_err, dims = evaluate(model, prob, x)
+    before = json.load(open(f"{SKEL}/out/skeleton.json"))
+    before_small = {"status_counts": before["status_counts"], "dims": before["dims"], "wheel_error_px_mean": round(float(np.mean([w["error_px"] for w in before["wheel_errors"]])), 2),
+                    "wheel_error_mm_mean": round(float(np.mean([w["error_mm"] for w in before["wheel_errors"]])), 1), "curve_status": {c["name"]: c["status"] for c in before["curves"]},
+                    "curve_error_px": {c["name"]: c["error_px"] for c in before["curves"]}, "cameras": {k: {q: v[q] for q in ("az", "el", "dist", "fov")} for k, v in before["cameras"].items()}, "data_rms_px": 9.70}
+    out = export(model, prob, x, summary, wheel_err, dims, views, before_small)
+    out["residuals"] = {"data_rms_px_all": round(rms_all, 2), "data_rms_px_syn": round(float(np.sqrt((r[syn_rows] ** 2).mean())), 2), "data_rms_px_ref": round(float(np.sqrt((r[ref_rows] ** 2).mean())), 2)}
+    json.dump(out, open(f"{OUT}/skeleton1b.json", "w"))
+    np.save(f"{OUT}/x1b.npy", x)
+    # curve and wheel parameters in the Phase 1 layout, so the reference extractor can re run on the improved skeleton
+    xc = np.load(f"{SKEL}/out/x.npy").copy(); xc[:model.wheel_off + 3] = x[:model.wheel_off + 3]; np.save(f"{OUT}/x_curves.npy", xc)
+    draw_overlays(model, x, summary, views, wheel_err)
+    print("residuals", out["residuals"]); print("status", out["status_counts"], "phase1 style", out["phase1_status_counts"]); print("labels", out["label_counts"])
+    print("dims", {k: v["error_mm"] for k, v in dims.items()}); print("wheels", out["wheel_summary"])
+    for g, gg in out["groups"].items():
+        print(f"  {g:32s} {gg['error_px']}  {dict((s, gg['statuses'].count(s)) for s in set(gg['statuses']))}")
+    print("done", f"{time.time()-t0:.0f}s")
+
+
+if __name__ == "__main__":
+    main()

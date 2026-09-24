@@ -1,0 +1,355 @@
+"""Model guided evidence extraction on real reference photographs (class A, CC licensed).
+
+Per image: background removal (rembg u2net, open source) gives the car silhouette; a coarse camera search with
+a free field of view registers the current skeleton to the photo; the projected skeleton then seeds the same
+extractors used on the synthetic views (GrabCut for contrast parts, gradient snapping for panels and creases)
+and a polar edge snap for the wheels. Output: evidence JSON in the Phase 1 schema plus size, camera and provenance.
+"""
+import json, os, sys, math, time
+import numpy as np
+import cv2
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "skel"))
+import prior
+import evidence as ev1
+import wheels as wh
+import fit
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = f"{HERE}/evidence"; os.makedirs(OUT, exist_ok=True)
+META = json.load(open(f"{HERE}/meta/openverse.json")); ITEMS = list(META.values())
+SEL = json.load(open(f"{HERE}/meta/selection.json"))
+TYRE_HALF = 0.135
+# open curves snapped directly (no loop): crease and structural lines
+OPEN_CURVES = ["shoulder_l", "hood_crease_l", "belt_fender_l", "belt_quarter_l", "arch_front_l", "arch_rear_l", "sill_fender_l", "sill_door_front_l",
+               "sill_door_rear_l", "sill_quarter_l", "seam_fender_door_l", "seam_doors_l", "seam_door_quarter_l", "hood_side_l", "hood_front", "cowl",
+               "trunk_edge", "rear_glass_base", "trunk_side_l", "rear_bumper_top", "rbumper_seam_l", "fbumper_seam_l", "fender_front_l", "quarter_rear_l",
+               "c_pillar_lower_l", "c_pillar_upper_l", "a_pillar_l", "rail_front_l", "rail_rear_l", "roof_front", "roof_rear", "quarter_taillight_l", "splitter", "diffuser"]
+
+
+class Cam(fit.Camera):
+    def __init__(self, az, el, dist, sx, sy, fov, W, H):
+        super().__init__(az, el, dist, sx, sy, fov)
+        self.W, self.H = W, H
+        self.f = (H / 2) / math.tan(math.radians(fov) / 2)
+
+    def project(self, X):
+        d = X - self.pos
+        zc = d @ self.fwd; xc = d @ self.right; yc = d @ self.up
+        zc = np.maximum(zc, 0.05)
+        return np.stack([self.W / 2 + self.f * xc / zc, self.H / 2 - self.f * yc / zc], 1)
+
+
+def silhouette_mask(img):
+    from rembg import remove, new_session
+    global _SESS
+    try:
+        _SESS
+    except NameError:
+        _SESS = new_session("u2net")
+    m = np.array(remove(img, session=_SESS, only_mask=True))
+    m = (m > 127).astype(np.uint8) * 255
+    ev1.W, ev1.H = img.shape[1], img.shape[0]
+    m = ev1.fill_holes(ev1.keep_largest(cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))))
+    return m
+
+
+def camera_search(model, x, sil_pts, sil_dt, sil_bbox, wheels, W, H, az_grid, el_grid, fov_grid, dist0=8.0):
+    from scipy.ndimage import map_coordinates
+    from scipy.spatial import cKDTree
+    X = model.samples(x); N = model.samp_normal
+    sidx = np.concatenate([np.arange(*[model.samp_off[i][0], model.samp_off[i][0] + model.samp_off[i][1]]) for i in sil_instances(model)])
+    wc = model.wheel_centres(x)
+    (s0, s1) = sil_bbox; sil_c = (s0 + s1) / 2; sil_w = s1[0] - s0[0]
+    best = None
+    for fov in fov_grid:
+        for az in az_grid:
+            for el in el_grid:
+                cam = Cam(az, el, dist0, 0.0, 0.0, fov, W, H)
+                vis = cam.visible(X[sidx], N[sidx]); pts = X[sidx][vis]
+                if len(pts) < 20:
+                    continue
+                uv = cam.project(pts); mw = uv[:, 0].max() - uv[:, 0].min()
+                dist = dist0 * mw / max(sil_w, 1)
+                cam = Cam(az, el, dist, 0.0, 0.0, fov, W, H); uv = cam.project(pts)
+                mc = (uv.min(0) + uv.max(0)) / 2; delta = sil_c - mc
+                sx = -delta[0] * dist / cam.f; sy = delta[1] * dist / cam.f
+                cam = Cam(az, el, dist, sx, sy, fov, W, H); uv = cam.project(pts)
+                a = np.minimum(map_coordinates(sil_dt, np.stack([uv[:, 1], uv[:, 0]]), order=1, mode="nearest"), 40).mean()
+                d, _ = cKDTree(uv).query(sil_pts); b = np.minimum(d, 40).mean()
+                wterm = 0.0
+                for key, w in wheels.items():
+                    c = wc[key]; zs = c[2] + (TYRE_HALF if key.endswith("left") else -TYRE_HALF)
+                    p = cam.project(np.array([[c[0], c[1], zs]]))[0]
+                    wterm += min(np.hypot(p[0] - w["cx"], p[1] - w["cy"]), 150) / 4
+                score = a + b + wterm
+                if best is None or score < best[0]:
+                    best = (score, az % 360, el, dist, sx, sy, fov)
+    return best
+
+
+PROXY_LOOPS = ["windshield", "hood", "roof_panel", "rear_glass", "trunk_lid", "window_front_left", "window_rear_left", "quarter_glass_left", "door_front_left",
+               "door_rear_left", "front_fender_left", "rear_quarter_left", "front_bumper", "rear_bumper", "headlight_left", "taillight_left", "mirror_left",
+               "b_pillar_left", "rocker_trim_left"]
+
+
+def loop_samples_3d(model, X, pname, side):
+    pts = []
+    for c, d in prior.LOOPS[pname]:
+        inst = c
+        if side == "r":
+            inst = c[:-2] + "_r" if c.endswith("_l") else (c[:-2] + "_l" if c.endswith("_r") else c)
+        if inst not in model.inst_index:
+            continue
+        o, m = model.samp_off[inst]
+        seg = X[o:o + m]
+        pts.append(seg if d > 0 else seg[::-1])
+    return np.vstack(pts) if pts else None
+
+
+def proxy_polys(model, X):
+    """3D polygons whose projected union approximates the car silhouette from any view (body loops, both sides) plus wheel rings."""
+    polys = []
+    for pname in PROXY_LOOPS:
+        for side in (["l", "r"] if pname.endswith("_left") else ["c"]):
+            p = loop_samples_3d(model, X, pname, side)
+            if p is not None and len(p) >= 3:
+                polys.append(p)
+    return polys
+
+
+def proxy_mask(polys, wheels3d, cam, W, H, scale):
+    m = np.zeros((int(H * scale), int(W * scale)), np.uint8)
+    for p in polys:
+        uv = cam.project(p) * scale
+        cv2.fillPoly(m, [np.round(uv).astype(np.int32)], 255)
+    t = np.linspace(0, 2 * np.pi, 24, endpoint=False)
+    for c, r, zs in wheels3d:
+        ring = np.stack([np.concatenate([c[0] + r * np.cos(t)] * 2), np.concatenate([c[1] + r * np.sin(t)] * 2), np.concatenate([np.full(24, zs[0]), np.full(24, zs[1])])], 1)
+        uv = cam.project(ring) * scale
+        cv2.fillPoly(m, [cv2.convexHull(np.round(uv).astype(np.int32))], 255)
+    return m
+
+
+def register(model, x, mask, W, H, az_grid, el_grid, fov_grid, dist0=8.0, el_bounds=(-5, 75)):
+    """Camera by silhouette IoU: coarse grid (distance and shifts from the bounding box) then Powell refinement."""
+    from scipy.optimize import minimize
+    X = model.samples(x); polys = proxy_polys(model, X)
+    wc = model.wheel_centres(x)
+    wheels3d = [(c, 0.34, (c[2] + (TYRE_HALF if k.endswith("left") else -TYRE_HALF), c[2] - (TYRE_HALF if k.endswith("left") else -TYRE_HALF))) for k, c in wc.items()]
+    ys, xs = np.nonzero(mask); s0 = np.array([xs.min(), ys.min()]); s1 = np.array([xs.max(), ys.max()]); sil_c = (s0 + s1) / 2; sil_w = s1[0] - s0[0]
+    scale = 320.0 / W
+    ms = cv2.resize(mask, (int(W * scale), int(H * scale)), interpolation=cv2.INTER_NEAREST) > 0
+    def iou(p):
+        az, el, dist, sx, sy, fov = p
+        if not (15 <= fov <= 60) or dist < 1.5 or not (el_bounds[0] <= el <= el_bounds[1]):
+            return 1.0
+        cam = Cam(az, el, dist, sx, sy, fov, W, H)
+        pm = proxy_mask(polys, wheels3d, cam, W, H, scale) > 0
+        inter = np.logical_and(pm, ms).sum(); union = np.logical_or(pm, ms).sum()
+        return 1.0 - inter / max(union, 1)
+    best = None
+    for fov in fov_grid:
+        for az in az_grid:
+            for el in el_grid:
+                cam = Cam(az, el, dist0, 0.0, 0.0, fov, W, H)
+                pm = proxy_mask(polys, wheels3d, cam, W, H, scale)
+                yy, xx = np.nonzero(pm)
+                if len(xx) < 50:
+                    continue
+                mw = (xx.max() - xx.min()) / scale
+                dist = dist0 * mw / max(sil_w, 1)
+                cam = Cam(az, el, dist, 0.0, 0.0, fov, W, H)
+                pm = proxy_mask(polys, wheels3d, cam, W, H, scale); yy, xx = np.nonzero(pm)
+                mc = np.array([(xx.min() + xx.max()) / 2, (yy.min() + yy.max()) / 2]) / scale; delta = sil_c - mc
+                sx = -delta[0] * dist / cam.f; sy = delta[1] * dist / cam.f
+                p = [az, el, dist, sx, sy, fov]; v = iou(p)
+                if best is None or v < best[0]:
+                    best = (v, p)
+    res = minimize(iou, best[1], method="Powell", options={"xtol": 0.05, "ftol": 1e-4, "maxfev": 1500})
+    p = list(res.x); p[0] %= 360
+    # refine at higher resolution
+    scale = 640.0 / W
+    ms = cv2.resize(mask, (int(W * scale), int(H * scale)), interpolation=cv2.INTER_NEAREST) > 0
+    res = minimize(iou, p, method="Powell", options={"xtol": 0.02, "ftol": 1e-5, "maxfev": 800})
+    p = list(res.x); p[0] %= 360
+    return (float(res.fun),) + tuple(p)
+
+
+def sil_instances(model):
+    out = []
+    for c in prior.SILHOUETTE_CURVES:
+        out.append(c)
+        if c.endswith("_l"):
+            out.append(c[:-2] + "_r")
+    return out
+
+
+def loop_polygon(model, X, vis, cam, insts, min_visible=0.85):
+    idx = np.concatenate([np.arange(model.samp_off[i][0], model.samp_off[i][0] + model.samp_off[i][1]) for i in insts])
+    if vis[idx].mean() < min_visible:
+        return None
+    idx = idx[vis[idx]]
+    if len(idx) < 6:
+        return None
+    return cam.project(X[idx])
+
+
+def side_name(name, side):
+    return name.replace("_left", "_right") if side == "r" else name
+
+
+def main(ids):
+    model = fit.Model(); x = np.load(os.environ.get("X_FILE", f"{HERE}/../skel/out/x.npy"))
+    X = model.samples(x); N = model.samp_normal
+    for i in ids:
+        item = ITEMS[int(i)]; sel = SEL[str(i)]
+        img = cv2.imread(f"{HERE}/thumbs/{int(i):03d}.jpg")
+        if img is None:
+            print(i, "missing"); continue
+        H, W = img.shape[:2]
+        t0 = time.time()
+        mask = silhouette_mask(img)
+        sil = ev1.contour_from_mask(mask)
+        if sil is None or len(sil) < 50:
+            print(i, "no silhouette"); continue
+        canvas = np.full((H, W), 255, np.uint8); cv2.polylines(canvas, [np.round(sil).astype(np.int32)], True, 0, 1)
+        sil_dt = cv2.distanceTransform(canvas, cv2.DIST_L2, 5).astype(np.float32)
+        sil_sub = fit.subsample(sil, 7.0); bbox = (sil.min(0), sil.max(0))
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        blur = cv2.GaussianBlur(gray, (0, 0), 1.2)
+        gx = cv2.Sobel(blur, cv2.CV_32F, 1, 0, ksize=3); gy = cv2.Sobel(blur, cv2.CV_32F, 0, 1, ksize=3)
+        grad = cv2.magnitude(gx, gy); grad = np.clip(grad / (np.percentile(grad, 99.5) + 1e-6), 0, 1)
+        grad[mask == 0] *= 0.15   # edges outside the car are not ours
+        # camera: coarse over the full circle, then refine; nominal azimuth from the selection when given
+        az0 = sel.get("az")
+        azg = np.arange(0, 360, 5.0) if az0 is None else az0 + np.arange(-35, 36, 5.0)
+        high = sel.get("role", "").endswith("_high")
+        elb = (12, 55) if high else (0, 18)
+        prev = None
+        if os.environ.get("CAM_FILE") and os.path.exists(os.environ["CAM_FILE"]):
+            prev = json.load(open(os.environ["CAM_FILE"]))["cameras"].get(f"ref{int(i):03d}")
+        if prev:
+            b1 = (1 - float(prev.get("iou", 0.0)) if prev.get("iou") else 0.0, prev["az"], prev["el"], prev["dist"], prev["sx"], prev["sy"], prev["fov"])
+        else:
+            b1 = register(model, x, mask, W, H, azg, np.arange(elb[0], elb[1] + 0.1, 6.0), [22, 35, 50], el_bounds=elb)
+            # the hint may have the wrong hemisphere (nose left or right): try the mirrored azimuth and keep the better silhouette match
+            if az0 is not None and not sel.get("role", "").startswith(("front", "rear")) or (az0 is not None and "34" in sel.get("role", "")):
+                azm = (360 - az0) % 360
+                b1m = register(model, x, mask, W, H, azm + np.arange(-35, 36, 5.0), np.arange(elb[0], elb[1] + 0.1, 6.0), [22, 35, 50], el_bounds=elb)
+                if b1m[0] < b1[0] - 0.01:
+                    print(f"  {i}: mirrored hemisphere wins (iou {1-b1m[0]:.3f} vs {1-b1[0]:.3f})", flush=True); b1 = b1m
+        # wheels seeded from the projection
+        cam = Cam(*b1[1:], W, H); wc = model.wheel_centres(x); wheels = {}
+        straight = abs(math.sin(math.radians(b1[1]))) < 0.35
+        if not straight:
+            for key, c in wc.items():
+                nrm = np.array([[0, 0, 1.0 if key.endswith("left") else -1.0]])
+                if not cam.visible(c[None], nrm)[0]:
+                    continue
+                zs = c[2] + (TYRE_HALF if key.endswith("left") else -TYRE_HALF)
+                p = cam.project(np.array([[c[0], c[1], zs]]))[0]
+                t = np.linspace(0, 2 * np.pi, 24, endpoint=False)
+                ring = np.stack([c[0] + 0.3385 * np.cos(t), c[1] + 0.3385 * np.sin(t), np.full(24, zs)], 1)
+                ruv = cam.project(ring); r0 = float(np.hypot(ruv[:, 0] - ruv[:, 0].mean(), ruv[:, 1] - ruv[:, 1].mean()).mean())
+                if not (0 < p[0] < W and 0 < p[1] < H) or r0 < 12:
+                    continue
+                wh.W, wh.H = W, H
+                pts, conf = wh.polar_snap(gray, p[0], p[1], r0, rr=(0.8, 1.2))
+                ex, ey, a, bb, ang, inl = wh.robust_ellipse(pts)
+                rm = math.sqrt(max(a, 1e-6) * max(bb, 1e-6))
+                if conf > 0.12 and 0.5 < a / max(bb, 1e-6) < 2.0 and abs(ex - p[0]) < 0.4 * r0 and abs(ey - p[1]) < 0.4 * r0 and 0.85 < rm / r0 < 1.15:
+                    wheels["wheel_" + key.replace("_", "_")] = {"cx": ex, "cy": ey, "axes": [a, bb], "angle": ang, "init": {"cx": float(p[0]), "cy": float(p[1]), "r": float(r0)},
+                                                              "contour": np.round(pts[::2], 1).tolist(), "confidence": conf, "inliers": inl}
+        wkey = {k: {"cx": v["cx"], "cy": v["cy"]} for k, v in wheels.items()}
+        wkey = {k.replace("wheel_", ""): v for k, v in wkey.items()}
+        b2 = b1
+        cam = Cam(*b2[1:], W, H)
+        vis = cam.visible(X, N); uv = cam.project(X)
+        visible_side = "l" if 0 < (b2[1] % 360) < 180 else "r"      # +z side faces cameras with azimuth in (0, 180)
+        ev = {"view": f"ref{int(i):03d}", "file": f"thumbs/{int(i):03d}.jpg", "size": [W, H], "silhouette": np.round(sil[::2], 1).tolist(), "parts": {}, "wheels": wheels,
+              "camera_init": {"az": b2[1], "el": b2[2], "dist": b2[3], "sx": b2[4], "sy": b2[5], "fov": b2[6], "score": b2[0]}, "visible_side": visible_side,
+              "provenance": {"id": item["id"], "title": item["title"], "creator": item["creator"], "license": item["license"], "license_version": item["license_version"],
+                             "license_url": item["license_url"], "source": item["source"], "foreign_landing_url": item["foreign_landing_url"], "url": item["url"],
+                             "attribution": item.get("attribution"), "rights_class": "A", "role": sel.get("role"), "variant": sel.get("variant", "generation")}}
+        ev1.W, ev1.H = W, H
+        # loops: contrast parts by GrabCut, panels by snapping; both seeded by the projected skeleton
+        for pname, curves in prior.LOOPS.items():
+            for side in (["l", "r"] if pname.endswith("_left") else ["c"]):
+                insts = [(c[:-2] + "_r" if side == "r" and c.endswith("_l") else (c[:-2] + "_l" if side == "r" and c.endswith("_r") else c)) for c, _ in curves]
+                insts = [c for c in insts if c in model.inst_index]
+                contrast = (pname in ev1.CONTRAST or pname.startswith("door_handle")) and not pname.startswith("kidney") and not pname.startswith("lower_intake")
+                poly = loop_polygon(model, X, vis, cam, insts, 0.7 if contrast else 0.9)
+                if poly is None:
+                    continue
+                if poly[:, 0].min() < 2 or poly[:, 1].min() < 2 or poly[:, 0].max() > W - 3 or poly[:, 1].max() > H - 3:
+                    continue
+                inside = mask[np.clip(np.round(poly[:, 1]).astype(int), 0, H - 1), np.clip(np.round(poly[:, 0]).astype(int), 0, W - 1)] > 0
+                if inside.mean() < 0.7:
+                    continue
+                hull = cv2.convexHull(poly.astype(np.float32))[:, 0, :] if pname in ("kidney_grille_left",) else poly
+                name = pname if side != "r" else pname.replace("_left", "_right")
+                if name == "kidney_grille_left" or name == "kidney_grille_right":
+                    name = "kidney_grille" if side == "l" else "kidney_grille#1"
+                pts = hull
+                if contrast:
+                    m = ev1.poly_mask(pts)
+                    if m.sum() < 255 * 150:
+                        continue
+                    k = max(2, int(math.sqrt(m.sum() / 255) * 0.08))
+                    sure = cv2.erode(m, np.ones((k * 2 + 1, k * 2 + 1), np.uint8))
+                    pf = cv2.dilate(m, np.ones((k + 1, k + 1), np.uint8)); pb = cv2.dilate(m, np.ones((3 * k + 1, 3 * k + 1), np.uint8)) & mask
+                    pm = ev1.grabcut(img, sure, pf, pb, 5)
+                    pm = ev1.keep_largest(cv2.morphologyEx(pm, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8)))
+                    ratio = float(pm.sum() / 255) / max(1.0, float(m.sum() / 255))
+                    if ratio < 0.4 or ratio > 2.2 or pm.sum() == 0:
+                        continue
+                    cnt = ev1.contour_from_mask(pm); conf, method = 0.75, "grabcut"
+                else:
+                    cnt, conf = ev1.snap_polyline(grad, pts, True, R=12, sigma=6.0, lam=0.4); method = "snap"
+                    if conf < 0.08:
+                        continue
+                if cnt is None:
+                    continue
+                ev["parts"][name] = {"polyline": np.round(np.array(cnt), 1).tolist(), "closed": True, "method": method, "confidence": float(conf), "polygon_confidence": 0.7}
+        # open structural curves and creases: snap the projected curve itself
+        for base in OPEN_CURVES:
+            for inst in ([base, base[:-2] + "_r"] if base.endswith("_l") else [base]):
+                if inst not in model.inst_index:
+                    continue
+                o, m = model.samp_off[inst]
+                sel_idx = np.arange(o, o + m); v = vis[sel_idx]
+                if v.mean() < 0.8:
+                    continue
+                pts = uv[sel_idx]
+                if pts[:, 0].min() < 2 or pts[:, 1].min() < 2 or pts[:, 0].max() > W - 3 or pts[:, 1].max() > H - 3:
+                    continue
+                inside = mask[np.clip(np.round(pts[:, 1]).astype(int), 0, H - 1), np.clip(np.round(pts[:, 0]).astype(int), 0, W - 1)] > 0
+                if inside.mean() < 0.6:
+                    continue
+                crease = base in ("shoulder_l", "hood_crease_l", "belt_fender_l", "belt_quarter_l")
+                cnt, conf = ev1.snap_polyline(grad, pts, False, R=18 if crease else 12, sigma=9.0 if crease else 6.0, lam=0.5)
+                if conf < (0.10 if crease else 0.08):
+                    continue
+                ev["parts"]["curve:" + inst] = {"polyline": np.round(np.array(cnt), 1).tolist(), "closed": False, "method": "snap", "confidence": float(conf), "polygon_confidence": 0.6}
+        json.dump(ev, open(f"{OUT}/{int(i):03d}.json", "w"))
+        qa = img.copy()
+        cv2.polylines(qa, [np.round(sil).astype(np.int32)], True, (0, 255, 0), 2)
+        for k, p in ev["parts"].items():
+            col = (255, 200, 0) if p["method"] == "grabcut" else (255, 80, 255)
+            cv2.polylines(qa, [np.round(np.array(p["polyline"])).astype(np.int32)], p["closed"], col, 1, cv2.LINE_AA)
+        for k, w in ev["wheels"].items():
+            cv2.ellipse(qa, ((w["cx"], w["cy"]), (w["axes"][0] * 2, w["axes"][1] * 2), w["angle"]), (0, 140, 255), 2)
+        # projected skeleton in thin grey for context
+        for inst, base, side in model.instances:
+            o, m = model.samp_off[inst]
+            p = uv[o:o + m]; vv = vis[o:o + m]
+            for j in range(m - 1):
+                if vv[j] and vv[j + 1]:
+                    cv2.line(qa, tuple(np.round(p[j]).astype(int)), tuple(np.round(p[j + 1]).astype(int)), (160, 160, 160), 1, cv2.LINE_AA)
+        cv2.putText(qa, f"ref{int(i):03d} az {b2[1]:.0f} el {b2[2]:.0f} fov {b2[6]:.0f} dist {b2[3]:.1f} iou {1-b2[0]:.3f}", (10, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.imwrite(f"{OUT}/{int(i):03d}-qa.jpg", qa, [cv2.IMWRITE_JPEG_QUALITY, 85])
+        print(i, sel.get("role"), "az/el/fov", round(b2[1]), round(b2[2]), b2[6], "iou", round(1 - b2[0], 3), "parts", len(ev["parts"]), "wheels", list(wheels), f"{time.time()-t0:.0f}s", flush=True)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

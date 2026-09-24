@@ -1,0 +1,38 @@
+views 46 (syn 16 ref 30 ) params 990 polys 1019
+[cameras+wheels f=40.0] rows 152823 data 145678 data rms 24.41 -> 21.21 px  nfev 12  28s
+[cameras+wheels 2 f=25.0] rows 160175 data 153030 data rms 20.62 -> 19.49 px  nfev 12  56s
+[joint 1 f=30] rows 162966 data 155821 data rms 19.31 -> 11.94 px  nfev 15  135s
+[joint 2 f=22] rows 191518 data 184106 data rms 11.23 -> 9.70 px  nfev 15  220s
+[joint 3 f=16] rows 194799 data 187381 data rms 9.60 -> 9.23 px  nfev 14  297s
+[joint 4 f=12] rows 196054 data 188600 data rms 9.20 -> 9.06 px  nfev 15  376s
+[joint 5 f=9] rows 197378 data 189933 data rms 9.11 -> 9.04 px  nfev 13  446s
+[joint 6 f=7] rows 197658 data 190198 data rms 9.05 -> 9.03 px  nfev 12  510s
+[joint 7 f=6] rows 197788 data 190328 data rms 9.03 -> 9.01 px  nfev 13  572s
+[joint 8 f=6] rows 197883 data 190414 data rms 9.01 -> 8.99 px  nfev 12  639s
+[joint 9 f=6] rows 197930 data 190467 data rms 8.99 -> 8.98 px  nfev 14  706s
+[joint 10 f=6] rows 197987 data 190521 data rms 8.98 -> 8.97 px  nfev 15  773s
+[joint 11 f=6] rows 198034 data 190568 data rms 8.97 -> 8.96 px  nfev 14  844s
+residuals {'data_rms_px_all': 8.96, 'data_rms_px_syn': 11.74, 'data_rms_px_ref': 7.26}
+status {'reference_confirmed': 69, 'measured': 8, 'partial': 13, 'uncertain': 5, 'prior': 2} phase1 style {'recovered': 51, 'partial': 32, 'uncertain': 12, 'prior': 2}
+labels {'REFERENCE_CONFIRMED': 69, 'SYMMETRY_DERIVED': 54, 'MEASURED_FROM_CAPTURE': 13, 'DIMENSION_CONSTRAINED': 10, 'GENERIC_PRIOR': 2, 'AI_HYPOTHESIS': 5}
+dims {'length': -1.5, 'width': -5.8, 'height': 0.0, 'wheelbase': -0.0, 'tyre_radius': 0.0, 'track_front': 0.0, 'track_rear': 0.0}
+wheels {'n': 45, 'centre_error_mm_mean': 39.6, 'centre_error_mm_median': 22.2, 'centre_error_mm_max': 129.1, 'outline_rms_mm_mean': 69.5, 'ref': {'n': 17, 'centre_error_mm_mean': 17.0, 'centre_error_mm_median': 16.7, 'centre_error_mm_max': 37.9}, 'syn': {'n': 28, 'centre_error_mm_mean': 53.3, 'centre_error_mm_median': 45.3, 'centre_error_mm_max': 129.1}, 'radius_ratio_mean': 0.998, 'radius_ratio_ref': 1.009, 'radius_ratio_syn': 0.992}
+  roofline                         5.85  {'measured': 1, 'prior': 1, 'reference_confirmed': 5}
+  beltline                         9.28  {'measured': 2, 'partial': 1, 'reference_confirmed': 4, 'uncertain': 1}
+  shoulder line                    2.21  {'reference_confirmed': 2}
+  hood perimeter and creases       5.27  {'measured': 1, 'prior': 1, 'reference_confirmed': 4}
+  trunk perimeter                  9.18  {'reference_confirmed': 4}
+  windshield boundary              9.12  {'measured': 1, 'partial': 3}
+  side window boundaries           12.78  {'measured': 4, 'partial': 3, 'reference_confirmed': 3, 'uncertain': 2}
+  pillars                          12.48  {'partial': 4, 'uncertain': 1, 'reference_confirmed': 3, 'measured': 2}
+  wheel centres                    None  {}
+  wheel arches                     9.58  {'reference_confirmed': 4}
+  rocker and sill                  10.25  {'partial': 2, 'reference_confirmed': 8}
+  front bumper outline             6.37  {'reference_confirmed': 8}
+  rear bumper outline              7.91  {'reference_confirmed': 8}
+  grille outline                   11.86  {'uncertain': 1, 'reference_confirmed': 4}
+  headlight outlines               7.71  {'partial': 1, 'reference_confirmed': 1}
+  taillight outlines               14.36  {'partial': 1, 'uncertain': 1}
+  four door boundaries             9.33  {'measured': 2, 'partial': 1, 'reference_confirmed': 10, 'uncertain': 1}
+  mirrors and handles              9.17  {'measured': 2, 'partial': 1, 'reference_confirmed': 2, 'uncertain': 1}
+done 861s
